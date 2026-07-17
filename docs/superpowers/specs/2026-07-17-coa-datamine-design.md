@@ -96,11 +96,14 @@ coa-datamine/
 ### Component: `tools/extract_mpq.py`
 
 - Scans **all** archives in `Data\` and `Data\enUS\` (locale patches can override DBCs).
-- Builds the patch-chain order: base archives < locale < `patch.MPQ` < `patch-<digit>` <
-  `patch-<letters>` (lexicographic, shorter-prefix-first, matching the 3.3.5 loader that
-  Ascension's launcher extends). For every wanted file, the **latest** archive in chain
-  order wins; every multi-archive collision is logged into `provenance.json` with the
-  loser archives listed, so a wrong chain assumption is visible, not silent.
+- Builds the patch-chain order: base archives < locale bases < `patch.MPQ` <
+  `patch-<digit>` < locale patches (`patch-enUS-<n>`) < `patch-<letters>`
+  (lexicographic, shorter-prefix-first, matching the 3.3.5 loader that Ascension's
+  launcher extends). For every wanted file, the **latest** archive in chain order wins;
+  every multi-archive collision is logged into `provenance.json` with the loser
+  archives listed, so a wrong chain assumption is visible, not silent — if the probe's
+  single-carrier finding holds (each wanted DBC in exactly one custom patch), order
+  never actually decides anything.
 - Extracts only `DBFilesClient\*.dbc` in the wanted-list (~20 tables).
 
 ### Component: `tools/dbc.py`
