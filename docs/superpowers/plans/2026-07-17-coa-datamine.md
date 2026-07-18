@@ -1151,10 +1151,17 @@ Task 5 is amended as follows (supersedes the original test gate):
 - Test asserts the two ratio gates above, goldens unchanged, sorted/count checks
   unchanged, plus `stats["ref_counts"]["cad_reborn"] > 0` (documents the known reality).
 
-Downstream amendments: Task 6 adds a `realmHint` field per class-index entry
-(`reborn` → "Bronzebeard - Warcraft Reborn", `vanilla` → "Area 52 - Free-Pick /shared",
-`coa-custom` → "Rexxar/Vol'jin - Conquest of Azeroth", `meta` → null) and must NOT
-treat null-resolved spells as errors for reborn-tagged classes. Task 9's AGENT-GUIDE
+Downstream amendments: Task 6 adds a `realmHint` field to each per-class file and
+index entry (`reborn` → "Bronzebeard - Warcraft Reborn", `vanilla` → "Area 52 -
+Free-Pick /shared", `coa-custom` → "Rexxar/Vol'jin - Conquest of Azeroth", `meta` →
+null) and must NOT treat null-resolved spells as errors for reborn-tagged classes.
+Concretely: `build()` returns `{"classes", "entries", "unresolved_reborn",
+"unresolved_other", "refs_reborn", "refs_other"}` (unresolved/ref counts are per
+spell-reference occurrence, bucketed by the owning class's tag, reborn vs everything
+else); each index entry gains `unresolvedCount`; the test's old
+`unresolved/entries <= 0.05` assert is replaced by
+`stats["unresolved_other"] / max(1, stats["refs_other"]) <= 0.05` plus
+`assert stats["unresolved_reborn"] > 0` (documents the known reality). Task 9's AGENT-GUIDE
 honest-limits section documents the four-realm account-wide CAD reality and that
 Reborn-only spells resolve as null in this snapshot.
 
