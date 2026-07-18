@@ -6,7 +6,7 @@ Within a tier, lexicographic. The LAST archive in chain order containing a file
 wins; all other carriers are recorded as losers in the provenance so a wrong
 chain assumption is visible, never silent.
 """
-import hashlib, json, struct, sys
+import hashlib, json, struct
 from pathlib import Path
 
 from mpyq import MPQArchive
@@ -25,8 +25,10 @@ def chain_rank(path: Path) -> tuple:
         return (2, name)
     if suffix.isdigit():
         return (3, suffix.zfill(4))
-    if in_locale:                          # patch-enus.mpq, patch-enus-2.mpq, ...
-        return (4, name)
+    if in_locale:                          # patch-enus.mpq < patch-enus-2.mpq < ... < patch-enus-10.mpq
+        parts = suffix.rsplit("-", 1)
+        num = parts[1].zfill(4) if len(parts) == 2 and parts[1].isdigit() else ""
+        return (4, num)
     return (5, suffix)                     # letter patches, lexicographic
 
 
