@@ -1633,6 +1633,16 @@ git add -A; git commit -m "feat: dungeons/raids/encounters dataset"
 
 ---
 
+### Amendment B (2026-07-18, during execution): reward brackets
+
+`LFGData.json` contains multiple rows per `DungeonId` for 4 dungeons (level-scaled
+reward brackets: id 258 ×17, ids 259/417/465 ×2); the original `{DungeonId: e}` join
+silently kept only the last row. Amended schema: `rewards` is a LIST of bracket
+objects sorted by `MaxLevel` ascending (empty list when the dungeon has none) instead
+of `object|null`. Test's `rewards` truthiness checks still hold (non-empty list).
+
+---
+
 ### Task 9: Orchestrator + provenance + docs (`tools/build_dataset.py`, README, AGENT-GUIDE)
 
 **Files:**
