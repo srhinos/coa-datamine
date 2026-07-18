@@ -8,8 +8,12 @@ from tools import config, dbc, enums335
 def build() -> dict:
     maps = {m["id"]: m for m in dbc.iter_named("Map")}
     areas = {a["id"]: a for a in dbc.iter_named("AreaTable")}
-    rewards = {e["DungeonId"]: e for e in json.loads(
-        (config.RAW_CONTENT_DIR / "LFGData.json").read_text(encoding="utf-8-sig"))}
+    rewards = defaultdict(list)
+    for e in json.loads(
+            (config.RAW_CONTENT_DIR / "LFGData.json").read_text(encoding="utf-8-sig")):
+        rewards[e["DungeonId"]].append(e)
+    for lst in rewards.values():
+        lst.sort(key=lambda x: x.get("MaxLevel", 0))
 
     enc_by_map = defaultdict(list)
     enc_count = orphan = 0
@@ -49,7 +53,7 @@ def build() -> dict:
             "expansionLevel": d["expansionLevel"], "groupId": d["groupID"],
             "map": map_block,
             "encounters": enc_by_map.get((d["mapID"], d["difficulty"]), []),
-            "rewards": rewards.get(d["id"]),
+            "rewards": rewards.get(d["id"], []),
         })
     dungeons.sort(key=lambda x: x["id"])
 

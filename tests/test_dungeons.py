@@ -22,4 +22,9 @@ assert stats["encounters"] == 2080
 assert stats["orphanEncounterMaps"] < 50
 rewarded = [d for d in ds if d["rewards"]]
 assert rewarded, "LFGData rewards not joined"
+by_id = {d["id"]: d for d in ds}
+r258 = by_id[258]["rewards"]
+assert len(r258) == 17, f"dungeon 258 expected 17 reward brackets, got {len(r258)}"
+levels = [r.get("MaxLevel", 0) for r in r258]
+assert levels == sorted(levels), "dungeon 258 rewards not sorted ascending by MaxLevel"
 print("ALL PASS")
