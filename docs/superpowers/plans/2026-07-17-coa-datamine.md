@@ -80,6 +80,7 @@ Expected: FAIL with `ModuleNotFoundError: No module named 'tools'`
 work/
 __pycache__/
 *.pyc
+.superpowers/
 ```
 
 `tools/config.py`:
@@ -1115,6 +1116,57 @@ git add -A; git commit -m "feat: enriched spells.jsonl builder with trigger clos
 
 ---
 
+### Amendment A (2026-07-17, during execution): multi-realm reference reality
+
+Field discovery (Cache\WDB realm dirs + Data\area-52\patch-D.MPQ contents): this client
+serves FOUR realms — "Area 52 - Free-Pick" (classless), "Bronzebeard - Warcraft Reborn"
+(the Reborn* classes), "Rexxar - Conquest of Azeroth", "Vol'jin - Conquest of Azeroth".
+`CharacterAdvancementData.json` is account-wide across all of them, but realm-specific
+DBC overrides ship separately (patch-D.MPQ for area-52; Reborn's spell data is not on
+disk in this snapshot). Consequence: Reborn-class Trait spells are ~61% absent from the
+extracted Spell.dbc — a data reality, not a pipeline bug. Empirical: vanilla classes
+resolve at 100%, CoA customs at ~86-97%, and SpellRankData carries ~2,900 stale orphan
+chains with no filterable field.
+
+Task 5 is amended as follows (supersedes the original test gate):
+
+- `build()` classifies every missing ref into `missing_by_source` with priority
+  `cad_other` (referenced by ≥1 non-Reborn-class CAD entry) > `cad_reborn` (referenced
+  only by Reborn*-class CAD entries) > `talent` > `rank`, and returns
+  `ref_counts = {"cad_other": N, "cad_reborn": N, "talent": N, "rank": N}` (distinct
+  referenced ids per bucket, same priority rule).
+- Hard gates (build fails):
+  - golden spells (unchanged);
+  - `len(missing_by_source["cad_other"]) / max(1, ref_counts["cad_other"]) <= 0.05`;
+  - `len(missing_by_source["talent"]) / max(1, ref_counts["talent"]) <= 0.05`.
+  (Ceilings target structural breakage — column shift or truncated extraction produce
+  30-100% miss rates. Measured live-churn baseline 2026-07-17: cad_other 211/7162 =
+  2.95% — real named custom-class abilities absent from this snapshot's Spell.dbc,
+  i.e. CoA content churn, recorded in `_meta.json` dataNotes.)
+- Report-only (no gate): `cad_reborn` misses (realm not materialized in this client)
+  and `rank` orphans (stale chains; they produce no output rows). Both fully listed in
+  `_meta.json` with a `dataNotes` field explaining the four-realm reality.
+- `stats["missing"]` (flat list) is replaced by `stats["missing_by_source"]`;
+  `_meta.json` gets `missing_refs_by_source` + `ref_counts` + `dataNotes`.
+- Test asserts the two ratio gates above, goldens unchanged, sorted/count checks
+  unchanged, plus `stats["ref_counts"]["cad_reborn"] > 0` (documents the known reality).
+
+Downstream amendments: Task 6 adds a `realmHint` field to each per-class file and
+index entry (`reborn` → "Bronzebeard - Warcraft Reborn", `vanilla` → "Area 52 -
+Free-Pick /shared", `coa-custom` → "Rexxar/Vol'jin - Conquest of Azeroth", `meta` →
+null) and must NOT treat null-resolved spells as errors for reborn-tagged classes.
+Concretely: `build()` returns `{"classes", "entries", "unresolved_reborn",
+"unresolved_other", "refs_reborn", "refs_other"}` (unresolved/ref counts are per
+spell-reference occurrence, bucketed by the owning class's tag, reborn vs everything
+else); each index entry gains `unresolvedCount`; the test's old
+`unresolved/entries <= 0.05` assert is replaced by
+`stats["unresolved_other"] / max(1, stats["refs_other"]) <= 0.05` plus
+`assert stats["unresolved_reborn"] > 0` (documents the known reality). Task 9's AGENT-GUIDE
+honest-limits section documents the four-realm account-wide CAD reality and that
+Reborn-only spells resolve as null in this snapshot.
+
+---
+
 ### Task 6: Class builder (`tools/build_classes.py`) → `data/classes/`
 
 **Files:**
@@ -1578,6 +1630,16 @@ Expected: `ALL PASS`
 ```powershell
 git add -A; git commit -m "feat: dungeons/raids/encounters dataset"
 ```
+
+---
+
+### Amendment B (2026-07-18, during execution): reward brackets
+
+`LFGData.json` contains multiple rows per `DungeonId` for 4 dungeons (level-scaled
+reward brackets: id 258 ×17, ids 259/417/465 ×2); the original `{DungeonId: e}` join
+silently kept only the last row. Amended schema: `rewards` is a LIST of bracket
+objects sorted by `MaxLevel` ascending (empty list when the dungeon has none) instead
+of `object|null`. Test's `rewards` truthiness checks still hold (non-empty list).
 
 ---
 
