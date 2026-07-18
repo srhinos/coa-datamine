@@ -1,5 +1,5 @@
 """Generic WDBC (3.3.5) reader, named column maps, and raw CSV dumps."""
-import csv, gzip, struct
+import csv, gzip, io, struct
 from pathlib import Path
 
 from tools import config
@@ -232,7 +232,13 @@ def dump_table(table: str) -> Path:
     named = {idx: (name, idx, kind) for name, idx, kind in spec["columns"]}
     header = [named[i][0] if i in named else f"f{i}" for i in range(f.fields)]
     out = config.RAW_DBC_DIR / f"{table}.csv.gz"
-    with gzip.open(out, "wt", encoding="utf-8", newline="") as fh:
+    # gzip.open("wt") embeds the current mtime in the gzip header, so identical
+    # CSV content re-dumped later produces byte-different .gz files - violates
+    # the "raw/ diff shows exactly what a game patch changed" constraint.
+    # Pin mtime=0 so output is a pure function of the DBC content.
+    with open(out, "wb") as fb, \
+         gzip.GzipFile(fileobj=fb, mode="wb", mtime=0) as gz, \
+         io.TextIOWrapper(gz, encoding="utf-8", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(header)
         for row in f.iter_rows():
