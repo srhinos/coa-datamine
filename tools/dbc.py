@@ -42,16 +42,11 @@ class DBCFile:
             yield self.row_ints(i)
 
     def string(self, offset):
-        # NOTE: unlike the "canonical" WDBC convention of reserving offset 0 as
-        # the empty-string sentinel, this build's exported string blocks place
-        # real content directly at offset 0 (verified across ChrClasses,
-        # ChrRaces, SpellDispelType, SpellMechanic, SpellRange, TalentTab: none
-        # have a leading NUL byte). Empty-string references instead land on a
-        # NUL byte elsewhere in the blob (e.g. SpellDispelType offset 5, between
-        # "None" and "Magic"), which the index(b"\x00", offset) lookup below
-        # already resolves to "" correctly. So only offset < 0 is invalid here;
-        # treating offset == 0 as empty would silently drop real strings (e.g.
-        # ChrClasses id=1 "Warrior" sits at true offset 0).
+        # This build's exporters store real content at string-block offset 0 in
+        # every table probed (ChrClasses, ChrRaces, SpellDispelType, SpellMechanic,
+        # SpellRange, TalentTab), so 0 is a valid offset, not an empty sentinel.
+        # Known anomaly: Spell.dbc places "UPDATE YOUR CLIENT!" at offset 0 and its
+        # all-zero placeholder row id=1 references it; faithful decode keeps it.
         if offset < 0 or offset >= len(self._strings):
             return ""
         end = self._strings.index(b"\x00", offset)

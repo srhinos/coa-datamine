@@ -53,4 +53,15 @@ with gzip.open(p, "rt", encoding="utf-8", newline="") as fh:
 assert len(got) == 12
 byid = {row["id"]: row for row in got}
 assert byid["1"]["name_enUS"] == "Magic" and byid["2"]["name_enUS"] == "Curse"
+
+# string-offset-0 semantics on this build: real content lives at offset 0
+# (ChrClasses "Warrior"), and Spell.dbc has a placeholder there that the
+# all-zero row id=1 references - faithful decode reports it as-is.
+f2 = dbc.DBCFile(config.WORK_DBC_DIR / "ChrClasses.dbc")
+warrior = next(r for r in f2.iter_rows() if r[0] == 1)
+assert warrior[4] == 0 and f2.string(0) == "Warrior"
+for r in dbc.iter_named("Spell"):
+    assert r["id"] == 1 and r["name_enUS"] == "UPDATE YOUR CLIENT!"
+    break
+
 print("ALL PASS")
