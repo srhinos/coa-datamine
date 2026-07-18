@@ -80,6 +80,7 @@ Expected: FAIL with `ModuleNotFoundError: No module named 'tools'`
 work/
 __pycache__/
 *.pyc
+.superpowers/
 ```
 
 `tools/config.py`:
