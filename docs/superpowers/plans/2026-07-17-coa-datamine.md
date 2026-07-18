@@ -1137,8 +1137,12 @@ Task 5 is amended as follows (supersedes the original test gate):
   referenced ids per bucket, same priority rule).
 - Hard gates (build fails):
   - golden spells (unchanged);
-  - `len(missing_by_source["cad_other"]) / max(1, ref_counts["cad_other"]) <= 0.02`;
+  - `len(missing_by_source["cad_other"]) / max(1, ref_counts["cad_other"]) <= 0.05`;
   - `len(missing_by_source["talent"]) / max(1, ref_counts["talent"]) <= 0.05`.
+  (Ceilings target structural breakage — column shift or truncated extraction produce
+  30-100% miss rates. Measured live-churn baseline 2026-07-17: cad_other 211/7162 =
+  2.95% — real named custom-class abilities absent from this snapshot's Spell.dbc,
+  i.e. CoA content churn, recorded in `_meta.json` dataNotes.)
 - Report-only (no gate): `cad_reborn` misses (realm not materialized in this client)
   and `rank` orphans (stale chains; they produce no output rows). Both fully listed in
   `_meta.json` with a `dataNotes` field explaining the four-realm reality.
