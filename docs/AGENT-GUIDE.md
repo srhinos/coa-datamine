@@ -46,7 +46,10 @@ hand-edit; rerun `python -m tools.build_dataset` after a client patch instead.
 - **Dispels**: `spell.dispel.name` in None/Magic/Curse/Disease/Poison/... A spell is
   a dispellable buff if it applies an aura (`effects[].effect.name == "APPLY_AURA"`)
   and `dispel.id != 0`. Dispel-CAPABLE spells have `effects[].effect.name == "DISPEL"`
-  (miscValue = dispel type id it removes).
+  (miscValue = dispel type id it removes). Schema differs by file: in
+  `data/spells/spells.jsonl` `dispel` is the `{id, name}` object described above; in
+  `data/classes/<Class>.json`, each entry's `spells[].dispel` is a plain string
+  (or `null` when unresolved) - the summary view drops the numeric id.
 - **Ranks**: `rankChain` groups spell ranks (`first` = rank-1 spell id). Class entries
   list the first-rank spell with the full chain inline.
 - **Tooltips**: `$` tokens (e.g. `$s1`, `$d`) are raw - server formulas are not
@@ -134,3 +137,29 @@ several, e.g. dungeon id 258 has 17); pick the first bracket whose `MaxLevel` is
   WitchDoctor); every other class's talents live only in CAD entries
   (`type == "Talent"`/`"TalentAbility"` in `data/classes/<Class>.json`) - absence
   from `data/talents/` does not mean the class has no talents.
+
+## Regenerating after a client patch
+
+The test suite mixes two different kinds of check, and they fail for different
+reasons. STRUCTURAL checks verify the pipeline itself still works: WDBC layout
+guards (`dbc.LayoutError`), golden spell rows (id 17 Power Word: Shield, id 10
+Blizzard - name/dispel/school/duration fixed points), the `cad_other`/`talent`
+missing-ref ratio gates (<=5%), and general schema asserts (field counts,
+sort order, required keys). SNAPSHOT PINS, by contrast, are exact counts
+calibrated to this repo's 2026-07-17 capture and will legitimately drift
+whenever CoA ships new content:
+
+- `tests/test_classes.py`: RebornWarlock 1719 entries / Necromancer 427 entries
+- `tests/test_talents.py`: 37 tabs / 2383 talents
+- `tests/test_dungeons.py`: 431 dungeons / 2080 encounters / dungeon-258 has 17
+  reward brackets
+- `tests/test_extract.py`: `spell.dbc` resolves from `patch-T.MPQ`
+
+After regenerating against a patched client, treat the two failure modes
+differently. A snapshot-pin failure with a small delta (record counts moved by
+tens, not orders of magnitude; a different archive won the same DBC by one
+letter) means content changed upstream - eyeball the new numbers for
+sanity, then re-pin the constants to match. A structural-check failure (layout
+guard fires, a golden spell's fixed fields changed, a ratio gate blows past
+5%, a huge/negative count swing) means the pipeline itself broke - investigate
+the extractor/builder, don't just paper over it by re-pinning.

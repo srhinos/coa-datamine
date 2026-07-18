@@ -9,6 +9,9 @@ spells, talents, dungeons/raids), datamined from the client install.
   override with env `COA_CLIENT_DIR`). Requires Python 3.12 + `pip install mpyq`.
   Add `--skip-extract --skip-dump` to rebuild only the curated `data/` layer.
 - **Verify it:** `python tests\test_config.py` ... each test script prints `ALL PASS`.
+  After regenerating on a patched client, see "Regenerating after a client
+  patch" in `docs/AGENT-GUIDE.md` for which test failures are expected
+  snapshot-pin drift vs. real pipeline breakage.
 
 Layout: `raw/` = extracted sources (full DBC dumps as csv.gz, verbatim Content JSONs,
 provenance with sha256s); `data/` = curated JSON (classes/, spells/, talents/,
