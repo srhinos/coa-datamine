@@ -1116,6 +1116,46 @@ git add -A; git commit -m "feat: enriched spells.jsonl builder with trigger clos
 
 ---
 
+### Amendment A (2026-07-17, during execution): multi-realm reference reality
+
+Field discovery (Cache\WDB realm dirs + Data\area-52\patch-D.MPQ contents): this client
+serves FOUR realms — "Area 52 - Free-Pick" (classless), "Bronzebeard - Warcraft Reborn"
+(the Reborn* classes), "Rexxar - Conquest of Azeroth", "Vol'jin - Conquest of Azeroth".
+`CharacterAdvancementData.json` is account-wide across all of them, but realm-specific
+DBC overrides ship separately (patch-D.MPQ for area-52; Reborn's spell data is not on
+disk in this snapshot). Consequence: Reborn-class Trait spells are ~61% absent from the
+extracted Spell.dbc — a data reality, not a pipeline bug. Empirical: vanilla classes
+resolve at 100%, CoA customs at ~86-97%, and SpellRankData carries ~2,900 stale orphan
+chains with no filterable field.
+
+Task 5 is amended as follows (supersedes the original test gate):
+
+- `build()` classifies every missing ref into `missing_by_source` with priority
+  `cad_other` (referenced by ≥1 non-Reborn-class CAD entry) > `cad_reborn` (referenced
+  only by Reborn*-class CAD entries) > `talent` > `rank`, and returns
+  `ref_counts = {"cad_other": N, "cad_reborn": N, "talent": N, "rank": N}` (distinct
+  referenced ids per bucket, same priority rule).
+- Hard gates (build fails):
+  - golden spells (unchanged);
+  - `len(missing_by_source["cad_other"]) / max(1, ref_counts["cad_other"]) <= 0.02`;
+  - `len(missing_by_source["talent"]) / max(1, ref_counts["talent"]) <= 0.05`.
+- Report-only (no gate): `cad_reborn` misses (realm not materialized in this client)
+  and `rank` orphans (stale chains; they produce no output rows). Both fully listed in
+  `_meta.json` with a `dataNotes` field explaining the four-realm reality.
+- `stats["missing"]` (flat list) is replaced by `stats["missing_by_source"]`;
+  `_meta.json` gets `missing_refs_by_source` + `ref_counts` + `dataNotes`.
+- Test asserts the two ratio gates above, goldens unchanged, sorted/count checks
+  unchanged, plus `stats["ref_counts"]["cad_reborn"] > 0` (documents the known reality).
+
+Downstream amendments: Task 6 adds a `realmHint` field per class-index entry
+(`reborn` → "Bronzebeard - Warcraft Reborn", `vanilla` → "Area 52 - Free-Pick /shared",
+`coa-custom` → "Rexxar/Vol'jin - Conquest of Azeroth", `meta` → null) and must NOT
+treat null-resolved spells as errors for reborn-tagged classes. Task 9's AGENT-GUIDE
+honest-limits section documents the four-realm account-wide CAD reality and that
+Reborn-only spells resolve as null in this snapshot.
+
+---
+
 ### Task 6: Class builder (`tools/build_classes.py`) → `data/classes/`
 
 **Files:**
