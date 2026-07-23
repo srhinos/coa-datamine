@@ -1,10 +1,13 @@
 """Task V2-4 gate: spells.jsonl v2 enrichment (tags/customAttr/descriptionVariables/
 category/addon/overrideData) built from SpellTags+SpellTagTypes, SpellCustomAttr,
 SpellDescriptionVariables, SpellCategory, SpellAddon and OverrideSpellData - all
-proven via golden records (see .superpowers/sdd/task-v2-4-report.md). SpellCharges/
-SpellChargesCategory and SpellAlternativePowerType are proven internally but their
-link to Spell.dbc rows failed the brief's join-rate bar / was disproven outright, so
-they are documented in _meta only and attach nothing to spell records (also asserted
+proven via golden records (see .superpowers/sdd/task-v2-4-report.md). SpellTags
+dedup is intentional (a display-name list, not a tagTypeId list) and pinned here.
+SpellAlternativePowerType is proven internally but no per-spell link is provable,
+so it's documented in _meta only. SpellCharges/SpellChargesCategory are proven
+internally too, but SpellCharges' link to Spell.dbc rows misses the brief's >=90%
+attach bar, so per the brief's fallback they ship curated STANDALONE at
+data/spells/charges.json instead of attaching to any spell record (both asserted
 here). v1 gates (line counts, sort/unique, missing-ref reporting) are re-verified so
 this task cannot silently regress test_spells.py's contract."""
 import json, sys
@@ -58,6 +61,10 @@ assert pws["name"] == "Power Word: Shield"
 for expect in ("Priest", "Discipline", "Holy", "Healer", "Absorb", "Magic", "Instant Cast"):
     assert expect in pws["tags"], (expect, pws["tags"])
 assert pws["tags"] == sorted(pws["tags"]), "tags must be sorted for determinism"
+# spell 17 carries TWO SpellTags rows that both decode to "Priest" (a "Class: Priest"
+# tagTypeId and a "Specialization: Priest" tagTypeId) - _spell_tags dedups by display
+# name on purpose (tags is a name list, not a tagTypeId list); pin that behavior here.
+assert pws["tags"].count("Priest") == 1, pws["tags"]
 assert pws["category"] == 1269
 
 # ---- golden: spell 10 Blizzard - descriptionVariables + customAttr ----
@@ -89,10 +96,30 @@ assert cov["addon"] > 100
 assert cov["overrideData"] > 0
 
 # ---- SpellCharges/SpellChargesCategory: linkage proven, Spell.dbc join < brief's 90%
-# bar -> documented, NOT attached to any spell record ----
+# bar -> per the brief's fallback, shipped curated STANDALONE (charges.json), NOT
+# attached to any spell record ----
 assert cov["charges"]["attached"] is False
 assert cov["charges"]["spellIdJoinRate"] < 0.90
 assert cov["charges"]["categoryLinkJoinRate"] == 1.0
+assert cov["charges"]["file"] == "charges.json"
+
+charges_doc = json.loads((sdir / "charges.json").read_text(encoding="utf-8"))
+assert set(charges_doc) == {"_note", "categories", "charges"}
+assert "below the 90% attach bar" in charges_doc["_note"]
+assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 401
+assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 105
+# deterministic ascending order by "ref"
+refs = [c["ref"] for c in charges_doc["charges"]]
+assert refs == sorted(refs) and len(set(refs)) == len(refs)
+# every charges row has a categoryId key into "categories" (proven 100% link)
+for c in charges_doc["charges"]:
+    assert str(c["categoryId"]) in charges_doc["categories"]
+# spot-check: spell 52 "Overcharged: Manaforge Coruu" is a resolved golden from the
+# report's semantic-corroboration sample (mentions "charge" in its own tooltip text)
+spot = next(c for c in charges_doc["charges"] if c["ref"] == 52)
+assert spot["resolvedSpellName"] == "Overcharged: Manaforge Coruu"
+# and at least one row legitimately fails to resolve (the 87.78% finding, not 100%)
+assert any(c["resolvedSpellName"] is None for c in charges_doc["charges"])
 
 # ---- SpellAlternativePowerType: hypothesis (negative Spell.powerType indexes this
 # table) disproven - powerType==-2 is the pre-existing "Health" sentinel, unrelated ----

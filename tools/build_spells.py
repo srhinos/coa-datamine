@@ -13,8 +13,12 @@ descriptionVariables (SpellDescriptionVariables via the existing
 spellDescriptionVariableID column), category (SpellCategory via the existing
 category column), addon (SpellAddon), overrideData (OverrideSpellData). See
 dbc.py's TABLE_MAPS comments for full golden-record proofs; _meta.json's
-"enrichment" block carries per-field coverage counts plus the two proven-but-
-unattached findings (SpellCharges/SpellChargesCategory, SpellAlternativePowerType)."""
+"enrichment" block carries per-field coverage counts, an unattached finding for
+SpellAlternativePowerType (no provable per-spell link), and a "charges" block
+pointing at data/spells/charges.json - SpellCharges/SpellChargesCategory are
+proven internally but SpellCharges' link to live Spell.dbc rows misses the
+brief's >=90% attach bar, so they ship curated STANDALONE (own file, not
+per-spell fields) instead of report-only."""
 import json, shutil
 from collections import defaultdict
 
@@ -112,7 +116,16 @@ def _spell_tags(ref_ids):
     """Task V2-4: SpellTags.dbc has 488,661 rows - stream raw ints directly (no
     per-row dict via dbc.iter_named) and keep only rows whose proven spellId (f1)
     is in the referenced-spell set, per the brief's memory-streaming note. tagTypeId
-    (f2) resolves through SpellTagTypes.name_enUS (f27, proven - see dbc.py)."""
+    (f2) resolves through SpellTagTypes.name_enUS (f27, proven - see dbc.py).
+
+    Intentional dedup: `out[sid]` is a set, so two different tagTypeIds that happen
+    to decode to the same display name (e.g. spell 17 carries BOTH a "Class: Priest"
+    tag and a "Specialization: Priest" tag - two distinct SpellTagTypes rows, same
+    name_enUS) collapse into a single "Priest" entry in the output `tags` list. This
+    is deliberate: `tags` is a display-name list, not a tagTypeId list, and the brief
+    asks for `tags: [tagNames]` - a repeated identical string would be redundant
+    noise for a consumer, not signal. Pinned by a golden in tests/test_spells_v2.py
+    (spell 17's tags contains "Priest" exactly once)."""
     tagtype_name = {r["id"]: r["name_enUS"] for r in dbc.iter_named("SpellTagTypes")}
     f = dbc.DBCFile(config.WORK_DBC_DIR / "SpellTags.dbc")
     out = defaultdict(set)
@@ -285,28 +298,61 @@ def _enrich_v2(rec, r, sid, v2):
         rec["overrideData"] = override
 
 
-def _charges_findings():
-    """SpellCharges/SpellChargesCategory (Task V2-4): the categoryId link is proven
-    at 100%, but SpellCharges.spellId's join against live Spell.dbc ids (87.78%)
-    misses the brief's explicit >=90% bar for this pair - report-only, nothing
-    attached to spells.jsonl. Full evidence (incl. the 95.45% tooltip-text semantic
-    corroboration among resolved rows) is in dbc.py's TABLE_MAPS comment."""
-    spell_ids = {r["id"] for r in dbc.iter_named("Spell")}
-    charges = list(dbc.iter_named("SpellCharges"))
-    chg_cat_ids = {r["id"] for r in dbc.iter_named("SpellChargesCategory")}
-    spell_hits = sum(1 for r in charges if r["spellId"] in spell_ids)
-    cat_hits = sum(1 for r in charges if r["categoryId"] in chg_cat_ids)
+def _build_charges(out_dir):
+    """SpellCharges/SpellChargesCategory (Task V2-4 review fix): the brief's fallback
+    for a sub-90%-proven link is to ship the tables curated STANDALONE, not just
+    report join statistics - writes data/spells/charges.json (build_spells owns
+    data/spells/, single-writer rule unaffected) and returns the _meta.json
+    enrichment.charges block. SpellCharges.f0 is unnamed in TABLE_MAPS per the
+    empirical mapping rule (87.78% join vs live Spell.dbc ids, short of the brief's
+    explicit >=90% bar for this pair); exposed here as "ref" - a deliberately
+    noncommittal name, not "spellId" - with resolvedSpellName null where it doesn't
+    resolve. categoryId (f1) is proven at 100% against SpellChargesCategory.id.
+    Full evidence (incl. the 95.45% tooltip-text semantic corroboration among
+    resolved rows) is in dbc.py's TABLE_MAPS comment."""
+    spell_names = {r["id"]: r["name_enUS"] for r in dbc.iter_named("Spell")}
+
+    categories = {}
+    for row in dbc.DBCFile(config.WORK_DBC_DIR / "SpellChargesCategory.dbc").iter_rows():
+        cid = dbc.u32(row[0])
+        categories[str(cid)] = {"id": cid, "raw": [dbc.u32(row[1]), dbc.u32(row[2])]}
+    cat_ids = {c["id"] for c in categories.values()}
+
+    rows = []
+    for row in dbc.DBCFile(config.WORK_DBC_DIR / "SpellCharges.dbc").iter_rows():
+        ref = dbc.u32(row[0])
+        rows.append({"ref": ref, "categoryId": dbc.u32(row[1]),
+                     "resolvedSpellName": spell_names.get(ref)})
+    rows.sort(key=lambda c: c["ref"])                    # deterministic ordering
+
+    spell_ids = set(spell_names)
+    spell_hits = sum(1 for c in rows if c["ref"] in spell_ids)
+    cat_hits = sum(1 for c in rows if c["categoryId"] in cat_ids)
+    spell_rate = round(spell_hits / len(rows), 4) if rows else 0.0
+    cat_rate = round(cat_hits / len(rows), 4) if rows else 0.0
+
+    doc = {
+        "_note": (f"SpellCharges 'ref' resolves to a Spell.dbc id for {spell_rate:.2%} "
+                  "of rows in this snapshot (below the 90% attach bar); carried "
+                  "standalone, not attached to spell records."),
+        "categories": categories,
+        "charges": rows,
+    }
+    (out_dir / "charges.json").write_text(
+        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+
     return {
         "attached": False,
-        "reason": ("SpellCharges.spellId join-rate vs live Spell.dbc ids is below "
-                   "the brief's 0.90 bar for attaching a 'charges' field to "
-                   "spells.jsonl records, despite the categoryId link to "
-                   "SpellChargesCategory being proven at 100% and 95.45% of the "
-                   "spellId hits mentioning 'charge' in their tooltip/description "
-                   "text - see dbc.py TABLE_MAPS comment for the full writeup."),
-        "recordCount": len(charges), "categoryRecordCount": len(chg_cat_ids),
-        "spellIdJoinRate": round(spell_hits / len(charges), 4) if charges else 0.0,
-        "categoryLinkJoinRate": round(cat_hits / len(charges), 4) if charges else 0.0,
+        "file": "charges.json",
+        "reason": ("SpellCharges.ref join-rate vs live Spell.dbc ids is below the "
+                   "brief's 0.90 bar for attaching a 'charges' field to spells.jsonl "
+                   "records, despite the categoryId link to SpellChargesCategory "
+                   "being proven at 100% and 95.45% of the ref hits mentioning "
+                   "'charge' in their tooltip/description text - shipped standalone "
+                   "in data/spells/charges.json instead of report-only; see dbc.py "
+                   "TABLE_MAPS comment for the full writeup."),
+        "recordCount": len(rows), "categoryRecordCount": len(cat_ids),
+        "spellIdJoinRate": spell_rate, "categoryLinkJoinRate": cat_rate,
     }
 
 
@@ -380,6 +426,7 @@ def build() -> dict:
     by_id_dir = out_dir / "by-id"
     by_id_dir.mkdir(parents=True)
 
+    charges_finding = _build_charges(out_dir)
     v2 = _v2_aux(set(records))
 
     by_source = {}
@@ -432,7 +479,7 @@ def build() -> dict:
         "ref_counts": ref_counts, "by_source": by_source,
         "enrichment": {
             **enrichment_counts,
-            "charges": _charges_findings(),
+            "charges": charges_finding,
             "alternativePowerType": _alt_power_type_findings(),
         },
         "dataNotes": (

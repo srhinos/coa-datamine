@@ -25,7 +25,8 @@
    "attached": false,
    "categoryLinkJoinRate": 1.0,
    "categoryRecordCount": 105,
-   "reason": "SpellCharges.spellId join-rate vs live Spell.dbc ids is below the brief's 0.90 bar for attaching a 'charges' field to spells.jsonl records, despite the categoryId link to SpellChargesCategory being proven at 100% and 95.45% of the spellId hits mentioning 'charge' in their tooltip/description text - see dbc.py TABLE_MAPS comment for the full writeup.",
+   "file": "charges.json",
+   "reason": "SpellCharges.ref join-rate vs live Spell.dbc ids is below the brief's 0.90 bar for attaching a 'charges' field to spells.jsonl records, despite the categoryId link to SpellChargesCategory being proven at 100% and 95.45% of the ref hits mentioning 'charge' in their tooltip/description text - shipped standalone in data/spells/charges.json instead of report-only; see dbc.py TABLE_MAPS comment for the full writeup.",
    "recordCount": 401,
    "spellIdJoinRate": 0.8778
   },

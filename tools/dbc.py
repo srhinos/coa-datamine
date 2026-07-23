@@ -507,21 +507,25 @@ TABLE_MAPS = {
     # SpellCharges (401x2) + SpellChargesCategory (105x3): linkage direction PROVEN -
     # SpellCharges.f1 -> SpellChargesCategory.f0 joins at 100% (401/401), matching
     # value range (SpellCharges.f1 max 661 == SpellChargesCategory.f0's own max) - so
-    # SpellCharges is (spellId, categoryId) and SpellChargesCategory's f0 is its own
-    # id. SpellCharges.f0 is golden-corroborated as a spellId: of the 352/401 (87.78%)
+    # f1 is named "categoryId" here (the category-link column is 100% proven).
+    # SpellCharges.f0 is golden-corroborated as a spellId: of the 352/401 (87.78%)
     # rows that resolve against live Spell.dbc ids, 95.45% (336/352) mention "charge"
     # in their tooltip/description text (e.g. id 52 "Overcharged: Manaforge Coruu") -
     # strong semantic confirmation. BUT the brief sets an explicit >=90% bar
     # specifically for this pair's link to Spell.dbc rows, and 87.78% falls short of
-    # it - per the brief's documented fallback, this is named here (linkage is proven)
-    # but attaches NOTHING to spells.jsonl records (see build_spells.py); coverage +
-    # both join rates are recorded in _meta.enrichment.charges instead.
+    # it - per the empirical mapping rule (name only with proof clearing the stated
+    # bar), f0 stays UNNAMED here (not "spellId") and is dumped as plain "f0" by
+    # dump_table. build_spells.py's standalone data/spells/charges.json (single-writer:
+    # build_spells owns data/spells/) refers to this same column as "ref" - a
+    # deliberately noncommittal name that documents the 87.78% finding inline via its
+    # own "_note" field rather than asserting a proven identity in TABLE_MAPS. Nothing
+    # from this table attaches to individual spells.jsonl records; see build_spells.py.
     # SpellChargesCategory.f1 (maxCharges?, 1-10) and f2 (rechargeMs?, 4000-120000)
     # look domain-plausible by range alone but failed the one cross-validation
     # attempted (Spell.dbc's own procCharges field vs f1: 1.7% match, no correlation)
-    # - left unmapped/raw, not named.
+    # - left unmapped/raw, not named; carried into charges.json's "categories" as raw.
     "SpellCharges": {"expected_fields": 2, "columns": [
-        ("spellId", 0, "u"), ("categoryId", 1, "u"),
+        ("categoryId", 1, "u"),
     ]},
     "SpellChargesCategory": {"expected_fields": 3, "columns": [
         ("id", 0, "u"),
