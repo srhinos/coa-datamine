@@ -13,14 +13,14 @@
 - All v1 global constraints (see v1 plan) remain binding: stdlib+mpyq only; determinism (no timestamps in raw/dbc|content|interface or data; gzip mtime=0); utf-8-sig for content JSONs; JSON style ensure_ascii=False + sort_keys (jsonl compact separators, small files indent=1); enUS = index 0 of 16-locale blocks; tests are `python tests\test_*.py` ending `ALL PASS`.
 - **Commit style (user standing rule): ONE sentence, ONE line, NO AI attribution of any kind.** Applies to every commit in this plan.
 - **Never create a PR.** Task V2-7 pushes the branch and writes a draft PR description; the user submits it.
-- Verified header facts for all 54 new tables are in the v2 spec — treat as ground truth for expected_fields asserts.
+- Verified header facts for all 53 new tables are in the v2 spec — treat as ground truth for expected_fields asserts.
 - **Empirical mapping rule:** a column may be named in `TABLE_MAPS` only with golden-record proof pinned in a test; otherwise it stays `f<N>`. colinfo sidecars are the evidence trail.
 - Branch: `v2-packs`. Base: b2cc4d7.
 
 ## File Structure
 
 ```
-tools/config.py              +WANTED_DBCS_V2 (54 names) appended to WANTED_DBCS   [V2-1]
+tools/config.py              +WANTED_DBCS_V2 (53 names) appended to WANTED_DBCS   [V2-1]
 tools/dbc.py                 +colinfo evidence dump for unmapped tables            [V2-1]
 tools/build_creatures.py     creatures/quests/trainers + dungeons enrichment       [V2-2]
 tools/build_classmeta.py     specs.json / archetypes.json / index enrichment       [V2-3]
@@ -40,12 +40,12 @@ docs/superpowers/pr-drafts/v2-packs.md                                          
 
 **Files:** Modify `tools/config.py`, `tools/dbc.py`; Create `tests/test_v2_extract.py`.
 
-**Interfaces produced:** `config.WANTED_DBCS_V2` (list of the 54 v2 filenames from the spec, proper case) with `WANTED_DBCS += WANTED_DBCS_V2`; `dbc.dump_unmapped(table) -> Path` writing `raw/dbc/<table>.csv.gz` (header `f0..fN`, raw signed ints) plus `raw/dbc/<table>.colinfo.json` `{table, records, fields, string_block_size, columns:[{index, distinct, min, max, pct_zero, string_likelihood, samples:[...]}]}` (floats rounded 4dp; samples = up to 3 distinct non-empty decoded strings when string_likelihood ≥ 0.9); `dump_all()` now dumps mapped tables via `dump_table` and every other `WANTED_DBCS` table via `dump_unmapped`.
+**Interfaces produced:** `config.WANTED_DBCS_V2` (list of the 53 v2 filenames from the spec, proper case) with `WANTED_DBCS += WANTED_DBCS_V2`; `dbc.dump_unmapped(table) -> Path` writing `raw/dbc/<table>.csv.gz` (header `f0..fN`, raw signed ints) plus `raw/dbc/<table>.colinfo.json` `{table, records, fields, string_block_size, columns:[{index, distinct, min, max, pct_zero, string_likelihood, samples:[...]}]}` (floats rounded 4dp; samples = up to 3 distinct non-empty decoded strings when string_likelihood ≥ 0.9); `dump_all()` now dumps mapped tables via `dump_table` and every other `WANTED_DBCS` table via `dump_unmapped`.
 
 String-likelihood definition (fixed): fraction of rows where `v == 0` or (`0 < v < strblock_size` and byte at `v-1` is NUL). Tables with `string_block_size == 0` get `string_likelihood = 0.0` for all columns.
 
 **Steps:**
-- [ ] Write failing `tests/test_v2_extract.py`: asserts `len(config.WANTED_DBCS_V2) == 54`; runs `extract_mpq.extract_all()`; asserts all 54 files exist in `work/dbc` with WDBC magic and the spec's exact (records, fields) for at least: Creature (127175, 23), Quest (18561, 29), NPCTrainer (13001, 4), ChrSpecs (101, 65), SpellTags (488661, 3), Challenge (297, 53), SpellAlternativeCost (0, 3); then `dbc.dump_unmapped("Creature")` and asserts colinfo has ≥1 column with string_likelihood ≥ 0.9 whose samples are non-empty strings, and that CSV row count == 127175. Ends `print("ALL PASS")`.
+- [ ] Write failing `tests/test_v2_extract.py`: asserts `len(config.WANTED_DBCS_V2) == 53`; runs `extract_mpq.extract_all()`; asserts all 53 files exist in `work/dbc` with WDBC magic and the spec's exact (records, fields) for at least: Creature (127175, 23), Quest (18561, 29), NPCTrainer (13001, 4), ChrSpecs (101, 65), SpellTags (488661, 3), Challenge (297, 53), SpellAlternativeCost (0, 3); then `dbc.dump_unmapped("Creature")` and asserts colinfo has ≥1 column with string_likelihood ≥ 0.9 whose samples are non-empty strings, and that CSV row count == 127175. Ends `print("ALL PASS")`.
 - [ ] Run: `python tests\test_v2_extract.py` → fails (no WANTED_DBCS_V2).
 - [ ] Implement config + dbc changes. `dump_unmapped` streams rows once, accumulating column stats and writing the CSV in the same pass; deterministic gzip (mtime=0) same as `dump_table`; colinfo written with indent=1, sort_keys.
 - [ ] Run test → ALL PASS (extraction scan takes minutes; Creature/SpellTags dumps ~1-2 min).
