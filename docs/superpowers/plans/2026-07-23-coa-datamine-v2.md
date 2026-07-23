@@ -56,6 +56,48 @@ Record counts note: if extract reveals live-drift deltas vs the spec's counts (l
 
 ---
 
+### Amendment C (2026-07-23, user directive): file sharding
+
+**Rule (binding for ALL data/ outputs, v1 and v2):** no committed data file may be an
+arbitrary 10k+-line monolith. Target ≤~5,000 lines where a non-hacky shard exists.
+Shard by STABLE SEMANTIC KEY (per-dungeon file, per-class-per-tab file) or FIXED ID
+RANGES (`id // N * N` buckets — never count-based chunking, which shifts every file on
+insertion and destroys diff locality). Every sharded dataset gets an `index.json`
+manifest (id → file + summary fields). JSONL stays for record streams (grep-friendly)
+but is bucketed. Empty buckets are omitted. Rationale: meaningful diffs, grep-able
+context, deep-linkable files, visualizer-ready pieces. If a file truly cannot shrink
+without hacky code, a >5k-line file is acceptable — document why in the AGENT-GUIDE.
+
+Concrete layouts:
+- `data/spells/by-id/spells-<id//10000*10000>.jsonl` + `data/spells/index.json`
+  (bucket → file, count, id range); `_meta.json` keeps counts only, full missing-ref
+  lists move to `data/spells/_missing_refs.json` with each bucket's array on ONE line.
+- `data/classes/<Class>/<Tab>.json` (entries of that spec tab) + `data/classes/<Class>/index.json`
+  (class meta, realmHint, classId, tab list + counts); top-level `data/classes/index.json` unchanged
+  in role but points at per-class dirs. Entries without a Tab go in `<Class>/_general.json`.
+- `data/dungeons/<id>-<slug>.json` (one per dungeon incl. its encounters + rewards) +
+  `data/dungeons/index.json` {id, name, file, mapId, isRaid, levels}; the old
+  `encountersByMap` duplicate view is dropped (derivable; guide updated).
+- V2-2 outputs: `data/creatures/creatures-<id//5000*5000>.jsonl` + index;
+  `data/quests/quests-<id//5000*5000>.jsonl` + index; `data/trainers/trainers-<id//2000*2000>.json` + index.
+- V2-5 outputs: `data/mythic/challenges/<id>-<slug>.json` + index; affix/keystone
+  tables bucketed the same way if any single file would exceed ~5k lines.
+- Slug rule: lowercase name, non-alnum → `-`, collapsed, max 40 chars — deterministic.
+
+---
+
+### Task V2-1.5: Shard v1 outputs per Amendment C
+
+**Files:** Modify `tools/build_spells.py`, `tools/build_classes.py`, `tools/build_dungeons.py`, affected tests (`test_spells.py`, `test_classes.py`, `test_dungeons.py`, `test_talents.py` reads spells), `tools/build_talents.py` + `tools/build_classmeta.py`-independent consumers (spell-name loader reads buckets via index), `docs/AGENT-GUIDE.md` (file map + recipes updated to sharded paths).
+
+**Method:** writers emit the Amendment C layouts; all readers (build_classes `_spell_min`, build_talents `_spell_names`, guide recipes) switch to iterating `data/spells/by-id/*.jsonl` via the index. Old monolith files are DELETED in the same commit (`git rm data/spells/spells.jsonl data/dungeons/dungeons.json data/classes/<Class>.json` etc.). Deterministic: bucket membership fixed by id; per-dungeon filenames stable via slug rule.
+
+**Gates:** all v1 tests updated + passing; no committed data/ file exceeds 5,000 lines EXCEPT documented exemptions (test asserts this repo-wide for data/: `max lines <= 5000` allowlist in the test — document any entry); total record counts identical pre/post shard (spells count, class entry counts, dungeon count pinned unchanged); index files complete (every bucket/dungeon/class-tab listed).
+
+**Steps:** failing shard-shape test → implement writers+readers → run full v1 suite (config/dbc/spells/classes/talents/dungeons/dataset; skip extract) → ALL PASS → one-line commit `Shard dataset outputs into linkable per-entity and id-bucket files`.
+
+---
+
 ### Task V2-2: Creatures / quests / trainers + dungeon encounter enrichment
 
 **Files:** Create `tools/build_creatures.py`, `tests/test_creatures.py`; Modify `tools/dbc.py` (add proven TABLE_MAPS entries), `tools/build_dungeons.py` (encounter creature links).
