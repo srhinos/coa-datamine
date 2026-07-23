@@ -3,7 +3,21 @@
 Amendment C: one file per dungeon (data/dungeons/<id>-<slug>.json, encounters/rewards
 inline) + data/dungeons/index.json {id, name, file, mapId, isRaid, levels}. The old
 encountersByMap duplicate view is dropped - it's fully derivable by grouping the
-per-dungeon files on (mapId, difficulty)."""
+per-dungeon files on (mapId, difficulty).
+
+Task V2-2: encounters were meant to gain a "creature": {id, name}|null boss link from
+DungeonEncounterExtra.dbc. Probed and DISPROVEN: DungeonEncounterExtra's f0 proves out
+as dungeonEncounterId (98.5% join + semantic golden - resolves to real encounter names),
+but its f1 (creature-id hypothesis) fails golden verification even though it clears the
+naive 90% join-rate bar against Creature.dbc ids (92.4%) - famous bosses (Ragnaros,
+Onyxia, Kel'Thuzad, Illidan, ...) all resolve to unrelated random NPCs. This is a false
+positive caused by Creature.dbc's fully-dense id space (every integer 1..127175 is a
+valid creature id, so any bounded column passes membership near-trivially); see
+.superpowers/sdd/task-v2-2-report.md for the full evidence (fuzzy name-overlap 1.3%,
+barely above a random-pairing control's 0.45%). f2/f3 fail even the naive join-rate bar
+(~51-55%) against either DungeonEncounter or Creature ids. No column is provable, so
+every encounter ships "creature": null (documented zero-link outcome, per the brief's
+explicit allowance)."""
 import json, shutil
 from collections import defaultdict
 
@@ -27,7 +41,8 @@ def build() -> dict:
         if e["mapID"] not in maps:
             orphan += 1
         enc_by_map[(e["mapID"], e["difficulty"])].append(
-            {"id": e["id"], "name": e["name_enUS"], "orderIndex": e["orderIndex"]})
+            {"id": e["id"], "name": e["name_enUS"], "orderIndex": e["orderIndex"],
+             "creature": None})
     for lst in enc_by_map.values():
         lst.sort(key=lambda x: x["orderIndex"])
 
@@ -81,7 +96,8 @@ def build() -> dict:
     (out_dir / "index.json").write_text(
         sharding.dump_manifest({"dungeons": index_dungeons}), encoding="utf-8")
     return {"dungeons": len(dungeons), "raids": raid_count,
-            "encounters": enc_count, "orphanEncounterMaps": orphan}
+            "encounters": enc_count, "orphanEncounterMaps": orphan,
+            "encounterCreatureLinks": 0}
 
 
 if __name__ == "__main__":

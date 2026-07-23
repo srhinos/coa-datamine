@@ -196,6 +196,63 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("blood", 1, "u"), ("unholy", 2, "u"), ("frost", 3, "u"),
         ("runicPower", 4, "u"),
     ]},
+    # v2 (task V2-2): proven via golden-record probes (see .superpowers/sdd/task-v2-2-report.md).
+    # Creature: f0 proven ascending-unique 1..127175 (id); f2 proven via golden decode
+    # (id 437/60041/92992 -> "Hogger", id 8034 etc -> "Ragnaros"). f20/f21/f22 (the next-
+    # highest string_likelihood columns per V2-1 colinfo) were probed as subname
+    # candidates and DISPROVEN: on both goldens' rows the raw value is 0 (no data), and
+    # across the table the ~4-5% of rows where they decode to non-empty text resolve to
+    # unrelated fragments/other creatures' names at a rate matching pure background
+    # coincidence (measured ~3.45% on a random-offset control) against a huge (2.5MB)
+    # shared string block - not a real subname column. Left unmapped; not carried.
+    "Creature": {"expected_fields": 23, "columns": [
+        ("id", 0, "u"), ("name_enUS", 2, "s"),
+    ]},
+    # Quest: NO string block (confirmed, string_block_size=0) - f0 proven unique id
+    # (18561 distinct == records). No other column clears the brief's join-rate bars
+    # (QuestSort >=80%, QuestInfo join) against QuestSort.dbc/QuestInfo.dbc ids - best
+    # real candidate (f20) tops out at ~58.6%/58.2%. Remaining 28 columns stay f<N>,
+    # carried raw by tools/build_creatures.py (Quest.dbc has no TABLE_MAPS entry for them).
+    "Quest": {"expected_fields": 29, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # QuestSort/QuestInfo: f0 = own id (unique, matches record count), f1 = name_enUS
+    # (proven: distinct count equals record count for both - a clean bijective name
+    # column, e.g. QuestSort samples "Epic"/"Seasonal"/... and QuestInfo samples
+    # "Group"/"Life"/"PvP"/...). Used only as lookup tables (no Quest.dbc column joins
+    # them with enough confidence to link - see Quest above).
+    "QuestSort": {"expected_fields": 18, "columns": [
+        ("id", 0, "u"), ("name_enUS", 1, "s"),
+    ]},
+    "QuestInfo": {"expected_fields": 18, "columns": [
+        ("id", 0, "u"), ("name_enUS", 1, "s"),
+    ]},
+    # NPCTrainer: f0 proven ascending-unique 1..13001 (id). f1 proven spellId (98.9%
+    # join vs Spell.dbc ids; kept signed "i" not "u" - ~1% of rows carry small negative
+    # sentinel values, e.g. -210021, that are clearly unused/placeholder entries, and
+    # u32-wrapping them would manufacture a misleading huge fake-looking id instead of
+    # leaving the sentinel visibly non-positive). f2 proven skillLine (99.9% join vs
+    # SkillLine.dbc ids AND semantic golden: values resolve to real profession/talent-
+    # tree names - Blacksmithing, Leatherworking, Tailoring, Arcane, Holy, Feral Combat,
+    # ...). f3 (the brief's hypothesized "trainer-id low-cardinality column") does NOT
+    # prove out as a trainer/NPC identity - see report; left unmapped, carried as raw f3.
+    "NPCTrainer": {"expected_fields": 4, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "i"), ("skillLine", 2, "u"),
+    ]},
+    # DungeonEncounterExtra: f0 proven dungeonEncounterId (98.5% join vs DungeonEncounter
+    # ids AND semantic golden: resolves to real encounter names - "Panzor the
+    # Invincible", "Lord Valthalak", ...). f1 (creature-id hypothesis) clears the naive
+    # 90% numeric join-rate vs Creature ids (92.4%) but is DISPROVEN by golden
+    # verification: famous boss encounters (Ragnaros, Onyxia, Kel'Thuzad, Illidan, ...)
+    # all resolve to random unrelated NPCs (fuzzy name-overlap 1.3%, barely above a
+    # random-pairing control's 0.45%). This is a false positive of naive join-rate
+    # testing caused by Creature.dbc's fully-dense id space (every integer 1..127175 is
+    # a valid creature id, so ANY bounded column passes membership near-trivially) - see
+    # report. f2/f3 fail even the naive join-rate bar (~51-55%) against either table.
+    # No creature link is provable; tools/build_dungeons.py ships "creature": null.
+    "DungeonEncounterExtra": {"expected_fields": 4, "columns": [
+        ("dungeonEncounterId", 0, "u"),
+    ]},
 }
 
 
