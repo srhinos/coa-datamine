@@ -1,6 +1,11 @@
 """TDD gate for task V2-3: class/spec metadata pack (ChrSpecs -> specs.json,
-CharacterCreationArchetypes(+Details) -> archetypes.json, data/classes/index.json
-specIds/roles enrichment).
+CharacterCreationArchetypes(+Details) -> archetypes.json).
+
+Amendment D (single-writer ownership): build_classmeta owns specs.json/archetypes.json
+ONLY and never touches data/classes/index.json (owned solely by build_classes). specIds/
+roles/specialAbilities all live inside specs.json instead of index.json. This test also
+proves the ownership boundary survives a partial rebuild: rerunning build_classes.build()
+after build_classmeta.build() must NOT delete specs.json/archetypes.json.
 
 Per the empirical-mapping rule, this also pins the NEGATIVE findings documented in
 .superpowers/sdd/task-v2-3-report.md and tools/dbc.py's TABLE_MAPS comments: ChrSpecs'
@@ -65,6 +70,20 @@ for cls_name, ids in per_class.items():
         assert by_id[sid]["className"] == cls_name
 assert per_class["Mage"] == sorted(s["id"] for s in specs if s["className"] == "Mage")
 
+# ---- specs.json: roles + specialAbilities (moved off index.json per Amendment D) ----
+roles = specs_doc["roles"]
+special = specs_doc["specialAbilities"]
+assert set(roles["Warrior"]) == {"DPS", "Tank"}
+assert set(roles["Priest"]) == {"DPS", "Healer"}
+assert set(roles["Paladin"]) == {"DPS", "Tank", "Healer"}
+assert roles["Mage"] == ["DPS"]
+assert len(roles) == 32, "roles must cover all 32 ChrClasses"
+assert "Warrior" not in special, "Warrior has no proven specialAbilitySpellId"
+assert special["Shaman"] == {"spellId": 1182001, "name": "Earthen Guardian"}
+assert special["Bloodmage"] == {"spellId": 681078, "name": "Pooled Vitality"}
+assert special["Primalist"] == {"spellId": 92150, "name": "Grove Training"}
+assert len(special) == 3
+
 # ---- archetypes.json ----
 arch_doc = json.loads((cdir / "archetypes.json").read_text(encoding="utf-8"))
 archetypes = arch_doc["archetypes"]
@@ -81,24 +100,27 @@ for a in archetypes:
     assert isinstance(a["races"], list)
 assert any(a["races"] for a in archetypes), "no archetype resolved any race via the FK join"
 
-# ---- data/classes/index.json enrichment: specIds + chrClasses roles ----
+# ---- single-writer ownership: index.json is pure build_classes output ----
 index = json.loads((cdir / "index.json").read_text(encoding="utf-8"))
 by_class_entry = {c["name"]: c for c in index["classes"]}
-assert "specIds" in by_class_entry["Mage"]
-assert by_class_entry["Mage"]["specIds"] == per_class["Mage"]
-assert by_class_entry["Mage"]["specIds"] == [85, 86, 87]
-# a class dir with no ChrClasses match still gets the key, empty
-assert by_class_entry["DemonHunter"]["classId"] is None
-assert by_class_entry["DemonHunter"]["specIds"] == []
-
+assert "specIds" not in by_class_entry["Mage"], "build_classmeta must not edit index.json"
 chr_by_id = {c["id"]: c for c in index["chrClasses"]}
-assert set(chr_by_id[1]["roles"]) == {"DPS", "Tank"}          # Warrior
-assert set(chr_by_id[5]["roles"]) == {"DPS", "Healer"}         # Priest
-assert set(chr_by_id[2]["roles"]) == {"DPS", "Tank", "Healer"} # Paladin
-assert chr_by_id[8]["roles"] == ["DPS"]                        # Mage
-assert chr_by_id[1]["specialAbility"] is None
-sham = chr_by_id[7]  # Shaman - has a proven specialAbilitySpellId
-assert sham["specialAbility"] == {"id": 1182001, "name": "Earthen Guardian"}
+assert "roles" not in chr_by_id[1], "build_classmeta must not edit index.json"
+assert "specialAbility" not in chr_by_id[1], "build_classmeta must not edit index.json"
+
+# ---- survival gate: build_classes rerun must NOT wipe classmeta's outputs ----
+build_classes.build()
+assert (cdir / "specs.json").is_file(), "specs.json destroyed by a build_classes rerun"
+assert (cdir / "archetypes.json").is_file(), "archetypes.json destroyed by a build_classes rerun"
+specs_doc_after = json.loads((cdir / "specs.json").read_text(encoding="utf-8"))
+assert specs_doc_after == specs_doc, "specs.json content changed by an unrelated build_classes rerun"
+arch_doc_after = json.loads((cdir / "archetypes.json").read_text(encoding="utf-8"))
+assert arch_doc_after == arch_doc, "archetypes.json content changed by an unrelated build_classes rerun"
+# index.json itself is legitimately rewritten by build_classes (that's its job) - just
+# re-check it is still the same pure shape (no classmeta keys leaked back in).
+index_after = json.loads((cdir / "index.json").read_text(encoding="utf-8"))
+by_class_entry_after = {c["name"]: c for c in index_after["classes"]}
+assert "specIds" not in by_class_entry_after["Mage"]
 
 # ---- stats sanity ----
 assert stats["specs"]["count"] == 101

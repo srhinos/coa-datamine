@@ -126,10 +126,15 @@ def build() -> dict:
         cls = e.get("Class") or "None"
         groups["_other" if cls in META else cls].append(e)
 
+    # Amendment D (single-writer ownership): this builder owns only the per-class
+    # subdirectories and the top-level index.json it writes below - NOT the whole
+    # data/classes/ directory. build_classmeta.py's specs.json/archetypes.json live
+    # alongside these and must survive a build_classes rerun untouched.
     cdir = config.DATA_DIR / "classes"
-    if cdir.exists():
-        shutil.rmtree(cdir)                        # drop any prior monolith/shards
-    cdir.mkdir(parents=True)
+    cdir.mkdir(parents=True, exist_ok=True)
+    for child in cdir.iterdir():
+        if child.is_dir():
+            shutil.rmtree(child)                    # drop prior per-class dirs only
     index_classes, total_entries, matched_norms = [], 0, set()
     unresolved_reborn = unresolved_other = 0
     refs_reborn = refs_other = 0

@@ -1,10 +1,11 @@
 """Class/spec metadata pack (task V2-3): ChrSpecs -> data/classes/specs.json,
-CharacterCreationArchetypes(+ArchetypeDetails) -> data/classes/archetypes.json, and
-specIds/roles enrichment on the data/classes/index.json produced by build_classes.py.
+CharacterCreationArchetypes(+ArchetypeDetails) -> data/classes/archetypes.json.
 
-Must run after build_classes.build() - reads and rewrites data/classes/index.json in
-place rather than owning it, since this task only adds tools/build_classmeta.py and
-does not modify tools/build_classes.py.
+Amendment D (single-writer ownership): this module owns specs.json/archetypes.json
+ONLY - it must run after build_classes.build() (which owns the per-class
+subdirectories + index.json) but never reads or writes data/classes/index.json.
+specIds/roles/specialAbilities all live inside specs.json instead (see below);
+consumers that want spec/role data read specs.json, not index.json.
 
 Full mapping evidence (golden probes, join-rates, disproven hypotheses) is documented
 in tools/dbc.py's TABLE_MAPS comments for ChrSpecs/ChrClassesRoles/CharacterCreation*
@@ -12,10 +13,9 @@ and in .superpowers/sdd/task-v2-3-report.md. Summary of what this module derives
 top of the raw named columns:
 
 - ChrSpecs.classToken (a string, not a raw int) is joined against ChrClasses.name_enUS
-  (normalized) to resolve classId/className; 27/101 specs have no match (either an
-  empty token or a real token for a class outside the 32-row ChrClasses ground truth,
-  e.g. DEMONHUNTER/MONK/PROPHET) and ship classId=None/className=None per the brief's
-  gate.
+  (normalized) to resolve classId/className; 24/101 specs have no match (a real token
+  for a class outside the 32-row ChrClasses ground truth, e.g. DEMONHUNTER/MONK/
+  PROPHET) and ship classId=None/className=None per the brief's gate.
 - ChrSpecs' 4 armor-flag columns (armorCloth/armorLeather/armorMail/armorPlate) are
   combined into one "armorType" string (None when zero or more than one flag is set).
 - ChrSpecs.f63 (the brief's disproven "role" candidate) is read directly off the raw
@@ -23,8 +23,10 @@ top of the raw named columns:
   dbc.iter_named("ChrSpecs") and is looked up from a parallel raw DBCFile pass keyed by
   id, the same pattern build_creatures.py uses for NPCTrainer's unmapped f3.
 - ChrClassesRoles.roleMask is decoded into a role-name list (Tank/Healer/DPS) and
-  specialAbilitySpellId is resolved to {id, name} via Spell.dbc; both attach to each
-  data/classes/index.json "chrClasses" entry (already keyed 1:1 by classId).
+  specialAbilitySpellId is resolved to {spellId, name} via Spell.dbc; both are written
+  into specs.json's top-level "roles"/"specialAbilities" dicts, keyed by className
+  (all 32 ChrClasses names for roles; only the classes with a non-zero
+  specialAbilitySpellId for specialAbilities).
 - CharacterCreationArchetypes' weapon/armor-type slot columns drop
   "MAX_ITEM_SUBCLASS_*" enum-terminator sentinels (not real values). Each archetype's
   supported races are derived from CharacterCreationArchetypeDetails' proven
@@ -33,7 +35,7 @@ top of the raw named columns:
 import json
 from collections import defaultdict
 
-from tools import config, dbc, sharding
+from tools import config, dbc
 
 
 def _norm(s):
@@ -50,6 +52,25 @@ MIN_CLASS_COVERAGE = 0.60
 def _armor_type(r: dict):
     hits = [name for key, name in ARMOR_FLAGS if r[key] == 1]
     return hits[0] if len(hits) == 1 else None
+
+
+def _class_roles_and_abilities() -> tuple[dict, dict]:
+    """roles: {className: [role,...]} for all 32 ChrClasses (roleMask decoded).
+    specialAbilities: {className: {spellId, name|null}} for only the classes with a
+    proven non-zero specialAbilitySpellId (see tools/dbc.py's ChrClassesRoles proof)."""
+    chr_names = {c["id"]: c["name_enUS"] for c in dbc.iter_named("ChrClasses")}
+    spell_names = {s["id"]: s["name_enUS"] for s in dbc.iter_named("Spell")}
+    roles, special = {}, {}
+    for r in dbc.iter_named("ChrClassesRoles"):
+        cls_name = chr_names.get(r["id"])
+        if cls_name is None:
+            continue
+        mask = r["roleMask"]
+        roles[cls_name] = [name for bit, name in ROLE_BITS if mask & bit]
+        sid = r["specialAbilitySpellId"]
+        if sid:
+            special[cls_name] = {"spellId": sid, "name": spell_names.get(sid)}
+    return roles, special
 
 
 def build_specs() -> dict:
@@ -102,7 +123,12 @@ def build_specs() -> dict:
         f"only {coverage:.1%} of the 32 ChrClasses have >=1 spec "
         f"(need >={MIN_CLASS_COVERAGE:.0%}) - mapping is wrong, stopping")
 
-    payload = {"specs": specs, "perClass": dict(sorted(per_class.items()))}
+    roles, special_abilities = _class_roles_and_abilities()
+    payload = {
+        "specs": specs, "perClass": dict(sorted(per_class.items())),
+        "roles": dict(sorted(roles.items())),
+        "specialAbilities": dict(sorted(special_abilities.items())),
+    }
     (cdir / "specs.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
 
@@ -158,46 +184,12 @@ def build_archetypes() -> dict:
     return {"count": len(archetypes)}
 
 
-def _class_roles() -> dict:
-    spell_names = {s["id"]: s["name_enUS"] for s in dbc.iter_named("Spell")}
-    roles = {}
-    for r in dbc.iter_named("ChrClassesRoles"):
-        mask = r["roleMask"]
-        sid = r["specialAbilitySpellId"]
-        roles[r["id"]] = {
-            "roles": [name for bit, name in ROLE_BITS if mask & bit],
-            "specialAbility": {"id": sid, "name": spell_names.get(sid)} if sid else None,
-        }
-    return roles
-
-
-def _enrich_class_index(spec_stats: dict) -> None:
-    cdir = config.DATA_DIR / "classes"
-    index_path = cdir / "index.json"
-    index = json.loads(index_path.read_text(encoding="utf-8"))
-
-    by_class_id = spec_stats["byClassId"]
-    for c in index["classes"]:
-        cid = c.get("classId")
-        c["specIds"] = by_class_id.get(cid, []) if cid is not None else []
-
-    roles = _class_roles()
-    for c in index["chrClasses"]:
-        info = roles.get(c["id"], {"roles": [], "specialAbility": None})
-        c["roles"] = info["roles"]
-        c["specialAbility"] = info["specialAbility"]
-
-    index_path.write_text(sharding.dump_manifest(index), encoding="utf-8")
-
-
 def build() -> dict:
     cdir = config.DATA_DIR / "classes"
-    assert (cdir / "index.json").is_file(), (
-        "data/classes/index.json missing - run build_classes.build() before "
-        "build_classmeta.build()")
+    assert cdir.is_dir(), (
+        "data/classes missing - run build_classes.build() before build_classmeta.build()")
     spec_stats = build_specs()
     arch_stats = build_archetypes()
-    _enrich_class_index(spec_stats)
     return {"specs": spec_stats, "archetypes": arch_stats}
 
 
