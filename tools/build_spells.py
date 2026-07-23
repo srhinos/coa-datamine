@@ -1,10 +1,41 @@
 """Build data/spells/spells.jsonl: every referenced spell, fully enriched.
 
 Referenced = CharacterAdvancementData spells + SpellRankData chains + Talent.dbc
-ranks, then closed transitively over EffectTriggerSpell (tag "trigger")."""
-import json
+ranks, then closed transitively over EffectTriggerSpell (tag "trigger").
 
-from tools import config, dbc, enums335
+Amendment C: output is sharded data/spells/by-id/spells-<id//BUCKET_SIZE*BUCKET_SIZE>.jsonl
++ data/spells/index.json (bucket manifest); _meta.json keeps counts only, full
+missing-ref id lists live in _missing_refs.json (one line per source array)."""
+import json, shutil
+from collections import defaultdict
+
+from tools import config, dbc, enums335, sharding
+
+BUCKET_SIZE = 10000
+
+
+def iter_all():
+    """Yield every spell record across all id-bucket shards, via index.json - the
+    reader path for build_classes._spell_min / build_talents._spell_names."""
+    out_dir = config.DATA_DIR / "spells"
+    index = json.loads((out_dir / "index.json").read_text(encoding="utf-8"))
+    for b in index["buckets"]:
+        with open(out_dir / b["file"], encoding="utf-8") as fh:
+            for line in fh:
+                yield json.loads(line)
+
+
+def _write_missing_refs(path, missing_by_source):
+    """Amendment C: each source's array on ONE line, not json.dumps(indent=...)'d
+    (which would put one id per line and blow past the 5,000-line gate)."""
+    keys = sorted(missing_by_source)
+    lines = ["{"]
+    for i, k in enumerate(keys):
+        arr = json.dumps(missing_by_source[k], separators=(",", ":"))
+        comma = "," if i < len(keys) - 1 else ""
+        lines.append(f' "{k}": {arr}{comma}')
+    lines.append("}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _content(name):
@@ -198,15 +229,29 @@ def build() -> dict:
     missing_by_source = {k: sorted(v) for k, v in missing_by_source.items()}
 
     out_dir = config.DATA_DIR / "spells"
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if out_dir.exists():
+        shutil.rmtree(out_dir)                    # drop any prior monolith/shards
+    by_id_dir = out_dir / "by-id"
+    by_id_dir.mkdir(parents=True)
+
     by_source = {}
-    with open(out_dir / "spells.jsonl", "w", encoding="utf-8", newline="\n") as fh:
-        for sid in sorted(records):
-            rec = _record(records[sid], aux, refs[sid])
-            for t in rec["referencedBy"]:
-                by_source[t] = by_source.get(t, 0) + 1
-            fh.write(json.dumps(rec, ensure_ascii=False, sort_keys=True,
-                                separators=(",", ":")) + "\n")
+    bucketed = defaultdict(list)
+    for sid in sorted(records):
+        rec = _record(records[sid], aux, refs[sid])
+        for t in rec["referencedBy"]:
+            by_source[t] = by_source.get(t, 0) + 1
+        bucketed[sharding.bucket_id(sid, BUCKET_SIZE)].append(rec)
+
+    bucket_index = []
+    for bkt in sorted(bucketed):
+        recs = bucketed[bkt]
+        fname = f"by-id/spells-{bkt}.jsonl"
+        with open(out_dir / fname, "w", encoding="utf-8", newline="\n") as fh:
+            for rec in recs:
+                fh.write(json.dumps(rec, ensure_ascii=False, sort_keys=True,
+                                    separators=(",", ":")) + "\n")
+        bucket_index.append({"bucket": bkt, "file": fname, "count": len(recs),
+                              "minId": recs[0]["id"], "maxId": recs[-1]["id"]})
 
     # golden gate: refuse to publish a dataset that fails known ground truth
     g = records.get(17)
@@ -222,8 +267,14 @@ def build() -> dict:
     assert tal_ratio <= 0.05, \
         f"talent missing ratio {tal_ratio:.3f} > 0.05 - Talent.dbc ranks must resolve"
 
+    index = {"bucketSize": BUCKET_SIZE, "count": len(records), "buckets": bucket_index}
+    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    _write_missing_refs(out_dir / "_missing_refs.json", missing_by_source)
+
     meta = {
-        "count": len(records), "missing_refs_by_source": missing_by_source,
+        "count": len(records),
+        "missing_ref_counts_by_source": {k: len(v) for k, v in missing_by_source.items()},
+        "missingRefsFile": "_missing_refs.json",
         "ref_counts": ref_counts, "by_source": by_source,
         "dataNotes": (
             "CharacterAdvancementData.json is account-wide across four realms served by "
@@ -236,7 +287,9 @@ def build() -> dict:
             "Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real "
             "named custom-class abilities absent from this snapshot's Spell.dbc)."
         ),
-        "schema_note": "one spell per line, ascending id; see docs/AGENT-GUIDE.md",
+        "schema_note": ("sharded by id//" + str(BUCKET_SIZE) + "*" + str(BUCKET_SIZE) +
+                        " into by-id/spells-<bucket>.jsonl (one spell per line, ascending "
+                        "id within a bucket); see index.json and docs/AGENT-GUIDE.md"),
     }
     (out_dir / "_meta.json").write_text(
         json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8")

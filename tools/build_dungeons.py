@@ -1,8 +1,13 @@
-"""Dungeons/raids/encounters: LFGDungeons + Map + AreaTable + DungeonEncounter + LFGData."""
-import json
+"""Dungeons/raids/encounters: LFGDungeons + Map + AreaTable + DungeonEncounter + LFGData.
+
+Amendment C: one file per dungeon (data/dungeons/<id>-<slug>.json, encounters/rewards
+inline) + data/dungeons/index.json {id, name, file, mapId, isRaid, levels}. The old
+encountersByMap duplicate view is dropped - it's fully derivable by grouping the
+per-dungeon files on (mapId, difficulty)."""
+import json, shutil
 from collections import defaultdict
 
-from tools import config, dbc, enums335
+from tools import config, dbc, enums335, sharding
 
 
 def build() -> dict:
@@ -58,16 +63,23 @@ def build() -> dict:
     dungeons.sort(key=lambda x: x["id"])
 
     out_dir = config.DATA_DIR / "dungeons"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    doc = {
-        "dungeons": dungeons,
-        "encountersByMap": {
-            str(mid): {str(diff): lst for (m2, diff), lst in enc_by_map.items()
-                       if m2 == mid}
-            for mid in sorted({m for m, _ in enc_by_map})},
-    }
-    (out_dir / "dungeons.json").write_text(
-        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    if out_dir.exists():
+        shutil.rmtree(out_dir)                      # drop any prior monolith/shards
+    out_dir.mkdir(parents=True)
+
+    index_dungeons = []
+    for d in dungeons:
+        slug = sharding.slugify(d["name"])
+        fname = f"{d['id']}-{slug}.json"
+        (out_dir / fname).write_text(
+            json.dumps(d, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        index_dungeons.append({
+            "id": d["id"], "name": d["name"], "file": fname, "mapId": d["mapId"],
+            "isRaid": bool(d["map"]["isRaid"]) if d["map"] else False,
+            "levels": d["levels"],
+        })
+    (out_dir / "index.json").write_text(
+        sharding.dump_manifest({"dungeons": index_dungeons}), encoding="utf-8")
     return {"dungeons": len(dungeons), "raids": raid_count,
             "encounters": enc_count, "orphanEncounterMaps": orphan}
 

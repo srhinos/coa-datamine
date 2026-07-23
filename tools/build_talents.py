@@ -1,17 +1,15 @@
-"""Talent trees per class from Talent.dbc + TalentTab.dbc (classMask bit = classId-1)."""
+"""Talent trees per class from Talent.dbc + TalentTab.dbc (classMask bit = classId-1).
+
+Talents output stays as-is (unsharded) under Amendment C: largest file is
+data/talents/_meta.json at well under the 5,000-line gate - no split needed."""
 import json
 from collections import defaultdict
 
-from tools import config, dbc
+from tools import config, dbc, build_spells
 
 
 def _spell_names():
-    names = {}
-    with open(config.DATA_DIR / "spells" / "spells.jsonl", encoding="utf-8") as fh:
-        for line in fh:
-            r = json.loads(line)
-            names[r["id"]] = r["name"]
-    return names
+    return {r["id"]: r["name"] for r in build_spells.iter_all()}
 
 
 def build() -> dict:
