@@ -126,6 +126,24 @@ Concrete layouts:
 
 ---
 
+### Amendment D (2026-07-23, during execution): single-writer ownership
+
+V2-3 review reproduced a wipe hazard: `build_classes` rmtree'd `data/classes/` and
+destroyed `build_classmeta`'s outputs + index enrichment on any partial rebuild.
+Rule, binding for all builders: **every committed data file has exactly one builder
+that writes it, and a builder may delete only paths it owns.** Consequences:
+- `build_classes` cleans only its own outputs (per-class dirs + the top-level
+  `index.json` it writes); it never touches `specs.json`/`archetypes.json`.
+- `build_classmeta` no longer edits `data/classes/index.json`. The V2-3 index
+  enrichment (`specIds`, `roles`, `specialAbility`) moves INTO `specs.json`
+  (`perClass` already lives there; add `roles`/`specialAbilities` keyed by className).
+  Consumers read specs.json for spec/role data; index.json stays classes-only.
+- Same rule applies to V2-4/V2-5/V2-6 outputs (spells enrichment stays inside
+  build_spells; mythic files owned solely by build_mythic; interface manifest by
+  extract_interface).
+
+---
+
 ### Task V2-4: spells.jsonl v2 enrichment
 
 **Files:** Modify `tools/build_spells.py`, `tools/dbc.py` (proven maps: SpellCharges, SpellChargesCategory, SpellCustomAttr, SpellTags, SpellTagTypes, SpellAlternativePowerType, OverrideSpellData, SpellDescriptionVariables, SpellAddon, SpellCategory); Create `tests/test_spells_v2.py`.
