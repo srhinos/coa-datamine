@@ -312,7 +312,7 @@ def dump_unmapped(table: str) -> Path:
         "string_block_size": strblock_size, "columns": columns,
     }
     (config.RAW_DBC_DIR / f"{table}.colinfo.json").write_text(
-        json.dumps(colinfo, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
     return out
 
 
