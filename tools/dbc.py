@@ -388,6 +388,144 @@ TABLE_MAPS = {
     "CharacterCreationShapeshiftDetails": {"expected_fields": 21, "columns": [
         ("id", 0, "u"), ("raceId", 2, "u"),
     ]},
+    # v2 (task V2-4): proven via golden-record probes (see .superpowers/sdd/task-v2-4-report.md).
+    # SpellDescriptionVariables (31x2, trivial per the brief - a plain (id, text)
+    # string table): f0 golden-proven as the id Spell.dbc's own spellDescriptionVariableID
+    # column (already extracted, previously unused in output) points at - the two id
+    # sets are IDENTICAL (both exactly 31 values, 100% overlap), and a concrete golden
+    # resolves: spell 10 (Blizzard) carries spellDescriptionVariableID 167, which
+    # decodes here to a real tooltip-math script starting "$arctic1=...".
+    "SpellDescriptionVariables": {"expected_fields": 2, "columns": [
+        ("id", 0, "u"), ("text_enUS", 1, "s"),
+    ]},
+    # SpellCategory (5024x2): f0 golden-proven as the id Spell.dbc's own "category"
+    # column (already extracted as TABLE_MAPS "category", index 1 - previously decoded
+    # but never surfaced in build_spells.py's output) references: 1112/1119 (99.37%)
+    # of the distinct nonzero Spell.category values used across the whole Spell.dbc
+    # resolve as SpellCategory.f0 ids, and the golden spell 17 (Power Word: Shield)
+    # carries category=1269, which is present in this table. f1 (distinct 4, range
+    # 0-4, 99.88% zero) matches the real WotLK SpellCategory.dbc's 2-column (ID, Flags)
+    # shape by prior-art range alone, but has no in-dataset golden proof (only 6/5024
+    # rows nonzero; cross-checking it against Spell.dbc's own procCharges field found
+    # no correlation) - left unmapped/raw, not carried into any output.
+    "SpellCategory": {"expected_fields": 2, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # SpellTags (488661x3): f0 (distinct==records, sparse range up to 567460) is the
+    # table's own per-row PK - not itself useful, kept named for raw-dump clarity only.
+    # f1 golden-proven spellId: range tops out at 13977917, 3 below the live Spell.dbc's
+    # actual max id (13977920) - overwhelming corroboration alongside the golden check
+    # (spell 17 Power Word: Shield resolves tags "Priest"/"Discipline"/"Holy"/"Healer"/
+    # "Absorb"/"Magic"/"Instant Cast"/"Mana Cost" - exactly the real spell's class/
+    # spec/school/role; spell 10 Blizzard resolves "Mage"/"Frost"/"AoE"/"DPS"; spell
+    # 133 Fireball resolves "Mage"/"Fire"/"DPS"). The raw row-level join rate against
+    # Spell.dbc ids is 86.26% (421510/488661) - short of a naive 95% bar, but the
+    # misses cluster in small adjacent id runs (4916; 16308-16309; 19258-19259; ...),
+    # the signature of legitimate historical-spell churn (same class as this codebase's
+    # documented cad_reborn/rank orphan findings), not a wrong column: the golden
+    # semantic match is unambiguous and the value range corroboration is a near-exact
+    # ceiling match, so f1 is named despite the raw percentage. f2 golden-proven
+    # tagTypeId: 100% (488661/488661) of values are members of SpellTagTypes.f0.
+    "SpellTags": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"), ("tagTypeId", 2, "u"),
+    ]},
+    # SpellTagTypes (200x61): f0 ascending-ish unique (id, matches SpellTags.f2 range
+    # exactly). f27 golden-proven as the tag display name (distinct 175/200, samples
+    # "Core Damage"/"Mobility"/"Raid Buffs" per V2-1's colinfo evidence; confirmed by
+    # the SpellTags goldens above, e.g. id 63->"Priest", 93->"Discipline", 10->"Absorb").
+    # f44 is a "<category>: <name>" composite label (e.g. "Ability Type: Magic",
+    # "Class: Priest", "Priest: Discipline") - useful grouping evidence but not needed
+    # by the brief's `tags: [tagNames]` output shape, left unmapped. Every other
+    # string-likely column (per V2-1 colinfo: f3-f25,f28-f60ish) is either an all-zero
+    # placeholder (offset-0 filler, this build's documented non-empty-offset-0
+    # anomaly) or a constant-offset locale-padding artifact (all rows point at the
+    # same string, e.g. f28-f42/f45-f59 always decode to the empty string at offset 65)
+    # - not real per-row data, left unmapped.
+    "SpellTagTypes": {"expected_fields": 61, "columns": [
+        ("id", 0, "u"), ("name_enUS", 27, "s"),
+    ]},
+    # SpellCustomAttr (58127x11): the brief hypothesized f0=spellId, DISPROVEN - f0 is
+    # ascending unique EXACTLY 1..58127 (matches record count precisely, the classic
+    # local auto-increment PK shape), and its raw join rate against Spell.dbc ids is
+    # only 73.86%. The real spellId is f1: distinct==records (bijective, no dupes),
+    # range tops out at 13977855 (essentially the same near-max-id ceiling evidence as
+    # SpellTags.f1 above), and its raw join rate is 99.98% (58116/58127) - comfortably
+    # proven. Remaining 9 columns (f2-f10, all-numeric flag/bitmask-looking data, no
+    # strings, no further semantics provable) plus f0 (now known to be the row's own
+    # id, not spellId) are carried as a 10-element raw `customAttr` array in column
+    # order [f0, f2, f3, f4, f5, f6, f7, f8, f9, f10] per the brief's literal
+    # `customAttr: [u32 x10]` shape.
+    "SpellCustomAttr": {"expected_fields": 11, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"),
+    ]},
+    # SpellAddon (5598x23, no strings): the brief hypothesized f0=spellId, DISPROVEN
+    # the same way as SpellCustomAttr - f0's raw join rate is only 41.18% (and f0's
+    # value range, up to 1591271, doesn't reach anywhere near Spell.dbc's real ~14M
+    # max id). f1 is the real spellId: raw join rate 99.98% (5597/5598), range tops
+    # out at 2514021 - well inside the live custom-spell id space. Remaining 22
+    # columns (f0, f2-f22) were probed for further semantics: f20/f21/f22 clear a
+    # naive 100% join-rate vs Spell.dbc ids, but this is the same false-positive class
+    # documented elsewhere in this file (Creature/DungeonEncounterExtra) - a golden
+    # check shows f20's "resolved spell" for 5 unrelated SpellAddon rows (Moonfury,
+    # Blades of Blood, Volatile Discharge, Nightmare Mauling, ...) all repeats the SAME
+    # unrelated id (42, "Extravagant Black Pearl"), i.e. coincidental small-number
+    # membership, not a real per-row link - disproven. No other column showed string
+    # evidence (string_block_size=0) or a corroborating lookup table. Carried as a
+    # 22-element raw `addon.raw` array in column order [f0, f2, f3, ..., f22].
+    "SpellAddon": {"expected_fields": 23, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"),
+    ]},
+    # OverrideSpellData (49x12, no strings): f0 golden-proven as a base/trigger spellId
+    # (raw join rate 97.96%, 48/49) whose f1-f10 slots hold up to 10 alternate spell
+    # ids that visually/functionally replace it (a real WotLK action-bar-swap
+    # mechanic) - proven both by range (values up to 3.3M, well inside the live spell
+    # id space, not a small-number coincidence) and by strong thematic goldens: base
+    # 271 "Call of the Void" overrides to Rip/Claw/Rake (Druid Cat Form abilities);
+    # base 221 "Endangered" overrides to Fire Nova/Fireball/Flame Patch/Explode (all
+    # fire-themed); base 331/332 "Healing Wave" override to Flow of Life/Rejuvenation
+    # and Lesser Healing Wave/Chain Heal (all heals). f11 (distinct 4, range 0-5) has
+    # no provable semantics (no lookup table, no cross-validation found) - carried raw
+    # as `overrideData.raw`, not named.
+    "OverrideSpellData": {"expected_fields": 12, "columns":
+        [("id", 0, "u")] + [(f"override{i}", i, "u") for i in range(1, 11)]
+    },
+    # SpellAlternativePowerType (4x19): f0=id, f1 golden-proven display name (only
+    # string-likely column, samples "Shadow Orbs (3)"/"Shadow Orbs (5)"/"Holy Power
+    # (3)"/"Holy Power (5)" - trivially proven, a plain lookup table). NO per-spell
+    # link is provable: the brief's natural hypothesis (Spell.dbc's signed "powerType"
+    # column going negative indexes this table) is DISPROVEN - the only negative
+    # powerType value that occurs anywhere in Spell.dbc is -2 (518 spells: Health
+    # Funnel, Life Tap, Bloodrage, Dark Offering, Sacrifice, ...), which is already the
+    # pre-existing, unrelated "Health" sentinel this codebase's own enums335.POWER_TYPES
+    # decodes (a real WoW power-type enum value, nothing to do with alternate power
+    # bars). No other Spell.dbc column was found to reference ids 1-4. Kept as a named
+    # lookup table (id/name) for raw-dump clarity; zero coverage on spells.jsonl,
+    # documented in _meta.enrichment.alternativePowerType.
+    "SpellAlternativePowerType": {"expected_fields": 19, "columns": [
+        ("id", 0, "u"), ("name_enUS", 1, "s"),
+    ]},
+    # SpellCharges (401x2) + SpellChargesCategory (105x3): linkage direction PROVEN -
+    # SpellCharges.f1 -> SpellChargesCategory.f0 joins at 100% (401/401), matching
+    # value range (SpellCharges.f1 max 661 == SpellChargesCategory.f0's own max) - so
+    # SpellCharges is (spellId, categoryId) and SpellChargesCategory's f0 is its own
+    # id. SpellCharges.f0 is golden-corroborated as a spellId: of the 352/401 (87.78%)
+    # rows that resolve against live Spell.dbc ids, 95.45% (336/352) mention "charge"
+    # in their tooltip/description text (e.g. id 52 "Overcharged: Manaforge Coruu") -
+    # strong semantic confirmation. BUT the brief sets an explicit >=90% bar
+    # specifically for this pair's link to Spell.dbc rows, and 87.78% falls short of
+    # it - per the brief's documented fallback, this is named here (linkage is proven)
+    # but attaches NOTHING to spells.jsonl records (see build_spells.py); coverage +
+    # both join rates are recorded in _meta.enrichment.charges instead.
+    # SpellChargesCategory.f1 (maxCharges?, 1-10) and f2 (rechargeMs?, 4000-120000)
+    # look domain-plausible by range alone but failed the one cross-validation
+    # attempted (Spell.dbc's own procCharges field vs f1: 1.7% match, no correlation)
+    # - left unmapped/raw, not named.
+    "SpellCharges": {"expected_fields": 2, "columns": [
+        ("spellId", 0, "u"), ("categoryId", 1, "u"),
+    ]},
+    "SpellChargesCategory": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"),
+    ]},
 }
 
 

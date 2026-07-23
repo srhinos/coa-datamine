@@ -7,6 +7,33 @@
  },
  "count": 27441,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
+ "enrichment": {
+  "addon": 133,
+  "alternativePowerType": {
+   "attached": false,
+   "names": [
+    "Shadow Orbs (3)",
+    "Shadow Orbs (5)",
+    "Holy Power (3)",
+    "Holy Power (5)"
+   ],
+   "reason": "Hypothesized link (Spell.dbc's signed powerType going negative indexes this table) is disproven: the only negative powerType value anywhere in Spell.dbc is -2, already decoded by enums335.POWER_TYPES as the pre-existing 'Health' resource-cost sentinel (518 spells: Life Tap, Health Funnel, Bloodrage, ...), unrelated to alternate power bars. No other Spell.dbc column was found to reference this table's ids.",
+   "recordCount": 4
+  },
+  "category": 6034,
+  "charges": {
+   "attached": false,
+   "categoryLinkJoinRate": 1.0,
+   "categoryRecordCount": 105,
+   "reason": "SpellCharges.spellId join-rate vs live Spell.dbc ids is below the brief's 0.90 bar for attaching a 'charges' field to spells.jsonl records, despite the categoryId link to SpellChargesCategory being proven at 100% and 95.45% of the spellId hits mentioning 'charge' in their tooltip/description text - see dbc.py TABLE_MAPS comment for the full writeup.",
+   "recordCount": 401,
+   "spellIdJoinRate": 0.8778
+  },
+  "customAttr": 7635,
+  "descriptionVariables": 1300,
+  "overrideData": 6,
+  "tags": 26281
+ },
  "missingRefsFile": "_missing_refs.json",
  "missing_ref_counts_by_source": {
   "cad_other": 205,
@@ -20,5 +47,6 @@
   "rank": 12661,
   "talent": 647
  },
+ "schemaVersion": 2,
  "schema_note": "sharded by id//10000*10000 into by-id/spells-<bucket>.jsonl (one spell per line, ascending id within a bucket); see index.json and docs/AGENT-GUIDE.md"
 }

@@ -5,7 +5,16 @@ ranks, then closed transitively over EffectTriggerSpell (tag "trigger").
 
 Amendment C: output is sharded data/spells/by-id/spells-<id//BUCKET_SIZE*BUCKET_SIZE>.jsonl
 + data/spells/index.json (bucket manifest); _meta.json keeps counts only, full
-missing-ref id lists live in _missing_refs.json (one line per source array)."""
+missing-ref id lists live in _missing_refs.json (one line per source array).
+
+Task V2-4: records gain proven enrichment fields ONLY where data exists (no
+null-noise) - tags (SpellTags/SpellTagTypes), customAttr (SpellCustomAttr),
+descriptionVariables (SpellDescriptionVariables via the existing
+spellDescriptionVariableID column), category (SpellCategory via the existing
+category column), addon (SpellAddon), overrideData (OverrideSpellData). See
+dbc.py's TABLE_MAPS comments for full golden-record proofs; _meta.json's
+"enrichment" block carries per-field coverage counts plus the two proven-but-
+unattached findings (SpellCharges/SpellChargesCategory, SpellAlternativePowerType)."""
 import json, shutil
 from collections import defaultdict
 
@@ -99,7 +108,76 @@ def _aux():
     }
 
 
-def _record(r, aux, tags):
+def _spell_tags(ref_ids):
+    """Task V2-4: SpellTags.dbc has 488,661 rows - stream raw ints directly (no
+    per-row dict via dbc.iter_named) and keep only rows whose proven spellId (f1)
+    is in the referenced-spell set, per the brief's memory-streaming note. tagTypeId
+    (f2) resolves through SpellTagTypes.name_enUS (f27, proven - see dbc.py)."""
+    tagtype_name = {r["id"]: r["name_enUS"] for r in dbc.iter_named("SpellTagTypes")}
+    f = dbc.DBCFile(config.WORK_DBC_DIR / "SpellTags.dbc")
+    out = defaultdict(set)
+    for row in f.iter_rows():
+        sid = dbc.u32(row[1])
+        if sid in ref_ids:
+            name = tagtype_name.get(dbc.u32(row[2]))
+            if name:
+                out[sid].add(name)
+    return {sid: sorted(names) for sid, names in out.items()}
+
+
+def _spell_custom_attr():
+    """SpellCustomAttr: proven spellId is f1 (not f0, the brief's hypothesis - see
+    dbc.py). Remaining 10 columns [f0, f2..f10] carried as a raw customAttr array."""
+    f = dbc.DBCFile(config.WORK_DBC_DIR / "SpellCustomAttr.dbc")
+    out = {}
+    for row in f.iter_rows():
+        sid = dbc.u32(row[1])
+        out[sid] = [dbc.u32(row[0])] + [dbc.u32(row[i]) for i in range(2, 11)]
+    return out
+
+
+def _spell_addon():
+    """SpellAddon: proven spellId is f1 (not f0, the brief's hypothesis - see dbc.py).
+    Remaining 22 columns [f0, f2..f22] carried as a raw addon.raw array."""
+    f = dbc.DBCFile(config.WORK_DBC_DIR / "SpellAddon.dbc")
+    out = {}
+    for row in f.iter_rows():
+        sid = dbc.u32(row[1])
+        out[sid] = [dbc.u32(row[0])] + [dbc.u32(row[i]) for i in range(2, 23)]
+    return out
+
+
+def _override_spell_data():
+    """OverrideSpellData: f0 = base/trigger spellId, f1-f10 = up to 10 override spell
+    ids (nonzero slots only), f11 = unproven raw flag/count. Rows with no override
+    spells AND a zero flag carry no data and are skipped."""
+    f = dbc.DBCFile(config.WORK_DBC_DIR / "OverrideSpellData.dbc")
+    out = {}
+    for row in f.iter_rows():
+        base = dbc.u32(row[0])
+        overrides = [dbc.u32(row[i]) for i in range(1, 11) if dbc.u32(row[i])]
+        flag = dbc.u32(row[11])
+        if overrides or flag:
+            out[base] = {"spells": overrides, "raw": flag}
+    return out
+
+
+def _v2_aux(ref_ids):
+    """Task V2-4 enrichment lookups, built once per build() call. SpellCharges/
+    SpellChargesCategory and SpellAlternativePowerType are proven internally (see
+    dbc.py) but attach nothing to spell records - documented in _meta.enrichment
+    instead (see build())."""
+    return {
+        "tags": _spell_tags(ref_ids),
+        "customAttr": _spell_custom_attr(),
+        "addon": _spell_addon(),
+        "override": _override_spell_data(),
+        "descvars": {r["id"]: r["text_enUS"] for r in dbc.iter_named("SpellDescriptionVariables")},
+        "categoryIds": {r["id"] for r in dbc.iter_named("SpellCategory")},
+    }
+
+
+def _record(r, aux, tags, v2):
     a = aux
     effects = []
     for slot in (1, 2, 3):
@@ -134,7 +212,8 @@ def _record(r, aux, tags):
     rank = a["rank"].get(r["id"])
     role = a["roles"].get(r["id"])
     rune = a["rune"].get(r["runeCostID"]) if r["runeCostID"] else None
-    return {
+    sid = r["id"]
+    rec = {
         "id": r["id"], "name": r["name_enUS"], "rank": r["rank_enUS"],
         "description": r["description_enUS"], "tooltip": r["tooltip_enUS"],
         "dispel": {"id": r["dispel"],
@@ -178,6 +257,73 @@ def _record(r, aux, tags):
         "roles": ({"tank": role["TankScore"], "healer": role["HealerScore"],
                    "damage": role["DamageScore"]} if role else None),
         "referencedBy": sorted(tags),
+    }
+    _enrich_v2(rec, r, sid, v2)
+    return rec
+
+
+def _enrich_v2(rec, r, sid, v2):
+    """Task V2-4: add enrichment keys ONLY where proven data exists for this spell -
+    no null-noise (binding rule: absent keys are omitted entirely, never null)."""
+    spell_tags = v2["tags"].get(sid)
+    if spell_tags:
+        rec["tags"] = spell_tags
+    custom_attr = v2["customAttr"].get(sid)
+    if custom_attr is not None:
+        rec["customAttr"] = custom_attr
+    if r["spellDescriptionVariableID"]:
+        text = v2["descvars"].get(r["spellDescriptionVariableID"])
+        if text:
+            rec["descriptionVariables"] = text
+    if r["category"] and r["category"] in v2["categoryIds"]:
+        rec["category"] = r["category"]
+    addon = v2["addon"].get(sid)
+    if addon is not None:
+        rec["addon"] = {"raw": addon}
+    override = v2["override"].get(sid)
+    if override is not None:
+        rec["overrideData"] = override
+
+
+def _charges_findings():
+    """SpellCharges/SpellChargesCategory (Task V2-4): the categoryId link is proven
+    at 100%, but SpellCharges.spellId's join against live Spell.dbc ids (87.78%)
+    misses the brief's explicit >=90% bar for this pair - report-only, nothing
+    attached to spells.jsonl. Full evidence (incl. the 95.45% tooltip-text semantic
+    corroboration among resolved rows) is in dbc.py's TABLE_MAPS comment."""
+    spell_ids = {r["id"] for r in dbc.iter_named("Spell")}
+    charges = list(dbc.iter_named("SpellCharges"))
+    chg_cat_ids = {r["id"] for r in dbc.iter_named("SpellChargesCategory")}
+    spell_hits = sum(1 for r in charges if r["spellId"] in spell_ids)
+    cat_hits = sum(1 for r in charges if r["categoryId"] in chg_cat_ids)
+    return {
+        "attached": False,
+        "reason": ("SpellCharges.spellId join-rate vs live Spell.dbc ids is below "
+                   "the brief's 0.90 bar for attaching a 'charges' field to "
+                   "spells.jsonl records, despite the categoryId link to "
+                   "SpellChargesCategory being proven at 100% and 95.45% of the "
+                   "spellId hits mentioning 'charge' in their tooltip/description "
+                   "text - see dbc.py TABLE_MAPS comment for the full writeup."),
+        "recordCount": len(charges), "categoryRecordCount": len(chg_cat_ids),
+        "spellIdJoinRate": round(spell_hits / len(charges), 4) if charges else 0.0,
+        "categoryLinkJoinRate": round(cat_hits / len(charges), 4) if charges else 0.0,
+    }
+
+
+def _alt_power_type_findings():
+    """SpellAlternativePowerType (Task V2-4): the table itself is trivially proven
+    (id/name) but no per-spell link is provable - see dbc.py TABLE_MAPS comment."""
+    rows = list(dbc.iter_named("SpellAlternativePowerType"))
+    return {
+        "attached": False,
+        "reason": ("Hypothesized link (Spell.dbc's signed powerType going negative "
+                   "indexes this table) is disproven: the only negative powerType "
+                   "value anywhere in Spell.dbc is -2, already decoded by "
+                   "enums335.POWER_TYPES as the pre-existing 'Health' resource-cost "
+                   "sentinel (518 spells: Life Tap, Health Funnel, Bloodrage, ...), "
+                   "unrelated to alternate power bars. No other Spell.dbc column "
+                   "was found to reference this table's ids."),
+        "recordCount": len(rows), "names": [r["name_enUS"] for r in rows],
     }
 
 
@@ -234,12 +380,19 @@ def build() -> dict:
     by_id_dir = out_dir / "by-id"
     by_id_dir.mkdir(parents=True)
 
+    v2 = _v2_aux(set(records))
+
     by_source = {}
+    enrichment_counts = {"tags": 0, "customAttr": 0, "descriptionVariables": 0,
+                          "category": 0, "addon": 0, "overrideData": 0}
     bucketed = defaultdict(list)
     for sid in sorted(records):
-        rec = _record(records[sid], aux, refs[sid])
+        rec = _record(records[sid], aux, refs[sid], v2)
         for t in rec["referencedBy"]:
             by_source[t] = by_source.get(t, 0) + 1
+        for k in enrichment_counts:
+            if k in rec:
+                enrichment_counts[k] += 1
         bucketed[sharding.bucket_id(sid, BUCKET_SIZE)].append(rec)
 
     bucket_index = []
@@ -272,10 +425,16 @@ def build() -> dict:
     _write_missing_refs(out_dir / "_missing_refs.json", missing_by_source)
 
     meta = {
+        "schemaVersion": 2,
         "count": len(records),
         "missing_ref_counts_by_source": {k: len(v) for k, v in missing_by_source.items()},
         "missingRefsFile": "_missing_refs.json",
         "ref_counts": ref_counts, "by_source": by_source,
+        "enrichment": {
+            **enrichment_counts,
+            "charges": _charges_findings(),
+            "alternativePowerType": _alt_power_type_findings(),
+        },
         "dataNotes": (
             "CharacterAdvancementData.json is account-wide across four realms served by "
             "this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - "
