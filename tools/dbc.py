@@ -1,5 +1,5 @@
 """Generic WDBC (3.3.5) reader, named column maps, and raw CSV dumps."""
-import csv, gzip, io, struct
+import csv, gzip, io, json, struct
 from pathlib import Path
 
 from tools import config
@@ -249,11 +249,84 @@ def dump_table(table: str) -> Path:
     return out
 
 
+def dump_unmapped(table: str) -> Path:
+    """Dump a table with no TABLE_MAPS entry as raw signed ints (f0..fN) plus
+    a colinfo.json evidence sidecar: per-column distinct/min/max/pct_zero and
+    a string-likelihood score (fraction of rows whose value is a plausible
+    string-block offset), with up to 3 decoded samples for string-likely
+    columns. This is the mapping-evidence trail for later empirical curation.
+    """
+    f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
+    n = f.fields
+    strblock_size = len(f._strings)
+    records = f.records
+
+    distinct = [set() for _ in range(n)]
+    mins = [None] * n
+    maxs = [None] * n
+    zeros = [0] * n
+    strlike = [0] * n
+    samples = [[] for _ in range(n)]
+
+    out = config.RAW_DBC_DIR / f"{table}.csv.gz"
+    with open(out, "wb") as fb, \
+         gzip.GzipFile(fileobj=fb, mode="wb", mtime=0) as gz, \
+         io.TextIOWrapper(gz, encoding="utf-8", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow([f"f{i}" for i in range(n)])
+        for row in f.iter_rows():
+            w.writerow(row)
+            for i in range(n):
+                v = row[i]
+                distinct[i].add(v)
+                if mins[i] is None or v < mins[i]:
+                    mins[i] = v
+                if maxs[i] is None or v > maxs[i]:
+                    maxs[i] = v
+                if v == 0:
+                    zeros[i] += 1
+                is_strlike = strblock_size > 0 and (
+                    v == 0 or (0 < v < strblock_size and f._strings[v - 1] == 0))
+                if is_strlike:
+                    strlike[i] += 1
+                    if len(samples[i]) < 3:
+                        s = f.string(v)
+                        if s and s not in samples[i]:
+                            samples[i].append(s)
+
+    columns = []
+    for i in range(n):
+        likelihood = round(strlike[i] / records, 4) if records else 0.0
+        columns.append({
+            "index": i,
+            "distinct": len(distinct[i]),
+            "min": mins[i],
+            "max": maxs[i],
+            "pct_zero": round(zeros[i] / records, 4) if records else 0.0,
+            "string_likelihood": likelihood,
+            "samples": samples[i][:3] if likelihood >= 0.9 else [],
+        })
+
+    colinfo = {
+        "table": table, "records": records, "fields": n,
+        "string_block_size": strblock_size, "columns": columns,
+    }
+    (config.RAW_DBC_DIR / f"{table}.colinfo.json").write_text(
+        json.dumps(colinfo, indent=1, sort_keys=True), encoding="utf-8")
+    return out
+
+
 def dump_all():
     config.ensure_dirs()
     for table in sorted(TABLE_MAPS):
         p = dump_table(table)
         print(f"dumped {p.name}")
+    for name in sorted(config.WANTED_DBCS):
+        table = Path(name).stem
+        if table in TABLE_MAPS:
+            continue
+        p = dump_unmapped(table)
+        print(f"dumped {p.name} (unmapped)")
 
 
 if __name__ == "__main__":
