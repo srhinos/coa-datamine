@@ -253,6 +253,141 @@ TABLE_MAPS = {
     "DungeonEncounterExtra": {"expected_fields": 4, "columns": [
         ("dungeonEncounterId", 0, "u"),
     ]},
+    # v2 (task V2-3): proven via golden-record probes (see .superpowers/sdd/task-v2-3-report.md).
+    # ChrSpecs (101x65): f0 ascending unique 1..101 (id). f1 is NOT a raw classId int -
+    # it is a STRING class-name token ("WARRIOR", "WITCHDOCTOR", "DEMONHUNTER", ...),
+    # proven by joining its normalized text against ChrClasses.name_enUS: 77/101 rows
+    # match one of the 32 ChrClasses rows (25 distinct classes, 78% >= the brief's 60%
+    # coverage gate). Rows 1-3 (raw f1=0) decode to "BARBARIAN" - offset 0 in this
+    # table's string block is real content (per this build's documented offset-0
+    # semantics, see DBCFile.string), not "no data"; they correctly match Barbarian
+    # (classId 12). The remaining 24 unmatched rows carry real tokens for classes
+    # absent from the 32-row ChrClasses ground truth (DEMONHUNTER, MONK, FLESHWARDEN,
+    # SONOFARUGAL, PROPHET, WILDWALKER, SPIRITMAGE) - classId/className resolution
+    # happens in build_classmeta.py, not here (this column is intentionally left as
+    # the raw token). f2 golden-proven as the CAD "Tab" link key: its uppercased value equals
+    # (case-insensitively) the "Tab" field CharacterAdvancementData entries carry for
+    # the matched class (verified: Chronomancer's rows decode DISPLACEMENT/DUALITY/TIME,
+    # matching data/classes/Chronomancer's Displacement/Duality/Time tab files exactly).
+    # f4-f7 are 4 mutually-exclusive-per-class boolean flags proven to be armor-type
+    # proficiency (Cloth/Leather/Mail/Plate): every matched class's specs agree on
+    # exactly one flag, and the flag matches real WoW class armor proficiency for all
+    # 24 matched classes (Warrior/Paladin/DeathKnight->Plate, Hunter/Shaman->Mail,
+    # Druid/Rogue->Leather, Priest/Mage/Warlock->Cloth); build_classmeta.py combines
+    # them into one "armorType" string (null when 0 or >1 flags are set, e.g. the
+    # unreleased "Hero" class has all 4 set and Witch Doctor has 2). f8/f9 golden-
+    # verified as primary/secondary stat text ("Agility"/"Intellect"/.../"None"),
+    # consistent with each spec's real-WoW stat profile. f17 golden-verified as a
+    # difficulty rating ("Medium"/"Normal"/"Hard", 3 distinct). f18/f19 golden-verified
+    # as primary/secondary power type ("MANA"/"ENERGY"/"RAGE"/"RUNES"/"RUNIC_POWER"/...),
+    # matching each class's real resource (e.g. DeathKnight->RUNES, Rogue->ENERGY).
+    # f29 golden-proven as the spec DISPLAY name (distinct=101, bijective with records):
+    # Mage rows decode exactly "Arcane"/"Fire"/"Frost", Priest "Discipline"/"Holy"/
+    # "Shadow", Warlock "Affliction"/.../.., matching the brief's candidate goldens
+    # verbatim. f46 golden-verified as a long descriptive sentence (spec flavor text).
+    # f63 (3 distinct: 1/2/3) was the brief's "role" hypothesis (low cardinality <=4) -
+    # DISPROVEN as Tank/Healer/DPS role: Discipline Priest(1) and Holy Priest(2) - both
+    # healers - get different codes; Protection Warrior(3) vs Protection Paladin(2) -
+    # both tanks - disagree; table-wide distribution is a near-even 32/35/34 split,
+    # inconsistent with real WoW's DPS-heavy skew. Also tested as "ordinal spec
+    # position by ascending id within class" - holds for all 10 vanilla classes
+    # (coincidence: their rows were inserted in that order) but fails on 20 of 31
+    # class-token groups once customs are included (e.g. WitchDoctor's 3 specs decode
+    # 3,1,2, not 1,2,3). No semantic identity provable; shipped raw as f63 (satisfies
+    # the brief's `role|f<N>` union via the f<N> branch), read directly off the row
+    # (not in this columns list - iter_named only exposes named columns; see
+    # build_classmeta.py, same pattern as build_creatures.py's NPCTrainer f3 read).
+    "ChrSpecs": {"expected_fields": 65, "columns": [
+        ("id", 0, "u"), ("classToken", 1, "s"), ("tabToken", 2, "s"),
+        ("armorCloth", 4, "u"), ("armorLeather", 5, "u"),
+        ("armorMail", 6, "u"), ("armorPlate", 7, "u"),
+        ("primaryStat", 8, "s"), ("secondaryStat", 9, "s"),
+        ("difficulty", 17, "s"), ("powerType", 18, "s"), ("secondaryPowerType", 19, "s"),
+        ("name_enUS", 29, "s"), ("description_enUS", 46, "s"),
+    ]},
+    # ChrClassesRoles (32x11): f0 verified classId 1..32 (ascending unique, matches
+    # ChrClasses ids exactly). f1 golden-proven as a role bitmask: bit2=canTank,
+    # bit4=canHeal, bit8=canDPS (always set) - verified against 12+ classes' real-WoW
+    # role capabilities (Warrior/DeathKnight=10=DPS+Tank no heal; Priest/Shaman=12=
+    # DPS+Heal no tank; Paladin/Druid=14=all three; Hunter/Rogue/Mage/most pure-DPS
+    # customs=8=DPS only). f4 golden-proven as a specialAbilitySpellId: only 3 of 32
+    # classes carry a non-zero value (Shaman 1182001, Bloodmage 681078, Primalist
+    # 92150), and all 3 resolve to real, thematically-plausible Spell.dbc entries
+    # ("Earthen Guardian", "Pooled Vitality", "Grove Training"). f2/f3 correlate with
+    # f4's presence (only non-zero on the same 3 rows) but have no independently
+    # provable meaning of their own - left raw. f5-f10 are always 0 - left raw.
+    "ChrClassesRoles": {"expected_fields": 11, "columns": [
+        ("id", 0, "u"), ("roleMask", 1, "u"), ("specialAbilitySpellId", 4, "u"),
+    ]},
+    # CharacterCreationArchetypes (56x157, "Choose your Archetype"-style character-
+    # creation flavor presets, class-agnostic - no classId column exists in this
+    # table; see report). f0 ascending unique (id), 100% FK target of
+    # ArchetypeDetails.f1 (see below). f19 golden-proven bijective display name
+    # (distinct=56): samples "Naturalist"/"Dawnkeeper"/"Eternal Caretaker" (all
+    # healer-flavor names), cross-validated by f155 (distinct=56, "Interface\
+    # Cinematics\Naturalist.avi" etc - literal filename match to f19's value). f36/f53
+    # golden-verified as tagline/long-description text (both distinct=56, coherent
+    # flavor prose). f8 golden-verified primary stat token ("STAT_STRENGTH" etc). f9-
+    # f11/f12-f14 golden-verified as up to 3 preferred weapon/armor subclass tokens
+    # each (ITEM_SUBCLASS_WEAPON_*/ITEM_SUBCLASS_ARMOR_*); "MAX_ITEM_SUBCLASS_*"
+    # sentinel values (an enum terminator, not a real type) are filtered out in
+    # build_classmeta.py. f15 golden-verified spell-icon token. f70/f87/f104/f121/f138
+    # golden-verified as up to 5 "ability preview" tooltip texts ("Unlocks at level N
+    # ... <effect text>"), sparsely populated (f138 only 16/56). f1 (distinct=9,
+    # bounded 1-12) looks like a categoryId FK into CharacterCreationArchetypeCategories
+    # - out of this task's curation scope per the brief, not decoded, left raw.
+    "CharacterCreationArchetypes": {"expected_fields": 157, "columns": [
+        ("id", 0, "u"), ("primaryStat", 8, "s"),
+        ("weaponType1", 9, "s"), ("weaponType2", 10, "s"), ("weaponType3", 11, "s"),
+        ("armorType1", 12, "s"), ("armorType2", 13, "s"), ("armorType3", 14, "s"),
+        ("iconToken", 15, "s"), ("name_enUS", 19, "s"), ("tagline_enUS", 36, "s"),
+        ("description_enUS", 53, "s"),
+        ("abilityPreview1_enUS", 70, "s"), ("abilityPreview2_enUS", 87, "s"),
+        ("abilityPreview3_enUS", 104, "s"), ("abilityPreview4_enUS", 121, "s"),
+        ("abilityPreview5_enUS", 138, "s"), ("cinematicPath", 155, "s"),
+    ]},
+    # CharacterCreationArchetypeDetails (1120x28, no strings): f0 ascending unique
+    # (id). f1 golden-proven archetypeId: 100% (1120/1120) join-rate against
+    # CharacterCreationArchetypes.f0 (a genuinely sparse id space, 56 values within
+    # 1-144). f2 golden-proven raceId: distinct values are exactly {1,2,3,4,5,6,7,8,
+    # 10,11} (skipping 9=Goblin, not playable in WotLK), 1:1 name match via
+    # ChrRaces.dbc for every value, and exactly 112 rows per race (1120/10). Remaining
+    # 25 columns are mostly float-looking/near-constant with no provable semantics -
+    # left raw.
+    "CharacterCreationArchetypeDetails": {"expected_fields": 28, "columns": [
+        ("id", 0, "u"), ("archetypeId", 1, "u"), ("raceId", 2, "u"),
+    ]},
+    # CharacterCreationClassDetails (464x28, no strings): f0 ascending unique (id).
+    # f1 golden-proven classId: its 21 distinct values are EXACTLY the range 12-32
+    # (every custom ChrClasses id, zero vanilla/Hero ids 1-11) - a structural/semantic
+    # match to the real custom-vs-vanilla class boundary, not a naive bounded-range
+    # coincidence. f2 golden-proven raceId: same {1..8,10,11} skip-9 pattern as
+    # ArchetypeDetails, verified per-class (e.g. Barbarian's 64 rows group into 11
+    # raceId buckets - all 11, including Goblin). Remaining 25 columns (float-looking
+    # stat scalars) have no provable semantics - left raw.
+    "CharacterCreationClassDetails": {"expected_fields": 28, "columns": [
+        ("id", 0, "u"), ("classId", 1, "u"), ("raceId", 2, "u"),
+    ]},
+    # CharacterCreationPetDetails (170x12, no strings): f0 ascending-ish unique (id,
+    # sparse 11-190). f2 golden-proven raceId (same skip-9 pattern, verified: 17
+    # distinct f1-groups each cycle exactly the 10 playable raceIds). f1 (brief
+    # hypothesis: petId or spellId) DISPROVEN as a Spell.dbc join: only 76.5% naive
+    # join-rate (below the 90% bar) AND the resolved "spell name" for the most common
+    # value is a garbage colorized tooltip fragment ("Bile\n|cFF1EFF0CTier 1|r"), not
+    # a real spell name - a join-rate false positive from Spell.dbc's large id space,
+    # same class of finding as V2-2's DungeonEncounterExtra creature link. Left raw.
+    "CharacterCreationPetDetails": {"expected_fields": 12, "columns": [
+        ("id", 0, "u"), ("raceId", 2, "u"),
+    ]},
+    # CharacterCreationShapeshiftDetails (100x21, no strings): f0 ascending-ish unique
+    # (id, sparse 9-108). f2 golden-proven raceId (same skip-9 pattern, verified: 10
+    # distinct f1-groups each cycle exactly the 10 playable raceIds). f1 (brief
+    # hypothesis: shapeshift-form spellId) DISPROVEN as a Spell.dbc join: only 70.0%
+    # naive join-rate (below the 90% bar) and the most common value (1816) does not
+    # resolve to any Spell.dbc row at all. Left raw.
+    "CharacterCreationShapeshiftDetails": {"expected_fields": 21, "columns": [
+        ("id", 0, "u"), ("raceId", 2, "u"),
+    ]},
 }
 
 
