@@ -1,5 +1,5 @@
 """One-command pipeline: extract -> dump -> snapshot -> build -> provenance."""
-import argparse, datetime, json
+import argparse, datetime, hashlib, json
 
 from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
                    build_spells, build_classes, build_talents, build_dungeons,
@@ -39,13 +39,16 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False) -> dict:
     stats["mythic"] = build_mythic.build()
     print(f"[mythic]   {stats['mythic']}")
 
-    if (skip_interface
-            and (config.RAW_INTERFACE_DIR / "_manifest.json").is_file()):
-        manifest = json.loads(
-            (config.RAW_INTERFACE_DIR / "_manifest.json").read_text(encoding="utf-8"))
+    manifest_path = config.RAW_INTERFACE_DIR / "_manifest.json"
+    if skip_interface and manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        # provenance must carry the manifest sha256 + file count on EVERY path, not
+        # just a fresh extract - re-hash the existing file (cheap, no rescan needed).
         stats["interface"] = {
             "count": manifest["count"], "archiveSourced": manifest["archiveSourced"],
-            "diskSourced": manifest["diskSourced"], "reused": True,
+            "diskSourced": manifest["diskSourced"],
+            "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+            "reused": True,
         }
     else:
         stats["interface"] = extract_interface.extract_all()

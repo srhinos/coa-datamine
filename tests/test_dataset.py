@@ -12,6 +12,7 @@ assert set(prov["buildStats"]) == {
     "creatures", "classmeta", "mythic", "interface",
 }
 assert prov["extract"]["files"]["spell.dbc"]["fields"] == 234
+assert "manifestSha256" in prov["buildStats"]["interface"]
 ondisk = json.loads((config.RAW_DIR / "provenance.json").read_text(encoding="utf-8"))
 assert ondisk["generatedUtc"].endswith("+00:00")
 assert (config.REPO_ROOT / "README.md").is_file()

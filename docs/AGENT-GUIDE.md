@@ -433,7 +433,7 @@ whenever CoA ships new content:
 - `tests/test_classmeta.py`: 101 specs / 56 archetypes, >=60% of the 32 `ChrClasses`
   covered by >=1 spec (measured 25/32 = 78.1%)
 - `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags
-  26281, category 6034, customAttr 7635, descriptionVariables 1302, addon 133,
+  26281, category 6034, customAttr 7635, descriptionVariables 1300, addon 133,
   overrideData 6, all of 27441 referenced spells)
 - `tests/test_mythic.py`: 297 challenges / 6801 keystones (66 resolved dungeons) /
   13409 affixes / 200 scaling rows / 82 timed dungeons / 685 map-difficulty rows;
