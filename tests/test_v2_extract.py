@@ -28,7 +28,7 @@ for name in config.WANTED_DBCS_V2:
     data = p.read_bytes()
     magic, recs, fields, recsize, strsize = struct.unpack_from("<4s4I", data, 0)
     assert magic == b"WDBC", name
-    assert data[:20 + recs * recsize + strsize].__len__() == len(data), f"size mismatch {name}"
+    assert len(data) == 20 + recs * recsize + strsize, f"size mismatch {name}"
     if name in expected:
         assert (recs, fields) == expected[name], f"{name}: got ({recs},{fields}) want {expected[name]}"
 
@@ -50,9 +50,11 @@ with gzip.open(p, "rt", encoding="utf-8", newline="") as fh:
     rows = list(csv.reader(fh))
 assert len(rows) - 1 == 127175, len(rows) - 1   # header + data rows
 
-# SpellAlternativeCost: empty table must not divide by zero
-p2 = dbc.dump_unmapped("SpellAlternativeCost")
-colinfo2 = json.loads((config.RAW_DBC_DIR / "SpellAlternativeCost.colinfo.json").read_text(encoding="utf-8"))
+# SpellAlternativeCost: empty table must not divide by zero. Dump into the same
+# scratch dir as Creature above, not config.RAW_DBC_DIR, so this verification step
+# doesn't write to (or clobber) committed raw/dbc/ artifacts.
+p2 = dbc.dump_unmapped("SpellAlternativeCost", out_dir=scratch_dir)
+colinfo2 = json.loads((scratch_dir / "SpellAlternativeCost.colinfo.json").read_text(encoding="utf-8"))
 assert colinfo2["records"] == 0
 for c in colinfo2["columns"]:
     assert c["string_likelihood"] == 0.0
