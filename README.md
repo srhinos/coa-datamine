@@ -5,7 +5,7 @@ spells, talents, dungeons/raids, creatures/quests/trainers, class specs, Mythic+
 Challenges) plus a committed copy of the client's own Interface/API Lua code layer,
 datamined from the client install.
 
-- **Consume it:** read `docs/AGENT-GUIDE.md` first - file map, schemas, query recipes,
+- **Consume it:** read `AGENT-GUIDE.md` first - file map, schemas, query recipes,
   and the honest-limits list (what client data can and cannot know).
 - **Regenerate it:** `python -m tools.build_dataset` (client at `E:\ascension-live`,
   override with env `COA_CLIENT_DIR`). Requires Python 3.12 + `pip install mpyq`.
@@ -20,7 +20,7 @@ datamined from the client install.
   archives the client install carries).
 - **Verify it:** `python tests\test_config.py` ... each test script prints `ALL PASS`.
   After regenerating on a patched client, see "Regenerating after a client
-  patch" in `docs/AGENT-GUIDE.md` for which test failures are expected
+  patch" in `AGENT-GUIDE.md` for which test failures are expected
   snapshot-pin drift vs. real pipeline breakage.
 
 Layout: `raw/` = extracted sources (full DBC dumps as csv.gz, verbatim Content JSONs,

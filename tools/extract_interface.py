@@ -14,7 +14,7 @@ The on-disk `CLIENT_DIR/Interface/AddOns/APIDocumentation` tree is copied in on 
 whatever the archives produced, at the SAME relative-path scheme (`AddOns/
 APIDocumentation/...`) - so it WINS any collision at an identical path. This is
 deliberate: APIDocumentation is the launcher-managed live copy of Ascension's actual API
-surface (their real API, not a stale archive snapshot) - see docs/AGENT-GUIDE.md.
+surface (their real API, not a stale archive snapshot) - see AGENT-GUIDE.md.
 
 Grouping/collision resolution is case-insensitive (matching MPQ's own case-insensitive
 hash-table semantics and Windows filesystem semantics for the disk copy), but the WINNING

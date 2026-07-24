@@ -495,7 +495,7 @@ def build() -> dict:
         ),
         "schema_note": ("sharded by id//" + str(BUCKET_SIZE) + "*" + str(BUCKET_SIZE) +
                         " into by-id/spells-<bucket>.jsonl (one spell per line, ascending "
-                        "id within a bucket); see index.json and docs/AGENT-GUIDE.md"),
+                        "id within a bucket); see index.json and AGENT-GUIDE.md"),
     }
     (out_dir / "_meta.json").write_text(
         json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8")
