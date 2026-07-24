@@ -26,7 +26,10 @@ ALLOWLIST = {
 # apples-to-apples baseline is what the UNMODIFIED writer produces against the SAME
 # source data used here, verified via a controlled re-run of the pre-task writer
 # (27441) - confirming the delta is pre-existing drift, not a sharding regression.
-PRE_SPELL_COUNT = 27441
+# 2026-07-24 rebuild after a further client patch: writer now produces 27439 against
+# the patched work/dbc snapshot (-2 vs. 27441) - re-pinned per AGENT-GUIDE's
+# "Regenerating after a client patch" contract (small delta = content churn).
+PRE_SPELL_COUNT = 27439
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,

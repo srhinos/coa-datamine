@@ -227,7 +227,7 @@ TABLE_MAPS = {
     "QuestInfo": {"expected_fields": 18, "columns": [
         ("id", 0, "u"), ("name_enUS", 1, "s"),
     ]},
-    # NPCTrainer: f0 proven ascending-unique 1..13001 (id). f1 proven spellId (98.9%
+    # NPCTrainer: f0 proven ascending-unique 1..13060 (id). f1 proven spellId (98.9%
     # join vs Spell.dbc ids; kept signed "i" not "u" - ~1% of rows carry small negative
     # sentinel values, e.g. -210021, that are clearly unused/placeholder entries, and
     # u32-wrapping them would manufacture a misleading huge fake-looking id instead of

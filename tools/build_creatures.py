@@ -212,7 +212,7 @@ def build_trainers() -> dict:
         "count": len(records),
         "spellJoinRate": round(join_rate, 4),
         "provenColumns": {
-            "id": "NPCTrainer.dbc f0 - ascending unique 1..13001",
+            "id": "NPCTrainer.dbc f0 - ascending unique 1..13060",
             "spellId": f"NPCTrainer.dbc f1 - {join_rate:.3f} join-rate vs Spell.dbc ids "
                        "(signed decode: ~1% of rows carry small negative sentinel "
                        "values on otherwise-empty placeholder rows, kept visible rather "
