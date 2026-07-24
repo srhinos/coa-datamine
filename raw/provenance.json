@@ -8,11 +8,240 @@
    "unresolved_other": 573,
    "unresolved_reborn": 7119
   },
+  "classmeta": {
+   "archetypes": {
+    "count": 56
+   },
+   "specs": {
+    "byClassId": {
+     "1": [
+      64,
+      65,
+      66
+     ],
+     "2": [
+      67,
+      68,
+      69
+     ],
+     "3": [
+      70,
+      71,
+      72
+     ],
+     "4": [
+      73,
+      74,
+      75
+     ],
+     "5": [
+      76,
+      77,
+      78
+     ],
+     "6": [
+      79,
+      80,
+      81
+     ],
+     "7": [
+      82,
+      83,
+      84
+     ],
+     "8": [
+      85,
+      86,
+      87
+     ],
+     "9": [
+      88,
+      89,
+      90
+     ],
+     "10": [
+      94
+     ],
+     "11": [
+      91,
+      92,
+      93
+     ],
+     "12": [
+      1,
+      2,
+      3
+     ],
+     "13": [
+      4,
+      5,
+      6
+     ],
+     "15": [
+      10,
+      11,
+      12,
+      97
+     ],
+     "16": [
+      13,
+      14,
+      15
+     ],
+     "18": [
+      19,
+      20,
+      21
+     ],
+     "21": [
+      28,
+      29,
+      30
+     ],
+     "22": [
+      31,
+      32,
+      33
+     ],
+     "23": [
+      34,
+      35,
+      36
+     ],
+     "24": [
+      37,
+      38,
+      39
+     ],
+     "25": [
+      40,
+      41,
+      42,
+      96
+     ],
+     "26": [
+      43,
+      44,
+      45,
+      100
+     ],
+     "27": [
+      46,
+      47,
+      48,
+      98
+     ],
+     "28": [
+      49,
+      50,
+      51
+     ],
+     "30": [
+      55,
+      56,
+      57
+     ]
+    },
+    "classesCovered": 25,
+    "count": 101,
+    "coverage": 0.7812
+   }
+  },
+  "creatures": {
+   "creatures": {
+    "written": 127175
+   },
+   "quests": {
+    "written": 18561
+   },
+   "trainers": {
+    "spellJoinRate": 0.9891546804091993,
+    "written": 13001
+   }
+  },
   "dungeons": {
    "dungeons": 431,
+   "encounterCreatureLinks": 0,
    "encounters": 2080,
    "orphanEncounterMaps": 0,
    "raids": 109
+  },
+  "interface": {
+   "archiveSourced": 1444,
+   "count": 1553,
+   "diskSourced": 109,
+   "manifestSha256": "aa9a72542cc3c590b522e5e2e424d15aa986d4e7bb924edc9d4cbaa1edb1cd1a",
+   "reused": true
+  },
+  "mythic": {
+   "affixes": {
+    "count": 13409
+   },
+   "challenges": {
+    "count": 297,
+    "linkTables": {
+     "conditions": {
+      "challengeJoinRate": 0.9124,
+      "totalRows": 354
+     },
+     "featured": {
+      "challengeJoinRate": 1.0,
+      "totalRows": 54
+     },
+     "groupRewards": {
+      "challengeJoinRateViaGroup": 0.9375,
+      "groupJoinRate": 0.9375,
+      "totalRows": 144
+     },
+     "groups": {
+      "challengeJoinRate": 1.0,
+      "totalRows": 1203
+     },
+     "levels": {
+      "challengeJoinRate": 0.8493,
+      "totalRows": 1334
+     },
+     "modifiers": {
+      "challengeJoinRate": 1.0,
+      "totalRows": 2
+     },
+     "requirements": {
+      "challengeJoinRate": 0.9985,
+      "totalRows": 2047
+     },
+     "rewards": {
+      "challengeJoinRate": 0.971,
+      "totalRows": 21677
+     },
+     "rules": {
+      "challengeJoinRate": 0.9347,
+      "totalRows": 3646
+     },
+     "spells": {
+      "challengeJoinRate": 1.0,
+      "spellIdJoinRate": 1.0,
+      "spellIdPopulated": 802,
+      "totalRows": 7702
+     }
+    }
+   },
+   "keystones": {
+    "count": 6801,
+    "dungeonJoinRate": 0.9851,
+    "dungeons": 66,
+    "unresolved": 101
+   },
+   "mapDifficulty": {
+    "count": 685
+   },
+   "scaling": {
+    "count": 200
+   },
+   "timedDungeons": {
+    "count": 82,
+    "dungeonJoinRate": 0.8415,
+    "dungeonResolved": 69
+   }
   },
   "spells": {
    "by_source": {
@@ -10638,7 +10867,7 @@
     "winner": "patch-M.MPQ"
    },
    "map.dbc": {
-    "bytes": 113272,
+    "bytes": 113271,
     "fields": 66,
     "losers": [
      "locale-enUS.MPQ",
@@ -10648,7 +10877,7 @@
     ],
     "record_size": 264,
     "records": 374,
-    "sha256": "af26293ab8ced2c0d56496a9bde3a4f79da95eb6877833d6dcec3b31a78acf98",
+    "sha256": "37fbc103a054c7eb42a4207d0d34e55c191d4a6f88424ca4d2bd2289c0d7abc5",
     "winner": "patch-M.MPQ"
    },
    "mapdifficulty.dbc": {
@@ -10788,7 +11017,7 @@
     "winner": "patch-M.MPQ"
    },
    "spell.dbc": {
-    "bytes": 208639474,
+    "bytes": 208639434,
     "fields": 234,
     "losers": [
      "locale-enUS.MPQ",
@@ -10798,7 +11027,7 @@
     ],
     "record_size": 936,
     "records": 208723,
-    "sha256": "5169c4c9f2ae67a9cdfa2408fa4ba3b5e95399f36e8082aa1555691fc99be519",
+    "sha256": "bbee97a20a6a74aec84977b3c2428028d2eb2edf48fbe2be1cea242fb11351c9",
     "winner": "patch-T.MPQ"
    },
    "spelladdon.dbc": {
@@ -10873,12 +11102,12 @@
     "winner": "patch-S.MPQ"
    },
    "spellcustomattr.dbc": {
-    "bytes": 2557608,
+    "bytes": 2558532,
     "fields": 11,
     "losers": [],
     "record_size": 44,
-    "records": 58127,
-    "sha256": "a5dbd114703ce96d73d26f7a0034a1d016c226685efa7144927e3b4bfd275d33",
+    "records": 58148,
+    "sha256": "7de99e5531d1c557ec5aec52ec54a11abbcfb3f6463d86a14b8fbbfeb26a1644",
     "winner": "patch-S.MPQ"
    },
    "spelldescriptionvariables.dbc": {
@@ -11073,5 +11302,5 @@
    }
   ]
  },
- "generatedUtc": "2026-07-23T21:49:26+00:00"
+ "generatedUtc": "2026-07-24T01:17:34+00:00"
 }
