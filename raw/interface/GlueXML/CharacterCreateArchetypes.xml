@@ -1,0 +1,391 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CharacterCreateArchetypes.lua"/>
+
+	<!-- Navigation -->
+    <CheckButton name="CharacterCreateNavigationButtonTemplate" virtual="true">
+    	<Size x="56" y="56"/>
+
+		<HighlightTexture name="$parentHighlightTexture" file="Interface\Glues\CharacterCreate\IconBorderRace" alphaMode="ADD" alpha = "0.5">
+			<Size x="110" y="110"/>
+			<Anchors>
+				<Anchor point="CENTER" x="0" y="0"/>
+			</Anchors>
+		</HighlightTexture>
+
+		<CheckedTexture file="Interface\Glues\CharacterCreate\IconBorderRace_H" alphaMode="ADD">
+			<Size x="110" y="110"/>
+			<Anchors>
+				<Anchor point="CENTER" x="0" y="0"/>
+			</Anchors>
+		</CheckedTexture>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentShadow" parentKey="Shadow" file="Interface\Glues\CharacterCreate\faction_shadow" alpha="0.6">
+					<Size x="256" y="80"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-4" y="-8"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentIcon" parentKey="Icon" file="Interface\Glues\CharacterCreate\charactercreate">
+					<Size x="56" y="56"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+					<TexCoords left="0.2958984375" right="0.3720703125" top="0.3212890625" bottom="0.4736328125"/>
+				</Texture>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture name="$parentIconAdd" parentKey="IconAdd">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture name="$parentBorder" parentKey="Border" file="Interface\Glues\CharacterCreate\IconBorderRace">
+					<Size x="110" y="110"/>
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<ButtonText inherits="GlueFontNormal" justifyH="LEFT" justifyV="CENTER" parentKey="Text">
+			<Anchors>
+				<Anchor point="LEFT" relativePoint="RIGHT" x="16" y="0"/>
+			</Anchors>
+		</ButtonText>
+
+		<NormalFont style="GlueFontNormal"/>
+		<HighlightFont style="GlueFontHighlight"/>
+		<DisabledFont style="GlueFontDisable"/>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharacterCreateNavigationButtonMixin")
+			</OnLoad>
+		</Scripts>
+    </CheckButton>
+
+    <Frame name="CharacterCreateNavigationTemplate" inherits="VerticalLayoutFrame" virtual="true">
+    	<Size x="128" y="128"/>
+
+		<Attributes>
+			<Attribute name="spacing" value="16" type="number"/>
+			<Attribute name="align" value="top" type="string"/>
+			<Attribute name="expand" value="true" type="boolean"/>
+            <!--<Attribute name="topPadding" value="35" type="number"/>
+            <Attribute name="bottomPadding" value="10" type="number"/>
+            <Attribute name="leftPadding" value="10" type="number"/>
+            <Attribute name="rightPadding" value="10" type="number"/>-->
+		</Attributes>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharacterCreateNavigationMixin")
+			</OnLoad>
+		</Scripts>
+    </Frame>
+
+    <!-- Initial archetype/freepick selection -->
+    <CheckButton name="CharacterCreateArchetypeCoiceButtonTemplate" inherits="ExperienceRoundIconTemplate" motionScriptsWhileDisabled="true" virtual="true">
+    	<Size x="96" y="128"/>
+
+    	<Scripts>
+    		<OnLoad>
+    			MixinAndLoadScripts(self, "CharCreateArchetypeSelectButtonMixin")
+    		</OnLoad>
+    	</Scripts>
+    </CheckButton>
+
+	<Frame name="CharCreateArchetypeChoiceTemplate" inherits="HorizontalLayoutFrame" virtual="true">
+		<Attributes>
+			<Attribute name="spacing" value="16" type="number"/>
+			<Attribute name="align" value="center" type="string"/>
+			<Attribute name="expand" value="true" type="boolean"/>
+			<Attribute name="template" value="CharacterCreateArchetypeCoiceButtonTemplate" type="string"/>
+		</Attributes>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharCreateArchetypeMainChoiceMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="CharCreateArchetypeRoleTemplate" inherits="CharCreateArchetypeChoiceTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharCreateArchetypeRoleChoiceMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="CharCreateArchetypeSubroleTemplate" inherits="CharCreateArchetypeChoiceTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharCreateArchetypeSubroleChoiceMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!-- This should be a bit different -->
+	<Frame name="CharCreateArchetypeFrameTemplate" inherits="CharCreateArchetypeChoiceTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharCreateArchetypeChoiceMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!-- Description block spell-->
+	<Frame name="CharCreateDescriptionSpellTemplate" virtual="true">
+		<Size x="286" y="56"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentSlot" parentKey="Slot">
+					<Size x="48" y="48"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="BORDER">
+				<Texture name="$parentIcon" parentKey="Icon">
+					<Size x="40" y="40"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentSlot"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture name="$parentBorder" parentKey="Border">
+					<Size x="40" y="40"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentIcon"/>
+					</Anchors>
+				</Texture>
+
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightLarge" justifyV="TOP" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentSlot" relativePoint="TOPRIGHT" x="8" y="0"/>
+					</Anchors>
+				</FontString>	
+
+				<FontString name="$parentDescription" parentKey="Description" inherits="GlueFontNormal" justifyV="TOP" justifyH="RIGHT"/>	
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				self.Border:SetAtlas("quickslot-border-white", Const.TextureKit.IgnoreAtlasSize)
+				self.Slot:SetAtlas("emptyslot", Const.TextureKit.IgnoreAtlasSize)
+				MixinAndLoadScripts(self, "CharCreateDescriptionSpellMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!-- Description block Armor-->
+	<Frame name="CharCreateDescriptionEquipmentTemplate" inherits="CharCreateDescriptionSpellTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CharCreateDescriptionEquipmentMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!-- Video block -->
+	<MovieFrame name="CharCreateMovieFrameTemplate" virtual="true">
+		<!--<Size x="310" y="172"/>-->
+		<Size x="341" y="190"/>
+		<!--<Size x="372" y="206"/>-->
+
+		<Layers>
+	        <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="3"/>
+                        <Anchor point="BOTTOMRIGHT"  x="0" y="-3"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="0.6" />
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+        	<Frame name="$parentBorderOverlayFrame" parentKey="BorderOverlay">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="0" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT"  x="0" y="0"/>
+                </Anchors>
+
+				<Layers>
+		            <Layer level="ARTWORK">
+		                <Texture name="$parentBorderTop" parentKey="BorderTop">
+		                    <Anchors>
+		                        <Anchor point="TOP" x="0" y="12"/>
+		                    </Anchors>
+		                    <Size x="365" y="45"/>
+		                </Texture>
+
+		                <Texture name="$parentBorderBottom" parentKey="BorderBottom">
+		                    <Anchors>
+		                        <Anchor point="BOTTOM" x="0" y="-12"/>
+		                    </Anchors>
+		                    <Size x="365" y="45"/>
+		                </Texture>
+
+		                <Texture name="$parentBorderMiddle" parentKey="BorderMiddle">
+		                    <Anchors>
+		                        <Anchor point="TOPLEFT" relativeTo="$parentBorderTop" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+		                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBorderBottom" relativePoint="TOPRIGHT" x="0" y="0"/>
+		                    </Anchors>
+		                </Texture>
+		            </Layer>
+		        </Layers>
+        	</Frame>
+        </Frames>
+
+        <Scripts>
+			<OnLoad>
+				self.BorderOverlay.BorderTop:SetAtlas("ExperienceChoiceBorderTop", Const.TextureKit.IgnoreAtlasSize)
+				self.BorderOverlay.BorderMiddle:SetAtlas("ExperienceChoiceBorderMiddle", Const.TextureKit.IgnoreAtlasSize)
+				self.BorderOverlay.BorderBottom:SetAtlas("ExperienceChoiceBorderBottom", Const.TextureKit.IgnoreAtlasSize)
+				
+        		MixinAndLoadScripts(self, "CharCreateMovieFrameMixin")
+			</OnLoad>
+		</Scripts>
+	</MovieFrame>
+
+	<!-- Description block -->
+	<ScrollFrame name="CharCreateDescriptionFrameTemplate" virtual="true" inherits="UIPanelScrollFrameTemplate">
+		<Size x="341" y="545"/>
+
+		<Layers>
+	        <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="3"/>
+                        <Anchor point="BOTTOMRIGHT"  x="0" y="-3"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="0.6" />
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentBorderTop" parentKey="BorderTop">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="16"/>
+                    </Anchors>
+                    <Size x="365" y="45"/>
+                </Texture>
+
+                <Texture name="$parentBorderBottom" parentKey="BorderBottom">
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="-16"/>
+                    </Anchors>
+                    <Size x="365" y="45"/>
+                </Texture>
+
+                <Texture name="$parentBorderMiddle" parentKey="BorderMiddle">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBorderTop" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBorderBottom" relativePoint="TOPRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+
+		<ScrollChild>
+			<Frame name="$parentScrollChild" parentKey="scrollChild">
+				<Size x="365" y="10"/>
+				<Layers>
+		            <Layer level="OVERLAY">
+		                <Texture name="$parentIcon" parentKey="Icon">
+		                    <Anchors>
+		                        <Anchor point="TOPLEFT" x="-16" y="16"/>
+		                    </Anchors>
+		                    <Size x="128" y="128"/>
+		                </Texture>
+						<FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightOutlineLarge" justifyV="TOP" justifyH="LEFT">
+						    <Anchors>
+						        <Anchor point="TOPLEFT" x="16" y="-12"/>
+						    </Anchors>
+						</FontString>
+		                <FontString name="$parentShortDesc" parentKey="ShortDesc" inherits="GlueFontNormal" justifyV="TOP" justifyH="LEFT">
+						    <Anchors>
+						        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+						    </Anchors>
+		                </FontString>
+						<FontString name="$parentDescription" parentKey="Description" inherits="GlueFontNormal" justifyV="TOP" justifyH="CENTER"/>
+		            </Layer>
+		        </Layers>
+
+				<Frames>					
+					<Frame name="$parentSpellDescriptions" parentKey="SpellDescriptions" inherits="VerticalLayoutFrame">
+						<Size x="264" y="1"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentDescription" relativePoint="BOTTOMLEFT"/>
+						</Anchors>
+
+						<Attributes>
+							<Attribute name="spacing" value="8" type="number"/>
+							<Attribute name="align" value="top" type="string"/>
+							<Attribute name="expand" value="true" type="boolean"/>
+				            <Attribute name="topPadding" value="4" type="number"/>
+				            <Attribute name="bottomPadding" value="8" type="number"/>
+				            <Attribute name="leftPadding" value="0" type="number"/>
+				            <Attribute name="rightPadding" value="0" type="number"/>
+						</Attributes>
+					</Frame>
+
+					<Frame name="$parentEquipments" parentKey="Equipments" inherits="VerticalLayoutFrame">
+						<Size x="264" y="1"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentSpellDescriptions" relativePoint="BOTTOMLEFT"/>
+						</Anchors>
+
+						<Attributes>
+							<Attribute name="spacing" value="8" type="number"/>
+							<Attribute name="align" value="top" type="string"/>
+							<Attribute name="expand" value="true" type="boolean"/>
+				            <Attribute name="topPadding" value="8" type="number"/>
+				            <Attribute name="bottomPadding" value="8" type="number"/>
+				            <Attribute name="leftPadding" value="0" type="number"/>
+				            <Attribute name="rightPadding" value="0" type="number"/>
+						</Attributes>
+					</Frame>
+				</Frames>
+			</Frame>
+		</ScrollChild>
+
+        <Scripts>
+			<OnLoad>
+				local scrollBar = _G[self:GetName().."ScrollBar"];
+				scrollBar:ClearAllPoints();
+				scrollBar:SetPoint("TOPLEFT", self, "TOPRIGHT", -20, -15);
+				scrollBar:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", -20, 15);
+				ScrollFrame_OnScrollRangeChanged(self, yrange);
+
+				self.BorderTop:SetAtlas("ExperienceChoiceBorderTop", Const.TextureKit.IgnoreAtlasSize)
+				self.BorderMiddle:SetAtlas("ExperienceChoiceBorderMiddle", Const.TextureKit.IgnoreAtlasSize)
+				self.BorderBottom:SetAtlas("ExperienceChoiceBorderBottom", Const.TextureKit.IgnoreAtlasSize)
+
+        		MixinAndLoadScripts(self, "CharCreateDescriptionMixin")
+			</OnLoad>
+			<OnScrollRangeChanged>
+				ScrollFrame_OnScrollRangeChanged(self, yrange);
+			</OnScrollRangeChanged>
+        </Scripts>
+    </ScrollFrame>
+</Ui>

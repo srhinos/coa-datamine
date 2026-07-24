@@ -1,0 +1,234 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Ascension_MythicalBoons.lua" />
+	<Button name="MythicalBoonBtn" inherits="SecureActionButtonTemplate" virtual="true">
+		<Size x="64" y="64" />
+		<Anchors>
+			<Anchor point="CENTER" x="0" y="0" />
+		</Anchors>
+		<Animations>
+			<AnimationGroup name="$parent.AnimIn" parentKey="animIn" looping="NONE">
+				<Alpha duration="0.001" order="1" change="-1" />
+				<Alpha parentKey="alpha" duration="0.2" order="1" change="1" />
+				<Translation parentKey="trans" duration="0.1" order="1" smoothing="IN_OUT" />
+			</AnimationGroup>
+			<AnimationGroup name="$parent.AnimHide" parentKey="animHide" looping="NONE">
+				<Alpha duration="0.15" order="1" change="-1" />
+				<Translation parentKey="trans" duration="0.1" order="1" smoothing="IN_OUT">
+					<Scripts>
+						<OnFinished>
+							self:GetRegionParent():Hide();
+						</OnFinished>
+					</Scripts>
+				</Translation>
+			</AnimationGroup>
+			<AnimationGroup name="$parentWaitAndAnimOut" parentKey="waitAndAnimOut" looping="NONE">
+				<Alpha parentKey="animOut" startDelay="4.05" duration="1.5" change="-1">
+					<Scripts>
+						<OnFinished>
+							self:GetRegionParent():Hide();
+						</OnFinished>
+					</Scripts>
+				</Alpha>
+			</AnimationGroup>
+		</Animations>
+		<Attributes>
+			<Attribute name="type" value="item" />
+			<Attribute name="item" value="0 0" />
+			<Attribute name="itemID" value="0" />
+			<Attribute name="origX" value="0" />
+			<Attribute name="origY" value="0" />
+		</Attributes>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parent.Shadow" parentKey="Shadow" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+					<Size x="100" y="100" />
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parent.Icon" parentKey="icon" file="Interface\Icons\Ability_Creature_Disease_01">
+					<Size x="48" y="48" />
+					<Anchors>
+						<Anchor point="CENTER" x="-4" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture name="$parent.IconBorderHL" parentKey="iconBorderHL" file="Interface\AddOns\AwAddons\Textures\enchant\EnchantBorder_white">
+					<Size x="100" y="100" />
+					<Anchors>
+						<Anchor point="CENTER" x="-4" y="0" />
+					</Anchors>
+					<Animations>
+						<AnimationGroup name="$parent.AnimActive" parentKey="animActive" looping="REPEAT">
+							<Rotation duration="2" degrees="360" />
+						</AnimationGroup>
+						<AnimationGroup name="$parent.AnimInactive" parentKey="animInactive" looping="NONE">
+							<Rotation duration="1" order="1" degrees="360" />
+							<Scale duration="1" order="1" smoothing="OUT" scaleX="0.707" scaleY="0.707">
+								<Scripts>
+									<OnFinished>
+										MythicalBoonBtn_InactiveOnFinished(self)
+									</OnFinished>
+								</Scripts>
+							</Scale>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+				<Texture name="$parent.IconBorder" parentKey="iconBorder" file="Interface\AddOns\AwAddons\Textures\BCNew\StatBorder">
+					<Size x="100" y="100" />
+					<Anchors>
+						<Anchor point="CENTER" x="-5" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parent.Text" parentKey="text" inherits="GameFontNormalLarge" text="Amazing">
+					<Size x="128" y="20" />
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="-40" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Cooldown name="$parent.Cooldown" parentKey="Cooldown" inherits="CooldownFrameTemplate">
+				<Size x="36" y="36" />
+				<Anchors>
+					<Anchor point="CENTER" x="0" y="0" />
+				</Anchors>
+			</Cooldown>
+		</Frames>
+		<Scripts>
+			<OnEnter>
+				MythicalBoonBtn_OnEnter(self)
+			</OnEnter>
+			<OnLeave>
+                MythicalBoonBtn_OnLeave(self)
+			</OnLeave>
+		</Scripts>
+	</Button>
+	<Frame name="MythicalBoonUI" parent="UIParent" toplevel="true" enableMouse="true">
+		<Size x="200" y="200" />
+		<Anchors>
+			<Anchor point="CENTER" x="-10" y="-12" />
+		</Anchors>
+		<!--Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize val="32" />
+			<EdgeSize val="32" />
+		</Backdrop-->
+		<Layers>
+			<Layer>
+				<Texture name="$parent.Shadow" parentKey="Shadow" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+					<Size x="120" y="120" />
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0" />
+					</Anchors>
+					<Animations>
+						<AnimationGroup name="$parent.AnimIn" parentKey="animIn" looping="NONE">
+							<Alpha duration="0.001" order="1" smoothing="IN" change="-1" />
+							<Alpha duration="0.5" order="1" smoothing="IN_OUT" change="1" />
+						</AnimationGroup>
+						<AnimationGroup name="$parent.AnimHide" parentKey="animHide" looping="NONE">
+							<Alpha duration="0.5" smoothing="IN_OUT" change="-1">
+								<Scripts>
+									<OnFinished>
+										self:GetRegionParent():Hide();
+									</OnFinished>
+								</Scripts>
+							</Alpha>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parent.MainBtn" parentKey="MainBtn" text="">
+				<Size x="100" y="100" />
+				<Anchors>
+					<Anchor point="CENTER" x="0" y="0" />
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="$parent.Shadow" parentKey="Shadow" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+							<Size x="100" y="100" />
+							<Anchors>
+								<Anchor point="CENTER" x="0" y="0" />
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="BORDER">
+						<Texture name="$parent.Icon" parentKey="icon" file="Interface\Icons\Ability_Creature_Disease_01">
+							<Size x="48" y="48" />
+							<Anchors>
+								<Anchor point="CENTER" x="-4" y="0" />
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer>
+						<Texture name="$parent.IconBorder" parentKey="iconBorder" file="Interface\AddOns\AwAddons\Textures\BCNew\StatBorder">
+							<Size x="100" y="100" />
+							<Anchors>
+								<Anchor point="CENTER" x="-5" y="0" />
+							</Anchors>
+						</Texture>
+						<Texture name="$parent.IconBorderHL" parentKey="iconBorderHL" file="Interface\AddOns\AwAddons\Textures\enchant\EnchantBorder_yellow" hidden="true">
+							<Size x="100" y="100" />
+							<Anchors>
+								<Anchor point="CENTER" x="-5" y="0" />
+							</Anchors>
+							<Animations>
+								<AnimationGroup name="$parent.AnimActive" parentKey="animActive" looping="REPEAT">
+									<Rotation duration="12" degrees="360" />
+								</AnimationGroup>
+							</Animations>
+						</Texture>
+					</Layer>
+					<Layer level="OVERLAY">
+						<FontString name="$parent.Text" parentKey="text" inherits="GameFontNormalLarge" text="Mythical Boons">
+							<Size x="128" y="20" />
+							<Anchors>
+								<Anchor point="CENTER" x="0" y="-40" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self:RegisterForDrag("LeftButton")
+					</OnLoad>
+					<OnClick>
+					</OnClick>
+					<OnEnter>
+						MythicalBoonUI_SetButtonHighlight(self, true)
+						MythicalBoonMainBtn_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						MythicalBoonUI_SetButtonHighlight(self, false)
+					</OnLeave>
+					<OnDragStart>
+						MythicalBoonUI.Dragged = true
+						self:GetParent():StartMoving()
+					</OnDragStart>
+					<OnDragStop>
+						MythicalBoonUI.Dragged = false
+						self:GetParent():StopMovingOrSizing()
+					</OnDragStop>
+
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:SetMovable(true)
+				self:SetUserPlaced(true)
+				MythicalBoonUI_OnLoad(self)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

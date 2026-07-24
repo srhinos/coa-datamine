@@ -1,0 +1,7 @@
+{
+ "count": 18561,
+ "provenColumns": {
+  "id": "Quest.dbc f0 - unique across all 18561 records (no string block: string_block_size=0, all 29 fields are numeric)"
+ },
+ "sortInfoFinding": "Probed every one of the 28 remaining columns' join-rate against both QuestSort.dbc ids (144 records, needs >=80% per the brief) and QuestInfo.dbc ids (11 records). None clears the bar: the best real candidate (f20) tops out at 58.6%/58.2%, and the only column that nominally cleared 80%+ (f25, 88.9%) does so on only 9 non-zero rows out of 18561 - statistically meaningless. f1 (the highest-join candidate besides f20) is a bitmask/flags column (values are powers of 2, several <=600 which coincidentally fall inside QuestSort's dense low id range - not a real link). Shipped as sort: null, info: null for every record; all 28 non-id columns carried raw as f1..f28."
+}

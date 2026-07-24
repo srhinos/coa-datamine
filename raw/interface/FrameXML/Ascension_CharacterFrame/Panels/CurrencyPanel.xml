@@ -1,0 +1,236 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CurrencyPanel.lua"/>
+
+    <Button name="CurrencyPanelItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="295" y="17"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="15" y="15"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-20" y="0"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentCount" parentKey="Count" inherits="GameFontHighlight" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentIcon" relativePoint="LEFT" x="-5" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentName" parentKey="Name" inherits="GameFontHighlight" justifyH="LEFT">
+                    <Size x="210" y="11"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="11" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentCheck" parentKey="Check" file="Interface\Buttons\UI-CheckBox-Check">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-3" y="0"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentCategoryBackground" parentKey="CategoryBackground" hidden="true">
+                    <Size x="354" y="18"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="4"/>
+                        <Anchor point="RIGHT" x="-4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentExpandIcon" parentKey="ExpandIcon" file="Interface\Buttons\UI-PlusMinus-Buttons">
+                    <Size x="7" y="7"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="16" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentLinkButton" parentKey="LinkButton">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentIcon"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        if self:GetParent().extraCurrencyType == 1 then
+                            GameTooltip:SetText(ARENA_POINTS, HIGHLIGHT_FONT_COLOR:GetRGB())
+                            GameTooltip:AddLine(TOOLTIP_ARENA_POINTS, nil, nil, nil, 1)
+                            GameTooltip:Show()
+                        elseif self:GetParent().extraCurrencyType == 2 then
+                            GameTooltip:SetText(HONOR_POINTS, HIGHLIGHT_FONT_COLOR:GetRGB())
+                            GameTooltip:AddLine(TOOLTIP_HONOR_POINTS, nil, nil, nil, 1)
+                            GameTooltip:Show()
+                        else
+                            GameTooltip:SetCurrencyToken(self:GetParent().index)
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                    <OnClick>
+                        self:GetParent():OnLinkButtonClick(self, button, down)
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CurrencyPanelItemMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText parentKey="Text" justifyH="LEFT">
+            <Anchors>
+                <Anchor point="LEFT" x="32"/>
+            </Anchors>
+        </ButtonText>
+
+        <NormalFont style="GameFontNormal"/>
+        
+        <NormalTexture>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4"/>
+                <Anchor point="BOTTOMRIGHT"/>
+            </Anchors>
+            <Color a=".08" r="1" g="1" b="1"/>
+        </NormalTexture>
+
+        <HighlightTexture name="$parentHighlight" file="Interface\TokenFrame\UI-TokenFrame-CategoryButton" alphaMode="ADD" alpha="0.6">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4" y="-2"/>
+                <Anchor point="BOTTOMRIGHT" x="-3" y="2"/>
+            </Anchors>
+            <TexCoords left="0" right="1" top="0.609375" bottom="0.796875"/>
+        </HighlightTexture>
+    </Button>
+
+    <Frame name="AscensionCurrencyPanel" inherits="CharacterFramePanelTemplate" hidden="true">
+        <Frames>
+            <Frame name="$parentScrollList" parentKey="ScrollList" inherits="StandardProportionalScrollListTemplate">
+                <Size x="354" y="354"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="-2"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentDetailsFrame" parentKey="DetailsFrame" hidden="true" enableMouse="true">
+                <Size x="205" y="100"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormal" justifyH="LEFT" text="TOKEN_OPTIONS">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="25" y="-16"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentName" parentKey="Name" inherits="GameFontHighlightSmall" justifyH="LEFT">
+                            <Size x="130" y="12"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentCorner" file="Interface\DialogFrame\UI-DialogBox-Corner">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="-6" y="-7"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <CheckButton name="$parentInactiveToggle" parentKey="InactiveToggle" inherits="OptionsSmallCheckButtonTemplate">
+                        <Size x="26" y="26"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="32" y="-40"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.Text = _G[self:GetName().."Text"]
+                                self.Text:SetText(UNUSED)
+                                self.Text:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB())
+                            </OnLoad>
+                            <OnClick>
+                                self:GetParent():GetParent():SetCurrencyUnused(self:GetParent().currencyID, self:GetBoolValue())
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(TOKEN_MOVE_TO_UNUSED, nil, nil, nil, nil, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </CheckButton>
+
+                    <CheckButton name="$parentBackpackToggle" parentKey="BackpackToggle" inherits="OptionsSmallCheckButtonTemplate">
+                        <Size x="26" y="26"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentInactiveToggle" relativePoint="BOTTOMLEFT" x="0" y="4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                self.Text = _G[self:GetName().."Text"]
+                                self.Text:SetText(SHOW_ON_BACKPACK)
+                                self.Text:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB())
+                            </OnLoad>
+                            <OnClick>
+                                self:GetParent():GetParent():SetCurrencyWatched(self:GetParent().currencyID, self:GetBoolValue())
+                                PlaySound("igMainMenuOptionCheckBoxOn");
+                                if GetNumWatchedCurrencies() >= MAX_WATCHED_TOKENS then
+                                    self:SetChecked(false)
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(TOKEN_SHOW_ON_BACKPACK, nil, nil, nil, nil, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </CheckButton>
+
+                    <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-3" y="-3"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+                    <BackgroundInsets left="11" right="12" top="12" bottom="11"/>
+                    <TileSize val="32"/>
+                    <EdgeSize val="32"/>
+                </Backdrop>
+                
+                <Scripts>
+                    <OnHide>
+                        self.currencyID = nil
+                    </OnHide>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CurrencyPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

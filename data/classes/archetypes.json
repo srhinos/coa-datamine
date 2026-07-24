@@ -1,0 +1,1977 @@
+{
+ "archetypes": [
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 8 |r\r\n\r\nPlant a mending seed on your target, which heals for a small amount over time.",
+    "|cFF00f3ffUnlocks at level 12 |r\r\n\r\nInvigorate an ally, causing a burst of healing followed by additional healing over time.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nQuickly heal an ally for a small amount and enhance your heal over time effects.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nInstantly invigorate up to 5 nearby allies, causing a rapid regeneration effect that slows over time."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Naturalist.avi",
+   "description": "Plant healing seeds upon your allies and nurture their growth! As a Naturalist, you'll rejuvenate your party with a range of healing-over-time effects, caring for them until it’s time for them to bloom, resulting in massive bursts of healing. Maintain and manage your seedlings to keep your party moving forward!",
+   "iconToken": "spell_nature_regeneration_02",
+   "id": 1,
+   "name": "Naturalist",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Nature healer focused on healing-over-time effects.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nImbue an ally with a burst of Holy light, causing massive healing.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nChoose a party member to become a Beacon of Light. Healing other party members also heals the Beacon.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nUnleash a powerful wave of light that heals nearby allies."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Dawnkeeper.avi",
+   "description": "Mend your allies in the light of dawn. As a Dawnkeeper, you'll designate one party member to serve as a Beacon of Light. When you heal your Beacon with Holy Light, the power swells and bursts, healing nearby allies. Support your Beacon and light the way through the darkness!",
+   "iconToken": "Ability_Paladin_BeaconofLight",
+   "id": 2,
+   "name": "Dawnkeeper",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Holy healer who radiates healing from their Beacon of Light.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nA slow-casting spell that heals a single target for a great amount.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nQuickly heal a target for a small amount of health.",
+    "|cFF00f3ffUnlocks at level 36 |r\r\n\r\nUnleash a burst of shining light that radiates out from your body, healing allies as it passes through them. Allies closer to the blast are healed for more.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nInstantly heal up to 5 nearby allies with a blast of brilliant light."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Eternal_Caretaker.avi",
+   "description": "Bold and dedicated clerics, Eternal Caretakers stand beside their allies in the heat of combat. Staunch and unflinching, their powerful Halo skill emits a wave of healing energy that sweeps out over nearby allies. Casting other healing spells reduces Halo's cooldown.",
+   "iconToken": "ability_priest_halo",
+   "id": 3,
+   "name": "Eternal Caretaker",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Holy healer who fires sweeping waves of healing.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nImbue an ally with a burst of Holy light, causing massive healing.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nMutter a divine prayer, healing allies over a few seconds with a final burst at the end. Allies are then shrouded in a protective glow, increasing their chance to be critically healed.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nA lingering effect left by the Prayer of Preservation. Healing the target will shield them with damage reduction, as well as reduce the cooldown of your Prayer of Preservation.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nBlasts the target with Holy energy, dealing Holy damage to enemies or healing allies."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Sacred_Sentinel.avi",
+   "description": "Manipulators of Holy Light, Sacred Sentinels conjure powerful healing spells that can heal the very land itself. Create spheres of Holy radiance that periodically heal allies beneath their rays, eventually bursting for an immense heal. Allies blessed by this prayer become veiled in light, empowering your healing spells.",
+   "iconToken": "ability_priest_spiritoftheredeemer",
+   "id": 6,
+   "name": "Sacred Sentinel",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Holy healer who conjures spheres of light to heal allies.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSoothe an ally with healing waters, restoring health and sometimes causing your Riptide to spread to another party member.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nSplash an ally with instant healing and leave behind cool waters, causing additional healing over time.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nUnleash a burst of Nature healing, bouncing between your target and allies.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nPlace a natural shield on an ally, healing them whenever struck."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Tide_Mender.avi",
+   "description": "Wield the tides to heal your allies, manipulating their waves to spread among your party and keep them topped off. With Healing Wave, you can spread your Riptide to an injured party member, eventually cascading across your entire party.",
+   "iconToken": "Spell_Nature_Riptide",
+   "id": 7,
+   "name": "Tide Mender",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Nature healer who spreads a mending Riptide across their party.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nA slow casting spell that heals a single target for a great amount. This spell overflows to an additional ally, healing them for 50% of the original amount.",
+    "|cFF00f3ffUnlocks at level 34 |r\r\n\r\nSummon healing rains to soothe all nearby party members, healing every second while you channel.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nUnleash a burst of nature healing, bouncing between your target and allies.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nPlace a natural shield on an ally, healing them whenever struck."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Grove_Keeper.avi",
+   "description": "Grove Keepers are masters of nature, utilizing healing spells that rejuvenate multiple party members at once. These powerful spells overflow from one ally to the next, ensuring that your entire group can stay in the fight.",
+   "iconToken": "ability_druid_giftoftheearthmother",
+   "id": 10,
+   "name": "Grove Keeper",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Nature healer who overflows healing to multiple party members at once.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nA slow casting spell that heals a single target for a great amount.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nPlace a mending prayer on your target, which heals for a small amount over time.",
+    "|cFF00f3ffUnlocks at level 22 |r\r\n\r\nQuickly heal a target for a small amount of health.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nLaunch spheres of Holy light at the target, healing allies or damaging enemies."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Hierophant.avi",
+   "description": "A radiant vessel of Holy power that marks allies with Holy light. As a Hierophant, you'll energize party members with your Renew spell before channeling direct heals. These direct heals radiate to all other party members graced by your Renew, causing wave after wave of holy healing.",
+   "iconToken": "ability_paladin_blindinglight2",
+   "id": 12,
+   "name": "Hierophant",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Holy healer who cultivates powerful healing-over-time effects.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nFire an icy bolt of magic at your target, slowing and dealing damage.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nA slow casting spell that heals a single target for a great amount.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nLaunch spheres of frozen light at the target, damaging enemies.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nUnleash a powerful wave of light that heals nearby allies."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Cryotherapist.avi",
+   "description": "Cryotherapists weave brilliant light into glistening crystals, becoming clerics of frost. As a Cryotherapist, you'll use Frostbolts to charge up Holy energy before unleashing cool winds to soothe allies' wounds. A crippling threat to foes and a chill boon to allies, Cryotherapists find a home in any party.",
+   "iconToken": "spell_deathknight_frostfever",
+   "id": 13,
+   "name": "Cryotherapist",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Chill enemies and heal allies by mixing Frost and Holy healing.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSend a ball of lightning hurdling towards your foe.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nSoothe an ally with healing waters.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nTransform into a thunder-infused Tree of Life, allowing you to use enhanced lightning spells.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nInvigorate your target with a shock of lightning, healing them before arcing out and damaging foes."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Tree_of_Wrath.avi",
+   "description": "Legend speaks of druidic healers who climbed the dreaded Stormpeaks of Northrend. Reaching those fabled heights, their natural magic merged with the lightning and thunder of the peaks. As one of these Druids, you can transform into a Tree of Wrath, healing allies and shocking foes simultaneously with enchanted lightning.",
+   "iconToken": "ability_druid_treeoflife_Red",
+   "id": 14,
+   "name": "Tree of Wrath",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Shock foes with healing lightning that damages them.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nFire a shot at the target location that blooms with natural energy, damaging foes and healing allies.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nA slow casting spell that heals a single target for a great amount.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nStings an enemy with poison, dealing Nature damage over time while healing allies.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nInstantly invigorate up to 5 nearby allies, causing a rapid regeneration effect that slows over time."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Grove_Ranger.avi",
+   "description": "At home in the wilds of Azeroth, Grove Rangers weave natural magic into their archery to imbue their shots with healing power. The same precise arrows that strike foes also heal allies, allowing the Grove Ranger to damage and heal simultaneously.",
+   "iconToken": "ability_druid_healinginstincts",
+   "id": 15,
+   "name": "Grove Ranger",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Shoot blooming arrows that heal allies and cripple foes.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_BOW",
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_AXE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nHeals your target and aligns them with your current space in time, causing a Temporal Distortion.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nBinds your target to Eternity, periodically healing them for 30% of the damage taken during the bond.",
+    "|cFF00f3ffUnlocks at level 8 |r\r\n\r\nChannel healing to all Aligned and Time-bound targets over 4 seconds. While channeling, time is stalled and freezes the duration of your Alignment.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nTime is distorted. Your cast speed is increased by 2% and energy generation is reduced by 10%. Stacks up to 20 times."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Steward_of_Eternity.avi",
+   "description": "Capture the magic of the Bronze Dragonflight and wield it as your own. As a Steward of Eternity, you'll rewind time for your allies and prevent wounds before they even occur. Place timed heals on allies that restore health after a moment, and use Arcane magic to synchronize party members' health.",
+   "iconToken": "spell_azerite_essence06",
+   "id": 16,
+   "name": "Steward of Eternity",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Turn back the clock and heal wounds with the sands of time.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nHurls a flaming orb that sears foes or heals allies.",
+    "|cFF00f3ffUnlocks at level 18 |r\r\n\r\nCalls down a pillar of Fire, burning all enemies caught within the flames. Enemies who linger on the burning ground take additional damage.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nSummons wrathful light to strike a target, bathing them in flames and dealing massive damage.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nInstantly heal up to 5 nearby allies with a blast of brilliant light."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Fire_Sage.avi",
+   "description": "Ominous and pious, Fire Sages use searing heat to incinerate foes and cauterize allies' wounds. A far cry from the gentle healing energies of Light or Nature, Fire Sages wield a Holy flame that is as adept at mending as it is at scorching heretics from the face of Azeroth.",
+   "iconToken": "spell_fire_flamebolt",
+   "id": 17,
+   "name": "Fire Sage",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Incinerate foes and heal allies with cauterizing flames.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nPlace a Beacon of Shadow on an ally, causing your Shadow Bolt to heal them based on damage dealt.",
+    "|cFF00f3ffUnlocks at level 8 |r\r\n\r\nImbue an ally with a burst of unholy light, causing massive healing. ",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nUnleash a powerful wave of vampiric shadow that heals nearby allies. ",
+    "|cFF00f3ffUnlocks at level 35 |r\r\n\r\nSends a shadowy bolt at your enemy, dealing a burst of Shadow damage and leaving behind a lingering curse.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nPassively drain life from targets you damage, healing allies for a portion of all damage dealt."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Vampire_Lord.avi",
+   "description": "An eerie blend of mysticism and malevolence, Vampire Lords wield shadowy magic that leeches life from foes and transfers it to allies. Wrapped in shadows and wielding unholy light, the more damage you inflict on foes, the more your allies benefit. Siphon life to restore your party in a sanguine display of cursed magic.",
+   "iconToken": "Spell_Shadow_ImprovedVampiricEmbrace",
+   "id": 18,
+   "name": "Vampire Lord",
+   "primaryStat": "STAT_SPIRIT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Siphon life from foes and grant it to your allies.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nStrike your target with a brutal swing, destroying some of their armor and increasing the damage they take from both you and your allies.\r\n\r\nEmpowered effect: Deal 70% additional damage to all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 15 |r\r\n\r\nChannel energy into your blade and sweep it in a circle around you, striking up to 6 enemies and healing allies for a portion of the damage dealt.\r\n\r\nEmpowered effect: Increase your armor by 100% of your strength.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nA shadowy thrust that readies you for the enemy's next strike, increasing your chance to Parry by 10%.",
+    "|cFF00f3ffUnlocks at level 24 |r\r\n\r\nAfter parrying an attack, strike back for bonus damage and reduce your foe's attack speed.\r\n\r\nEmpowered effect: Increase your your ability to stagger incoming damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Bladewarden.avi",
+   "description": "Unleash devastation in a whirlwind of steel! The Blade Warden is an elegant tank, embodying the perfect blend of brutal strength and graceful precision. Wielding a colossal two-handed weapon, your strikes carve through enemies, shattering their defenses and paving the way for your allies to unleash their full fury. As a Blade Warden, you stand as an unyielding sentinel on the battlefield, effortlessly parrying and deflecting incoming blows. Every third parry empowers your abilities, granting them unique effects.",
+   "iconToken": "Ability_Warrior_Challange",
+   "id": 19,
+   "name": "Blade Warden",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Defend allies with a massive blade.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE2",
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_MACE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nRaise your shield and emit a massive wall of wind, giving you 100% chance to block incoming damage for a short time. ",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nStrike the ground beneath you, causing a boom of thunder that damages and slows the attack speed of all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nBash your target with your shield, dealing damage and turning their attention towards you.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nSlam your weapon into the earth, sending out a mighty shockwave that damages and stuns all enemies in a cone in front of you."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Bulwark.avi",
+   "description": "Bulwarks are colossal fighters wielding mighty shields to defend their allies from harm. They can conjure a powerful barrier that blocks all attacks, and their heavy armor and imposing figures make them true immovable objects. With high stamina and block chance, they exhibit absolute fearlessness in combat.",
+   "iconToken": "ability_racial_forceshield",
+   "id": 20,
+   "name": "Bulwark",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r An indomitable bulwark that defends allies with a shield of wind.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nUnleash your Combo Points in a graceful flurry of blows, dealing damage to all enemies around you and decreasing the damage you take.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nStrike the ground beneath you, causing a boom of thunder that damages and slows the attack speed of all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nStrike your target's weak point with an elegant stab, destroying some of their armor and increasing the damage they take from both you and your allies. Generates Combo Points.",
+    "|cFF00f3ffUnlocks at level 24 |r\r\n\r\nA ghostly slash that haunts your target dealing Shadow damage over time. "
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Swashbuckler.avi",
+   "description": "Agile and charismatic, Swashbucklers are pirates, mercenaries, and rogues who are so skilled with a single off-hand weapon that they can effortlessly deflect and parry incoming blows. Their free hand allows them to use unique abilities and flourishes, delivering quick strikes and ripostes to counter the enemy's attacks.",
+   "iconToken": "inv_helm_cloth_b_01pirate_black",
+   "id": 21,
+   "name": "Swashbuckler",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r An agile swordsman who parries incoming attacks.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_DAGGER",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nUnleash your Combo Points in a savage, gut-wrenching strike, dealing massive damage to a single foe. \r\n\r\nTriggers an additional attack that deals 80% of its original damage to all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 14 |r\r\n\r\nExpose the weakness in your target's armor, reducing it for some time. This spell also deals a high amount of damage to the target.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nA gruesome strike that wounds your target, causing them to take increased physical damage. Awards a Combo Point.\r\n\r\nHas a chance to trigger the Sword and Board talent.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nBash your target with your shield, dealing damage and turning their attention towards you. Awards 2 Combo Points."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Relentless.avi",
+   "description": "Some tanks believe their shield is a tool for defense, but you know better: as a Relentless, you use your shield as an offensive weapon of devastating power. Your strikes reduce the cooldown of your Shield Slam ability, allowing you to incorporate it into your onslaught. Build up Combo Points and unleash powerful combo strikes.",
+   "iconToken": "ability_rogue_ruthlessness",
+   "id": 22,
+   "name": "Relentless",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A relentless fighter who uses their shield for combo attacks.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nRush an enemy, using the momentum to strike them for massive damage.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nStrike the ground beneath you, causing a boom of thunder that damages and slows the attack speed of all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 8 |r\r\n\r\nStrike your target with a brutal swing, restoring some of your missing health.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nA shadowy thrust that readies you for the enemy's next strike, increasing your chance to Parry by 10%."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Vanguard_Sentinel.avi",
+   "description": "Swift and lethal, Vanguard Sentinels are the first into battle. Relying on an enhanced Charge ability to maneuver through combat, they rush from foe to foe, delivering crushing impacts. Able to increase their own damage with each Charge, they are the frontline of any party.",
+   "iconToken": "Ability_Warrior_IntensifyRage",
+   "id": 24,
+   "name": "Vanguard Sentinel",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A swift and mobile fighter who charges around the battlefield.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_MACE2",
+    "ITEM_SUBCLASS_WEAPON_AXE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nEnvelops you in a barrier of hardened magic, reducing damage taken by 90% and draining your mana instead.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nFills you with the strength of righteous flames, causing your attacks to deal Fire damage to foes.",
+    "|cFF00f3ffUnlocks at level 14 |r\r\n\r\nChannel Arcane strength into your Mana-forged Barrier, causing it to temporarilly not drain mana. ",
+    "|cFF00f3ffUnlocks at level 18 |r\r\n\r\nCalls down a pillar of Fire, burning all enemies caught within the flames. Enemies who linger on the burning ground take additional damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Templar_Flame.avi",
+   "description": "Blaze a path for your allies as a Templar of Flame, a zealous paladin wielding roaring magical flames. Burn the unworthy with instant fire spells that leave lingering embers on the ground. As a Templar of Flame, you thrive in the heat of battle, incinerating multiple foes at once.",
+   "iconToken": "spell_mage_flameorb",
+   "id": 25,
+   "name": "Templar of Flame",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Purge enemies and defend allies with blazing flames.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_AXE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSurrender yourself to darkness and transform into a Demon, gaining increased health and sinister new abilities.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nBend a Demon from the Twisting Nether to your will. Summon a demonic creature to do your bidding, attacking your foes and defending you from enemies.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nBind your Enslaved Demon's soul to yours, causing it to take damage on your behalf.",
+    "|cFF00f3ffUnlocks at level 29 |r\r\n\r\nConjure an evil flame and sling it at your target, dealing Fire damage.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nRaises your defense and improves the effectiveness of Soul Link by 10%."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Demoniac.avi",
+   "description": "Warlocks who succumb to rampant Fel magic become Demoniacs: corrupted demons of the Twisting Nether. As a Demoniac, you trade your mortal coil for enhanced health and defense, as well as unique Demon abilities. Burn foes surrounding you with a blazing Immolation Aura, and cleave enemies for Shadow damage with Demonic claws.",
+   "iconToken": "ability_demonhunter_spectank",
+   "id": 26,
+   "name": "Demoniac",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Transform into a shadow demon with impressive flames and shadow claws.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_DAGGER",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nStrike your target with an Arcane-infused blade, destroying some of their armor and increasing your Spell Power.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nEnvelops you in a barrier of hardened magic, reducing damage taken by 90% and draining your mana instead.",
+    "|cFF00f3ffUnlocks at level 21 |r\r\n\r\nRestores 20% of your missing mana and imbues your weapon with magic, causing it to deal Arcane Damage.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nUnleash a surge of magical energy, dealing Arcane damage to all enemies struck and reducing their attack power."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Mystic_Knight.avi",
+   "description": "Warriors who master the art of the arcane become Mystic Knights, weaving raw magic into their fighting style to enhance both offense and defense. As a Mystic Knight, you strike with your weapon to deal bonus Arcane damage and can create a magical barrier around yourself.",
+   "iconToken": "spell_mage_overpowered",
+   "id": 27,
+   "name": "Mystic Knight",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Wield shimmering arcane magic to defend yourself and your allies.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nSlam the target with your holy shield, dealing Holy damage and healing you for a small amount. \r\n\r\nIf used with Charges of Light: Conjures a wave of light, damaging enemies caught in its wake.",
+    "|cFF00f3ffUnlocks at level 36 |r\r\n\r\nThrow a blessed hammer at the ground which strikes foes with arcs of holy lightning, slows their movement speed, and heals nearby allies.",
+    "|cFF00f3ffUnlocks at level 42 |r\r\n\r\nProtects your target with a shield of light, absorbing damage. \r\n\r\nIf used with Charges of Light: Reduces damage taken by 30% for some time.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nImbue your weapon with Holy magic and strike up to 3 enemies, causing damage and burning them with righteous flames."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Crimson_Champion.avi",
+   "description": "Once zealous paladins of the Scarlet Crusade, Crimson Champions disowned the order after its fall. Now they roam as powerful knights, using the Light to shield and protect allies and themselves. As a Crimson Champion, blocking attacks builds up Charges of Light, which enhance your spells with unique and powerful effects. Use this power to shield allies or decimate foes.",
+   "iconToken": "spell_holy_blessingofprotection_red",
+   "id": 29,
+   "name": "Crimson Champion",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Store holy magic in your shield to unleash powerful effects.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_AXE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nStrike the ground beneath you, causing a boom of thunder that damages and slows the attack speed of all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSend a ball of lightning hurdling towards your foe.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nThrow a lightning-infused hammer at your target, dealing massive damage and shrouding you in lightning.\r\n\r\nWhile shrouded, damage taken is reduced by 12% and spell damage is increased by 30% of your Stamina.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nStrike your target with a blast of lightning, which arcs out to damage multiple enemies."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Stormguard.avi",
+   "description": "Stormguards channel the fury of thunder and lightning through their bodies, enhancing their abilities and shocking foes who get too close. Each swing of their mighty two-handed weapon sends rippling bolts of lightning surging through nearby enemies. As a Stormguard, you shock foes with a lightning-infused weapon, charging up Maelstrom stacks to unleash powerful Chain Lightning attacks. Electrocute enemies and lead your party through the maelstrom!",
+   "iconToken": "Ability_Shaman_Stormstrike",
+   "id": 30,
+   "name": "Stormguard",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Shroud yourself in thunder, shocking foes with electrifying magic.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE2",
+    "ITEM_SUBCLASS_WEAPON_MACE2",
+    "ITEM_SUBCLASS_WEAPON_SWORD2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nEnvelops you in a barrier of hardened magic, reducing damage taken by 90% and draining your mana instead.",
+    "|cFF00f3ffUnlocks at level 14 |r\r\n\r\nChannel Arcane strength into your Mana-forged Barrier, causing it to temporarilly not drain mana.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nStrike your target with a burst of freezing cold, destroying some of their armor and increasing the damage they take from both you and your allies. Reduces the cooldown of Ice Barrier.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nWrap yourself in a frozen shield, absorbing damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Icebound.avi",
+   "description": "Wreathed in an icy cloak of Frost, the Icebound are cold, dark wraiths bound to the frozen wastes of Northrend. Though physically frail, Icebound are masters of turning Frost into magical bulwarks. As an Icebound, your spells reduce the cooldown of your Ice Barrier, granting you rapid and nearly impenetrable defense.",
+   "iconToken": "Spell_Ice_Lament",
+   "id": 31,
+   "name": "Icebound",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Cloak yourself in ice for nearly impenetrable defense.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nMauls the target with your plagued claws, inflicting the target with Infected Blood. This spell can also spread Rabies.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nShreds the target with powerful claws, causing damage and applying Rabies.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nInfected with Rabies, increasing damage taken.",
+    "|cFF00f3ffUnlocks at level 36 |r\r\n\r\nReduces your damage taken for a short time, then heals you based on the damage you taken.",
+    "|cFF00f3ffUnlocks at level 42 |r\r\n\r\nHarderns your fur to be as tough as iron, reducing damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Plague_Bear.avi",
+   "description": "Overcome by the deadly diseases of the Tainted Grove, these Druids of Rot transform into monstrous bears plagued with disease. Every swipe of their tainted claws corrupts foes, causing Infected Blood, which deals damage-over-time.",
+   "iconToken": "ability_druid_markofursolgreen",
+   "id": 32,
+   "name": "Plague Bearer",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Transform into a monstrous Beast of Rot.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nCorrupts your Bear Form, causing your claws to deal Shadow damage and allowing specific Bear Form skills to spread Corruption.",
+    "|cFF00f3ffUnlocks at level 8 |r\r\n\r\nCorrupts your target, dealing Shadow damage over time.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nShreds the target with powerful claws, causing damage.",
+    "|cFF00f3ffUnlocks at level 26 |r\r\n\r\nSends a ball of pure Shadow hurdling towards your target, dealing damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Beast_Nightmare.avi",
+   "description": "Surrender to the whispers of the Void and become a Shadow Druid. Nightmare Beasts are corrupted Dire Bears who trade physical damage for savage, Shadow claws. As an emissary of the Emerald Nightmare, your twisted claws spread Corruption to enemies. Powerful Nightmare Beasts can even launch devastating Shadow Bolts while in their monstrous Dire Bear form.",
+   "iconToken": "ability_druid_markofursol",
+   "id": 33,
+   "name": "Beast of Nightmare",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Wield the power of the Emerald Nightmare.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_MACE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nCharge your fur with lightning, dealing damage to foes who attack you.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nStrike the ground beneath you, causing a boom of thunder that deals damage and slows the attack speed of all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 8 |r\r\n\r\nUnleash a savage bite upon the target with lightning-infused teeth, dealing damage.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nStrike your target with a blast of lightning, which arcs out to nearby targets."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Thunderpaw.avi",
+   "description": "Unleash the storm's fury! Thunderous magic transforms your Bear Form into a Thunderpaw, a colossal bear infused with the raw power of lightning. As a Thunderpaw, you become an ancestral spirit beast, that summons crackling bolts of lightning to shock foes and defend allies. Charge your fur with crackling thunder, or smash the earth with the strength of the storm.",
+   "iconToken": "ability_druid_markofursolblue",
+   "id": 34,
+   "name": "Thunderpaw",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Defend allies and dominate foes with thunderous fang and claw.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nAn instant strike that deals damage and awards a Combo Point.",
+    "|cFF00f3ffUnlocks at level 12 |r\r\n\r\nHurl a Javelin at your target, piercing their armor and causing them to bleed over time. ",
+    "|cFF00f3ffUnlocks at level 36 |r\r\n\r\nSmash your target for massive weapon damage, breaking their armor and causing you to deal bonus damage.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nSpend Combo Points to slam the target with your shield, dealing massive damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Hoplite.avi",
+   "description": "Raise your spear and fight for glory! As a Hoplite, your raw combat prowess allows you to wield a two-handed spear and a shield simultaneously, providing both deadly offense and incredible defense. Strike foes in a flurry of blows with your spear, or toss Javelins from afar to bleed them dry. Hoplites build up Combo Points to unleash devastating shield slams and dominate their enemies.",
+   "iconToken": "ability_warrior_unrelentingassault",
+   "id": 73,
+   "name": "Hoplite",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Use a spear and shield to strike down foes.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_POLEARM"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nStrike your target for instant damage.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nEnhance your next weapon swing to deal additional damage.",
+    "|cFF00f3ffUnlocks at level 14 |r\r\n\r\nHurl two glaives at your target, dealing damage.",
+    "|cFF00f3ffUnlocks at level 25 |r\r\n\r\nStrike your target from a distance, dealing damage and increasing the power of your next Mongoose Bite."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Warden.avi",
+   "description": "Once trained to hunt the demons of the Burning Legion, Wardens surge through the battlefield in a flash of steel. As a Warden, your arsenal of weapons makes you deadly both up-close and from afar. Carve through enemies with a massive two-handed spear, then effortlessly finish fleeing foes with your glaive.",
+   "iconToken": "ability_glaivetoss",
+   "id": 74,
+   "name": "Warden",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Hunt the monsters of Azeroth with elven grace.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE2",
+    "ITEM_SUBCLASS_WEAPON_POLEARM",
+    "ITEM_SUBCLASS_WEAPON_SWORD2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nTransforms you into a serpent, causing your attacks to deal poisonous Nature damage.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nLash at the enemy with your teeth, dealing damage and increasing the damage they take from poisons. Awards a Combo Point.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nUnlocks various Rogue poisons for you to coat your weapons with.",
+    "|cFF00f3ffUnlocks at level 34 |r\r\n\r\nSpend Combo Points to bite the target and inject deadly venom, dealing massive damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Druid_of_the_Fang.avi",
+   "description": "The eerie halls of the Wailing Caverns hold many secrets, and you have listened. Transformed into a Druid of the Fang, you can shift into a poisonous serpent at will and enhance your skills with poison damage. Build up Combo Points while whittling foes away with venom, then finish them off with savage attacks.",
+   "iconToken": "spell_nature_poisoncleansingtotem",
+   "id": 75,
+   "name": "Druid of the Fang",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Transform into a venomous serpent.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_DAGGER"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nWound your target, dealing Weapon Damage and causing them to bleed.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nEnhance your next weapon swing to deal additional damage. Allows you to maintain stacks of Heavyweight.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nOnly usable after your target dodges; deals instant high weapon damage. ",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nA vicious strike that deals massive weapon damage, and wounds the target, reducing their healing for a time."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Heavyweight.avi",
+   "description": "Become an unstoppable force and charge through foes as a Heavyweight, a colossal fighter wielding a massive two-handed weapon. As a Heavyweight, you build up momentum by using various physical abilities before unleashing it all in a single devastating strike. A juggernaut of raw destruction, Heavyweights smash through enemies with earth-shattering blows that leave the ground trembling in their wake.",
+   "iconToken": "ability_butcher_heavyhanded",
+   "id": 77,
+   "name": "Heavyweight",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Become an unstoppable force of colossal might.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE2",
+    "ITEM_SUBCLASS_WEAPON_MACE2",
+    "ITEM_SUBCLASS_WEAPON_SWORD2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSlam your opponent, dealing instant weapon damage. ",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nRoar explosively, slowing enemies and dealing armor-piercing Physical damage. Also increases physical damage by 15%.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nBegin charging at double movement speed. Colliding with a target causes immediate Fire damage, and increases your Physical damage done by 15%.",
+    "|cFF00f3ffUnlocks at level 42 |r\r\n\r\nA vicious strike that deals massive weapon damage and wounds the target, reducing their healing for some time."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Dragon_Warrior.avi",
+   "description": "Agile and highly mobile, Dragon Warriors are fighters infused with draconic blood. Able to swiftly charge across the battlefield, they unleash devastating roars, stomps, and slams worthy of their bloodline. Wielding two single-handed weapons akin to claws, skilled Dragon Warriors are a sight to behold in battle, charging from foe to foe, leaving battered corpses in their wake.",
+   "iconToken": "Ability_Warrior_DragonRoar",
+   "id": 78,
+   "name": "Dragon Warrior",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Charge into battle and unleash the fury of dragons.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSlam your opponent, dealing instant weapon damage. ",
+    "|cFF00f3ffUnlocks at level 12 |r\r\n\r\nStomp the earth, sending a massive stone spike bursting up from beneath your foe, dealing immense damage.",
+    "|cFF00f3ffUnlocks at level 34 |r\r\n\r\nSlam the ground, unleashing a devastating wave of earth spikes.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nSmash the enemy, dealing immediate damage. This spell can be cast twice as fast as other attacks."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Son_of_Gruul.avi",
+   "description": "Born with colossal strength rivaling the Gronn of Outland, you are a Son of Gruul: an unstoppable force of raw destruction. Fueled by Hate, each swing of your massive axe increases your Strength and transforms you into a living embodiment of fury. You can expend Hate to unleash devastating attacks that shatter the earth beneath you. A hulking monster of mythic might, the Son of Gruul carves a path of annihilation across the battlefield.",
+   "iconToken": "_D3rend",
+   "id": 79,
+   "name": "Son of Gruul",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Dominate foes with raw strength and primal might.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_MACE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nYour rogue abilities now deal bonus Shadow damage and have additional sinister effects.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nAn instant strike that deals damage and awards a Combo Point.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nUnleash your Combo Points in a savage, gut-wrenching strike, dealing massive damage to a single foe.",
+    "|cFF00f3ffUnlocks at level 26 |r\r\n\r\nPuncture the target with a shadow-infused blade, dealing Shadow damage and corrupting the target."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Master_of_Shadows.avi",
+   "description": "All rogues thrive in the shadows, but you have chosen a darker path. Studying the Warlocks of Azeroth, you've enhanced your martial prowess with sinister magic that shrouds your weapons in gloom. As a Master of Shadows, you combine the art of assassination with Shadow magic.",
+   "iconToken": "spell_nzinsanity_chasedbyshadows",
+   "id": 80,
+   "name": "Master of Shadows",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A shadowy assassin that strikes down foes with dark daggers.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_DAGGER",
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_FIST"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nYour Arcane Shot and Steady Shot now generate Combo Points.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nPrepare a precise shot, dealing damage. Castable while moving.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nUnleash your Combo Points and increase ranged attack speed by 20%.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nFire a magic-infused shot at your target, dealing Arcane damage.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nUnleash your Combo Points to fire a shot that deals massive damage and wounds your target, reducing healing."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Marksman.avi",
+   "description": "The most skilled archers on Azeroth are known as Marksmen: precise, accurate, and deadly snipers. Whether wielding a bow or a gun, these hunters possess the grace and techniques of trained rogues, executing complex trick shots and striking multiple targets at once.",
+   "iconToken": "5_bowshot_Border",
+   "id": 82,
+   "name": "Marksman",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r An agile archer with trick shots and combo moves.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_BOW",
+    "ITEM_SUBCLASS_WEAPON_CROSSBOW",
+    "ITEM_SUBCLASS_WEAPON_GUN"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nFire a magic-infused shot at your target, dealing Arcane damage.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nLaunch yourself straight into the air, out of harm's way! After a moment, deploy a combat parachute and gain bonuses to your ranged attacks while descending.",
+    "|cFF00f3ffUnlocks at level 18 |r\r\n\r\nFire several shots at your target in rapid succession, dealing damage in a quick channeled burst.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nAim your weapon and fire a deadly shot, dealing massive weapon damage. This shot wounds the target, reducing their healing recieved."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Paratrooper.avi",
+   "description": "Attacking from above your target offers a significant advantage, and no one excels at this more than a Paratrooper. As a Paratrooper, you'll launch yourself high into the air, gaining bonus damage when firing on enemies below you. A combat parachute slows your descent, not only improving your accuracy but also increasing the time you spend out of harm's way.",
+   "iconToken": "ability_hunter_disarmingshot",
+   "id": 84,
+   "name": "Paratrooper",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A ranged marksman that fires from above their target.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_GUN",
+    "ITEM_SUBCLASS_WEAPON_CROSSBOW",
+    "ITEM_SUBCLASS_WEAPON_BOW"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nTeaches you how to tame a permanent animal companion.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nFire a magic shot that sends your companion into a frenzy. Its attacks cleave nearby enemies for a time.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nGive your companion the command to kill, increasing its damage significantly.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nSend your companion into a rage, significantly increasing it's damage. Also resets the cooldown of your Frenzy Shot."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Bestial_Ranger.avi",
+   "description": "Legends once spoke of Hunters who soul-bonded with their animal companions, becoming a single unit of bestial wrath. Able to channel their beast's inner rage, these Bestial Rangers lurk on the fringes of society, serving as savage mercenaries or stoic guides. As a Bestial Ranger, you share your companion's thirst for blood and can enrage alongside them to tear foes to shreds.",
+   "iconToken": "ability_druid_ferociousbite",
+   "id": 85,
+   "name": "Bestial Ranger",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A savage hunter with a powerful animal companion.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_CROSSBOW",
+    "ITEM_SUBCLASS_WEAPON_GUN",
+    "ITEM_SUBCLASS_WEAPON_BOW"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nFires off a quick, close range shot that deals damage and triggers Gunslinger Strike.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nEnhance your next weapon swing to deal additional damage.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nStrike your target for instant damage.",
+    "|cFF00f3ffUnlocks at level 18 |r\r\n\r\nMassively increases the damage of your Mongoose Bite and Raptor Strike."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Defias_Gunslinger.avi",
+   "description": "Become an outlaw and duel foes at close range with gun and blade! The Defias Gunslinger is a swashbuckler who uses one hand to wield a blade and the other to fire quick, precise shots with a ranged weapon. Weave through battle, staying just out of reach, and combine deadly melee strikes with rapid shots that build Combo Points. When you're ready, unleash these Combo Points in powerful finishing moves to secure your victory.",
+   "iconToken": "Ability_Rogue_PistolShot",
+   "id": 86,
+   "name": "Defias Gunslinger",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A bandit that mixes close-range shots with swordplay.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_GUN"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nLaunch a bolt of frozen magic at the target, dealing Frost damage and slowing them.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nLaunch a ball of blazing magic at the target, dealing Fire damage and burning them over time.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nChannels bolts of magic at a foe, dealing Arcane damage.",
+    "|cFF00f3ffUnlocks at level 35 |r\r\n\r\nYour Frostbolt sometimes triggers an instant cast of Arcane Missiles.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nYour Frostbolt sometimes triggers instant, empowered Fireballs."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Evoker.avi",
+   "description": "Powerful Mages devote themselves to the study of Frost, Fire, or Arcane magic; rarely do any attempt mastery of all three. You are no ordinary Mage. As an Evoker, you effortlessly weave all three elements into an unstoppable onslaught. Your Frostbolt spell triggers instant Fireballs and Arcane Missiles, allowing you to combine your magic in a devastating display of power. Damage foes with bursts of different elemental blasts and bring them to their knees.",
+   "iconToken": "Ability_Mage_MissileBarrage",
+   "id": 88,
+   "name": "Evoker",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r An elemental wizard that mixes Frost, Fire, and Arcane magics.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSling a crackling ball of magic at your target, dealing Nature damage.",
+    "|cFF00f3ffUnlocks at level 12 |r\r\n\r\nStrike your target with a beam of sunlight, dealing Sunfire damage to enemies caught in its beam, and additional damage over time.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nCall down a star to demolish your target, dealing massive Arcane damage.",
+    "|cFF00f3ffUnlocks at level 35 |r\r\n\r\nEmbrace the cycle of the Eclipse, rotating between Solar and Lunar phases that empower your spells in different ways.",
+    "|cFF00f3ffUnlocks at level 38 |r\r\n\r\nConjure a sphere of celestial power, slinging it at your target dealing Spellstorm damage. "
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Druid_of_the_Eclipse.avi",
+   "description": "The Night Elves of Teldrassil are no strangers to the power of the Moon; its energy fuels their strongest warriors and illuminates their people in the darkness. You, however, revere the Moon in a more profound way. As a Druid of the Eclipse, you channel power from both the Sun and the Moon. During your Lunar Phase, unleash crippling magic that deals damage over time. During your Solar Phase, switch to devastating single-target damage.",
+   "iconToken": "Ability_Druid_Eclipse",
+   "id": 90,
+   "name": "Druid of the Eclipse",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A Moonkin that channels power through their Eclipse phases.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSends a ball of pure Shadow hurdling towards your target, dealing damage.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nCorrupts your target, dealing Shadow damage over time.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nBurn your target for instant Shadow damage.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nUnleash a cascade of darkness at a target location, dealing massive Shadow damage, and stunning targets caught in its wake."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Shadowseer.avi",
+   "description": "Embrace the power of the Void and become the ultimate Shadow mage. As a Shadowseer, you harness the most destructive Shadow spells known to Azeroth and unleash them in flurries of dark energy. Empowered by the Dark Gods, you serve a sinister purpose, and the power you wield is immense.",
+   "iconToken": "Spell_Shadow_NetherCloak",
+   "id": 95,
+   "name": "Shadowseer",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A Shadowmage devoted to the Void.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nLaunch a bolt of frozen magic at the target, dealing Frost damage and slowing them.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nWeave a Frost Bomb onto the target, which emits waves of Frost damage when struck with Frostbolt. After a time, the Frost Bomb explodes, dealing massive damage to enemies caught in it's blast.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nFire a lance of frost at the target, dealing Frost damage. Deals triple damage against frozen targets.",
+    "|cFF00f3ffUnlocks at level 50 |r\r\n\r\nSummon a Water Elemental to fight for you, slinging Water Bolts and empowering your attacks.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nFreeze the target in a block of ice, stunning them. If the target is immune, deal massive Frost damage instead."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Cryomancer.avi",
+   "description": "Master the cold grip of ice, and cripple foes with frozen magic. As a Cryomancer, you chill your enemies to a crawl while your powerful Frost spells whittle them away. Unleash devastating Blizzards and icy blasts, shock foes with frozen explosions, and even encase them in ice. Every incantation brings forth the wrath of winter, leaving your foes shivering in despair.",
+   "iconToken": "Spell_Mage_FrostBomb",
+   "id": 97,
+   "name": "Cryomancer",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Entomb foes in ice and weave explosive frost bombs.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSmites an enemy, dealing Holy damage.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nSummons wrathful light to strike a target, bathing them in flames and dealing massive damage.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nYour Holy Fire casts empowers your Exorcism and Holy Shock with unique effects.",
+    "|cFF00f3ffUnlocks at level 22 |r\r\n\r\nPurge the target of darkness, dealing massive Holy damage. \r\n\r\nEmpowered Effect: Causes a wave of Holy energy to hit 5 nearby targets, and damage is increased by 50%.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nBlasts the target with Holy energy, dealing Holy damage to enemies or healing allies.\r\n\r\nEmpowered Effect: Guaranteed to critically strike. Damage/healing increased by 100%."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Ascendant.avi",
+   "description": "A zealot of the Light, the Ascendant is a Holy cleric who summons divine wrath to exorcise foes. Wielding Holy Fire and empowered Smites, the Ascendant passes judegment on the unworthy while aiding and supporting the righteous. Most Ascendants travel across Azeroth purging the wicked; how you use your power is up to you.",
+   "iconToken": "spell_holy_searinglight",
+   "id": 101,
+   "name": "Ascendant",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Smite foes with righteous fire.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSend a ball of lightning hurdling towards your foe.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nShock your target with concussive force, dealing Nature damage.",
+    "|cFF00f3ffUnlocks at level 19 |r\r\n\r\nYour Lightning Bolt and Chain Lightning grant a stack of Booming Thunder, increasing the damage of your next Earth Shock by 16%. Stacks up to 22 times.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nStrike your target with a blast of lightning, which arcs out to damage multiple enemies.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nChannel the power of the elements to make your next lightning spell instant cast."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Stormcaller.avi",
+   "description": "Those who ascend the fabled Stormpeaks of Northrend and survive are granted the Boon of Thunder, becoming Stormcallers. As an incarnation of living lightning, you become the embodiment of primordial thunderstorms. Unleash waves of Lightning Bolts and devastating Chain Lightnings to shock multiple foes at once. Powerful Stormcallers can free themselves from the physical plane, gaining the ability to cast while moving.",
+   "iconToken": "Spell_Shaman_ThunderStorm",
+   "id": 104,
+   "name": "Stormcaller",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Summon the power of torrential lightning storms.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nUnleash your Combo Points and brutally disembowel the target, causing massive bleed damage over time. Disemboweled targets take increased damage from Mutilate.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nDrive both daggers into your target's sides, dealing instant damage. Awards 2 Combo Points.",
+    "|cFF00f3ffUnlocks at level 24 |r\r\n\r\nAttempt to finish off a wounded foe, dealing massive instant damage. Can only be used on targets below 20% health. "
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Gutripper.avi",
+   "description": "Skilled with small blades, Gutrippers are brutal assassins who tear targets apart with grotesque efficiency. Capable of dealing immense burst damage, Gutrippers strike foes to inflict crippling bleed effects, draining targets of life before delivering a final execution.",
+   "iconToken": "ability_demonhunter_bloodlet",
+   "id": 129,
+   "name": "Gutripper",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Disembowel foes as a bleed-focused Rogue.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_DAGGER"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nShapeshift into an agile panther, gaining new abilities.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nUnleash your Combo Points in a blazing bite, dealing massive Fire damage over time.",
+    "|cFF00f3ffUnlocks at level 28 |r\r\n\r\nCause your body to swell with heat, dealing Fire damage to your target. Awards 2 Combo Points.",
+    "|cFF00f3ffUnlocks at level 42 |r\r\n\r\nScorch your target with hellish flames, dealing Fire damage.",
+    "|cFF00f3ffUnlocks at level 54 |r\r\n\r\nStrike the target with cataclysmic fire, dealing Fire damage to nearby targets and increasing their Fire damage taken."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Hellcat.avi",
+   "description": "Druids who channel the magic of the Firelands are known as Druids of the Flame. As one such druid, your Catform is wreathed in elemental fire, causing your attacks to deal bonus Fire damage. Build up Combo Points and unleash them in a blaze of searing flame, tearing through foes with burning claws and molten teeth.",
+   "iconToken": "inv_staff_99",
+   "id": 131,
+   "name": "Hellcat",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Sear foes with flaming teeth and claws.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nCall upon the light and drop a Holy hammer on your target, passing judgement on their soul and dealing Holy damage.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nAn instant strike that deals damage.",
+    "|cFF00f3ffUnlocks at level 16 |r\r\n\r\nSwing your weapon in an arc around you, dealing damage to enemies and healing allies.",
+    "|cFF00f3ffUnlocks at level 22 |r\r\n\r\nYour attacks smite the target for additional Holy damage.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nSummon a divine hammer from the sky that falls to your target, dealing damage to enemies or healing allies."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_PLATE"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Crusader.avi",
+   "description": "Wielding the power of the Holy Light, Crusaders are the embodiments of divine justice. Often likened to angelic warriors, Crusaders Consecrate both their weapons and the ground beneath them, igniting foes in righteous fire. As a Crusader, your Seal spells boast considerable strength, allowing your weapon to deal bonus damage. Your divine fury is relentless, your justice law. Use your array of Holy weapons to bathe the wicked in Holy flames, leaving only the righteous standing.",
+   "iconToken": "ability_paladin_righteousvengeance",
+   "id": 132,
+   "name": "Crusader",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A master of Paladin Seals, unleashing holy attacks.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE2",
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_MACE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nAn instant strike that deals damage and awards a Combo Point.",
+    "|cFF00f3ffUnlocks at level 12 |r\r\n\r\nUnleash your Combo Points to wrap yourself in frozen winds, increasing your critical strike chance.",
+    "|cFF00f3ffUnlocks at level 26 |r\r\n\r\nUnleash your Combo Points in a cone of frigid wind, dealing massive Frost damage.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nFreeze the target in a block of ice, stunning them. If the target is immune, deal massive Frost damage instead."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\White_Walker.avi",
+   "description": "Cold as the frozen wastes of Northrend, White Walkers are wizards trained to wield cursed blades. Combining swordplay with the raw might of frigid magic, these frozen wraiths glide across the battlefield, slowing, stunning, and encasing foes in ice. As a White Walker, you'll build up Combo Points to unleash savage Frost magic, entombing foes in ice and snow.",
+   "iconToken": "spell_mage_iceflows",
+   "id": 133,
+   "name": "White Walker",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Chill foes to the bone and shatter them with a colossal weapon.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF",
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_MACE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSweep your weapon in an arc before you, dealing damage. If enchanted with Flametongue, the damage is doubled.",
+    "|cFF00f3ffUnlocks at level 6 |r\r\n\r\nBlast your target, dealing Fire damage.",
+    "|cFF00f3ffUnlocks at level 12 |r\r\n\r\nBathe your weapon in molten flames, giving each swing a chance to burst for bonus Fire damage.",
+    "|cFF00f3ffUnlocks at level 34 |r\r\n\r\nShatters the earth in a line before you, dealing Fire damage and incapacitating enemies hit.",
+    "|cFF00f3ffUnlocks at level 64 |r\r\n\r\nSling a giant ball of fire at the target, dealing massive Fire damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_PLATE"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Firelord.avi",
+   "description": "The fury of Azeroth is fueled by molten earth: a power you've harnessed and made your own. As a Firelord, you'll unleash waves of earth and fire to damage, ignite, and sear enemies, melting foes until their corpses rejoin the great flow. Molten fury powers your abilities, and each swing shakes the ground beneath you and causes explosions of elemental fire.",
+   "iconToken": "Ability_Shaman_Lavalash",
+   "id": 134,
+   "name": "Firelord",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Boil the earth with lava, infuse your weapon with fire magic.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_MACE2",
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_AXE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nAbandon your physical form and ascend to a body of pure light, causing all strikes to deal Holy instead of Physical damage.",
+    "|cFF00f3ffUnlocks at level 5 |r\r\n\r\nAn instant strike that deals damage.",
+    "|cFF00f3ffUnlocks at level 16 |r\r\n\r\nSwing your weapon in an arc around you, dealing damage to enemies and healing allies.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nSummons wrathful light to strike a target, bathing them in flames and dealing massive damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_PLATE"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Divine_Sentinel.avi",
+   "description": "Fueled by thier devotion to a higher power, the Divine Sentinel sacrifices physical power to ascend to a higher plane. Their divine strikes instead deal Holy damage, allowing them to purify foes. Armed with a massive two-handed weapon, these knights focus on heavy swings and devastating explosions of Holy energy, consecrating foes in the name of justice.",
+   "iconToken": "Ability_Paladin_BeaconsOfLight",
+   "id": 136,
+   "name": "Divine Sentinel",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Surrender your physical form and become an emissary of the Light.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF",
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_AXE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nShoot a poison-tipped arrow at your target, causing Nature damage over time.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nFire a poisonous shot, dealing Nature damage. Castable while moving.",
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nSling a ball of energy at your target, dealing Nature damage.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nShoot your target and consume your active Serpent Sting, dealing its remaining periodic damage all at once for a massive burst of damage."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_MAIL",
+    "ITEM_SUBCLASS_ARMOR_LEATHER"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Locust_Ranger.avi",
+   "description": "Locust Rangers are hunters who have learned to weave natural magics into their shots and stings. Able to poison enemies from a distance, they can weave Druidic magic into their arrows and fire off instant spells. From infusing arrows with wrath to sending out swarms of locusts onto foes, Locust Rangers specialize in quick, consistent damage. Their strongest arrows cause a buildup of poison on targets which can burst for bonus Nature damage.",
+   "iconToken": "ability_hunter_cobrashot",
+   "id": 139,
+   "name": "Locust Ranger",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A nature-infused archer with poisoned shots and stings.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_BOW",
+    "ITEM_SUBCLASS_WEAPON_STAFF",
+    "ITEM_SUBCLASS_WEAPON_GUN"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nFire a cursed arrow at the target, dealing Shadow damage and causing additional Shadow damage over time.",
+    "|cFF00f3ffUnlocks at level 14 |r\r\n\r\nSling a sinister arrow at the target, dealing Shadow damage. The arrow then bleeds the target, transferring their health to you every few seconds.",
+    "|cFF00f3ffUnlocks at level 26 |r\r\n\r\nSends a ball of pure Shadow hurdling towards your target, dealing damage.",
+    "|cFF00f3ffUnlocks at level 26 |r\r\n\r\nLaunch a wave of Shadow Artillery, dealing Shadow damage to enemies in it's path."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Dark_Ranger.avi",
+   "description": "Embrace the Shadow and become a Dark Ranger, wielding the power of the Banshee Queen as your own. As a Dark Ranger, you infuse your shots with Shadow damage, peppering foes in a flurry of sinister arrows. As you grow in strength, you'll gain the ability to weave Shadow Bolts into your arrows, dealing massive damage with each shot.",
+   "iconToken": "custom_T_Nhance_RPG_Icons_ShadowArrow_Border",
+   "id": 140,
+   "name": "Dark Ranger",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A shadow-bound Hunter that weaves sinister magic into their shots to drain targets of life.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_BOW",
+    "ITEM_SUBCLASS_WEAPON_CROSSBOW",
+    "ITEM_SUBCLASS_WEAPON_GUN"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nStrike your target in a burst of wind, hitting twice.",
+    "|cFF00f3ffUnlocks at level 14 |r\r\n\r\nSpin your blades in a whirl of steel, cleaving nearby enemies.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nImbue your weapons with elemental wind, giving them a 20% chance to strike 2 additional times whenever you attack.",
+    "|cFF00f3ffUnlocks at level 40 |r\r\n\r\nSlash your target, dealing damage and increasing your chance to trigger Windfury Weapon."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Wind_Rager.avi",
+   "description": "Legends speak of savage warriors who calmed themselves with ancestral winds. These fighters were known as Wind Ragers: tranquil while still, but hurricanes in combat. As a Wind Rager, you bathe your weapons in shamanistic winds, becoming a storm of steel in battle. A blur of rapid attacks, your assault is unrelenting until enemies fall, returning your rage to a calm, soothing breeze.",
+   "iconToken": "spell_Shaman_Unleashweapon_Wind",
+   "id": 141,
+   "name": "Wind Rager",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A tempest of steel, a hurricane of fury.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE",
+    "ITEM_SUBCLASS_WEAPON_SWORD"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nStrike the ground beneath you, causing a boom of thunder that damages and slows the attack speed of all nearby enemies.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nSend a ball of lightning hurdling towards your foe.",
+    "|cFF00f3ffUnlocks at level 22 |r\r\n\r\nStrike your foes with the fury of thunder, dealing massive Nature damage and increasing the damage of Thunder Clap.",
+    "|cFF00f3ffUnlocks at level 30 |r\r\n\r\nShock your target with booming thunder, dealing Nature damage then jumping to nearby targets.",
+    "|cFF00f3ffUnlocks at level 32 |r\r\n\r\nStrike your target with a blast of lightning, which arcs out to nearby targets."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_PLATE",
+    "ITEM_SUBCLASS_ARMOR_MAIL"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Storm_Giant.avi",
+   "description": "Unleash the fury of thunder and lightning! As a Storm Giant, you are a hulking avatar of the storm's fury. Blast enemies with thunder and lightning to electrocute multiple foes at once, and use massive weapons to charge your unrelenting maelstrom. Your hits charge up your legendary Lightning Blade, which instantly strikes foes for massive Nature damage.",
+   "iconToken": "Ability_ThunderKing_Overcharge",
+   "id": 142,
+   "name": "Storm Giant",
+   "primaryStat": "STAT_STRENGTH",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Strike enemies with thunder and lightning channeled through your blade.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_AXE2",
+    "ITEM_SUBCLASS_WEAPON_SWORD2",
+    "ITEM_SUBCLASS_WEAPON_MACE2"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nCarve into your foe with your claws, causing them to bleed profusely. Has a chance to draw blood from the target.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nYour attacks have a chance to draw blood from your enemies, healing you or eventually turning you into a tornado of blood and bone.",
+    "|cFF00f3ffUnlocks at level 1 |r\r\n\r\nSwipe at all nearby enemies, dealing damage.",
+    "|cFF00f3ffUnlocks at level 4 |r\r\n\r\nMaul your target with savage claws, dealing damage and causing the target to focus on you. Has a chance to draw blood from the target.",
+    "|cFF00f3ffUnlocks at level 10 |r\r\n\r\nLacerate the enemy, dealing immediate damage and causing the target to bleed for some time."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_LEATHER",
+    "ITEM_SUBCLASS_ARMOR_SHIELD"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Carnage_Incarnate.avi",
+   "description": "Transform into a beast of raw carnage and blood. As a Carnage Incarnate, you empower your bear form with bloody strikes that rend your foes, draining them of life. Your attacks deal crippling damage to multiple enemies at once, leaving a trail of destruction in your wake.",
+   "iconToken": "ability_druid_denmother",
+   "id": 143,
+   "name": "Carnage Incarnate",
+   "primaryStat": "STAT_AGILITY",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r A savage beast of raw destruction.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_SWORD",
+    "ITEM_SUBCLASS_WEAPON_AXE",
+    "ITEM_SUBCLASS_WEAPON_MACE"
+   ]
+  },
+  {
+   "abilityPreviews": [
+    "|cFF00f3ffUnlocks at level 20 |r\r\n\r\nCalls down a rain of flaming meteors to damage all enemies in an area.",
+    "|cFF00f3ffUnlocks at level 28 |r\r\n\r\nConjure an evil flame and sling it at your target, dealing Fire damage.",
+    "|cFF00f3ffUnlocks at level 28 |r\r\n\r\nChannel a beam of pure fury into the target, dealing Shadowflame damage over time.",
+    "|cFF00f3ffUnlocks at level 48 |r\r\n\r\nSears the enemy's soul, dealing massive Fire damage.",
+    "|cFF00f3ffUnlocks at level 60 |r\r\n\r\nHurl a bolt of chaotic Fire at the enemy, dealing Fire damage. Chaos Bolt cannot be resisted, and pierces through all absorption, deflection, and reflection effects."
+   ],
+   "armorTypes": [
+    "ITEM_SUBCLASS_ARMOR_CLOTH"
+   ],
+   "cinematicPath": "Interface\\Cinematics\\Fel_Apostate.avi",
+   "description": "Wreathed in Felfire and bound in service to the Legion, the Fel Apostate is a chaotic mage who sears foes with fire and death. Wielding felflame magics, they burn enemies in a rain of fire and summon bolts of primordial chaos. Using the Beam of Hatred, they can sear foes’ souls over time, corrupting them from within before reducing them to embers.",
+   "iconToken": "INV__FelBarrage",
+   "id": 144,
+   "name": "Fel Apostate",
+   "primaryStat": "STAT_INTELLECT",
+   "races": [
+    "Human",
+    "Orc",
+    "Dwarf",
+    "Night Elf",
+    "Undead",
+    "Tauren",
+    "Gnome",
+    "Troll",
+    "Blood Elf",
+    "Draenei"
+   ],
+   "tagline": "|cff00ff9aClick for more Info.|r \r\n\r Summon the magic of Fire and Chaos to destroy your enemies.",
+   "weaponTypes": [
+    "ITEM_SUBCLASS_WEAPON_STAFF"
+   ]
+  }
+ ]
+}

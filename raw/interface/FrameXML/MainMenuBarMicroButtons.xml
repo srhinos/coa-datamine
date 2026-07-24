@@ -1,0 +1,636 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Script file="MainMenuBarMicroButtons.lua"/>
+
+	<Button name="DraftModeMicroButtonTemplate" hidden="true" virtual="true">
+		<Size x="34" y="34"/>
+
+		<Animations>
+			<AnimationGroup parentKey="Anim" looping="BOUNCE">
+				<Translation duration="2" offsetY="-5" smoothing="IN_OUT"/>
+			</AnimationGroup>
+		</Animations>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentGlow" parentKey="Glow" alphaMode="ADD" file="Interface\AddOns\AwAddons\Textures\Collections\DragonHighlight">
+					<Size x="110" y="110"/>
+					<Anchors>
+						<Anchor point="CENTER" y="2"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation duration="60" degrees="-360"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<Texture name="$parentBorder" parentKey="Border" file="Interface\AddOns\AwAddons\Textures\Collections\StoreCollectionRound">
+					<Size x="38" y="38"/>
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="-1"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				self:GetNormalTexture():SetPortraitTexture("Interface\\Icons\\inv_misc_dmc_destructiondeck")
+				self.tooltipTitle = TOGGLE_DRAFT_CARDS
+				self.tooltipText = TOGGLE_DRAFT_CARDS_TOOLTIP
+			</OnLoad>
+			<OnShow>
+				self.Anim:Play()
+				self.Glow.Anim:Play()
+				self:FrameFadeIn(0.5)
+			</OnShow>
+			<OnHide>
+				self.Anim:Stop()
+				self.Glow.Anim:Stop()
+			</OnHide>
+			<OnEnter function="GameTooltip_GenericTooltip"/>
+			<OnLeave function="GameTooltip_Hide"/>
+			<OnClick>
+				DraftUtil.ToggleDraftUI()
+			</OnClick>
+		</Scripts>
+
+		<NormalTexture>
+			<Size x="28" y="28"/>
+			<Anchors>
+				<Anchor point="CENTER"/>
+			</Anchors>
+		</NormalTexture>
+
+		<HighlightTexture file="Interface\AddOns\AwAddons\Textures\Misc\roundbuttonhighlight">
+			<Size x="38" y="38"/>
+			<Anchors>
+				<Anchor point="CENTER"/>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+	
+	<Button name="MainMenuBarMicroButton" motionScriptsWhileDisabled="true" virtual="true">
+		<Size>
+			<AbsDimension x="27" y="40"/>
+		</Size>
+		<Scripts>
+			<OnEnter>
+				if ( self:IsEnabled() == 1 or self.minLevel ) then
+					GameTooltip_AddNewbieTip(self, self.tooltipText, 1.0, 1.0, 1.0, self.newbieText);
+					GameTooltip:AddLine(" ");
+					if ( self:IsEnabled() == 0 and self.minLevel ) then
+						GameTooltip:AddLine(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, self.minLevel), RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b, true);
+						GameTooltip:Show();
+					end
+				end
+			</OnEnter>
+			<OnEnable>
+				self:SetAlpha(1);
+			</OnEnable>
+			<OnDisable>
+				self:SetAlpha(0.5);
+			</OnDisable>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		
+		<NormalTexture>
+			<Size x="27" y="58"/>
+			<Anchors>
+				<Anchor point="BOTTOMLEFT"/>
+			</Anchors>
+		</NormalTexture>
+		<PushedTexture>
+			<Size x="27" y="58"/>
+			<Anchors>
+				<Anchor point="BOTTOMLEFT"/>
+			</Anchors>
+		</PushedTexture>
+		<HighlightTexture>
+			<Size x="27" y="58"/>
+			<Anchors>
+				<Anchor point="BOTTOMLEFT"/>
+			</Anchors>
+		</HighlightTexture>
+		<DisabledTexture>
+			<Size x="27" y="58"/>
+			<Anchors>
+				<Anchor point="BOTTOMLEFT"/>
+			</Anchors>
+		</DisabledTexture>
+	</Button>
+	<Button name="CharacterMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT">
+				<Offset>
+					<AbsDimension x="546" y="2"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+                <Texture name="MicroButtonPortrait">
+                    <Size>
+                        <AbsDimension x="18" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                                <AbsDimension x="0" y="6"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+					<TexCoords left="0.2" right="0.8" top="0.0666" bottom="0.9"/>
+                </Texture>
+            </Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="CharacterMicroButton_OnLoad"/>
+			<OnMouseDown>
+				if ( self.down ) then
+					self.down = nil;
+					ToggleCharacter("PaperDollFrame");
+					return;
+				end
+				CharacterMicroButton_SetPushed();
+				self.down = 1;
+			</OnMouseDown>
+			<OnMouseUp>
+				if ( self.down ) then
+					self.down = nil;
+					if ( self:IsMouseOver() ) then
+						ToggleCharacter("PaperDollFrame");
+					end
+					UpdateMicroButtons();
+					return;
+				end
+				if ( self:GetButtonState() == "NORMAL" ) then
+					CharacterMicroButton_SetPushed();
+					self.down = 1;
+				else
+					CharacterMicroButton_SetNormal();
+					self.down = 1;
+				end
+			</OnMouseUp>
+			<OnEvent function="CharacterMicroButton_OnEvent"/>
+		</Scripts>
+	</Button>
+	<Button name="SpellbookMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="CharacterMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+
+		<Frames>
+             <Button name="$parentRankUp" parentKey="RankUp" inherits="UINewSpellRankIndicator" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+                </Anchors>
+            </Button>
+		</Frames>
+		
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Spellbook");
+			</OnLoad>
+			<OnClick>
+				ToggleSpellBook(BOOKTYPE_SPELL);
+			</OnClick>
+			<OnEnter>
+				self.tooltipText = MicroButtonTooltipText(SPELLBOOK_ABILITIES_BUTTON, "TOGGLESPELLBOOK");
+				GameTooltip_AddNewbieTip(self, self.tooltipText, 1.0, 1.0, 1.0, NEWBIE_TOOLTIP_SPELLBOOK);
+			</OnEnter>
+		</Scripts>
+	</Button>
+	<Button name="TalentMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="SpellbookMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		
+		<Frames>
+			<Button name="DraftModeMicroButton" frameStrata="DIALOG" movable="true" clampedToScreen="true" inherits="DraftModeMicroButtonTemplate">
+				<Anchors>
+					<Anchor point="TOP" y="20"/>
+				</Anchors>
+				
+				<Scripts>
+			<OnLoad>
+				self:GetNormalTexture():SetPortraitTexture("Interface\\Icons\\inv_misc_dmc_destructiondeck")
+				self.tooltipTitle = TOGGLE_DRAFT_CARDS
+				self.tooltipText = TOGGLE_DRAFT_CARDS_TOOLTIP
+				self:RegisterForDrag("LeftButton")
+				self:RegisterEvent("PLAYER_ENTERING_WORLD")
+				self:RegisterEvent("ASCENSION_CUSTOM_GAME_MODE_CHANGED")
+				self:RegisterEvent("WILDCARD_ROLL_READY")
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+			<OnClick>
+				if DraftUtil.HasAnyPicks() then
+					DraftUtil.ToggleDraftUI()
+				elseif WildCardUtil.CanShowRollDice() then
+					WildCardUtil.ShowRollDiceFromSlashCommand()
+				end
+			</OnClick>
+			<OnEvent function="DraftModeMicroButton_OnEvent"/>
+		</Scripts>
+	</Button>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Talents");
+				self.tooltipText = MicroButtonTooltipText(TALENTS_BUTTON, "TOGGLETALENTS");
+				self.newbieText = NEWBIE_TOOLTIP_TALENTS;
+				self:RegisterEvent("UPDATE_BINDINGS");
+			</OnLoad>
+			<OnClick>
+				ToggleCollections()
+			</OnClick>
+			<OnEvent function="TalentMicroButton_OnEvent"/>
+		</Scripts>
+	</Button>
+	<Button name="AchievementMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="TalentMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Achievement");
+				self:RegisterEvent("PLAYER_ENTERING_WORLD");
+				self:RegisterEvent("RECEIVED_ACHIEVEMENT_LIST");
+				self:RegisterEvent("ACHIEVEMENT_EARNED");
+				self:RegisterEvent("UPDATE_BINDINGS");
+				self.tooltipText = MicroButtonTooltipText(ACHIEVEMENT_BUTTON, "TOGGLEACHIEVEMENT");
+				self.newbieText = NEWBIE_TOOLTIP_ACHIEVEMENT;
+				self.minLevel = 10;	--Just used for display. But we know that it will become available by level 10 due to the level 10 achievement.
+			</OnLoad>
+			<OnEvent function="AchievementMicroButton_OnEvent"/>
+			<OnClick> 
+				ToggleAchievementFrame();
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="QuestLogMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="AchievementMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Quest");
+				self.tooltipText = MicroButtonTooltipText(QUESTLOG_BUTTON, "TOGGLEQUESTLOG");
+				self.newbieText = NEWBIE_TOOLTIP_QUESTLOG;
+			</OnLoad>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(QUESTLOG_BUTTON, "TOGGLEQUESTLOG");
+			</OnEvent>
+			<OnClick>
+				ToggleFrame(QuestLogFrame);
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="SocialsMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="QuestLogMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Socials");
+				self.tooltipText = MicroButtonTooltipText(SOCIAL_BUTTON, "TOGGLESOCIAL");
+				self.newbieText = NEWBIE_TOOLTIP_SOCIAL;
+			</OnLoad>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(SOCIAL_BUTTON, "TOGGLESOCIAL");
+			</OnEvent>
+			<OnClick>
+				ToggleFriendsFrame();
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="PVPMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame" hidden="true">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="SocialsMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+                <Texture name="$parentTexture" parentKey="texture">
+                    <Size>
+                        <AbsDimension x="36" y="36"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOP">
+                            <Offset>
+                                <AbsDimension x="6" y="-30"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:RegisterEvent("UPDATE_BINDINGS");
+				
+				self:SetNormalTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Up");
+				self:SetPushedTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Down");
+				self:SetHighlightTexture("Interface\\Buttons\\UI-MicroButton-Hilight");
+				local factionGroup = UnitFactionGroup("player");
+				if ( factionGroup ) then
+					_G[self:GetName().."Texture"]:SetTexture("Interface\\TargetingFrame\\UI-PVP-"..factionGroup);
+				end
+				self.tooltipText = MicroButtonTooltipText(PLAYER_V_PLAYER, "TOGGLECHARACTER4");
+				self.newbieText = NEWBIE_TOOLTIP_PVP;
+				self.minLevel = SHOW_PVP_LEVEL;
+			</OnLoad>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(PLAYER_V_PLAYER, "TOGGLECHARACTER4");
+				self.newbieText = NEWBIE_TOOLTIP_PVP;
+			</OnEvent>
+			<OnMouseDown>
+				if ( self:IsEnabled() ~= 0 ) then
+					if ( self.down ) then
+						self.down = nil;
+						TogglePVPFrame()
+						return;
+					end
+					PVPMicroButton_SetPushed();
+					self.down = 1;
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if ( self:IsEnabled() ~= 0 ) then
+					if ( self.down ) then
+						self.down = nil;
+						if ( self:IsMouseOver() ) then
+                            TogglePVPFrame()
+                        end
+						UpdateMicroButtons();
+						return;
+					end
+					if ( self:GetButtonState() == "NORMAL" ) then
+						PVPMicroButton_SetPushed();
+						self.down = 1;
+					else
+						PVPMicroButton_SetNormal();
+						self.down = 1;
+					end
+				end
+			</OnMouseUp>
+			<OnEnable>
+				self:SetAlpha(1);
+				SetDesaturation(self.texture, false);
+			</OnEnable>
+			<OnDisable>
+				self:SetAlpha(0.5);
+				SetDesaturation(self.texture, true);
+			</OnDisable>
+		</Scripts>
+	</Button>
+	<Button name="LFDMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="SocialsMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "LFG");
+				SetDesaturation(self:GetDisabledTexture(), true);
+				self.tooltipText = MicroButtonTooltipText(DUNGEONS_BUTTON, "TOGGLELFGPARENT");
+				self.newbieText = NEWBIE_TOOLTIP_LFGPARENT;
+				local level = math.min(SHOW_PVP_LEVEL, SHOW_LFD_LEVEL)
+				self.minLevel = level;
+			</OnLoad>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(DUNGEONS_BUTTON, "TOGGLELFGPARENT");
+				self.newbieText = NEWBIE_TOOLTIP_LFGPARENT;
+			</OnEvent>
+			<OnClick>
+				local level = UnitLevel("player")
+				if level >= SHOW_LFD_LEVEL then
+					ToggleLFDParentFrame();
+				elseif level >= SHOW_PVP_LEVEL then
+					TogglePVPFrame()
+				end
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="PathToAscensionMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="LFDMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Ascension");
+				self.tooltipText = MicroButtonTooltipText(PATH_TO_ASCENSION, "TOGGLEPATHTOASCENSION");
+				self.newbieText = NEWBIE_TOOLTIP_PATH_TO_ASCENSION;
+				self.minLevel = 8;
+			</OnLoad>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(PATH_TO_ASCENSION, "TOGGLEPATHTOASCENSION");
+				self.newbieText = NEWBIE_TOOLTIP_PATH_TO_ASCENSION;
+			</OnEvent>
+			<OnClick>
+				TogglePathToAscensionFrame()
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="ChallengesMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame" hidden="false">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="PathToAscensionMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Abilities");
+				self.tooltipText = TRIALS;
+				self.newbieText = NEWBIE_TOOLTIP_TRIALS;
+			</OnLoad>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(TRIALS, "TOGGLECHALLENGES");
+				self.newbieText = NEWBIE_TOOLTIP_TRIALS;
+			</OnEvent>
+			<OnClick function="ToggleChallengesUI"/>
+		</Scripts>
+	</Button>
+	<Button name="MainMenuMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="ChallengesMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="MainMenuBarPerformanceBar" file="Interface\MainMenuBar\UI-MainMenuBar-PerformanceBar">
+					<Size>
+						<AbsDimension x="14" y="7"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MainMenuMicroButton" relativePoint="TOPLEFT">
+							<Offset x="10" y="-16"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "MainMenu");
+				self.tooltipText = MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU");
+				self.newbieText = NEWBIE_TOOLTIP_MAINMENU;
+
+				PERFORMANCEBAR_LOW_LATENCY = 300;
+				PERFORMANCEBAR_MEDIUM_LATENCY = 600;
+				PERFORMANCEBAR_UPDATE_INTERVAL = 10;
+				self.hover = nil;
+				self.updateInterval = 0;
+				self:RegisterForClicks("LeftButtonDown", "RightButtonDown", "LeftButtonUp", "RightButtonUp");
+			</OnLoad>
+			<OnUpdate>
+				if (self.updateInterval > 0) then
+					self.updateInterval = self.updateInterval - elapsed;
+				else
+					self.updateInterval = PERFORMANCEBAR_UPDATE_INTERVAL;
+					local bandwidthIn, bandwidthOut, latency = GetNetStats();
+					if (latency > PERFORMANCEBAR_MEDIUM_LATENCY) then
+						MainMenuBarPerformanceBar:SetVertexColor(1, 0, 0);									
+					elseif (latency > PERFORMANCEBAR_LOW_LATENCY) then
+						MainMenuBarPerformanceBar:SetVertexColor(1, 1, 0);
+					else
+						MainMenuBarPerformanceBar:SetVertexColor(0, 1, 0);
+					end
+					if (self.hover) then
+						MainMenuBarPerformanceBarFrame_OnEnter(self);
+					end
+				end
+			</OnUpdate>
+			<OnEvent>
+				self.tooltipText = MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU");
+			</OnEvent>
+			<OnMouseDown>
+				if ( self.down ) then
+					self.down = nil; -- I'm pretty sure none of this should ever get run.
+					if ( not EscapeMenu:IsShown() ) then
+						if ( VideoOptionsFrame:IsShown() ) then
+							VideoOptionsFrameCancel:Click();
+						elseif ( AudioOptionsFrame:IsShown() ) then
+							AudioOptionsFrameCancel:Click();
+						elseif ( InterfaceOptionsFrame:IsShown() ) then
+							InterfaceOptionsFrameCancel:Click();
+						end		
+						CloseMenus();
+						CloseAllWindows()
+						ShowUIPanel(EscapeMenu);
+					else
+						HideUIPanel(EscapeMenu);
+						MainMenuMicroButton_SetNormal();
+					end
+					return;
+				end
+				MainMenuMicroButton_SetPushed();
+				self.down = 1;
+			</OnMouseDown>
+			<OnMouseUp>
+				if ( self.down ) then
+					self.down = nil;
+					if ( self:IsMouseOver() ) then
+						if ( not EscapeMenu:IsShown() ) then
+							if ( VideoOptionsFrame:IsShown() ) then
+								VideoOptionsFrameCancel:Click();
+							elseif ( AudioOptionsFrame:IsShown() ) then
+								AudioOptionsFrameCancel:Click();
+							elseif ( InterfaceOptionsFrame:IsShown() ) then
+								InterfaceOptionsFrameCancel:Click();
+							end						
+							CloseMenus();
+							CloseAllWindows()
+							ShowUIPanel(EscapeMenu);
+						else
+							HideUIPanel(EscapeMenu);
+							MainMenuMicroButton_SetNormal();
+						end
+					end
+					UpdateMicroButtons();
+					return;
+				end
+				if ( self:GetButtonState() == "NORMAL" ) then
+					MainMenuMicroButton_SetPushed();
+					self.down = 1;
+				else
+					MainMenuMicroButton_SetNormal();
+					self.down = 1;
+				end
+			</OnMouseUp>
+			
+			<OnEnter>
+				self.hover = 1;
+				self.updateInterval = 0;
+			</OnEnter>
+			<OnLeave>
+				self.hover = nil;
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Button>
+	<Button name="HelpMicroButton" inherits="MainMenuBarMicroButton" parent="MainMenuBarArtFrame" hidden="false">
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="MainMenuMicroButton" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-3" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				LoadMicroButtonTextures(self, "Help");
+				self.tooltipText = HELP_BUTTON;
+				self.newbieText = NEWBIE_TOOLTIP_HELP;
+			</OnLoad>
+			<OnClick function="ToggleHelpFrame"/>
+		</Scripts>
+	</Button>
+</Ui>

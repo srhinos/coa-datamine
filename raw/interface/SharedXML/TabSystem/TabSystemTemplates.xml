@@ -1,0 +1,155 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TabSystemTabMixin.lua"/>
+
+    <CheckButton name="TabSystemTabTemplate" inherits="ThreeSliceButtonTemplate" virtual="true">
+        <Size x="88" y="32"/>
+
+        <Attributes>
+            <Attribute name="atlasName" value="wow-tab"/>
+        </Attributes>
+
+        <ButtonText parentKey="Text">
+            <Size x="0" y="32"/>
+            <Anchors>
+                <Anchor point="CENTER" x="0" y="2"/>
+            </Anchors>
+        </ButtonText>
+
+        <NormalFont style="GameFontNormalSmall"/>
+        <HighlightFont style="GameFontHighlightSmall"/>
+        <DisabledFont style="GameFontHighlightSmall"/>
+        <HighlightTexture alpha="0.8" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="6" y="-4"/>
+                <Anchor point="BOTTOMRIGHT" x="-6" y="8"/>
+            </Anchors>
+        </HighlightTexture>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TabSystemTabMixin")
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+    
+    <CheckButton name="TabSystemTopTabTemplate" inherits="TabSystemTabTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="atlasName" value="wow-tab-top"/>
+        </Attributes>
+        <ButtonText parentKey="Text">
+            <Size x="0" y="32"/>
+            <Anchors>
+                <Anchor point="CENTER" x="0" y="-2"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture alpha="0.8" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4" y="-8"/>
+                <Anchor point="BOTTOMRIGHT" x="-4" y="2"/>
+            </Anchors>
+        </HighlightTexture>
+    </CheckButton>
+
+    <CheckButton name="TabSystemTopTabOldStyleTemplate" inherits="TabSystemTabTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="115" y="32"/>
+        </Size>
+
+        <Attributes>
+            <Attribute name="atlasName" value="classic_tab_top"/>
+        </Attributes>
+
+        <ButtonText name="$parentText" parentKey="Text">
+            <Size x="0" y="13"/>
+
+            <Anchors>
+                <Anchor point="BOTTOM" x="0" y="3"/>
+            </Anchors>
+        </ButtonText>
+
+        <NormalFont style="GameFontNormalSmall"/>
+        <HighlightFont style="GameFontHighlightSmall"/>
+        <DisabledFont style="GameFontHighlightSmall"/>
+
+        <HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+            <Size y="32"/>
+
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" x="1" y="-8"/>
+                <Anchor point="BOTTOMRIGHT" x="-1" y="-8"/>
+            </Anchors>
+        </HighlightTexture>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TabSystemTabMixin")
+
+                function self:UpdateButton(buttonState)
+                    ThreeSliceButtonMixin.UpdateButton(self, buttonState)
+
+                    if self.Left:GetTexture() == "Interface\\HelpFrame\\HelpFrameTab-Inactive" then
+                        self.Left:SetPoint("TOPLEFT", 0, 0)
+                        self.Right:SetPoint("TOPRIGHT", 0, 0)
+                    else
+                        self.Left:SetPoint("TOPLEFT", 0, -3)
+                        self.Right:SetPoint("TOPRIGHT", 0, -3)
+                    end
+                end
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+
+    <CheckButton name="GarrTabTopTemplate" inherits="TabSystemTabTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="atlasName" value="garr-tab-top"/>
+            <Attribute name="useThreeSliceHighlight" value="true" type="boolean"/>
+        </Attributes>
+        <ButtonText parentKey="Text">
+            <Size x="0" y="32"/>
+            <Anchors>
+                <Anchor point="CENTER" x="0" y="2"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture/>
+    </CheckButton>
+
+    <CheckButton name="GarrTabBottomTemplate" inherits="TabSystemTabTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="atlasName" value="garr-tab-bottom"/>
+            <Attribute name="useThreeSliceHighlight" value="true" type="boolean"/>
+        </Attributes>
+        <ButtonText parentKey="Text">
+            <Size x="0" y="32"/>
+            <Anchors>
+                <Anchor point="CENTER" x="0" y="-2"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture/>
+    </CheckButton>
+
+    <CheckButton name="SpellBookTabTopTemplate" inherits="TabSystemTabTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="115" y="38"/>
+        </Size>
+        <Attributes>
+            <Attribute name="atlasName" value="spellbook-tab-top"/>
+        </Attributes>
+        <ButtonText parentKey="Text" justifyH="CENTER">
+            <Size x="0" y="32"/>
+            <Anchors>
+                <Anchor point="CENTER" x="0" y="1"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture file="Interface\Spellbook\UI-SpellbookPanel-Tab-Highlight" alphaMode="ADD">
+            <Size>
+                <AbsDimension y="64"/>
+            </Size>
+
+            <Anchors>
+                <Anchor point="LEFT" x="-16" y="0"/>
+                <Anchor point="RIGHT" x="16" y="0"/>
+            </Anchors>
+        </HighlightTexture>
+    </CheckButton>
+</Ui>

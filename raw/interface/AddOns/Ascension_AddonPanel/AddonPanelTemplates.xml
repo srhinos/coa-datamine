@@ -1,0 +1,229 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Frame name="AddonPanelTemplate" movable="true" enableMouse="true" clampedToScreen="true" virtual="true">
+        <Frames>
+            <Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate">
+                <Layers>
+                    <Layer>
+                        <Texture>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" y="-20"/>
+                                <Anchor point="BOTTOMRIGHT"/>
+                            </Anchors>
+
+                            <Color r="0" g="0" b="0" a=".8"/>
+                        </Texture>
+
+                        <Texture parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="2" y="-3"/>
+                                <Anchor point="TOPRIGHT" x="-25" y="-3"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString parentKey="Title" inherits="GameFontNormal" wordwrap="false">
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="-5"/>
+                                <Anchor point="LEFT" x="60"/>
+                                <Anchor point="RIGHT" x="-60"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="ButtonFrameTemplateNoPortrait"/>
+                </Attributes>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "NineSlicePanelMixin")
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel())
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Button parentKey="ClosePanelButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="6" y="5"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Close()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+
+    <Button name="AddonScrollListItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Frames>
+            <CheckButton name="$parentCheck" parentKey="Check" inherits="SquareIconCheckButtonTemplate">
+                <Size x="16" y="16"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" x="4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        self:GetParent():OnClickCheck(self:GetChecked())
+                    </OnClick>
+                </Scripts>
+            </CheckButton>
+        </Frames>
+
+        <ButtonText name="$parentText" parentKey="Text" inherits="ChatFontSmall" justifyH="LEFT" maxLines="1">
+            <Anchors>
+                <Anchor point="LEFT" x="20" y="-1"/>
+                <Anchor point="RIGHT" x="-4" y="-1"/>
+            </Anchors>
+        </ButtonText>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, AddonScrollListItemMixin)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="AddonPanelInfoTextTemplate" virtual="true">
+        <!--<Attributes>
+            <Attribute name="header" value=""/>
+            <Attribute name="text" value=""/>
+            <Attribute name="showDivider" value="false" type="boolean"/>
+            <Attribute name="headerFont" value=""/>
+            <Attribute name="textFont" value=""/>
+        </Attributes>-->
+
+        <Layers>
+            <Layer>
+                <FontString name="$parentHeader" parentKey="Header" justifyH="LEFT" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentValue" parentKey="Value" justifyH="LEFT" inherits="GameFontHighlight">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentHeader" relativePoint="BOTTOMLEFT" y="-6"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture parentKey="Divider" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentValue" relativePoint="BOTTOMLEFT" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                self.Divider:SetAtlas("Options_HorizontalDivider", Const.TextureKit.UseAtlasSize)
+                MixinAndLoad(self, "AddonPanelInfoTextMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="AddonPanelInfoTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentName" parentKey="Name" inherits="AddonPanelInfoTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-12"/>
+                    <Anchor point="TOPRIGHT" x="0" y="-12"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="showDivider" value="true" type="boolean"/>
+                    <Attribute name="headerFont" value="GameFontNormalLarge"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentDependencies" parentKey="Dependencies" inherits="AddonPanelInfoTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" y="-12"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="header" value="ADDON_DEPENDENCIES"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentLoadable" parentKey="Loadable" inherits="AddonPanelInfoTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentDependencies" relativePoint="BOTTOMLEFT" y="-12"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="header" value="ADDON_LOADED"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentAuthor" parentKey="Author" inherits="AddonPanelInfoTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentLoadable" relativePoint="BOTTOMLEFT" y="-12"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="header" value="ADDON_AUTHOR"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentVersion" parentKey="Version" inherits="AddonPanelInfoTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentAuthor" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="header" value="ADDON_VERSION"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentNotes" parentKey="Notes" inherits="AddonPanelInfoTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentVersion" relativePoint="BOTTOMLEFT" y="-24"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="header" value="ADDON_ABOUT"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentDisabledFor" parentKey="DisabledFor" inherits="AddonPanelInfoTextTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentNotes" relativePoint="BOTTOMLEFT" y="-24"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="header" value="ADDON_DISABLED_FOR"/>
+                    <Attribute name="textFont" value="GameFontRed"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "AddonPanelInfoMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

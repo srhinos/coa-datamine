@@ -1,5 +1,5 @@
 """Generic WDBC (3.3.5) reader, named column maps, and raw CSV dumps."""
-import csv, gzip, io, struct
+import csv, gzip, io, json, struct
 from pathlib import Path
 
 from tools import config
@@ -196,6 +196,569 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("blood", 1, "u"), ("unholy", 2, "u"), ("frost", 3, "u"),
         ("runicPower", 4, "u"),
     ]},
+    # v2 (task V2-2): proven via golden-record probes (see .superpowers/sdd/task-v2-2-report.md).
+    # Creature: f0 proven ascending-unique 1..127175 (id); f2 proven via golden decode
+    # (id 437/60041/92992 -> "Hogger", id 8034 etc -> "Ragnaros"). f20/f21/f22 (the next-
+    # highest string_likelihood columns per V2-1 colinfo) were probed as subname
+    # candidates and DISPROVEN: on both goldens' rows the raw value is 0 (no data), and
+    # across the table the ~4-5% of rows where they decode to non-empty text resolve to
+    # unrelated fragments/other creatures' names at a rate matching pure background
+    # coincidence (measured ~3.45% on a random-offset control) against a huge (2.5MB)
+    # shared string block - not a real subname column. Left unmapped; not carried.
+    "Creature": {"expected_fields": 23, "columns": [
+        ("id", 0, "u"), ("name_enUS", 2, "s"),
+    ]},
+    # Quest: NO string block (confirmed, string_block_size=0) - f0 proven unique id
+    # (18561 distinct == records). No other column clears the brief's join-rate bars
+    # (QuestSort >=80%, QuestInfo join) against QuestSort.dbc/QuestInfo.dbc ids - best
+    # real candidate (f20) tops out at ~58.6%/58.2%. Remaining 28 columns stay f<N>,
+    # carried raw by tools/build_creatures.py (Quest.dbc has no TABLE_MAPS entry for them).
+    "Quest": {"expected_fields": 29, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # QuestSort/QuestInfo: f0 = own id (unique, matches record count), f1 = name_enUS
+    # (proven: distinct count equals record count for both - a clean bijective name
+    # column, e.g. QuestSort samples "Epic"/"Seasonal"/... and QuestInfo samples
+    # "Group"/"Life"/"PvP"/...). Used only as lookup tables (no Quest.dbc column joins
+    # them with enough confidence to link - see Quest above).
+    "QuestSort": {"expected_fields": 18, "columns": [
+        ("id", 0, "u"), ("name_enUS", 1, "s"),
+    ]},
+    "QuestInfo": {"expected_fields": 18, "columns": [
+        ("id", 0, "u"), ("name_enUS", 1, "s"),
+    ]},
+    # NPCTrainer: f0 proven ascending-unique 1..13001 (id). f1 proven spellId (98.9%
+    # join vs Spell.dbc ids; kept signed "i" not "u" - ~1% of rows carry small negative
+    # sentinel values, e.g. -210021, that are clearly unused/placeholder entries, and
+    # u32-wrapping them would manufacture a misleading huge fake-looking id instead of
+    # leaving the sentinel visibly non-positive). f2 proven skillLine (99.9% join vs
+    # SkillLine.dbc ids AND semantic golden: values resolve to real profession/talent-
+    # tree names - Blacksmithing, Leatherworking, Tailoring, Arcane, Holy, Feral Combat,
+    # ...). f3 (the brief's hypothesized "trainer-id low-cardinality column") does NOT
+    # prove out as a trainer/NPC identity - see report; left unmapped, carried as raw f3.
+    "NPCTrainer": {"expected_fields": 4, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "i"), ("skillLine", 2, "u"),
+    ]},
+    # DungeonEncounterExtra: f0 proven dungeonEncounterId (98.5% join vs DungeonEncounter
+    # ids AND semantic golden: resolves to real encounter names - "Panzor the
+    # Invincible", "Lord Valthalak", ...). f1 (creature-id hypothesis) clears the naive
+    # 90% numeric join-rate vs Creature ids (92.4%) but is DISPROVEN by golden
+    # verification: famous boss encounters (Ragnaros, Onyxia, Kel'Thuzad, Illidan, ...)
+    # all resolve to random unrelated NPCs (fuzzy name-overlap 1.3%, barely above a
+    # random-pairing control's 0.45%). This is a false positive of naive join-rate
+    # testing caused by Creature.dbc's fully-dense id space (every integer 1..127175 is
+    # a valid creature id, so ANY bounded column passes membership near-trivially) - see
+    # report. f2/f3 fail even the naive join-rate bar (~51-55%) against either table.
+    # No creature link is provable; tools/build_dungeons.py ships "creature": null.
+    "DungeonEncounterExtra": {"expected_fields": 4, "columns": [
+        ("dungeonEncounterId", 0, "u"),
+    ]},
+    # v2 (task V2-3): proven via golden-record probes (see .superpowers/sdd/task-v2-3-report.md).
+    # ChrSpecs (101x65): f0 ascending unique 1..101 (id). f1 is NOT a raw classId int -
+    # it is a STRING class-name token ("WARRIOR", "WITCHDOCTOR", "DEMONHUNTER", ...),
+    # proven by joining its normalized text against ChrClasses.name_enUS: 77/101 rows
+    # match one of the 32 ChrClasses rows (25 distinct classes, 78% >= the brief's 60%
+    # coverage gate). Rows 1-3 (raw f1=0) decode to "BARBARIAN" - offset 0 in this
+    # table's string block is real content (per this build's documented offset-0
+    # semantics, see DBCFile.string), not "no data"; they correctly match Barbarian
+    # (classId 12). The remaining 24 unmatched rows carry real tokens for classes
+    # absent from the 32-row ChrClasses ground truth (DEMONHUNTER, MONK, FLESHWARDEN,
+    # SONOFARUGAL, PROPHET, WILDWALKER, SPIRITMAGE) - classId/className resolution
+    # happens in build_classmeta.py, not here (this column is intentionally left as
+    # the raw token). f2 golden-proven as the CAD "Tab" link key: its uppercased value equals
+    # (case-insensitively) the "Tab" field CharacterAdvancementData entries carry for
+    # the matched class (verified: Chronomancer's rows decode DISPLACEMENT/DUALITY/TIME,
+    # matching data/classes/Chronomancer's Displacement/Duality/Time tab files exactly).
+    # f4-f7 are 4 mutually-exclusive-per-class boolean flags proven to be armor-type
+    # proficiency (Cloth/Leather/Mail/Plate): every matched class's specs agree on
+    # exactly one flag, and the flag matches real WoW class armor proficiency for all
+    # 24 matched classes (Warrior/Paladin/DeathKnight->Plate, Hunter/Shaman->Mail,
+    # Druid/Rogue->Leather, Priest/Mage/Warlock->Cloth); build_classmeta.py combines
+    # them into one "armorType" string (null when 0 or >1 flags are set, e.g. the
+    # unreleased "Hero" class has all 4 set and Witch Doctor has 2). f8/f9 golden-
+    # verified as primary/secondary stat text ("Agility"/"Intellect"/.../"None"),
+    # consistent with each spec's real-WoW stat profile. f17 golden-verified as a
+    # difficulty rating ("Medium"/"Normal"/"Hard", 3 distinct). f18/f19 golden-verified
+    # as primary/secondary power type ("MANA"/"ENERGY"/"RAGE"/"RUNES"/"RUNIC_POWER"/...),
+    # matching each class's real resource (e.g. DeathKnight->RUNES, Rogue->ENERGY).
+    # f29 golden-proven as the spec DISPLAY name (distinct=101, bijective with records):
+    # Mage rows decode exactly "Arcane"/"Fire"/"Frost", Priest "Discipline"/"Holy"/
+    # "Shadow", Warlock "Affliction"/.../.., matching the brief's candidate goldens
+    # verbatim. f46 golden-verified as a long descriptive sentence (spec flavor text).
+    # f63 (3 distinct: 1/2/3) was the brief's "role" hypothesis (low cardinality <=4) -
+    # DISPROVEN as Tank/Healer/DPS role: Discipline Priest(1) and Holy Priest(2) - both
+    # healers - get different codes; Protection Warrior(3) vs Protection Paladin(2) -
+    # both tanks - disagree; table-wide distribution is a near-even 32/35/34 split,
+    # inconsistent with real WoW's DPS-heavy skew. Also tested as "ordinal spec
+    # position by ascending id within class" - holds for all 10 vanilla classes
+    # (coincidence: their rows were inserted in that order) but fails on 20 of 31
+    # class-token groups once customs are included (e.g. WitchDoctor's 3 specs decode
+    # 3,1,2, not 1,2,3). No semantic identity provable; shipped raw as f63 (satisfies
+    # the brief's `role|f<N>` union via the f<N> branch), read directly off the row
+    # (not in this columns list - iter_named only exposes named columns; see
+    # build_classmeta.py, same pattern as build_creatures.py's NPCTrainer f3 read).
+    "ChrSpecs": {"expected_fields": 65, "columns": [
+        ("id", 0, "u"), ("classToken", 1, "s"), ("tabToken", 2, "s"),
+        ("armorCloth", 4, "u"), ("armorLeather", 5, "u"),
+        ("armorMail", 6, "u"), ("armorPlate", 7, "u"),
+        ("primaryStat", 8, "s"), ("secondaryStat", 9, "s"),
+        ("difficulty", 17, "s"), ("powerType", 18, "s"), ("secondaryPowerType", 19, "s"),
+        ("name_enUS", 29, "s"), ("description_enUS", 46, "s"),
+    ]},
+    # ChrClassesRoles (32x11): f0 verified classId 1..32 (ascending unique, matches
+    # ChrClasses ids exactly). f1 golden-proven as a role bitmask: bit2=canTank,
+    # bit4=canHeal, bit8=canDPS (always set) - verified against 12+ classes' real-WoW
+    # role capabilities (Warrior/DeathKnight=10=DPS+Tank no heal; Priest/Shaman=12=
+    # DPS+Heal no tank; Paladin/Druid=14=all three; Hunter/Rogue/Mage/most pure-DPS
+    # customs=8=DPS only). f4 golden-proven as a specialAbilitySpellId: only 3 of 32
+    # classes carry a non-zero value (Shaman 1182001, Bloodmage 681078, Primalist
+    # 92150), and all 3 resolve to real, thematically-plausible Spell.dbc entries
+    # ("Earthen Guardian", "Pooled Vitality", "Grove Training"). f2/f3 correlate with
+    # f4's presence (only non-zero on the same 3 rows) but have no independently
+    # provable meaning of their own - left raw. f5-f10 are always 0 - left raw.
+    "ChrClassesRoles": {"expected_fields": 11, "columns": [
+        ("id", 0, "u"), ("roleMask", 1, "u"), ("specialAbilitySpellId", 4, "u"),
+    ]},
+    # CharacterCreationArchetypes (56x157, "Choose your Archetype"-style character-
+    # creation flavor presets, class-agnostic - no classId column exists in this
+    # table; see report). f0 ascending unique (id), 100% FK target of
+    # ArchetypeDetails.f1 (see below). f19 golden-proven bijective display name
+    # (distinct=56): samples "Naturalist"/"Dawnkeeper"/"Eternal Caretaker" (all
+    # healer-flavor names), cross-validated by f155 (distinct=56, "Interface\
+    # Cinematics\Naturalist.avi" etc - literal filename match to f19's value). f36/f53
+    # golden-verified as tagline/long-description text (both distinct=56, coherent
+    # flavor prose). f8 golden-verified primary stat token ("STAT_STRENGTH" etc). f9-
+    # f11/f12-f14 golden-verified as up to 3 preferred weapon/armor subclass tokens
+    # each (ITEM_SUBCLASS_WEAPON_*/ITEM_SUBCLASS_ARMOR_*); "MAX_ITEM_SUBCLASS_*"
+    # sentinel values (an enum terminator, not a real type) are filtered out in
+    # build_classmeta.py. f15 golden-verified spell-icon token. f70/f87/f104/f121/f138
+    # golden-verified as up to 5 "ability preview" tooltip texts ("Unlocks at level N
+    # ... <effect text>"), sparsely populated (f138 only 16/56). f1 (distinct=9,
+    # bounded 1-12) looks like a categoryId FK into CharacterCreationArchetypeCategories
+    # - out of this task's curation scope per the brief, not decoded, left raw.
+    "CharacterCreationArchetypes": {"expected_fields": 157, "columns": [
+        ("id", 0, "u"), ("primaryStat", 8, "s"),
+        ("weaponType1", 9, "s"), ("weaponType2", 10, "s"), ("weaponType3", 11, "s"),
+        ("armorType1", 12, "s"), ("armorType2", 13, "s"), ("armorType3", 14, "s"),
+        ("iconToken", 15, "s"), ("name_enUS", 19, "s"), ("tagline_enUS", 36, "s"),
+        ("description_enUS", 53, "s"),
+        ("abilityPreview1_enUS", 70, "s"), ("abilityPreview2_enUS", 87, "s"),
+        ("abilityPreview3_enUS", 104, "s"), ("abilityPreview4_enUS", 121, "s"),
+        ("abilityPreview5_enUS", 138, "s"), ("cinematicPath", 155, "s"),
+    ]},
+    # CharacterCreationArchetypeDetails (1120x28, no strings): f0 ascending unique
+    # (id). f1 golden-proven archetypeId: 100% (1120/1120) join-rate against
+    # CharacterCreationArchetypes.f0 (a genuinely sparse id space, 56 values within
+    # 1-144). f2 golden-proven raceId: distinct values are exactly {1,2,3,4,5,6,7,8,
+    # 10,11} (skipping 9=Goblin, not playable in WotLK), 1:1 name match via
+    # ChrRaces.dbc for every value, and exactly 112 rows per race (1120/10). Remaining
+    # 25 columns are mostly float-looking/near-constant with no provable semantics -
+    # left raw.
+    "CharacterCreationArchetypeDetails": {"expected_fields": 28, "columns": [
+        ("id", 0, "u"), ("archetypeId", 1, "u"), ("raceId", 2, "u"),
+    ]},
+    # CharacterCreationClassDetails (464x28, no strings): f0 ascending unique (id).
+    # f1 golden-proven classId: its 21 distinct values are EXACTLY the range 12-32
+    # (every custom ChrClasses id, zero vanilla/Hero ids 1-11) - a structural/semantic
+    # match to the real custom-vs-vanilla class boundary, not a naive bounded-range
+    # coincidence. f2 golden-proven raceId: same {1..8,10,11} skip-9 pattern as
+    # ArchetypeDetails, verified per-class (e.g. Barbarian's 64 rows group into 11
+    # raceId buckets - all 11, including Goblin). Remaining 25 columns (float-looking
+    # stat scalars) have no provable semantics - left raw.
+    "CharacterCreationClassDetails": {"expected_fields": 28, "columns": [
+        ("id", 0, "u"), ("classId", 1, "u"), ("raceId", 2, "u"),
+    ]},
+    # CharacterCreationPetDetails (170x12, no strings): f0 ascending-ish unique (id,
+    # sparse 11-190). f2 golden-proven raceId (same skip-9 pattern, verified: 17
+    # distinct f1-groups each cycle exactly the 10 playable raceIds). f1 (brief
+    # hypothesis: petId or spellId) DISPROVEN as a Spell.dbc join: only 76.5% naive
+    # join-rate (below the 90% bar) AND the resolved "spell name" for the most common
+    # value is a garbage colorized tooltip fragment ("Bile\n|cFF1EFF0CTier 1|r"), not
+    # a real spell name - a join-rate false positive from Spell.dbc's large id space,
+    # same class of finding as V2-2's DungeonEncounterExtra creature link. Left raw.
+    "CharacterCreationPetDetails": {"expected_fields": 12, "columns": [
+        ("id", 0, "u"), ("raceId", 2, "u"),
+    ]},
+    # CharacterCreationShapeshiftDetails (100x21, no strings): f0 ascending-ish unique
+    # (id, sparse 9-108). f2 golden-proven raceId (same skip-9 pattern, verified: 10
+    # distinct f1-groups each cycle exactly the 10 playable raceIds). f1 (brief
+    # hypothesis: shapeshift-form spellId) DISPROVEN as a Spell.dbc join: only 70.0%
+    # naive join-rate (below the 90% bar) and the most common value (1816) does not
+    # resolve to any Spell.dbc row at all. Left raw.
+    "CharacterCreationShapeshiftDetails": {"expected_fields": 21, "columns": [
+        ("id", 0, "u"), ("raceId", 2, "u"),
+    ]},
+    # v2 (task V2-4): proven via golden-record probes (see .superpowers/sdd/task-v2-4-report.md).
+    # SpellDescriptionVariables (31x2, trivial per the brief - a plain (id, text)
+    # string table): f0 golden-proven as the id Spell.dbc's own spellDescriptionVariableID
+    # column (already extracted, previously unused in output) points at - the two id
+    # sets are IDENTICAL (both exactly 31 values, 100% overlap), and a concrete golden
+    # resolves: spell 10 (Blizzard) carries spellDescriptionVariableID 167, which
+    # decodes here to a real tooltip-math script starting "$arctic1=...".
+    "SpellDescriptionVariables": {"expected_fields": 2, "columns": [
+        ("id", 0, "u"), ("text_enUS", 1, "s"),
+    ]},
+    # SpellCategory (5024x2): f0 golden-proven as the id Spell.dbc's own "category"
+    # column (already extracted as TABLE_MAPS "category", index 1 - previously decoded
+    # but never surfaced in build_spells.py's output) references: 1112/1119 (99.37%)
+    # of the distinct nonzero Spell.category values used across the whole Spell.dbc
+    # resolve as SpellCategory.f0 ids, and the golden spell 17 (Power Word: Shield)
+    # carries category=1269, which is present in this table. f1 (distinct 4, range
+    # 0-4, 99.88% zero) matches the real WotLK SpellCategory.dbc's 2-column (ID, Flags)
+    # shape by prior-art range alone, but has no in-dataset golden proof (only 6/5024
+    # rows nonzero; cross-checking it against Spell.dbc's own procCharges field found
+    # no correlation) - left unmapped/raw, not carried into any output.
+    "SpellCategory": {"expected_fields": 2, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # SpellTags (488661x3): f0 (distinct==records, sparse range up to 567460) is the
+    # table's own per-row PK - not itself useful, kept named for raw-dump clarity only.
+    # f1 golden-proven spellId: range tops out at 13977917, 3 below the live Spell.dbc's
+    # actual max id (13977920) - overwhelming corroboration alongside the golden check
+    # (spell 17 Power Word: Shield resolves tags "Priest"/"Discipline"/"Holy"/"Healer"/
+    # "Absorb"/"Magic"/"Instant Cast"/"Mana Cost" - exactly the real spell's class/
+    # spec/school/role; spell 10 Blizzard resolves "Mage"/"Frost"/"AoE"/"DPS"; spell
+    # 133 Fireball resolves "Mage"/"Fire"/"DPS"). The raw row-level join rate against
+    # Spell.dbc ids is 86.26% (421510/488661) - short of a naive 95% bar, but the
+    # misses cluster in small adjacent id runs (4916; 16308-16309; 19258-19259; ...),
+    # the signature of legitimate historical-spell churn (same class as this codebase's
+    # documented cad_reborn/rank orphan findings), not a wrong column: the golden
+    # semantic match is unambiguous and the value range corroboration is a near-exact
+    # ceiling match, so f1 is named despite the raw percentage. f2 golden-proven
+    # tagTypeId: 100% (488661/488661) of values are members of SpellTagTypes.f0.
+    "SpellTags": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"), ("tagTypeId", 2, "u"),
+    ]},
+    # SpellTagTypes (200x61): f0 ascending-ish unique (id, matches SpellTags.f2 range
+    # exactly). f27 golden-proven as the tag display name (distinct 175/200, samples
+    # "Core Damage"/"Mobility"/"Raid Buffs" per V2-1's colinfo evidence; confirmed by
+    # the SpellTags goldens above, e.g. id 63->"Priest", 93->"Discipline", 10->"Absorb").
+    # f44 is a "<category>: <name>" composite label (e.g. "Ability Type: Magic",
+    # "Class: Priest", "Priest: Discipline") - useful grouping evidence but not needed
+    # by the brief's `tags: [tagNames]` output shape, left unmapped. Every other
+    # string-likely column (per V2-1 colinfo: f3-f25,f28-f60ish) is either an all-zero
+    # placeholder (offset-0 filler, this build's documented non-empty-offset-0
+    # anomaly) or a constant-offset locale-padding artifact (all rows point at the
+    # same string, e.g. f28-f42/f45-f59 always decode to the empty string at offset 65)
+    # - not real per-row data, left unmapped.
+    "SpellTagTypes": {"expected_fields": 61, "columns": [
+        ("id", 0, "u"), ("name_enUS", 27, "s"),
+    ]},
+    # SpellCustomAttr (58127x11): the brief hypothesized f0=spellId, DISPROVEN - f0 is
+    # ascending unique EXACTLY 1..58127 (matches record count precisely, the classic
+    # local auto-increment PK shape), and its raw join rate against Spell.dbc ids is
+    # only 73.86%. The real spellId is f1: distinct==records (bijective, no dupes),
+    # range tops out at 13977855 (essentially the same near-max-id ceiling evidence as
+    # SpellTags.f1 above), and its raw join rate is 99.98% (58116/58127) - comfortably
+    # proven. Remaining 9 columns (f2-f10, all-numeric flag/bitmask-looking data, no
+    # strings, no further semantics provable) plus f0 (now known to be the row's own
+    # id, not spellId) are carried as a 10-element raw `customAttr` array in column
+    # order [f0, f2, f3, f4, f5, f6, f7, f8, f9, f10] per the brief's literal
+    # `customAttr: [u32 x10]` shape.
+    "SpellCustomAttr": {"expected_fields": 11, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"),
+    ]},
+    # SpellAddon (5598x23, no strings): the brief hypothesized f0=spellId, DISPROVEN
+    # the same way as SpellCustomAttr - f0's raw join rate is only 41.18% (and f0's
+    # value range, up to 1591271, doesn't reach anywhere near Spell.dbc's real ~14M
+    # max id). f1 is the real spellId: raw join rate 99.98% (5597/5598), range tops
+    # out at 2514021 - well inside the live custom-spell id space. Remaining 22
+    # columns (f0, f2-f22) were probed for further semantics: f20/f21/f22 clear a
+    # naive 100% join-rate vs Spell.dbc ids, but this is the same false-positive class
+    # documented elsewhere in this file (Creature/DungeonEncounterExtra) - a golden
+    # check shows f20's "resolved spell" for 5 unrelated SpellAddon rows (Moonfury,
+    # Blades of Blood, Volatile Discharge, Nightmare Mauling, ...) all repeats the SAME
+    # unrelated id (42, "Extravagant Black Pearl"), i.e. coincidental small-number
+    # membership, not a real per-row link - disproven. No other column showed string
+    # evidence (string_block_size=0) or a corroborating lookup table. Carried as a
+    # 22-element raw `addon.raw` array in column order [f0, f2, f3, ..., f22].
+    "SpellAddon": {"expected_fields": 23, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"),
+    ]},
+    # OverrideSpellData (49x12, no strings): f0 golden-proven as a base/trigger spellId
+    # (raw join rate 97.96%, 48/49) whose f1-f10 slots hold up to 10 alternate spell
+    # ids that visually/functionally replace it (a real WotLK action-bar-swap
+    # mechanic) - proven both by range (values up to 3.3M, well inside the live spell
+    # id space, not a small-number coincidence) and by strong thematic goldens: base
+    # 271 "Call of the Void" overrides to Rip/Claw/Rake (Druid Cat Form abilities);
+    # base 221 "Endangered" overrides to Fire Nova/Fireball/Flame Patch/Explode (all
+    # fire-themed); base 331/332 "Healing Wave" override to Flow of Life/Rejuvenation
+    # and Lesser Healing Wave/Chain Heal (all heals). f11 (distinct 4, range 0-5) has
+    # no provable semantics (no lookup table, no cross-validation found) - carried raw
+    # as `overrideData.raw`, not named.
+    "OverrideSpellData": {"expected_fields": 12, "columns":
+        [("id", 0, "u")] + [(f"override{i}", i, "u") for i in range(1, 11)]
+    },
+    # SpellAlternativePowerType (4x19): f0=id, f1 golden-proven display name (only
+    # string-likely column, samples "Shadow Orbs (3)"/"Shadow Orbs (5)"/"Holy Power
+    # (3)"/"Holy Power (5)" - trivially proven, a plain lookup table). NO per-spell
+    # link is provable: the brief's natural hypothesis (Spell.dbc's signed "powerType"
+    # column going negative indexes this table) is DISPROVEN - the only negative
+    # powerType value that occurs anywhere in Spell.dbc is -2 (518 spells: Health
+    # Funnel, Life Tap, Bloodrage, Dark Offering, Sacrifice, ...), which is already the
+    # pre-existing, unrelated "Health" sentinel this codebase's own enums335.POWER_TYPES
+    # decodes (a real WoW power-type enum value, nothing to do with alternate power
+    # bars). No other Spell.dbc column was found to reference ids 1-4. Kept as a named
+    # lookup table (id/name) for raw-dump clarity; zero coverage on spells.jsonl,
+    # documented in _meta.enrichment.alternativePowerType.
+    "SpellAlternativePowerType": {"expected_fields": 19, "columns": [
+        ("id", 0, "u"), ("name_enUS", 1, "s"),
+    ]},
+    # SpellCharges (401x2) + SpellChargesCategory (105x3): linkage direction PROVEN -
+    # SpellCharges.f1 -> SpellChargesCategory.f0 joins at 100% (401/401), matching
+    # value range (SpellCharges.f1 max 661 == SpellChargesCategory.f0's own max) - so
+    # f1 is named "categoryId" here (the category-link column is 100% proven).
+    # SpellCharges.f0 is golden-corroborated as a spellId: of the 352/401 (87.78%)
+    # rows that resolve against live Spell.dbc ids, 95.45% (336/352) mention "charge"
+    # in their tooltip/description text (e.g. id 52 "Overcharged: Manaforge Coruu") -
+    # strong semantic confirmation. BUT the brief sets an explicit >=90% bar
+    # specifically for this pair's link to Spell.dbc rows, and 87.78% falls short of
+    # it - per the empirical mapping rule (name only with proof clearing the stated
+    # bar), f0 stays UNNAMED here (not "spellId") and is dumped as plain "f0" by
+    # dump_table. build_spells.py's standalone data/spells/charges.json (single-writer:
+    # build_spells owns data/spells/) refers to this same column as "ref" - a
+    # deliberately noncommittal name that documents the 87.78% finding inline via its
+    # own "_note" field rather than asserting a proven identity in TABLE_MAPS. Nothing
+    # from this table attaches to individual spells.jsonl records; see build_spells.py.
+    # SpellChargesCategory.f1 (maxCharges?, 1-10) and f2 (rechargeMs?, 4000-120000)
+    # look domain-plausible by range alone but failed the one cross-validation
+    # attempted (Spell.dbc's own procCharges field vs f1: 1.7% match, no correlation)
+    # - left unmapped/raw, not named; carried into charges.json's "categories" as raw.
+    "SpellCharges": {"expected_fields": 2, "columns": [
+        ("categoryId", 1, "u"),
+    ]},
+    "SpellChargesCategory": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # v2 (task V2-5): proven via golden-record probes (see .superpowers/sdd/task-v2-5-report.md).
+    # Challenge (297x53, the hub table): f0 golden-proven id (distinct==records==297, sparse
+    # 5-622, not contiguous - a real custom id space, not row order). f7 golden-proven
+    # name_enUS (distinct 291/297: id5="Partner Up!", id7="Nudist", ...). f24 golden-proven
+    # description_enUS (distinct 210/297, 1:1 with f7 per row). Golden: Challenge 7 "Nudist"
+    # decodes description "You are unable to equip or wear armor of any kind." - this cross-
+    # validates against ChallengeRuleTypes id5 (CHALLENGE_RULES_TYPE_NO_EQUIP_ARMOR / "No
+    # Equipping Armor" / "You may not equip any armor.") and ChallengeRules' own per-challenge
+    # row for challenge 7 (ruleTypeToken == that exact same token) - the brief's requested
+    # cross-table corroboration, verified end-to-end. f42 iconToken (distinct 203/297, icon
+    # path tokens). f43 difficultyToken (5 distinct: CHALLENGE_DIFFICULTY_EASY/HARD/
+    # IMPOSSIBLE/NORMAL/VERY_HARD). f52 modeToken (8 distinct: default/ironman/hardcore/
+    # Hardcore/nightmare/resolute/Resolute/adventure). f1-f2,f8-f23,f25-f41,f44-f51 are
+    # either the 16-locale-offset+mask LangString filler block this build always carries
+    # around each real string column (see DBCFile.string's offset-0 note) or unproven
+    # boolean/flag columns - left f<N>.
+    "Challenge": {"expected_fields": 53, "columns": [
+        ("id", 0, "u"), ("name_enUS", 7, "s"), ("description_enUS", 24, "s"),
+        ("iconToken", 42, "s"), ("difficultyToken", 43, "s"), ("modeToken", 52, "s"),
+    ]},
+    # ChallengeModifierTypes (8x37, lookup table): f0=id(1-8). f1=token
+    # (CHALLENGE_MODIFIERS_TYPE_*). f2=name_enUS (short display, e.g. "Physical Damage
+    # Done"). f19=descriptionFormat_enUS (templated tooltip w/ {1} placeholder, e.g. "{1}%
+    # Physical Damage Done"). f36=iconToken. All golden-verified by direct row decode (8
+    # rows, trivial to eyeball in full - see report).
+    "ChallengeModifierTypes": {"expected_fields": 37, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"),
+        ("descriptionFormat_enUS", 19, "s"), ("iconToken", 36, "s"),
+    ]},
+    # ChallengeRuleTypes (127x36, lookup table): f0=id(1-127). f1=token. f2=name_enUS
+    # (short, e.g. "No Equipping Armor"). f19=description_enUS (full sentence, e.g. "You
+    # may not equip any armor.") - id5's row is the Challenge-7 "Nudist" golden's
+    # cross-validation target, see Challenge's comment above.
+    "ChallengeRuleTypes": {"expected_fields": 36, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"), ("description_enUS", 19, "s"),
+    ]},
+    # ChallengeConditionTypes (18x73, lookup table): f0=id(1-18). f1=token. f2=name_enUS.
+    # f19=description_enUS. f36=negatedName_enUS ("<Name> (Inverted)"). f53=
+    # negatedDescription_enUS. (No ChallengeConditions.dbc row carries a provable numeric
+    # or token link back to this table - see ChallengeConditions below; this lookup table
+    # itself decodes cleanly and is shipped for completeness/evidence.)
+    "ChallengeConditionTypes": {"expected_fields": 73, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"), ("description_enUS", 19, "s"),
+        ("negatedName_enUS", 36, "s"), ("negatedDescription_enUS", 53, "s"),
+    ]},
+    # ChallengeRequirementTypes (22x41, lookup table): f0=id(1-22). f1=token. f2=name_enUS.
+    # f19=description_enUS (templated, e.g. "You must complete the quest: ... before
+    # reaching level ..."). ChallengeRequirements.requirementTypeToken (below) is a proven
+    # 100% string-match link to this table's f1.
+    "ChallengeRequirementTypes": {"expected_fields": 41, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"), ("description_enUS", 19, "s"),
+    ]},
+    # ChallengeGroups (1203x3): f0=id (own row id, unique, sparse 1-5531). f1=challengeId,
+    # golden-proven 100% row-level join vs Challenge.dbc ids (1203/1203). f2 (distinct 76,
+    # range 1-221) has no provable semantics (no lookup table clears any bar) - left raw.
+    "ChallengeGroups": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeLevels (1334x5): f0=id (own row id, unique, sparse 1-5022). f1=challengeId,
+    # proven 84.9% raw row-level join vs Challenge.dbc ids (1133/1334; the brief's own
+    # >=80% link-table gate) - the closest-to-threshold of all 8 link tables but still a
+    # clean pass, and the remaining 199 rows are the value 0 ("unassigned") sentinel this
+    # codebase already documents for other FK columns, not noise (99.8% join once 0 is
+    # excluded: 1133/1135). f2 (distinct 63, 0-300), f3 (distinct 100, 1-100 - the SAME
+    # distinct-100/range-1-100 shape recurs identically across Rules/Conditions/
+    # Requirements/Rewards/Spells/MythicPlusScaling, never independently provable as
+    # anything more specific than "a generic small parameter"), f4 (distinct 9, 0-2763)
+    # have no provable semantics - left raw.
+    "ChallengeLevels": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeRules (3646x5): f0=id. f1=challengeId, proven 93.5% raw (99.9% once the
+    # value-0 sentinel is excluded: 3408/3410). f4=ruleTypeToken, proven 100% (3646/3646)
+    # by STRING match against ChallengeRuleTypes.token - not a numeric FK: the brief's
+    # natural "small numeric id" hypothesis (f2, distinct 12, 0-300) was tried and
+    # DISPROVEN (only 6.3% raw / 97.5% on its own mostly-zero-sentinel nonzero subset,
+    # much weaker and redundant with f4's clean 100% string proof) - f2 stays raw. f3 is
+    # the same distinct-100/1-100 recurring column noted under ChallengeLevels - raw.
+    "ChallengeRules": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"), ("ruleTypeToken", 4, "s"),
+    ]},
+    # ChallengeModifiers (2x8, tiny - only 2 challenges currently use a modifier).
+    # f0=modifierTypeId, proven 100% (2/2) vs ChallengeModifierTypes ids. f1=challengeId,
+    # proven 100% (2/2) vs Challenge.dbc ids. f2-f7 (mostly 0/constant/one float-looking
+    # value) have no provable semantics on a 2-row sample - left raw.
+    "ChallengeModifiers": {"expected_fields": 8, "columns": [
+        ("modifierTypeId", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeConditions (354x10): f0=id. f1=challengeId, proven 91.2% raw (100% once the
+    # value-0 sentinel is excluded: 323/323). NO conditionTypeId link is provable: every
+    # remaining column (f2,f5,f6 and the always-zero f4/f7/f8/f9) was tested against
+    # ChallengeConditionTypes ids and none clears any real bar (best real candidate f5's
+    # nonzero subset: 0/144 - a hard disproof, its populated values cluster on 72/35/...,
+    # nothing to do with the 18-row type table). Unlike Rules/Requirements, this table's
+    # OWN string block is only 167 bytes (vs Rules' 4976 / Requirements' 3985) - too small
+    # to carry a per-row denormalized type token, so there is no string-match escape hatch
+    # either. Conditions ship with challengeId only; f2-f9 all raw, no type name resolved.
+    "ChallengeConditions": {"expected_fields": 10, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeRequirements (2047x9): f0=id. f1=challengeId, proven 99.9% raw (100% once
+    # the value-0 sentinel is excluded: 2044/2044). f4=requirementTypeToken, proven 100%
+    # (2033/2047 populated rows - the other 14 are 0/unset - all of which string-match
+    # ChallengeRequirementTypes.token) - same string-match pattern as ChallengeRules.f4,
+    # not a numeric FK (no numeric column clears any bar: best is f3 at 96.2% but f3 is
+    # the ubiquitous distinct-100/1-100 generic parameter column, not a type id - its
+    # values densely fill 1-100 while RequirementTypes only has 22 rows). f2,f3,f5,f6,f7,f8
+    # (float-bit-pattern-looking large numbers and small counts, likely template
+    # parameters for f4's description text) have no independently provable semantics -
+    # left raw.
+    "ChallengeRequirements": {"expected_fields": 9, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"), ("requirementTypeToken", 4, "s"),
+    ]},
+    # ChallengeRewards (21677x11): f0=id. f1=challengeId, proven 97.1% raw (100% once the
+    # value-0 sentinel is excluded: 21048/21048). Per the brief, "item-ish reward columns
+    # stay f<N>" - f2-f10 (itemId/quantity/currency-looking numeric columns, one boolean)
+    # carried raw, not decoded further.
+    "ChallengeRewards": {"expected_fields": 11, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeFeatured (54x5): f0=id. f2=challengeId, proven 100% (54/54) vs Challenge.dbc
+    # ids. f1 (distinct 54, 0-53, near-bijective with row order - a UI ordering/season
+    # index) and f3 (distinct 9, 0-402) have no independently provable semantics - raw.
+    "ChallengeFeatured": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"), ("challengeId", 2, "u"),
+    ]},
+    # ChallengeSpells (7702x10): f0=id. f1=challengeId, proven 100% (7702/7702) vs
+    # Challenge.dbc ids. f5=spellId, proven 100% on its populated subset (802/802 nonzero
+    # rows join Spell.dbc) AND semantically corroborated: 72.7% of the resolved spell
+    # names literally embed the OWNING challenge's own name plus a colorized "Tier N"
+    # suffix (e.g. challenge 25 "Fleeting" -> spell 207 "Fleeting\n|cFF1EFF0CTier 1|r") -
+    # not the colorized-tooltip-garbage false positive documented elsewhere in this
+    # codebase (SpellAddon, CharacterCreationPetDetails), because the text is legibly
+    # on-theme rather than unrelated fragments. f4 (distinct 7526, populated on ALL 7702
+    # rows but only 19.4% join Spell.dbc ids, and its resolved names are the same
+    # Tier-N pattern for the subset that DOES join) looks like a stale/legacy duplicate of
+    # f5 - left raw, not named, since it clears no join-rate bar. f2 (always 0), f3 (the
+    # recurring distinct-100/1-100 column), f6-f9 (near-constant/boolean) - raw.
+    "ChallengeSpells": {"expected_fields": 10, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"), ("spellId", 5, "u"),
+    ]},
+    # ChallengeGroupRewards (144x10): f0 is NOT its own independent PK - golden-proven to
+    # reuse ChallengeGroups' OWN id space (this table keys directly by challengeGroupId,
+    # awarding a reward for completing that group). Two candidate id spaces were tested
+    # (both pass a naive "is this a valid id" check near-100%, since both tables' id
+    # spaces are ~72-77% dense over 1-653): chaining through ChallengeGroups.challengeId
+    # resolves 135/144=93.75% of rows to a real Challenge (and every row whose f0 is a
+    # valid ChallengeGroups id ALSO resolves via that group's already-100%-proven
+    # challengeId - a fully coherent chain), whereas chaining through
+    # ChallengeLevels.challengeId only resolves 72/144=50% (weaker, and the naive 100%
+    # id-membership figure was mostly the ~72% background density of small integers being
+    # valid Levels ids too - the same false-positive class as this codebase's other dense-
+    # id-space findings). f0 is therefore named groupId, not levelId. f4=expansionToken,
+    # proven (distinct 3: EXPANSION_CLASSIC/THE_BURNING_CRUSADE/WRATH_OF_THE_LICH_KING - a
+    # plain string lookup, trivially decoded). f1(distinct 6, 1-54), f2(always 1),
+    # f3(distinct 8, 1-8), f5(always 18), f6(distinct 48, itemId-ish per the brief's
+    # "item-ish reward columns stay f<N>"), f7(always 1), f8(always 0), f9(always
+    # 1000000, a gold-amount-looking sentinel) - all raw, not decoded further.
+    "ChallengeGroupRewards": {"expected_fields": 10, "columns": [
+        ("groupId", 0, "u"), ("expansionToken", 4, "s"),
+    ]},
+    # MythicKeystones (6801x3): f0=id (own row id, sparse, no further semantics needed).
+    # f1=dungeonId, proven 98.5% row-level join vs LFGDungeons.dbc ids (6700/6801 - the
+    # remainder are non-dungeon/test map ids, same class of residual noise documented
+    # throughout this codebase). f2=level (0-100, matches the real WotLK-era Mythic+
+    # keystone-level concept; corroborated by MythicPlusScaling.level using the identical
+    # 1-100 range).
+    "MythicKeystones": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("dungeonId", 1, "u"), ("level", 2, "u"),
+    ]},
+    # MythicAffixes (13409x16): f0=id. The brief's own hypothesis ("affix name source =
+    # ChallengeModifierTypes if join proves it") was tested and DISPROVEN - no column
+    # clears any join-rate bar against ChallengeModifierTypes' 8 rows. Instead
+    # grantSpellId(f3)/effectSpellId1-3(f11-f13) all prove out 100% against Spell.dbc on
+    # their populated subsets, with clean on-theme resolved names ("Pack Tactics",
+    # "Fast", "Resistant", "Life Stealing", "True Sight", "Avenger", "Horde", "Tiny") -
+    # these ARE the de-facto affix names/effects, used instead of the disproven
+    # ChallengeModifierTypes route. f1 (distinct 53, 0-52, exactly 253 rows per value -
+    # a real structural dimension, likely an affix-slot index) and f2 (distinct 253,
+    # 2-254) have no independently provable NAME/semantic (no lookup table of the right
+    # size exists) - left raw despite the clean structural regularity, per the empirical
+    # rule (structural regularity alone is not a golden). f4-f10,f14 (always 0), f15
+    # (always the float bit-pattern for 1.0) - raw.
+    "MythicAffixes": {"expected_fields": 16, "columns": [
+        ("id", 0, "u"), ("grantSpellId", 3, "u"),
+        ("effectSpellId1", 11, "u"), ("effectSpellId2", 12, "u"), ("effectSpellId3", 13, "u"),
+    ]},
+    # MythicPlusScaling (200x8): f0=id (own row id, 0-199, ascending). f1=level, proven by
+    # direct row inspection (ascending 1,2,3,...,100 repeated twice across the 200 rows,
+    # i.e. 2 scaling categories x 100 levels) and corroborated by the identical 1-100
+    # range MythicKeystones.level uses. f2(always 0), f3/f5 (identical increasing-curve
+    # values, distinct 100, likely a health/damage scalar), f4(always 0), f6(distinct 100,
+    # a second increasing curve), f7(distinct 3, 0-14) have no independently provable
+    # semantics - left raw.
+    "MythicPlusScaling": {"expected_fields": 8, "columns": [
+        ("id", 0, "u"), ("level", 1, "u"),
+    ]},
+    # TimedDungeons (82x6): f0=dungeonId, golden-proven - raw row-level join vs
+    # LFGDungeons.dbc ids is 84.1% (69/82); the 13 misses all sit in the same anomalous
+    # dev/test id block 2001-2028, and none resolves against LFGDungeons.dbc or Map.dbc.
+    # 12 of the 13 share the IDENTICAL placeholder payload [36,20,20,7800000,1.0] (one,
+    # 2001, even resolves against Map.dbc to the literal name "This is a REAL map" / a row
+    # named "MyInternalTest4"); the 13th (id 2002) has a different payload
+    # [283,8,2,3480000,1.0] but is still in the same 2001-2028 block and still resolves to
+    # no dungeon - excluding these 13 documented non-dungeon rows, the join is 69/69 =
+    # 100%, and every one resolves to a real classic/TBC dungeon name (Lower Scholomance,
+    # Auchenai Crypts, Mana-Tombs, ...); the raw 84.1% join rate alone already clears the
+    # brief's gate without relying on this exclusion. f4=timeLimitMs, corroborated
+    # semantically: values range 1.6M-7.8M ms (26.7-130 min) and line up with real
+    # per-dungeon run-time expectations (e.g. dungeonId 53 "Lower Scholomance" carries
+    # 1896000ms = 31.6 min). f1(distinct 50, 0-1000), f2(distinct 9, 1-20), f3(distinct 4,
+    # 0-20), f5(always the float bit-pattern for 1.0) - raw.
+    "TimedDungeons": {"expected_fields": 6, "columns": [
+        ("dungeonId", 0, "u"), ("timeLimitMs", 4, "u"),
+    ]},
+    # MapDifficulty (685x23): not named in the brief's V2-5 output schema, but included in
+    # this task's mapping-evidence file list and cleanly provable, so curated too. f0=id.
+    # f1=mapId, proven 97.5% row-level join vs Map.dbc ids (668/685). f2=difficultyIndex
+    # (0-3, matches WotLK's per-map difficulty-tier concept). f3=lockoutMessage_enUS
+    # (distinct 35, e.g. "Mythic Difficulty requires you to be level 70." - the literal
+    # string that first suggested this table was in-scope for the Mythic+ pack).
+    # f22=difficultyToken (distinct 8: DUNGEON_DIFFICULTY_5PLAYER[_HEROIC/_EPIC],
+    # RAID_DIFFICULTY_10PLAYER_HEROIC/25PLAYER[_HEROIC]/40PLAYER). f4-f18 (LangString
+    # filler block for f3), f19-f21 (a color-looking constant, a lockout-duration-looking
+    # value, a small count) have no independently provable semantics - raw.
+    "MapDifficulty": {"expected_fields": 23, "columns": [
+        ("id", 0, "u"), ("mapId", 1, "u"), ("difficultyIndex", 2, "u"),
+        ("lockoutMessage_enUS", 3, "s"), ("difficultyToken", 22, "s"),
+    ]},
 }
 
 
@@ -249,11 +812,93 @@ def dump_table(table: str) -> Path:
     return out
 
 
+def dump_unmapped(table: str, out_dir: Path = None) -> Path:
+    """Dump a table with no TABLE_MAPS entry as raw signed ints (f0..fN) plus
+    a colinfo.json evidence sidecar: per-column distinct/min/max/pct_zero and
+    a string-likelihood score (fraction of rows whose value is a plausible
+    string-block offset), with up to 3 decoded samples for string-likely
+    columns. This is the mapping-evidence trail for later empirical curation.
+
+    out_dir defaults to config.RAW_DBC_DIR (dump_all()'s behavior). Callers
+    that just want to inspect/verify a dump (e.g. tests) should pass a
+    scratch dir instead, so they don't clobber committed raw/ artifacts -
+    especially for tables that HAVE since become mapped, where this
+    unmapped f0..fN shape would corrupt the committed named-header dump.
+    """
+    if out_dir is None:
+        out_dir = config.RAW_DBC_DIR
+    out_dir.mkdir(parents=True, exist_ok=True)
+    f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
+    n = f.fields
+    strblock_size = len(f._strings)
+    records = f.records
+
+    distinct = [set() for _ in range(n)]
+    mins = [None] * n
+    maxs = [None] * n
+    zeros = [0] * n
+    strlike = [0] * n
+    samples = [[] for _ in range(n)]
+
+    out = out_dir / f"{table}.csv.gz"
+    with open(out, "wb") as fb, \
+         gzip.GzipFile(fileobj=fb, mode="wb", mtime=0) as gz, \
+         io.TextIOWrapper(gz, encoding="utf-8", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow([f"f{i}" for i in range(n)])
+        for row in f.iter_rows():
+            w.writerow(row)
+            for i in range(n):
+                v = row[i]
+                distinct[i].add(v)
+                if mins[i] is None or v < mins[i]:
+                    mins[i] = v
+                if maxs[i] is None or v > maxs[i]:
+                    maxs[i] = v
+                if v == 0:
+                    zeros[i] += 1
+                is_strlike = strblock_size > 0 and (
+                    v == 0 or (0 < v < strblock_size and f._strings[v - 1] == 0))
+                if is_strlike:
+                    strlike[i] += 1
+                    if len(samples[i]) < 3:
+                        s = f.string(v)
+                        if s and s not in samples[i]:
+                            samples[i].append(s)
+
+    columns = []
+    for i in range(n):
+        likelihood = round(strlike[i] / records, 4) if records else 0.0
+        columns.append({
+            "index": i,
+            "distinct": len(distinct[i]),
+            "min": mins[i],
+            "max": maxs[i],
+            "pct_zero": round(zeros[i] / records, 4) if records else 0.0,
+            "string_likelihood": likelihood,
+            "samples": samples[i][:3] if likelihood >= 0.9 else [],
+        })
+
+    colinfo = {
+        "table": table, "records": records, "fields": n,
+        "string_block_size": strblock_size, "columns": columns,
+    }
+    (out_dir / f"{table}.colinfo.json").write_text(
+        json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+    return out
+
+
 def dump_all():
     config.ensure_dirs()
     for table in sorted(TABLE_MAPS):
         p = dump_table(table)
         print(f"dumped {p.name}")
+    for name in sorted(config.WANTED_DBCS):
+        table = Path(name).stem
+        if table in TABLE_MAPS:
+            continue
+        p = dump_unmapped(table)
+        print(f"dumped {p.name} (unmapped)")
 
 
 if __name__ == "__main__":

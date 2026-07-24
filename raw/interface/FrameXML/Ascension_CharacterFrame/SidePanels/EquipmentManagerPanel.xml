@@ -1,0 +1,310 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="EquipmentManagerPanel.lua"/>
+    <Script file="EquipmentSetItem.lua"/>
+    <Include file="EquipmentFlyout.xml"/>
+    
+    <Button name="EquipmentSetItemControlTemplate" virtual="true">
+        <Size x="14" y="14"/>
+        <Scripts>
+            <OnLoad>
+                local atlas = self:GetAttribute("atlas")
+                self:SetNormalAtlas(atlas)
+                self:SetDisabledAtlas(atlas)
+                self:SetHighlightAtlas(atlas)
+                self:SetPushedAtlas(atlas)
+
+                self:GetPushedTexture():SetVertexColor(0.6, 0.6, 0.6)
+                self:GetDisabledTexture():SetDesaturated(true)
+                
+                self.tooltipTitle = self:GetAttribute("tooltipTitle")
+                self.tooltipTitle = self.tooltipTitle and _G[self.tooltipTitle]
+                self.tooltipText = self:GetAttribute("tooltipText")
+                self.tooltipText = self.tooltipText and _G[self.tooltipText]
+            </OnLoad>
+            <PreClick>
+                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+            </PreClick>
+            <OnLeave>
+                self:GetParent():GetParent():OnLeave()
+                GameTooltip:Hide()
+            </OnLeave>
+            <OnEnter>
+                GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+            </OnEnter>
+        </Scripts>
+        
+        <HighlightTexture alphaMode="ADD"/>
+    </Button>
+
+    <Button name="EquipmentSetItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="0" y="48"/>
+        
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentIsEquipped" parentKey="IsEquipped" file="Interface\Buttons\UI-CheckBox-Check" hidden="true">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-12" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="38" y="38"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="8"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentControls" parentKey="Controls" hidden="true" setAllPoints="true">
+                <Frames>
+                    <Button name="$parentEdit" parentKey="Edit" inherits="EquipmentSetItemControlTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-4" y="2"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ShowIconSelection()
+                            </OnClick>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="atlas" value="mechagon-projects"/>
+                            <Attribute name="tooltipTitle" value="EQUIPMENT_MANAGER_EDIT"/>
+                            <Attribute name="tooltipText" value="EQUIPMENT_MANAGER_EDIT_TOOLTIP"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentDelete" parentKey="Delete" inherits="EquipmentSetItemControlTemplate">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-4" y="-2"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():RequestDelete()
+                            </OnClick>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="atlas" value="common-icon-redx"/>
+                            <Attribute name="tooltipTitle" value="EQUIPMENT_MANAGER_DELETE"/>
+                            <Attribute name="tooltipText" value="EQUIPMENT_MANAGER_DELETE_TOOLTIP"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+                
+                <Scripts>
+                    <OnShow>
+                        self:GetParent():LockHighlight()
+                    </OnShow>
+                    <OnHide>
+                        self:GetParent():UnlockHighlight()
+                    </OnHide>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentEditControls" parentKey="EditControls" setAllPoints="true" hidden="true">
+                <Frames>
+                    <Button name="$parentStopEdit" parentKey="StopEdit" inherits="EquipmentSetItemControlTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-20" y="2"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():HideEditMode()
+                            </OnClick>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="atlas" value="mechagon-projects"/>
+                            <Attribute name="tooltipTitle" value="EQUIPMENT_MANAGER_FINISH_EDIT"/>
+                            <Attribute name="tooltipText" value="EQUIPMENT_MANAGER_FINISH_EDIT_TOOLTIP"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentSave" parentKey="Save" inherits="EquipmentSetItemControlTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-4" y="2"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():SaveEditedChanges()
+                            </OnClick>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="atlas" value="common-icon-checkmark"/>
+                            <Attribute name="tooltipTitle" value="EQUIPMENT_MANAGER_SAVE"/>
+                            <Attribute name="tooltipText" value="EQUIPMENT_MANAGER_SAVE_TOOLTIP"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentEditIcon" parentKey="EditIcon" inherits="EquipmentSetItemControlTemplate">
+                        <Size x="18" y="18"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="LEFT" x="27"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ShowIconSelection()
+                            </OnClick>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="atlas" value="mechagon-projects"/>
+                            <Attribute name="tooltipTitle" value="EQUIPMENT_MANAGER_EDIT_ICON"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnShow>
+                        self:GetParent():LockHighlight()
+                    </OnShow>
+                    <OnHide>
+                        self:GetParent():UnlockHighlight()
+                    </OnHide>
+                </Scripts>
+            </Frame>
+
+            <EditBox name="$parentEditBox" parentKey="EditBox" hidden="true" letters="16" inherits="InputBoxInstructionsTemplate">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="50"/>
+                    <Anchor point="RIGHT" x="-5"/>
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        self:SetText(self:GetParent():GetText() or "")
+                        self:GetParent().Text:Hide()
+                    </OnShow>
+                    <OnHide>
+                        self:GetParent().Text:Show()
+                    </OnHide>
+                    <OnEnterPressed>
+                        self:GetParent():CommitNameChange()
+                    </OnEnterPressed>
+                    <OnEscapePressed>
+                        self:GetParent():HideEditMode()
+                    </OnEscapePressed>
+                </Scripts>
+            </EditBox>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EquipmentSetItemMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText inherits="GameFontHighlight" parentKey="Text" justifyH="LEFT" maxLines="2">
+            <Anchors>
+                <Anchor point="LEFT" x="50"/>
+                <Anchor point="RIGHT" x="-5"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="1" y="-1"/>
+    </Button>
+
+    <Frame name="AscensionCharacterEquipmentManagerPanel" parent="AscensionCharacterFrameRightInset" hidden="true" inherits="StandardProportionalScrollListTemplate">
+        <Size x="162" y="330"/>
+
+        <Anchors>
+            <Anchor point="TOPLEFT" x="2" y="-26"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentEquipButton" parentKey="EquipButton" text="EQUIPSET_EQUIP" inherits="StandardButtonTemplate">
+                <Size x="92" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="1" y="1"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        self:GetParent():EquipSelected()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentSaveButton" parentKey="SaveButton" text="SAVE" inherits="StandardButtonTemplate">
+                <Size x="92" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="22" y="1"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        self:GetParent():SaveSelected()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentIconSelector" parentKey="IconSelector" hidden="true" inherits="IconSelectorFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                </Anchors>
+            </Frame>
+
+            <CheckButton name="$parentSendToBankToggle" frameLevel="10" inherits="UICheckButtonTemplate">
+                <Size x="26" y="26"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-58" y="28"/>
+                </Anchors>
+                
+                <HitRectInsets left="-18" right="0" top="0" bottom="0"/>
+
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentIcon" parentKey="Icon" file="Interface\GossipFrame\BankerGossipIcon">
+                            <Size x="16" y="16"/>
+                            <Anchors>
+                                <Anchor point="RIGHT" relativePoint="LEFT" y="1"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentGlow" parentKey="Glow" alphaMode="ADD" alpha="0.4">
+                            <Size x="54" y="54"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        local cvar = C_CVar.GetBool("bankEquipmentManager")
+                        self:SetChecked(cvar)
+                        self.Glow:SetAtlas("garrlanding-sidetoast-glow", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                    <OnShow>
+                        HelpTip:Show("EQUIPMENT_MANAGER_BANK_ITEMS")
+                    </OnShow>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+                        GameTooltip:SetText(EQUIPMENT_MANAGER_STORE_SETS_IN_BANK, 1, 1, 1, 1)
+                        GameTooltip:AddLine(EQUIPMENT_MANAGER_STORE_SETS_IN_BANK_TOOLTIP, 1, 0.82, 0, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                    <OnClick function="GearManagerDialogSendItemsToBank_OnClick"/>
+                </Scripts>
+            </CheckButton>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EquipmentManagerPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

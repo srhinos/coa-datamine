@@ -1,0 +1,169 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ScenarioObjectiveTracker.lua"/>
+
+    <Frame name="ObjectiveTrackerBase" enableMouse="true" clampedToScreen="true" movable="true" hidden="true" virtual="true">
+        <Size x="261" y="87"/>
+
+        <Anchors>
+            <Anchor point="TOPRIGHT" x="-230" y="-150"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentHeader" parentKey="Header">
+                    <Anchors>
+                        <Anchor point="TOP" x="8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentHeaderText" parentKey="HeaderText" text="Placeholder Dungeon Name" inherits="PTFontNormal2">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentHeader" x="26" y="-18"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentCollapseExpandButton" parentKey="CollapseExpandButton">
+                <Size  x="16" y="16"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-4" y="-18"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleCollapsed()
+                    </OnClick>
+                </Scripts>
+
+                <NormalTexture file="Interface\Buttons\UI-Panel-QuestHideButton">
+                    <TexCoords left="0" right="0.5" top="0.5" bottom="1"/>
+                </NormalTexture>
+                <PushedTexture file="Interface\Buttons\UI-Panel-QuestHideButton">
+                    <TexCoords left="0.5" right="1" top="0.5" bottom="1"/>
+                </PushedTexture>
+                <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+                <DisabledTexture file="Interface\Buttons\UI-Panel-QuestHideButton-disabled"/>
+            </Button>
+
+            <CheckButton name="$parentLockButton" parentKey="LockButton" checked="true" inherits="UICheckButtonTemplate">
+                <Size x="20" y="20"/>
+
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentCollapseExpandButton" relativePoint="LEFT"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture file="Interface\Buttons\LockButton-Border" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnClick>
+                        if self:GetChecked() then
+                            PlaySound(SOUNDKIT.MINI_MAP_ZOOM_70)
+                            self:GetParent():RegisterForDrag()
+                        else
+                            PlaySound(SOUNDKIT.MINI_MAP_ZOOM)
+                            self:GetParent():RegisterForDrag("LeftButton")
+                        end
+                    </OnClick>
+                </Scripts>
+
+                <NormalTexture file="Interface\Buttons\LockButton-Unlocked-Up"/>
+                <PushedTexture file="Interface\Buttons\LockButton-Unlocked-Down"/>
+                <CheckedTexture file="Interface\Buttons\LockButton-Locked-Up"/>
+            </CheckButton>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ObjectiveTrackerBaseMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame> 
+    
+    <Frame name="ObjectiveTrackerTemplate" inherits="ObjectiveTrackerBase" virtual="true">
+        <Frames>
+            <Frame name="$parentMainBlock" parentKey="MainBlock">
+                <Size x="261" y="87"/>
+
+                <Anchors>
+                    <Anchor point="TOP" y="-40"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+
+                    <Layer>
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+                            <Size x="219" y="40"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="14" y="-10"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlight" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="14" y="-30"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentBottmLeftText" parentKey="BottomLeftText" inherits="GameFontNormalSmall2" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="14" y="10"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentBottomRightText" parentKey="BottomRightText" inherits="GameFontNormalSmall2" justifyH="RIGHT">
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="-14" y="10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                    
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentFinalStageFiligree" parentKey="FinalStageFiligree" hidden="true" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame name="$parentObjectiveBlock" parentKey="ObjectiveBlock">
+                <Size x="220" y="1"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentMainBlock" relativePoint="BOTTOM" y="2"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ObjectiveTrackerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="LFGObjectiveTracker" parent="UIParent" inherits="ObjectiveTrackerTemplate">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "LFGObjectiveTrackerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="ScenarioObjectiveTracker" parent="UIParent" inherits="ObjectiveTrackerTemplate">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ScenarioObjectiveTrackerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

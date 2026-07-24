@@ -1,0 +1,35 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    
+    <Script file="AnimationTemplates.lua"/>
+    
+    <AnimationGroup name="AnimationShowOnPlayTemplate" virtual="true">
+        <Scripts>
+            <OnPlay>
+                self:GetParent():Show()
+            </OnPlay>
+        </Scripts>
+    </AnimationGroup>
+    
+    <AnimationGroup name="AnimationHideOnFinishTemplate" virtual="true">
+        <Scripts>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+    
+    <AnimationGroup name="AnimationOneShotTemplate" virtual="true">
+        <Scripts>
+            <OnPlay>
+                self:GetParent():Show()
+            </OnPlay>
+            <OnStop>
+                self:GetParent():Hide()
+            </OnStop>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+</Ui>

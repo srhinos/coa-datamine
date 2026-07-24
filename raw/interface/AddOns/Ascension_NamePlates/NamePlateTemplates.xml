@@ -1,0 +1,324 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="NamePlateBuffContainer.lua"/>
+    <Script file="NamePlateTemplates.lua"/>
+
+    <Frame name="NameplateBuffButtonTemplate" virtual="true" hidden="true">
+        <Size x="20" y="14"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Border" setAllPoints="true">
+                    <Color r="0" g="0" b="0"/>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Icon">
+                    <Size x="18" y="12"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.05" right="0.95" top="0.1" bottom="0.6"/>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentCooldownText" parentKey="CooldownText" inherits="GameFontNormalOutlineTiny">
+                    <Anchors>
+                        <Anchor point="CENTER" y="1"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="CountFrame" setAllPoints="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="Count" inherits="NumberFontNormalSmall" justifyH="RIGHT">
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="3" y="-2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NameplateBuffButtonTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="NamePlateFullBorderTemplate" setAllPoints="true" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <!--Top-->
+                <Texture name="$parentTexture" parentKey="Texture">
+                    <Size x="1" y="1"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-1" y="1"/>
+                        <Anchor point="BOTTOMRIGHT" x="1" y="-1"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentOverlay" parentKey="Overlay" hidden="true" setAllPoints="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture file="Interface/Tooltips/Nameplate-Border">
+                            <TexCoords left="0" right="1" top="0.5" bottom="1"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NamePlateBorderTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="BaseNamePlateUnitFrameTemplate" parentKey="UnitFrame" setAllPoints="true" virtual="true">
+        <Attributes>
+            <Attribute name="disableMouse" value="true" type="boolean"/>
+        </Attributes>
+
+        <Frames>
+            <StatusBar name="$parenthealthBar" parentKey="healthBar" drawLayer="ARTWORK">
+                <Frames>
+                    <Frame parentKey="border" inherits="NamePlateFullBorderTemplate" />
+                    <Frame name="$parentElements" parentKey="Elements" setAllPoints="true">
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentMyHealPrediction" parentKey="myHealPrediction"/>
+                                <Texture name="$parentOtherHealPrediction" parentKey="otherHealPrediction"/>
+                                <Texture name="$parentTotalAbsorb" parentKey="totalAbsorb"/>
+                                <Texture name="$parentMyHealAbsorb" parentKey="myHealAbsorb"/>
+                            </Layer>
+                            <Layer level="BORDER">
+                                <Texture name="$parentTotalAbsorbOverlay" parentKey="totalAbsorbOverlay"/>
+                            </Layer>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentOverAbsorbGlow" parentKey="overAbsorbGlow"/>
+                                <Texture name="$parentOverHealAbsorbGlow" parentKey="overHealAbsorbGlow"/>
+                            </Layer>
+                            <Layer level="OVERLAY">
+                                <FontString parentKey="statusText" inherits="GameFontHighlight">
+                                    <Anchors>
+                                        <Anchor point="CENTER" x="0" y="1"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </Frames>
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture parentKey="background">
+                            <Color r="1" g="1" b="1" a="1"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="myHealAbsorbLeftShadow" inherits="HealAbsorbBarLeftShadowTemplate"/>
+                        <Texture parentKey="myHealAbsorbRightShadow" inherits="HealAbsorbBarRightShadowTemplate"/>
+                    </Layer>
+                </Layers>
+                <BarTexture parentKey="barTexture" file="Interface/TargetingFrame/UI-TargetingFrame-BarFill" />
+            </StatusBar>
+
+            <StatusBar name="$parentPowerBar" parentKey="powerBar">
+                <Size x="1" y="4"/>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="$parentBackground" parentKey="background" setAllPoints="true"/>
+					</Layer>
+				</Layers>
+			</StatusBar>
+
+            <StatusBar name="$parentcastBar" parentKey="castBar" hidden="true">
+                <Attributes>
+                    <Attribute name="show-icon" value="true" type="boolean"/>
+                </Attributes>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Color r=".2" g=".2" b=".2" a=".85"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" parentKey="Text" inherits="SystemFont_Shadow_Small">
+                            <Size x="0" y="16" />
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </FontString>
+                        <Texture name="$parentBorderShield" parentKey="BorderShield" hidden="true">
+                            <Size x="10" y="12" />
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="LEFT" x="-2" y="-1"/>
+                            </Anchors>
+                        </Texture>
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="10" y="10"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="-2" y="-1"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentSpark" parentKey="Spark" file="Interface\CastingBar\UI-CastingBar-Spark" alphaMode="ADD">
+                            <Size x="16" y="16" />
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                        <Texture name="$parentFlash" parentKey="Flash" file="Interface\TargetingFrame\UI-TargetingFrame-BarFill" alphaMode="ADD" />
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self.BorderShield:SetAtlas("nameplates-InterruptShield", Const.TextureKit.IgnoreAtlasSize);
+                        CastingBarFrame_OnLoad(self, nil, false, true);
+                    </OnLoad>
+                    <OnEvent function="CastingBarFrame_OnEvent" />
+                    <OnUpdate function="CastingBarFrame_OnUpdate" />
+                    <OnShow>
+                        if not C_NamePlateManager.IsNamePlateMoving(self:GetParent()) then
+                            CastingBarFrame_OnShow(self)
+                        end
+                    </OnShow>
+                </Scripts>
+                <BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+                <BarColor r="1.0" g="0.7" b="0.0"/>
+            </StatusBar>
+
+            <Frame parentKey="BuffFrame" inherits="HorizontalLayoutFrame">
+                <Attributes>
+                    <Attribute name="spacing" value="4" type="number"/>
+                    <Attribute name="fixedHeight" value="14" type="number"/>
+                </Attributes>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "HorizontalLayoutMixin", "NameplateBuffContainerMixin")
+                    </OnLoad>
+                    <OnShow>
+                        if not C_NamePlateManager.IsNamePlateMoving(self:GetParent()) then
+                            self:Layout()
+                        end
+                    </OnShow>
+                </Scripts>
+            </Frame>
+            <Frame parentKey="ClassificationFrame" frameStrata="HIGH">
+                <Size x="14" y="13" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parenthealthBar" relativePoint="LEFT" x="0" />
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="classificationIndicator" />
+                    </Layer>
+                </Layers>
+            </Frame>
+            <Frame parentKey="LevelFrame" hidden="true">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parenthealthBar" relativePoint="RIGHT" x="-1" />
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Icon" setAllPoints="true"/>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="Skull" file="Interface\TARGETINGFRAME\UI-TargetingFrame-Skull" hidden="true">
+                            <Size x="12" y="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString parentKey="Text" inherits="GameFontWhiteTiny2">
+                            <Anchors>
+                                <Anchor point="CENTER" x="1"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self.Icon:SetAtlas("nameplates-icon-level", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            <Frame parentKey="RaidTargetFrame">
+                <Size x="22" y="22"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parenthealthBar" relativePoint="LEFT" x="-15" />
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="RaidTargetIcon" file="Interface\TargetingFrame\UI-RaidTargetingIcons" setAllPoints="true" hidden="true" />
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <Frame name="$parentaggroHighlight" parentKey="aggroHighlight">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parenthealthBar"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parenthealthBar"/>
+                </Anchors>
+
+                <Animations>
+                    <AnimationGroup parentKey="LoseAggroAnim">
+                        <Alpha duration="0" change="1" order="1"/>
+                        <Alpha duration=".25" change="-1" order="2"/>
+                        <Alpha duration="0" change="1" order="3"/>
+                        <Alpha duration=".25" change="-1" order="4"/>
+                    </AnimationGroup>
+                </Animations>
+
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentTexture" parentKey="Texture" file="Interface/TargetingFrame/UI-TargetingFrame-BarFill" hidden="true" setAllPoints="true" alphaMode="ADD">
+                            <Color r="1" g="0" b="0"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        <Layers>
+
+            <Layer level="BORDER">
+                <FontString name="$parentName" parentKey="name" inherits="SystemFont_Shadow_Med1" wordwrap="false" justifyH="CENTER">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativeTo="$parenthealthBar" relativePoint="TOP" y="4" />
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="selectionHighlight" file="Interface/TargetingFrame/UI-TargetingFrame-BarFill" alpha=".25" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parenthealthBar" />
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parenthealthBar" />
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="questIcon" hidden="true">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativeTo="$parentName" relativePoint="TOP" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NamePlateUnitMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="NamePlateUnitFrameTemplate" inherits="BaseNamePlateUnitFrameTemplate" virtual="true" />
+</Ui>

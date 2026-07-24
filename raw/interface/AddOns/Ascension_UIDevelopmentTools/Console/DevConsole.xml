@@ -1,0 +1,153 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="DevConsole.lua"/>
+    <Script file="DevConsoleCommands.lua"/>
+
+    <Frame name="DevConsoleBackgroundTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true">
+                    <Color r=".1" g=".1" b=".1" a=".8"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture parentKey="BorderTop">
+                    <Size y="1" />
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parentBackground" relativePoint="TOPLEFT" x="-1" y="0" />
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBackground" relativePoint="TOPRIGHT" x="1" y="0" />
+                    </Anchors>
+                    <Color r="0.97" g="0.21" b="0" a="1"/>
+                </Texture>
+
+                <Texture parentKey="BorderBottom">
+                    <Size y="1" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBackground" relativePoint="BOTTOMLEFT" x="-1" y="0" />
+                        <Anchor point="TOPRIGHT" relativeTo="$parentBackground" relativePoint="BOTTOMRIGHT" x="1" y="0" />
+                    </Anchors>
+                    <Color r="0.97" g="0.21" b="0" a="1"/>
+                </Texture>
+
+                <Texture parentKey="BorderLeft">
+                    <Size x="1" />
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentBackground" relativePoint="TOPLEFT" y="1" />
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBackground" relativePoint="BOTTOMLEFT" y="-1" />
+                    </Anchors>
+                    <Color r="0.97" g="0.21" b="0" a="1"/>
+                </Texture>
+
+                <Texture parentKey="BorderRight">
+                    <Size x="1" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBackground" relativePoint="TOPRIGHT" y="1" />
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parentBackground" relativePoint="BOTTOMRIGHT" y="-1" />
+                    </Anchors>
+                    <Color r="0.97" g="0.21" b="0" a="1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <ScrollingMessageFrame name="DevConsole" hidden="true" frameStrata="FULLSCREEN_DIALOG" fade="false" maxLines="255" enableMouse="true" frameLevel="101" inherits="DevConsoleBackgroundTemplate">
+        <Size x="0" y="256"/>
+
+        <Anchors>
+            <Anchor point="TOPLEFT" x="1" y="-1"/>
+            <Anchor point="TOPRIGHT" x="-1"/>
+        </Anchors>
+
+        <FontString inherits="ConsoleFont" justifyH="LEFT"/>
+
+        <Frames>
+            <EditBox name="$parentEditBox" parentKey="EditBox" font="ConsoleFont" autoFocus="false" ignoreArrows="false" historyLines="50" inherits="InputBoxInstructionsTemplate, DevConsoleBackgroundTemplate">
+                <Attributes>
+                    <Attribute name="instruction" value="Enter a lua script or `help` for commands"/>
+                    <Attribute name="instruction-font" value="ConsoleFont"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" y="-1"/>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" y="-25"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        InputBoxInstructions_OnLoad(self)
+                        self.Left:Hide()
+                        self.Right:Hide()
+                        self.Middle:Hide()
+                    </OnLoad>
+                    <OnEnterPressed>
+                        self:GetParent():SendInput(self)
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+        </Frames>
+        
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha order="1" change="-1" duration="0"/>
+                <Alpha order="2" change="1" duration="0.125"/>
+                <Translation order="1" offsetY="300" duration="0"/>
+                <Translation order="2" offsetY="-300" duration="0.125"/>
+                
+                <Scripts>
+                    <OnFinished>
+                        EditBox_SetFocus(self:GetParent().EditBox)
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="AnimOut">
+                <Alpha order="1" change="-1" duration="0.125"/>
+                <Translation order="1" offsetY="300" duration="0.125"/>
+                
+                <Scripts>
+                    <OnPlay>
+                        EditBox_ClearFocus(self:GetParent().EditBox)
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+
+        <Scripts>
+            <OnLoad>
+                self:SetHyperlinksEnabled(true)
+                MixinAndLoad(self, DevConsoleMixin)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+            <OnMouseWheel>
+                if delta >= 1 then
+                    self:ScrollUp()
+                else 
+                    self:ScrollDown()
+                end
+            </OnMouseWheel>
+            <OnHyperlinkClick>
+                self:OnHyperlinkClick(link, text, button)
+            </OnHyperlinkClick>
+            <OnHyperlinkEnter>
+                self:OnHyperlinkEnter(link, text)
+            </OnHyperlinkEnter>
+            <OnHyperlinkLeave>
+                self:OnHyperlinkLeave(link, text)
+            </OnHyperlinkLeave>
+        </Scripts>
+    </ScrollingMessageFrame>
+    
+    <Frame name="FStackTooltip" inherits="GlueTooltipTemplate"/>
+
+    <!--Must be done after frame is made-->
+    <Include file="Commands\Commands.xml"/>
+</Ui>

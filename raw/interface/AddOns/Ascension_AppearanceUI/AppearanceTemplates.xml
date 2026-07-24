@@ -1,0 +1,673 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="AppearanceCategoryTabMixin.lua"/>
+    <Script file="AppearanceModelMixin.lua"/>
+    <Script file="AppearanceCategoryTabMixin.lua"/>
+    <Script file="AppearanceCategorySlotButtonMixin.lua"/>
+    
+    <Button name="AppearanceModelURLTemplate" inherits="ExternalLinkButtonTemplate" virtual="true" hidden="true">
+        <Size x="28" y="28"/>
+
+        <Scripts>
+            <OnLoad>
+                self:SetFrameLevel(self:GetParent():GetFrameLevel()+10)
+            </OnLoad>
+            <OnClick>
+                if self.url then
+                    StaticPopup_Show("OPEN_ASCENSION_URL", self.url, nil, self.url)
+                end
+            </OnClick>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <DressUpModel name="AppearanceModelTemplate" enableMouse="true" virtual="true">
+        <Size x="78" y="104"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture setAllPoints="true">
+                    <Color r="0.05" g="0.05" b="0.05"/>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentSpellIcon" parentKey="SpellIcon" hidden="true">
+                    <Size x="78" y="104"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentDeleteButton" parentKey="DeleteButton" alpha="0.5" hidden="true">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("transmog-icon-remove")
+                        self:SetHighlightAtlas("transmog-icon-remove")
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                    </OnLoad>
+                    <OnClick>
+                        local outfitName = self:GetParent().outfitName
+                        if outfitName then
+                            StaticPopup_Show("CONFIRM_DELETE_APPEARANCE_OUTFIT", outfitName, nil, outfitName)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(DELETE_OUTFIT)
+                        GameTooltip:Show()
+                        self:SetAlpha(1)
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                        self:SetAlpha(0.5)
+                    </OnLeave>
+                </Scripts>
+                
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+
+            <Button name="$parentOverwriteButton" parentKey="OverwriteButton" alpha="0.5" hidden="true">
+                <Size x="14" y="18"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("poi-transmogrifier")
+                        self:SetHighlightAtlas("poi-transmogrifier")
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                    </OnLoad>
+                    <OnClick>
+                        local outfitName = self:GetParent().outfitName
+                        if outfitName then
+                            StaticPopup_Show("CONFIRM_OVERWRITE_APPEARANCE_OUTFIT", outfitName, nil, outfitName)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(OVERWRITE_OUTFIT)
+                        GameTooltip:Show()
+                        self:SetAlpha(1)
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                        self:SetAlpha(0.5)
+                    </OnLeave>
+                </Scripts>
+
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+
+            <Frame name="$parentTextures" parentKey="Textures" setAllPoints="true">
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentBorder" parentKey="Border">
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="-3"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentStateTexture" parentKey="StateTexture" alphaMode="ADD" hidden="true">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentNameText" parentKey="NameText" nonspacewrap="true" inherits="GameFontHighlightOutlineTiny" hidden="true">
+                            <Size x="78" y="52"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="2"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentCollectedText" parentKey="CollectedText" nonspacewrap="true" inherits="GameFontHighlightOutlineTiny" justifyV="TOP" justifyH="RIGHT" hidden="true">
+                            <Size x="78" y="12"/>
+
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="0" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentAddIcon" parentKey="AddIcon" hidden="true">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="HIGHLIGHT">
+                        <FontString name="$parentNewString" parentKey="NewString" inherits="GameFontHighlight" maxLines="1" text="NEW_CAPS" hidden="true">
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="8"/>
+                            </Anchors>
+
+                            <Shadow>
+                                <Color r="0.32" g="0.5" b="1"/>
+                            </Shadow>
+                        </FontString>
+
+                        <Texture parentKey="NewGlow" hidden="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentNewString" x="-20" y="10"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentNewString" x="20" y="-10"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture parentKey="BorderHighlight" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Button name="$parentViewItemSetButton" parentKey="ViewItemSetButton" hidden="true">
+                        <Size x="18" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-4" y="3"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:SetNormalAtlas("paperdoll-equipment-manager-tab")
+                                self:SetHighlightAtlas("paperdoll-equipment-manager-tab")
+                            </OnLoad>
+                            <OnClick>
+                                if self.setName then
+                                    AppearanceUI.OpenToItemSet(self.setName)
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(VIEW_ITEM_SET)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+
+                    <Button name="$parentDiscount" parentKey="Discount" hidden="true">
+                        <Size x="62" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="8" y="6"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentLeft" parentKey="Left">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                    </Anchors>
+                                </Texture>
+
+                                <Texture name="$parentRight" parentKey="Right">
+                                    <Anchors>  
+                                        <Anchor point="TOPRIGHT"/>
+                                    </Anchors>
+                                </Texture>
+
+                                <Texture name="$parentMiddle" parentKey="Middle">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT"/>
+                                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall" text="ON_SALE">
+                                    <Anchors>
+                                        <Anchor point="CENTER" y="4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:SetScale(0.8)
+                                self.Left:SetAtlas("store-corner-discount-left", Const.TextureKit.UseAtlasSize)
+                                self.Right:SetAtlas("store-corner-discount-right", Const.TextureKit.UseAtlasSize)
+                                self.Middle:SetAtlas("store-corner-discount-middle", Const.TextureKit.UseAtlasSize)
+                            </OnLoad>
+                            <OnClick>
+                                if self.url then
+                                    StaticPopup_Show("OPEN_ASCENSION_URL", self.url, nil, self.url)
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(OPEN_WEB_STORE, 1, 0.82, 0)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentBazaarButton" parentKey="BazaarButton" inherits="AppearanceModelURLTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(TRANSMOG_AVAILABLE_ON_BAZAAR, 1, 0.82, 0)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentStoreButton" parentKey="StoreButton" inherits="AppearanceModelURLTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(TRANSMOG_AVAILABLE_ON_WEB, LINK_COLOR:GetRGB())
+                                GameTooltip:AddLine(CLICK_TO_OPEN_STORE, LINK_COLOR:GetRGB())
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self.StateTexture:SetAtlas("transmog-wardrobe-border-selected", Const.TextureKit.UseAtlasSize)
+                        self.Border:SetAtlas("transmog-wardrobe-border-collected", Const.TextureKit.UseAtlasSize)
+                        self.NewGlow:SetAtlas("collections-newglow", Const.TextureKit.IgnoreAtlasSize)
+                        self.BorderHighlight:SetAtlas("transmog-wardrobe-border-highlighted", Const.TextureKit.UseAtlasSize)
+                        self.AddIcon:SetAtlas("bags-icon-addslots", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentLoading" parentKey="Loading" inherits="InputBlockLoadingTemplate" setAllPoints="true" hidden="true">
+
+                <Attributes>
+                    <Attribute name="alpha" value="0.95" type="number"/>
+                    <Attribute name="size" value="60" type="number"/>
+                </Attributes>
+
+                <Scripts>
+                    <OnEnter>
+                        self:GetParent():OnEnter()
+                    </OnEnter>
+                    <OnLeave>
+                        self:GetParent():OnLeave()
+                    </OnLeave>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AppearanceModelMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </DressUpModel>
+
+    <CheckButton name="AppearanceTypeTabTemplate" inherits="TabSystemTopTabTemplate" virtual="true"/>
+
+
+    <CheckButton name="AppearanceCategoryTabTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="30" y="30"/>
+        
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Border">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AppearanceCategoryTabMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText parentKey="Text" inherits="GameFontNormal">
+            <Size x="1" y="1"/>
+        </ButtonText>
+        
+        <NormalTexture parentKey="NormalTexture"/>
+
+        <HighlightTexture parentKey="Highlight" alphaMode="ADD">
+            <Size x="24" y="24"/>
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </HighlightTexture>
+
+        <CheckedTexture parentKey="CheckedTexture">
+            <Size x="34" y="34"/>
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </CheckedTexture>
+    </CheckButton>
+    
+    <CheckButton name="AppearanceCategorySlotButtonTemplate" virtual="true">
+        <Size x="43" y="43"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Icon">
+                    <Size x="36" y="36"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture parentKey="Border">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="NoItemTexture" alpha="0.75" hidden="true">
+                    <Size x="34" y="34"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="StatusBorder" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="HiddenVisualCover" hidden="true" alpha="0.6">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture parentKey="HiddenVisualIcon" hidden="true" alpha="0.7">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button parentKey="UndoButton" hidden="true">
+                <Size x="24" y="22"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="13" y="12"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Icon">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Icon:SetAtlas("transmog-undo-button", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                    <OnShow>
+                        self.Icon:SetPoint("TOPLEFT", 0, 0)
+                    </OnShow>
+                    <OnMouseDown>
+                        self.Icon:SetPoint("TOPLEFT", 1, -1)
+                    </OnMouseDown>
+                    <OnMouseUp>
+                        self.Icon:SetPoint("TOPLEFT", 0, 0)
+                    </OnMouseUp>
+                    <OnLeave>
+                        if not self:GetParent():IsMouseOver() then
+                            self:Hide()
+                        end
+                    </OnLeave>
+                    <OnClick>
+                        -- same as a right-click on the parent
+                        self:GetParent():OnClick("RightButton")
+                    </OnClick>
+                </Scripts>
+
+                <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            </Button>
+
+            <Frame parentKey="PendingFrame" setAllPoints="true" hidden="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Glow">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture parentKey="Undo" hidden="true">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="Ants" file="Interface\Transmogrify\PurpleIconAlertAnts">
+                            <Size x="44" y="44"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Glow:SetAtlas("transmog-pending-glow", Const.TextureKit.UseAtlasSize)
+                        self.Undo:SetAtlas("transmog-pending-undo", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                    <OnUpdate>
+                        AnimateTexCoords(self.Ants, 256, 256, 48, 48, 22, elapsed, 0.02)
+                    </OnUpdate>
+                </Scripts>
+            </Frame>
+
+            <Frame parentKey="AnimFrame" setAllPoints="true" hidden="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Glow" alpha="0">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Anim">
+                                    <Alpha change="1" duration="0" order="1" />
+                                    <Alpha change="0" duration="0.15" order="1" />
+                                    <Alpha change="-1" duration="0.2" order="2" />
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+
+                        <Texture parentKey="Transition" hidden="true">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Anim">
+                                    <Scale duration="0.15" scaleX="1" scaleY="1" order="1"/>
+                                    <Scale duration="0.2" scaleX="1.381" scaleY="1.381" order="2"/>
+
+                                    <Scripts>
+                                        <OnFinished>
+                                            -- this is just the longest anim of the group
+                                            self:GetParent():GetParent():GetParent():OnAnimFinished()
+                                        </OnFinished>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+
+                        <Texture parentKey="OuterGlow" file="" alpha="0">
+
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Anim">
+                                    <Alpha duration="0.15" change="1" order="1"/>
+                                    <Alpha duration="0.15" change="-1" order="2"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Glow:SetAtlas("transmog-pending-glow", Const.TextureKit.UseAtlasSize)
+                        self.Transition:SetAtlas("transmog-anim-transition", Const.TextureKit.UseAtlasSize)
+                        self.OuterGlow:SetAtlas("spell-activation-icon-glow-white", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                    <OnShow>
+                        self.Glow.Anim:Play()
+                        self.Transition.Anim:Play()
+                        self.OuterGlow.Anim:Play()
+                    </OnShow>
+                </Scripts>
+            </Frame>
+
+            <Button name="$parentStoreButton" parentKey="StoreButton" hidden="true">
+                <Size x="28" y="33"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-2" y="3"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                        self:SetNormalAtlas("store-corner-hot")
+                        self:SetHighlightAtlas("store-corner-hot")
+
+                        self:GetNormalTexture():FlipX()
+                        self:GetHighlightTexture():FlipX()
+                    </OnLoad>
+                    <OnClick>
+                        if self.url then
+                            StaticPopup_Show("OPEN_ASCENSION_URL", self.url, nil, self.url)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(TRANSMOG_AVAILABLE_ON_WEB, LINK_COLOR:GetRGB())
+                        GameTooltip:AddLine(CLICK_TO_OPEN_STORE, LINK_COLOR:GetRGB())
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+
+                <HitRectInsets left="0" right="12" top="0" bottom="12"/>
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+
+            <Button name="$parentBazaarButton" parentKey="BazaarButton" hidden="true">
+                <Size x="28" y="33"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-2" y="3"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                        self:SetNormalAtlas("store-corner-hot")
+                        self:SetHighlightAtlas("store-corner-hot")
+
+                        self:GetNormalTexture():FlipX()
+                        self:GetHighlightTexture():FlipX()
+                    </OnLoad>
+                    <OnClick>
+                        KeywordTooltip:Create("ETHEREAL_BAZAAR", KeywordTooltip.TooltipType.Movable, self:GetFrameLevel()+2)
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(TRANSMOG_AVAILABLE_ON_BAZAAR, 1, 0.82, 0)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+
+                <HitRectInsets left="0" right="12" top="0" bottom="12"/>
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AppearanceCategorySlotButtonMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+
+        <HighlightTexture alphaMode="ADD">
+            <Size x="44" y="41"/>
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </HighlightTexture>
+    </CheckButton>
+</Ui>

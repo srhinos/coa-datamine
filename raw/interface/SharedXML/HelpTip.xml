@@ -1,0 +1,315 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="HelpTip.lua"/>
+
+    <Texture name="HelpPlateArrowDOWN" file="Interface\TalentFrame\TalentFrame-Parts" virtual="true">
+        <Size x="53" y="21" />
+        <TexCoords left="0.78515625" right="0.99218750" top="0.54687500" bottom="0.58789063" />
+    </Texture>
+    <Texture name="HelpPlateArrowUP" file="Interface\TalentFrame\TalentFrame-Parts" virtual="true">
+        <Size x="53" y="21" />
+        <TexCoords left="0.78515625" right="0.99218750" bottom="0.54687500" top="0.58789063" />
+    </Texture>
+    <Texture name="HelpPlateArrow-GlowDOWN" file="Interface\TalentFrame\TalentFrame-Parts" virtual="true">
+        <Size x="65" y="28" />
+        <TexCoords left="0.40625000" right="0.66015625" top="0.77343750" bottom="0.82812500" />
+    </Texture>
+    <Texture name="HelpPlateArrow-GlowUP" file="Interface\TalentFrame\TalentFrame-Parts" virtual="true">
+        <Size x="65" y="28" />
+        <TexCoords left="0.40625000" right="0.66015625" bottom="0.77343750" top="0.82812500" />
+    </Texture>
+    <Texture name="HelpPlateArrow-Shadow" file="Interface\TalentFrame\TalentFrame-Parts" virtual="true">
+        <Size x="101" y="41" />
+        <TexCoords left="0.00390625" right="0.39843750" top="0.68359375" bottom="0.76367188" />
+    </Texture>
+    <!--
+*******************************************************************************
+    GlowBoxArrowTemplate
+	This is a bright yellow arrow with a glow around it
+*******************************************************************************
+-->
+    <Frame name="GlowBoxArrowTemplate" virtual="true" frameLevel="500">
+        <Size x="53" y="21" />
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentArrow" parentKey="Arrow" inherits="HelpPlateArrowDOWN">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentGlow" parentKey="Glow" inherits="HelpPlateArrow-GlowDOWN" alphaMode="ADD" alpha="0.5">
+                    <Anchors>
+                        <Anchor point="TOP" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <!--
+*******************************************************************************
+    GlowBoxAnimatedArrowTemplate
+	This is a bright yellow arrow that slides downward repeatedly
+*******************************************************************************
+-->
+    <Frame name="GlowBoxAnimatedArrowTemplate" virtual="true" frameLevel="501">
+        <Size x="42" y="16" />
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentGlow" parentKey="Glow" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Animations>
+            <AnimationGroup parentKey="Anim" looping="REPEAT">
+                <Translation parentKey="Translation" offsetX="0" offsetY="-25" duration="0.9" smoothing="OUT" order="1"/>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="AnimAlpha" looping="REPEAT">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.2" order="2"/>
+                <Alpha change="-1" startDelay="0.3" duration="0.4" order="3"/>
+            </AnimationGroup>
+        </Animations>
+
+        <Scripts>
+            <OnShow>
+                self.AnimAlpha:Play()
+                self.Anim:Play()
+            </OnShow>
+            <OnHide>
+                self.AnimAlpha:Stop()
+                self.Anim:Stop()
+            </OnHide>
+            <OnLoad>
+                self.Glow:SetAtlas("NPE_ArrowDown-Large", Const.TextureKit.UseAtlasSize)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+        <!--
+*******************************************************************************
+    GlowBoxAnimatedArrowTemplate2
+	This is a bright yellow arrow that slides downward repeatedly. Delayed Start from GlowBoxAnimatedArrowTemplate
+*******************************************************************************
+-->
+<Frame name="GlowBoxAnimatedArrowTemplate2" virtual="true" frameLevel="501">
+    <Size x="42" y="16" />
+    <Layers>
+        <Layer level="BORDER">
+            <Texture name="$parentGlow" parentKey="Glow" alphaMode="ADD">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+
+    <Animations>
+        <AnimationGroup parentKey="Anim" looping="REPEAT">
+            <Translation parentKey="Translation" offsetX="0" offsetY="-25" duration="0.9" smoothing="OUT" order="1"/>
+        </AnimationGroup>
+
+        <AnimationGroup parentKey="AnimAlpha" looping="REPEAT">
+            <Alpha change="-1" duration="0" order="1"/>
+            <Alpha change="1" duration="0.2" order="2"/>
+            <Alpha change="-1" startDelay="0.3" duration="0.4" order="3"/>
+        </AnimationGroup>
+    </Animations>
+
+    <Scripts>
+        <OnLoad>
+            self.Glow:SetAtlas("NPE_ArrowDown-Large", Const.TextureKit.UseAtlasSize)
+        </OnLoad>
+        <OnShow>
+            Timer.After(0.45, function()
+                self.AnimAlpha:Play()
+                self.Anim:Play()
+            end)
+        </OnShow>
+        <OnHide>
+            self.AnimAlpha:Stop()
+            self.Anim:Stop()
+        </OnHide>
+    </Scripts>
+</Frame>
+    <Frame name="HighlightFrameTemplate" virtual="true" hidden="true">
+        <Attributes>
+            <Attribute name="layoutType" value="HelpGlowHighlight" type="string" />
+        </Attributes>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Circle" file="Interface\COMMON\GlowBorder-Circle" alphaMode="ADD" alpha="0" hidden="true" setAllPoints="true">
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                            <Alpha change="0.6" duration="0.7" order="1" />
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="Box" inherits="NineSlicePanelTemplate" alpha="0">
+                <Animations>
+                    <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                        <Alpha change="0.6" duration="0.7" order="1" />
+                    </AnimationGroup>
+                </Animations>
+            </Frame>
+
+            <Frame name="$parentInputBlocker" parentKey="InputBlocker" setAllPoints="true" hidden="true" frameLevel="0">
+                <Frames>
+                    <Frame name="$parentLeft" enableMouse="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="UIParent"/>
+                            <Anchor point="BOTTOMLEFT" relativeTo="UIParent"/>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="8"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture setAllPoints="true">
+        
+                                    <Color r="0" g="0" b="0" a="0.6"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Frame name="$parentRight" enableMouse="true">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativeTo="UIParent"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="UIParent"/>
+                            <Anchor point="LEFT" relativePoint="RIGHT" x="-8"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture setAllPoints="true">
+        
+                                    <Color r="0" g="0" b="0" a="0.6"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Frame name="$parentTop" enableMouse="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT"/>
+                            <Anchor point="TOPRIGHT" relativeTo="$parentRight" relativePoint="TOPLEFT"/>
+                            <Anchor point="BOTTOM" relativePoint="TOP" y="-8"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture setAllPoints="true">
+        
+                                    <Color r="0" g="0" b="0" a="0.6"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Frame name="$parentBottom" enableMouse="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parentLeft" relativePoint="BOTTOMRIGHT"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT"/>
+                            <Anchor point="TOP" relativePoint="BOTTOM" y="8"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture setAllPoints="true">
+        
+                                    <Color r="0" g="0" b="0" a="0.6"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+    </Frame>
+    <!--
+*******************************************************************************
+    HelpTipTemplate
+	GlowBoxTemplate with GlowBoxArrowTemplate and text
+*******************************************************************************
+-->
+    <Frame name="HelpTipTemplate" inherits="GlowBoxTemplate" hidden="true" virtual="true" enableMouse="true">
+        <Size x="226" y="10" />
+
+        <Frames>
+            <Frame parentKey="TextFrame" setAllPoints="true">
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT" justifyV="TOP">
+                            <Size x="196" y="0" />
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Button parentKey="OkayButton" inherits="StandardButtonSmallTemplate" text="OKAY" hidden="true">
+                <Size x="110" y="22" />
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="12" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Acknowledge();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Frame parentKey="Arrow" inherits="GlowBoxArrowTemplate">
+                <Size x="61" y="61" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-17" y="-9" />
+                </Anchors>
+                <Frames>
+                    <Frame parentKey="Animation" inherits="GlowBoxAnimatedArrowTemplate" frameLevel="501" />
+                    <Frame parentKey="Animation2" inherits="GlowBoxAnimatedArrowTemplate2" frameLevel="501" />
+                </Frames>
+            </Frame>
+            <Button parentKey="CloseButton" inherits="UIPanelCloseButton" hidden="true">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="6" y="4" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Acknowledge();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Frame parentKey="Glow" hidden="true" alpha="0">
+                <Attributes>
+                    <Attribute name="layoutType" value="HelpGlowHighlight" type="string" />
+                </Attributes>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-16" y="16" />
+                    <Anchor point="BOTTOMRIGHT" x="16" y="-16" />
+                </Anchors>
+                <Frames>
+                    <Frame parentKey="Border" inherits="NineSlicePanelTemplate2" setAllPoints="true" />
+                </Frames>
+                <Animations>
+                    <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                        <Alpha change="0.6" duration="0.7" order="1" />
+                    </AnimationGroup>
+                </Animations>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpTipTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

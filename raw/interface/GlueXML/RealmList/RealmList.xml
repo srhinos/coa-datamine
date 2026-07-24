@@ -1,0 +1,145 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RealmList.lua"/>
+    
+    <Frame name="RealmList" toplevel="true" parent="GlueParent" setAllPoints="true" enableMouse="true" enableKeyboard="true" frameStrata="DIALOG" hidden="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-2" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="0.98" />
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentTabs" frameLevel="100" parentKey="Tabs">
+                <Size x="704" y="42"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="2"/>
+                </Anchors>
+
+                <Frames>
+                    <CheckButton name="$parentTab1" parentKey="Tab1" text="LIVE_REALMS" inherits="RealmTabTemplate" id="1">
+                        <Anchors>
+                            <Anchor point="LEFT"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab2" parentKey="Tab2" text="ALPHA_REALMS" inherits="RealmTabTemplate" id="2">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab3" parentKey="Tab3" text="QA" inherits="RealmTabTemplate" id="3">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab4" parentKey="Tab4" text="DEVELOPMENT_REALMS" inherits="RealmTabTemplate" id="4">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab5" parentKey="Tab5" text="Ascension" inherits="RealmTabTemplate" id="5">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT"/>
+                        </Anchors>
+                    </CheckButton>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentClose" inherits="SharedButtonTemplate" frameStrata="FULLSCREEN" text="CANCEL">
+                <Size x="165" y="38"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-45" y="20"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Cancel()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <ScrollFrame name="$parentScroll" parentKey="Scroll">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnMouseWheel>
+                        self:GetParent():OnMouseWheel(delta)
+                    </OnMouseWheel>
+                </Scripts>
+
+                <ScrollChild>
+                    <Frame name="$parentContent" parentKey="Content">
+                        <Size x="1" y="1"/>
+
+                        <Frames>
+
+                            <Frame name="$parentPage1" parentKey="Page1" inherits="SixRealmPageLayout">
+                                <Anchors>
+                                    <Anchor point="LEFT"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentPage2" parentKey="Page2" inherits="SixRealmPageLayout">
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentPage1" relativePoint="RIGHT"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentPage3" parentKey="Page3" inherits="DevelopmentRealmPageTemplate">
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentPage2" relativePoint="RIGHT"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentPage4" parentKey="Page4" inherits="ScrollRealmPageTemplate">
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentPage3" relativePoint="RIGHT"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentPage5" parentKey="Page5" inherits="ScrollRealmPageTemplate">
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentPage4" relativePoint="RIGHT"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:SetSize(GlueParent:GetWidth() * #self.Pages, self:GetParent():GetHeight())
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "RealmListMixin")
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+            <OnKeyDown>
+                self:OnKeyDown(key)
+            </OnKeyDown>
+        </Scripts>
+    </Frame>
+</Ui>

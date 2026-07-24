@@ -1,0 +1,650 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Frame name="DraftCardCurrencyTemplate" enableMouse="true" virtual="true">
+        <Size x="64" y="64"/>
+        
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentBorder" parentKey="Border">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <FontString name="$parentCount" parentKey="Count" inherits="SubZoneTextFont">
+                    <Anchors>
+                        <Anchor point="CENTER" x="-4" y="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftCardCurrencyMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="DraftCardAbilityEssenceTemplate" inherits="DraftCardCurrencyTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftCardCurrencyMixin")
+                self:SetCurrencyType(DraftCardCurrencyMixin.CurrencyType.AbilityEssence)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="DraftCardTalentEssenceTemplate" inherits="DraftCardCurrencyTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftCardCurrencyMixin")
+                self:SetCurrencyType(DraftCardCurrencyMixin.CurrencyType.TalentEssence)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="DraftCardTemplate" frameStrata="DIALOG" virtual="true">
+        <Size x="268" y="386"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackgroundHover" parentKey="BackgroundHover" file="Interface\Draft\CardHover" alphaMode="ADD">
+                    <Size x="512" y="1024"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="BORDER">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-12"/>
+                        <Anchor point="BOTTOMRIGHT" x="-12" y="12"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <Texture name="$parentBorder" parentKey="Border">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture name="$parentIconArtwork" parentKey="IconArtwork">
+                    <Anchors>
+                        <Anchor point="TOP" x="2" y="-10"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentColorAccents" parentKey="ColorAccents" setAllPoints="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentArtwork" parentKey="Artwork" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" y="-20"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentArtwork2" parentKey="Artwork2" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="6" y="-25"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentIconBorder" parentKey="IconBorder">
+                            <Anchors>
+                                <Anchor point="CENTER" x="1" y="95"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentIconBorder2" parentKey="IconBorder2" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="1" y="95"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentAbilityGlow" parentKey="AbilityGlow" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="20" y="99"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentAbilityGlow2" parentKey="AbilityGlow2" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="20" y="99"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentTalentGlow" parentKey="TalentGlow" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="3" y="99"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentTalentGlow2" parentKey="TalentGlow2" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" x="3" y="99"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "DraftCardColorAccentsMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Button name="$parentName" parentKey="Name" enableMouse="false">
+                <Size x="268" y="42"/>
+                <Anchors>
+                    <Anchor point="CENTER" y="10"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="CENTER" y="-6"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer>
+                        <Texture name="$parentMasteryHeader" parentKey="MasteryHeader" hidden="true">
+                            <Anchors>
+                                <Anchor point="TOP" x="2" y="26"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentMasteryText" parentKey="MasteryText" inherits="GameFontNormalSmall" justifyV="BOTTOM" hidden="true">
+                            <Size x="164" y="0"/>
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" y="-20"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "DraftCardNameMixin")
+                    </OnLoad>
+                </Scripts>
+                
+                <ButtonText inherits="GameFontNormalHuge">
+                    <Size x="258" y="0"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </ButtonText>
+            </Button>
+            
+            <Frame name="$parentRarity" parentKey="Rarity" inherits="RarityGemContainerTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentName" relativePoint="BOTTOM" y="-5"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="CENTER" y="-10"/>
+                            </Anchors>
+                        </Texture>
+    
+                        <Texture name="$parentNoGemBackground" parentKey="NoGemBackground" hidden="true">
+                            <Anchors>
+                                <Anchor point="CENTER" y="4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer>
+                        <FontString name="$parentNoGemText" parentKey="NoGemText" text="DRAFT_GEMS_WONT_REDUCE_CHANCE" inherits="GameFontHighlightSmall" hidden="true">
+                            <Size x="256" y="0"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="8"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <ScrollFrame name="$parentDescription" parentKey="Description">
+                <Size x="202" y="96"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="34"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="CENTER" y="4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Slider name="$parentScrollBar" parentKey="ScrollBar" inherits="UIPanelScrollBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="8" y="-20"/>
+                            <Anchor point="BOTTOMRIGHT" x="8" y="19"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentBackground" parentKey="Background">
+                                    <Anchors>
+                                        <Anchor point="CENTER" x="-9" y="3"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnShow>
+                                self:GetParent():SetWidth(202)
+                            </OnShow>
+                            <OnHide>
+                                self:GetParent():SetWidth(224)
+                            </OnHide>
+                        </Scripts>
+                    </Slider>
+                </Frames>
+                
+                <ScrollChild>
+                    <Frame name="$parentTextFrame" parentKey="TextFrame">
+                        <Size x="202" y="1"/>
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontNormal">
+                                    <Size x="202" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </ScrollChild>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "DraftCardDescriptionMixin")
+                    </OnLoad>
+                </Scripts>
+            </ScrollFrame>
+            
+            <Frame name="$parentClassIcon" parentKey="ClassIcon" enableMouse="true" inherits="BorderIconTemplate">
+                <Size x="64" y="64"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-9" y="14"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentMasteryIcon" parentKey="MasteryIcon">
+                            <Size x="62" y="62"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="-1" y="-4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                            <Size x="65" y="65"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="-1" y="-4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnEnter>
+                        if self.Spell then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            GameTooltip:SetHyperlink("spell:"..self.Spell)
+                            GameTooltip:Show()
+                        else
+                            GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+            
+            <Button name="$parentSpellIcon" parentKey="SpellIcon" inherits="SpellIconTemplate">
+                <Size x="54" y="54"/>
+                <Anchors>
+                    <Anchor point="CENTER" y="97"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+            
+            <Frame name="$parentCurrencyBottomRight" parentKey="CurrencyBottomRight" inherits="DraftCardAbilityEssenceTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="16" y="-13"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentCurrencyBottomLeft" parentKey="CurrencyBottomLeft" inherits="DraftCardTalentEssenceTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="-16" y="-13"/>
+                </Anchors>
+            </Frame>
+            
+            <Button name="$parentMainButton" parentKey="MainButton" text="LEARN" inherits="SharedButtonHugeTemplate">
+                <Size x="172" y="40"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="-12"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():OnMainButtonClick()
+                    </OnClick>
+                    <OnEnter function="GameTooltip_GenericTooltip"/>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentParticleSpawn" parentKey="ParticleSpawn" toplevel="true" setAllPoints="true">
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentGlow" parentKey="Glow" alphaMode="ADD" hidden="true" file="Interface\Draft\CardRevealGlow">
+                            <Size x="330" y="650"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="4"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="FadeOut">
+                                    <Alpha duration="0" change="-1" order="1"/>
+                                    <Alpha duration="0.25" change="1" order="2" smoothing="IN"/>
+                                    <Alpha duration="1" change="-1" order="3" smoothing="OUT"/>
+                                    <Scripts>
+                                        <OnPlay>
+                                            self:GetParent():Show()
+                                        </OnPlay>
+                                        <OnFinished>
+                                            self:GetParent():Hide()
+                                            self:GetParent():GetParent():GetParent().Cover:Hide()
+                                        </OnFinished>
+                                        <OnStop>
+                                            self:GetParent():Hide()
+                                        </OnStop>
+                                    </Scripts>
+                                </AnimationGroup>
+                                <AnimationGroup parentKey="FadeOutLite">
+                                    <Alpha duration="0" change="-1" order="1"/>
+                                    <Alpha duration="0.25" change="0.25" order="2" smoothing="IN"/>
+                                    <Alpha duration="0.4" change="-0.25" order="3" smoothing="OUT"/>
+                                    <Scripts>
+                                        <OnPlay>
+                                            self:GetParent():Show()
+                                        </OnPlay>
+                                        <OnFinished>
+                                            self:GetParent():Hide()
+                                            self:GetParent():GetParent():GetParent().Cover:Hide()
+                                        </OnFinished>
+                                        <OnStop>
+                                            self:GetParent():Hide()
+                                        </OnStop>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <Button name="$parentCover" parentKey="Cover" toplevel="true">
+                <Size x="268" y="386"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackgroundGlow" parentKey="BackgroundGlow" alphaMode="ADD" hidden="true" file="Interface\Draft\CardHover">
+                            <Size x="564" y="1126"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                            
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" looping="REPEAT">
+                                    <Alpha order="1" duration="0" change="-1"/>
+                                    <Alpha order="2" duration="1.2" change="1" smoothing="OUT"/>
+                                    <Alpha order="3" duration="1.5" change="-1" smoothing="IN"/>
+                                    
+                                    <Scripts>
+                                        <OnPlay>
+                                            self:GetParent():Show()
+                                        </OnPlay>
+                                        <OnStop>
+                                            self:GetParent():Hide()
+                                        </OnStop>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBackground" parentKey="Background" file="Interface\Draft\CardBack2">
+                            <Size x="564" y="1126"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="8" y="14"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                                self:GetParent():GetParent():Close()
+                            </OnClick>
+                            <OnEnter function="OnEnterParent"/>
+                            <OnLeave function="OnLeaveParent"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "DraftCardCoverMixin")
+                    </OnLoad>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-3" y="-3"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                        self:GetParent():Close()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftCardMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <CheckButton name="DraftActionButtonTemplate" motionScriptsWhileDisabled="true" hidden="true" virtual="true">
+        <Size x="212" y="64"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Art">
+                    <Size x="222" y="70"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="42" y="42"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="16"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentFlash" parentKey="Flash" file="Interface\Buttons\UI-QuickslotRed" hidden="true">
+                    <Size x="42" y="42"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="16"/>
+                    </Anchors>
+                </Texture>
+                
+                <FontString name="$parentDescription" parentKey="Description" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="LEFT" x="62" y="16"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentName" parentKey="Name" justifyH="LEFT" justifyV="TOP" inherits="GameFontNormal">
+                    <Size x="128" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentDescription" relativePoint="BOTTOMLEFT" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Cooldown name="$parentCooldown" parentKey="Cooldown" inherits="CooldownFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentIcon"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalHuge">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Cooldown>
+        </Frames>
+
+        <Animations>
+            <AnimationGroup parentKey="FadeIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.3" order="2"/>
+
+                <Scripts>
+                    <OnPlay>
+                        if self:GetParent().FadeOut:IsPlaying() then
+                        self:GetParent().FadeOut:Stop()
+                        end
+                        self:GetParent():Show()
+                    </OnPlay>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="FadeOut">
+                <Alpha change="-1" duration="0.3" order="1"/>
+                <Scripts>
+                    <OnPlay>
+                        if self:GetParent().FadeIn:IsPlaying() then
+                        self:GetParent().FadeIn:Stop()
+                        end
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():SetAttribute("type", nil)
+                        self:GetParent():SetAttribute("spell", nil)
+                        self:GetParent():SetAttribute("item", nil)
+                        self:GetParent():Hide()
+                        self:GetParent():GetParent():UpdatePositions()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+
+        <NormalTexture file="Interface\Buttons\UI-Quickslot2">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-15" y="15"/>
+                <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="15" y="-15"/>
+            </Anchors>
+        </NormalTexture>
+
+        <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square">
+            <Size x="42" y="42"/>
+            <Anchors>
+                <Anchor point="LEFT" x="16"/>
+            </Anchors>
+        </HighlightTexture>
+
+        <CheckedTexture alphaMode="ADD" file="Interface\Buttons\CheckButtonHilight">
+            <Size x="42" y="42"/>
+            <Anchors>
+                <Anchor point="LEFT" x="16"/>
+            </Anchors>
+        </CheckedTexture>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftActionButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+</Ui>

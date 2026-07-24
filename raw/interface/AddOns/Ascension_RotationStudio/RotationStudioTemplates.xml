@@ -1,0 +1,88 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RotationStudioActionItemMixin.lua"/>
+    
+    <Button name="RotationStudioActionItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="246" y="68"/>
+        <Layers>
+            <Layer>
+                <FontString name="$parentName" parentKey="Name" justifyH="LEFT" justifyV="TOP" inherits="GameFontNormal">
+                    <Size x="186" y="14"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="56" y="-8"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentAbout" parentKey="About" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightSmall">
+                    <Size x="186" y="38"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                <Size x="48" y="48"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="2"/>
+                </Anchors>
+            </Frame>
+            
+            <Button name="$parentUpButton" parentKey="UpButton" inherits="UpButtonTemplate">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" y="-2"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():MoveUp()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentDownButton" parentKey="DownButton" inherits="DownButtonTemplate">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" y="2"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():MoveDown()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentRemoveButton" parentKey="RemoveButton" alpha="0.4">
+                <Size x="14" y="14"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPLEFT" x="2" y="-2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("common-icon-redx")
+                        self:SetHighlightAtlas("common-icon-redx")
+                    </OnLoad>
+                    <OnEnter>
+                        self:SetAlpha(1)
+                    </OnEnter>
+                    <OnLeave>
+                        if not self:GetParent():IsMouseOver() then
+                            self:SetAlpha(0.4)
+                        end
+                    </OnLeave>
+                    <OnClick>
+                        self:GetParent():Remove()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RotationStudioActionItemMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

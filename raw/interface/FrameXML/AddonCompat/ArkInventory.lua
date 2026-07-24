@@ -1,0 +1,33 @@
+local function OnLoad()
+    local L = LibStub( "AceLocale-3.0" ):GetLocale( "ArkInventory" )
+    L["PT_CLASS_BARBARIAN"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_WITCHDOCTOR"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_DEMONHUNTER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_WITCHHUNTER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_STORMBRINGER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_FLESHWARDEN"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_GUARDIAN"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_MONK"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_SONOFARUGAL"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_RANGER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_PROPHET"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_PYROMANCER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_CULTIST"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_NECROMANCER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_SUNCLERIC"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_TINKER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_REAPER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_WILDWALKER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_STARCALLER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_SPIRITMAGE"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_CHRONOMANCER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_THIEF"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_ABOMINATION"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_TIDECALLER"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_RIFTBLADE"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_BARD"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_FREE"] = "Misc.Reagent.Class.Warrior"
+    L["PT_CLASS_HERO"] = "Misc.Reagent.Class.Druid"
+end
+
+AddonCompatibility:Register("ArkInventory", OnLoad)

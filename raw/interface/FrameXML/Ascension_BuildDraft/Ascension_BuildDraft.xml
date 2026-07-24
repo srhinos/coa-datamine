@@ -1,0 +1,555 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="BuildDraftArrowMixin.lua"/>
+    <Script file="BuildDraftCardMixin.lua"/>
+    <Script file="BuildDraftRoleMixin.lua"/>
+    <Script file="BuildDraftSelectRoleMixin.lua"/>
+    <Script file="Ascension_BuildDraft.lua"/>
+    
+    <Button name="BuildDraftRewardTemplate" inherits="ItemIconTemplate" virtual="true">
+        <Layers>
+            <Layer>
+                <FontString name="$parentName" parentKey="Name" inherits="PTFontHighlight" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="1"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Button>
+    
+    <Frame name="BuildDraftFrame" parent="UIParent" setAllPoints="true" hidden="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture setAllPoints="true">
+                    <Color r="0" g="0" b="0" a="0.8"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentCancelButton" parentKey="CancelButton" text="LEAVE_BUILD_DRAFT" inherits="SharedButtonTemplate">
+                <Size x="140" y="38"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" y="-300"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        if ToggleBuildDraftMode(false) then
+                            BuildDraft:HideCards()
+                            BuildDraftFrame:Hide()
+                            BuildDraftSelectRoleFrame:Hide()
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentHintFrame" parentKey="HintFrame" hidden="true" inherits="NineSlicePanelTemplate2">
+                <Size x="200" y="300"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" x="500"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="NPEPopupLayout"/>
+                </Attributes>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentTitle" parentKey="Title" text="BUILD_DRAFT_TOTAL_BUILD_COUNT" inherits="PTFontNormalLarge">
+                            <Size x="180" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-12"/>
+                            </Anchors>
+                        </FontString>
+                        
+                        <FontString name="$parentAbout" parentKey="About" text="BUILD_DRAFT_ABOUT_CARDS" inherits="PTFontHighlight">
+                            <Size x="180" y="0"/>
+                            <Anchors>
+                                <Anchor point="BOTTOM" y="12"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Button name="$parentItem" parentKey="Item" motionScriptsWhileDisabled="true" inherits="ItemIconTemplate">
+                        <Size x="64" y="64"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-20"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentAbout" parentKey="About" inherits="PTFontHighlight">
+                                    <Size x="180" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" relativePoint="BOTTOM" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+                    </Button>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "NineSlicePanelMixin")
+                        MixinAndLoadScripts(self, "BuildDraftHintMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnShow>
+                self.AnimIn:Play()
+                self.CancelButton:Show()
+            </OnShow>
+            <OnHide>
+                self.HintFrame:Hide()
+            </OnHide>
+        </Scripts>
+
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha change="-1" order="1" duration="0"/>
+                <Alpha change="1" order="2" duration="0.5"/>
+            </AnimationGroup>
+        </Animations>
+    </Frame>
+    
+    <Frame name="BuildDraftInfoTemplate" virtual="true">
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" parentKey="Title" justifyV="TOP" inherits="GameFontHighlight">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativePoint="TOP"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame>
+                <Scripts>
+                    <OnLoad>
+                        local parent = self:GetParent()
+                        local title = parent:GetAttribute("title")
+                        title = title and _G[title] or title
+                        parent.Title:SetText(title or "")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Frame>
+    
+    <Button name="BuildDraftEnchantTemplate" inherits="SpellIconTemplate" virtual="true">
+        <Size x="38" y="38"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\Common\ShadowCircle" alpha="0.7">
+                    <Size x="120" y="50"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="BOTTOM" y="-6"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <ButtonText inherits="GameFontNormal">
+            <Size x="120" y="0"/>
+            <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" x="0" y="-2"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+    
+    <Button name="BuildDraftSpellTemplate" inherits="SpellIconTemplate" virtual="true">
+        <ButtonText inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+            <Size x="80" y="0"/>
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" x="4" y="0"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+    
+    <Frame name="BuildDraftCardTemplate" parent="UIParent" hidden="true" enableMouse="true" frameStrata="HIGH"  virtual="true">
+        <Size x="395" y="562"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                
+                <FontString name="$parentBuildIndex" parentKey="BuildIndex" text="BUILD_DRAFT_CARD_NUMBER_S" inherits="PTFontNormalOutlineLarge">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativePoint="TOP" y="4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentBanner" parentKey="Banner">
+                    <Size x="131" y="604"/>
+                    
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="-16"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" parentKey="Title" justifyV="TOP" inherits="QuestFont_Giant">
+                    <Size x="334" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-70"/>
+                    </Anchors>
+                    
+                    <FontHeight val="32"/>
+                </FontString>
+
+                <FontString name="$parentDifficulty" parentKey="Difficulty" justifyV="TOP" inherits="PTFontHighlightOutline3">
+                    <Size x="334" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-1"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentRole" parentKey="Role" inherits="BorderIconTemplate">
+                <Size x="64" y="64"/>
+                
+                <Anchors>
+                    <Anchor point="TOP"/>
+                </Anchors>
+            </Frame>
+
+            <Button name="$parentBuildIcon" enableMouse="true" parentKey="BuildIcon" inherits="BorderIconTemplate">
+                <Size x="64" y="64"/>
+
+                <Anchors>
+                    <Anchor point="TOP" x="0" y="-134"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentStatButton" parentKey="StatButton" inherits="SpellIconTemplate">
+                        <Size x="38" y="38"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-48" y="16"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture file="Interface\Common\ShadowCircle" alpha="0.7">
+                                    <Size x="120" y="50"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativePoint="BOTTOM" y="-6"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <ButtonText inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOP" relativePoint="BOTTOM" x="0" y="-2"/>
+                            </Anchors>
+                        </ButtonText>
+
+                        <PushedTextOffset x="0" y="0"/>
+                    </Button>
+
+                    <Button name="$parentEnchant" parentKey="Enchant" inherits="BuildDraftEnchantTemplate">
+                        <Size x="38" y="38"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="46" y="16"/>
+                        </Anchors>
+                    </Button>
+                    
+                    <Button name="$parentCompletedBuild" parentKey="CompletedBuild" hidden="true">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-6" y="6"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:SetNormalAtlas("auctionhouse-icon-checkmark")
+                                self:SetHighlightAtlas("auctionhouse-icon-checkmark")
+                                self.tooltipTitle = BUILD_DRAFT_COMPLETED_BUILD
+                                self.tooltipText = BUILD_DRAFT_COMPLETED_BUILD_TOOLTIP
+                            </OnLoad>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                        
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+
+                    <Button name="$parentTrophyEligible" parentKey="TrophyEligible" hidden="true" inherits="BorderIconTemplate">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-6" y="6"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+                </Frames>
+            </Button>
+            
+            <Frame name="$parentInfo" parentKey="Info" frameLevel="2">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentBuildIcon" relativePoint="BOTTOM" x="0" y="-14"/>
+                    <Anchor point="LEFT" x="36" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" x="-36" y="58"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentSpells" parentKey="Spells" inherits="BuildDraftInfoTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" y="-34"/>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" y="14"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="title" value="Starting Abilities"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Frame name="$parentDescription" parentKey="Description" inherits="BuildDraftInfoTemplate, ScrollableTextTemplate">
+                        <Size x="310" y="120"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentSpells" relativePoint="BOTTOM" y="-14"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="title" value="About"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Button name="$parentSelectButton" text="SELECT" parentKey="SelectButton" frameLevel="5" inherits="SharedButtonTemplate">
+                <Size x="175" y="44"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentInfo" relativePoint="BOTTOM" x="0" y="4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Select()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "BuildDraftCardMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="BuildDraftCycleArrowTemplate" parent="BuildDraftFrame" hidden="true" frameStrata="DIALOG" frameLevel="20" virtual="true">
+        <Size x="200" y="562"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentShadow" parentKey="Shadow" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+                    <Size x="412" y="712"/>
+                    
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <Texture name="$parentArrow" parentKey="Arrow">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildDraftArrowMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="BuildDraftRoleTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Size x="64" y="64"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="BackgroundGlow" alphaMode="ADD">
+                    <Size x="147" y="240"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER" x="-12"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                            <Alpha order="1" duration="5.2" change="-0.5" smoothing="IN_OUT"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="BackgroundGlow2" alphaMode="ADD">
+                    <Size x="147" y="240"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER" x="12"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                            <Alpha order="1" duration="4.8" change="-0.5" smoothing="IN_OUT"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <ButtonText inherits="QuestFont_Large">
+            <Anchors>
+                <Anchor point="BOTTOM" relativePoint="TOP" y="12"/>
+            </Anchors>
+        </ButtonText>
+
+        <PushedTextOffset x="0" y="-1"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildDraftRoleMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Frame name="BuildDraftSelectRoleFrame" parent="BuildDraftFrame" hidden="true" frameStrata="HIGH">
+        <Size x="384" y="212"/>
+
+        <Anchors>
+            <Anchor point="CENTER" y="64"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="BackgroundShadow" alpha="0.9">
+                    <Size x="580" y="210"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="TOP" y="12"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+
+            <Layer>
+                <FontString parentKey="SelectRoleText" inherits="GameFontNormalOutlineLarge" text="BUILD_DRAFT_SELECT_ROLES">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativePoint="TOP"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentWarningText" parentKey="WarningText" inherits="GameFontHighlightOutlineLarge" text="BUILD_DRAFT_SELECT_ROLES_WARNING">
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="BOTTOM" y="20"/>
+                    </Anchors>
+                    <Color r="1" g="0.2" b="0.2"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentTank" parentKey="Tank" inherits="BuildDraftRoleTemplate">
+                <Attributes>
+                    <Attribute name="role" value="Tank"/>
+                </Attributes>
+                
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentDamager" parentKey="Damager" inherits="BuildDraftRoleTemplate">
+                <Attributes>
+                    <Attribute name="role" value="Damager"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentHealer" parentKey="Healer" inherits="BuildDraftRoleTemplate">
+                <Attributes>
+                    <Attribute name="role" value="Healer"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+            </Button>
+            
+            <Button parentKey="ConfirmButton" text="CONFIRM" inherits="SharedButtonTemplate">
+                <Size x="120" y="38"/>
+                
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentWarningText" relativePoint="BOTTOM" y="-4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ConfirmRoles()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                self.BackgroundShadow:SetAtlas("common-shadow-circle", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "BuildDraftSelectRoleMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

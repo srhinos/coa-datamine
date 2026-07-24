@@ -1,0 +1,280 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RotationStudio.lua"/>
+
+    <Frame name="RotationStudioFrame" parent="UIParent" enableMouse="true" movable="true" inherits="BasicFrameTemplate">
+        <Size x="550" y="600"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentHeader" parentKey="Header">
+                <Size x="548" y="64"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="-24"/>
+                    <Anchor point="TOPRIGHT" y="-24"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Color r="0" g="0" b="0" a="0.4"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer>
+                        <Texture name="$parentDivider" parentKey="Divider">
+                            <Size x="548" y="4"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"/>
+                                <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentProfileDropDown" parentKey="ProfileDropDown" inherits="UIDropDownMenuTemplate2">
+                        <Size x="150" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-24"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentProfile" parentKey="Profile" text="Profile:" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu2_OnLoad(self)
+                                UIDropDownMenu_SetWidth(self, 150)
+                                UIDropDownMenu_JustifyText(self, "LEFT")
+                                UIDropDownMenu_SetText(self, "DEFAULT")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    
+                    <Button name="$parentImport" parentKey="Import" text="ROTATION_STUDIO_IMPORT" inherits="StandardButtonTemplate">
+                        <Size x="140" y="28"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentShare" parentKey="Share" text="ROTATION_STUDIO_SHARE" inherits="StandardButtonTemplate">
+                        <Size x="140" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" y="2"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+                <Scripts>
+                    <OnLoad>
+                        self.Divider:SetAtlas("_collections-background-line", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentActionList" parentKey="ActionList" inherits="ProportionalScrollListTemplate">
+                <Size x="246" y="508"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentHeader" relativePoint="BOTTOMLEFT" x="4" y="-4"/>
+                </Anchors>
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="-4" y="5"/>
+                                <Anchor point="BOTTOMRIGHT" x="16"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <Frame name="$parentRightPanel" parentKey="RightPanel">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentActionList" relativePoint="TOPRIGHT" x="18"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                <Frames>
+                    <Frame name="$parentModeDropDown" parentKey="ModeDropDown" inherits="UIDropDownMenuTemplate2">
+                        <Size x="150" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-14"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentMode" parentKey="Mode" text="Mode:" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu2_OnLoad(self)
+                                UIDropDownMenu_SetWidth(self, 150)
+                                UIDropDownMenu_JustifyText(self, "LEFT")
+                                UIDropDownMenu_SetText(self, "ROTATION_STUDIO_PRIORITY_MODE")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    
+                    <EditBox name="$parentResetTime" parentKey="ResetTime" numeric="true" letters="3" inherits="InputBoxInstructionsTemplate">
+                        <Size x="150" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentModeDropDown" relativePoint="BOTTOMLEFT" x="4" y="-32"/>
+                        </Anchors>
+                        
+                        <Attributes>
+                            <Attribute name="instruction" value="0"/>
+                        </Attributes>
+                        
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentLabel" parentKey="Label" text="ROTATION_STUDIO_RESET_TIME" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="-4" y="2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </EditBox>
+                    
+                    <CheckButton name="$parentResetOnCombat" parentKey="ResetOnCombat" inherits="SquareIconCheckButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentResetTime" relativePoint="BOTTOMLEFT" x="-4" y="-32"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentLabel" parentKey="Label" text="ROTATION_STUDIO_RESET_ON_COMBAT" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </CheckButton>
+                    
+                    <Frame name="$parentSpellSettings" parentKey="SpellSettings" hidden="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentResetOnCombat" relativePoint="BOTTOMLEFT" y="-64"/>
+                            <Anchor point="BOTTOMRIGHT"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="32" y="32"/>
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+                                    </Anchors>
+                                </Texture>
+                                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormalHuge">
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" x="4" y="2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <EditBox name="$parentFakeCooldown" parentKey="FakeCooldown" numeric="true" letters="3" inherits="InputBoxInstructionsTemplate">
+                                <Size x="150" y="20"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="4" y="-22"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="instruction" value="0"/>
+                                </Attributes>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentLabel" parentKey="Label" text="ROTATION_STUDIO_FAKE_COOLDOWN" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="-4" y="2"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+
+                                <Scripts>
+                                    <OnTextChanged>
+                                        InputBoxInstructions_OnTextChanged(self)
+                                        if self:HasFocus() then
+                                            self:GetParent():GetParent():GetParent():RefreshSelectedAction()
+                                        end
+                                    </OnTextChanged>
+                                </Scripts>
+                            </EditBox>
+
+                            <CheckButton name="$parentMissingDebuff" parentKey="MissingDebuff" inherits="SquareIconCheckButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentFakeCooldown" relativePoint="BOTTOMLEFT" x="-4" y="-32"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentLabel" parentKey="Label" text="ROTATION_STUDIO_MISSING_DEBUFF" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():GetParent():GetParent():RefreshSelectedAction()
+                                    </OnClick>
+                                </Scripts>
+                            </CheckButton>
+
+                            <CheckButton name="$parentMissingBuff" parentKey="MissingBuff" inherits="SquareIconCheckButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentMissingDebuff" relativePoint="BOTTOMLEFT" y="-32"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentLabel" parentKey="Label" text="ROTATION_STUDIO_MISSING_BUFF" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():GetParent():GetParent():RefreshSelectedAction()
+                                    </OnClick>
+                                </Scripts>
+                            </CheckButton>
+                        </Frames>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RotationStudioMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

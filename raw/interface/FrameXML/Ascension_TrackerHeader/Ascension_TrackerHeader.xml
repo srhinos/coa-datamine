@@ -1,0 +1,40 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    
+    <Script file="Ascension_TrackerHeader.lua"/>
+    
+    <Frame name="Ascension_TrackerHeader" parent="UIParent" frameStrata="FULLSCREEN_DIALOG" hidden="true">
+        <Size x="400" y="113"/>
+        
+        <Anchors>
+            <Anchor point="TOP" x="0" y="-100"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBanner" parentKey="Banner">
+                    <Size x="243" y="77"/>
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" parentKey="Title" inherits="ZoneTextFont">
+                    <Size x="0" y="20"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentBanner" x="0" y="-2"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentSubText" parentKey="SubText" inherits="SubZoneTextFont">
+                    <Size x="400" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentBanner" relativePoint="BOTTOM" x="0" y="20"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

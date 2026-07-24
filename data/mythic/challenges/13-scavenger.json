@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "You are really good at using what you find: and luckily, you find a lot. You are unable to use or equip any item of any kind that you didn't loot yourself.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":23,"id":222,"reward":null},
+  {"f2":103,"id":406,"reward":null},
+  {"f2":105,"id":1808,"reward":null}
+ ],
+ "iconToken": "Achievement_BG_KillXEnemies_GeneralsRoom",
+ "id": 13,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":384}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Scavenger",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You may only use items you have looted.","f2":0,"f3":1,"name":"Only Use Looted Items","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_NON_LOOTED_ITEMS"},
+  {"description":"You may not queue for or participate in battlegrounds.","f2":0,"f3":1,"name":"No Battlegrounds","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_BATTLEGROUNDS"}
+ ],
+ "spells": []
+}

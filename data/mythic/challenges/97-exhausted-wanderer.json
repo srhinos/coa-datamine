@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "You cannot restore mana, rage, or energy in any way, unless you are in a rested area.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_HARD",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":151,"reward":null},
+  {"f2":26,"id":259,"reward":null},
+  {"f2":103,"id":471,"reward":null},
+  {"f2":105,"id":1855,"reward":null}
+ ],
+ "iconToken": "INV_Ascend_Tavern_19",
+ "id": 97,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":881}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Exhausted Wanderer",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You are unaffected by energize effects unless you are in a rested area. This includes mana potions, spells that restore mana / rage / energy, or talents that restore mana / rage / energy.","f2":0,"f3":1,"name":"No Energizes Unless Resting","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_ENERGIZING_UNLESS_RESTED"}
+ ],
+ "spells": []
+}

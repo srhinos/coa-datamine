@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "You cannot restore health or heal in any way, unless you are in a rested area.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_HARD",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":150,"reward":null},
+  {"f2":26,"id":258,"reward":null},
+  {"f2":103,"id":470,"reward":null},
+  {"f2":105,"id":1854,"reward":null}
+ ],
+ "iconToken": "INV_Ascend_Tavern_12",
+ "id": 96,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":880}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Weary Wanderer",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You are unaffected by healing unless you are in a rested area. This includes Healing spells, bandages, health potions, or other players healing you.","f2":0,"f3":1,"name":"No Healing Unless Resting","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_HEALING_UNLESS_RESTED"}
+ ],
+ "spells": []
+}

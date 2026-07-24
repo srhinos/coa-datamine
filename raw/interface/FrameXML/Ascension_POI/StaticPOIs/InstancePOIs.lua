@@ -1,0 +1,901 @@
+local scale = 0.6
+local DUNGEON_S = CreateAtlasMarkup("dungeon", scale) .. " %s"
+local RAID_S = CreateAtlasMarkup("raid", scale) .. " %s"
+
+
+DB_MapPOI.CreatePOI("dungeon-stockades",
+        GetLFGDungeonInfo(12),
+        "",
+        -8768.059570,
+        843.469971,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-deadmines",
+        GetLFGDungeonInfo(6),
+        "",
+        -11080.37109375,
+        1526.876953125,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-shadowfangkeep",
+        GetLFGDungeonInfo(8),
+        "",
+        -232.796005,
+        1568.280029,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-gnomeregan",
+        GetLFGDungeonInfo(14),
+        "",
+        -5183.794434,
+        593.460693,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-scarletmonastery",
+        GetLFGDungeonInfo(164),
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S, GetLFGDungeonInfo(18), GetLFGDungeonInfo(165), GetLFGDungeonInfo(163)),
+        2883.194824,
+        -788.690918,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-scholomance",
+        GetLFGDungeonInfo(2),
+        "",
+        1269.640015,
+        -2556.20996,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-blackrockmountains",
+        INSTANCE_POI_BLACKROCK_MOUNTAINS,
+        format(DUNGEON_S .. "\n" ..DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. RAID_S .. "\n" .. RAID_S, INSTANCE_POI_BLACKROCK_DEPTHS, INSTANCE_POI_BLACKROCK_SPIRE, GetLFGDungeonInfo(45), GetLFGDungeonInfo(48), GetLFGDungeonInfo(50)),
+        -7796.3134765625,
+        -1134.0294189453,
+        214.84832763672,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid-dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-sunkentemple",
+        GetLFGDungeonInfo(28),
+        "",
+        -10443.835938,
+        -3827.351807,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-uldaman",
+        GetLFGDungeonInfo(22),
+        "",
+        -6090.795898,
+        -3184.292236,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-stratholme-maingate",
+        GetLFGDungeonInfo(40),
+        "",
+        3370.010254,
+        -3378.910645,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-stratholme-serviceentrance",
+        GetLFGDungeonInfo(274),
+        "",
+        3183.914795,
+        -4039.551514,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-naxxramas60",
+        GetLFGDungeonInfo(227),
+        "",
+        3133.457764,
+        -3731.607422,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-karazhan",
+        GetLFGDungeonInfo(175),
+        "",
+        -11112.900390625,
+        -2005.8900146484,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-ragefirechasm",
+        GetLFGDungeonInfo(4),
+        "",
+        1813.489990,
+        -4418.580078,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-wailingcaverns",
+        GetLFGDungeonInfo(1),
+        "",
+        -740.059021,
+        -2214.229980,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-blackfathomdeeps",
+        GetLFGDungeonInfo(10),
+        "",
+        4140.480957,
+        882.057617,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-razorfenkraul",
+        GetLFGDungeonInfo(16),
+        "",
+        -4464.919922,
+        -1666.239990,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-razorfendowns",
+        GetLFGDungeonInfo(20),
+        "",
+        -4658.120117,
+        -2526.350098,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-maraudon",
+        INSTANCE_POI_MARAUDON,
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S, GetLFGDungeonInfo(26), GetLFGDungeonInfo(272), GetLFGDungeonInfo(273)),
+        -1422.563110,
+        2914.473389,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-diremaul",
+        INSTANCE_POI_DIREMAUL,
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S, GetLFGDungeonInfo(34), GetLFGDungeonInfo(36), GetLFGDungeonInfo(38)),
+        -4292.110352,
+        1332.214722,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-zulfarrak",
+        GetLFGDungeonInfo(24),
+        "",
+        -6796.490234,
+        -2890.770020,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-cavernsoftime",
+        INSTANCE_POI_CAVERNS_OF_TIME,
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. RAID_S, GetLFGDungeonInfo(170), GetLFGDungeonInfo(171), GetLFGDungeonInfo(209), GetLFGDungeonInfo(195)),
+        -8173.3129882813,
+        -4740.4375,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid-dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-ahnquiraj",
+        GetLFGDungeonInfo(161),
+        format(RAID_S, GetLFGDungeonInfo(160)),
+        -8119.697266,
+        1525.387329,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-onyxia",
+        GetLFGDungeonInfo(257),
+        "",
+        -4747.169921875,
+        -3753.2700195313,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-zulgurub",
+        GetLFGDungeonInfo(42),
+        "",
+        -11916.364257813,
+        -1215.7159423828,
+        92.287567138672,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-hellfirecitadel",
+        GetLFGDungeonInfo(152),
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S, GetLFGDungeonInfo(136), GetLFGDungeonInfo(137), GetLFGDungeonInfo(138)),
+        -318.968018,
+        3039.011230,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-coilfang",
+        INSTANCE_POI_COILFANG,
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. RAID_S, GetLFGDungeonInfo(146), GetLFGDungeonInfo(140), GetLFGDungeonInfo(147), GetLFGDungeonInfo(194)),
+        566.775208,
+        6942.754395,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid-dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-sethekkhalls",
+        GetLFGDungeonInfo(150),
+        "",
+        -3361.732421875,
+        4665.4755859375,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-auchenaicrypts",
+        GetLFGDungeonInfo(149),
+        "",
+        -3362.2351074219,
+        5223.1513671875,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-manatombs",
+        GetLFGDungeonInfo(148),
+        "",
+        -3083.7534179688,
+        4943.4848632813,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-shadowlabyrinth",
+        GetLFGDungeonInfo(151),
+        "",
+        -3645.1884765625,
+        4943.2265625,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-botanica",
+        GetLFGDungeonInfo(173),
+        "",
+        3409.9799804688,
+        1486.0699462891,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-arcatraz",
+        GetLFGDungeonInfo(174),
+        "",
+        3311.1457519531,
+        1334.412109375,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-mechanar",
+        GetLFGDungeonInfo(172),
+        "",
+        2867.5300292969,
+        1550.5999755859,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-magistersterrace",
+        GetLFGDungeonInfo(198),
+        "",
+        12884.599609375,
+        -7317.6899414063,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-theeye",
+        GetLFGDungeonInfo(193),
+        "",
+        3087.2683105469,
+        1374.5721435547,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-gruulslair",
+        GetLFGDungeonInfo(177),
+        "",
+        3549.8000488281,
+        5085.9702148438,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-blacktemple",
+        GetLFGDungeonInfo(196),
+        "",
+        -3649.919921875,
+        317.46899414063,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-sunwell",
+        GetLFGDungeonInfo(199),
+        "",
+        12559.299804688,
+        -6783.3198242188,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-zulaman",
+        GetLFGDungeonInfo(197),
+        "",
+        6851.2700195313,
+        -7991.6801757813,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-magtheridonslair",
+        GetLFGDungeonInfo(176),
+        "",
+        -369.52624511719,
+        3179.1667480469,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        530
+)
+
+DB_MapPOI.CreatePOI("dungeon-azjolnerub",
+        GetLFGDungeonInfo(204),
+        format(DUNGEON_S, GetLFGDungeonInfo(218)),
+        3799.575439,
+        2126.463379,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-thenexus",
+        GetLFGDungeonInfo(225),
+        format(DUNGEON_S .. "\n" .. RAID_S, GetLFGDungeonInfo(206), GetLFGDungeonInfo(237)),
+        3872.1237792969,
+        6986.4028320313,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid-dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-utgardekeep",
+        GetLFGDungeonInfo(202),
+        "",
+        1066.6374511719,
+        -4915.2197265625,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-utgardepinnacle",
+        GetLFGDungeonInfo(203),
+        "",
+        1274.9154052734,
+        -4846.6875,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-gundrak",
+        GetLFGDungeonInfo(216),
+        "",
+        6946.6372070313,
+        -4452.0942382813,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-hallsoflighning",
+        GetLFGDungeonInfo(207),
+        "",
+        9181.3603515625,
+        -1384.0257568359,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-hallsofstone",
+        GetLFGDungeonInfo(208),
+        "",
+        8923.2900390625,
+        -982.88519287109,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-draktharonkeep",
+        GetLFGDungeonInfo(214),
+        "",
+        4774.6000976563,
+        -2032.9200439453,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-thefrozenhalls",
+        INSTANCE_POI_FROZEN_HALLS,
+        format(DUNGEON_S .. "\n" .. DUNGEON_S .. "\n" .. DUNGEON_S, GetLFGDungeonInfo(253), GetLFGDungeonInfo(255), GetLFGDungeonInfo(251)),
+        5634.416015625,
+        2031.8955078125,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-trialofthechampion",
+        GetLFGDungeonInfo(245),
+        "",
+        8579.6376953125,
+        791.85107421875,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-theviolethold",
+        GetLFGDungeonInfo(220),
+        "",
+        5689.39453125,
+        497.83139038086,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("raid-vaultofarchavon",
+        GetLFGDungeonInfo(240),
+        "",
+        5473.3979492188,
+        2839.84765625,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("raid-chamberofaspects",
+        GetLFGDungeonInfo(238),
+        format(RAID_S, GetLFGDungeonInfo(294)),
+        3690.9296875,
+        287.48510742188,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("raid-naxxramas80",
+        GetLFGDungeonInfo(227),
+        "",
+        3668.5998535156,
+        -1269.3726806641,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("raid-ulduar",
+        GetLFGDungeonInfo(224),
+        "",
+        9345.1884765625,
+        -1115.7126464844,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("raid-icecrowncitadel",
+        GetLFGDungeonInfo(280),
+        "",
+        5949.6606445313,
+        2144.1369628906,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("raid-trialofthecrusader",
+        GetLFGDungeonInfo(248),
+        "",
+        8516.427734375,
+        717.08270263672,
+        0,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        571
+)
+
+DB_MapPOI.CreatePOI("dungeon-karazhancrypts",
+        INSTANCE_POI_KARAZHAN_CRYPT,
+        "",
+        -11069.108398,
+        -1827.864136,
+        60.239273,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-deepinquisitorialvaults",
+        INSTANCE_POI_DEEP_INQUISITORIAL_VAULTS,
+        "",
+        -8775.194336,
+        -278.396393,
+        47.805431,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("dungeon-voodooroadtodeotherside",
+        INSTANCE_POI_VOODOO_ROAD_TO_DE_OTHER_SIDE,
+        "",
+        -222.842560,
+        -4192.125000,
+        57.355049,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        1
+)
+
+DB_MapPOI.CreatePOI("dungeon-shadowbonedepths",
+        INSTANCE_POI_SHADOWBONE_DEPTHS,
+        "",
+        -7800.458008,
+        1521.540405,
+        188.654602,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("thetempleofembers",
+        INSTANCE_POI_THE_TEMPLE_OF_EMBERS,
+        "",
+        -6811.230469,
+        -467.518036,
+        447.724731,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "dungeon",
+        scale,
+        nil,
+        0
+)
+
+DB_MapPOI.CreatePOI("theradiantspring",
+        INSTANCE_POI_THE_RADIANT_SPRING,
+        "",
+        -5469.041016,
+        1054.432251,
+        380.239563,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        0
+)
+

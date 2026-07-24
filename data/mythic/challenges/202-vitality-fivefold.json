@@ -1,0 +1,30 @@
+{
+ "conditions": [],
+ "description": "You have only 5 lives. Can you reach max level before your lives run out?",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_EASY",
+ "featured": false,
+ "groups": [
+  {"f2":103,"id":573,"reward":null},
+  {"f2":105,"id":1957,"reward":null}
+ ],
+ "iconToken": "Spell_Shadow_SoulLeech",
+ "id": 202,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":983}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Vitality Fivefold",
+ "requirements": [
+  {"description":"You must complete the challenge without dying |cffffffff%1$d|r or more times.","f2":0,"f3":1,"f5":1084227584,"f6":0,"f7":0,"f8":10000,"name":"%1$d |4Life:Lives;","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_COMPLETE_WITHOUT_DEATH"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot use your Realm Bank.","f2":0,"f3":1,"name":"No Realm Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_REALM_BANK"},
+  {"description":"You cannot trade with other players.","f2":0,"f3":1,"name":"No Trading","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_TRADE"},
+  {"description":"You cannot use the Mailbox.","f2":0,"f3":1,"name":"No Mail","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_MAIL"},
+  {"description":"You cannot use your Guild Bank.","f2":0,"f3":1,"name":"No Guild Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_GUILD_BANK"},
+  {"description":"You cannot use the Auction House.","f2":0,"f3":1,"name":"No Auction House","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_AUCTIONHOUSE"}
+ ],
+ "spells": []
+}

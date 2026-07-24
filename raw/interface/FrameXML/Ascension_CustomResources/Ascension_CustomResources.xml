@@ -1,0 +1,47 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CustomResourceDefinitions.lua"/>
+    <Script file="CustomResourceContainer.lua"/>
+    <Script file="CustomResourceSegment.lua"/>
+
+    <Frame name="CustomResourceContainer" parent="PlayerFrame" movable="true" clampedToScreen="true">
+        <Size x="116" y="12"/>
+        <Anchors>
+            <Anchor point="TOP" relativeTo="PlayerFrameManaBar" relativePoint="BOTTOM" y="-2"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CustomResourceContainerMixin)
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+            <OnDragStart>
+                --self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                --self:StopMovingOrSizing()
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="CustomResourceSegmentTemplate" virtual="true">
+        <Size x="18" y="18"/>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CustomResourceSegmentMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

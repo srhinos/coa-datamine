@@ -1,0 +1,69 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="WarmodeLineMixin.lua"/>
+    <Script file="WarmodeTierMixin.lua"/>
+    <Frame name="WarmodeLineTemplate" virtual="true">
+        <Size x="214" y="64"/>
+
+        <Layers>
+            <Layer>
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="32" y="32"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <FontString name="$parentText" parentKey="Text" justifyH="LEFT" justifyV="TOP" inherits="GameFontNormal">
+                    <Size x="214" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTextBackground" parentKey="TextBackground">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentText" x="-8" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "WarmodeLineMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="WarmodeTierTemplate" virtual="true">
+        <Size x="58" y="49"/>
+    
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+    
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight">
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "WarmodeTierMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

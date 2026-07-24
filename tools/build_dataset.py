@@ -1,11 +1,12 @@
 """One-command pipeline: extract -> dump -> snapshot -> build -> provenance."""
-import argparse, datetime, json
+import argparse, datetime, hashlib, json
 
-from tools import (config, dbc, extract_mpq, snapshot_content,
-                   build_spells, build_classes, build_talents, build_dungeons)
+from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
+                   build_spells, build_classes, build_talents, build_dungeons,
+                   build_creatures, build_classmeta, build_mythic)
 
 
-def run(skip_extract=False, skip_dump=False) -> dict:
+def run(skip_extract=False, skip_dump=False, skip_interface=False) -> dict:
     config.ensure_dirs()
     if skip_extract and all((config.WORK_DBC_DIR / w).is_file()
                             for w in config.WANTED_DBCS):
@@ -28,6 +29,30 @@ def run(skip_extract=False, skip_dump=False) -> dict:
     print(f"[talents]  {stats['talents']}")
     stats["dungeons"] = build_dungeons.build()
     print(f"[dungeons] {stats['dungeons']}")
+    stats["creatures"] = build_creatures.build()
+    print(f"[creatures] {stats['creatures']}")
+    # Amendment D / stage order: classmeta reads spells + writes INTO data/classes/ -
+    # it must run after build_classes (which owns + rebuilds that directory) or its
+    # specs.json/archetypes.json get wiped by a later classes rebuild.
+    stats["classmeta"] = build_classmeta.build()
+    print(f"[classmeta] {stats['classmeta']}")
+    stats["mythic"] = build_mythic.build()
+    print(f"[mythic]   {stats['mythic']}")
+
+    manifest_path = config.RAW_INTERFACE_DIR / "_manifest.json"
+    if skip_interface and manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        # provenance must carry the manifest sha256 + file count on EVERY path, not
+        # just a fresh extract - re-hash the existing file (cheap, no rescan needed).
+        stats["interface"] = {
+            "count": manifest["count"], "archiveSourced": manifest["archiveSourced"],
+            "diskSourced": manifest["diskSourced"],
+            "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+            "reused": True,
+        }
+    else:
+        stats["interface"] = extract_interface.extract_all()
+    print(f"[interface] {stats['interface']}")
 
     prov = {
         "generatedUtc": datetime.datetime.now(datetime.timezone.utc)
@@ -49,8 +74,10 @@ def main():
                     help="reuse work/dbc from a previous extract")
     ap.add_argument("--skip-dump", action="store_true",
                     help="skip regenerating raw/dbc CSV dumps")
+    ap.add_argument("--skip-interface", action="store_true",
+                    help="reuse raw/interface/_manifest.json from a previous extract")
     a = ap.parse_args()
-    run(skip_extract=a.skip_extract, skip_dump=a.skip_dump)
+    run(skip_extract=a.skip_extract, skip_dump=a.skip_dump, skip_interface=a.skip_interface)
     print("build complete - raw/provenance.json updated")
 
 

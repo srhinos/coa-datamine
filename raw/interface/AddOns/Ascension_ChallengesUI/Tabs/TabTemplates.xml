@@ -1,0 +1,153 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Frame name="ChallengesTabTemplate" setAllPoints="true" virtual="true">
+        <Frames>
+            <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                <Size x="320" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="18" y="-14"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnTextChanged>
+                        if self:HasFocus() then
+                        SearchBoxTemplate_OnTextChanged(self)
+                        self:GetParent():UpdateFilteredChallenges()
+                        end
+                    </OnTextChanged>
+                    <OnTextSet>
+                        self:GetParent():UpdateFilteredChallenges()
+                    </OnTextSet>
+                </Scripts>
+
+                <Attributes>
+                    <Attribute name="instruction" value="Search..."/>
+                </Attributes>
+            </EditBox>
+            <Frame name="$parentChallenges" parentKey="Challenges" inherits="StandardProportionalScrollListTemplate">
+                <Size x="596" y="424"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" x="-12" y="6"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentDivider" parentKey="Divider">
+                            <Size x="625" y="2"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+
+    <Frame name="ChallengesListTabTemplate" inherits="ChallengesTabTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentFilterDropDown" parentKey="FilterDropDown" inherits="FilterDropDownMenuTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentSearch" relativePoint="RIGHT" x="14"/>
+                </Anchors>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ChallengesTabMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="ChallengeStoreItemSlotTemplate" parentKey="Item" hidden="true" virtual="true">
+        <Size x="140" y="32"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\AuctionFrame\UI-AuctionFrame-ItemSlot">
+                    <Size x="155" y="36"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-3" y="3"/>
+                    </Anchors>
+                    <TexCoords left="0.15625" right="0.83203125" top="0.171875" bottom="0.796875"/>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <SimpleHTML name="$parentCost" parentKey="Cost" inherits="BaseHyperlinkHTMLScriptsTemplate">
+                <Size x="106" y="12"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="36" y="-1"/>
+                </Anchors>
+                
+                <FontString justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlight"/>
+            </SimpleHTML>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ChallengesStoreItemMixin")
+            </OnLoad>
+        </Scripts>
+        <ButtonText name="$parentName" parentKey="Name" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightSmall">
+            <Size x="106" y="24"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="38" y="2"/>
+            </Anchors>
+        </ButtonText>
+
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Button name="ChallengeStoreChoiceTemplate" virtual="true">
+        <Size x="188" y="42"/>
+
+        <Scripts>
+            <OnLoad>
+                self:SetNormalAtlas("storyheader-bg")
+                self:SetHighlightAtlas("storyheader-bg")
+                self:SetPushedAtlas("storyheader-bg")
+                self:GetPushedTexture():SetVertexColor(0.5, 0.5, 0.5)
+            </OnLoad>
+            <OnClick>
+                if self:GetParent():GetParent():GetStoreID() ~= self:GetID() then
+                    self:GetParent():GetParent():SetStoreID(self:GetID())
+                end
+            </OnClick>
+        </Scripts>
+
+        <ButtonText inherits="QuestFont_Large">
+            <Size x="188" y="32"/>
+            <Anchors>
+                <Anchor point="TOP" y="-2"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture alphaMode="ADD"/>
+        
+        <PushedTextOffset x="0" y="-1"/>
+    </Button>
+</Ui>

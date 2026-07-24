@@ -1,0 +1,315 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="HelpMenuMixin.lua"/>
+    <Script file="HelpMenuTicketPanelMixin.lua"/>
+    <Script file="HelpMenuUnstuckPanelMixin.lua"/>
+    <Script file="HelpMenuItemRecoveryPanelMixin.lua"/>
+    <Script file="HelpMenuBugPanelMixin.lua"/>
+    
+    <Frame name="HelpMenuFrame" parent="UIParent" movable="true" enableMouse="true" clampedToScreen="true" hidden="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="974" y="610"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\FrameGeneral\ui-background-rock2" horizTile="true" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-20"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentLeftInset" parentKey="LeftInset" inherits="NineSlicePanelTemplate2">
+                <Size x="223" y="582"/> 
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24" />
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                    
+                    <Layer>
+                        <Texture name="$parentDivider1" parentKey="Divider1">
+                            <Anchors>
+                                <Anchor point="TOP" y="-107"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer>
+                        <Texture name="$parentDivider2" parentKey="Divider2">
+                            <Anchors>
+                                <Anchor point="TOP" y="-277"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Button name="$parentOpenTicketButton" parentKey="OpenTicketButton" id="1" text="KBASE_GMTALK" inherits="HelpMenuButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" y="-48"/>
+                        </Anchors>
+                        
+                        <Attributes>
+                            <Attribute name="IconAtlas" value="helpicon-chat"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentUnstuckButton" parentKey="UnstuckButton" id="2" text="HELPFRAME_STUCK_TITLE" inherits="HelpMenuButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentOpenTicketButton" relativePoint="BOTTOM" y="-48"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="IconAtlas" value="helpicon-stuck"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentLostItemsButton" parentKey="LostItemsButton" id="3" text="HELPFRAME_LOST_ITEM" inherits="HelpMenuButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentUnstuckButton" relativePoint="BOTTOM" y="-24"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="IconAtlas" value="helpicon-itemrestore"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentReportBugButton" parentKey="ReportBugButton" id="4" text="BUG_REPORT" inherits="HelpMenuButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentLostItemsButton" relativePoint="BOTTOM" y="-48"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="IconAtlas" value="helpicon-bug"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentGiveFeedbackButton" parentKey="GiveFeedbackButton" id="5" text="SUBMIT_FEEDBACK" inherits="HelpMenuButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentReportBugButton" relativePoint="BOTTOM" y="-24"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="IconAtlas" value="helpicon-suggestion"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+                
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                    <Attribute name="drawLayer" value="OVERLAY"/>
+                </Attributes>
+            </Frame>
+            
+            <Frame name="$parentRightInset" parentKey="RightInset" inherits="NineSlicePanelTemplate2">
+                <Size x="738" y="582"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-4" y="-24"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" file="Interface\Common\darksandstone-tile" vertTile="true" horizTile="true" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentInsetNineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                        <Attributes>
+                            <Attribute name="layoutType" value="LargeShadowOverlay"/>
+                            <Attribute name="drawLayer" value="OVERLAY"/>
+                        </Attributes>
+                    </Frame>
+
+                    <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                        <Size x="710" y="572"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-4"/>
+                        </Anchors>
+                        
+                        <ScrollChild>
+                            <Frame name="$parentChild" parentKey="Child">
+                                <Size x="710" y="574"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT"/>
+                                </Anchors>
+                                <Frames>
+                                    <Frame name="$parentTicketPanel" parentKey="TicketPanel" inherits="HelpMenuPanelTemplate">
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "HelpMenuTicketPanelMixin")
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+
+                                    <Frame name="$parentStuckPanel" parentKey="StuckPanel" inherits="HelpMenuPanelTemplate">
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "HelpMenuUnstuckPanelMixin")
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+
+                                    <Frame name="$parentBugReportPanel" parentKey="BugReportPanel" inherits="HelpMenuPanelTemplate">
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "HelpMenuBugPanelMixin")
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </ScrollChild>
+                    </ScrollFrame>
+
+                    <Frame name="$parentItemRestorePanel" parentKey="ItemRestorePanel" inherits="HelpMenuPanelTemplate">
+                        <Frames>
+                            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" setAllPoints="true" hidden="true" inherits="InputBlockTextTemplate">
+                                <Frames>
+                                    <Button name="$parentOkButton" parentKey="OkButton" text="CLOSE" inherits="SharedButtonTemplate">
+                                        <Size x="120" y="32"/>
+                                        <Anchors>
+                                            <Anchor point="CENTER" y="-82"/>
+                                        </Anchors>
+                                        
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                                                self:GetParent():Hide()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                                
+                                <Scripts>
+                                    <OnShow>
+                                        PlaySound(SOUNDKIT.ERROR)
+                                    </OnShow>
+                                </Scripts>
+                            </Frame>
+
+                            <Frame name="$parentLoadingFrame" parentKey="LoadingFrame" setAllPoints="true" hidden="true" inherits="InputBlockLoadingTemplate"/>
+
+                            <Frame name="$parentCategories" parentKey="Categories">
+                                <Size x="240" y="524"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" y="-58"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentBackground" parentKey="Background">
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" y="58"/>
+                                                <Anchor point="BOTTOMRIGHT"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+
+                                    <Layer>
+                                        <Texture name="$parentDivider" parentKey="Divider">
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" y="4"/>
+                                            </Anchors>
+                                        </Texture>
+
+                                        <FontString name="$parentLabel" parentKey="Label" inherits="PTFontNormalHuge" text="RECOVERY_CATEGORY">
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" y="26"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                            </Frame>
+
+                            <Frame name="$parentRecoveryScroll" parentKey="RecoveryScroll" inherits="StandardProportionalScrollListTemplate">
+                                <Size x="470" y="504"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentCategories" relativePoint="TOPRIGHT" x="4" y="-20"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentBackground" parentKey="Background">
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" y="58"/>
+                                                <Anchor point="BOTTOMRIGHT" x="22"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+
+                                    <Layer>
+                                        <FontString name="$parentLimitedCountLabel" parentKey="LimitedCountLabel" justifyV="BOTTOM" text="HELP_RECOVERY_LIMITED_COUNT" inherits="GameFontDisable">
+                                            <Size x="690" y="26"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" y="8"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                                        <Size x="320" y="20"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" relativePoint="TOP" y="34"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnTextChanged>
+                                                if self:HasFocus() then
+                                                    SearchBoxTemplate_OnTextChanged(self)
+                                                    self:GetParent():GetParent():UpdateFilter()
+                                                end
+                                            </OnTextChanged>
+                                            <OnTextSet>
+                                                SearchBoxTemplate_OnTextChanged(self)
+                                                self:GetParent():GetParent():UpdateFilter()
+                                            </OnTextSet>
+                                        </Scripts>
+
+                                        <Attributes>
+                                            <Attribute name="instruction" value="SEARCH_ELLIPSE"/>
+                                        </Attributes>
+                                    </EditBox>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "HelpMenuItemRecoveryPanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="LargeShadowOverlay"/>
+                    <Attribute name="drawLayer" value="OVERLAY"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuMixin")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

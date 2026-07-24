@@ -1,0 +1,68 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CompanionPanel.lua"/>
+
+    <Button name="PetPaperDollCompanionItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="148" y="46"/>
+
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="4"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CompanionScrollItemMixin")
+            </OnLoad>
+            <PreClick>
+                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_39)
+            </PreClick>
+        </Scripts>
+
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall" justifyH="LEFT" maxLines="3">
+            <Size x="100" y="38"/>
+            <Anchors>
+                <Anchor point="LEFT" x="40"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Frame name="AscensionCharacterCompanionPanel" parent="AscensionCharacterFrameRightInset" hidden="true" inherits="StandardProportionalScrollListTemplate">
+        <Size x="162" y="352"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" x="2" y="-2"/>
+        </Anchors>
+        
+        <Frames>
+            <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                <Size x="200" y="20"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-18" y="8"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self)
+                        if not self:HasFocus() then return end
+                        self:GetParent():RefreshCompanionList()
+                        self:GetParent():RefreshScrollFrame()
+                    </OnTextChanged>
+                </Scripts>
+
+                <Attributes>
+                    <Attribute name="instruction" value="SEARCH_ELLIPSE" type="string"/>
+                </Attributes>
+            </EditBox>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CompanionPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

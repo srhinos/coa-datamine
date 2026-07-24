@@ -1,0 +1,286 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_Ruleset.lua"/>
+    
+    <Frame name="RulesetInfoTemplate" virtual="true">
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentTitle" parentKey="Title" wordwrap="true" justifyH="LEFT" justifyV="TOP" inherits="GameFontNormalOutlineHuge">
+                    <Size x="0" y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="6" y="0"/>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+
+                    <Color r="1" g="0.82" b="0"/>
+                </FontString>
+
+                <FontString name="$parentText" parentKey="Text" wordwrap="true" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightOutlineSmall">
+                    <Size x="0" y="104"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentTitle" relativePoint="BOTTOMRIGHT"  x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture parentKey="IconBorder">
+                    <Size x="42" y="42"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                self.IconBorder:SetAtlas("collections-itemborder-collected", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="RulesetSelectionTemplate" virtual="true">
+        <Size x="238" y="485"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                        <Anchor point="BOTTOMRIGHT" x="-6" y="8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="Highlight" hidden="true" alpha="0.6" alphaMode="BLEND">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                        <Anchor point="BOTTOMRIGHT" x="-6" y="8"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha change="-0.6" order="1" duration="0"/>
+                            <Alpha change="0.6" order="2" duration="0.4"/>
+                        </AnimationGroup>
+                        <AnimationGroup parentKey="AnimOut">
+                            <Alpha change="-0.6" order="1" duration="0.1"/>
+                            <Scripts>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate"/>
+
+            <Frame name="$parentInfo1" parentKey="Info1" inherits="RulesetInfoTemplate">
+                <Size x="0" y="124"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-32"/>
+                    <Anchor point="TOPRIGHT" x="-16" y="-32"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentInfo2" parentKey="Info2" inherits="RulesetInfoTemplate">
+                <Size x="0" y="124"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentInfo1" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentInfo1" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentInfo3" parentKey="Info3" inherits="RulesetInfoTemplate">
+                <Size x="0" y="124"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentInfo2" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentInfo2" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+            
+            <Frame name="$parentBanner" parentKey="Banner">
+                <Size x="238" y="39"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="48"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalLarge">
+                            <Size x="220" y="39"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="6"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentTextDesaturated" parentKey="TextDesaturated" hidden="true" inherits="GameFontNormalLarge">
+                            <Size x="220" y="39"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="6"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnLoad>
+                        self.Background:SetAtlas("Legionfall_Banner", Const.TextureKit.IgnoreAtlasSize)
+                        local text = self:GetParent():GetAttribute("text")
+                        if text then
+                            text = text .. "_COLORED"
+                            local darker = text .. "_DARK"
+                            darker = _G[darker] or darker
+                            text = _G[text] or text
+                            self.Text:SetText(text)
+                            self.TextDesaturated:SetText(darker)
+                        end
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Button name="$parentSelect" parentKey="Select" text="SELECT" inherits="UIPanelButtonTemplate">
+                <Size x="104" y="24"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="24"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():OnClick()
+                    </OnClick>
+                    <OnEnter>
+                        self:GetParent():OnEnter()
+                    </OnEnter>
+                    <OnLeave>
+                        self:GetParent():OnLeave()
+                    </OnLeave>
+                    <OnMouseDown>
+                        self:GetParent():OnMouseDown()
+                    </OnMouseDown>
+                    <OnMouseUp>
+                        self:GetParent():OnMouseUp()
+                    </OnMouseUp>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RulesetPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="AscensionRulesetFrame" parent="AscensionLFGFrameContent" setAllPoints="true" hidden="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" name="$parentBackground">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-8" y="8"/>
+                        <Anchor point="BOTTOMRIGHT" x="8" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentRuleset1" parentKey="Ruleset1" inherits="RulesetSelectionTemplate" id="1">
+                <Anchors>
+                    <Anchor point="LEFT" x="42" y="0"/>
+                </Anchors>
+                
+                <Attributes>
+                    <Attribute name="layoutType" value="LegionFallGreenLayout" type="string"/>
+                    <Attribute name="text" value="NO_RISK_PVE" type="string"/>
+                    <Attribute name="icon1" value="Achievement_bg_killxenemies_generalsroom" type="string"/>
+                    <Attribute name="icon2" value="Achievement_explore_argus" type="string"/>
+                    <Attribute name="icon3" value="Achievement_Ashran_Tourofduty" type="string"/>
+                </Attributes>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "RulesetPanelMixin")
+                        self.Background:SetAtlas("ruleset-bg-pve-risk", Const.TextureKit.IgnoreAtlasSize)
+                        self.Highlight:SetAtlas("ruleset-bg-pve-risk-highlight", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentRuleset2" parentKey="Ruleset2" inherits="RulesetSelectionTemplate" id="2">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="LegionFallYellowLayout" type="string"/>
+                    <Attribute name="text" value="NO_RISK_PVP" type="string"/>
+                    <Attribute name="icon1" value="Achievement_bg_killxenemies_generalsroom" type="string"/>
+                    <Attribute name="icon2" value="Achievement_explore_argus" type="string"/>
+                    <Attribute name="icon3" value="Achievement_Ashran_Tourofduty" type="string"/>
+                </Attributes>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "RulesetPanelMixin")
+                        self.Background:SetAtlas("ruleset-bg-pvp-risk", Const.TextureKit.IgnoreAtlasSize)
+                        self.Highlight:SetAtlas("ruleset-bg-pvp-risk-highlight", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentRuleset3" parentKey="Ruleset3" inherits="RulesetSelectionTemplate" id="3">
+                <Anchors>
+                    <Anchor point="RIGHT" x="-42" y="0"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="LegionFallRedLayout" type="string"/>
+                    <Attribute name="text" value="HIGH_RISK_PVP" type="string"/>
+                    <Attribute name="icon1" value="warrior_skullbanner" type="string"/>
+                    <Attribute name="icon2" value="achievement_guildperk_mobilebanking" type="string"/>
+                    <Attribute name="icon3" value="racechange" type="string"/>
+                </Attributes>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "RulesetPanelMixin")
+                        self.Background:SetAtlas("ruleset-bg-high-risk", Const.TextureKit.IgnoreAtlasSize)
+                        self.Highlight:SetAtlas("ruleset-bg-high-risk-highlight", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentInputBlock" parentKey="InputBlock" hidden="true" inherits="InputBlockTextTemplate" setAllPoints="true">
+                <Attributes>
+                    <Attribute name="title" value="ERR_CANNOT_CHANGE_RULESET" type="string"/>
+                    <Attribute name="subtext" value="ERR_RULESET_MUST_BE_IN_CAPITAL_CITY" type="string"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self.Background:SetAtlas("Legionfall_Background", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "RulesetFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

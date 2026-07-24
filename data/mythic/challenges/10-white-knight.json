@@ -1,0 +1,29 @@
+{
+ "conditions": [],
+ "description": "You're way too good at the game to need gear. You are unable to equip items higher than common rarity. White knight powers, activate!",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":110,"reward":null},
+  {"f2":24,"id":221,"reward":null},
+  {"f2":103,"id":405,"reward":null},
+  {"f2":105,"id":1807,"reward":null}
+ ],
+ "iconToken": "Ability_paladin_righteousvengeance",
+ "id": 10,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":383}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "White Knight",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You are unable to equip items of legendary quality.","f2":0,"f3":1,"name":"Cannot Equip Legendary Items","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EQUIP_LEGENDARY_ITEMS"},
+  {"description":"You are unable to equip items of epic quality.","f2":0,"f3":1,"name":"Cannot Equip Epic Items","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EQUIP_EPIC_ITEMS"},
+  {"description":"You are unable to equip items of rare quality.","f2":0,"f3":1,"name":"Cannot Equip Rare Items","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EQUIP_RARE_ITEMS"},
+  {"description":"You are unable to equip items of uncommon quality.","f2":0,"f3":1,"name":"Cannot Equip Uncommon Items","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EQUIP_UNCOMMON_ITEMS"}
+ ],
+ "spells": []
+}

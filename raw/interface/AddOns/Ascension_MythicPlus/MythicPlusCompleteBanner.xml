@@ -1,0 +1,335 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="MythicPlusCompleteBanner.lua"/>
+
+    <Frame name="MythicPlusBannerPartyMemberTemplate" virtual="true">
+        <Size x="61" y="61"/>
+
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha order="1" duration="0" change="-1"/>
+                <Alpha startDelay="0.2" duration="0.25" order="2" change="1"/>
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent():Show()
+                    </OnPlay>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="AnimOut">
+                <Alpha duration="0.5" order="1" change="-1"/>
+                <Scripts>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Border" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture parentKey="Portrait">
+                    <Size x="59" y="59"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString parentKey="Name" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="BOTTOM" x="0" y="-8"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture parentKey="RoleIcon" file="Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES">
+                    <Size x="20" y="20"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, MythicPlusBannerPartyMemberMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="MythicPlusCompleteBanner" parent="UIParent" hidden="true">
+        <Size x="128" y="356"/>
+
+        <Anchors>
+            <Anchor point="TOP" x="0" y="-120"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentBannerTop" parentKey="BannerTop">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-44"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.3" duration="0.25" order="2" change="1"/>
+                            <Scale duration="0" order="1" scaleX="0.1" scaleY="1"/>
+                            <Scale startDelay="0.2" duration="0.3" order="2" scaleX="10" scaleY="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="BannerTopGlow" alpha="0" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-44"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="1" duration="0.25" order="2" change="1"/>
+                            <Scale duration="0" order="1" scaleX="0.5" scaleY="1"/>
+                            <Scale startDelay="1" duration="0.5" order="2" scaleX="3.2" scaleY="1"/>
+                            <Alpha startDelay="1.2" duration="0.6" order="2" change="-1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentBannerBottom" parentKey="BannerBottom">
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="0"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.3" duration="0.25" order="2" change="1"/>
+                            <Scale duration="0" order="1" scaleX="0.1" scaleY="1"/>
+                            <Scale startDelay="0.2" duration="0.3" order="2" scaleX="10" scaleY="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="BannerBottomGlow" alpha="0" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="0"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="1" duration="0.25" order="2" change="1"/>
+                            <Scale duration="0" order="1" scaleX="0.5" scaleY="1"/>
+                            <Scale startDelay="1" duration="0.5" order="2" scaleX="3.2" scaleY="1"/>
+                            <Alpha startDelay="1.2" duration="0.6" order="2" change="-1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture parentKey="BannerMiddle">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBannerTop" x="-100" y="-34"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBannerBottom" x="100" y="25"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.3" duration="0.25" order="2" change="1"/>
+                            <Scale duration="0" order="1" scaleX="0.1" scaleY="1"/>
+                            <Scale startDelay="0.2" duration="0.3" order="2" scaleX="10" scaleY="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="BannerMiddleGlow" alpha="0" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBannerTop" x="-100" y="-34"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBannerBottom" x="100" y="25"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="0.3" duration="0.25" order="2" change="1"/>
+                            <Scale duration="0" order="1" scaleX="0.1" scaleY="1"/>
+                            <Scale startDelay="0.2" duration="0.3" order="2" scaleX="10" scaleY="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentSkullCircle" parentKey="SkullCircle">
+                    <Size x="100" y="100"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentBannerTop" x="0" y="46"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Scale duration="0" order="1" scaleY="5" scaleX="5"/>
+                            <Scale duration="0.15" order="2" scaleY="0.2" scaleX="0.2"/>
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha duration="0.1" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <FontString parentKey="Level" inherits="GameFontNormalOutlineMassive" text="13">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentSkullCircle"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="BottomFillagree">
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="8"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.1" duration="0.15" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="RightFillagree">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentSkullCircle" x="37" y="6"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.2" duration="0.1" order="2" change="1"/>
+                            <Translation duration="0" order="1" offsetX="-37" offsetY="0"/>
+                            <Translation startDelay="0.25" duration="0.15" order="2" offsetX="37" offsetY="0"/>
+                            <Scale duration="0" order="1" scaleX="0.5" scaleY="0.5">
+                                <Origin point="BOTTOMLEFT"/>
+                            </Scale>
+                            <Scale startDelay="0.25" duration="0.15" order="2" scaleX="2" scaleY="2">
+                                <Origin point="BOTTOMLEFT"/>
+                            </Scale>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="LeftFillagree">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentSkullCircle" x="-37" y="6"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.2" duration="0.1" order="2" change="1"/>
+                            <Translation duration="0" order="1" offsetX="37" offsetY="0"/>
+                            <Translation startDelay="0.25" duration="0.15" order="2" offsetX="-37" offsetY="0"/>
+                            <Scale duration="0" order="1" scaleX="0.5" scaleY="0.5">
+                                <Origin point="BOTTOMRIGHT"/>
+                            </Scale>
+                            <Scale startDelay="0.25" duration="0.15" order="2" scaleX="2" scaleY="2">
+                                <Origin point="BOTTOMRIGHT"/>
+                            </Scale>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <FontString name="$parentTitle" parentKey="Title" inherits="QuestFont_Enormous">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentBannerTop" x="0" y="-61"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="0" duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.2" duration="0.25" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </FontString>
+
+                <FontString name="$parentDescriptionLineOne" parentKey="DescriptionLineOne" inherits="GameFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-8"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="0" duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.2" duration="0.25" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </FontString>
+
+                <FontString name="$parentDescriptionLineTwo" parentKey="DescriptionLineTwo" inherits="GameFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentDescriptionLineOne" relativePoint="BOTTOM" x="0" y="-2"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="0" duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.2" duration="0.25" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </FontString>
+
+                <FontString parentKey="DescriptionLineThree" inherits="GameFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentDescriptionLineTwo" relativePoint="BOTTOM" x="0" y="-21"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="0" duration="0" order="1" change="-1"/>
+                            <Alpha startDelay="0.2" duration="0.25" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture parentKey="Glow" alpha="0">
+                    <Size x="106" y="106"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentSkullCircle"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha startDelay="0.1" duration="0.1" order="2" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Animations>
+            <AnimationGroup parentKey="AnimOut">
+                <Alpha duration="0.5" order="1" change="-1"/>
+                <Scripts>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, MythicPlusCompleteBannerMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

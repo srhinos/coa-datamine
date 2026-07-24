@@ -1,0 +1,124 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ErrorHandler.lua"/>
+
+    <Frame name="ErrorHandler" movable="true" enableMouse="true" frameStrata="FULLSCREEN_DIALOG" hidden="true" inherits="DefaultPanelTemplate">
+        <Size x="600" y="300"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Frames>
+            <ScrollFrame name="$parentError" parentKey="Error" inherits="ScrollableReadOnlyEditBoxTemplate">
+                <Size x="570" y="248"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-28"/>
+                </Anchors>
+            </ScrollFrame>
+            
+            <Button name="$parentPreviousButton" parentKey="PreviousButton" text="PREVIOUS" inherits="StandardButtonSmallTemplate">
+                <Size x="120" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="2" y="2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():PreviousError()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentCopyButton" parentKey="CopyButton" text="MENU_EDIT_COPY" inherits="StandardButtonSmallTemplate">
+                <Size x="120" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="2"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():CopyToClipboard()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentNextButton" parentKey="NextButton" text="NEXT" inherits="StandardButtonSmallTemplate">
+                <Size x="120" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():NextError()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentCloseButton" parentKey="ClosePanelButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="6" y="5"/>
+                </Anchors>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ErrorHandlerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="UIErrorNotification" frameStrata="FULLSCREEN_DIALOG" hidden="true">
+        <Size x="240" y="12"/>
+        <Anchors>
+            <Anchor point="TOP"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true">
+                    <Color r="0" g="0" b="0" a="0.4"/>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="ConsoleFont" text="LUA_ERROR_NOTIFICATION">
+                    <Size x="240" y="12"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                            <Alpha duration="1" change="-0.4" smoothing="IN_OUT"/>
+                        </AnimationGroup>
+                    </Animations>
+                    <Color r="1" g="0.1" b="0.1"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnShow>
+                self.Text.Anim:Play()
+            </OnShow>
+            <OnHide>
+                self.Text.Anim:Stop()
+            </OnHide>
+            <OnClick>
+                ErrorHandler:Show()
+                self:Hide()
+            </OnClick>
+            <OnEnter>
+                local tooltip = GlueTooltip or GameTooltip
+                tooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                ErrorHandler:BuildTooltip(tooltip)
+                tooltip:Show()
+            </OnEnter>
+            <OnLeave>
+                local tooltip = GlueTooltip or GameTooltip
+                tooltip:Hide()
+            </OnLeave>
+        </Scripts>
+    </Button>
+</Ui>

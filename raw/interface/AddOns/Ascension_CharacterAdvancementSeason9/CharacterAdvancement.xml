@@ -1,0 +1,952 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CharacterAdvancement.lua"/>
+
+    <Frame name="CharacterAdvancement" parent="Collections" hidden="true" inherits="RaisedPortraitFrameTemplate">
+        <Size x="1060" y="698"/>
+
+        <Anchors>
+            <Anchor point="BOTTOM" y="8"/>
+        </Anchors>
+        
+        <Frames>
+            <Frame name="$parentInputBlocker" parentKey="InputBlocker" inherits="InputBlockTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+            </Frame>
+            <Frame name="$parentNavigation" parentKey="Navigation">
+                <Size x="1056" y="102"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="TOPRIGHT" x="-2" y="-24"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentDraftButton" parentKey="DraftButton" inherits="DraftModeMicroButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-20" y="-20"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:GetNormalTexture():SetPortraitTexture("Interface\\Icons\\inv_misc_dmc_destructiondeck")
+                                self.tooltipTitle = TOGGLE_DRAFT_CARDS
+                                self.tooltipText = TOGGLE_DRAFT_CARDS_TOOLTIP
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentBrowser" parentKey="Browser" inherits="BorderIconTemplate" hidden="true">
+                        <Size x="36" y="36"/>
+                        <HitRectInsets left="-14" right="-14" top="-14" bottom="-6"/>
+
+                        <Layers>
+                            <Layer level="HIGHLIGHT">
+                                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD" setAllPoints="true"/>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CAClassButtonMixin")
+                                self.Icon:ClearAllPoints()
+                                self.Icon:SetPoint("CENTER")
+                                self.Icon:SetSize(46, 46)
+                                SetPortraitToTexture(self.Icon, "Interface\\Icons\\inv_misc_spyglass_02")
+
+                                -- re-write what CAClassButtonMixin sets
+                                self:SetScript("OnClick", function()
+                                    CharacterAdvancement:SelectBrowser()
+                                end)
+                            </OnLoad>
+                        </Scripts>
+                        <ButtonText name="$parentText" parentKey="Text" text="BROWSE" inherits="GameFontNormalOutline">
+                            <Anchors>
+                                <Anchor point="TOP" relativePoint="BOTTOM" y="2"/>
+                            </Anchors>
+                        </ButtonText>
+
+                        <PushedTextOffset x="0" y="0"/>
+                    </Button>
+                    <Button name="$parentPetTalents" parentKey="PetTalents" inherits="BorderIconTemplate">
+                        <Size x="38" y="38"/>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentGlow" parentKey="Glow" hidden="true" alphaMode="ADD">
+                                    <Size x="100" y="100"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                    
+                                    <Animations>
+                                        <AnimationGroup parentKey="Animation" looping="REPEAT">
+                                            <Rotation duration="60" degrees="360"/>
+                                        </AnimationGroup>
+                                    </Animations>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentUnspentPoints" parentKey="UnspentPoints" inherits="CATalentCountTemplate">
+                                <Anchors>
+                                    <Anchor point="CENTER" relativePoint="TOP" y="2"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <HitRectInsets left="-12" right="-12" top="-12" bottom="-12"/>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+                                self:SetRounded(true)
+                                self:SetBorderSize(44, 48)
+                                self:SetBorderOffset(0, -3)
+                                self:SetBorderAtlas("GarrMission_PortraitRing")
+                                self:SetIcon("Interface\\Icons\\Ability_Hunter_BeastCall")
+                                self.Glow:SetAtlas("services-ring-large-glowspin")
+                            </OnLoad>
+                            <OnClick>
+                                ToggleTalentFrame()
+                                CharacterAdvancementCloseButton:Click()
+                            </OnClick>
+                        </Scripts>
+
+                        <ButtonText name="$parentText" parentKey="Text" text="TALENT_SPEC_PET_PRIMARY" inherits="GameFontNormalOutlineSmall">
+                            <Anchors>
+                                <Anchor point="TOP" relativePoint="BOTTOM" y="-2"/>
+                            </Anchors>
+                        </ButtonText>
+
+                        <PushedTextOffset x="0" y="0"/>
+                    </Button>
+                    
+                    <Button name="$parentShareButton" parentKey="ShareButton">
+                        <Size x="108" y="24"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-380" y="4"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                self:SetNormalAtlas("tradeskill-link")
+                                self:SetHighlightAtlas("tradeskill-link-highlight")
+                            </OnLoad>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                GameTooltip:SetText(SHARE_BUILD, 1, 1, 1)
+                                GameTooltip:AddLine(SHARE_BUILD_TOOLTIP, nil, nil, nil, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                local link = CharacterAdvancementUtil.GetBuildWebURL()
+                                if link then
+                                    Internal_CopyToClipboard(link)
+                                end
+                            </OnClick>
+                        </Scripts>
+                        
+                        <ButtonText name="$parentText" parentKey="Text" text="SHARE_BUILD" justifyH="LEFT" inherits="GameFontHighlight">
+                            <Size x="74" y="24"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="30"/>
+                            </Anchors>
+                        </ButtonText>
+                        
+                        <HighlightFont style="GameFontNormal"/>
+                        <NormalFont style="GameFontHighlight"/>
+
+                        <NormalTexture>
+                            <Size x="32" y="16"/>
+                            <Anchors>
+                                <Anchor point="LEFT"/>
+                            </Anchors>
+                        </NormalTexture>
+                        
+                        <HighlightTexture alphaMode="ADD">
+                            <Size x="32" y="16"/>
+                            <Anchors>
+                                <Anchor point="LEFT"/>
+                            </Anchors>
+                        </HighlightTexture>
+                    </Button>
+                </Frames>
+            </Frame>
+            
+            <ScrollFrame name="$parentContent" parentKey="Content" inherits="UIPanelScrollFrameTemplate">
+                <Size x="802" y="536"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentNavigation" relativePoint="BOTTOMLEFT" x="2" y="-10"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentWCRapidRollButton" parentKey="WCRapidRollButton" motionScriptsWhileDisabled="true" text="CA_RAPID_ROLLING" inherits="StandardButtonTemplate" hidden="true">
+                        <Size x="128" y="22"/>
+
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="18" y="0"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.tooltipTitle = CA_RAPID_ROLLING
+                                self.tooltipText = CA_RAPID_ROLLING_TEXT
+                            </OnLoad>
+                            <OnEnter>
+                                GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                                if self.tooltipExtra then
+                                    GameTooltip:AddLine(self.tooltipExtra, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                            <OnClick>
+                                CharacterAdvancement:ToggleWildCardRapidRolling()
+                            </OnClick>
+                        </Scripts>
+
+                        <ButtonText inherits="GameFontHighlight" setAllPoints="true"/>
+                    </Button>
+
+                    <Frame name="$parentFooter" parentKey="Footer">
+                        <Size x="808" y="22"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+                            <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT"/>
+                        </Anchors>
+                        <Frames>
+                            <Button name="$parentResetSpellsButton" parentKey="ResetSpellsButton" text="RESET_ALL_SPELLS" motionScriptsWhileDisabled="true" inherits="StandardButtonTemplate">
+                                <Size x="120" y="24"/> 
+                                <Anchors>
+                                    <Anchor point="RIGHT" relativePoint="CENTER" x="24" y="2"/>
+                                </Anchors>
+                                <Scripts>
+                                    <OnLoad>
+                                        self.tooltipTitle = RESET_ALL_SPELLS
+                                        self.tooltipText = RESET_ALL_SPELLS_TOOLTIP
+                                        if not C_Player:IsHero() then
+                                            self:Hide()
+                                        end
+                                        MagicButton_OnLoad(self)
+                                    </OnLoad>
+                                    <OnClick>
+                                        CharacterAdvancementUtil.ConfirmOrUnlearnAllSpells()
+                                    </OnClick>
+                                    <OnEnter>
+                                        GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                                        if self.tooltipExtra then
+                                            GameTooltip:AddLine(self.tooltipExtra, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b, true)
+                                            GameTooltip:Show()
+                                        end
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentResetTalentsButton" parentKey="ResetTalentsButton" text="RESET_ALL_TALENTS" motionScriptsWhileDisabled="true" inherits="StandardButtonTemplate">
+                                <Size x="120" y="24"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" relativePoint="CENTER" x="26" y="2"/>
+                                </Anchors>
+                                <Scripts>
+                                    <OnLoad>
+                                        self.tooltipTitle = RESET_ALL_TALENTS
+                                        self.tooltipText = RESET_ALL_TALENTS_TOOLTIP
+                                        if not C_Player:IsHero() then
+                                            self:SetWidth(240)
+                                            self:ClearAndSetPoint("CENTER", 24, 2)
+                                        end
+                                        MagicButton_OnLoad(self)
+                                    </OnLoad>
+                                    <OnClick>
+                                        CharacterAdvancementUtil.ConfirmOrUnlearnAllTalents()
+                                    </OnClick>
+                                    <OnEnter>
+                                        GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                                        if self.tooltipExtra then
+                                            GameTooltip:AddLine(self.tooltipExtra, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b, true)
+                                            GameTooltip:Show()
+                                        end
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Button>
+
+                          	<Frame name="$parentSpellCurrencyBar" parentKey="SpellCurrencyBar" inherits="CurrencyBarClassicTemplate">
+                          		<Size x="303" y="19"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" x="-1" y="4"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentTalentCurrencyBar" parentKey="TalentCurrencyBar" inherits="CurrencyBarClassicTemplate">
+                            	<Size x="250" y="19"/>
+                                <Anchors>
+                                	<Anchor point="BOTTOMRIGHT" x="-3" y="4"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+
+                    <Frame name="$parentLockTalentsFrame" parentKey="LockTalentsFrame" enableMouse="true" hidden="true">
+                        <Size x="369" y="538"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-5" y="2"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture setAllPoints="true">
+                                    <Size x="369" y="536"/>
+                                    <Color r="0.0" g="0.0" b="0.0" a="0.7"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentText" parentKey="Text" text="FEATURE_BECOMES_AVAILABLE_AT_LEVEL" inherits="GameFontRed">
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                </FontString>
+                                <Texture file="Interface\LFGFRAME\UI-LFG-ICON-LOCK">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativeTo="$parentText" relativePoint="TOP" x="0" y="0"/>
+                                    </Anchors>
+                                    <Size x="32" y="32"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                    
+                    <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" y="10"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Frame name="$parentNineSliceShadow" parentKey="NineSliceShadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="7"/>
+                            <Anchor point="BOTTOMRIGHT" x="-6" y="2"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                        </Attributes>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoad(self, "NineSlicePanelMixin")
+                                self:SetFrameLevel(self:GetParent().NineSlice:GetFrameLevel()-1)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate" hidden="true">
+                        <Size x="438" y="22"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="145" y="12"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnTextChanged>
+                                SearchBoxTemplate_OnTextChanged(self)
+                                if self:IsVisible() then
+                                    CharacterAdvancement:BrowserSearch(self:GetText():trim())
+                                end
+                            </OnTextChanged>
+                        </Scripts>
+                    </EditBox>
+
+                    <Frame name="$parentAbilityBrowser" parentKey="AbilityBrowser" hidden="true" inherits="ScrollListTemplate">
+                        <Size x="803" y="546"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString inherits="GameFontDisableLarge" parentKey="NoSearchResults" text="ENCHANT_COLLECTION_EMPTY_SEARCH">
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                self.ScrollFrame:SetHeight(self:GetHeight()-10) -- fix glitch
+                                self.InsetFrame:Hide()
+                                MixinAndLoadScripts(self, "CABorwserMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    
+                    <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate" hidden="true">
+                        <Size x="86" y="22"/>
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentSpellTagFrame" parentKey="SpellTagFrame" hidden="true">
+                        <Size x="256" y="0"/>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentShadow" parentKey="Shadow">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                        <Anchor point="BOTTOMRIGHT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+
+                            <Layer level="ARTWORK">
+                                <FontString name="$parent.Text" justifyH="LEFT" parentKey="Text" inherits="GameFontDisableSmall" text="FILTERS">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT">
+                                            <Offset>
+                                                <AbsDimension x="8" y="-4"/>
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>                        
+                        </Layers>
+
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-8" y="8"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.Shadow:SetTexture("Interface\\AddOns\\AwAddons\\Textures\\Collections\\Shadow")
+                                self:SetFrameLevel(self:GetParent().AbilityBrowser:GetFrameLevel()+8)
+                                MixinAndLoadScripts(self, "CASpellTagFrameMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+                
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentShadowOverlay" parentKey="ShadowOverlay" file="Interface\COMMON\ShadowOverlay-Right">
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="-2" y="7"/>
+                                <Anchor point="BOTTOMRIGHT" x="-256"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentSpellsOverlay" parentKey="SpellsOverlay" alpha="0.4">
+                            <Size x="256" y="256"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="LEFT" x="218" y="20"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentBrowserArtwork" parentKey="BrowserArtwork" alpha="0.6" file="Interface\callboard\atlas_10">
+                            <Size x="349" y="258"/>
+                            <TexCoords  left="0.432" right="1" top="0.5791" bottom="1"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>   
+                    </Layer>  
+
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentCornerTL" parentKey="CornerTL" file="Interface\CharacterAdvancement\caCorner">
+                            <Size x="32" y="32" />
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="1" y="6"/>
+                            </Anchors>
+                        </Texture>
+                        <Texture name="$parentCornerTR" parentKey="CornerTR" file="Interface\CharacterAdvancement\caCorner">
+                            <Size x="32" y="32" />
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="-1" y="6"/>
+                            </Anchors>
+                            <TexCoords left="1" right="0" top="0" bottom="1"/>
+                        </Texture>
+                        <Texture name="$parentCornerBL" parentKey="CornerBL" file="Interface\CharacterAdvancement\caCorner">
+                            <Size x="32" y="32" />
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="1" y="2"/>
+                            </Anchors>
+                            <TexCoords left="0" right="1" top="1" bottom="0"/>
+                        </Texture>
+                        <Texture name="$parentCornerBR" parentKey="CornerBR" file="Interface\CharacterAdvancement\caCorner">
+                            <Size x="32" y="32" />
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="-1" y="2"/>
+                            </Anchors>
+                            <TexCoords left="1" right="0" top="1" bottom="0"/>
+                        </Texture>
+                        <Texture name="$parentScrollTop" parentKey="ScrollTop" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar" hidden="true">
+                            <Size x="27" y="48"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="22" y="10"/>
+                            </Anchors>
+                            <TexCoords left="0" right="0.484375" top="0" bottom=".20"/>
+                        </Texture>
+                        <Texture name="$parentScrollBottom" parentKey="ScrollBottom" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar" hidden="true">
+                            <Size x="27" y="64"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="22" y="0"/>
+                            </Anchors>
+                            <TexCoords left="0.515625" right="1.0" top="0.1440625" bottom="0.4140625"/>
+                        </Texture>
+                        <Texture name="$parentScrollMiddle" parentKey="ScrollMiddle" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar" hidden="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentScrollTop" relativePoint="BOTTOMLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollBottom" relativePoint="TOPRIGHT"/>
+                            </Anchors>
+                            <TexCoords left="0" right="0.484375" top="0.1640625" bottom="1"/>
+                        </Texture>
+                    </Layer>
+
+                   <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="2" y="7"/>
+                                <Anchor point="BOTTOMRIGHT" x="-2"/>
+                            </Anchors>
+                        </Texture>
+                        <Texture name="$parentScrollBackground" parentKey="ScrollBackground" hidden="true">
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                           <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentScrollTop" relativePoint="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollBottom" relativePoint="BOTTOMRIGHT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnLoad>
+                        ScrollFrame_OnLoad(self);
+                        self.scrollbar = _G[self:GetName().."ScrollBar"]
+                        self.scrollUpButton = _G[self.scrollbar:GetName().."ScrollUpButton"]
+                        self.scrollDownButton = _G[self.scrollbar:GetName().."ScrollDownButton"]
+                        self.scrollbar:SetPoint("TOPLEFT", self, "TOPRIGHT", 2, -9)
+                        self.scrollbar:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 2, 17)
+
+                        self.scrollbar:Hide()
+                    </OnLoad>
+                    <OnMouseWheel>
+                        local maxOffset = self:GetVerticalScrollRange()
+                        local scroll = math.clamp(self:GetVerticalScroll() - (delta * 11), 0, maxOffset)
+                        self:SetVerticalScroll(scroll)
+
+                        ScrollFrameTemplate_OnMouseWheel(self, delta)
+                    </OnMouseWheel>
+                </Scripts>
+
+                <ScrollChild>
+                    <Frame name="$parentScrollChild" parentKey="ScrollChild">
+                        <Size x="802" y="536"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                            <Anchor point="BOTTOMRIGHT"/>
+                        </Anchors>
+
+                        <Frames>
+                            <Frame name="$parentSpells" parentKey="Spells">
+                                <Size x="433" y="536"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT"/>
+                                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="32"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString inherits="SystemFont_Shadow_Large2" parentKey="Total">
+                                            <Anchors>
+                                                <Anchor point="TOP" y="-10"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                            </Frame>
+
+                            <Frame name="$parentTalents" parentKey="Talents">
+                                <Size x="369" y="536"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSpells" relativePoint="TOPRIGHT"/>
+                                    <Anchor point="BOTTOMRIGHT"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString inherits="SystemFont_Shadow_Large2"  parentKey="Total">
+                                            <Anchors>
+                                                <Anchor point="TOP" y="-10"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+            
+            <Frame name="$parentSideBar" parentKey="SideBar">
+                <Size x="248" y="570"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentContent" relativePoint="TOPRIGHT" x="1" y="10"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" file="Interface\FrameGeneral\UI-Background-Marble" vertTile="true" horizTile="true">
+	                        <Anchors>
+	                            <Anchor point="TOPLEFT" x="2" y="-2"/>
+	                            <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+	                        </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentSpellList" parentKey="SpellList" inherits="StandardProportionalScrollListTemplate" hidden="true">
+                        <Size x="226" y="450"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" y="-96"/>
+                        </Anchors>
+                        
+                        <Frames>
+                            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                    <Anchor point="BOTTOMRIGHT" x="22"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                </Attributes>
+                                
+                                <Scripts>
+                                    <OnLoad>
+                                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                                        self:SetFrameLevel(self:GetParent():GetFrameLevel() + 10)
+                                    </OnLoad>
+                                </Scripts>
+                            </Frame>
+
+                            <Frame name="$parentHeader" parentKey="Header">
+                                <Size x="248" y="96"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentBackground" parentKey="Background" file="Interface\FrameGeneral\UI-Background-Rock2" vertTile="true" horizTile="true" setAllPoints="true"/>
+                                    </Layer>
+
+                                    <Layer level="ARTWORK">
+                                        <FontString name="$parentHintText" parentKey="HintText" text="CHOOSE_A_PRIMARY_STAT" inherits="GameFontHighlight">
+                                            <Anchors>
+                                                <Anchor point="TOP" y="-4"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT"/>
+                                            <Anchor point="BOTTOMRIGHT" y="30"/>
+                                        </Anchors>
+
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Attributes>
+                                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                        </Attributes>
+                                    </Frame>
+
+                                    <Button name="$parentPrimaryStat4" parentKey="PrimaryStat4" inherits="CAPrimaryStatButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOMRIGHT" x="-22" y="42"/>
+                                        </Anchors>
+                                    </Button>
+
+                                    <Button name="$parentPrimaryStat3" parentKey="PrimaryStat3" inherits="CAPrimaryStatButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentPrimaryStat4" relativePoint="TOPLEFT" x="-22"/>
+                                        </Anchors>
+                                    </Button>
+
+                                    <Button name="$parentPrimaryStat2" parentKey="PrimaryStat2" inherits="CAPrimaryStatButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentPrimaryStat3" relativePoint="TOPLEFT" x="-22"/>
+                                        </Anchors>
+                                    </Button>
+                                    
+                                    <Button name="$parentPrimaryStat1" parentKey="PrimaryStat1" inherits="CAPrimaryStatButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentPrimaryStat2" relativePoint="TOPLEFT" x="-22"/>
+                                        </Anchors>
+                                    </Button>
+
+                                    <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                                        <Size x="150" y="22"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOMLEFT" x="9" y="4"/>
+                                        </Anchors>
+                                        
+                                        <Scripts>
+                                            <OnTextChanged>
+                                                SearchBoxTemplate_OnTextChanged(self)
+                                                if self:IsVisible() then
+                                                    CharacterAdvancement:Search(self:GetText():trim())
+                                                end
+                                            </OnTextChanged>
+                                        </Scripts>
+                                    </EditBox>
+                                    
+                                    <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                                        <Size x="86" y="22"/>
+                                        <Anchors>
+                                            <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT"/>
+                                        </Anchors>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+
+                            <Frame name="$parentFooter" parentKey="Footer" inherits="NineSlicePanelTemplate2">
+                                <Size x="246" y="22"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"/>
+                                </Anchors>
+                                
+                                <Attributes>
+                                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                </Attributes>
+                                
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Button name="$parentFlyoutButton" parentKey="FlyoutButton" text="SHOW_RARITIES" hidden="true" inherits="StandardButtonTemplate">
+                                        <Size x="244" y="20"/>
+                                        <Anchors>
+                                            <Anchor point="CENTER" x="1"/>
+                                        </Anchors>
+                                        
+                                        <Scripts>
+                                            <OnClick>
+                                                CharacterAdvancement:ToggleRarityFlyout()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Frame name="$parentRarityCurrencyBar" parentKey="RarityCurrencyBar" inherits="CurrencyBarClassicTemplate" hidden="true">
+                                        <Size x="246" y="19"/>
+                                        <Anchors>
+                                            <Anchor point="CENTER" y="0"/>
+                                        </Anchors>
+                                    </Frame>
+                                    
+                                    <Frame name="$parentRarityFlyout" parentKey="RarityFlyout" enableMouse="true" inherits="NineSlicePanelTemplate2" hidden="true">
+                                        <Size x="250" y="106"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-2"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                        </Attributes>
+                                        
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture name="$parentBackground" parentKey="Background" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="1" y="-4"/>
+                                                        <Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                        </Layers>
+                                        
+                                        <Frames>
+                                            <Button name="$parentUncommon" parentKey="Uncommon" inherits="CARarityBarTemplate">
+                                                <Size x="242" y="22"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" y="4"/>
+                                                </Anchors>
+                                                <Attributes>
+                                                    <Attribute name="quality" value="2" type="number"/>
+                                                </Attributes>
+                                            </Button>
+
+                                            <Button name="$parentRare" parentKey="Rare" inherits="CARarityBarTemplate">
+                                                <Size x="242" y="22"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" relativeTo="$parentUncommon" relativePoint="TOP" y="2"/>
+                                                </Anchors>
+                                                <Attributes>
+                                                    <Attribute name="quality" value="3" type="number"/>
+                                                </Attributes>
+                                            </Button>
+
+                                            <Button name="$parentEpic" parentKey="Epic" inherits="CARarityBarTemplate">
+                                                <Size x="242" y="22"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" relativeTo="$parentRare" relativePoint="TOP" y="2"/>
+                                                </Anchors>
+                                                <Attributes>
+                                                    <Attribute name="quality" value="4" type="number"/>
+                                                </Attributes>
+                                            </Button>
+
+                                            <Button name="$parentLegendary" parentKey="Legendary" inherits="CARarityBarTemplate">
+                                                <Size x="242" y="22"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" relativeTo="$parentEpic" relativePoint="TOP" y="2"/>
+                                                </Anchors>
+                                                <Attributes>
+                                                    <Attribute name="quality" value="5" type="number"/>
+                                                </Attributes>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                    
+                    <Frame name="$parentSpecList" parentKey="SpecList" inherits="StandardProportionalScrollListTemplate" hidden="true">
+                        <Size x="226" y="566"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" y="-2"/>
+                        </Anchors>
+                        
+                        <Frames>
+                            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                    <Anchor point="BOTTOMRIGHT" x="22"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                </Attributes>
+                                
+                                <Scripts>
+                                    <OnLoad>
+                                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                                        self:SetFrameLevel(self:GetParent():GetFrameLevel() + 10)
+                                    </OnLoad>
+                                </Scripts>
+                            </Frame>
+
+                            <Frame name="$parentIconSelector" parentKey="IconSelector" hidden="true" inherits="IconSelectorFrameTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPRIGHT" relativePoint="TOPLEFT" x="-8" y="0"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentSelectFrame" parentKey="SelectFrame" hidden="true">
+                                <Size x="228" y="154"/>
+                                <Anchors>
+                                    <Anchor point="TOP" y="-2"/>
+                                </Anchors>
+
+                                <Frames>
+                                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                                        <Size x="32" y="32"/>
+                                        <Anchors>
+                                            <Anchor point="TOPRIGHT" x="-2" y="-2"/>
+                                        </Anchors>
+                                    </Button>
+
+                                    <Frame name="$parentScrollList" parentKey="ScrollList" inherits="ProportionalScrollListTemplate">
+                                        <Size x="204" y="124"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="2" y="-28"/>
+                                        </Anchors>
+                                    </Frame>
+                                </Frames>
+
+                                <Backdrop bgFile="Interface\Buttons\WHITE8x8" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                                    <Color r="0" g="0" b="0" a="0.9"/>
+                                    <EdgeSize val="16"/>
+                                    <TileSize val="16"/>
+                                    <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                                </Backdrop>
+                            </Frame>
+                        </Frames>
+                        
+                        <Scripts>
+                            <OnShow>
+                                self:OnShow()
+                                self:RegisterEvent("ASCENSION_CA_SPECIALIZATION_ACTIVE_ID_CHANGED")
+                            </OnShow>
+                            <OnHide>
+                                self:UnregisterEvent("ASCENSION_CA_SPECIALIZATION_ACTIVE_ID_CHANGED")
+                                self.SelectFrame:Hide()
+                            </OnHide>
+                            <OnEvent>
+                                self:RefreshScrollFrame()
+                            </OnEvent>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentLoadoutList" parentKey="LoadoutList" inherits="StandardProportionalScrollListTemplate" hidden="true">
+                        <Size x="226" y="566"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" y="-2"/>
+                        </Anchors>
+                        
+                        <Frames>
+                            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                    <Anchor point="BOTTOMRIGHT" x="22"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                </Attributes>
+                                
+                                <Scripts>
+                                    <OnLoad>
+                                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                                        self:SetFrameLevel(self:GetParent():GetFrameLevel() + 10)
+                                    </OnLoad>
+                                </Scripts>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentSpellDropDownMenu" parentKey="SpellDropDownMenu" inherits="UIDropDownMenuTemplate"/>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CharacterAdvancementMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

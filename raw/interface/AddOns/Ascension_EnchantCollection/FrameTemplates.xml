@@ -1,0 +1,59 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Button name="EnchantCollectionEnchantSlot" virtual="true">
+		<Frames>
+			<Frame name="$parentDropDownMenu" parentKey="DropDownMenu" inherits="UIDropDownMenuTemplate"/>
+		</Frames>
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, ECEnchantSlotMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="EnchantCollectionEnchantItem" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, ECEnchantItemMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="EnchantCollectionEnchantAnimated" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, ECEnchantAnimatedMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="EnchantCollectionScrollListItem" inherits="ScrollListItemTemplate" virtual="true">
+		<Size x="596" y="64"/>
+
+		<Scripts>
+			<OnLoad> 
+				Mixin(self, ScrollListItemBaseMixin)
+				MixinAndLoadScripts(self, ECScrollListItemMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="EnchantCollectionManagerListItem" inherits="OldSpecializationButtonTemplate" virtual="true">
+		<Size x="210" y="54"/>
+
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, ECSpecManagerButtonMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="EnchantCollectionCollectionButton" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, ECCollectionsButtonMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Frame name="EnchantCollectionProgressBar" inherits="BetterStatusBarTemplate" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, ECProgressBarMixin)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

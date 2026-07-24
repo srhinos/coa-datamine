@@ -1,0 +1,132 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Script file="Ascension_LoseControl.lua"/>
+
+    <Frame name="LoseControlFrame" frameStrata="FULLSCREEN" movable="true" clampedToScreen="true" parent="UIParent" hidden="true">
+        <Size x="204" y="46"/>
+
+		<Anchors>
+			<Anchor point="CENTER" x="0" y="24"/>
+		</Anchors>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\Cooldown\LoC-ShadowBG" parentKey="blackBg">
+
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+
+					<Color r="1.0" g="1.0" b="1.0" a="0.6"/>
+				</Texture>
+
+				<Texture file="Interface\Cooldown\Loc-RedLine" parentKey="RedLineTop">
+
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="0" y="0"/>
+						<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="21"/>
+					</Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Scale duration="0.01" scaleX="0.1" scaleY="1" order="1"/>
+                            
+                            <Scale duration="0.1" scaleX="14" scaleY="1" order="2"/>
+            
+                            <Scale duration="0.1" scaleX="0.71" scaleY="1" order="3"/>
+
+                            <Scripts>
+                                <OnFinished>
+                                    self:GetParent():GetParent().Cooldown:Show()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+				</Texture>
+
+				<Texture file="Interface\Cooldown\Loc-RedLine" parentKey="RedLineBottom">
+
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+						<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-21"/>
+					</Anchors>
+
+					<TexCoords left="0" right="1" top="1" bottom="0"/>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Scale duration="0.01" scaleX="0.1" scaleY="1" order="1"/>
+                            
+                            <Scale duration="0.1" scaleX="14" scaleY="1" order="2"/>
+            
+                            <Scale duration="0.1" scaleX="0.71" scaleY="1" order="3"/>
+                        </AnimationGroup>
+                    </Animations>
+				</Texture>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" parentKey="Icon">
+					<Size x="42" y="42"/>
+					<Anchors>
+						<Anchor point="LEFT" x="24" y="0"/>
+					</Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Translation offsetX="0" offsetY="0" duration="0.01" order="1"/>
+
+                            <Translation offsetX="-20" offsetY="0" duration="0.1" order="2"/>
+                            <Scale scaleX="1.33" scaleY="1.33" duration="0.1" order="2"/>
+
+                            <Translation offsetX="20" offsetY="0" duration="0.1" order="3"/>
+                            <Scale scaleX="0.75" scaleY="0.75" duration="0.1" order="3"/>
+                        </AnimationGroup>
+                    </Animations>
+				</Texture>
+
+				<FontString inherits="MovieSubtitleFont" parentKey="AbilityName" justifyH="LEFT">
+					<Size x="0" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="11"/>
+					</Anchors>
+				</FontString>
+
+				<FontString inherits="GameFontNormalHuge" parentKey="SecondsText" justifyH="LEFT">
+					<Size x="0" y="20"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="-12"/>
+					</Anchors>
+
+					<Shadow>
+						<Offset>
+							<AbsDimension x="2" y="-2"/>
+						</Offset>
+
+						<Color r="0" g="0" b="0"/>
+					</Shadow>
+
+					<Color r="1" g="1" b="1"/>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Cooldown parentKey="Cooldown" drawEdge="true" inherits="CooldownFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentIcon"/>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon"/>
+				</Anchors>
+			</Cooldown>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				Mixin(self, "AscensionLoseControlMixin")
+				self:OnLoad()
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

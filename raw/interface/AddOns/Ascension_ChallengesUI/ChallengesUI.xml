@@ -1,0 +1,435 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ChallengesUI.lua"/>
+    
+    <Frame name="ChallengesFrame" hidden="true" movable="true" clampedToScreen="true" enableMouse="true" frameStrata="HIGH" parent="UIParent">
+        <Size x="625" y="475"/>
+        
+        <Anchors>
+            <Anchor point="CENTER" y="80"/>
+        </Anchors>
+        
+        <HitRectInsets left="-18" bottom="-18" right="-18" top="-30"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentTrialsTab" parentKey="TrialsTab" setAllPoints="true" hidden="true" inherits="ChallengesListTabTemplate">
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "TrialsTabMixin")
+                    </OnLoad>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentChallengesTab" parentKey="ChallengesTab" hidden="true" inherits="ChallengesListTabTemplate">
+                <Scripts>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentCustomTrialsTab" parentKey="CustomTrialsTab" hidden="true" inherits="ChallengesListTabTemplate">
+                <Frames>
+                    <Button name="$parentOpenEditorButton" parentKey="OpenEditorButton" text="CREATE_TRIAL" inherits="SharedGoldRedButtonTemplate">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-42" y="-8"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.CHARACTER_SHEET_TAB)
+                                ChallengesFrame:OpenTab(4)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CustomTrialsTabMixin")
+                    </OnLoad>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentTrialEditorTab" parentKey="TrialEditorTab" setAllPoints="true" hidden="true">
+                <Frames>
+                    <Frame name="$parentEditor" parentKey="Editor" inherits="EditableTrialTemplate" setAllPoints="true"/>
+                </Frames>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "TrialCreatorTabMixin")
+                    </OnLoad>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </Frame>            
+
+            <Frame name="$parentGamemodesTab" parentKey="GamemodesTab" setAllPoints="true" hidden="true" inherits="ChallengesTabTemplate">
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "GamemodesTabMixin")
+                    </OnLoad>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentStoreTab" parentKey="StoreTab" setAllPoints="true" hidden="true">
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentPageText" parentKey="PageText" inherits="GameFontHighlight">
+                            <Anchors>
+                                <Anchor point="BOTTOM" y="44"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                        <Size x="220" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="-42" y="-50"/>
+                        </Anchors>
+                    </EditBox>
+
+                    <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                        <Size x="78" y="22"/>
+
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT" x="6" y="-1"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentPreviousPageButton" parentKey="PreviousPageButton" inherits="LeftButtonTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="-16" y="12"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():PreviousPage()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentNextPageButton" parentKey="NextPageButton" inherits="RightButtonTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="16" y="12"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():NextPage()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCurrency" parentKey="Currency">
+                        <Size x="202" y="32"/>
+                        
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" x="12" y="12"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="18" y="18"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" x="8"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CurrencyBarItemMixin")
+                            </OnLoad>
+                        </Scripts>
+                        
+                        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlightSmall">
+                            <Size x="176" y="0"/>
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="0"/>
+                            </Anchors>
+                        </ButtonText>
+                        
+                        <PushedTextOffset x="0" y="0"/>
+                    </Button>
+                    
+                    <Frame name="$parentStoreButtonLayout" parentKey="StoreButtonLayout" inherits="HorizontalLayoutFrame">
+                        <Size x="1" y="42"/>
+                        <Anchors>
+                            <Anchor point="TOP"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="spacing" value="24" type="number"/>
+                            <Attribute name="defaultAlign" value="center"/>
+                        </Attributes>
+                        
+                        <Frames>
+                            <Button name="$parentTrialMasterButton" parentKey="TrialMasterButton" inherits="ChallengeStoreChoiceTemplate" id="1">
+                                <Attributes>
+                                    <Attribute name="layoutIndex" value="1" type="number"/>
+                                </Attributes>
+                            </Button>
+
+                            <Button name="$parentBuildMasterButton" parentKey="BuildMasterButton" inherits="ChallengeStoreChoiceTemplate" id="2">
+                                <Attributes>
+                                    <Attribute name="layoutIndex" value="1" type="number"/>
+                                </Attributes>
+                            </Button>
+                        </Frames>
+                    </Frame>
+
+                    <Frame name="$parentErrorFrame" parentKey="ErrorFrame" inherits="InputBlockTextTemplate" setAllPoints="true" hidden="true">
+                        <Frames>
+                            <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="SharedButtonTemplate">
+                                <Size x="100" y="28"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" y="84"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():Hide()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                    </Frame>
+                    <Frame name="$parentLoadingFrame" parentKey="LoadingFrame" inherits="InputBlockLoadingTemplate" setAllPoints="true" hidden="true"/>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "ChallengesStoreTabMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentTitleBG" parentKey="TitleBG">
+                            <Size x="182" y="55"/>
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" y="-14"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightLarge">
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentTitleBG"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Attributes>
+                    <Attribute name="layoutType" value="ServicesFrameLayout"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentErrorInputBlock" parentKey="ErrorInputBlock" inherits="InputBlockTextTemplate" toplevel="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="title" value="CHALLENGES_CANNOT_ACTIVATE" type="string"/>
+                </Attributes>
+
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="SharedButtonSmallTemplate" text="CLOSE">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" y="-64"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <Button name="$parentMoreInfoButton" parentKey="MoreInfo" inherits="SharedButtonSmallTemplate" text="MORE_INFO">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentCloseButton" relativePoint="BOTTOM" y="-24"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                HideUIPanel(ChallengesFrame)
+                                local keywordID = C_Tutorial.GetKeywordID("StonyTark")
+                                OpenPathToAscensionAppendix(keywordID or 226)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentWarningInputBlock" parentKey="WarningInputBlock" inherits="InputBlockTextTemplate" toplevel="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentAcceptButton" parentKey="AcceptButton" inherits="SharedButtonSmallTemplate" text="ACCEPT">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="-62" y="-64"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnShow>
+                                self:Disable()
+                                self:SetText(ACCEPT .. " (3)")
+                                self.count = 3
+                                if self.countdown then
+                                    self.countdown:Cancel()
+                                end
+                                self.countdown = Timer.NewTicker(1, function()
+                                        self.count = self.count - 1
+                                        
+                                        if self.count == 0 then
+                                            self:Enable()
+                                            self:SetText(ACCEPT)
+                                        else
+                                            self:SetText(ACCEPT .. " (" .. self.count .. ")")
+                                        end
+                                    end, 3)
+                            </OnShow>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                if self:GetParent().OnAccept() then
+                                    self:GetParent():OnAccept()
+                                end
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCancelButton" parentKey="CancelButton" inherits="SharedButtonSmallTemplate" text="CANCEL">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="62" y="-64"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentTab1" parentKey="Tab1" text="TRIALS" inherits="CharacterFrameTabButtonTemplate" id="1">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" y="-6"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad/>
+                    <OnClick>
+                        self:GetParent():OnTabClick(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTab2" parentKey="Tab2" text="CHALLENGES_STORE" inherits="CharacterFrameTabButtonTemplate" id="2">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT" x="-16"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad/>
+                    <OnClick>
+                        self:GetParent():OnTabClick(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTab3" parentKey="Tab3" text="CHALLENGES" inherits="CharacterFrameTabButtonTemplate" id="3">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT" x="-16"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad/>
+                    <OnClick>
+                        self:GetParent():OnTabClick(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTab4" parentKey="Tab4" text="CUSTOM_TRIALS" inherits="CharacterFrameTabButtonTemplate" id="4">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT" x="-16"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad/>
+                    <OnClick>
+                        self:GetParent():OnTabClick(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTab5" parentKey="Tab5" text="TRIAL_BUILDER" inherits="CharacterFrameTabButtonTemplate" id="5">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT" x="-16"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad/>
+                    <OnClick>
+                        self:GetParent():OnTabClick(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTab6" parentKey="Tab6" text="GAMEMODES" inherits="CharacterFrameTabButtonTemplate" id="6">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab5" relativePoint="RIGHT" x="-16"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad/>
+                    <OnClick>
+                        self:GetParent():OnTabClick(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ChallengesFrameMixin")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

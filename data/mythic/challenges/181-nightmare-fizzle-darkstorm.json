@@ -1,0 +1,35 @@
+{
+ "conditions": [],
+ "description": "Slay Fizzle Darkstorm in NW Durotar  before level 10 or die! Then reach max level. The Nightmare has you, so you take increased damage, but you'll still need to make it to Thunder Ridge to take down this nasty goblin.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":3,"id":72,"reward":{"expansionToken":"EXPANSION_WRATH_OF_THE_LICH_KING","f1":1,"f2":1,"f3":8,"f5":18,"f6":85321,"f7":1,"f8":0,"f9":1000000}},
+  {"f2":12,"id":91,"reward":null},
+  {"f2":103,"id":552,"reward":null},
+  {"f2":105,"id":1936,"reward":null}
+ ],
+ "iconToken": "_Soulfire_Purple",
+ "id": 181,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":962}
+ ],
+ "modeToken": "nightmare",
+ "modifiers": [],
+ "name": "Nightmare - Fizzle Darkstorm",
+ "requirements": [
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1162358784,"f6":1092616192,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"},
+  {"description":"You must complete the challenge without dying |cffffffff%1$d|r or more times.","f2":0,"f3":1,"f5":1077936128,"f6":0,"f7":0,"f8":10000,"name":"%1$d |4Life:Lives;","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_COMPLETE_WITHOUT_DEATH"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot use your Realm Bank.","f2":0,"f3":1,"name":"No Realm Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_REALM_BANK"},
+  {"description":"You can only trade with players participating in the same challenges as you.","f2":0,"f3":1,"name":"Challenge exclusive trading","ruleTypeToken":"CHALLENGE_RULES_TYPE_ONLY_TRADE_IF_SAME_CHALLENGES"},
+  {"description":"You cannot use the Mailbox.","f2":0,"f3":1,"name":"No Mail","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_MAIL"},
+  {"description":"You cannot use your Guild Bank.","f2":0,"f3":1,"name":"No Guild Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_GUILD_BANK"},
+  {"description":"You cannot use the Auction House.","f2":0,"f3":1,"name":"No Auction House","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_AUCTIONHOUSE"}
+ ],
+ "spells": [
+  {"name":"Nightmare - Fizzle Darkstorm","spellId":93171}
+ ]
+}

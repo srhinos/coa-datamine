@@ -1,0 +1,318 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="PollQuestionListItemMixin.lua"/>
+    <Script file="PollQuestionChoiceMixin.lua"/>
+    <Script file="PollRatingScaleChoiceMixin.lua"/>
+    <Script file="PollQuestionMixin.lua"/>
+    
+    <Button name="PollQuestionChoiceTemplate" virtual="true">
+        <Size x="220" y="18"/>
+        <Layers>
+            <Layer>
+                <FontString name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontNormal">
+                        <Size x="198" y="0"/>
+                        <Anchors>
+                            <Anchor point="LEFT" x="22"/>
+                        </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <CheckButton name="$parentCheckButton" parentKey="CheckButton">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="LEFT" y="-1"/>
+                </Anchors>
+                <NormalTexture>
+                    <Size x="18" y="18"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </NormalTexture>
+                <HighlightTexture alphaMode="ADD" alpha="0.8">
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </HighlightTexture>
+                <CheckedTexture>
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </CheckedTexture>
+            </CheckButton>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PollQuestionChoiceMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="PollRatingScaleChoiceTemplate" virtual="true">
+        <Size x="60" y="52"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" parentKey="Text" justifyH="CENTER" justifyV="BOTTOM" inherits="GameFontNormalSmall" maxLines="2">
+                    <Size x="60" y="28"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <CheckButton name="$parentCheckButton" parentKey="CheckButton">
+                <Size x="22" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="0"/>
+                </Anchors>
+                <NormalTexture>
+                    <Size x="22" y="22"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </NormalTexture>
+                <HighlightTexture alphaMode="ADD" alpha="0.8">
+                    <Size x="28" y="28"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </HighlightTexture>
+                <CheckedTexture>
+                    <Size x="28" y="28"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </CheckedTexture>
+            </CheckButton>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PollRatingScaleChoiceMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="PollQuestionTemplate" virtual="true">
+        <Size x="806" y="452"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            <Layer level="ARTWORK">
+                <FontString name="$parentQuestion" parentKey="Question" justifyV="MIDDLE" justifyH="CENTER" inherits="GameFontHighlightLarge">
+                    <Size x="490" y="110"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-68"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentQuestionContext" parentKey="QuestionContext" justifyV="TOP" justifyH="CENTER" inherits="GameFontNormalSmall">
+                    <Size x="450" y="82"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-218"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentThankYou" parentKey="ThankYou" text="POLL_THANK_YOU_FOR_VOTING" inherits="GameFontNormalLarge" hidden="true">
+                    <Size x="340" y="0"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="48"/>
+                    </Anchors>
+                    <Color r="0" g="1" b="0"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            
+            <Frame name="$parentAnswers" parentKey="Answers" inherits="GridLayoutFrame">
+                <Size x="456" y="280"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentQuestionContext" relativePoint="BOTTOM" y="-12"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="childXPadding" value="16" type="number"/>
+                    <Attribute name="childYPadding" value="16" type="number"/>
+
+                    <Attribute name="isHorizontal" value="true" type="boolean"/>
+
+                    <Attribute name="stride" value="2" type="number"/>
+
+                    <Attribute name="layoutFramesGoingRight" value="true" type="boolean"/>
+                    <Attribute name="layoutFramesGoingUp" value="false" type="boolean"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentRatingScale" parentKey="RatingScale" inherits="HorizontalLayoutFrame" hidden="true">
+                <Size x="1" y="52"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentQuestionContext" relativePoint="BOTTOM" y="-24"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="spacing" value="0" type="number"/>
+                </Attributes>
+            </Frame>
+
+            <Button name="$parentSubmitButton" parentKey="SubmitButton" text="SUBMIT" inherits="StandardButtonTemplate">
+                <Size x="90" y="22"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOM" x="4" y="-8"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Submit()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentOpenEndedComment" parentKey="OpenEndedComment" hidden="true">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentQuestionContext" relativePoint="BOTTOM" y="10"/>
+                    <Anchor point="BOTTOM" relativeTo="$parentSubmitButton" relativePoint="TOP" y="30"/>
+                </Anchors>
+                <Size x="456" y="0"/>
+
+                <Frames>
+                    <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="ScrollableMultiLineInputBoxInstructionsTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                            <Anchor point="BOTTOMRIGHT" x="-24"/>
+                        </Anchors>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentChoiceDropDown" parentKey="ChoiceDropDown" inherits="ScrollableDropDownTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentQuestionContext" relativePoint="BOTTOM" y="-24"/>
+                </Anchors>
+            </Frame>
+
+            <EditBox name="$parentAdditionalInfo" parentKey="AdditionalInfo" inherits="InputBoxInstructionsTemplate">
+                <Size x="360" y="22"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentSubmitButton" relativePoint="LEFT" x="-4" y="1"/>
+                </Anchors>
+            </EditBox>
+            
+            <Button name="$parentToggleLargeCommentButton" parentKey="ToggleLargeCommentButton" inherits="SquareIconButtonTemplate">
+                <Size x="22" y="22"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentAdditionalInfo" relativePoint="LEFT" x="-6"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="icon-atlas" value="chaticon" type="string"/>
+                    <Attribute name="tooltip-title" value="POLL_LARGE_COMMENT_LABEL" type="string"/>
+                    <Attribute name="tooltip-text" value="POLL_LARGE_COMMENT_TOOLTIP" type="string"/>
+                </Attributes>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleLargeComment()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentLargeAdditionalInfo" parentKey="LargeAdditionalInfo" inherits="BasicFrameTemplate">
+                <Size x="360" y="280"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentAdditionalInfo" relativePoint="TOPLEFT" y="8"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" file="Interface\FrameGeneral\ui-background-rock2" horizTile="true" vertTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="2" y="-24"/>
+                                <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="ScrollableMultiLineInputBoxInstructionsTemplate">
+                        <Size x="320" y="240"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="-12" y="-32"/>
+                        </Anchors>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentChangeAnswerButton" parentKey="ChangeAnswerButton" text="POLL_CHANGE_ANSWER" inherits="StandardButtonTemplate">
+                <Size x="140" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="8"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():RemoveAnswer()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentLoading" parentKey="Loading" hidden="true" enableMouse="true" inherits="InputBlockLoadingTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-2"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+            </Frame>
+            
+            <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="0"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PollQuestionMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="PollQuestionListItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="461" y="70"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentHighlight" parentKey="Highlight" hidden="true">
+                    <Size x="471" y="77"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentQuestion" parentKey="Question" inherits="GameFontHighlightSmall">
+                    <Size x="436" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-12"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentAnswer" parentKey="Answer" inherits="GameFontNormalSmall">
+                    <Size x="436" y="14"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="12"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PollQuestionListItemMixin")
+            </OnLoad>
+        </Scripts>
+        <HighlightTexture/>
+    </Button>
+</Ui>

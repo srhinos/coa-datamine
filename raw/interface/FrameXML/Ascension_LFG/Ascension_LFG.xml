@@ -1,0 +1,292 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Script file="Ascension_LFG.lua"/>
+
+    <Button name="GroupFinderButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+		<Size x="203" y="60"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\Common\bluemenu-main" parentKey="BG">
+					<Size x="224" y="80"/>
+					<TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentRing" parentKey="Ring">
+					<Size x="95" y="96"/>
+					<Anchors>
+						<Anchor point="LEFT" x="-12" y="-1" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" parentKey="Icon">
+					<Size x="66" y="66"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentRing" x="0" y="0" />
+					</Anchors>
+				</Texture>
+				<FontString name="$parentName" inherits="GameFontNormalLarge" parentKey="Name" spacing="2" justifyH="LEFT">
+					<Size x="106" y="0"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentRing" relativePoint="RIGHT" x="0" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<HighlightTexture file="Interface\Common\bluemenu-main" alphaMode="ADD" alpha="0.8">
+			<Size x="224" y="80"/>
+			<TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+			<Anchors>
+				<Anchor point="CENTER"/>
+			</Anchors>
+		</HighlightTexture>
+
+		<Scripts>
+			<OnLoad>
+				self.Ring:SetAtlas("bluemenu-Ring", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+			<OnClick>
+				if not self:IsEnabled() then return end
+				self:GetParent():ShowFrame(nil, self:GetID())
+			</OnClick>
+			<OnEnter>
+				if self.tooltip then
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+					GameTooltip:SetText(self.tooltip)
+					GameTooltip:Show()
+				end
+			</OnEnter>
+			<OnLeave>
+				if ( GameTooltip:GetOwner() == self ) then
+					GameTooltip:Hide()
+				end
+			</OnLeave>
+		</Scripts>
+	</Button>
+
+    <Frame name="AscensionLFGFrame" enableMouse="true" parent="UIParent" hidden="true" toplevel="true" inherits="RaisedPortraitFrameTemplate">
+        <Size x="563" y="428"/>
+
+        <Frames>
+            <Frame name="$parentMenu" parentKey="Menu">
+                <Size x="209" y="399"/>
+                
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="7" y="-23"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="BlueMenuLayout" type="string"/>
+                </Attributes>
+
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentTopFiligree" file="Interface\Common\bluemenu-main">		<!-- top filigree -->
+                            <Size x="185" y="55"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="12" y="-6" />
+                            </Anchors>
+                            <TexCoords left="0.00390625" right="0.72656250" top="0.12988281" bottom="0.18359375"/>
+                        </Texture>
+                        <Texture name="$parentBottomFiligree" file="Interface\Common\bluemenu-main">		<!-- bottom filigree -->
+                            <Size x="185" y="55"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="12" y="4" />
+                            </Anchors>
+                            <TexCoords left="0.26171875" right="0.98437500" top="0.06542969" bottom="0.11914063"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+					<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate" frameLevel="3"/>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentInset" parentKey="Inset" inherits="InsetFrameTemplate">
+                    <Size x="217" y="428"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-24" />
+                        <Anchor point="BOTTOMLEFT" x="4" y="4" />
+                    </Anchors>
+            </Frame>
+
+            <Button name="$parentTab1" inherits="CharacterFrameTabButtonTemplate" text="DUNGEONS_AND_RAIDS" id="1" parentKey="Tab1">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT">
+                            <Offset x="6" y="-30"/>
+                        </Anchor>
+                    </Anchors>
+                    <Scripts>
+						<OnLoad/>
+                        <OnClick>
+							self:GetParent():OnTabClick(self)
+						</OnClick>
+                    </Scripts>
+            </Button>
+
+			<Button name="$parentTab2" inherits="CharacterFrameTabButtonTemplate" text="PLAYER_V_PLAYER" id="2" parentKey="Tab2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-16" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad/>
+					<OnClick>
+						self:GetParent():OnTabClick(self)
+					</OnClick>
+                    <OnEnter>
+                        if self:IsEnabled() == 0 then
+                            GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                            GameTooltip:SetText(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, 10), RED_FONT_COLOR:GetRGB())
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+				</Scripts>
+			</Button>
+
+            <Button name="$parentTab3" inherits="CharacterFrameTabButtonTemplate" text="PVP_RULESET" motionScriptsWhileDisabled="true" id="3" parentKey="Tab3">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT">
+                            <Offset>
+                                <AbsDimension x="-16" y="0"/>
+                            </Offset>
+                        </Anchor> 
+                    </Anchors>
+                    <Scripts>
+						<OnLoad/>
+                        <OnClick>
+							self:GetParent():OnTabClick(self)
+						</OnClick>
+                        <OnEnter>
+                            if self:IsEnabled() == 0 then
+                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                GameTooltip:SetText(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, 15), RED_FONT_COLOR:GetRGB())
+                                GameTooltip:Show()
+                            end
+                        </OnEnter>
+                        <OnLeave function="GameTooltip_Hide"/>
+                    </Scripts>
+            </Button>
+
+			<Button name="$parentTab4" inherits="CharacterFrameTabButtonTemplate" text="MYTHIC_PLUS_DUNGEONS" id="4" parentKey="Tab4">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-16" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad/>
+					<OnClick>
+						self:GetParent():OnTabClick(self)
+					</OnClick>
+                    <OnEnter>
+                        if self:IsEnabled() == 0 then
+                            GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                            GameTooltip:SetText(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, 60), RED_FONT_COLOR:GetRGB())
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+				</Scripts>
+			</Button>
+
+			<Button name="$parentButton1" inherits="GroupFinderButtonTemplate" parentKey="Button1" id="1" frameLevel="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="10" y="-101" />
+				</Anchors>
+			</Button>
+
+			<Button name="$parentButton2" inherits="GroupFinderButtonTemplate" parentKey="Button2" id="2" frameLevel="4">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentButton1" relativePoint="BOTTOM" x="0" y="-30" />
+				</Anchors>
+			</Button>
+
+			<Button name="$parentButton3" inherits="GroupFinderButtonTemplate" parentKey="Button3" id="3" frameLevel="4">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentButton2" relativePoint="BOTTOM" x="0" y="-30" />
+				</Anchors>
+			</Button>
+
+            <Frame parentKey="shadows" frameLevel="10">
+				<Size x="222" y="399"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-25" />
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<Texture file="Interface\Common\bluemenu-shadowcovers">		<!-- left line -->
+							<Size x="84" y="324"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="4" y="-36" />
+							</Anchors>
+							<TexCoords left="0.00781250" right="0.66406250" top="0.00097656" bottom="0.34960938"/>
+						</Texture>
+						<Texture file="Interface\Common\bluemenu-shadowcovers">		<!-- right line -->
+							<Size x="84" y="324"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="127" y="-36" />
+							</Anchors>
+							<TexCoords left="0.00781250" right="0.66406250" top="0.35156250" bottom="0.70019531"/>
+						</Texture>
+						<Texture file="Interface\Common\bluemenu-vert">
+							<Size x="5" y="403"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="211" y="3" />
+							</Anchors>
+							<TexCoords left="0.00781250" right="0.04687500" top="0" bottom="1"/>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Frame name="$parentContent" parentKey="Content">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentMenu" relativePoint="TOPRIGHT"/>
+					<Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+				</Anchors>
+
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true">
+							<Anchors>
+								<Anchor point="TOPLEFT"/>
+								<Anchor point="BOTTOMRIGHT" x="-2" y="-4"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+        </Frames>
+
+		<Scripts>
+			<OnLoad>
+				Mixin(self, "LFGFrameMixin")
+				self:OnLoad()
+			</OnLoad>
+			<OnShow>
+				self:OnShow()
+			</OnShow>
+			<OnHide>
+				self:OnHide()
+			</OnHide>
+		</Scripts>
+    </Frame>
+
+	<Include file="Ascension_PVE.xml"/>
+	<Include file="Ascension_PVP.xml"/>
+	<Include file="Ascension_Ruleset.xml"/>
+	<Include file="Ascension_WeeklyKeystone.xml"/>
+</Ui>

@@ -1,0 +1,275 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="SpecListItem.lua"/>
+
+    <Button name="OldSpecializationButtonTemplate" inherits="ScrollListItemTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="210" y="54"/>
+        <Frames>
+            <Frame name="$parent.SpecIcon" parentKey="SpecIcon" inherits="PopupButtonTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="12" y="0"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parent.KnownBorder" parentKey="KnownBorder" file="Interface\AddOns\AwAddons\Textures\CAOverhaul\Known_Highlight" alphaMode="ADD">
+                            <Size x="80" y="80"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                        <Texture name="$parent.Icon" parentKey="Icon" file="Interface\Icons\inv_misc_book_16">
+                            <Size x="36" y="36"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="-1"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Button name="$parent.Settings" parentKey="Settings" hidden="true">
+                        <Size x="26" y="26"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="12" y="-8"/>
+                        </Anchors>
+                        <HighlightTexture file="Interface\AddOns\AwAddons\Textures\CAOverhaul\GearIcon_H" alphaMode="ADD"/>
+                        <NormalTexture file="Interface\AddOns\AwAddons\Textures\CAOverhaul\GearIcon"/>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parent.Border" parentKey="Border">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parent.Text" parentKey="Text" justifyH="LEFT" inherits="GameFontNormal">
+                    <Size>
+                        <AbsDimension x="160"/>
+                    </Size>
+                </FontString>
+                <FontString name="$parent.Text_Add" parentKey="Text_Add" justifyH="LEFT" justifyV="TOP" inherits="GameFontNormalSmall">
+                    <Size>
+                        <AbsDimension x="160" y="32"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent.Text" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                    </Anchors>
+                </FontString>
+                <Texture name="$parent.H" parentKey="H" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parent.Selected" parentKey="Selected" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "OldSpecializationButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="SpecListItemTemplate" inherits="OldSpecializationButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Frames>
+            <Button name="$parentLockButton" parentKey="LockButton">
+                <Size x="17" y="20"/>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleLocked()
+                    </OnClick>
+                    <OnEnter function="GameTooltip_GenericTooltip"/>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+
+            <Frame name="$parentCurrencyBar" parentKey="CurrencyBar" inherits="CurrencyBarClassicTemplate" hidden="true">
+                <Size x="100" y="19"/>
+
+                <Attributes>
+                    <Attribute name="loadMagicButton" value="false"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent.Text" relativePoint="BOTTOMLEFT" x="-12" y="-4"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentExpandedContent" parentKey="ExpandedContent" enableMouse="true" hidden="true">
+                <Size x="195" y="126"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="-40"/>
+                    <Anchor point="TOPRIGHT" y="-40"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentEquipmentSet" parentKey="EquipmentSet">
+                        <Size x="170" y="26"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="16" y="-16"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentTitle" parentKey="Title" text="LINKED_EQUIPMENT_SET" inherits="GameFontHighlight" justifyH="LEFT" justifyV="TOP">
+                                    <Size x="161" y="12"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="30"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                                <Size x="26" y="26"/>
+                                <Anchors>
+                                    <Anchor point="LEFT"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:RegisterForClicks("AnyUp")
+                            </OnLoad>
+                            <OnClick>
+                                if button == "RightButton" then
+                                    self:GetParent():GetParent():SaveEquipmentSet()
+                                    return
+                                end
+                                self:GetParent():GetParent():EditEquipmentSet()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                        
+                        <ButtonText parentKey="Text" inherits="GameFontNormalSmall2" justifyH="LEFT" justifyV="BOTTOM">
+                            <Size x="161" y="12"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="30"/>
+                            </Anchors>
+                        </ButtonText>
+                    </Button>
+
+                    <Button name="$parentEnchantPreset" parentKey="EnchantPreset">
+                        <Size x="170" y="26"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentEquipmentSet" relativePoint="BOTTOMLEFT" y="-12"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentTitle" parentKey="Title" text="LINKED_ENCHANT_PRESET" inherits="GameFontHighlight" justifyH="LEFT" justifyV="TOP">
+                                    <Size x="161" y="12"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="30"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                                <Size x="26" y="26"/>
+                                <Anchors>
+                                    <Anchor point="LEFT"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:RegisterForClicks("AnyUp")
+                            </OnLoad>
+                            <OnClick>
+                                if button == "RightButton" then
+                                    self:GetParent():GetParent():SaveEnchantPreset()
+                                    return
+                                end
+                                self:GetParent():GetParent():EditEnchantPreset()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+
+                        <ButtonText parentKey="Text" inherits="GameFontNormalSmall2" justifyH="LEFT" justifyV="BOTTOM">
+                            <Size x="161" y="12"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="30"/>
+                            </Anchors>
+                        </ButtonText>
+                    </Button>
+
+                    <Button name="$parentActivateButton" parentKey="ActivateButton" text="ACTIVATE" inherits="SharedGoldRedButtonTemplate">
+                        <Size x="102" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="8"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ActivateSpec()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpecListItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Button>
+
+    <Button name="SpecListPresetItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="204" y="20"/>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpecListPresetItemMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlight">
+            <Size x="176" y="20"/>
+            <Anchors>
+                <Anchor point="LEFT" x="24"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+</Ui>

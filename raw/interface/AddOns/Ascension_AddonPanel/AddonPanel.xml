@@ -1,0 +1,245 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="AddonPanelInfoMixin.lua"/>
+    <Script file="AddonPanelInfoTextMixin.lua"/>
+    <Script file="AddonScrollListItemMixin.lua"/>
+    <Script file="AddonPanel.lua"/>
+    <Include file="AddonPanelTemplates.xml"/>
+
+    <Frame name="AddonPanel" inherits="AddonPanelTemplate" toplevel="true" frameStrata="HIGH" hidden="true">
+        <Size x="644" y="507"/>
+        
+        <Anchors>
+            <Anchor point="CENTER" x="0" y="40"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="InnerFrameTexture">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-58"/>
+                        <Anchor point="BOTTOMRIGHT" x="-12" y="32"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <FontString name="$parentWarning" parentKey="Warning" text="ADDON_LOW_FPS_HINT" inherits="PTFontHighlight3">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="6" y="-22"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-198" y="-60"/>
+                    </Anchors>
+                    
+                    <Color r="1" g="0" b="0"/>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="SharedButtonSmallTemplate">
+                <Size x="84" y="26"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-16" y="4"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Close()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentApplyButton" parentKey="ApplyButton" text="APPLY" inherits="SharedButtonSmallTemplate">
+                <Size x="84" y="26"/>
+
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentCloseButton" relativePoint="LEFT" x="-2" />
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Apply()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentDisableAllButton" parentKey="DisableAllButton" text="DISABLE_ALL_ADDONS" inherits="SharedButtonSmallTemplate">
+                <Size x="108" y="26"/>
+
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentApplyButton" relativePoint="LEFT" x="-34" />
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        if InGlue() then
+                            DisableAllAddOns(self:GetParent().selectedCharacter)
+                        else
+                            DisableAllAddOns()
+                        end
+                        self:GetParent():RefreshAddonList()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentEnableAllButton" parentKey="EnableAllButton" text="ENABLE_ALL_ADDONS" inherits="SharedButtonSmallTemplate">
+                <Size x="108" y="26"/>
+
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentDisableAllButton" relativePoint="LEFT" x="-2" />
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        if InGlue() then
+                            EnableAllAddOns(self:GetParent().selectedCharacter)
+                        else
+                            EnableAllAddOns()
+                        end
+                        self:GetParent():RefreshAddonList()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentAddonList" parentKey="AddonList" inherits="ProportionalScrollListTemplate">
+                <Size x="226" y="417"/>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="12" y="-58"/>
+                    <Anchor point="BOTTOMLEFT" x="226" y="32"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentAddonInfo" parentKey="AddonInfo" inherits="AddonPanelInfoTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentAddonList" relativePoint="TOPRIGHT" x="20"/>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentAddonList" relativePoint="BOTTOMRIGHT" x="20" y="1"/>
+                    <Anchor point="RIGHT" x="-18"/>
+                </Anchors>
+                
+                <Frames>
+                    <CheckButton name="$parentLoadOutOfDate" parentKey="LoadOutOfDate" inherits="SquareIconCheckButtonTemplate">
+                        <Size x="16" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-12" y="8"/>
+                        </Anchors>
+                        
+                        <Attributes>
+                            <Attribute name="tooltip-title" value="ADDON_FORCE_LOAD" type="string"/>
+                            <Attribute name="tooltip-text" value="ADDON_FORCE_LOAD_TOOLTIP" type="string"/>
+                        </Attributes>
+                        
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentText" inherits="GameFontNormalSmall" text="ADDON_FORCE_LOAD">
+                                    <Anchors>
+                                        <Anchor point="RIGHT" relativePoint="LEFT" x="-4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnShow>
+                                if not InGlue() then
+                                    self:Hide()
+                                    return
+                                end
+                                self:SetChecked(IsAddonVersionCheckEnabled() == nil)
+                            </OnShow>
+                            <OnClick>
+                                if not InGlue() then
+                                    self:Hide()
+                                    return
+                                end
+                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                SetAddonVersionCheck(self:GetChecked() == nil)
+                                self:GetParent():GetParent():RefreshAddonList()
+                            </OnClick>
+                        </Scripts>
+                    </CheckButton>
+
+                    <CheckButton name="$parentLoadUnknown" parentKey="LoadUnknown" inherits="SquareIconCheckButtonTemplate">
+                        <Size x="16" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentLoadOutOfDate" relativePoint="TOPRIGHT" y="2"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="tooltip-title" value="ADDON_ALLOW_UNKNOWN" type="string"/>
+                            <Attribute name="tooltip-text" value="ADDON_ALLOW_UNKNOWN_TOOLTIP" type="string"/>
+                        </Attributes>
+
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentText" inherits="GameFontNormalSmall" text="ADDON_ALLOW_UNKNOWN">
+                                    <Anchors>
+                                        <Anchor point="RIGHT" relativePoint="LEFT" x="-4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnShow>
+                                self:SetChecked(C_CVar.GetBool("loadUnknownAddOns"))
+                            </OnShow>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                C_CVar.Set("loadUnknownAddOns", self:GetChecked() and 1 or 0)
+                                self:GetParent():GetParent():RefreshAddonList()
+                            </OnClick>
+                        </Scripts>
+                    </CheckButton>
+                </Frames>
+            </Frame>
+
+            <EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" autoFocus="false" historyLines="1" frameLevel="5">
+                <Size x="180" y="22"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentAddonInfo" relativePoint="TOPRIGHT" x="4" y="6"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self)
+                        self:GetParent():Search(self:GetText())
+                    </OnTextChanged>
+                </Scripts>
+            </EditBox>
+            
+            <Button name="$parentShowPresets" parentKey="ShowPresets" text="ADDON_PRESETS" inherits="SharedButtonSmallTemplate">
+                <Size x="84" y="26"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="12" y="4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        ToggleDropDownMenu(1, nil, self:GetParent().PresetDropdown, self:GetName(), 0, 0)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentPresetDropdown" parentKey="PresetDropdown" inherits="UIDropDownMenuTemplate"/>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "AddonPanelMixin")
+                self.InnerFrameTexture:SetAtlas("addons_innerframe", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+        </Scripts>
+    </Frame>
+</Ui>

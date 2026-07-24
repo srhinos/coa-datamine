@@ -1,0 +1,199 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="GhostFrame.lua"/>
+
+    <Button name="GhostFrameTemplate" inherits="UIPanelLargeSilverButton" hidden="true" virtual="true">
+        <Size x="130" y="46"/>
+        
+        <Anchors>
+            <Anchor point="TOP" x="0" y="-29"/>
+        </Anchors>
+
+        <Frames>
+            <Frame name="$parentContentsFrame" parentKey="ContentsFrame">
+                <Size x="130" y="46"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormal" justifyH="LEFT" text="RETURN_TO_GRAVEYARD">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="46" y="0"/>
+                                <Anchor point="BOTTOMRIGHT" x="-8" y="0"/>
+                            </Anchors>
+                        </FontString>
+                        <Texture name="$parentIcon" parentKey="Icon" file="Interface\Icons\spell_holy_guardianspirit">
+                            <Size x="36" y="36"/>
+                            <Anchors>
+                                <Anchor point="RIGHT" relativeTo="$parentText" relativePoint="LEFT" x="-5" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "GhostFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="GhostFrame" parent="UIParent" inherits="GhostFrameTemplate"/>
+    
+    <Button name="ClosestResFrame" parent="UIParent" inherits="GhostFrameTemplate">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ClosestResFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="IronSoulNotificationFrame" parent="UIParent" hidden="true">
+        <Size x="305" y="280"/>
+        
+        <Anchors>
+            <Anchor point="CENTER" y="60"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\LFGFRAME\UI-LFG-BACKGROUND-HEROIC">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="10" y="-8"/>
+                        <Anchor point="BOTTOMRIGHT" x="-10" y="8"/>
+                    </Anchors>  
+                    <TexCoords left="0" right="0.637" top="0" bottom="1"/>
+                    <Color r="0.75" g="0.75" b="0.75"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" text="IRON_SOUL_AVAILABLE" inherits="PTFontNormalHuge">
+                    <Size x="250" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-48"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentSubText" parentKey="SubText" text="IRON_SOUL_AVAILABLE_SUBTEXT" inherits="PTFontHighlight2">
+                    <Size x="250" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="CENTER" y="38"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture file="Interface\LFGFrame\UI-LFG-SEPARATOR">
+                    <Size x="210" y="40"/>
+                    <Anchors>
+                        <Anchor point="CENTER" y="-32"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.6640625" top="0" bottom="0.3125"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentIconFrame" parentKey="IconFrame">
+                <Size x="64" y="64"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOP" x="0" y="6"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\AddOns\AwAddons\Textures\Collections\DragonHighlight">
+                            <Size x="160" y="160"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="2"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" looping="REPEAT">
+                                    <Rotation duration="60" order="1" degrees="-360" smoothing="NONE"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture name="$parentIcon" parentKey="Icon" file="Interface\Icons\spell_holy_guardianspirit">
+                            <Size x="48" y="48"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture file="Interface\AddOns\AwAddons\Textures\Collections\StoreCollectionRound">
+                            <Size x="64" y="64"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Animations>
+                    <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                        <Translation duration="2" offsetX="0" offsetY="-5" smoothing="IN_OUT"/>
+                    </AnimationGroup>
+                </Animations>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Icon:SetPortraitTexture(self.Icon:GetTexture())
+                    </OnLoad>
+                    <OnShow>
+                        self.Anim:Stop()
+                        self.Anim:Play()
+
+                        self.Highlight.Anim:Stop()
+                        self.Highlight.Anim:Play()
+                    </OnShow>
+                    <OnHide>
+                        self.Anim:Stop()
+
+                        self.Highlight.Anim:Stop()
+                    </OnHide>
+                </Scripts>
+            </Frame>
+
+            <Button name="$parentClosestTownButton" parentKey="ClosestTownButton" text="RES_IN_CLOSEST_TOWN" inherits="SharedButtonLargeTemplate">
+                <Size x="175" y="38"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="12"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="11" right="12" top="12" bottom="11"/>
+            </BackgroundInsets>
+
+            <TileSize val="32"/>
+            <EdgeSize val="32"/>
+        </Backdrop>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "IronSoulNotificationMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

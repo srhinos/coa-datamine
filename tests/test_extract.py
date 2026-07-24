@@ -19,7 +19,7 @@ assert chain_rank(D / "patch-CHA.MPQ") < chain_rank(D / "patch-CI.MPQ")
 assert chain_rank(D / "patch-T.MPQ") > chain_rank(D / "patch-S.MPQ")
 
 prov = extract_all()
-assert set(prov["files"]) == {w.lower() for w in config.WANTED_DBCS}, "all 20 wanted DBCs resolved"
+assert set(prov["files"]) == {w.lower() for w in config.WANTED_DBCS}, "all wanted DBCs resolved"
 for name in config.WANTED_DBCS:
     p = config.WORK_DBC_DIR / name
     assert p.is_file(), f"missing {p}"

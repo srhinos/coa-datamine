@@ -1,0 +1,1722 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Texture name="UIPanelButtonUpTexture" file="Interface\Buttons\UI-Panel-Button-Up" virtual="true">
+		<TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+	</Texture>
+	<Texture name="UIPanelButtonDownTexture" file="Interface\Buttons\UI-Panel-Button-Down" virtual="true">
+		<TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+	</Texture>
+	<Texture name="UIPanelButtonDisabledTexture" file="Interface\Buttons\UI-Panel-Button-Disabled" virtual="true">
+		<TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+	</Texture>
+	<Texture name="UIPanelButtonDisabledDownTexture" file="Interface\Buttons\UI-Panel-Button-Disabled-Down" virtual="true">
+		<TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+	</Texture>
+	<Texture name="UIPanelButtonHighlightTexture" file="Interface\Buttons\UI-Panel-Button-Highlight" alphaMode="ADD" virtual="true">
+		<TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+	</Texture>
+	<Button name="UIPanelButtonTemplate" virtual="true">
+		<ButtonText name="$parentText"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+		<NormalTexture inherits="UIPanelButtonUpTexture"/>
+		<PushedTexture inherits="UIPanelButtonDownTexture"/>
+		<DisabledTexture inherits="UIPanelButtonDisabledTexture"/>
+		<HighlightTexture inherits="UIPanelButtonHighlightTexture"/>
+	</Button>
+	<Button name="UIPanelButtonTemplate2" virtual="true">
+		<Size>
+			<AbsDimension x="40" y="22"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\Buttons\UI-Panel-Button-Up">
+					<Size>
+						<AbsDimension x="12" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.09375" top="0" bottom="0.6875"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\Buttons\UI-Panel-Button-Up">
+					<Size>
+						<AbsDimension x="12" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.53125" right="0.625" top="0" bottom="0.6875"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\Buttons\UI-Panel-Button-Up">
+					<Size>
+						<AbsDimension x="12" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0.09375" right="0.53125" top="0" bottom="0.6875"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				if ( self:IsEnabled() ~= 1 ) then
+					local name = self:GetName();
+					_G[name.."Left"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Disabled");
+					_G[name.."Middle"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Disabled");
+					_G[name.."Right"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Disabled");
+				end
+			</OnLoad>
+			<OnMouseDown>
+				if ( self:IsEnabled() == 1 ) then
+					local name = self:GetName();
+					_G[name.."Left"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Down");
+					_G[name.."Middle"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Down");
+					_G[name.."Right"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Down");
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if ( self:IsEnabled() == 1 ) then
+					local name = self:GetName();
+					_G[name.."Left"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+					_G[name.."Middle"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+					_G[name.."Right"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+				end
+			</OnMouseUp>
+			<OnShow>
+				if ( self:IsEnabled() == 1 ) then
+					-- we need to reset our textures just in case we were hidden before a mouse up fired
+					local name = self:GetName();
+					_G[name.."Left"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+					_G[name.."Middle"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+					_G[name.."Right"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+				end
+			</OnShow>
+			<OnDisable>
+				local name = self:GetName();
+				_G[name.."Left"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Disabled");
+				_G[name.."Middle"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Disabled");
+				_G[name.."Right"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Disabled");
+			</OnDisable>
+			<OnEnable>
+				local name = self:GetName();
+				_G[name.."Left"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+				_G[name.."Middle"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+				_G[name.."Right"]:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up");
+			</OnEnable>
+			<OnEnter>
+				if(self.tooltipText ~= nil) then
+					GameTooltip_AddNewbieTip(self, self.tooltipText, 1.0, 1.0, 1.0, self.newbieText);
+				end
+			</OnEnter>
+			<OnLeave>
+				if(self.tooltipText ~= nil) then
+					GameTooltip:Hide();
+				end
+			</OnLeave>
+		</Scripts>
+		<ButtonText name="$parentText"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+		<HighlightTexture inherits="UIPanelButtonHighlightTexture"/>
+	</Button>
+	<Button name="UIPanelButtonGrayTemplate" virtual="true">
+		<NormalFont style="GameFontHighlight"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+		<NormalTexture inherits="UIPanelButtonDisabledTexture"/>
+		<PushedTexture inherits="UIPanelButtonDisabledDownTexture"/>
+		<DisabledTexture inherits="UIPanelButtonDisabledTexture"/>
+		<HighlightTexture inherits="UIPanelButtonHighlightTexture"/>
+	</Button>
+	<EditBox name="InputBoxTemplate" enableMouse="true" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\Common\Common-Input-Border">
+					<Size>
+						<AbsDimension x="8" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset>
+								<AbsDimension x="-5" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\Common\Common-Input-Border">
+					<Size>
+						<AbsDimension x="8" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\Common\Common-Input-Border">
+					<Size>
+						<AbsDimension x="10" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+					</Anchors>
+					<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnEscapePressed>
+        		EditBox_ClearFocus(self);
+			</OnEscapePressed>
+			<OnEditFocusLost>
+        		EditBox_ClearHighlight(self);
+			</OnEditFocusLost>
+			<OnEditFocusGained>
+        		EditBox_HighlightText(self);
+			</OnEditFocusGained>
+		</Scripts>
+		<FontString inherits="ChatFontNormal"/>
+	</EditBox>
+	<CheckButton name="UICheckButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="-2" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+		<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+		<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+		<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+	</CheckButton>
+	<Button name="GameMenuButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="144" y="21"/>
+		</Size>
+		<NormalFont style="GameFontHighlight"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+	</Button>
+	<CheckButton name="UIRadioButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="5" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<NormalTexture file="Interface\Buttons\UI-RadioButton">
+			<TexCoords left="0" right="0.25" top="0" bottom="1"/>
+		</NormalTexture>
+		<HighlightTexture file="Interface\Buttons\UI-RadioButton" alphaMode="ADD">
+			<TexCoords left="0.5" right="0.75" top="0" bottom="1"/>
+		</HighlightTexture>
+		<CheckedTexture file="Interface\Buttons\UI-RadioButton">
+			<TexCoords left="0.25" right="0.5" top="0" bottom="1"/>
+		</CheckedTexture>
+	</CheckButton>
+	<Frame name="AnimatedShineTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="37" y="37"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parent1" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent2" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent3" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent4" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="AutoCastShineTemplate" virtual="true">
+		<Anchors>
+			<Anchor point="CENTER">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Size>
+			<AbsDimension x="28" y="28"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parent1" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent2" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="10" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent3" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="7" y="7"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent4" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="4" y="4"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent5" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent6" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="10" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent7" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="7" y="7"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent8" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="4" y="4"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent9" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent10" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="10" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent11" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="7" y="7"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent12" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="4" y="4"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent13" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="13" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent14" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="10" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent15" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="7" y="7"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+				<Texture name="$parent16" file="Interface\ItemSocketingFrame\UI-ItemSockets" alphaMode="ADD" hidden="true">
+					<Size>
+						<AbsDimension x="4" y="4"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3984375" right="0.4453125" top="0.40234375" bottom="0.44921875"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+        		AutoCastShine_OnLoad(self);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UIPanelDialogTemplate" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentTopLeft" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0.501953125" right="0.625" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentTopRight" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.625" right="0.75" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentTop" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="0" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0.25" right="0.369140625" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentBottomLeft" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0.751953125" right="0.875" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentBottomRight" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.875" right="1" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentBottom" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="0" y="64"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBottomLeft" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBottomRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0.376953125" right="0.498046875" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentLeft" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="64" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBottomLeft" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0.001953125" right="0.125" top="0" bottom="1"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
+					<Size x="64" y="0"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBottomRight" relativePoint="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.1171875" right="0.2421875" top="0" bottom="1"/>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentTitleBG" file="Interface\PaperDollInfoFrame\UI-GearManager-Title-Background">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="8" y="-7"/>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT">
+							<Offset x="-8" y="-24"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentDialogBG" file="Interface\PaperDollInfoFrame\UI-Character-CharacterTab-L1">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="8" y="-24"/>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset x="-6" y="8"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.255" right="1" top="0.29" bottom="1"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="title" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="12" y="-8"/>
+						</Anchor>
+						<Anchor point="TOPRIGHT">
+							<Offset x="-32" y="-24"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentClose" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="2" y="1"/>
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+	<ScrollFrame name="DynamicScrollFrameTemplate" virtual="true">
+		<ScrollChild>
+			<Frame name="$parentScrollChild" parentKey="scrollChild">
+				<Size>
+					<AbsDimension x="10" y="10"/>
+				</Size>
+			</Frame>
+		</ScrollChild>
+		<Scripts>
+			<OnLoad>
+        		ScrollFrame_OnLoad(self);
+			</OnLoad>
+			<OnScrollRangeChanged>
+				if ( self.allowedRange and yrange > self.allowedRange + 1 ) then
+					-- temp fix to jitter scroll (see task 39261)
+				else
+					ScrollFrame_OnScrollRangeChanged(self, xrange, yrange);
+				end
+			</OnScrollRangeChanged>
+			<OnVerticalScroll function="DynamicScrollFrame_OnVerticalScroll"/>
+			<OnMouseWheel>
+        		ScrollFrameTemplate_OnMouseWheel(self, delta);
+			</OnMouseWheel>
+		</Scripts>
+	</ScrollFrame>
+
+	<!--
+*******************************************************************************
+    EtherealFrameTemplate
+    
+	This is a Portrait Frame that also has the Ethereal themed border
+*******************************************************************************
+-->
+	<Frame name="EtherealFrameTemplate" inherits="PortraitFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentCornerTL" file="Interface\Transmogrify\Textures.png">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-2" y="-8"/>
+					</Anchors>
+					<TexCoords left="0.00781250" right="0.50781250" top="0.00195313" bottom="0.12695313"/>
+				</Texture>
+				<Texture name="$parentCornerTR" file="Interface\Transmogrify\Textures.png">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="0" y="-8"/>
+					</Anchors>
+					<TexCoords left="0.00781250" right="0.50781250" top="0.38476563" bottom="0.50781250"/>
+				</Texture>
+				<Texture name="$parentCornerBL" file="Interface\Transmogrify\Textures.png">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-2" y="16"/>
+					</Anchors>
+					<TexCoords left="0.00781250" right="0.50781250" top="0.25781250" bottom="0.38085938"/>
+				</Texture>
+				<Texture name="$parentCornerBR" file="Interface\Transmogrify\Textures.png">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="0" y="16"/>
+					</Anchors>
+					<TexCoords left="0.00781250" right="0.50781250" top="0.13085938" bottom="0.25390625"/>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeftEdge" file="Interface\Transmogrify\VerticalTiles.png" vertTile="true">
+					<Size x="23" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentCornerTL" relativePoint="BOTTOMLEFT" x="3" y="16"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentCornerBL" relativePoint="TOPLEFT" x="3" y="-16"/>
+					</Anchors>
+					<TexCoords left="0.40625000" right="0.76562500" top="0.00000000" bottom="1.00000000"/>
+				</Texture>
+				<Texture name="$parentRightEdge" file="Interface\Transmogrify\VerticalTiles.png" vertTile="true">
+					<Size x="23" y="64"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentCornerTR" relativePoint="BOTTOMRIGHT" x="-3" y="16"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentCornerBR" relativePoint="TOPRIGHT" x="-3" y="-16"/>
+					</Anchors>
+					<TexCoords left="0.01562500" right="0.37500000" top="0.00000000" bottom="1.00000000"/>
+				</Texture>
+				<Texture name="$parentTopEdge" file="Interface\Transmogrify\HorizontalTiles.png" horizTile="true">
+					<Size x="64" y="23"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentCornerTL" relativePoint="TOPRIGHT" x="-30" y="-6"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentCornerTR" relativePoint="TOPLEFT" x="30" y="-6"/>
+					</Anchors>
+					<TexCoords left="0.00000000" right="1.00000000" top="0.40625000" bottom="0.76562500"/>
+				</Texture>
+				<Texture name="$parentBottomEdge" file="Interface\Transmogrify\HorizontalTiles.png" horizTile="true">
+					<Size x="64" y="23"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentCornerBL" relativePoint="BOTTOMRIGHT" x="-30" y="4"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentCornerBR" relativePoint="BOTTOMLEFT" x="30" y="4"/>
+					</Anchors>
+					<TexCoords left="0.00000000" right="1.00000000" top="0.01562500" bottom="0.37500000"/>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTitleBg"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentTitleBg"/>
+					</Anchors>
+					<Color r="0.302" g="0.102" b="0.204" a="1"/>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+<!--
+*******************************************************************************
+    SmallQuestAlertTemplate
+    
+	Small icon with a border that alerts a quest is available from a UI element
+*******************************************************************************
+-->
+	<Button name="SmallQuestAlertTemplate" motionScriptsWhileDisabled="true" virtual="true">
+		<Size x="32" y="32"/>
+		
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="4" y="-4"/>
+						<Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+					</Anchors>
+					
+					<Color r="0.1" g="0.1" b="0.1"/>
+				</Texture>
+			</Layer>
+			
+			<Layer level="BORDER">
+				<Texture name="$parentIcon" parentKey="Icon">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="4" y="-4"/>
+						<Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			
+			<Layer>
+				<Texture name="$parentBorder" parentKey="Border">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="6"/>
+						<Anchor point="BOTTOMRIGHT" x="6" y="-6"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentGlow"  parentKey="Glow">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-28" y="28"/>
+						<Anchor point="BOTTOMRIGHT" x="28" y="-28"/>
+					</Anchors>
+					
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation degrees="360" duration="60" order="1"/>
+							<Scripts>
+								<OnLoad>
+									self:Play()
+								</OnLoad>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+			
+			<Layer level="HIGHLIGHT">
+				<Texture name="$parentHighlight"  parentKey="Highlight" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-28" y="28"/>
+						<Anchor point="BOTTOMRIGHT" x="28" y="-28"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation degrees="360" duration="60" order="1"/>
+							<Scripts>
+								<OnLoad>
+									self:Play()
+								</OnLoad>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						local parent = self:GetParent()
+						parent.Icon:SetAtlas("smallquestbang", Const.TextureKit.IgnoreAtlasSize)
+						parent.Border:SetAtlas("pvpqueue-rewardring-popup", Const.TextureKit.IgnoreAtlasSize)
+						parent.Glow:SetAtlas("honorsystem-bar-rewardborder-prestige-flash", Const.TextureKit.IgnoreAtlasSize)
+						parent.Highlight:SetAtlas("honorsystem-bar-rewardborder-prestige-flash", Const.TextureKit.IgnoreAtlasSize)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoad(self, "QuestAlertMixin")
+			</OnLoad>
+			<OnShow>
+				self:OnShow()
+			</OnShow>
+			<OnClick>
+				self:OnClick()
+			</OnClick>
+			<OnEnter>
+				self:OnEnter()
+			</OnEnter>
+			<OnLeave>
+				self:OnLeave()
+			</OnLeave>
+			<OnDisable>
+				self:OnDisable()
+			</OnDisable>
+			<OnEnable>
+				self:OnEnable()
+			</OnEnable>
+		</Scripts>
+	</Button>
+
+	<Frame name="IconSelectionBaseTemplate" virtual="true">
+		<Size x="360" y="360"/>
+
+		<Frames>
+			<ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="FauxScrollFrameTemplate">
+				<Size x="360" y="324"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-30" y="-26"/>
+					<Anchor point="BOTTOMLEFT"/>
+				</Anchors>
+
+				<Scripts>
+					<OnVerticalScroll>
+						FauxScrollFrame_OnVerticalScroll(self, offset, self:GetParent().iconSize, function() self:GetParent():Update() end);
+					</OnVerticalScroll>
+				</Scripts>
+			</ScrollFrame>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "IconSelectorMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="IconSelectionTemplate" inherits="IconSelectionBaseTemplate" frameStrata="DIALOG" virtual="true">
+		<Size x="360" y="360"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="4"/>
+						<Anchor point="BOTTOMRIGHT" x="4" y="-6"/>
+					</Anchors>
+					<Color r="0" g="0" b="0" a="0.85"/>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			
+			<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="-8" y="8"/>
+					<Anchor point="BOTTOMRIGHT" x="8" y="-8"/>
+				</Anchors>
+				<Attributes>
+					<Attribute name="layoutType" value="SimplePanelTemplate"/>
+				</Attributes>
+			</Frame>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "IconSelectorMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="ScrollableTextTemplate" virtual="true">
+		<Frames>
+			<ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="6" y="-6"/>
+					<Anchor point="BOTTOMRIGHT" x="-27" y="6"/>
+				</Anchors>
+
+				<ScrollChild>
+					<SimpleHTML name="$parentChild" parentKey="Child">
+						<Layers>
+							<Layer>
+								<FontString name="$parentHiddenText" parentKey="HiddenText" justifyV="TOP" justifyH="LEFT" inherits="GameFontNormal">
+									<Size x="0" y="0"/>
+									<Anchors>
+										<Anchor point="TOPLEFT"/>
+										<Anchor point="TOPRIGHT"/>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+
+						<Scripts>
+							<OnHyperlinkClick>
+								LinkUtil:HandleHyperlinkClick(self, link, text, button)
+							</OnHyperlinkClick>
+							<OnHyperlinkEnter>
+								LinkUtil:OnHyperlinkEnter(self, link, text)
+							</OnHyperlinkEnter>
+							<OnHyperlinkLeave>
+								LinkUtil:OnHyperlinkLeave(self)
+							</OnHyperlinkLeave>
+						</Scripts>
+
+						<FontString inherits="GameFontNormal"/>
+						<FontStringHeader1 inherits="GameFontNormalLarge2"/>
+						<FontStringHeader2 inherits="GameFontNormalLarge2"/>
+						<FontStringHeader3 inherits="GameFontNormalLarge"/>
+					</SimpleHTML>
+				</ScrollChild>
+			</ScrollFrame>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "ScrollableTextMixin")
+			</OnLoad>
+		</Scripts>
+
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize  val="16"/>
+			<TileSize val="16"/>
+			<BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+			<Color r="0" g="0" b="0" a="0.8"/>
+			<BorderColor r="0.5" g="0.5" b="0.5"/>
+		</Backdrop>
+	</Frame>
+	
+	<Frame name="RarityGemContainerTemplate" virtual="true">
+		<Size x="22" y="22"/>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "RarityGemContainerMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<Button name="RarityGemTemplate" enableMouse="true" virtual="true">
+		<Size x="22" y="22"/>
+		
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBorder" parentKey="Border" setAllPoints="true"/>
+			</Layer>
+			
+			<Layer level="OVERLAY">
+				<Texture name="$parentSparkle" parentKey="Sparkle" alphaMode="ADD" setAllPoints="true">
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha change="-1" order="1" duration="0"/>
+							<Alpha change="1" duration="0.3" order="2" smoothing="IN"/>
+
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+
+				<Texture name="$parentFlash" parentKey="Flash" alphaMode="ADD" hidden="true" setAllPoints="true">
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha change="-1" order="1" duration="0"/>
+							<Alpha change="1" duration="0.15" order="2" smoothing="IN"/>
+							<Alpha change="-1" duration="0.5" order="3" smoothing="OUT"/>
+							
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnStop>
+									self:GetParent():Hide()
+								</OnStop>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "RarityGemMixin")
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Frame name="LeaveActivityTemplate" frameStrata="DIALOG" movable="true" enableMouse="true" clampedToScreen="true" hidden="true" virtual="true">
+		<Size x="305" y="127"/>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background">
+					<Size x="282" y="106"/>
+
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightLarge">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="4"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture file="Interface\LFGFrame\UI-LFG-SEPARATOR">
+					<Size x="210" y="40"/>
+
+					<TexCoords left="0" right="0.6640625" top="0" bottom="0.3125"/>
+
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentText" x="0" y="4"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentIconFrame" parentKey="IconFrame">
+				<Size x="64" y="64"/>
+
+				<Anchors>
+					<Anchor point="CENTER" x="0" y="56"/>
+				</Anchors>
+
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="$parentHighlight" parentKey="Highlight" file="Interface\AddOns\AwAddons\Textures\Collections\DragonHighlight">
+							<Size x="160" y="160"/>
+
+							<Anchors>
+								<Anchor point="CENTER" x="0" y="2"/>
+							</Anchors>
+							<Animations>
+								<AnimationGroup parentKey="Anim" looping="REPEAT">
+									<Rotation duration="60" order="1" degrees="-360" smoothing="NONE"/>
+								</AnimationGroup>
+							</Animations>
+						</Texture>
+					</Layer>
+
+					<Layer level="BORDER">
+						<Texture name="$parentIcon" parentKey="Icon" file="Interface\Icons\achievement_zone_kunlaisummit_loremaster">
+							<Size x="48" y="48"/>
+
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+
+					<Layer level="ARTWORK">
+						<Texture file="Interface\AddOns\AwAddons\Textures\Collections\StoreCollectionRound">
+							<Size x="64" y="64"/>
+
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+
+				<Animations>
+					<AnimationGroup parentKey="Anim" looping="BOUNCE">
+						<Translation duration="2" offsetX="0" offsetY="-5" smoothing="IN_OUT"/>
+					</AnimationGroup>
+				</Animations>
+
+				<Scripts>
+					<OnLoad>
+						self.Icon:SetPortraitTexture(self.Icon:GetTexture())
+					</OnLoad>
+					<OnShow>
+						self.Anim:Stop()
+						self.Anim:Play()
+
+						self.Highlight.Anim:Stop()
+						self.Highlight.Anim:Play()
+					</OnShow>
+					<OnHide>
+						self.Anim:Stop()
+
+						self.Highlight.Anim:Stop()
+					</OnHide>
+				</Scripts>
+			</Frame>
+
+			<Button name="$parentLeaveButton" parentKey="LeaveButton" inherits="SharedButtonTemplate">
+				<Size x="140" y="38"/>
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentText" relativePoint="BOTTOM" x="0" y="-8"/>
+				</Anchors>
+
+				<Scripts>
+					<OnClick>
+						self:GetParent():OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11"/>
+			</BackgroundInsets>
+
+			<TileSize val="32"/>
+			<EdgeSize val="32"/>
+		</Backdrop>
+
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnHide>
+				self:StopMovingOrSizing()
+			</OnHide>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+
+	<CheckButton name="SmallLockButtonTemplate" virtual="true">
+		<Size x="32" y="32"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parent.LockedTexture" parentKey="LockedTexture" file="Interface\LFGFRAME\UI-LFG-ICON-LOCK" hidden="true">
+					<Size x="28" y="28"/>
+					<Anchors>
+						<Anchor point="CENTER" x="4" y="-1.5"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.UnlockedTexture" parentKey="UnlockedTexture">
+					<Size x="28" y="32"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parent.Highlight" parentKey="Highlight" alphaMode="ADD" alpha="0.5" hidden="true">
+					<Size x="28" y="32"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, SmallLockButtonMixin)
+				self.UnlockedTexture:SetAtlas("levelup-lock", Const.TextureKit.IgnoreAtlasSize)
+				self.Highlight:SetAtlas("levelup-lock", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+		</Scripts>
+	</CheckButton>
+
+	<Frame name="AnimatedRankTemplate" virtual="true">
+		<Size x="38" y="36"/>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parentRankBorder" parentKey="RankBorder" file="Interface\TalentFrame\TalentFrame-RankBorder" setAllPoints="true"/>
+				<FontString name="$parentRank" parentKey="Rank" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentRankBorder">
+							<Offset>
+								<AbsDimension x="0" y="1"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Animations>
+						<AnimationGroup parentKey="Fade">
+							<Alpha change="-1" order="1" duration="0.3" smoothing="IN" endDelay="0.7" startDelay="0.6">
+								<Scripts>
+									<OnFinished>
+										local parent = self:GetParent():GetParent():GetParent()
+										parent:TriggerEvent("OnRankChange", parent:GetRank(), parent:GetNextRank())
+									</OnFinished>
+								</Scripts>
+							</Alpha>
+							<Alpha change="1" duration="0.2" order="2" smoothing="OUT"/>
+						</AnimationGroup>
+					</Animations>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parentRankQualityOutline" parentKey="RankQualityOutline" file="Interface\TalentFrame\TalentFrame-RankBorderQualityOutline" setAllPoints="true" alpha="0" alphaMode="ADD">
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha change="1" order="1" duration="0.3" smoothing="IN" startDelay="0.5"/>
+							<Alpha change="-1" duration="2" order="2" smoothing="OUT"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentRankGlow" parentKey="RankGlow" file="Interface\TalentFrame\TalentFrame-RankBorderGlow" setAllPoints="true" alpha="0" alphaMode="ADD">
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha change="1" order="1" duration="0.2" smoothing="IN"/>
+							<Alpha change="-1" duration="1" order="2" smoothing="OUT"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Animations>
+			<AnimationGroup parentKey="Jiggle">
+				<Translation duration="0.05" offsetX="2" offsetY="0" smoothing="IN_OUT" order="1" startDelay="0.3"/>
+				<Translation duration="0.05" offsetX="-2" offsetY="0" smoothing="IN_OUT" order="2"/>
+				<Translation duration="0.05" offsetX="3" offsetY="0" smoothing="IN_OUT" order="3"/>
+				<Translation duration="0.05" offsetX="-3" offsetY="0" smoothing="IN_OUT" order="4"/>
+				<Translation duration="0.05" offsetX="2" offsetY="0" smoothing="IN_OUT" order="5"/>
+				<Translation duration="0.05" offsetX="-2" offsetY="0" smoothing="IN_OUT" order="6"/>
+				<Translation duration="0.05" offsetX="3" offsetY="0" smoothing="IN_OUT" order="7"/>
+				<Translation duration="0.05" offsetX="-3" offsetY="0" smoothing="IN_OUT" order="8"/>
+				<Translation duration="0.05" offsetX="2" offsetY="0" smoothing="IN_OUT" order="9"/>
+				<Translation duration="0.05" offsetX="-2" offsetY="0" smoothing="IN_OUT" order="10"/>
+				<Scripts>
+					<OnFinished>
+						local parent = self:GetParent()
+						parent.RankGlow.Anim:Play()
+					</OnFinished>
+				</Scripts>
+			</AnimationGroup>
+
+			<AnimationGroup parentKey="Reveal"> <!-- Reveal->RankQualityOutline.Anim->Rank.Fade->Jiggle->RankGlow.Anim -->
+				<Scale duration="0.2" scaleX="1.2" scaleY="1.2" smoothing="IN" order="1" startDelay="0.5"/>
+				<Scale duration="2" scaleX="0.83" scaleY="0.83" smoothing="OUT" order="2" startDelay="0.2"/>
+				<Scripts>
+					<OnPlay>
+						local parent = self:GetParent()
+						parent.RankQualityOutline.Anim:Play()
+						parent.Rank.Fade:Play()
+						parent.Jiggle:Play()
+					</OnPlay>
+					<OnFinished>
+						local parent = self:GetParent()
+						parent:TriggerEvent("OnRankChangeFinished")
+					</OnFinished>
+				</Scripts>
+			</AnimationGroup>
+		</Animations>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, AnimatedRankMixin)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="SimpleRankFrameTemplate" virtual="true">
+		<Layers>
+			<Layer>
+				<FontString name="$parentRank" parentKey="Rank" inherits="SystemFont16_Shadow_ThickOutline">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "SimpleRankMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="CollapsibleHeaderTemplate" virtual="true">
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parent.Left" parentKey="Left" file="Interface\AddOns\AwAddons\Textures\SKA\CollapsibleHeader">
+					<Size x="76" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0"/>
+					</Anchors>
+					<TexCoords left="0.17578125" right="0.47265625" top="0.29687500" bottom="0.54687500"/>	
+				</Texture>
+				<Texture name="$parent.Right" parentKey="Right" file="Interface\AddOns\AwAddons\Textures\SKA\CollapsibleHeader">
+					<Size x="76" y="20"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="0" y="0"/>
+					</Anchors>
+					<TexCoords left="0.17578125" right="0.47265625" top="0.01562500" bottom="0.26562500"/>	
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parent.Middle" parentKey="Middle" file="Interface\AddOns\AwAddons\Textures\SKA\CollapsibleHeader">
+					<Size x="0" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parent.Left" relativePoint="RIGHT">
+							<Offset x="-20" y="0"/>
+						</Anchor>
+						<Anchor point="RIGHT" relativeTo="$parent.Right" relativePoint="LEFT">
+							<Offset x="20" y="0"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.48046875" right="0.98046875" top="0.01562500" bottom="0.26562500"/>	
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parent.Text" parentKey="Text" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="1"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+
+    <Button name="UINewSpellRankIndicator" virtual="true">
+        <Size x="20" y="22"/>
+        <Anchors>
+            <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                self:SetNormalAtlas("spellbook-trainbook")
+                self.tooltipTitle = SPELL_RANK_AVAILABLE
+                self.tooltipText = SPELL_RANK_FIND_TRAINER
+            </OnLoad>
+            <OnEnter>
+				GameTooltip_GenericTooltip(self)
+            </OnEnter>
+            <OnLeave function="GameTooltip_Hide"/>
+        </Scripts>
+    </Button>
+
+	<Button name="UIPanelInfoButton" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentTexture" file="Interface\FriendsFrame\InformationIcon" parentKey="texture">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnMouseDown>
+				self.texture:SetPoint("TOPLEFT", 1, -1);
+			</OnMouseDown>
+			<OnMouseUp>
+				self.texture:SetPoint("TOPLEFT", 0, 0);
+			</OnMouseUp>
+		</Scripts>
+		<HighlightTexture file="Interface\FriendsFrame\InformationIcon-Highlight" alphaMode="ADD">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativeTo="$parentTexture" relativePoint="TOPLEFT"/>
+			</Anchors>
+			<Color r="1" g="1" b="1" a="0.4"/>
+		</HighlightTexture>
+	</Button>
+
+	<Button name="SpellButtonCoreIcon" hidden="true" virtual="true"> 
+	    <Size x="16" y="16"/>
+	    <Scripts>
+	        <OnLoad>
+	            self.tooltipTitle = BUILD_CORE_SPELL
+	            self.tooltipText = BUILD_CORE_SPELL_TOOLTIP
+	            self:SetFrameLevel(self:GetFrameLevel()+2)
+	            self:SetNormalAtlas("auctionhouse-icon-favorite")
+	        </OnLoad>
+	        <OnEnter>
+	            GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+	        </OnEnter>
+	        <OnLeave function="GameTooltip_Hide"/>
+	    </Scripts>
+	</Button>
+
+	<Button name="SpellButtonOptimalIcon" hidden="true" virtual="true">
+	    <Size x="14" y="9"/>
+	    <Scripts>
+	        <OnLoad>
+	            self.tooltipTitle = BUILD_OPTIMAL_SPELL
+	            self.tooltipText = BUILD_OPTIMAL_SPELL_TOOLTIP
+	            self:SetFrameLevel(self:GetFrameLevel()+2)
+	            self:SetNormalAtlas("groupfinder-icon-leader")
+	        </OnLoad>
+	        <OnEnter>
+	            GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+	        </OnEnter>
+	        <OnLeave function="GameTooltip_Hide"/>
+	    </Scripts>
+	</Button>
+
+	<Button name="SpellButtonEmpoweringIcon" hidden="true" virtual="true">
+	    <Size x="24" y="26"/>
+	    <Scripts>
+	        <OnLoad>
+	            self.tooltipTitle = BUILD_EMPOWERING_SPELL
+	            self.tooltipText = BUILD_EMPOWERING_SPELL_TOOLTIP
+	            self:SetFrameLevel(self:GetFrameLevel()+2)
+	            self:SetNormalAtlas("GarrMission_UsefulAbilityIcon")
+	        </OnLoad>
+	        <OnEnter>
+	            GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+	        </OnEnter>
+	        <OnLeave function="GameTooltip_Hide"/>
+	    </Scripts>
+	</Button>
+
+	<Button name="SpellButtonSynergisticIcon" hidden="true" virtual="true">
+	    <Size x="42" y="42"/>
+	    <Scripts>
+	        <OnLoad>
+	            self.tooltipTitle = BUILD_SYNERGISTIC_SPELL
+	            self.tooltipText = BUILD_SYNERGISTIC_SPELL_TOOLTIP
+	            self:SetFrameLevel(self:GetFrameLevel()+2)
+	            self:SetNormalAtlas("talents-search-relatedmatch")
+	        </OnLoad>
+	        <OnEnter>
+	            GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+	        </OnEnter>
+	        <OnLeave function="GameTooltip_Hide"/>
+	    </Scripts>
+	    <HitRectInsets left="16" right="16" top="16" bottom="16"/>
+	</Button>
+
+	<Frame name="GarrisonFollowerLevelUpTemplate" virtual="true">
+		<Size x="128" y="128"/>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parentLevelupLines1" parentKey="LevelupLines1" hidden="true" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="10"/>
+					</Anchors>
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha duration="0" order="1" change="-1"/>
+							<Scale duration="0" order="1" scaleX="1" scaleY="0.25"/>
+							<Alpha duration="0.25" order="2" change="1"/>
+							<Alpha startDelay="0.5" duration="0.25" order="2" change="-1"/>
+							<Scale duration="0.5" order="2" scaleX="1" scaleY="4"/>
+							<Translation duration="0.5" order="2" offsetX="0" offsetY="25"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+				<Texture name="$parentLevelupLines2" parentKey="LevelupLines2" hidden="true" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentLevelupLines1" x="-25" y="10"/>
+					</Anchors>
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha duration="0" order="1" change="-1"/>
+							<Scale duration="0" order="1" scaleX="1" scaleY="0.25"/>
+							<Alpha startDelay="0.15" duration="0.25" order="2" change="1"/>
+							<Alpha startDelay="0.65" duration="0.25" order="2" change="-1"/>
+							<Scale startDelay="0.15" duration="0.5" order="2" scaleX="1" scaleY="4"/>
+							<Translation startDelay="0.15" duration="0.5" order="2" offsetX="0" offsetY="25"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+				<Texture name="$parentLevelupLines3" parentKey="LevelupLines3" hidden="true" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentLevelupLines1" x="20" y="10"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha duration="0" order="1" change="-1"/>
+							<Scale duration="0" order="1" scaleX="1" scaleY="0.25"/>
+							<Alpha startDelay="0.3" duration="0.25" order="2" change="1"/>
+							<Scale startDelay="0.3" duration="0.5" order="2" scaleX="1" scaleY="4"/>
+							<Translation startDelay="0.3" duration="0.5" order="2" offsetX="0" offsetY="25"/>
+							<Alpha startDelay="0.8" duration="0.25" order="3" change="-1"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parentBanner" parentKey="Banner" hidden="true">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha duration="0" order="1" change="-1"/>
+							<Scale duration="0" order="1" scaleX="0.25" scaleY="1"/>
+							<Alpha duration="0.15" order="2" change="1"/>
+							<Scale duration="0.15" order="2" scaleX="4" scaleY="1"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+				<Texture name="$parentBannerGlow" parentKey="BannerGlow" hidden="true" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentBanner"/>
+					</Anchors>
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha duration="0" order="1" change="-1"/>
+							<Scale duration="0" order="1" scaleX="0.5" scaleY="1"/>
+							<Alpha duration="0.25" order="2" change="1"/>
+							<Scale duration="0.25" order="2" scaleX="3" scaleY="1"/>
+							<Alpha startDelay="0.25" duration="0.5" order="2" change="-1"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+				<Texture name="$parentLevelupGlow" parentKey="LevelupGlow" hidden="true" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+					<Animations>
+						<AnimationGroup parentKey="Anim">
+							<Alpha duration="0" order="1" change="-1"/>
+							<Scale duration="0" order="1" scaleX="2.5" scaleY="0.25"/>
+							<Alpha duration="0.5" order="2" change="1"/>
+							<Alpha startDelay="0.75" duration="0.5" order="2" change="-1"/>
+							<Scale duration="0.75" order="2" scaleX="1" scaleY="8"/>
+							<Translation duration="0.75" order="2" offsetX="0" offsetY="30"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+								<OnFinished>
+									self:GetParent():Hide()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Text" inherits="QuestFont_Shadow_Huge">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Animations>
+			<AnimationGroup parentKey="Anim">
+				<Animation duration="2" order="1"/>
+				<Scripts>
+					<OnPlay>
+						local frame = self:GetParent()
+						frame.Banner.Anim:Play()
+						frame.BannerGlow.Anim:Play()
+						frame.LevelupGlow.Anim:Play()
+						frame.LevelupLines1.Anim:Play()
+						frame.LevelupLines2.Anim:Play()
+						frame.LevelupLines3.Anim:Play()
+					</OnPlay>
+				</Scripts>
+			</AnimationGroup>
+		</Animations>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "GarrisonFollowerLevelUpMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<Button name="RatingButtonBaseTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "RatingButtonBaseMixin")
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Button name="StarRatingButtonTemplate" inherits="RatingButtonTemplate" virtual="true">
+		<Size x="18" y="18"/>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "StarRatingButtonMixin")
+			</OnLoad>
+		</Scripts>
+		
+		<HighlightTexture alphaMode="ADD"/>
+	</Button>
+	
+	<Frame name="HorizontalRatingTemplate" inherits="HorizontalLayoutFrame" virtual="true">
+		<Attributes>
+			<Attribute name="ratingTemplate" value="RatingButtonBaseTemplate"/>
+			<Attribute name="rating" value="1" type="number"/>
+			<Attribute name="maxRating" value="5" type="number"/>
+			<Attribute name="expand" value="true" type="boolean"/>
+		</Attributes>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "HorizontalRatingMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

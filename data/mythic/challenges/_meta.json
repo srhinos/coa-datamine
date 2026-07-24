@@ -1,0 +1,50 @@
+{
+ "conditionsFinding": "No conditionTypeId link is provable for ChallengeConditions (its own string block is only 167 bytes - too small to carry a per-row denormalized token the way ChallengeRules/ChallengeRequirements do); conditions ship challengeId-only, no resolved type name.",
+ "count": 297,
+ "golden": "Challenge 7 'Nudist' / 'You are unable to equip or wear armor of any kind.' cross-validated end-to-end via its own ChallengeRules row (ruleTypeToken=CHALLENGE_RULES_TYPE_NO_EQUIP_ARMOR) resolving through ChallengeRuleTypes id5 to name 'No Equipping Armor' / description 'You may not equip any armor.'",
+ "linkTables": {
+  "conditions": {
+   "challengeJoinRate": 0.9124,
+   "totalRows": 354
+  },
+  "featured": {
+   "challengeJoinRate": 1.0,
+   "totalRows": 54
+  },
+  "groupRewards": {
+   "challengeJoinRateViaGroup": 0.9375,
+   "groupJoinRate": 0.9375,
+   "totalRows": 144
+  },
+  "groups": {
+   "challengeJoinRate": 1.0,
+   "totalRows": 1203
+  },
+  "levels": {
+   "challengeJoinRate": 0.8493,
+   "totalRows": 1334
+  },
+  "modifiers": {
+   "challengeJoinRate": 1.0,
+   "totalRows": 2
+  },
+  "requirements": {
+   "challengeJoinRate": 0.9985,
+   "totalRows": 2047
+  },
+  "rewards": {
+   "challengeJoinRate": 0.971,
+   "totalRows": 21677
+  },
+  "rules": {
+   "challengeJoinRate": 0.9347,
+   "totalRows": 3646
+  },
+  "spells": {
+   "challengeJoinRate": 1.0,
+   "spellIdJoinRate": 1.0,
+   "spellIdPopulated": 802,
+   "totalRows": 7702
+  }
+ }
+}

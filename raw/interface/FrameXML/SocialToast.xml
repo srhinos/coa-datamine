@@ -1,0 +1,250 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Script file="SocialToast.lua"/>
+
+    <Frame name="SocialToastGlowTemplate" parentKey="Glow" hidden="true" setAllPoints="true" virtual="true">
+        <Layers>
+            <Layer>
+                <Texture file="Interface\FriendsFrame\UI-Toast-Flair" alphaMode="ADD" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <Animations>
+            <AnimationGroup name="$parentAnimIn" parentKey="AnimIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.2" order="2"/>
+                <Alpha change="-1" duration="0.5" order="3"/>
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent():Show()
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                    <OnStop>
+                        self:GetParent():Hide()
+                    </OnStop>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Frame>
+    
+    <Button name="SocialToastCloseButton" parentKey="CloseButton" virtual="true">
+        <Size x="18" y="18"/>
+        
+        <Anchors>
+            <Anchor point="TOPRIGHT" x="-4" y="-3"/>
+        </Anchors>
+        
+        <NormalTexture file="Interface\FriendsFrame\UI-Toast-CloseButton-Up"/>
+        <PushedTexture file="Interface\FriendsFrame\UI-Toast-CloseButton-Down"/>
+        <HighlightTexture file="Interface\FriendsFrame\UI-Toast-CloseButton-Highlight" alphaMode="ADD"/>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SocialToastCloseButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="SocialToastNoCloseTemplate" hidden="true" parent="UIParent" frameStrata="LOW" toplevel="true" virtual="true">
+        <Size x="250" y="50"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture parentKey="Gradient" file="Interface\FriendsFrame\UI-Toast-Update-Gradient" horizTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="5" y="-5"/>
+                        <Anchor point="BOTTOMRIGHT" x="-5" y="5"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="42" y="42"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="14" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture name="$parentIconBorder" parentKey="IconBorder" hidden="true">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" x="-1" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentGlow" inherits="SocialToastGlowTemplate"/>
+        </Frames>
+        
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.2" order="2"/>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="AnimOut">
+                <Alpha startDelay="4" change="-1" duration="1.5" order="1"/>
+                <Scripts>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+        
+        <ButtonText inherits="PTFontHighlightOutline3" justifyV="TOP">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="68" y="-14"/>
+                <Anchor point="BOTTOMRIGHT" x="-26" y="12"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+        
+        <Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background"
+                  edgeFile="Interface\FriendsFrame\UI-Toast-Border"
+                  tile="true">
+            <TileSize val="12"/>
+            <EdgeSize val="12"/>
+            <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+        </Backdrop>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SocialToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="SocialToastTemplate" inherits="SocialToastNoCloseTemplate" virtual="true">
+        <Frames>
+            <Button inherits="SocialToastCloseButton"/>
+        </Frames>
+    </Button>
+
+    <Button name="UpdateAlertToast" text="NEW_UPDATE_AVAILABLE_TOAST" frameStrata="FULLSCREEN" inherits="SocialToastTemplate" toplevel="true">
+        <Size x="350" y="80"/>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="TOPLEFT" x="8" y="32"/>
+        </Anchors>
+        
+        <Frames>
+            <Button name="$parentReloadButton" text="RELOAD_NOW" parentKey="ReloadButton" inherits="UIPanelButtonTemplate2">
+                <Size x="90" y="24"/>
+                
+                <Anchors>
+                    <Anchor point="BOTTOM" x="-28" y="8"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        ReloadUI()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentLaterButton" text="RELOAD_LATER" parentKey="LaterButton" inherits="UIPanelButtonTemplate2">
+                <Size x="90" y="24"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentReloadButton" relativePoint="RIGHT" x="8" y="0"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Hide()
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "UpdateAlertToastMixin")
+                self.Icon:SetPortraitTexture("Interface\\Icons\\Mail_GMIcon")
+                self.IconBorder:SetAtlas("pvpqueue-rewardring-large", Const.TextureKit.IgnoreAtlasSize)
+                self.IconBorder:Show()
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CharacterDataUnknownToast" text="UNKNOWN_CHARACTER_DATA_DETECTED" frameStrata="FULLSCREEN" inherits="SocialToastTemplate" toplevel="true">
+        <Size x="350" y="80"/>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="TOPLEFT" x="8" y="32"/>
+        </Anchors>
+
+        <Frames>
+            <Button name="$parentReloadButton" text="RELOAD_NOW" parentKey="ReloadButton" inherits="UIPanelButtonTemplate2">
+                <Size x="90" y="24"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" x="18" y="8"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        ReloadUI()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, UnknownCharacterDataToastMixin)
+                self.Icon:SetPortraitTexture("Interface\\Icons\\Mail_GMIcon")
+                self.IconBorder:SetAtlas("pvpqueue-rewardring-large", Const.TextureKit.IgnoreAtlasSize)
+                self.IconBorder:Show()
+                
+                if C_Player:GetName() == "Unknown" then
+                    self:Show()
+                end
+            </OnLoad>
+            <OnUpdate>
+                self:OnUpdate()
+            </OnUpdate>
+        </Scripts>
+    </Button>
+
+    <Button name="AccountInfractionToast" frameStrata="FULLSCREEN" inherits="SocialToastNoCloseTemplate" toplevel="true">
+        <Size x="350" y="80"/>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="ChatFrame1" relativePoint="TOPLEFT" x="8" y="32"/>
+        </Anchors>
+
+        <Frames>
+            <Button name="$parentViewReasonButton" text="VIEW_REASON" parentKey="ViewReasonButton" inherits="UIPanelButtonTemplate2">
+                <Size x="120" y="24"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" x="18" y="8"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        if true or C_Chat.HasChatInfraction() then
+                            ChatInfractionFrame:Show()
+                        end
+                        self:GetParent():Hide()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AccountInfractionToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

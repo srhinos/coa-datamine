@@ -1,0 +1,267 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="HelpMenuTabMixin.lua"/>
+    <Script file="HelpMenuPanelMixin.lua"/>
+    <Script file="RecoveryItemMixin.lua"/>
+    
+    <Frame name="HelpMenuPanelTemplate" hidden="true" setAllPoints="true" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuPanelMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+
+    <Button name="HelpMenuTabTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="169" y="49"/>
+        
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="LEFT" x="2"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentSelected" parentKey="Selected" hidden="true" alphaMode="ADD" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuTabMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <NormalFont style="PTFontNormalLarge"/>
+        <HighlightFont style="PTFontHighlightLarge"/>
+        <DisabledFont style="PTFontHighlightLarge"/>
+        
+        <HighlightTexture alphaMode="ADD"/>
+        
+        <ButtonText parentKey="Text" inherits="PTFontNormalLarge" justifyH="LEFT">
+            <Anchors>
+                <Anchor point="LEFT" x="46"/>
+                <Anchor point="RIGHT" x="-4"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+    
+    <Button name="HelpMenuRecoveryTabTemplate" motionScriptsWhileDisabled="true" inherits="HelpMenuTabTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuRecoveryTabMixin")
+            </OnLoad>
+        </Scripts>
+        <NormalFont style="PTFontNormal3"/>
+        <HighlightFont style="PTFontHighlight3"/>
+        <DisabledFont style="PTFontHighlight3"/>
+    </Button>
+    
+    <Frame name="HelpMenuTextElementTemplate" virtual="true">
+        <Size x="610" y="1"/>
+        <Layers>
+            <Layer>
+                <FontString parentKey="Text" justifyV="TOP" inherits="PTFontHighlightLarge">
+                    <Size x="610" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuTextElementMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="HelpMenuCaptionElementTemplate" virtual="true">
+        <Size x="610" y="1"/>
+        <Layers>
+            <Layer>
+                <Texture name="$parentImage" parentKey="Image">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString parentKey="Text" inherits="PTFontHighlight">
+                    <Size x="0" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentImage" relativePoint="BOTTOM" y="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuCaptionElementMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="HelpMenuUseItemElementTemplate" inherits="CooldownItemIconTemplate" virtual="true">
+        <Size x="64" y="64"/>
+        <Layers>
+            <Layer>
+                <FontString parentKey="Text" inherits="PTFontHighlightSmall">
+                    <Size x="0" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM" y="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuUseItemElementMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="HelpMenuButtonElementTemplate" virtual="true">
+        <Size x="169" y="49"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuButtonElementMixin")
+            </OnLoad>
+        </Scripts>
+
+        <NormalFont style="PTFontNormalLarge"/>
+        <HighlightFont style="PTFontHighlightLarge"/>
+        <DisabledFont style="PTFontDisableLarge"/>
+
+        <ButtonText parentKey="Text" inherits="PTFontNormalLarge" justifyH="LEFT">
+            <Anchors>
+                <Anchor point="LEFT" x="46"/>
+                <Anchor point="RIGHT" x="-4"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+    
+    <Frame name="HelpMenuDoubleButtonElementTemplate" virtual="true">
+        <Size x="350" y="49"/>
+        
+        <Frames>
+            <Button name="$parentLeftButton" parentKey="LeftButton" inherits="HelpMenuButtonElementTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentRight" parentKey="RightButton" inherits="HelpMenuButtonElementTemplate">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuDoubleButtonElementMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <ScrollFrame name="HelpMenuEditBoxElementTemplate" inherits="ScrollableMultiLineInputBoxInstructionsTemplate" virtual="true">
+        <Size x="610" y="1"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuEditBoxElementMixin")
+            </OnLoad>
+        </Scripts>
+    </ScrollFrame>
+
+    <ScrollFrame name="HelpMenuReadOnlyElementTemplate" inherits="ScrollableReadOnlyEditBoxTemplate" virtual="true">
+        <Size x="610" y="1"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HelpMenuReadOnlyElementMixin")
+            </OnLoad>
+        </Scripts>
+    </ScrollFrame>
+    
+    <Button name="RecoveryItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="466" y="72"/>
+        
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="PTFontHighlight">
+                    <Size x="398" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="52" y="-28"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentMoney" parentKey="Money" justifyH="RIGHT" justifyV="TOP" inherits="PTFontHighlight">
+                    <Size x="220" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-8" y="-8"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentDate" parentKey="Date" inherits="PTFontHighlightSmall">
+                    <Size x="220" y="0"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="40"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="40" y="40"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="6" y="-8"/>
+                </Anchors>
+            </Frame>
+            
+            <Button name="$parentRecoverItemButton" parentKey="RecoverItemButton" hidden="true" text="RECOVER_ITEM" inherits="SharedButtonTemplate">
+                <Size x="180" y="32"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Recover()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RecoveryItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+        
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormal3">
+            <Size x="398" y="0"/>
+
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentSubText" relativePoint="TOPLEFT" y="4"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+</Ui>

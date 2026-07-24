@@ -1,0 +1,933 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_PVE.lua"/>
+
+    <Frame name="AscensionLFDChoiceTemplate" inherits="LFGSpecificChoiceTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                self.enableButton:SetScript("OnClick", function(self)
+                local LFDFrame = _G["AscensionPVEFrameLFDFrame"]
+                LFDFrame:DungeonChoiceEnableButton_OnClick(self)
+                end)
+                self.expandOrCollapseButton:SetScript("OnClick", function(self)
+                local LFDFrame = _G["AscensionPVEFrameLFDFrame"]
+                LFDFrame:ExpandOrCollapseButton_OnClick(self)
+                end)
+                self:SetScript("OnEnter", LFDQueueFrameDungeonListButton_OnEnter)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="LFGRewardsLootShortageTemplate" virtual="true">
+        <Size x="19" y="19"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentTexture" file="Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES" parentKey="Texture"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentBorder" file="Interface\Common\GoldRing" parentKey="border">
+                    <Size x="19" y="19"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="-1" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnEnter>
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+                GameTooltip:SetText(format(LFG_CALL_TO_ARMS, _G[self.role]), 1, 1, 1);
+                GameTooltip:AddLine(LFG_CALL_TO_ARMS_EXPLANATION, nil, nil, nil, true);
+                GameTooltip:Show();
+            </OnEnter>
+            <OnLeave function="GameTooltip_Hide"/>
+        </Scripts>
+    </Frame>
+
+    <Button name="AscensionLFDRandomDungeonLootTemplate" inherits="LargeItemButtonTemplate" virtual="true">
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder" file="Interface\Common\WhiteIconFrame">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIconTexture" x="-4" y="4"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconTexture" x="4" y="-4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIconOverlay" parentKey="IconOverlay" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIconTexture"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconTexture"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentRoleIcon1" inherits="LFGRewardsLootShortageTemplate" parentKey="RoleIcon1"
+                   hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIconBorder" relativePoint="TOP" x="-9" y="-4"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentRoleIcon2" inherits="LFGRewardsLootShortageTemplate" parentKey="RoleIcon2"
+                   hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIconBorder" relativePoint="TOP" x="9" y="-4"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self.hasItem = 1
+            </OnLoad>
+            <OnEnter>
+                if self.item then
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                GameTooltip:SetHyperlink("item:"..self.item)
+                GameTooltip:Show()
+                end
+                CursorUpdate(self)
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+                ResetCursor()
+            </OnLeave>
+            <OnUpdate>
+                CursorOnUpdate(self, elapsed)
+            </OnUpdate>
+            <OnClick>
+                if self.item then
+                HandleModifiedItemClick(select(2, GetItemInfo(self.item)))
+                end
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <Button name="LFGRoleButtonWithBackgroundAndRewardTemplate" inherits="LFGRoleButtonWithBackgroundTemplate"
+            virtual="true">
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentShortageBorder" file="Interface\Common\GoldRing" parentKey="ShortageBorder"
+                         hidden="true">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="-1" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentIncentiveIcon" parentKey="IncentiveIcon" hidden="true">
+                <Size x="25" y="25"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="7" y="-7"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentTexture" parentKey="Texture">
+                            <Size x="17" y="17"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="-3" y="3"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentBorder" setAllPoints="true" file="Interface\LFGFrame\UI-LFG-ICON-REWARDRING" parentKey="border">
+                            <TexCoords left="0" right="0.675" top="0" bottom="0.675"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self.Texture:SetPortraitTexture("Interface\\Icons\\INV_Misc_Coin_17")
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+                        GameTooltip:SetText(format(LFG_CALL_TO_ARMS, _G[self:GetParent().role]), 1, 1, 1);
+                        GameTooltip:AddLine(LFG_CALL_TO_ARMS_EXPLANATION, nil, nil, nil, true);
+                        GameTooltip:Show();
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Button>
+
+    <Frame name="AscensionPVEFrame" parent="AscensionLFGFrameContent" setAllPoints="true" toplevel="true" hidden="true">
+        <Frames>
+            <Button name="$parentHelpPlateButton" parentKey="HelpPlateButton" frameLevel="129" inherits="HelpPlateButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-178" y="46"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="HelpPlate" value="PVE_FRAME" type="string"/>
+                </Attributes>
+            </Button>
+
+            <Frame name="$parentLFDFrame" parentKey="LFDFrame" setAllPoints="true" hidden="true">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentRoleBG" file="Interface\LFGFrame\UI-LFG-BlueBG">
+                            <Size x="512" y="128"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="10" y="-4"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentDungeonBG" parentKey="BG" file="Interface\LFGFrame\UI-LFG-BACKGROUND-QUESTPAPER">
+                            <Size x="512" y="256"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="10" y="26"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentRoleFrameHelper" parentKey="RoleFrameHelper">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentRoleBG" relativePoint="TOPLEFT" x="0" y="0"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentRoleBG" relativePoint="BOTTOMRIGHT" x="-272" y="42"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Button name="$parentRoleButtonTank" parentKey="Tank"
+                            inherits="LFGRoleButtonWithBackgroundAndRewardTemplate" id="2">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentRoleBG" x="25" y="20"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-tank", Const.TextureKit.IgnoreAtlasSize)
+                                self.background:SetTexCoord(GetBackgroundTexCoordsForRole("TANK"))
+                                self.background:SetAlpha(0.6)
+                                self.checkButton.onClick = function() self:GetParent():SetRoles(self.role) end
+                                self.role = "TANK"
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentRoleButtonHealer" parentKey="Healer"
+                            inherits="LFGRoleButtonWithBackgroundAndRewardTemplate" id="3">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentRoleButtonTank" relativePoint="RIGHT">
+                                <Offset>
+                                    <AbsDimension x="25" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-healer", Const.TextureKit.IgnoreAtlasSize)
+                                self.background:SetTexCoord(GetBackgroundTexCoordsForRole("HEALER"));
+                                self.background:SetAlpha(0.4);
+                                self.checkButton.onClick = function() self:GetParent():SetRoles(self.role) end
+                                self.role = "HEALER"
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentRoleButtonDPS" parentKey="Dps"
+                            inherits="LFGRoleButtonWithBackgroundAndRewardTemplate" id="1">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentRoleButtonHealer" relativePoint="RIGHT">
+                                <Offset>
+                                    <AbsDimension x="23" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-dps", Const.TextureKit.IgnoreAtlasSize)
+                                self.background:SetTexCoord(GetBackgroundTexCoordsForRole("DAMAGER"));
+                                self.background:SetAlpha(0.6);
+                                self.checkButton.onClick = function() self:GetParent():SetRoles(self.role) end
+                                self.role = "DAMAGER"
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentRoleButtonLeader" parentKey="Leader" inherits="LFGRoleButtonTemplate" id="4">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentRoleButtonDPS" relativePoint="RIGHT">
+                                <Offset>
+                                    <AbsDimension x="32" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-leader", Const.TextureKit.IgnoreAtlasSize)
+                                self.checkButton.onClick = function() self:GetParent():SetRoles() end
+                            </OnLoad>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+                                GameTooltip:SetText(GUIDE_TOOLTIP, nil, nil, nil, nil, 1);
+                                LFDFrameRoleCheckButton_OnEnter(self);
+                            </OnEnter>
+                        </Scripts>
+                    </Button>
+
+                    <Frame name="$parentTypeDropDown" parentKey="Dropdown" inherits="UIDropDownMenuTemplate" id="1">
+                        <Anchors>
+                            <Anchor point="RIGHT" x="8" y="95"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentName" inherits="GameFontNormal" justifyH="RIGHT"
+                                            text="CHOOSE_YOUR_DUNGEON">
+                                    <Size x="115" y="24"/>
+                                    <Anchors>
+                                        <Anchor point="RIGHT" relativePoint="LEFT" x="0" y="2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Frame name="$parentRandom" parentKey="Random" setAllPoints="true">
+                        <Frames>
+                            <ScrollFrame name="$parentScrollFrame" parentKey="Scroll" inherits="UIPanelScrollFrameTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="10" y="-120"/>
+                                    <Anchor point="BOTTOMRIGHT" x="-32" y="28"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentScrollBackground">
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+                                                    <Offset>
+                                                        <AbsDimension x="0" y="-5"/>
+                                                    </Offset>
+                                                </Anchor>
+                                                <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+                                                    <Offset>
+                                                        <AbsDimension x="29" y="-2"/>
+                                                    </Offset>
+                                                </Anchor>
+                                            </Anchors>
+                                            <Color r="0" b="0" g="0" a=".55"/>
+                                        </Texture>
+                                    </Layer>
+                                    <Layer level="ARTWORK">
+                                        <Texture name="$parentScrollBackgroundTopLeft" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                            <Size>
+                                                <AbsDimension x="31" y="256"/>
+                                            </Size>
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+                                                    <Offset>
+                                                        <AbsDimension x="-2" y="5"/>
+                                                    </Offset>
+                                                </Anchor>
+                                            </Anchors>
+                                            <TexCoords left="0" right="0.484375" top="0" bottom="1.0"/>
+                                        </Texture>
+                                        <Texture name="$parentScrollBackgroundBottomRight" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                            <Size>
+                                                <AbsDimension x="31" y="106"/>
+                                            </Size>
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT">
+                                                    <Offset>
+                                                        <AbsDimension x="-2" y="-4"/>
+                                                    </Offset>
+                                                </Anchor>
+                                            </Anchors>
+                                            <TexCoords left="0.515625" right="1.0" top="0" bottom="0.4140625"/>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                                <Scripts>
+                                    <OnLoad>
+                                        local myName = self:GetName();
+                                        _G[myName.."ScrollBackground"]:SetParent(_G[myName.."ScrollBar"]);
+                                        _G[myName.."ScrollBackgroundTopLeft"]:SetParent(_G[myName.."ScrollBar"]);
+                                        _G[myName.."ScrollBackgroundBottomRight"]:SetParent(_G[myName.."ScrollBar"]);
+
+                                        _G[myName.."ScrollBar"]:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 6, 14);
+
+                                        self.scrollBarHideable = true;
+                                        ScrollFrame_OnLoad(self);
+                                    </OnLoad>
+                                </Scripts>
+                                <ScrollChild>
+                                    <Frame name="$parentChildFrame" parentKey="Child">
+                                        <Size>
+                                            <AbsDimension x="1" y="1"/>
+                                        </Size>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentTitle" inherits="QuestTitleFontBlackShadow"
+                                                            justifyH="LEFT" parentKey="title"
+                                                            text="LFG_TYPE_RANDOM_DUNGEON">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="10" y="-15"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentDescription" inherits="QuestFont"
+                                                            justifyH="LEFT" parentKey="description"
+                                                            text="LFD_RANDOM_EXPLANATION">
+                                                    <Size>
+                                                        <AbsDimension x="280" y="0"/>
+                                                    </Size>
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeTo="$parentTitle"
+                                                                relativePoint="BOTTOMLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="0" y="-5"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentRewardsLabel"
+                                                            inherits="QuestTitleFontBlackShadow" justifyH="LEFT"
+                                                            parentKey="rewardsLabel" text="LFD_REWARDS">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeTo="$parentDescription"
+                                                                relativePoint="BOTTOMLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="0" y="-10"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentRewardsDescription" inherits="QuestFont"
+                                                            justifyH="LEFT" parentKey="rewardsDescription"
+                                                            text="LFD_RANDOM_REWARD_EXPLANATION1">
+                                                    <Size>
+                                                        <AbsDimension x="280" y="0"/>
+                                                    </Size>
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeTo="$parentRewardsLabel"
+                                                                relativePoint="BOTTOMLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="0" y="-5"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentPUGDescription" inherits="QuestFont"
+                                                            justifyH="LEFT" parentKey="pugDescription"
+                                                            text="LFD_RANDOM_REWARD_PUG_EXPLANATION">
+                                                    <Size>
+                                                        <AbsDimension x="280" y="0"/>
+                                                    </Size>
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeTo="$parentRewardsLabel"
+                                                                relativePoint="BOTTOMLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="0" y="-5"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentMoneyLabel" inherits="QuestFont"
+                                                            justifyH="LEFT" parentKey="moneyLabel" text="MONEY_COLON">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeTo="$parentPUGDescription"
+                                                                relativePoint="BOTTOMLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="20" y="-10"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentXPLabel" inherits="QuestFont" justifyH="LEFT"
+                                                            parentKey="xpLabel" text="EXPERIENCE_COLON">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeTo="$parentMoneyLabel"
+                                                                relativePoint="BOTTOMLEFT">
+                                                            <Offset>
+                                                                <AbsDimension x="0" y="-5"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentXPAmount" inherits="NumberFontNormalLarge"
+                                                            justifyH="LEFT" parentKey="xpAmount">
+                                                    <Anchors>
+                                                        <Anchor point="LEFT" relativeTo="$parentXPLabel"
+                                                                relativePoint="RIGHT">
+                                                            <Offset>
+                                                                <AbsDimension x="10" y="0"/>
+                                                            </Offset>
+                                                        </Anchor>
+                                                    </Anchors>
+                                                </FontString>
+
+                                                <!--Texture file="Interface\LFGFrame\UI-LFG-BACKGROUND-QUESTPAPER" setAllPoints="true"/-->
+                                            </Layer>
+                                        </Layers>
+                                        <Frames>
+                                            <Button name="$parentItem1" parentKey="Item1"
+                                                    inherits="AscensionLFDRandomDungeonLootTemplate" id="1">
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" relativeTo="$parentRewardsDescription"
+                                                            relativePoint="BOTTOMLEFT">
+                                                        <Offset>
+                                                            <AbsDimension x="0" y="-10"/>
+                                                        </Offset>
+                                                    </Anchor>
+                                                </Anchors>
+                                            </Button>
+                                            <Frame name="$parentMoneyFrame" inherits="MoneyFrameTemplate" parentKey="moneyFrame">
+                                                <Anchors>
+                                                    <Anchor point="LEFT" relativeTo="$parentMoneyLabel"
+                                                            relativePoint="RIGHT">
+                                                        <Offset>
+                                                            <AbsDimension x="10" y="0"/>
+                                                        </Offset>
+                                                    </Anchor>
+                                                </Anchors>
+                                                <Scripts>
+                                                    <OnLoad>
+                                                        SmallMoneyFrame_OnLoad(self);
+                                                        MoneyFrame_SetType(self, "STATIC");
+                                                    </OnLoad>
+                                                </Scripts>
+                                            </Frame>
+                                            <Frame name="$parentSpacer" parentKey="spacer">
+                                                <Size>
+                                                    <AbsDimension x="2" y="2"/>
+                                                </Size>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" relativeTo="$parentXPLabel"
+                                                            relativePoint="BOTTOMLEFT">
+                                                        <Offset>
+                                                            <AbsDimension x="0" y="-10"/>
+                                                        </Offset>
+                                                    </Anchor>
+                                                </Anchors>
+                                            </Frame>
+                                        </Frames>
+                                        <Scripts>
+                                            <OnLoad>
+                                                local myName = self:GetName();
+                                                self.description:SetTextColor(1, 1, 1);
+                                                self.rewardsDescription:SetTextColor(1, 1, 1);
+                                                self.pugDescription:SetTextColor(1, 1, 1);
+                                                self.moneyLabel:SetTextColor(1, 1, 1);
+                                                self.xpLabel:SetTextColor(1, 1, 1);
+                                            </OnLoad>
+                                            <OnShow>
+                                                local parent = _G["AscensionPVEFrameLFDFrame"]
+                                                parent:UpdateRandom()
+                                            </OnShow>
+                                        </Scripts>
+                                    </Frame>
+                                </ScrollChild>
+                            </ScrollFrame>
+                        </Frames>
+                    </Frame>
+
+                    <Frame name="$parentSpecific" parentKey="Specific" setAllPoints="true" hidden="true">
+                        <Frames>
+                            <Frame name="$parentListButton1" parentKey="ListButton1" inherits="AscensionLFDChoiceTemplate" id="1">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="AscensionPVEFrameLFDFrameDungeonBG" x="10"
+                                            y="-10"/>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton2" parentKey="ListButton2" inherits="AscensionLFDChoiceTemplate" id="2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton1" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton3" parentKey="ListButton3" inherits="AscensionLFDChoiceTemplate" id="3">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton2" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton4" parentKey="ListButton4" inherits="AscensionLFDChoiceTemplate" id="4">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton3" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton5" parentKey="ListButton5" inherits="AscensionLFDChoiceTemplate" id="5">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton4" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton6" parentKey="ListButton6" inherits="AscensionLFDChoiceTemplate" id="6">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton5" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton7" parentKey="ListButton7" inherits="AscensionLFDChoiceTemplate" id="7">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton6" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton8" parentKey="ListButton8" inherits="AscensionLFDChoiceTemplate" id="8">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton7" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton9" parentKey="ListButton9" inherits="AscensionLFDChoiceTemplate" id="9">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton8" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton10" parentKey="ListButton10" inherits="AscensionLFDChoiceTemplate" id="10">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton9" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton11" parentKey="ListButton11" inherits="AscensionLFDChoiceTemplate" id="11">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton10" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton12" parentKey="ListButton12" inherits="AscensionLFDChoiceTemplate" id="12">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton11" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton13" parentKey="ListButton13" inherits="AscensionLFDChoiceTemplate" id="13">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton12" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton14" parentKey="ListButton14" inherits="AscensionLFDChoiceTemplate" id="14">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton13" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <Frame name="$parentListButton15" parentKey="ListButton15" inherits="AscensionLFDChoiceTemplate" id="15">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton14" relativePoint="BOTTOMLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+                            <ScrollFrame name="$parentListScrollFrame" parentKey="Scroll" inherits="FauxScrollFrameTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentListButton1" relativePoint="TOPLEFT">
+                                        <Offset>
+                                            <AbsDimension x="0" y="7"/>
+                                        </Offset>
+                                    </Anchor>
+                                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentListButton15"
+                                            relativePoint="BOTTOMRIGHT">
+                                        <Offset>
+                                            <AbsDimension x="1" y="-7"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentScrollBackgroundTopLeft" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                            <Size>
+                                                <AbsDimension x="31" y="256"/>
+                                            </Size>
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+                                                    <Offset>
+                                                        <AbsDimension x="-2" y="5"/>
+                                                    </Offset>
+                                                </Anchor>
+                                            </Anchors>
+                                            <TexCoords left="0" right="0.484375" top="0" bottom="1.0"/>
+                                        </Texture>
+                                        <Texture name="$parentScrollBackgroundBottomRight" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                            <Size>
+                                                <AbsDimension x="31" y="106"/>
+                                            </Size>
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT">
+                                                    <Offset>
+                                                        <AbsDimension x="-2" y="-2"/>
+                                                    </Offset>
+                                                </Anchor>
+                                            </Anchors>
+                                            <TexCoords left="0.515625" right="1.0" top="0" bottom="0.4140625"/>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                                <Scripts>
+                                    <OnVerticalScroll>
+                                        FauxScrollFrame_OnVerticalScroll(self, offset, 16, function()
+                                        self:GetParent():GetParent():UpdateSpecific() end);
+                                    </OnVerticalScroll>
+                                </Scripts>
+                            </ScrollFrame>
+                        </Frames>
+                        <Scripts>
+                            <OnShow>
+                                LFDQueueFrame_Update();
+                            </OnShow>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentPartyBackfill" parentKey="Backfill" hidden="true" enableMouse="true">
+                        <Size>
+                            <AbsDimension x="330" y="257"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-7" y="28"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBlackFilter" setAllPoints="true">
+                                    <Color r="0" b="0" g="0" a="0.93"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentDescription" parentKey="Description" inherits="GameFontNormal"
+                                            justifyH="CENTER">
+                                    <Size>
+                                        <AbsDimension x="300" y="0"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="TOP">
+                                            <Offset>
+                                                <AbsDimension x="-0" y="-70"/>
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Frames>
+                            <Button name="$parentBackfillButton" parentKey="StartButton"
+                                    inherits="UIPanelButtonTemplate2" text="YES">
+                                <Size>
+                                    <AbsDimension x="153" y="22"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPRIGHT" relativeTo="$parentDescription" relativePoint="BOTTOM">
+                                        <Offset>
+                                            <AbsDimension x="-5" y="-10"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        StaticPopup_Hide("LFG_OFFER_CONTINUE")
+                                        PartyLFGStartBackfill();
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentNoBackfillButton" parentKey="StopButton"
+                                    inherits="UIPanelButtonTemplate2" text="HIDE">
+                                <Size>
+                                    <AbsDimension x="153" y="22"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentDescription" relativePoint="BOTTOM">
+                                        <Offset>
+                                            <AbsDimension x="5" y="-10"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound("UChatScrollButton")
+                                        self:GetParent():Hide()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+
+                        <Scripts>
+                            <OnShow>
+                                self:GetParent():UpdateQueueButton()
+                            </OnShow>
+                            <OnHide>
+                                self:GetParent():UpdateQueueButton()
+                            </OnHide>
+                            <OnLoad>
+                                self:SetFrameLevel(self:GetParent():GetFrameLevel()+14)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentNoLFDWhileLFR" parentKey="NoLFDWhileLFR" hidden="true" enableMouse="true">
+                        <Size>
+                            <AbsDimension x="330" y="257"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT">
+                                <Offset>
+                                    <AbsDimension x="-7" y="28"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBlackFilter" setAllPoints="true">
+                                    <Color r="0" b="0" g="0" a="0.93"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentDescription" inherits="GameFontNormal" text="NO_LFD_WHILE_LFR"
+                                            justifyH="CENTER">
+                                    <Size>
+                                        <AbsDimension x="300" y="0"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="TOP">
+                                            <Offset>
+                                                <AbsDimension x="-0" y="-70"/>
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Frames>
+                            <Button name="$parentLeaveQueueButton" parentKey="LeaveQueue"
+                                    inherits="UIPanelButtonTemplate2" text="LIST_ME">
+                                <Size>
+                                    <AbsDimension x="153" y="22"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOP" relativeTo="$parentDescription" relativePoint="BOTTOM">
+                                        <Offset>
+                                            <AbsDimension x="0" y="-10"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        LeaveLFG()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                self:SetFrameLevel(self:GetParent():GetFrameLevel()+16)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Button name="$parentFindGroupButton" parentKey="QueueButton" inherits="UIPanelButtonTemplate2" text="FIND_A_GROUP" motionScriptsWhileDisabled="true">
+                        <Size>
+                            <AbsDimension x="135" y="22"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                local mode, subMode = GetLFGMode()
+                                if mode == "queued" or mode == "listed" or mode == "rolecheck" then
+                                LeaveLFG()
+                                else
+                                self:GetParent():Join()
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                LFDQueueFrameFindGroupButton_OnEnter(self)
+                            </OnEnter>
+                            <OnLeave>
+                                LFDQueueFrameFindGroupButton_OnLeave(self)
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "LFDFrameMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PVEFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="LFDLeaveFrame" parent="UIParent" inherits="LeaveActivityTemplate">
+        <Anchors>
+            <Anchor point="TOP" x="0" y="-32"/>
+        </Anchors>
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-4" y="-4"/>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "LFDLeaveMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

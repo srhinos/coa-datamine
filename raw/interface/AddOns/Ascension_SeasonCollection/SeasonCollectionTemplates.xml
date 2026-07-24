@@ -1,0 +1,289 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    
+    <AnimationGroup name="SeasonRewardRotateGlowTemplate" looping="REPEAT" virtual="true">
+        <Rotation order="1" duration="60" endDelay="0" degrees="-360"/>
+    </AnimationGroup>
+
+    <Button name="SeasonTierTemplate" motionScriptsWhileDisabled="true" frameLevel="10" virtual="true">
+        <Size x="96" y="96"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Selected" hidden="true" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="CENTER" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="BORDER">
+                <Texture parentKey="Icon">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="MetalBorder">
+                    <Anchors>
+                        <Anchor point="CENTER" y="-1"/>
+                    </Anchors>
+                    
+                    <Color r="0.4" g="0.4" b="0.4"/>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture parentKey="UnlockedBorder" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER" y="-1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="Locked" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentUnlockSpark" parentKey="UnlockSpark" alphaMode="ADD" hidden="true">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Alpha order="1" duration="1" change="-1"/>
+                            <Scale order="1" scaleX="6" scaleY="6" duration="1" smoothing="OUT"/>
+
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+                
+                <Texture name="$parentUnlockGlow" parentKey="UnlockGlow" alphaMode="ADD" hidden="true">
+                    <Size x="82" y="82"/>
+                    
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Alpha order="2" duration="0.3" change="1"/>
+                            <Alpha order="3" duration="0.7" change="-1"/>
+
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentRewardOverlay" parentKey="RewardOverlay">
+                <Size x="64" y="32"/>
+                
+                <Anchors>
+                    <Anchor point="BOTTOM"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" file="Interface\AddOns\AwAddons\Textures\Collections\DragonHighlight_green">
+                            <Size x="72" y="72"/>
+                            
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" inherits="SeasonRewardRotateGlowTemplate"/>
+                            </Animations>
+
+                            <Color r="0" g="1" b="0"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentText" parentKey="Text" inherits="NumberFontNormal">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, SeasonTierMixin)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnEnable>
+                self:OnEnable()
+            </OnEnable>
+            <OnDisable>
+                self:OnDisable()
+            </OnDisable>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+        </Scripts>
+    </Button>
+    
+    <Frame name="SeasonInfoTemplate" virtual="true">
+        <Size x="298" y="100"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+                    <Size x="428" y="132"/>
+                    
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="48" y="48"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="56" y="56"/>
+                    
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-2"/>
+                    </Anchors>
+                </Texture>
+                
+                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontHighlightLarge">
+                    <Size x="230" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="12" y="12"/>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentDescription" parentKey="Description" justifyH="LEFT" inherits="GameFontNormal">
+                    <Size x="230" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-4"/>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, SeasonInfoMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="SeasonTaskTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="0" y="66"/>
+        
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="38" y="38"/>
+                    
+                    <Anchors>
+                        <Anchor point="LEFT" x="12"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentRewardBackground" parentKey="RewardBackground">
+                    <Size x="220" y="32"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="48" y="48"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentCompleteCheck" parentKey="CompleteCheck">
+                    <Size x="26" y="29"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentRewardText" parentKey="RewardText" inherits="GameFontHighlightExtraSmall">
+                    <Size x="208"/>
+
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontHighlightExtraSmall" maxLines="4" justifyV="TOP" justifyH="LEFT">
+            <Size x="0" y="66"/>
+
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="6" y="5"/>
+                <Anchor point="RIGHT" x="-4" y="0"/>
+            </Anchors>
+        </ButtonText>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, SeasonTaskMixin)
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

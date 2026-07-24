@@ -1,0 +1,187 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="HelpPlate.lua"/>
+
+    <Button name="HelpPlateButtonTemplate" frameLevel = "100" virtual="true">
+        <Size x="64" y="64"/>
+
+        <HitRectInsets>
+			<AbsInset left="20" right="20" top="20" bottom="20"/>
+		</HitRectInsets>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture parentKey="Ring" file="Interface\Minimap\MiniMap-TrackingBorder">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="CENTER" x="12" y="-13"/>
+					</Anchors>
+				</Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+				<Texture parentKey="IGlow" name="$parentIGlow" file="Interface\common\help-i" alphaMode="ADD" hidden="true">
+					<Size x="46" y="46"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Glow" name="$parentGlow" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" alphaMode="ADD" hidden="true">
+					<Size x="46" y="46"/>
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+        </Layers>
+
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight">
+			<Size x="46" y="46"/>
+			<Anchors>
+				<Anchor point="CENTER" x="-1" y="1"/>
+			</Anchors>
+		</HighlightTexture>
+
+        <NormalTexture file="Interface\COMMON\help-i">
+            <Size x="46" y="46"/>
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </NormalTexture>
+
+        <PushedTexture file="Interface\COMMON\help-i">
+            <Size x="46" y="46"/>
+            <Anchors>
+                <Anchor point="CENTER" x="-1" y="-1"/>
+            </Anchors>
+            <Color r="0.6" g="0.6" b="0.6" a="1"/>
+        </PushedTexture>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "HelpPlateButtonMixin")
+                self:OnLoad()
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+			<OnEnter>
+                self:OnEnter()
+            </OnEnter>
+			<OnLeave>
+                self:OnLeave()
+            </OnLeave>
+			<OnMouseUp>
+				PlaySound("igMainMenuOptionCheckBoxOn");
+			</OnMouseUp>
+			<OnHide>
+                self:OnHide()
+            </OnHide>
+            <OnClick>
+                self:OnClick()
+            </OnClick>
+		</Scripts>
+    </Button>
+
+    <Frame name="HelpPlateFlyoutTemplate" virtual="true" frameStrata="FULLSCREEN_DIALOG" toplevel="true" hidden="true">
+		<Size x="46" y="46"/>
+
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="I" alpha="1" alphaMode="BLEND" file="Interface\common\help-i"/>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<Texture parentKey="IGlow" hidden="true" alpha="1" alphaMode="ADD" file="Interface\common\help-i"/>
+				<Texture parentKey="Glow" hidden="true" alpha="1" alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+                <Texture parentKey="Highlight" hidden="true" alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight">
+                    <Size x="46" y="46"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER" x="-1" y="-1"/>
+                    </Anchors>
+                </Texture>
+			</Layer>
+		</Layers>
+
+		<Animations>
+			<AnimationGroup parentKey="AnimStart">
+				<Translation parentKey="TStart" offsetX="0" offsetY="0" duration="0" order="1"/>
+				<Alpha change="-1" duration="0" order="1"/>
+				<Alpha change="1" duration="0.4" order="2" smoothing="IN"/>
+				<Translation parentKey="TEnd" offsetX="0" offsetY="0" duration="0.5" order="2" smoothing="OUT"/>
+			</AnimationGroup>
+		</Animations>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "HelpPlateFlyoutMixin")
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+        </Scripts>
+	</Frame>
+
+    <Button name="HelpPlateTemplate" frameStrata="FULLSCREEN_DIALOG" virtual="true" hidden="true">
+		<Size x="200" y="200"/>
+
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture parentKey="BG">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<Color r="0" g="0" b="0" a="0.7"/>
+				</Texture>
+			</Layer>
+		</Layers>
+
+        <Frames>
+            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate">
+                <Attributes>
+                    <Attribute name="layoutType" value="HelpGlowSmall" type="string"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-2" y="2"/>
+                    <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                </Anchors>
+            </Frame>
+            <Frame name="$parentGlow" parentKey="Glow" inherits="NineSlicePanelTemplate" frameLevel="11" hidden="true">
+                <Attributes>
+                    <Attribute name="layoutType" value="HelpGlowHighlight" type="string"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-6" y="6"/>
+                    <Anchor point="BOTTOMRIGHT" x="6" y="-6"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentFlyout" parentKey="Flyout" inherits="HelpPlateFlyoutTemplate">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+		<Scripts>
+			<OnLoad>
+                Mixin(self, "HelpPlateMixin")
+            </OnLoad>
+			<OnEnter>
+                self:OnEnter()
+                self.Glow:Show()
+            </OnEnter>
+			<OnLeave>
+                self:OnLeave()
+                self.Glow:Hide()
+            </OnLeave>
+            <OnHide>
+                self:ClearAllPoints()
+            </OnHide>
+		</Scripts>
+	</Button>
+</Ui>

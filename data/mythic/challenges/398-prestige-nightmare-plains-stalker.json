@@ -1,0 +1,33 @@
+{
+ "conditions": [],
+ "description": "Cats have 9 lives, you have 1. Even if you play cat. Sorry.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":54,"id":1407,"reward":null},
+  {"f2":63,"id":1408,"reward":null},
+  {"f2":80,"id":1409,"reward":null}
+ ],
+ "iconToken": "_DeathCoil_Color_Purple",
+ "id": 398,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":1136}
+ ],
+ "modeToken": "nightmare",
+ "modifiers": [],
+ "name": "Prestige - Nightmare - Plains Stalker",
+ "requirements": [
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1163468800,"f6":1101004800,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"},
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1163464704,"f6":1101004800,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"},
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1163460608,"f6":1101004800,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"},
+  {"description":"You must complete the challenge without dying |cffffffff%1$d|r or more times.","f2":0,"f3":1,"f5":1077936128,"f6":0,"f7":0,"f8":10000,"name":"%1$d |4Life:Lives;","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_COMPLETE_WITHOUT_DEATH"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot gain experience from professions.","f2":0,"f3":1,"name":"No Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_PROFESSION_EXPERIENCE"},
+  {"description":"You cannot level past any level-based challenge requirements.","f2":0,"f3":1,"name":"You will not level past requirements","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_LEVEL_PAST_REQUIREMENTS"}
+ ],
+ "spells": [
+  {"name":"Nightmare - Plains Stalker","spellId":93174}
+ ]
+}

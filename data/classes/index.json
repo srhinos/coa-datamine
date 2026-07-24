@@ -1,729 +1,82 @@
 {
  "chrClasses": [
-  {
-   "id": 1,
-   "name": "Warrior",
-   "powerType": 1
-  },
-  {
-   "id": 2,
-   "name": "Paladin",
-   "powerType": 0
-  },
-  {
-   "id": 3,
-   "name": "Hunter",
-   "powerType": 0
-  },
-  {
-   "id": 4,
-   "name": "Rogue",
-   "powerType": 3
-  },
-  {
-   "id": 5,
-   "name": "Priest",
-   "powerType": 0
-  },
-  {
-   "id": 6,
-   "name": "Death Knight",
-   "powerType": 6
-  },
-  {
-   "id": 7,
-   "name": "Shaman",
-   "powerType": 0
-  },
-  {
-   "id": 8,
-   "name": "Mage",
-   "powerType": 0
-  },
-  {
-   "id": 9,
-   "name": "Warlock",
-   "powerType": 0
-  },
-  {
-   "id": 10,
-   "name": "Hero",
-   "powerType": 0
-  },
-  {
-   "id": 11,
-   "name": "Druid",
-   "powerType": 0
-  },
-  {
-   "id": 12,
-   "name": "Barbarian",
-   "powerType": 3
-  },
-  {
-   "id": 13,
-   "name": "Witch Doctor",
-   "powerType": 0
-  },
-  {
-   "id": 14,
-   "name": "Felsworn",
-   "powerType": 3
-  },
-  {
-   "id": 15,
-   "name": "Witch Hunter",
-   "powerType": 0
-  },
-  {
-   "id": 16,
-   "name": "Stormbringer",
-   "powerType": 0
-  },
-  {
-   "id": 17,
-   "name": "Knight of Xoroth",
-   "powerType": 1
-  },
-  {
-   "id": 18,
-   "name": "Guardian",
-   "powerType": 3
-  },
-  {
-   "id": 19,
-   "name": "Templar",
-   "powerType": 3
-  },
-  {
-   "id": 20,
-   "name": "Bloodmage",
-   "powerType": 1
-  },
-  {
-   "id": 21,
-   "name": "Ranger",
-   "powerType": 2
-  },
-  {
-   "id": 22,
-   "name": "Chronomancer",
-   "powerType": 0
-  },
-  {
-   "id": 23,
-   "name": "Necromancer",
-   "powerType": 6
-  },
-  {
-   "id": 24,
-   "name": "Pyromancer",
-   "powerType": 0
-  },
-  {
-   "id": 25,
-   "name": "Cultist",
-   "powerType": 0
-  },
-  {
-   "id": 26,
-   "name": "Starcaller",
-   "powerType": 3
-  },
-  {
-   "id": 27,
-   "name": "Sun Cleric",
-   "powerType": 0
-  },
-  {
-   "id": 28,
-   "name": "Tinker",
-   "powerType": 0
-  },
-  {
-   "id": 29,
-   "name": "Venomancer",
-   "powerType": 0
-  },
-  {
-   "id": 30,
-   "name": "Reaper",
-   "powerType": 6
-  },
-  {
-   "id": 31,
-   "name": "Primalist",
-   "powerType": 0
-  },
-  {
-   "id": 32,
-   "name": "Runemaster",
-   "powerType": 0
-  }
+  {"id":1,"name":"Warrior","powerType":1},
+  {"id":2,"name":"Paladin","powerType":0},
+  {"id":3,"name":"Hunter","powerType":0},
+  {"id":4,"name":"Rogue","powerType":3},
+  {"id":5,"name":"Priest","powerType":0},
+  {"id":6,"name":"Death Knight","powerType":6},
+  {"id":7,"name":"Shaman","powerType":0},
+  {"id":8,"name":"Mage","powerType":0},
+  {"id":9,"name":"Warlock","powerType":0},
+  {"id":10,"name":"Hero","powerType":0},
+  {"id":11,"name":"Druid","powerType":0},
+  {"id":12,"name":"Barbarian","powerType":3},
+  {"id":13,"name":"Witch Doctor","powerType":0},
+  {"id":14,"name":"Felsworn","powerType":3},
+  {"id":15,"name":"Witch Hunter","powerType":0},
+  {"id":16,"name":"Stormbringer","powerType":0},
+  {"id":17,"name":"Knight of Xoroth","powerType":1},
+  {"id":18,"name":"Guardian","powerType":3},
+  {"id":19,"name":"Templar","powerType":3},
+  {"id":20,"name":"Bloodmage","powerType":1},
+  {"id":21,"name":"Ranger","powerType":2},
+  {"id":22,"name":"Chronomancer","powerType":0},
+  {"id":23,"name":"Necromancer","powerType":6},
+  {"id":24,"name":"Pyromancer","powerType":0},
+  {"id":25,"name":"Cultist","powerType":0},
+  {"id":26,"name":"Starcaller","powerType":3},
+  {"id":27,"name":"Sun Cleric","powerType":0},
+  {"id":28,"name":"Tinker","powerType":0},
+  {"id":29,"name":"Venomancer","powerType":0},
+  {"id":30,"name":"Reaper","powerType":6},
+  {"id":31,"name":"Primalist","powerType":0},
+  {"id":32,"name":"Runemaster","powerType":0}
  ],
  "classes": [
-  {
-   "classId": 12,
-   "entryCounts": {
-    "Ability": 271,
-    "Talent": 110,
-    "TalentAbility": 6
-   },
-   "file": "Barbarian.json",
-   "name": "Barbarian",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 11
-  },
-  {
-   "classId": 22,
-   "entryCounts": {
-    "Ability": 310,
-    "Talent": 117,
-    "TalentAbility": 7
-   },
-   "file": "Chronomancer.json",
-   "name": "Chronomancer",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 29
-  },
-  {
-   "classId": 25,
-   "entryCounts": {
-    "Ability": 289,
-    "Talent": 117,
-    "TalentAbility": 9
-   },
-   "file": "Cultist.json",
-   "name": "Cultist",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 30
-  },
-  {
-   "classId": 6,
-   "entryCounts": {
-    "Ability": 68,
-    "Talent": 68,
-    "TalentAbility": 40
-   },
-   "file": "DeathKnight.json",
-   "name": "DeathKnight",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": null,
-   "entryCounts": {
-    "Ability": 255,
-    "Talent": 110,
-    "TalentAbility": 4
-   },
-   "file": "DemonHunter.json",
-   "name": "DemonHunter",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 36
-  },
-  {
-   "classId": 11,
-   "entryCounts": {
-    "Ability": 136,
-    "Talent": 144,
-    "TalentAbility": 28
-   },
-   "file": "Druid.json",
-   "name": "Druid",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 18,
-   "entryCounts": {
-    "Ability": 266,
-    "Talent": 103,
-    "TalentAbility": 5
-   },
-   "file": "Guardian.json",
-   "name": "Guardian",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 16
-  },
-  {
-   "classId": 3,
-   "entryCounts": {
-    "Ability": 126,
-    "Talent": 144,
-    "TalentAbility": 26
-   },
-   "file": "Hunter.json",
-   "name": "Hunter",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 17,
-   "entryCounts": {
-    "Ability": 263,
-    "Talent": 112,
-    "TalentAbility": 4
-   },
-   "file": "KnightOfXoroth.json",
-   "name": "KnightOfXoroth",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 19
-  },
-  {
-   "classId": 8,
-   "entryCounts": {
-    "Ability": 112,
-    "Talent": 146,
-    "TalentAbility": 30
-   },
-   "file": "Mage.json",
-   "name": "Mage",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": null,
-   "entryCounts": {
-    "Ability": 252,
-    "Talent": 116,
-    "TalentAbility": 9
-   },
-   "file": "Monk.json",
-   "name": "Monk",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 12
-  },
-  {
-   "classId": 23,
-   "entryCounts": {
-    "Ability": 299,
-    "Talent": 125,
-    "TalentAbility": 3
-   },
-   "file": "Necromancer.json",
-   "name": "Necromancer",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 33
-  },
-  {
-   "classId": 2,
-   "entryCounts": {
-    "Ability": 141,
-    "Talent": 132,
-    "TalentAbility": 32
-   },
-   "file": "Paladin.json",
-   "name": "Paladin",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 6
-  },
-  {
-   "classId": 5,
-   "entryCounts": {
-    "Ability": 82,
-    "Talent": 140,
-    "TalentAbility": 30
-   },
-   "file": "Priest.json",
-   "name": "Priest",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 31,
-   "entryCounts": {
-    "Ability": 280,
-    "Talent": 116,
-    "TalentAbility": 6
-   },
-   "file": "Primalist.json",
-   "name": "Primalist",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 21
-  },
-  {
-   "classId": 24,
-   "entryCounts": {
-    "Ability": 270,
-    "Talent": 113,
-    "TalentAbility": 6
-   },
-   "file": "Pyromancer.json",
-   "name": "Pyromancer",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 27
-  },
-  {
-   "classId": 21,
-   "entryCounts": {
-    "Ability": 273,
-    "Talent": 114,
-    "TalentAbility": 6
-   },
-   "file": "Ranger.json",
-   "name": "Ranger",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 21
-  },
-  {
-   "classId": 30,
-   "entryCounts": {
-    "Ability": 253,
-    "Talent": 107,
-    "TalentAbility": 4
-   },
-   "file": "Reaper.json",
-   "name": "Reaper",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 33
-  },
-  {
-   "classId": 6,
-   "entryCounts": {
-    "Talent": 68,
-    "TalentAbility": 20,
-    "Trait": 231
-   },
-   "file": "RebornDeathKnight.json",
-   "name": "RebornDeathKnight",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 11,
-   "entryCounts": {
-    "Talent": 71,
-    "TalentAbility": 14,
-    "Trait": 1474
-   },
-   "file": "RebornDruid.json",
-   "name": "RebornDruid",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 935
-  },
-  {
-   "classId": null,
-   "entryCounts": {
-    "Trait": 65
-   },
-   "file": "RebornGeneral.json",
-   "name": "RebornGeneral",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 3,
-   "entryCounts": {
-    "Talent": 67,
-    "TalentAbility": 14,
-    "Trait": 1194
-   },
-   "file": "RebornHunter.json",
-   "name": "RebornHunter",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 714
-  },
-  {
-   "classId": 8,
-   "entryCounts": {
-    "Talent": 71,
-    "TalentAbility": 16,
-    "Trait": 1430
-   },
-   "file": "RebornMage.json",
-   "name": "RebornMage",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 970
-  },
-  {
-   "classId": 2,
-   "entryCounts": {
-    "Talent": 64,
-    "TalentAbility": 14,
-    "Trait": 1232
-   },
-   "file": "RebornPaladin.json",
-   "name": "RebornPaladin",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 846
-  },
-  {
-   "classId": 5,
-   "entryCounts": {
-    "Talent": 67,
-    "TalentAbility": 15,
-    "Trait": 1220
-   },
-   "file": "RebornPriest.json",
-   "name": "RebornPriest",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 756
-  },
-  {
-   "classId": 4,
-   "entryCounts": {
-    "Talent": 70,
-    "TalentAbility": 13,
-    "Trait": 967
-   },
-   "file": "RebornRogue.json",
-   "name": "RebornRogue",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 445
-  },
-  {
-   "classId": 7,
-   "entryCounts": {
-    "Talent": 67,
-    "TalentAbility": 13,
-    "Trait": 1118
-   },
-   "file": "RebornShaman.json",
-   "name": "RebornShaman",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 650
-  },
-  {
-   "classId": 9,
-   "entryCounts": {
-    "Talent": 68,
-    "TalentAbility": 13,
-    "Trait": 1638
-   },
-   "file": "RebornWarlock.json",
-   "name": "RebornWarlock",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 1090
-  },
-  {
-   "classId": 1,
-   "entryCounts": {
-    "Talent": 71,
-    "TalentAbility": 14,
-    "Trait": 1088
-   },
-   "file": "RebornWarrior.json",
-   "name": "RebornWarrior",
-   "realmHint": "Bronzebeard - Warcraft Reborn",
-   "tag": "reborn",
-   "unresolvedCount": 713
-  },
-  {
-   "classId": 4,
-   "entryCounts": {
-    "Ability": 97,
-    "Talent": 140,
-    "TalentAbility": 26
-   },
-   "file": "Rogue.json",
-   "name": "Rogue",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 32,
-   "entryCounts": {
-    "Ability": 299,
-    "Talent": 120,
-    "TalentAbility": 5
-   },
-   "file": "Runemaster.json",
-   "name": "Runemaster",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 53
-  },
-  {
-   "classId": 7,
-   "entryCounts": {
-    "Ability": 173,
-    "Talent": 144,
-    "TalentAbility": 28
-   },
-   "file": "Shaman.json",
-   "name": "Shaman",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": null,
-   "entryCounts": {
-    "Ability": 264,
-    "Talent": 121,
-    "TalentAbility": 3
-   },
-   "file": "SonOfArugal.json",
-   "name": "SonOfArugal",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 28
-  },
-  {
-   "classId": 26,
-   "entryCounts": {
-    "Ability": 286,
-    "Talent": 125,
-    "TalentAbility": 5
-   },
-   "file": "Starcaller.json",
-   "name": "Starcaller",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 11
-  },
-  {
-   "classId": 16,
-   "entryCounts": {
-    "Ability": 244,
-    "Talent": 117,
-    "TalentAbility": 7
-   },
-   "file": "Stormbringer.json",
-   "name": "Stormbringer",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 17
-  },
-  {
-   "classId": 27,
-   "entryCounts": {
-    "Ability": 278,
-    "Talent": 131,
-    "TalentAbility": 5
-   },
-   "file": "SunCleric.json",
-   "name": "SunCleric",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 26
-  },
-  {
-   "classId": 28,
-   "entryCounts": {
-    "Ability": 286,
-    "Talent": 118,
-    "TalentAbility": 8
-   },
-   "file": "Tinker.json",
-   "name": "Tinker",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 38
-  },
-  {
-   "classId": 29,
-   "entryCounts": {
-    "Ability": 273,
-    "Talent": 119,
-    "TalentAbility": 12
-   },
-   "file": "Venomancer.json",
-   "name": "Venomancer",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 30
-  },
-  {
-   "classId": 9,
-   "entryCounts": {
-    "Ability": 134,
-    "Talent": 140,
-    "TalentAbility": 28
-   },
-   "file": "Warlock.json",
-   "name": "Warlock",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 12
-  },
-  {
-   "classId": 1,
-   "entryCounts": {
-    "Ability": 111,
-    "Talent": 153,
-    "TalentAbility": 30
-   },
-   "file": "Warrior.json",
-   "name": "Warrior",
-   "realmHint": "Area 52 - Free-Pick /shared",
-   "tag": "vanilla",
-   "unresolvedCount": 0
-  },
-  {
-   "classId": 13,
-   "entryCounts": {
-    "Ability": 274,
-    "Talent": 120,
-    "TalentAbility": 9
-   },
-   "file": "WitchDoctor.json",
-   "name": "WitchDoctor",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 55
-  },
-  {
-   "classId": 15,
-   "entryCounts": {
-    "Ability": 270,
-    "Talent": 116,
-    "TalentAbility": 6
-   },
-   "file": "WitchHunter.json",
-   "name": "WitchHunter",
-   "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
-   "tag": "coa-custom",
-   "unresolvedCount": 27
-  },
-  {
-   "classId": null,
-   "entryCounts": {
-    "Ability": 18,
-    "None": 4,
-    "Talent": 40
-   },
-   "file": "_other.json",
-   "name": "_other",
-   "realmHint": null,
-   "tag": "meta",
-   "unresolvedCount": 0
-  }
+  {"classId":12,"dir":"Barbarian/","entryCounts":{"Ability":271,"Talent":110,"TalentAbility":6},"index":"Barbarian/index.json","name":"Barbarian","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":11},
+  {"classId":22,"dir":"Chronomancer/","entryCounts":{"Ability":310,"Talent":117,"TalentAbility":7},"index":"Chronomancer/index.json","name":"Chronomancer","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":29},
+  {"classId":25,"dir":"Cultist/","entryCounts":{"Ability":289,"Talent":117,"TalentAbility":9},"index":"Cultist/index.json","name":"Cultist","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":30},
+  {"classId":6,"dir":"DeathKnight/","entryCounts":{"Ability":68,"Talent":68,"TalentAbility":40},"index":"DeathKnight/index.json","name":"DeathKnight","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":null,"dir":"DemonHunter/","entryCounts":{"Ability":255,"Talent":110,"TalentAbility":4},"index":"DemonHunter/index.json","name":"DemonHunter","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":36},
+  {"classId":11,"dir":"Druid/","entryCounts":{"Ability":136,"Talent":144,"TalentAbility":28},"index":"Druid/index.json","name":"Druid","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":18,"dir":"Guardian/","entryCounts":{"Ability":266,"Talent":103,"TalentAbility":5},"index":"Guardian/index.json","name":"Guardian","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":16},
+  {"classId":3,"dir":"Hunter/","entryCounts":{"Ability":126,"Talent":144,"TalentAbility":26},"index":"Hunter/index.json","name":"Hunter","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":17,"dir":"KnightOfXoroth/","entryCounts":{"Ability":263,"Talent":112,"TalentAbility":4},"index":"KnightOfXoroth/index.json","name":"KnightOfXoroth","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":19},
+  {"classId":8,"dir":"Mage/","entryCounts":{"Ability":112,"Talent":146,"TalentAbility":30},"index":"Mage/index.json","name":"Mage","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":null,"dir":"Monk/","entryCounts":{"Ability":252,"Talent":116,"TalentAbility":9},"index":"Monk/index.json","name":"Monk","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":12},
+  {"classId":23,"dir":"Necromancer/","entryCounts":{"Ability":299,"Talent":125,"TalentAbility":3},"index":"Necromancer/index.json","name":"Necromancer","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":33},
+  {"classId":2,"dir":"Paladin/","entryCounts":{"Ability":141,"Talent":132,"TalentAbility":32},"index":"Paladin/index.json","name":"Paladin","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":6},
+  {"classId":5,"dir":"Priest/","entryCounts":{"Ability":82,"Talent":140,"TalentAbility":30},"index":"Priest/index.json","name":"Priest","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":31,"dir":"Primalist/","entryCounts":{"Ability":280,"Talent":116,"TalentAbility":6},"index":"Primalist/index.json","name":"Primalist","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":15},
+  {"classId":24,"dir":"Pyromancer/","entryCounts":{"Ability":270,"Talent":113,"TalentAbility":6},"index":"Pyromancer/index.json","name":"Pyromancer","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":27},
+  {"classId":21,"dir":"Ranger/","entryCounts":{"Ability":273,"Talent":114,"TalentAbility":6},"index":"Ranger/index.json","name":"Ranger","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":18},
+  {"classId":30,"dir":"Reaper/","entryCounts":{"Ability":253,"Talent":107,"TalentAbility":4},"index":"Reaper/index.json","name":"Reaper","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":30},
+  {"classId":6,"dir":"RebornDeathKnight/","entryCounts":{"Talent":68,"TalentAbility":20,"Trait":231},"index":"RebornDeathKnight/index.json","name":"RebornDeathKnight","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":0},
+  {"classId":11,"dir":"RebornDruid/","entryCounts":{"Talent":71,"TalentAbility":14,"Trait":1474},"index":"RebornDruid/index.json","name":"RebornDruid","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":935},
+  {"classId":null,"dir":"RebornGeneral/","entryCounts":{"Trait":65},"index":"RebornGeneral/index.json","name":"RebornGeneral","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":0},
+  {"classId":3,"dir":"RebornHunter/","entryCounts":{"Talent":67,"TalentAbility":14,"Trait":1194},"index":"RebornHunter/index.json","name":"RebornHunter","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":714},
+  {"classId":8,"dir":"RebornMage/","entryCounts":{"Talent":71,"TalentAbility":16,"Trait":1430},"index":"RebornMage/index.json","name":"RebornMage","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":970},
+  {"classId":2,"dir":"RebornPaladin/","entryCounts":{"Talent":64,"TalentAbility":14,"Trait":1232},"index":"RebornPaladin/index.json","name":"RebornPaladin","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":846},
+  {"classId":5,"dir":"RebornPriest/","entryCounts":{"Talent":67,"TalentAbility":15,"Trait":1220},"index":"RebornPriest/index.json","name":"RebornPriest","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":756},
+  {"classId":4,"dir":"RebornRogue/","entryCounts":{"Talent":70,"TalentAbility":13,"Trait":967},"index":"RebornRogue/index.json","name":"RebornRogue","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":445},
+  {"classId":7,"dir":"RebornShaman/","entryCounts":{"Talent":67,"TalentAbility":13,"Trait":1118},"index":"RebornShaman/index.json","name":"RebornShaman","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":650},
+  {"classId":9,"dir":"RebornWarlock/","entryCounts":{"Talent":68,"TalentAbility":13,"Trait":1638},"index":"RebornWarlock/index.json","name":"RebornWarlock","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":1090},
+  {"classId":1,"dir":"RebornWarrior/","entryCounts":{"Talent":71,"TalentAbility":14,"Trait":1088},"index":"RebornWarrior/index.json","name":"RebornWarrior","realmHint":"Bronzebeard - Warcraft Reborn","tag":"reborn","unresolvedCount":713},
+  {"classId":4,"dir":"Rogue/","entryCounts":{"Ability":97,"Talent":140,"TalentAbility":26},"index":"Rogue/index.json","name":"Rogue","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":32,"dir":"Runemaster/","entryCounts":{"Ability":299,"Talent":120,"TalentAbility":5},"index":"Runemaster/index.json","name":"Runemaster","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":53},
+  {"classId":7,"dir":"Shaman/","entryCounts":{"Ability":173,"Talent":144,"TalentAbility":28},"index":"Shaman/index.json","name":"Shaman","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":null,"dir":"SonOfArugal/","entryCounts":{"Ability":264,"Talent":121,"TalentAbility":3},"index":"SonOfArugal/index.json","name":"SonOfArugal","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":25},
+  {"classId":26,"dir":"Starcaller/","entryCounts":{"Ability":286,"Talent":125,"TalentAbility":5},"index":"Starcaller/index.json","name":"Starcaller","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":11},
+  {"classId":16,"dir":"Stormbringer/","entryCounts":{"Ability":244,"Talent":117,"TalentAbility":7},"index":"Stormbringer/index.json","name":"Stormbringer","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":14},
+  {"classId":27,"dir":"SunCleric/","entryCounts":{"Ability":278,"Talent":131,"TalentAbility":5},"index":"SunCleric/index.json","name":"SunCleric","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":26},
+  {"classId":28,"dir":"Tinker/","entryCounts":{"Ability":286,"Talent":118,"TalentAbility":8},"index":"Tinker/index.json","name":"Tinker","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":38},
+  {"classId":29,"dir":"Venomancer/","entryCounts":{"Ability":273,"Talent":119,"TalentAbility":12},"index":"Venomancer/index.json","name":"Venomancer","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":30},
+  {"classId":9,"dir":"Warlock/","entryCounts":{"Ability":134,"Talent":140,"TalentAbility":28},"index":"Warlock/index.json","name":"Warlock","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":12},
+  {"classId":1,"dir":"Warrior/","entryCounts":{"Ability":111,"Talent":153,"TalentAbility":30},"index":"Warrior/index.json","name":"Warrior","realmHint":"Area 52 - Free-Pick /shared","tag":"vanilla","unresolvedCount":0},
+  {"classId":13,"dir":"WitchDoctor/","entryCounts":{"Ability":274,"Talent":120,"TalentAbility":9},"index":"WitchDoctor/index.json","name":"WitchDoctor","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":55},
+  {"classId":15,"dir":"WitchHunter/","entryCounts":{"Ability":270,"Talent":116,"TalentAbility":6},"index":"WitchHunter/index.json","name":"WitchHunter","realmHint":"Rexxar/Vol'jin - Conquest of Azeroth","tag":"coa-custom","unresolvedCount":27},
+  {"classId":null,"dir":"_other/","entryCounts":{"Ability":18,"None":4,"Talent":40},"index":"_other/index.json","name":"_other","realmHint":null,"tag":"meta","unresolvedCount":0}
  ],
- "unmatchedChrClasses": [
-  "Bloodmage",
-  "Felsworn",
-  "Hero",
-  "Templar"
- ]
+ "unmatchedChrClasses": ["Bloodmage","Felsworn","Hero","Templar"]
 }

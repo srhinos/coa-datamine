@@ -1,0 +1,3374 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	
+	<Script file="SharedPanelTemplates.lua"/>
+
+	<Texture name="RedButtonUpTexture" file="Interface\Glues\CharacterCreate\RedButtonUp" virtual="true">
+		<TexCoords left="0.109375" right="0.88671875" top="0.265625" bottom="0.7265625"/>
+	</Texture>
+	<Texture name="RedButtonDownTexture" file="Interface\Glues\CharacterCreate\RedButtonDown" virtual="true">
+		<TexCoords left="0.109375" right="0.88671875" top="0.265625" bottom="0.7265625"/>
+	</Texture>
+	<Texture name="RedButtonDisableTexture" file="Interface\Glues\CharacterCreate\RedButtonDisable" virtual="true">
+		<TexCoords left="0.109375" right="0.88671875" top="0.265625" bottom="0.7265625"/>
+	</Texture>
+	<Texture name="RedButtonHighlightTexture" file="Interface\Glues\CharacterCreate\RedButtonHighlight" alphaMode="ADD" virtual="true">
+		<TexCoords left="0.109375" right="0.88671875" top="0.265625" bottom="0.7265625"/>
+	</Texture>
+	<Texture name="BlueButtonUpTexture" file="Interface\Glues\Common\Glue-Panel-Button-Up-Blue" virtual="true">
+		<TexCoords left="0" right="0.578125" top="0" bottom="0.75"/>
+	</Texture>
+	<Texture name="BlueButtonDownTexture" file="Interface\Glues\Common\Glue-Panel-Button-Down-Blue" virtual="true">
+		<TexCoords left="0" right="0.578125" top="0" bottom="0.75"/>
+	</Texture>
+	<Texture name="BlueButtonHighlightTexture" file="Interface\Glues\Common\Glue-Panel-Button-Highlight-Blue" alphaMode="ADD" virtual="true">
+		<TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+	</Texture>
+	<!--
+	*******************************************************************************
+	    NineSlicePanelTemplate
+		Template for creating NineSlice borders on a frame
+	*******************************************************************************
+	-->
+    <Frame name="NineSlicePanelTemplate" frameLevel="10" setAllPoints="true" virtual="true">
+		<!--<Attributes>
+			<Attribute name="useParentLevel" value="true" type="boolean"/>
+		</Attributes>-->
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "NineSlicePanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+	<!--
+	*******************************************************************************
+	    NineSlicePanelTemplate2
+		Template for creating NineSlice borders on a frame
+	*******************************************************************************
+	-->
+	<Frame name="NineSlicePanelTemplate2" virtual="true">
+		<!--<Attributes>
+			<Attribute name="useParentLevel" value="true" type="boolean"/>
+		</Attributes>-->
+		<Scripts>
+			<OnLoad>
+				MixinAndLoad(self, "NineSlicePanelMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+	InsetFrameTemplate
+	
+	This is an inner frame
+	*******************************************************************************
+	-->
+	<Frame name="InsetFrameTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+		</Attributes>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Bg" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" setAllPoints="true" inherits="NineSlicePanelTemplate"/>
+		</Frames>
+	</Frame>
+
+	<Frame name="InsetFrameTemplate2" inherits="NineSlicePanelTemplate2" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+		</Attributes>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Bg" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+	InsetFrameBlackBGTemplate
+	
+	This is an inner frame with a black background
+	*******************************************************************************
+	-->
+	<Frame name="InsetFrameBlackBGTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+		</Attributes>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Bg" setAllPoints="true">
+					<Color r="0" g="0" b="0"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" setAllPoints="true" inherits="NineSlicePanelTemplate"/>
+		</Frames>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+		InsetFrameNoBGTemplate
+	
+		This is an inner frame with no BG
+	*******************************************************************************
+	-->
+	<Frame name="InsetFrameNoBGTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+		</Attributes>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" setAllPoints="true" inherits="NineSlicePanelTemplate"/>
+		</Frames>
+	</Frame>
+
+	<Frame name="InsetFrameNoBGTemplate2" inherits="NineSlicePanelTemplate2" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+		</Attributes>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+		Faction Frame Template
+	
+		Frame Template for faction styled frames
+	*******************************************************************************
+	-->
+	<Frame name="FactionFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Header">
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="TOP"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Background" horizTile="true" vertTile="true" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" setAllPoints="true" inherits="NineSlicePanelTemplate">
+				<Attributes>
+					<Attribute name="useParentLevel" value="true" type="boolean"/>
+				</Attributes>
+			</Frame>
+		</Frames>
+		
+		<Scripts>
+			<OnLoad>
+				FactionFrameTemplate_SetToPlayerFaction(self)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+		ShadowOverlayTemplate
+	
+		This is an inner shadow overlay frame that is 72x74
+	*******************************************************************************
+	-->
+	<Frame name="ShadowOverlayTemplate" inherits="NineSlicePanelTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="ShadowOverlay" type="string"/>
+		</Attributes>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+		LargeShadowOverlayTemplate
+	
+		This is an inner shadow overlay frame that is 145x147
+	*******************************************************************************
+	-->
+	<Frame name="LargeShadowOverlayTemplate" inherits="NineSlicePanelTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="LargeShadowOverlay" type="string"/>
+		</Attributes>
+	</Frame>
+
+	<!--
+	*******************************************************************************
+		SmallShadowOverlayTemplate
+	
+		This is an inner shadow overlay frame that is 13x13
+	*******************************************************************************
+	-->
+	<Frame name="SmallShadowOverlayTemplate" inherits="NineSlicePanelTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="SmallShadowOverlay" type="string"/>
+		</Attributes>
+	</Frame>
+
+	<Button name="UIPanelCloseButtonNoScripts" virtual="true">
+		<Size x="32" y="32"/>
+		<Scripts>
+			<OnDisable>
+				self:GetNormalTexture():SetDesaturated(true)
+			</OnDisable>
+			<OnEnable>
+				self:GetNormalTexture():SetDesaturated(false)
+			</OnEnable>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+	</Button>
+
+	<Button name="UIPanelCloseButton" inherits="UIPanelCloseButtonNoScripts" virtual="true">
+		<Scripts>
+			<OnClick>
+				if InGlue() then
+					self:GetParent():Hide()
+				else
+					HideParentPanel(self);
+				end
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<!-- Additional Custom Frame Templates Ported from 9.x -->
+	<Texture name="_UI-Frame-InnerBotTile" file="Interface\FrameGeneral\UIFrameHorizontal" virtual="true">
+		<Size x="256" y="3"/>
+		<TexCoords left="0" right="1" top="0.867188" bottom="0.890625"/>
+	</Texture>
+	<Texture name="_UI-Frame-BtnBotTile" file="Interface\FrameGeneral\UIFrameHorizontal" virtual="true">
+		<Size x="256" y="3"/>
+		<TexCoords left="0" right="1" top="0.828125" bottom="0.851562"/>
+	</Texture>
+	<Texture name="_UI-Frame-Bot" file="Interface\FrameGeneral\UIFrameHorizontal" virtual="true">
+		<Size x="256" y="3"/>
+		<TexCoords left="0" right="1" top="0.742188" bottom="0.8125"/>
+	</Texture>
+	<Texture name="_UI-Frame-TitleTileBg" file="Interface\FrameGeneral\UIFrameHorizontal" virtual="true">
+		<Size x="256" y="18"/>
+		<!-- TODO: Fix asset to fit space, or bake it into all frames -->
+		<TexCoords left="0" right="1" top="0.59375" bottom="0.726562"/>
+	</Texture>
+	<Texture name="_UI-Frame-TopTileStreaks" file="Interface\FrameGeneral\UIFrameHorizontal" virtual="true">
+		<Size x="256" y="43"/>
+		<TexCoords left="0" right="1" top="0.0078125" bottom="0.34375"/>
+	</Texture>
+	<!--
+*******************************************************************************
+    WoodenFrameTemplate
+
+	This is a wooden frame template
+*******************************************************************************
+-->
+	<Frame name="WoodenNeutralFrameTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="WoodenNeutralFrameTemplate" type="string"/>
+		</Attributes>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Bg" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate"/>
+		</Frames>
+	</Frame>
+	<!--
+*******************************************************************************
+   Simple Panel templates
+	Barebones panel templates that can have space for a button bar at the bottom
+	and an inset for content, the inset defaults to being vertically centered
+	with sufficient padding for a bottom row of buttons
+*******************************************************************************
+-->
+	<Frame name="SimplePanelTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="SimplePanelTemplate" type="string"/>
+		</Attributes>
+		<Size x="338" y="424"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-6"/>
+						<Anchor point="BOTTOMRIGHT" x="-2" y="3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="Inset" inherits="InsetFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-26"/>
+					<Anchor point="BOTTOMRIGHT" x="-6" y="26"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate"/>
+		</Frames>
+	</Frame>
+
+	<Frame name="DefaultPanelTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="ButtonFrameTemplateNoPortrait" type="string"/>
+		</Attributes>
+		<Size x="338" y="424"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-21"/>
+						<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTitleBg" parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-2"/>
+						<Anchor point="TOPRIGHT" x="-25" y="-2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentTopTileStreaks" parentKey="TopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-21"/>
+						<Anchor point="TOPRIGHT" x="-2" y="-21"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitleText" inherits="GameFontNormal" parentKey="TitleText" wordwrap="false">
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-5"/>
+						<Anchor point="LEFT" x="60"/>
+						<Anchor point="RIGHT" x="-60"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true"/>
+		</Frames>
+	</Frame>
+
+	<!--
+*******************************************************************************
+    PortraitFrameTemplate
+	This is an empty frame with space for a portrait/icon in the top left corner.
+*******************************************************************************
+-->
+	<Frame name="PortraitFrameTemplateNoCloseButtonNoBackground" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="PortraitFrameTemplate" type="string"/>
+		</Attributes>
+		<Size x="338" y="424"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentTitleBg" parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-3"/>
+						<Anchor point="TOPRIGHT" x="-25" y="-3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentPortrait" parentKey="portrait">
+					<Size x="61" y="61"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="8" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitleText" inherits="GameFontNormal" text="" parentKey="TitleText" wordwrap="false">
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-5"/>
+						<Anchor point="LEFT" x="60"/>
+						<Anchor point="RIGHT" x="-60"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parentTopTileStreaks" parentKey="TopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-21"/>
+						<Anchor point="TOPRIGHT" x="-2" y="-21"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" setAllPoints="true" inherits="NineSlicePanelTemplate2"/>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				if InGlue() then
+					self.portrait:SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark")
+				else
+					SetPortraitToTexture(self.portrait, "Interface\\ICONS\\INV_Misc_QuestionMark")
+				end
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="PortraitFrameTemplateNoBackground" inherits="PortraitFrameTemplateNoCloseButtonNoBackground" virtual="true">
+		<Frames>
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="5.6" y="5"/>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+
+	<Frame name="RaisedPortraitFrameTemplateNoBackground" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="PortraitFrameTemplate" type="string"/>
+		</Attributes>
+		<Size x="338" y="424"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentTitleBg" parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-3"/>
+						<Anchor point="TOPRIGHT" x="-25" y="-3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitleText" inherits="GameFontNormal" text="" parentKey="TitleText" wordwrap="false">
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-5"/>
+						<Anchor point="LEFT" x="60"/>
+						<Anchor point="RIGHT" x="-60"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parentTopTileStreaks" parentKey="TopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-21"/>
+						<Anchor point="TOPRIGHT" x="-2" y="-21"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate" frameLevel="50"/>
+
+			<Frame name="$parentPortraitFrame" parentKey="PortraitFrame" frameLevel="49">
+				<Size x="61" y="61"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="-6" y="8"/>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<Texture name="$parentPortrait" parentKey="portrait">
+							<Size x="61" y="61"/>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="5.6" y="5"/>
+				</Anchors>
+			</Button>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				if InGlue() then
+					self.PortraitFrame.portrait:SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark")
+				else
+					SetPortraitToTexture(self.PortraitFrame.portrait, "Interface\\ICONS\\INV_Misc_QuestionMark")
+				end
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="RaisedPortraitFrameTemplate" inherits="RaisedPortraitFrameTemplateNoBackground" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-21"/>
+						<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="PortraitFrameTemplate" inherits="PortraitFrameTemplateNoBackground" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-21"/>
+						<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="ButtonFrameTemplate" inherits="PortraitFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parentBtnCornerLeft" parentKey="BtnCornerLeft">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-2" y="-1"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBtnCornerRight" parentKey="BtnCornerRight">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="0" y="-1"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentButtonBottomBorder" parentKey="ButtonBottomBorder">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBtnCornerLeft" relativePoint="BOTTOMRIGHT" y="3"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBtnCornerRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentInset" inherits="InsetFrameTemplate2" parentKey="Inset">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-60" />
+					<Anchor point="BOTTOMRIGHT" x="-6" y="26" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						MixinAndLoad(self, "NineSlicePanelMixin")
+						UseParentLevel(self)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.ButtonBottomBorder:SetAtlas("_UI-Frame-BtnBotTile", Const.TextureKit.IgnoreAtlasSize)
+				self.BtnCornerLeft:SetAtlas("UI-Frame-BtnCornerLeft", Const.TextureKit.IgnoreAtlasSize)
+				self.BtnCornerRight:SetAtlas("UI-Frame-BtnCornerRight", Const.TextureKit.IgnoreAtlasSize)
+				if InGlue() then
+					self.portrait:SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark")
+				else
+					SetPortraitToTexture(self.portrait, "Interface\\ICONS\\INV_Misc_QuestionMark")
+				end
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="PortraitFrameTemplateMinimizable" inherits="PortraitFrameTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="PortraitFrameTemplateMinimizable" type="string"/>
+		</Attributes>
+	</Frame>
+	
+	<Frame name="BasicFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentTitleBg" parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-3"/>
+						<Anchor point="TOPRIGHT" x="-25" y="-3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitleText" inherits="GameFontNormal" text="" parentKey="TitleText" wordwrap="false">
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-5"/>
+						<Anchor point="LEFT" x="60"/>
+						<Anchor point="RIGHT" x="-60"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parentTopTileStreaks" parentKey="TopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-21"/>
+						<Anchor point="TOPRIGHT" x="-2" y="-21"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+				<Attributes>
+					<Attribute name="layoutType" value="ButtonFrameTemplateNoPortrait" type="string"/>
+				</Attributes>
+			</Frame>
+
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="5.6" y="5"/>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+
+	<Frame name="GarrisonLandingTemplateNoBackgroundNoClose" inherits="NineSlicePanelTemplate2" virtual="true">
+		<Size x="840" y="541"/>
+
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+
+		<Attributes>
+			<Attribute name="layoutType" value="GarrisonLandingLayout"/>
+		</Attributes>
+	</Frame>
+
+	<Frame name="GarrisonLandingTemplateNoBackground" inherits="GarrisonLandingTemplateNoBackgroundNoClose" virtual="true">
+		<Frames>
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-12" y="-12"/>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+
+	<Frame name="GarrisonLandingTemplateNoClose" inherits="GarrisonLandingTemplateNoBackgroundNoClose" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" file="Interface\Garrison\GarrisonLandingPageMiddleTile" vertTile="true" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-18"/>
+						<Anchor point="BOTTOMRIGHT" x="-18" y="18"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="GarrisonLandingTemplate" inherits="GarrisonLandingTemplateNoBackground" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" file="Interface\Garrison\GarrisonLandingPageMiddleTile" vertTile="true" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-18"/>
+						<Anchor point="BOTTOMRIGHT" x="-18" y="18"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="SmallGarrisonLandingTemplateNoBackground" inherits="NineSlicePanelTemplate2" virtual="true">
+		<Size x="240" y="120"/>
+
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+
+		<Attributes>
+			<Attribute name="layoutType" value="GarrisonLandingSmallLayout"/>
+		</Attributes>
+
+		<Frames>
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-6" y="-6"/>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+
+	<Frame name="SmallGarrisonLandingTemplate" inherits="SmallGarrisonLandingTemplateNoBackground" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" file="Interface\Garrison\GarrisonLandingPageMiddleTile" vertTile="true" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="6" y="-6"/>
+						<Anchor point="BOTTOMRIGHT" x="-6" y="6"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<!--
+	*******************************************************************************
+	    Fat Button No Icon Template
+	    Fat Rounded edge button template w/ no icon
+	*******************************************************************************
+	-->
+	<Button name="FatButtonNoIconTemplate" virtual="true">
+		<Size x="209" y="46"/>
+
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true"/>
+
+				<FontString name="$parentText" parentKey="Text" wordwrap="false" inherits="GameFontNormal" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="LEFT" x="6" y="6"/>
+						<Anchor point="RIGHT" x="-6" y="0"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlightSmall" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentText" relativePoint="BOTTOMRIGHT" x="0" y="-2"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<NormalTexture/>
+		<HighlightTexture/>
+		<DisabledTexture/>
+
+		<Scripts>
+			<OnLoad function="FatButtonTemplate_OnLoad"/>
+		</Scripts>
+	</Button>
+	<!--
+    *******************************************************************************
+        Fat Button Template
+        Fat Rounded edge button template
+    *******************************************************************************
+    -->
+	<Button name="FatButtonTemplate" virtual="true">
+		<Size x="252" y="46"/>
+
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentIcon" parentKey="Icon">
+					<Size x="38" y="38"/>
+					<Anchors>
+						<Anchor point="LEFT" x="4" y="0"/>
+					</Anchors>
+				</Texture>
+
+				<Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true"/>
+
+				<Texture parentKey="IconBorder" file="Interface\Common\WhiteIconFrame" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" />
+					</Anchors>
+				</Texture>
+
+				<FontString name="$parentText" parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="6"/>
+						<Anchor point="RIGHT" x="-6" y="0"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlightSmall" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentText" relativePoint="BOTTOMRIGHT" x="0" y="-2"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<NormalTexture/>
+		<HighlightTexture/>
+		<DisabledTexture/>
+
+		<Scripts>
+			<OnLoad function="FatButtonTemplate_OnLoad"/>
+		</Scripts>
+	</Button>
+	<!--
+    *******************************************************************************
+        Generic Metal Frame Template
+        Metal Inset Frame Template
+    *******************************************************************************
+    -->
+	<Frame name="GenericMetalFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" horizTile="true" vertTile="true" file="Interface\FrameGeneral\UI-Background-Rock"/>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate">
+				<Attributes>
+					<Attribute name="layoutType" value="GenericMetal" type="string"/>
+				</Attributes>
+			</Frame>
+		</Frames>
+	</Frame>
+
+	<!--
+    *******************************************************************************
+        Rock Frame Template
+        Rock Border Frame Template
+    *******************************************************************************
+    -->
+	<Frame name="RockFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" horizTile="true" vertTile="true" file="Interface\FrameGeneral\UI-Background-Marble"/>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate">
+				<Attributes>
+					<Attribute name="layoutType" value="RockFrameTemplate" type="string"/>
+				</Attributes>
+			</Frame>
+		</Frames>
+	</Frame>
+
+	<!--
+    *******************************************************************************
+        Thin Rock Frame Template
+        Thin Rock Border Frame Template
+    *******************************************************************************
+    -->
+	<Frame name="ThinRockFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" horizTile="true" vertTile="true" file="Interface\FrameGeneral\UI-Background-Marble">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="4" y="-4"/>
+						<Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate">
+				<Attributes>
+					<Attribute name="layoutType" value="ThinRockFrameTemplate" type="string"/>
+				</Attributes>
+			</Frame>
+		</Frames>
+	</Frame>
+	<!--
+    *******************************************************************************
+        Square Icon Button Template
+        Base for Square UI Buttons
+    *******************************************************************************
+    -->
+	<Button name="SquareIconButtonTemplate" virtual="true">
+		<Size x="32" y="32"/>
+		<!--
+		icon: texture file to be displayed on the button.
+		icon-mirror-v: flip the icon vertically
+		icon-mirror-h: flip the icon horizontally
+		icon-atlas: atlas to be displayed on the button.
+		tooltip-title: title of the tooltip shown on enter. Shown to the right of the icon
+		tooltip-text: body of the tooltip shown on enter
+		on-click-handler-table: table to check for on-click-handler in
+		on-click-handler: forwards the standard OnClick arguments.
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-RefreshButton" type="string"/>
+			<Attribute name="icon-mirror-v" value="true" type="boolean"/>
+			<Attribute name="icon-mirror-h" value="true" type="boolean"/>
+			<Attribute name="icon-atlas" value="UI-RefreshButton" type="string"/>
+			<Attribute name="tooltip-title" value="REFRESH_BUTTON" type="string"/>
+			<Attribute name="tooltip-text" value="REFRESH_BUTTON_TOOLTIP" type="string"/>
+			<Attribute name="on-click-handler-table" value="RefreshButton" type="string"/>
+			<Attribute name="on-click-handler" value="OnClick" type="string"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Icon">
+					<Size x="16" y="16"/>
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						Mixin(self:GetParent(), "SquareIconButtonMixin")
+						self:GetParent():OnLoad()
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+
+		<Scripts>
+			<OnMouseDown>
+				self:OnMouseDown()
+			</OnMouseDown>
+			<OnMouseUp>
+				self:OnMouseUp()
+			</OnMouseUp>
+			<OnEnter>
+				self:OnEnter()
+			</OnEnter>
+			<OnLeave>
+				self:OnLeave()
+			</OnLeave>
+			<OnClick>
+				self:OnClick(button, down)
+			</OnClick>
+			<OnDisable>
+				self:OnDisable()
+			</OnDisable>
+			<OnEnable>
+				self:OnEnable()
+			</OnEnable>
+		</Scripts>
+
+		<NormalTexture file="Interface\Buttons\UI-SquareButton-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-SquareButton-Down"/>
+		<DisabledTexture file="Interface\Buttons\UI-SquareButton-Disabled"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+		<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+	</Button>
+
+	<Button name="RefreshButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-RefreshButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="ReverseRefreshButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-RefreshButton" type="string"/>
+			<Attribute name="icon-mirror-h" value="true" type="boolean"/>
+		</Attributes>
+	</Button>
+
+	<Button name="UpButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-UpButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="DownButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-DownButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="LeftButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-LeftButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="RightButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-RightButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="CopyButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-CopyButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="PlusButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-PlusButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="MinusButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-MinusButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="CloseButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-CloseButton" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="RotateLeftButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-RotationLeft" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="RotateRightButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\UI-RotationRight" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="ExternalLinkButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon" value="Interface\Buttons\linksquare" type="string"/>
+		</Attributes>
+	</Button>
+	
+	<CheckButton name="SquareIconCheckButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+	</CheckButton>
+
+	<Button name="RemoveButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true">
+		<Attributes>
+			<Attribute name="icon-atlas" value="transmog-icon-remove" type="string"/>
+		</Attributes>
+	</Button>
+
+	<!--
+    *******************************************************************************
+        InputBoxTemplate2
+        Back-ported Input Box Template
+    *******************************************************************************
+    -->
+	<EditBox name="InputBoxTemplate2" autoFocus="false" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" parentKey="Left">
+					<Size x="8" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" x="-5" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right">
+					<Size x="8" y="20"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentMiddle" parentKey="Middle">
+					<Size x="10" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<FontString parentKey="Text" inherits="GameFontHighlightSmall"/>
+		
+		<Scripts>
+			<OnLoad>
+				self.Left:SetAtlas("common-search-border-left", Const.TextureKit.IgnoreAtlasSize)
+				self.Right:SetAtlas("common-search-border-right", Const.TextureKit.IgnoreAtlasSize)
+				self.Middle:SetAtlas("common-search-border-middle", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+			<OnShow function="EditBox_OnShow"/>
+			<OnHide function="EditBox_OnHide"/>
+			<OnEvent function="EditBox_OnEvent"/>
+			<OnEnterPressed function="EditBox_ClearFocus"/>
+			<OnEscapePressed function="EditBox_ClearFocus"/>
+			<OnEditFocusLost function="EditBox_ClearHighlight"/>
+			<OnEditFocusGained function="EditBox_HighlightText"/>
+		</Scripts>
+	</EditBox>
+	<!--
+    *******************************************************************************
+        ReadOnlyEditBoxTemplate
+        EditBox that doesn't allow the text to be changed by the user
+    *******************************************************************************
+    -->
+	<EditBox name="ReadOnlyEditBoxTemplate" autoFocus="false" virtual="true">
+		<FontString inherits="GameFontHighlightSmall"/>
+
+		<Scripts>
+			<OnLoad function="ReadOnlyEditBox_OnLoad"/>
+			<OnEscapePressed function="EditBox_ClearFocus"/>
+			<OnEditFocusLost function="EditBox_ClearHighlight"/>
+			<OnEditFocusGained function="EditBox_HighlightText"/>
+			<OnEnterPressed function="EditBox_ClearFocus"/>
+			<OnTextChanged function="ReadOnlyEditBox_OnTextChanged"/>
+			<OnTextSet function="ReadOnlyEditBox_OnTextSet"/>
+		</Scripts>
+	</EditBox>
+	<!--
+    *******************************************************************************
+        ReadOnlyInputBoxTemplate
+        InputBox that doesn't allow the text to be changed by the user
+    *******************************************************************************
+    -->
+	<EditBox name="ReadOnlyInputBoxTemplate" autoFocus="false" virtual="true" inherits="ReadOnlyEditBoxTemplate">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" parentKey="Left">
+					<Size x="8" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" x="-5" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right">
+					<Size x="8" y="20"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentMiddle" parentKey="Middle">
+					<Size x="10" y="20"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Scripts>
+			<OnLoad>
+				self.Left:SetAtlas("common-search-border-left", Const.TextureKit.IgnoreAtlasSize)
+				self.Right:SetAtlas("common-search-border-right", Const.TextureKit.IgnoreAtlasSize)
+				self.Middle:SetAtlas("common-search-border-middle", Const.TextureKit.IgnoreAtlasSize)
+				ReadOnlyEditBox_OnLoad(self)
+			</OnLoad>
+		</Scripts>
+	</EditBox>
+
+	<!--
+    *******************************************************************************
+        InputBoxInstructionsTemplate
+        InputBoxTemplate2 with instructions printed inside it
+    *******************************************************************************
+    -->
+	<EditBox name="InputBoxInstructionsTemplate" inherits="InputBoxTemplate2" autoFocus="false" virtual="true">
+		<!--Attributes>
+			Optional
+			<Attribute name="disabled-color" value="GRAY_FONT_COLOR" type="string"/>
+			<Attribute name="enabled-color" value="HIGHLIGHT_FONT_COLOR" type="string"/>
+			<Attribute name="instruction" value="SEARCH" type="string"/>
+		</Attributes-->
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Instructions" justifyH="LEFT" justifyV="MIDDLE" inherits="GameFontDisableSmall" setAllPoints="true">
+					<Color r="0.45" g="0.45" b="0.45"/>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad function="InputBoxInstructions_OnLoad"/>
+			<OnTextChanged function="InputBoxInstructions_OnTextChanged"/>
+			<OnDisable function="InputBoxInstructions_OnDisable"/>
+			<OnEnable function="InputBoxInstructions_OnEnable"/>
+		</Scripts>
+	</EditBox>
+
+	<!--
+    *******************************************************************************
+        MultiLineInputBoxInstructionsTemplate
+        InputBoxTemplate2 with instructions printed inside it
+    *******************************************************************************
+    -->
+	<EditBox name="MultiLineInputBoxInstructionsTemplate" autoFocus="false" multiLine="true" virtual="true">
+		<!--Attributes>
+			Optional
+			<Attribute name="disabled-color" value="GRAY_FONT_COLOR" type="string"/>
+			<Attribute name="enabled-color" value="HIGHLIGHT_FONT_COLOR" type="string"/>
+			<Attribute name="instruction" value="SEARCH" type="string"/>
+		</Attributes-->
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Instructions" justifyH="LEFT" justifyV="TOP" wordwrap="true" inherits="GameFontDisableSmall">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="8" y="-8"/>
+						<Anchor point="RIGHT" x="-8"/>
+					</Anchors>
+					<Color r="0.35" g="0.35" b="0.35"/>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<Backdrop bgFile="Interface\Buttons\WHITE8x8" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize val="14"/>
+			<TileSize val="32"/>
+			<BackgroundInsets left="3" right="3" top="3" bottom="3"/>
+			<Color r="0" g="0" b="0" a="0.8"/>
+			<BorderColor r="0.3" g="0.3" b="0.3"/>
+		</Backdrop>
+
+		<Scripts>
+			<OnLoad function="InputBoxInstructions_OnLoad"/>
+			<OnTextChanged function="InputBoxInstructions_OnTextChanged"/>
+			<OnDisable function="InputBoxInstructions_OnDisable"/>
+			<OnEnable function="InputBoxInstructions_OnEnable"/>
+			<OnEscapePressed function="EditBox_ClearFocus"/>
+			<OnEditFocusLost function="EditBox_ClearHighlight"/>
+			<OnEditFocusGained function="EditBox_HighlightText"/>
+		</Scripts>
+		
+		<TextInsets left="8" right="8" top="8" bottom="8"/>
+
+		<FontString parentKey="Text" inherits="GameFontHighlightSmall"/>
+	</EditBox>
+
+	<!--
+    *******************************************************************************
+        SearchBoxTemplate
+        InputBoxTemplate2 with instructions and a search icon
+    *******************************************************************************
+    -->
+	<EditBox name="SearchBoxTemplate" inherits="InputBoxInstructionsTemplate" autoFocus="false" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentSearchIcon" parentKey="searchIcon">
+					<Size x="10" y="10"/>
+
+					<Anchors>
+						<Anchor point="LEFT" x="1" y="-1"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Button name="$parentClearButton" parentKey="clearButton" hidden="true">
+				<Size x="17" y="17"/>
+
+				<Anchors>
+					<Anchor point="RIGHT" x="-3" y="0"/>
+				</Anchors>
+
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture alpha="0.5" parentKey="texture">
+							<Size>
+								<AbsDimension x="10" y="10"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="3" y="-3"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+
+				<Scripts>
+					<OnLoad>
+						self.texture:SetAtlas("common-search-clearbutton", Const.TextureKit.IgnoreAtlasSize)
+					</OnLoad>
+					<OnEnter>
+						self.texture:SetAlpha(1.0);
+					</OnEnter>
+					<OnLeave>
+						self.texture:SetAlpha(0.5);
+					</OnLeave>
+					<OnMouseDown>
+						if self:IsEnabled() then
+							self.texture:SetPoint("TOPLEFT", self, "TOPLEFT", 4, -4);
+						end
+					</OnMouseDown>
+					<OnMouseUp>
+						self.texture:SetPoint("TOPLEFT", self, "TOPLEFT", 3, -3);
+					</OnMouseUp>
+					<OnClick function="SearchBoxTemplateClearButton_OnClick"/>
+				</Scripts>
+			</Button>
+		</Frames>
+
+		<Scripts>
+			<OnLoad function="SearchBoxTemplate_OnLoad"/>
+			<OnEscapePressed function="EditBox_ClearFocus"/>
+			<OnEnterPressed function="EditBox_ClearFocus"/>
+			<OnEditFocusLost function="SearchBoxTemplate_OnEditFocusLost"/>
+			<OnEditFocusGained function="SearchBoxTemplate_OnEditFocusGained"/>
+			<OnTextChanged function="SearchBoxTemplate_OnTextChanged"/>
+			<OnUpdate function="SearchBoxTemplate_OnUpdate"/>
+		</Scripts>
+	</EditBox>
+	<!--
+    *******************************************************************************
+        TabButtonTemplate
+        Basic Top side tab button
+    *******************************************************************************
+    -->
+	<Button name="TabButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="115" y="32"/>
+		</Size>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeftDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="16" y="32"/>
+
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="0" y="-3"/>
+					</Anchors>
+
+					<TexCoords left="0" right="0.25" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentMiddleDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="32" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeftDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentRightDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="16" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentMiddleDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentLeft" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="16" y="32"/>
+
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+
+					<TexCoords left="0" right="0.25" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentMiddle" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="32" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentRight" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="16" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentMiddle" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				PanelTemplates_TabResize(self, 0);
+				_G[self:GetName().."HighlightTexture"]:SetWidth(self:GetTextWidth() + 31);
+			</OnLoad>
+			<PostClick>
+				PlaySound(SOUNDKIT.UCHARACTERSHEETTAB)
+			</PostClick>
+		</Scripts>
+
+		<ButtonText name="$parentText">
+			<Size x="0" y="13"/>
+
+			<Anchors>
+				<Anchor point="BOTTOM" x="0" y="3"/>
+			</Anchors>
+		</ButtonText>
+
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+		<HighlightTexture name="$parentHighlightTexture" file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Size x="5" y="32"/>
+
+			<Anchors>
+				<Anchor point="BOTTOM" x="2" y="-8"/>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+	<!--
+    *******************************************************************************
+        BottomTabButtonTemplate
+        TabButtonTemplate but on the bottom side of a frame
+    *******************************************************************************
+    -->
+	<Button name="BottomTabButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="115" y="32"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeftDisabled" file="Interface\PaperDollInfoFrame\UI-Character-ActiveTab">
+					<Size x="20" y="32"/>
+
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+
+					<TexCoords left="0" right="0.15625" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentMiddleDisabled" file="Interface\PaperDollInfoFrame\UI-Character-ActiveTab">
+					<Size x="88" y="32" />
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeftDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.15625" right="0.84375" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentRightDisabled" file="Interface\PaperDollInfoFrame\UI-Character-ActiveTab">
+					<Size x="20" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentMiddleDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.84375" right="1.0" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentLeft" file="Interface\PaperDollInfoFrame\UI-Character-InActiveTab">
+					<Size x="20" y="32"/>
+
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+
+					<TexCoords left="0" right="0.15625" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentMiddle" file="Interface\PaperDollInfoFrame\UI-Character-InActiveTab">
+					<Size x="88" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.15625" right="0.84375" top="0" bottom="1.0"/>
+				</Texture>
+
+				<Texture name="$parentRight" file="Interface\PaperDollInfoFrame\UI-Character-InActiveTab">
+					<Size x="20" y="32"/>
+
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentMiddle" relativePoint="RIGHT"/>
+					</Anchors>
+
+					<TexCoords left="0.84375" right="1.0" top="0" bottom="1.0"/>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnShow>
+				PanelTemplates_TabResize(self, 0);
+				_G[self:GetName().."HighlightTexture"]:SetWidth(self:GetTextWidth() + 30);
+			</OnShow>
+			<PostClick>
+				PlaySound(SOUNDKIT.UCHARACTERSHEETTAB)
+			</PostClick>
+		</Scripts>
+
+		<ButtonText name="$parentText">
+			<Anchors>
+				<Anchor point="CENTER" x="0" y="2"/>
+			</Anchors>
+		</ButtonText>
+
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontHighlightSmall"/>
+		<HighlightTexture name="$parentHighlightTexture" file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Anchors>
+				<Anchor point="LEFT" x="10" y="2"/>
+				<Anchor point="RIGHT" x="-10" y="2"/>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+
+	<!--
+    *******************************************************************************
+        InputBlockTemplate
+        Basic input blocking template
+    *******************************************************************************
+    -->
+	<Frame name="InputBlockTemplate" enableMouse="true" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentBG" parentKey="BG" setAllPoints="true">
+					<Color r="0" g="0" b="0" a="0.9"/>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="InputBlockSoftEdgeTemplate" inherits="NineSlicePanelTempalte2" enableMouse="true" virtual="true">
+		<Attributes>
+			<Attribute name="layoutType" value="InputBlockSoftEdges"/>
+		</Attributes>
+	</Frame>
+
+	<!--
+    *******************************************************************************
+        InputBlockTextTemplate
+        Basic input blocking template with an optional title and subtext display
+    *******************************************************************************
+    -->
+	<Frame name="InputBlockTextTemplate" inherits="InputBlockTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="title" value="Title" type="string"/>
+			<Attribute name="subtext" value="subtext" type="string"/>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="8"/>
+					</Anchors>
+				</FontString>
+				
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-1"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="InputBlockText_OnLoad"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="InputBlockTextCloseButtonTemplate" inherits="InputBlockTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="title" value="Title" type="string"/>
+			<Attribute name="subtext" value="subtext" type="string"/>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="8"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-1"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentSubText" relativePoint="BOTTOM" y="-18"/>
+				</Anchors>
+				
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad function="InputBlockText_OnLoad"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="InputBlockTextLoadingTemplate" inherits="InputBlockTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="title" value="Title" type="string"/>
+			<Attribute name="subtext" value="subtext" type="string"/>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="8"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-1"/>
+					</Anchors>
+				</FontString>
+				
+				<Texture name="$parentSpinner" parentKey="Spinner">
+					<Size x="128" y="128"/>
+
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentSubText" relativePoint="BOTTOM" x="0" y="-8"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation duration="1" degrees="-360"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="InputBlockTextLoading_OnLoad"/>
+			<OnShow function="InputBlockLoading_OnShow"/>
+			<OnHide function="InputBlockLoading_OnHide"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="InputBlockLoadingTemplate" inherits="InputBlockTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentSpinner" parentKey="Spinner">
+					<Size x="128" y="128"/>
+
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation duration="1" degrees="-360"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="InputBlockLoading_OnLoad"/>
+			<OnShow function="InputBlockLoading_OnShow"/>
+			<OnHide function="InputBlockLoading_OnHide"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="InputBlockSoftEdgeTextTemplate" inherits="InputBlockSoftEdgeTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="title" value="Title" type="string"/>
+			<Attribute name="subtext" value="subtext" type="string"/>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="8"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-1"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="InputBlockSoftEdgeText_OnLoad"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="InputBlockSoftEdgeTextLoadingTemplate" inherits="InputBlockSoftEdgeTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="title" value="Title" type="string"/>
+			<Attribute name="subtext" value="subtext" type="string"/>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="8"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentSubText" parentKey="SubText" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-1"/>
+					</Anchors>
+				</FontString>
+
+				<Texture name="$parentSpinner" parentKey="Spinner">
+					<Size x="128" y="128"/>
+
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentSubText" relativePoint="BOTTOM" x="0" y="-8"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation duration="1" degrees="-360"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="InputBlockSoftEdgeTextLoading_OnLoad"/>
+			<OnShow function="InputBlockLoading_OnShow"/>
+			<OnHide function="InputBlockLoading_OnHide"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="InputBlockSoftEdgeLoadingTemplate" inherits="InputBlockSoftEdgeTemplate" virtual="true">
+		<!--
+		<Attributes>
+			<Attribute name="alpha" value="0.9" type="number"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentSpinner" parentKey="Spinner">
+					<Size x="128" y="128"/>
+
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+
+					<Animations>
+						<AnimationGroup parentKey="Anim" looping="REPEAT">
+							<Rotation duration="1" degrees="-360"/>
+						</AnimationGroup>
+					</Animations>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad function="InputBlockSoftEdgeLoading_OnLoad"/>
+			<OnShow function="InputBlockLoading_OnShow"/>
+			<OnHide function="InputBlockLoading_OnHide"/>
+		</Scripts>
+	</Frame>
+	<!--
+        *******************************************************************************
+            HorizontalScrollTemplate
+            Horizontal Slider Bar
+        *******************************************************************************
+        -->
+	<Slider name="HorizontalScrollTemplate" orientation="HORIZONTAL" enableMouse="true" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="0" top="-10" bottom="-10"/>
+		</HitRectInsets>
+
+		<ThumbTexture name="$parentThumb" parentKey="Thumb" inherits="UIPanelScrollBarButton" file="Interface\Buttons\UI-ScrollBar-Knob">
+			<Size x="12" y="20"/>
+			<TexCoords left="0.25" right="0.75" top="0.125" bottom="0.875"/>
+		</ThumbTexture>
+		
+		<Backdrop bgFile = "Interface\Buttons\UI-SliderBar-Background"
+			edgeFile = "Interface\Buttons\UI-SliderBar-Border"
+			tile = "true"
+			tileEdge = "true">
+			<TileSize val="8"/>
+			<EdgeSize val="8"/>
+			<BackgroundInsets left="3" right="3" top="6" bottom="6"/>
+		</Backdrop>
+	</Slider>
+	<!--
+    *******************************************************************************
+        RedButtonTemplate
+        Basic red button
+    *******************************************************************************
+    -->
+	<Button name="RedButtonTemplate" virtual="true">
+		<Size x="129" y="38"/>
+
+		<ButtonText>
+			<Anchors>
+				<Anchor point="CENTER" x="0" y="1"/>
+			</Anchors>
+		</ButtonText>
+
+		<NormalTexture inherits="RedButtonUpTexture"/>
+		<PushedTexture inherits="RedButtonDownTexture"/>
+		<DisabledTexture inherits="RedButtonDisableTexture"/>
+		<HighlightTexture inherits="RedButtonHighlightTexture" alphaMode="ADD"/>
+
+		<NormalFont style="GameFontNormal"/>
+		<DisabledFont style="GameFontDisable"/>
+		<HighlightFont style="GameFontHighlight"/>
+	</Button>
+
+	<!--
+    *******************************************************************************
+        UI Button Template
+        Basic ui button w/ an atlas template
+    *******************************************************************************
+    -->
+	<Button name="UIButtonTemplate" mixin="UIButtonMixin" virtual="true">
+		<Size x="20" y="20"/>
+		<!--
+		atlasName: The art kit to use for the  button.
+						* The normal texture will be "atlasName"
+						* The pressed texture will be "atlasName-Pressed"
+						* The disabled texture will be "atlasName-Disabled"
+						* The highlight texture will be "atlasName-Highlight"
+		tooltip: string for tooltip
+		<Attributes>
+			<Attribute name="atlasName" value="128-redbutton" type="string"/>
+			<Attribute name="tooltip" value="REFRESH_BUTTON_TOOLTIP" type="string"/>
+		</Attributes>
+		-->
+		<Frames>
+			<Frame parentKey="Controller" mixin="">
+				<Scripts>
+					<OnLoad>
+						MixinAndLoad(self:GetParent(), "UIButtonMixin")
+						MixinAndLoad(self, "ButtonControllerMixin")
+					</OnLoad>
+					<OnShow>
+						self:OnShow()
+					</OnShow>
+				</Scripts>
+			</Frame>
+		</Frames>
+		
+		<Scripts>
+			<OnAttributeChanged>
+				self:OnAttributeChanged()
+			</OnAttributeChanged>
+		</Scripts>
+	</Button>
+
+	<Button name="BigRedRefreshButtonTemplate" inherits="UIButtonTemplate" virtual="true">
+		<Size x="128" y="128"/>
+		<Attributes>
+			<Attribute name="atlasName" value="128-redbutton-Refresh" type="string"/>
+		</Attributes>
+	</Button>
+
+	<Button name="BigRedExitButtonTemplate" inherits="UIButtonTemplate" virtual="true">
+		<Size x="128" y="128"/>
+		<Attributes>
+			<Attribute name="atlasName" value="128-redbutton-exit" type="string"/>
+		</Attributes>
+	</Button>
+
+	<!--
+    *******************************************************************************
+        Three slice button template
+        base for a three slice button
+    *******************************************************************************
+    -->
+	<Button name="ThreeSliceButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+		<!--
+		atlasName: The art kit to use for the 3 sections of the button.
+						* The left textures will be "atlasName-Left", "atlasName-Left-Disabled" and "atlasName-Left-Pressed"
+						* The right textures will be "atlasName-Right", "atlasName-Right-Disabled" and "atlasName-Right-Pressed"
+						* The center textures will be "_atlasName-Center", "_atlasName-Disabled" and "_atlasName-Pressed"
+						* The highlight texture will be "atlasName-Highlight"
+		tooltip: string for tooltip
+		<Attributes>
+			<Attribute name="atlasName" value="128-redbutton" type="string"/>
+			<Attribute name="tooltip" value="" type="string"/>
+		</Attributes>
+		-->
+		<Size x="20" y="20"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" parentKey="Left">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right">
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentCenter" parentKey="Center" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="Controller">
+				<Scripts>
+					<OnLoad>
+						-- inject mixin here because a ton of inherited frames overwrite onload and fixing that is pain
+						MixinAndLoad(self:GetParent(), "ThreeSliceButtonMixin")
+						MixinAndLoadScripts(self, "ButtonControllerMixin")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnMouseDown>
+				self:OnMouseDown()
+			</OnMouseDown>
+			<OnMouseUp>
+				self:OnMouseUp()
+			</OnMouseUp>
+			<OnShow>
+				self:UpdateButton()
+			</OnShow>
+			<OnDisable>
+				self:UpdateButton()
+			</OnDisable>
+			<OnEnable>
+				self:UpdateButton()
+			</OnEnable>
+			<OnEnter>
+				self:OnEnter()
+			</OnEnter>
+			<OnLeave>
+				self:OnLeave()
+			</OnLeave>
+			<OnSizeChanged>
+				if not self.UpdateScale then return end -- this can be called before the frame even loads
+				self:UpdateScale()
+			</OnSizeChanged>
+			<OnAttributeChanged>
+				self:OnAttributeChanged()
+			</OnAttributeChanged>
+		</Scripts>
+		<ButtonText name="$parentText">
+			<Anchors>
+				<Anchor point="LEFT" y="1"/>
+				<Anchor point="RIGHT" y="1"/>
+			</Anchors>
+		</ButtonText>
+	</Button>
+
+	<Button name="CustomColorThreeSliceButtonTemplate" inherits="ThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<Attributes>
+			<Attribute name="atlasName" value="128-button" type="string"/>
+		</Attributes>
+		
+		<Scripts>
+			<OnLoad>
+				Mixin(self, "CustomColorThreeSliceButtonMixin")
+			</OnLoad>
+		</Scripts>
+		<PushedTextOffset x="-2" y="-1"/>
+	</Button>
+	
+	<Button name="CustomColorSharedButtonTemplate" inherits="CustomColorThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormalOutline"/>
+		<HighlightFont style="GameFontHighlightOutline"/>
+		<DisabledFont style="GameFontDisableOutline"/>
+	</Button>
+
+	<Button name="BigRedThreeSliceButtonTemplate" inherits="ThreeSliceButtonTemplate" virtual="true">
+		<Size x="441" y="128"/>
+		<Attributes>
+			<Attribute name="atlasName" value="128-redbutton" type="string"/>
+		</Attributes>
+		<PushedTextOffset x="-2" y="-1"/>
+	</Button>
+	
+	<Button name="RedThreeSliceButtonTemplate" inherits="ThreeSliceButtonTemplate" virtual="true">
+		<Size x="106" y="22"/>
+		<Attributes>
+			<Attribute name="atlasName" value="ui-dialogbox-button" type="string"/>
+		</Attributes>
+		<PushedTextOffset x="-2" y="-1"/>
+	</Button>
+
+	<Button name="SharedButtonTemplate" inherits="BigRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+	</Button>
+
+	<Button name="SharedButtonLargeTemplate" inherits="BigRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormalLarge"/>
+		<HighlightFont style="GameFontHighlightLarge"/>
+		<DisabledFont style="GameFontDisableLarge"/>
+	</Button>
+
+	<Button name="SharedButtonHugeTemplate" inherits="BigRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="240" y="48"/>
+		<NormalFont style="GameFontNormalHuge"/>
+		<HighlightFont style="GameFontHighlightHuge"/>
+		<DisabledFont style="GameFontDisableHuge"/>
+	</Button>
+
+	<Button name="SharedButtonSmallTemplate" inherits="BigRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="138" y="28"/>
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+	</Button>
+
+	<Button name="BigGoldRedThreeSliceButtonTemplate" inherits="ThreeSliceButtonTemplate" virtual="true">
+		<Size x="441" y="128"/>
+		<Attributes>
+			<Attribute name="atlasName" value="128-goldredbutton" type="string"/>
+		</Attributes>
+		<PushedTextOffset x="-2" y="-1"/>
+	</Button>
+
+	<Button name="SharedGoldRedButtonTemplate" inherits="BigGoldRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+	</Button>
+
+	<Button name="SharedGoldRedButtonLargeTemplate" inherits="BigGoldRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormalLarge"/>
+		<HighlightFont style="GameFontHighlightLarge"/>
+		<DisabledFont style="GameFontDisableLarge"/>
+	</Button>
+
+	<Button name="SharedGoldRedButtonHugeTemplate" inherits="BigGoldRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="240" y="48"/>
+		<NormalFont style="GameFontNormalHuge"/>
+		<HighlightFont style="GameFontHighlightHuge"/>
+		<DisabledFont style="GameFontDisableHuge"/>
+	</Button>
+
+	<Button name="SharedGoldRedButtonSmallTemplate" inherits="BigGoldRedThreeSliceButtonTemplate" virtual="true">
+		<Size x="138" y="28"/>
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+	</Button>
+
+	<Button name="StandardButtonTemplate" inherits="RedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormal"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+	</Button>
+
+	<Button name="StandardButtonGrayTemplate" inherits="RedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<Attributes>
+			<Attribute name="desaturate" value="true" type="boolean"/>
+		</Attributes>
+		<NormalFont style="GameFontHighlight"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
+	</Button>
+
+	<Button name="StandardButtonLargeTemplate" inherits="RedThreeSliceButtonTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<NormalFont style="GameFontNormalLarge"/>
+		<HighlightFont style="GameFontHighlightLarge"/>
+		<DisabledFont style="GameFontDisableLarge"/>
+	</Button>
+
+	<Button name="StandardButtonHugeTemplate" inherits="RedThreeSliceButtonTemplate" virtual="true">
+		<Size x="240" y="48"/>
+		<NormalFont style="GameFontNormalHuge"/>
+		<HighlightFont style="GameFontHighlightHuge"/>
+		<DisabledFont style="GameFontDisableHuge"/>
+	</Button>
+
+	<Button name="StandardButtonSmallTemplate" inherits="RedThreeSliceButtonTemplate" virtual="true">
+		<Size x="138" y="28"/>
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+	</Button>
+
+	<!--
+    *******************************************************************************
+        Secure basic attribute template
+        Basic attribute handler template
+        Usage: Frame = CreateFrame("Frame", "Name", UIParent, "SecureBasicAttributeHandlerTemplate")
+        function Frame:ATTRIBUTE_Update(data)
+        	if data.my_key then
+        		print(data.my_key)
+			end
+        end
+        
+        Frame:SecureSetValue("attribute", "my_key", "My Value!")
+        - or
+        Frame:SecureSetValues("attribute", { ["my_key"] = "My Value!", ["my_second_key"] = "My Value 2!" })
+    *******************************************************************************
+    -->
+	<Frame name="SecureBasicAttributeHandlerTemplate" virtual="true">
+		<Frames>
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						Mixin(self:GetParent(), "SecureBasicAttributeHandlerMixin")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnAttributeChanged>
+				if self.OnAttributeChanged then
+					self:OnAttributeChanged(name, value)
+				end
+			</OnAttributeChanged>
+		</Scripts>
+	</Frame>
+
+	<!--
+    *******************************************************************************
+        Stretch Button Template
+    *******************************************************************************
+    -->
+	<Button name="UIMenuButtonStretchTemplate" virtual="true">
+		<Size x="40" y="26"/>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="TopLeft" name="$parentTopLeft" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="12" y="6"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.09375" top="0" bottom="0.1875"/>
+				</Texture>
+
+				<Texture parentKey="TopRight" name="$parentTopRight" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="12" y="6"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.53125" right="0.625" top="0" bottom="0.1875"/>
+				</Texture>
+
+				<Texture parentKey="BottomLeft" name="$parentBottomLeft" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="12" y="6"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.09375" top="0.625" bottom="0.8125"/>
+				</Texture>
+
+				<Texture parentKey="BottomRight" name="$parentBottomRight" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="12" y="6"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.53125" right="0.625" top="0.625" bottom="0.8125"/>
+				</Texture>
+
+				<Texture parentKey="TopMiddle" name="$parentTopMiddle" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="56" y="6"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentTopRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0.09375" right="0.53125" top="0" bottom="0.1875"/>
+				</Texture>
+
+				<Texture parentKey="MiddleLeft" name="$parentMiddleLeft" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="12" y="14"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopLeft" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBottomLeft" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.09375" top="0.1875" bottom="0.625"/>
+				</Texture>
+
+				<Texture parentKey="MiddleRight" name="$parentMiddleRight" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="12" y="14"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBottomRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0.53125" right="0.625" top="0.1875" bottom="0.625"/>
+				</Texture>
+
+				<Texture parentKey="BottomMiddle" name="$parentBottomMiddle" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="56" y="6"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentBottomLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBottomRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0.09375" right="0.53125" top="0.625" bottom="0.8125"/>
+				</Texture>
+
+				<Texture parentKey="MiddleMiddle" name="$parentMiddleMiddle" file="Interface\Buttons\UI-Silver-Button-Up">
+					<Size x="56" y="14"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBottomRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0.09375" right="0.53125" top="0.1875" bottom="0.625"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						Mixin(self:GetParent(), "UIMenuButtonStretchMixin")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+
+		<Scripts>
+			<OnMouseDown>
+				self:OnMouseDown(button)
+			</OnMouseDown>
+			<OnMouseUp>
+				self:OnMouseUp(button)
+			</OnMouseUp>
+			<OnShow>
+				self:OnShow()
+			</OnShow>
+			<OnEnable>
+				self:OnEnable()
+			</OnEnable>
+			<OnEnter>
+				self:OnEnter()
+			</OnEnter>
+			<OnLeave>
+				self:OnLeave()
+			</OnLeave>
+		</Scripts>
+
+		<ButtonText parentKey="Text" name="$parentText">
+			<Anchors>
+				<Anchor point="CENTER" x="0" y="-1"/>
+			</Anchors>
+		</ButtonText>
+
+		<NormalFont style="GameFontHighlightSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+
+		<HighlightTexture file="Interface\Buttons\UI-Silver-Button-Highlight" alphaMode="ADD">
+			<TexCoords left="0" right="1.0" top="0.03" bottom="0.7175"/>
+		</HighlightTexture>
+	</Button>
+	<!--
+	*******************************************************************************
+		Shadow Overlay Small Template
+		Overlay frame template to show a vingette style shadow
+	*******************************************************************************
+	-->
+	<Frame name="ShadowOverlaySmallTemplate" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentTopLeft" file="Interface\Common\ShadowOverlay-Corner" parentKey="TopLeft">
+					<Size x="24" y="24"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopRight" file="Interface\Common\ShadowOverlay-Corner" parentKey="TopRight">
+					<Size x="24" y="24"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottomLeft" file="Interface\Common\ShadowOverlay-Corner" parentKey="BottomLeft">
+					<Size x="24" y="24"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottomRight" file="Interface\Common\ShadowOverlay-Corner" parentKey="BottomRight">
+					<Size x="24" y="24"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTop" file="Interface\Common\ShadowOverlay-Top">
+					<Size x="0" y="24"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottom" file="Interface\Common\ShadowOverlay-Bottom">
+					<Size x="0" y="24"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBottomLeft" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBottomRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentLeft" file="Interface\Common\ShadowOverlay-Left">
+					<Size x="24" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBottomLeft" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\Common\ShadowOverlay-Right">
+					<Size x="24" y="0"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBottomRight" relativePoint="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.TopRight:SetTexCoord(0, 1, 1, 1, 0, 0, 1, 0);
+				self.BottomRight:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0);
+				self.BottomLeft:SetTexCoord(1, 0, 0, 0, 1, 1, 0, 1);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Texture name="ShardScrollBarButton" virtual="true">
+		<TexCoords left="0.25" right="0.75" top="0.25" bottom="0.75"/>
+	</Texture>
+
+	<Button name="SharedScrollUpButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<NormalTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollUpButton-Up"/>
+		<PushedTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollUpButton-Down"/>
+		<DisabledTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollUpButton-Disabled"/>
+		<HighlightTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollUpButton-Highlight" alphaMode="ADD"/>
+	</Button>
+	<Button name="SharedScrollDownButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<NormalTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Up"/>
+		<PushedTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Down"/>
+		<DisabledTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Disabled"/>
+		<HighlightTexture inherits="ShardScrollBarButton" file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Highlight" alphaMode="ADD"/>
+	</Button>
+
+	<Slider name="BasicSharedScrollBarTemplate" virtual="true">
+		<Size x="16" y="0"/>
+
+		<Frames>
+			<Button name="$parentScrollUpButton" parentKey="UpButton" inherits="SharedScrollUpButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOM" relativePoint="TOP"/>
+				</Anchors>
+
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:SetValue(parent:GetValue() - 6)
+						PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="$parentScrollDownButton" parentKey="DownButton" inherits="SharedScrollDownButtonTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM"/>
+				</Anchors>
+
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:SetValue(parent:GetValue() + 6)
+						PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+
+		<Scripts>
+			<OnValueChanged>
+				self:GetParent():SetVerticalScroll(value)
+			</OnValueChanged>
+		</Scripts>
+
+		<ThumbTexture file="Interface\Buttons\UI-ScrollBar-Knob">
+			<Size x="16" y="24"/>
+
+			<TexCoords left="0.25" right="0.75" top="0.125" bottom="0.875"/>
+		</ThumbTexture>
+	</Slider>
+
+	<ScrollFrame name="BasicSharedScrollFrameTemplate" virtual="true">
+		<Frames>
+			<Slider name="$parentScrollBar" parentKey="ScrollBar" inherits="BasicSharedScrollBarTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="6" y="-16"/>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="6" y="16"/>
+				</Anchors>
+			</Slider>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoad(self, BasicSharedScrollMixin)
+			</OnLoad>
+			<OnVerticalScroll>
+				self:OnVerticalScroll(offset)
+			</OnVerticalScroll>
+			<OnMouseWheel>
+				self:OnMouseWheel(delta)
+			</OnMouseWheel>
+		</Scripts>
+	</ScrollFrame>
+
+	<Button name="UIPanelLargeSilverButton" virtual="true">
+		<Size x="96" y="46"/>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" parentKey="Left" file="Interface\Buttons\UI-SilverButtonLG-Left-Up">
+					<Size x="32" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right" file="Interface\Buttons\UI-SilverButtonLG-Right-Up">
+					<Size x="32" y="64"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentMiddle" parentKey="Middle" file="Interface\Buttons\UI-SilverButtonLG-Mid-Up">
+					<Size x="32" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT" x="0" y="0"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentRight" relativePoint="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="HIGHLIGHT">
+				<Texture name="$parentHLeft" parentKey="HLeft" file="Interface\Buttons\UI-SilverButtonLG-Left-Hi">
+					<Size x="32" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentHRight" parentKey="HRight" file="Interface\Buttons\UI-SilverButtonLG-Right-Hi">
+					<Size x="32" y="64"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentHMiddle" parentKey="HMiddle" file="Interface\Buttons\UI-SilverButtonLG-Mid-Hi">
+					<Size x="32" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT" x="0" y="0"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentRight" relativePoint="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnMouseDown>
+				if self:IsEnabled() == 0 then return end
+
+				self.Left:SetTexture("Interface\\Buttons\\UI-SilverButtonLG-Left-Down")
+				self.Middle:SetTexture("Interface\\Buttons\\UI-SilverButtonLG-Mid-Down")
+				self.Right:SetTexture("Interface\\Buttons\\UI-SilverButtonLG-Right-Down")
+
+				if self.ContentsFrame then
+					self.ContentsFrame:SetPoint("TOPLEFT", -2, -1)
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if self:IsEnabled() == 0 then return end
+
+				self.Left:SetTexture("Interface\\Buttons\\UI-SilverButtonLG-Left-Up")
+				self.Middle:SetTexture("Interface\\Buttons\\UI-SilverButtonLG-Mid-Up")
+				self.Right:SetTexture("Interface\\Buttons\\UI-SilverButtonLG-Right-Up")
+
+				if self.ContentsFrame then
+					self.ContentsFrame:SetPoint("TOPLEFT", 0, 0)
+				end
+			</OnMouseUp>
+		</Scripts>
+	</Button>
+	
+	<Frame name="BetterStatusBarTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+			</Layer>
+
+			<Layer level="BORDER">
+				<Texture name="$parentBarTexture" parentKey="BarTexture" setAllPoints="true"/>
+			</Layer>
+
+			<Layer>
+				<Texture name="$parentSpark" parentKey="Spark" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentBarTexture" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightOutline">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="1"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						MixinAndLoad(self:GetParent(), "BetterStatusBarMixin")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Frame>
+
+	<Frame name="CollectionsBackgroundTemplate" inherits="NineSlicePanelTemplate2" virtual="true">
+		<Anchors>
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT" y="-60" x="4"/>
+			<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-6" y="5"/>
+		</Anchors>
+		
+		<Attributes>
+			<Attribute name="layoutType" value="LargeShadowOverlay"/>
+		</Attributes>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackgroundTile" parentKey="BackgroundTile" file="Interface\Collections\CollectionsBackgroundTile" horizTile="true" vertTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="4" y="-4" />
+						<Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture parentKey="BGCornerFilagreeBottomLeft">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBackgroundTile"/>
+					</Anchors>
+				</Texture>
+
+				<Texture parentKey="BGCornerFilagreeBottomRight">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBackgroundTile"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<Texture parentKey="BGCornerTopLeft">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentBackgroundTile"/>
+					</Anchors>
+				</Texture>
+
+				<Texture parentKey="BGCornerTopRight">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentBackgroundTile"/>
+					</Anchors>
+				</Texture>
+
+				<Texture parentKey="BGCornerBottomLeft">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBackgroundTile"/>
+					</Anchors>
+				</Texture>
+
+				<Texture parentKey="BGCornerBottomRight">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBackgroundTile"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentShadowOverlay" inherits="NineSlicePanelTemplate" setAllPoints="true">
+				<Attributes>
+					<Attribute name="layoutType" value="SmallShadowOverlay"/>
+				</Attributes>
+			</Frame>
+			<Frame name="$parentInsetOverlay" inherits="InsetFrameNoBGTemplate" frameLevel="20" setAllPoints="true"/>
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						self = self:GetParent() -- notice
+						self.BGCornerFilagreeBottomLeft:SetAtlas("collections-background-filagree", Const.TextureKit.UseAtlasSize)
+						self.BGCornerFilagreeBottomRight:SetAtlas("collections-background-filagree", Const.TextureKit.UseAtlasSize)
+						self.BGCornerFilagreeBottomRight:FlipX()
+
+						self.BGCornerBottomRight:SetAtlas("collections-background-corner", Const.TextureKit.UseAtlasSize)
+						self.BGCornerBottomRight:FlipX()
+						self.BGCornerBottomRight:FlipY()
+						
+						self.BGCornerTopRight:SetAtlas("collections-background-corner", Const.TextureKit.UseAtlasSize)
+						self.BGCornerTopRight:FlipX()
+
+						self.BGCornerBottomLeft:SetAtlas("collections-background-corner", Const.TextureKit.UseAtlasSize)
+						self.BGCornerBottomLeft:FlipY()
+						
+						self.BGCornerTopLeft:SetAtlas("collections-background-corner", Const.TextureKit.UseAtlasSize)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Frame>
+	
+	<Button name="SettingsGearButtonTemplate" virtual="true">
+		<Size x="26" y="26"/>
+		<HighlightTexture alphaMode="ADD"/>
+		<Scripts>
+			<PreClick>
+				PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+			</PreClick>
+			<OnLoad>
+				SettingsGearButtonTemplate_OnLoad(self)
+			</OnLoad>
+		</Scripts>
+	</Button>
+	
+	<Button name="ExpandCollapseButtonTemplate" virtual="true">
+		<Size x="13" y="13"/>
+
+		<HitRectInsets>
+			<AbsInset left="1" right="-4" top="-2" bottom="-2"/>
+		</HitRectInsets>
+
+		<NormalTexture file="Interface\Buttons\UI-MinusButton-UP">
+			<Size x="16" y="16"/>
+			<Anchors>
+				<Anchor point="LEFT" x="3"/>
+			</Anchors>
+		</NormalTexture>
+
+		<PushedTexture file="Interface\Buttons\UI-MinusButton-Down">
+			<Size x="16" y="16"/>
+			<Anchors>
+				<Anchor point="LEFT" x="3"/>
+			</Anchors>
+		</PushedTexture>
+
+		<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD">
+			<Size x="16" y="16"/>
+			<Anchors>
+				<Anchor point="LEFT" x="3"/>
+			</Anchors>
+		</HighlightTexture>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, ExpandCollapseButtonMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<ScrollFrame name="ScrollableMultiLineInputBoxInstructionsTemplate" enableMouse="true" inherits="BasicSharedScrollFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="4"/>
+						<Anchor point="BOTTOMRIGHT" x="24" y="0"/>
+					</Anchors>
+
+					<Color r="0" g="0" b="0" a="0.8"/>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentInset" inherits="NineSlicePanelTemplate">
+				<Attributes>
+					<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+				</Attributes>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="4"/>
+					<Anchor point="BOTTOMRIGHT" x="24" y="0"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+
+		<ScrollChild>
+			<EditBox name="$parentText" parentKey="Text" inherits="MultiLineInputBoxInstructionsTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+				</Anchors>
+				<Backdrop/>
+
+				<Scripts>
+					<OnLoad>
+						ScrollingEdit_OnCursorChanged(self, 0, 0, 0, 0)
+						InputBoxInstructions_OnLoad(self)
+					</OnLoad>
+					<OnShow>
+						self:SetSize(self:GetParent():GetSize())
+					</OnShow>
+					<OnTextChanged>
+						InputBoxInstructions_OnTextChanged(self)
+						ScrollingEdit_OnTextChanged(self, self:GetParent())
+					</OnTextChanged>
+					<OnCursorChanged>
+						ScrollingEdit_OnCursorChanged(self, x, y, w, h * 1.5)
+					</OnCursorChanged>
+					<OnUpdate>
+						ScrollingEdit_OnUpdate(self, elapsed, self:GetParent());
+					</OnUpdate>
+					<OnEnterPressed>
+						if IsShiftKeyDown() then
+							self:Insert("\n")
+							return
+						end
+
+						EditBox_ClearFocus(self)
+					</OnEnterPressed>
+				</Scripts>
+			</EditBox>
+		</ScrollChild>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoad(self, "BasicSharedScrollMixin")
+				local instruction = self:GetAttribute("instruction")
+				instruction = instruction and (_G[instruction] or instruction) or ""
+				self.Text.Instructions:SetText(instruction)
+				
+				local instructionFont = self:GetAttribute("instruction-font")
+				if instructionFont then
+					self.Text.Instructions:SetFontObject(instructionFont)
+				end
+			</OnLoad>
+			<OnMouseUp>
+				EditBox_SetFocus(self.Text)
+			</OnMouseUp>
+			<OnSizeChanged>
+				if self.Text then
+					self.Text:SetSize(w, h)
+				end
+			</OnSizeChanged>
+		</Scripts>
+	</ScrollFrame>
+
+	<ScrollFrame name="ScrollableReadOnlyEditBoxTemplate" enableMouse="true" inherits="BasicSharedScrollFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="4"/>
+						<Anchor point="BOTTOMRIGHT" x="24" y="0"/>
+					</Anchors>
+
+					<Color r="0" g="0" b="0" a="0.8"/>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentInset" inherits="NineSlicePanelTemplate">
+				<Attributes>
+					<Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+				</Attributes>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="4"/>
+					<Anchor point="BOTTOMRIGHT" x="24" y="0"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+
+		<ScrollChild>
+			<EditBox name="$parentText" parentKey="Text" multiLine="true" inherits="ReadOnlyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+				</Anchors>
+				<Backdrop/>
+				<TextInsets left="8" right="8" top="8" bottom="8"/>
+				<Scripts>
+					<OnLoad>
+						ScrollingEdit_OnCursorChanged(self, 0, 0, 0, 0)
+						ReadOnlyEditBox_OnLoad(self)
+					</OnLoad>
+					<OnShow>
+						self:SetSize(self:GetParent():GetSize())
+					</OnShow>
+					<OnTextChanged>
+						ReadOnlyEditBox_OnTextChanged(self)
+						ScrollingEdit_OnTextChanged(self, self:GetParent())
+					</OnTextChanged>
+					<OnEditFocusGained>
+						self:HighlightText(0)
+					</OnEditFocusGained>
+					<OnCursorChanged>
+						ScrollingEdit_OnCursorChanged(self, x, y, w, h * 1.5)
+					</OnCursorChanged>
+					<OnUpdate>
+						ScrollingEdit_OnUpdate(self, elapsed, self:GetParent());
+					</OnUpdate>
+				</Scripts>
+			</EditBox>
+		</ScrollChild>
+
+		<Scripts>
+			<OnMouseUp>
+				EditBox_SetFocus(self.Text)
+			</OnMouseUp>
+			<OnSizeChanged>
+				if self.Text then
+				self.Text:SetSize(w, h)
+				end
+			</OnSizeChanged>
+		</Scripts>
+	</ScrollFrame>
+	
+	<Button name="CollapsibleButtonTemplate" virtual="true">
+		<Size x="152" y="17"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" parentKey="Left">
+					<Size x="76" y="16"/>
+					<Anchors>
+						<Anchor point="LEFT"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentRight" parentKey="Right">
+					<Size x="76" y="16"/>
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentMiddle" parentKey="Middle">
+					<Size x="0" y="16"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT" x="-20"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT" x="20"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			
+			<Layer level="BORDER">
+				<Texture name="$parentExpandOrCollapseIcon" parentKey="ExpandOrCollapseIcon" file="Interface\Buttons\UI-PlusMinus-Buttons-df">
+					<Size x="7" y="7"/>
+					<Anchors>
+						<Anchor point="LEFT" x="8"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "CollapsibleButtonMixin")
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Button name="BasicAtlasButtonTemplate" virtual="true">
+		<Size x="14" y="14"/>
+		<Scripts>
+			<OnLoad>
+				local atlas = self:GetAttribute("atlas")
+				self:SetNormalAtlas(atlas)
+				self:SetDisabledAtlas(atlas)
+				self:SetHighlightAtlas(atlas)
+				self:SetPushedAtlas(atlas)
+
+				self:GetPushedTexture():SetVertexColor(0.6, 0.6, 0.6)
+				self:GetDisabledTexture():SetDesaturated(true)
+
+				self.tooltipTitle = self:GetAttribute("tooltipTitle")
+				self.tooltipTitle = self.tooltipTitle and _G[self.tooltipTitle]
+				self.tooltipText = self:GetAttribute("tooltipText")
+				self.tooltipText = self.tooltipText and _G[self.tooltipText]
+			</OnLoad>
+			<PreClick>
+				PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+			</PreClick>
+			<OnLeave function="GameTooltip_Hide"/>
+			<OnEnter>
+				GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+			</OnEnter>
+		</Scripts>
+
+		<HighlightTexture alphaMode="ADD"/>
+	</Button>
+	
+	<Frame name="ThreeSliceTemplate" virtual="true">
+		<!--
+		atlasName: The art kit to use for the 3 sections of the button.
+						* The left textures will be "atlasName-Left"
+						* The right textures will be "atlasName-Right"
+						* The center textures will be "_atlasName-Center"
+		<Attributes>
+			<Attribute name="atlasName" value="128-redbutton" type="string"/>
+		</Attributes>
+		-->
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" parentKey="Left">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right">
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentCenter" parentKey="Center" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "ThreeSliceMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="DialogHeaderTemplate" virtual="true">
+		<Size x="200" y="39"/>
+		<Anchors>
+			<Anchor point="TOP" y="11" />
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentLeftBG" parentKey="LeftBG">
+					<Size x="32" y="39"/>
+					<Anchors>
+						<Anchor point="LEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRightBG" parentKey="RightBG">
+					<Size x="32" y="39"/>
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentCenterBG" parentKey="CenterBG" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeftBG" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentRightBG" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<FontString name="$parnetText" parentKey="Text" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOP" y="-13"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.LeftBG:SetAtlas("UI-Frame-DiamondMetal-Header-CornerLeft-2x", Const.TextureKit.IgnoreAtlasSize)
+				self.RightBG:SetAtlas("UI-Frame-DiamondMetal-Header-CornerRight-2x", Const.TextureKit.IgnoreAtlasSize)
+				self.CenterBG:SetAtlas("_UI-Frame-DiamondMetal-Header-Tile-2x", Const.TextureKit.IgnoreAtlasSize)
+				
+				if self:GetAttribute("textString") then
+					local text = self:GetAttribute("textString")
+					self.Text:SetText(_G[text] or text)
+					self:SetWidth(self.Text:GetStringWidth() + 64)
+				end
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="SimpleDialogTemplate" virtual="true">
+		<Frames>
+			<Frame parentKey="BG" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+				<Attributes>
+					<Attribute name="layoutType" value="Dialog"/>
+					<Attribute name="drawLayer" value="BORDER"/>
+				</Attributes>
+
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Bg" file="Interface\DialogFrame\UI-DialogBox-Background" horizTile="true" vertTile="true">
+							<Anchors>
+								<Anchor point="TOPLEFT" x="7" y="-7"/>
+								<Anchor point="BOTTOMRIGHT" x="-7" y="7"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+
+				<Scripts>
+					<OnLoad>
+						MixinAndLoad(self, "NineSlicePanelMixin")
+						UseParentLevel(self)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Frame>
+	
+	<Frame name="GlowBoxTemplate" inherits="NineSlicePanelTemplate2" virtual="true">
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parentGradientBG" parentKey="GradientBG" setAllPoints="true">
+					<Color r="1" g="1" b="1"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="-10" y="10"/>
+					<Anchor point="BOTTOMRIGHT" x="10" y="-10"/>
+				</Anchors>
+				
+				<Attributes>
+					<Attribute name="layoutType" value="HelpBoxShadow"/>
+					<Attribute name="drawLayer" value="BACKGROUND"/>
+				</Attributes>
+				
+				<Scripts>
+					<OnLoad>
+						MixinAndLoad(self, "NineSlicePanelMixin")
+						UseParentLevel(self)
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		
+		<Attributes>
+			<Attribute name="layoutType" value="HelpBoxGlow"/>
+			<Attribute name="drawLayer" value="ARTWORK"/>
+		</Attributes>
+		
+		<Scripts>
+			<OnSizeChanged function="GlowBox_RefreshGradient"/>
+		</Scripts>
+	</Frame>
+
+	<SimpleHTML name="DynamicSimpleHTMLTemplate" virtual="true">
+		<Layers>
+			<Layer>
+				<FontString name="$parentHiddenText" parentKey="HiddenText" justifyV="TOP" justifyH="LEFT" inherits="GameFontNormal">
+					<Size x="648" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "DynamicSimpleHTMLMixin")
+			</OnLoad>
+		</Scripts>
+
+		<FontString inherits="GameFontNormal"/>
+		<FontStringHeader1 inherits="GameFontNormalLarge2"/>
+		<FontStringHeader2 inherits="GameFontNormalLarge2"/>
+		<FontStringHeader3 inherits="GameFontNormalLarge"/>
+	</SimpleHTML>
+	
+	<Frame name="GarrsionUITemplate" inherits="BasicFrameTemplate" virtual="true">
+		<Layers>
+			<Layer>
+				<Texture name="$parentBackground" parentKey="Background" file="Interface\Garrison\garrisonuibackground2" vertTile="true" horizTile="true" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentGarrisonNineSlice" parentKey="GarrisonNineSlice" inherits="NineSlicePanelTemplate2">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="2" y="-22"/>
+					<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+				</Anchors>
+				
+				<Attributes>
+					<Attribute name="layoutType" value="GarrisonUI"/>
+				</Attributes>
+			</Frame>
+		</Frames>
+	</Frame>
+	
+	<Frame name="GarrisonListHeaderTemplate" virtual="true">
+		<Size x="200" y="42"/>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parentBackgroundLeft" parentKey="BackgroundLeft">
+					<Size x="65" y="42"/>
+					<Anchors>
+						<Anchor point="LEFT" x="-28"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBackgroundRight" parentKey="BackgroundRight">
+					<Size x="65" y="42"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="28"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackgroundMiddle" parentKey="BackgroundMiddle">
+					<Size x="1" y="42"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentBackgroundLeft" relativePoint="RIGHT" x="-35"/>
+						<Anchor point="RIGHT" relativeTo="$parentBackgroundRight" relativePoint="LEFT" x="35"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Scripts>
+			<OnLoad>
+				self.BackgroundLeft:SetAtlas("GarrMission_ParchmentHeader-End", Const.TextureKit.IgnoreAtlasSize)
+				self.BackgroundRight:SetAtlas("GarrMission_ParchmentHeader-End", Const.TextureKit.IgnoreAtlasSize)
+				self.BackgroundRight:FlipX()
+				self.BackgroundMiddle:SetAtlas("_GarrMission_ParchmentHeader-Mid", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="NewIconTemplate" virtual="true">
+		<Size x="59" y="37"/>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentGlow" parentKey="Glow" setAllPoints="true"/>
+			</Layer>
+			<Layer>
+				<FontString name="$parentText" parentKey="Text" text="NEW" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="CENTER" y="1"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				self.Glow:SetAtlas("collections-newglow", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="SmallNewIconTemplate" virtual="true">
+		<Size x="41" y="26"/>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentGlow" parentKey="Glow" setAllPoints="true"/>
+			</Layer>
+			<Layer>
+				<FontString name="$parentText" parentKey="Text" text="NEW" inherits="GameFontHighlightExtraSmall">
+					<Anchors>
+						<Anchor point="CENTER" y="1"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				self.Glow:SetAtlas("collections-newglow", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<SimpleHTML name="BaseHyperlinkHTMLScriptsTemplate" virtual="true">
+		<Scripts>
+			<OnHyperlinkClick>
+				LinkUtil:HandleHyperlinkClick(self, link, text, button)
+			</OnHyperlinkClick>
+			<OnHyperlinkEnter>
+				LinkUtil:OnHyperlinkEnter(self, link, text)
+			</OnHyperlinkEnter>
+			<OnHyperlinkLeave>
+				LinkUtil:OnHyperlinkLeave(self)
+			</OnHyperlinkLeave>
+		</Scripts>
+	</SimpleHTML>
+	
+	<Texture name="AnimatedBigDigitTemplate" virtual="true">
+		<Size x="48" y="53"/>
+		<Animations>
+			<AnimationGroup parentKey="Anim">
+				<Scale order="0" scaleX="2" scaleY="2" duration="0"/>
+				<Alpha order="0" change="-1" duration="0"/>
+				
+				<Alpha order="1" change="1" duration="0.2" smoothing="IN"/>
+				<Scale order="1" scaleX="0.5" scaleY="0.5" duration="0.3" smoothing="OUT"/>
+			</AnimationGroup>
+		</Animations>
+	</Texture>
+	
+	<Frame name="BigDigitBoxTemplate" inherits="HorizontalLayoutFrame" virtual="true">
+		<Size x="0" y="53"/>
+		<Attributes>
+			<Attribute name="spacing" value="-27" type="number"/>
+		</Attributes>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "HorizontalLayoutMixin", "BigDigitBoxMixin")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Slider name="UIControlSliderTemplate" orientation="HORIZONTAL" virtual="true" enableMouse="true">
+		<Size x="144" y="17"/>
+		<HitRectInsets left="0" right="0" top="-10" bottom="-10"/>
+		<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+			<EdgeSize val="8"/>
+			<TileSize val="8"/>
+			<BackgroundInsets left="3" right="3" top="6" bottom="6"/>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" parentKey="Text" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLow" parentKey="Low" inherits="GameFontHighlightSmall" text="LOW">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="-4" y="3"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentHigh" parentKey="High" inherits="GameFontHighlightSmall" text="HIGH">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="4" y="3"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentValue" parentKey="Value" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="3"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+			<Size x="32" y="32"/>
+		</ThumbTexture>
+	</Slider>
+	
+	<Button name="SimpleInformationBubbleTemplate" virtual="true">
+		<Size x="16" y="16"/>
+		<NormalTexture file="Interface\FriendsFrame\InformationIcon" setAllPoints="true"/>
+		<HighlightTexture file="Interface\FriendsFrame\InformationIcon-Highlight" alphaMode="ADD" setAllPoints="true"/>
+		
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "SimpleInformationBubbleMixin")
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Frame name="ButtonYellowGlowTemplate" hidden="true" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentLeft" parentKey="Left" alphaMode="ADD">
+					<Size x="24" y="48"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right" alphaMode="ADD">
+					<Size x="24" y="48"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentMiddle" parentKey="Middle" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				self.Left:SetAtlas("newplayertutorial-yellowGlow-redbutton-left", Const.TextureKit.IgnoreAtlasSize)
+				self.Right:SetAtlas("newplayertutorial-yellowGlow-redbutton-right", Const.TextureKit.IgnoreAtlasSize)
+				self.Middle:SetAtlas("newplayertutorial-yellowGlow-redbutton-middle", Const.TextureKit.IgnoreAtlasSize)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+    
+    <Frame name="PlunderstormFrameTemplate" inherits="NineSlicePanelTemplate2" virtual="true">
+        <Attributes>
+            <Attribute name="layoutType" value="UniqueCornersLayout"/>
+            <Attribute name="layoutTextureKit" value="plunderstorm"/>
+            <Attribute name="nineSliceIgnoreInLayout" value="true" type="boolean"/>
+            <Attribute name="drawLayer" value="BORDER"/>
+        </Attributes>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="interface\framegeneral\uiframedragonflightbackground" horizTile="true" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-4"/>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentBottomDecal" parentKey="BottomDecal">
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="BOTTOM" y="1.75"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-4" y="-4"/>
+                </Anchors>
+            </Button>
+            <Frame>
+                <Scripts>
+                    <OnLoad>
+                        self:GetParent().BottomDecal:SetAtlas("plunderstorm-decalbottom", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Frame>
+</Ui>

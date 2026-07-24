@@ -1,0 +1,162 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="LayoutFrame.lua"/>
+    
+    <Frame name="VerticalLayoutFrame" virtual="true">
+        <!--
+			<Attributes>
+				Use fixedWidth/fixedHeight if you want a fixed size; otherwise size will be dynamically
+				calculated based on the sizes of child frames
+				<Attribute name="fixedWidth" value="300" type="number"/>
+				<Attribute name="fixedHeight" value="300" type="number"/>
+
+				<Attribute name="minimumWidth" value="300" type="number"/>
+				<Attribute name="minimumHeight" value="300" type="number"/>
+				<Attribute name="maximumWidth" value="300" type="number"/>
+				<Attribute name="maximumHeight" value="300" type="number"/>
+
+				If expand is set to true, the frame will expand to the width of the widest child.
+				If you have fixedWidth set, the frame width will be the the maximum of fixedWidth
+				and the width of the widest child.
+				<Attribute name="expand" value="true" type="boolean"/>
+
+				Padding values for the 4 sides of the frame
+				<Attribute name="topPadding" value="35" type="number"/>
+				<Attribute name="bottomPadding" value="10" type="number"/>
+				<Attribute name="leftPadding" value="10" type="number"/>
+				<Attribute name="rightPadding" value="10" type="number"/>
+
+				Spacing is the number of pixels between child elements
+				<Attribute name="spacing" value="10" type="number"/>
+
+				Determines if child scale is taken into account when laying out children
+				<Attribute name="respectChildScale" value="true" type="boolean"/>
+			</Attributes>
+			-->
+
+        <!--
+				FontStrings, Textures and Frames can have the following key/value pairs
+
+				layoutIndex is required to be included in the layout system. You can choose not to have
+				a layoutIndex, in which case this region/frame should be anchored separately
+				<Attribute name="layoutIndex" value="3" type="number"/>
+
+				Some LayoutFrames (like ResizeLayoutFrame) set ignoreLayoutIndex to true, meaning that layoutIndex is completely ignored, and ALL child regions are processed in the layout.
+				If you want to keep a region out of the layout calculations for these LayoutFrames you must set ignoreInLayout to true
+				<Attribute name="ignoreInLayout" value="true" type="boolean"/>
+
+				Padding values for the 4 sides of the region/frame
+				<Attribute name="topPadding" value="20" type="number"/>
+				<Attribute name="bottomPadding" value="10" type="number"/>
+				<Attribute name="leftPadding" value="10" type="number"/>
+				<Attribute name="rightPadding" value="10" type="number"/>
+
+				If expand is set to true, the region/frame will expand to fit the parent layout frame
+				<Attribute name="expand" value="true" type="boolean"/>
+				
+				The align attribute can be used to control how this child is anchored relative to the VerticalLayoutFrame.
+				By default each child is anchored from TOPLEFT of the child to TOPLEFT of the VerticalLayoutFrame
+				Possible choices here are "center" (anchored TOP to TOP) and "right" (anchored TOPRIGHT to TOPRIGHT)
+				<Attribute name="align" value="center" type="string"/>
+			-->
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "VerticalLayoutMixin")
+            </OnLoad>
+            <OnShow>
+                self:Layout()
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+    <Frame name="HorizontalLayoutFrame" virtual="true">
+        <!-- Uses the same key/value pairs as VerticalLayoutFrame EXCEPT for: 
+             
+                 The align attribute does the same thing as VerticalLayoutFrame, but the valid values are different.
+                 Just like VerticalLayoutFrame, by default each child is anchored from TOPLEFT of the child to TOPLEFT of the HorizontalLayoutFrame
+                 Possible choices here are "center" (anchored LEFT to LEFT) and "bottom" (anchored BOTTOMLEFT to BOTTOMLEFT)
+                 <Attribute name="align" value="center" type="string"/>
+ 
+                 Determines if child scale is taken into account when laying out children
+                 <Attribute name="respectChildScale" value="true" type="boolean"/>
+             -->
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "HorizontalLayoutMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="IgnoreLayoutIndexHorizontalLayoutFrame" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "IgnoreLayoutIndexHorizontalLayoutMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="IgnoreLayoutIndexVerticalLayoutFrame" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "IgnoreLayoutIndexVerticalLayoutMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="ResizeLayoutFrame" virtual="true">
+        <Size x="1" y="1"/>
+        <!--
+        <Attributes>
+            ResizeLayoutFrame simply resizes based on the extents of it's child frames & regions.
+            You will need to set the anchors of all children & regions yourself.
+            Note that layoutIndex is NOT required to be included in the ResizeLayoutFrame system (and it does nothing if it is set).
+
+            Because we set ignoreLayoutIndex to true on ResizeLayoutFrame, you must specifically use the ignoreInLayout attribute if you want something to not be included in the size calculation
+
+            Use fixedWidth/fixedHeight if you want a fixed size; otherwise size will be dynamically
+            calculated based on the sizes of child frames
+            <Attribute name="fixedWidth" value="300" type="number"/>
+            <Attribute name="fixedHeight" value="300" type="number"/>
+            <Attribute name="widthPadding" value="300" type="number"/>
+            <Attribute name="heightPadding" value="300" type="number"/>
+            <Attribute name="minimumWidth" value="300" type="number"/>
+            <Attribute name="minimumHeight" value="300" type="number"/>
+            <Attribute name="maximumWidth" value="300" type="number"/>
+            <Attribute name="maximumHeight" value="300" type="number"/>
+        </Attributes>
+        -->
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ResizeLayoutMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="GridLayoutFrame" inherits="ResizeLayoutFrame" virtual="true">
+        <!-- 
+        <Attributes>
+            - Space in between laid out frames
+            <Attribute name="childXPadding" value="0" type="number"/>
+            <Attribute name="childYPadding" value="0" type="number"/>
+
+            - This is whether the layout is horizontal. If it is not horizontal then it will be vertical.
+            <Attribute name="isHorizontal" value="true" type="boolean"/>
+
+            - This is the number of frames per row/column (based on whether the grid is horizontal or vertical)
+            <Attribute name="stride" value="1" type="number"/>
+
+            - This is the direction the layout grows as it adds frames horizontally. If true, new frames will be added to the right. If false, new frames will be added to the left.
+            <Attribute name="layoutFramesGoingRight" value="true" type="boolean"/>
+
+            - This is the direction the layout grows as it adds frames vertically. If true, new frames will be added to the top. If false, new frames will be added to the bottom.
+            <Attribute name="layoutFramesGoingUp" value="true" type="boolean"/>
+        </Attributes>
+        -->
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "GridLayoutFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

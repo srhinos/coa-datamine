@@ -1,0 +1,626 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="PathToAscension.lua"/>
+
+    <Frame name="PathToAscensionFrame" parent="UIParent" enableMouse="true" frameStrata="DIALOG" movable="true" inherits="RaisedPortraitFrameTemplate" hidden="true">
+        <Size x="1060" y="698"/>
+        <Anchors>
+            <Anchor point="CENTER" y="24"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="DisplayBackground" file="Interface\Garrison\garrisonmissionparchment" vertTile="true" horizTile="true">
+                    <!--display background, anchored in PathToAscension.lua-->
+                    <Color r="0.8" g="0.8" b="0.8"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentObjectives" parentKey="Objectives" inherits="ScrollListTemplate">
+                <Size x="318" y="612"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="4" y="3"/>
+                </Anchors>
+            </Frame>
+            
+            <Frame name="$parentObjectivesHeader" parentKey="ObjectivesHeader">
+                <Size x="318" y="28"/>
+                
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeTo="$parentObjectives" relativePoint="TOP"/>
+                </Anchors>
+                
+                <Frames>
+                    <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                        <Size x="312" y="22"/>
+                        <Anchors>
+                            <Anchor point="LEFT" x="5" y="0"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnTextChanged>
+                                if not self:HasFocus() then return end
+                                SearchBoxTemplate_OnTextChanged(self)
+                                self:GetParent():GetParent():UpdateSearch()
+                            </OnTextChanged>
+                            <OnTextSet>
+                                self:GetParent():GetParent():UpdateSearch()
+                            </OnTextSet>
+                        </Scripts>
+                    </EditBox>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentCompleteProgress" parentKey="CompleteProgress" enableMouse="true" inherits="BetterStatusBarTemplate">
+                <Size x="432" y="14"/>
+
+                <Anchors>
+                    <!--<Anchor point="TOP" relativeTo="$parentObjectives" relativePoint="BOTTOM" x="12" y="-5"/>-->
+                    <Anchor point="TOP" x="0" y="-36"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="bar-atlas" value="_Legionfall_BarFill_UnderConstruction"/>
+                </Attributes>
+
+                <Frames>
+                    <Frame name="$parentRewardProgress" parentKey="RewardProgress" inherits="BetterStatusBarTemplate" setAllPoints="true">
+                        <Attributes>
+                            <Attribute name="bar-atlas" value="_Legionfall_BarFill_Active"/>
+                        </Attributes>
+                        <Frames>
+                            <Frame>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-5" y="5"/>
+                                    <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                                </Anchors>
+
+                                <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border" tile="true">
+                                    <TileSize val="12"/>
+                                    <EdgeSize val="12"/>
+                                </Backdrop>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                </Frames>
+                
+                <Scripts>
+                    <OnEnter>
+                        self:GetParent():OnProgressEnter()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+
+                <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                    <TileSize val="12"/>
+                    <Color r="0" g="0" b="0" a="0.8"/>
+                </Backdrop>
+            </Frame>
+
+            <Frame name="$parentDisplay" parentKey="Display">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentObjectives" relativePoint="TOPRIGHT" x="0" y="23"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="-4" y="6"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+                </Attributes>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBg" parentKey="Bg">
+                            <Size x="1178" y="993"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="1" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentPageText" parentKey="PageText" text="OBJECTIVES" inherits="GameFontHighlight" hidden="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <ScrollFrame name="$parentDescription" parentKey="Description">
+                        <Size x="670" y="428"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="26" y="-26"/>
+                        </Anchors>
+
+                        <ScrollChild>
+                            <Frame name="$parentContent" parentKey="Content">
+                                <Size x="670" y="428"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT"/>
+                                    <Anchor point="TOPRIGHT"/>
+                                </Anchors>
+                            </Frame>
+                        </ScrollChild>
+                    </ScrollFrame>
+
+                    <Frame name="$parentNineSliceShadow" parentKey="NineSliceShadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-3"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="InsetFrameNoBGTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="0" y="0"/>
+                            <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Button name="$parentLeftButton" parentKey="LeftButton" inherits="LeftButtonTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentPageText" relativePoint="LEFT" x="-12" y="0"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentRightButton" parentKey="RightButton" inherits="RightButtonTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentPageText" relativePoint="RIGHT" x="12" y="0"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentQuestObjectives" parentKey="QuestObjectives" hidden="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="BgTop"/>
+                                <Texture parentKey="BgMiddle"/>
+                                <Texture parentKey="BgBottom"/>
+                            </Layer>
+                                    
+                            <Layer level="OVERLAY">
+                                <Texture parentKey="Buckle"/>
+
+                                <FontString name="$parentObjectiveTitle" parentKey="ObjectiveTitle" justifyH="LEFT" justifyV="TOP" text="OBJECTIVES" inherits="GameFontHighlightLarge">
+                                    <Size x="634" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" x="0" y="-16"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentRewardTitle" parentKey="RewardTitle" justifyH="LEFT" justifyV="TOP" text="REWARDS" inherits="GameFontHighlightLarge">
+                                    <Size x="634" y="0"/>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <SimpleHTML name="$parentObjectiveText" parentKey="ObjectiveText" inherits="PTADescriptionTemplate">
+                                <Size x="634" y="120"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentObjectiveTitle" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                                </Anchors>
+                                <!--<FontString inherits="GameFontHighlightSmall"/>-->
+                            </SimpleHTML>
+                            
+                            <Frame name="$parentRewardGroup" parentKey="RewardGroup" inherits="HorizontalLayoutFrame">
+                                <Size x="634" y="32"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentRewardTitle" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                                </Anchors>
+                                
+                                <Attributes>
+                                    <Attribute name="spacing" value="18" type="number"/>
+                                    <Attribute name="fixedWidth" value="426" type="number"/>
+                                </Attributes>
+                            </Frame>
+
+                            <Frame name="$parentInteract" parentKey="Interact" hidden="true">
+                                <Size x="172" y="40"/>
+                                <Anchors>
+                                    <Anchor point="TOPRIGHT" relativeTo="$parentRewardTitle" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                                </Anchors>
+
+                                <Frames>
+                                    <Button name="$parentButton" parentKey="Button" inherits="RedButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="CENTER"/>
+                                        </Anchors>
+                                        <Size x="172" y="40"/>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():OnInteractClick()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "PathObjectiveQuestObjectivesMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "PathObjectiveDisplayMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentMentorPanel" parentKey="MentorPanel" hidden="true" inherits="NineSlicePanelTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-20"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="layoutType" value="ShadowOverlay"/>
+                </Attributes>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture file="Interface\Collections\CollectionsBackgroundTile" horizTile="true" vertTile="true" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentFindHelp" parentKey="FindHelp" enableMouse="true"  inherits="PathDisplayPanelTemplate">
+                        <Size x="438" y="600"/>
+                        
+                        <Anchors>
+                            <Anchor point="RIGHT" x="-28"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="$parentBackground" file="Interface\Garrison\garrisonmissionparchment" vertTile="true" horizTile="true">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="4" y="-10"/>
+                                        <Anchor point="BOTTOMRIGHT" x="-4" y="10"/>
+                                    </Anchors>
+                                    <Color r="0.8" g="0.8" b="0.8"/>
+                                </Texture>
+                            </Layer>
+                            <Layer>
+                                <FontString name="$parentTitle" parentKey="Title" text="FIND_A_MENTOR" inherits="QuestFont_Massive">
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-24"/>
+                                    </Anchors>
+                                    <Color r="1" g="0.82" b="0"/>
+                                </FontString>
+
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="28" y="30"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" relativeTo="$parentTitle" relativePoint="RIGHT"/>
+                                    </Anchors>
+                                </Texture>
+
+                                <FontString name="$parentAbout" parentKey="About" text="FIND_A_MENTOR_ABOUT" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlight">
+                                    <Size x="374" y="120"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                                <Size x="286" y="22"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentAbout" relativePoint="BOTTOMLEFT" x="-12"/>
+                                </Anchors>
+                            </EditBox>
+                            
+                            <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT" x="2"/>
+                                </Anchors>
+                            </Button>
+                            
+                            <Button name="$parentRefreshButton" parentKey="RefreshButton" inherits="RefreshButtonTemplate">
+                                <Size x="28" y="28"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT"/>
+                                </Anchors>
+                                
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        self:GetParent():RefreshData()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Frame name="$parentAvailableMentors" parentKey="AvailableMentors" inherits="StandardProportionalScrollListTemplate">
+                                <Size x="390" y="374"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSearchBox" relativePoint="BOTTOMLEFT" x="-8" y="-16"/>
+                                </Anchors>
+
+                                <Frames>
+                                    <Frame inherits="NineSlicePanelTemplate2">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="-10" y="10"/>
+                                            <Anchor point="BOTTOMRIGHT" x="34" y="-10"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="layoutType" value="GarrisonMissionList"/>
+                                        </Attributes>
+
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture file="Interface\Garrison\garrisonmissionuiinfoboxbackgroundtile" horizTile="true" vertTile="true" setAllPoints="true"/>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                                                UseParentLevel(self)
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "PathFindMentorPanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentBecomeMentor" parentKey="BecomeMentor" enableMouse="true" inherits="PathDisplayPanelTemplate">
+                        <Size x="438" y="600"/>
+
+                        <Anchors>
+                            <Anchor point="LEFT" x="28"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="$parentBackground" file="Interface\Garrison\garrisonmissionparchment" vertTile="true" horizTile="true">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="4" y="-10"/>
+                                        <Anchor point="BOTTOMRIGHT" x="-4" y="10"/>
+                                    </Anchors>
+                                    <Color r="0.8" g="0.8" b="0.8"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentTitle" parentKey="Title" text="BECOME_A_MENTOR" inherits="QuestFont_Massive">
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-24"/>
+                                    </Anchors>
+                                    <Color r="1" g="0.82" b="0"/>
+                                </FontString>
+
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="30" y="26"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" relativeTo="$parentTitle" relativePoint="RIGHT"/>
+                                    </Anchors>
+                                </Texture>
+
+                                <FontString name="$parentAbout" parentKey="About" text="BECOME_A_MENTOR_ABOUT" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlight">
+                                    <Size x="374" y="240"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentSpecLabel" parentKey="SpecLabel" text="I_CAN_HELP_WITH_ELLIPSES" inherits="GameFontHighlight">
+                                    <Size x="374" y="18"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentAbout" relativePoint="BOTTOM" y="-48"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentOverlay" parentKey="Overlay" inherits="InputBlockSoftEdgeTextTemplate" hidden="true">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-16" y="6"/>
+                                    <Anchor point="BOTTOMRIGHT" x="16" y="-2"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer level="OVERLAY">
+                                        <FontString name="$parentOverlayTitle" parentKey="OverlayTitle" text="BECOME_A_MENTOR" inherits="QuestFont_Massive">
+                                            <Anchors>
+                                                <Anchor point="TOP" y="-30"/>
+                                            </Anchors>
+                                            <Color r="1" g="0.82" b="0"/>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Button name="$parentGoToFirstTab" parentKey="GoToFirstTab" text="VIEW_CATEGORY" inherits="StandardButtonTemplate">
+                                        <Size x="140" y="24"/>
+                                        <Anchors>
+                                            <Anchor point="TOP" relativeTo="$parentSubText" relativePoint="BOTTOM" y="-8"/>
+                                        </Anchors>
+                                        
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                                PathToAscensionFrame:SelectFirstEnabledTab()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+
+                                <Attributes>
+                                    <Attribute name="title" value="CANNOT_BECOME_A_MENTOR" type="string"/>
+                                </Attributes>
+                            </Frame>
+                            
+                            <Button name="$parentBecomeMentorButton" parentKey="BecomeMentorButton" inherits="StandardButtonTemplate">
+                                <Size x="160" y="24"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" y="24"/>
+                                </Anchors>
+                                
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():ClickBecomeMentor()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "PathBecomeMentorPanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "PathMentorPanelMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentAppendixPanel" parentKey="AppendixPanel" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-20"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                </Anchors>
+                
+                <Frames>
+                    <Frame name="$parentKeywords" parentKey="Keywords" inherits="ScrollListTemplate">
+                        <Size x="318" y="612"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" x="4" y="3"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame name="$parentKeywordsHeader" parentKey="KeywordsHeader">
+                        <Size x="318" y="28"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" relativeTo="$parentKeywords" relativePoint="TOP"/>
+                        </Anchors>
+
+                        <Frames>
+                            <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                                <Size x="312" y="22"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" x="5" y="0"/>
+                                </Anchors>
+                                <Scripts>
+                                    <OnTextChanged>
+                                        if not self:HasFocus() then return end
+                                        SearchBoxTemplate_OnTextChanged(self)
+                                        self:GetParent():GetParent():UpdateSearch(self:GetText())
+                                    </OnTextChanged>
+                                    <OnTextSet>
+                                        self:GetParent():GetParent():UpdateSearch(self:GetText())
+                                    </OnTextSet>
+                                </Scripts>
+                            </EditBox>
+                        </Frames>
+                    </Frame>
+
+                    <Frame name="$parentDisplay" parentKey="Display">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentKeywords" relativePoint="TOPRIGHT" x="0" y="23"/>
+                            <Anchor point="BOTTOMRIGHT" x="-4" y="6"/>
+                        </Anchors>
+    
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+                        </Attributes>
+    
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBackground" parentKey="Background">
+                                    <Size x="733" y="633"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                            
+                            <Layer>
+                                <Texture name="$parentBanner" parentKey="Banner" file="Interface\Tutorials\PtA\Book_of_Ascension">
+                                    <Size x="670" y="266"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" x="-6" y="-26"/>
+                                    </Anchors>
+                                    <TexCoords left="0" right="1" top="0.115234375" bottom="0.908203125"/>
+                                </Texture>
+
+                                <FontString name="$parentTitle" parentKey="Title" inherits="GameFontKeywordGiant">
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentBanner" relativePoint="BOTTOM" y="-4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <SimpleHTML name="$parentDescription" parentKey="Description" inherits="DynamicSimpleHTMLTemplate">
+                                <Size x="610" y="340"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" x="58"/>
+                                    <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-18"/>
+                                </Anchors>
+                                <FontString inherits="GameFontHighlightMedium"/>
+                            </SimpleHTML>
+
+                            <Frame name="$parentNineSliceShadow" parentKey="NineSliceShadow" inherits="NineSlicePanelTemplate2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="4" y="-3"/>
+                                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                                </Attributes>
+                            </Frame>
+
+                            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="InsetFrameNoBGTemplate2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="0" y="0"/>
+                                    <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "PathAppendixPanelMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NineSlicePanelMixin", "PathToAscensionMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

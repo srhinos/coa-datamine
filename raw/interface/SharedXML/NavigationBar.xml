@@ -1,0 +1,205 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="NavigationBar.lua"/>
+
+    <Button name="NavButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="80" y="30"/>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="ArrowUp">
+                    <Size x="21" y="30"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="-1" y="0"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="ArrowDown">
+                    <Size x="21" y="30"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="-1" y="0"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="Selected" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button parentKey="MenuArrowButton" hidden="true">
+                <Size x="27" y="31"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativePoint="TOPRIGHT" x="-2" y="-15"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="Art" file="Interface\Buttons\SquareButtonTextures">
+                            <Size x="12" y="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="-1"/>
+                            </Anchors>
+                            <TexCoords left="0.45312500" right="0.64062500" bottom="0.01562500" top="0.20312500"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnMouseDown>
+                        self.Art:SetPoint("CENTER", -1, -2)
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                        self:GetParent():ToggleDropDown()
+                    </OnMouseDown>
+                    <OnMouseUp>
+                        self.Art:SetPoint("CENTER", 0, -1)
+                    </OnMouseUp>
+                    <OnEnter>
+                        self.NormalTexture:SetAlpha(1)
+                        self.PushedTexture:SetAlpha(1)
+                    </OnEnter>
+                    <OnLeave>
+                        self.NormalTexture:SetAlpha(0)
+                        self.PushedTexture:SetAlpha(0)
+                    </OnLeave>
+                </Scripts>
+
+                <NormalTexture file="Interface\Buttons\UI-SquareButton-Up" parentKey="NormalTexture" alpha="0">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </NormalTexture>
+                <PushedTexture file="Interface\Buttons\UI-SquareButton-Down" parentKey="PushedTexture" alpha="0">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </PushedTexture>
+                <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </HighlightTexture>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NavButtonMixin")
+            </OnLoad>
+        </Scripts>
+        <ButtonText name="$parentText" inherits="GameFontNormal" justifyH="LEFT" parentKey="Text">
+            <Size x="0" y="12"/>
+            <Anchors>
+                <Anchor point="LEFT" x="15" y="0"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Frame name="NavBarTemplate" virtual="true">
+        <Size x="300" y="34"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-3" y="3"/>
+                    <Anchor point="BOTTOMRIGHT" x="3" y="-2"/>
+                </Anchors>
+                
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                </Attributes>
+            </Frame>
+
+            <Frame parentKey="Overlay" frameLevel="10">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="0" y="0"/>
+                                <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Button name="$parentOverflowButton" parentKey="OverflowButton">
+                <Size x="44" y="30"/>
+                <Scripts>
+                    <OnLoad>
+                        self.xoffset = -24
+                    </OnLoad>
+                    <OnMouseDown>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                    </OnMouseDown>
+                </Scripts>
+                <HighlightTexture alphaMode="ADD" alpha="0.4"/>
+            </Button>
+            
+            <Button name="$parentHomeButton" parentKey="HomeButton" text="HOME">
+                <Size x="128" y="30"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentLeft" file="Interface\Common\ShadowOverlay-Left">
+                            <Size x="30" y="30"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self.xoffset = -15;
+                    </OnLoad>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                        if self:GetParent().homeCallback then
+                            self:GetParent().homeCallback()
+                        end
+                    </OnClick>
+                </Scripts>
+                <HighlightTexture alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" x="-12"/>
+                    </Anchors>
+                </HighlightTexture>
+                <ButtonText name="$parentText" inherits="GameFontNormal" parentKey="Text">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="10" y="0"/>
+                        <Anchor point="RIGHT" x="-30" y="0"/>
+                    </Anchors>
+                </ButtonText>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NavBarMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

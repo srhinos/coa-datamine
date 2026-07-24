@@ -1,0 +1,102 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="QuickKeybind.lua"/>
+    
+    <Button name="QuickKeybindButtonTemplate" virtual="true">
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="QuickKeybindHighlightTexture" alphaMode="ADD" alpha="0.4" setAllPoints="true" hidden="true"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "QuickKeybindButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <GameTooltip name="QuickKeybindTooltip" parent="UIParent" inherits="GameTooltipTemplate"/>
+
+
+    <Button name="QuickKeybindFrame" enableKeyboard="true" enableMouse="true" movable="true" parent="UIParent" toplevel="true" frameStrata="HIGH" hidden="true" clampedToScreen="true">
+        <Size x="450" y="250"/>
+        <Anchors>
+            <Anchor point="CENTER" y="150"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BORDER">
+                <FontString name="$parentInstructionText" parentKey="InstructionText" inherits="GameFontHighlight" text="QUICK_KEYBIND_TEXT" justifyV="TOP" wordwrap="true">
+                    <Size x="400" y="150"/>
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-40" />
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="OutputText" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentInstructionText" relativePoint="CENTER" x="0" y="-50"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="BG" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                <Attributes>
+                    <Attribute name="layoutType" value="Dialog"/>
+                </Attributes>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Bg" file="Interface\DialogFrame\UI-DialogBox-Background" horizTile="true" vertTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="7" y="-7"/>
+                                <Anchor point="BOTTOMRIGHT" x="-7" y="7"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "NineSlicePanelMixin")
+                        UseParentLevel(self)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            
+            <Frame parentKey="Header" inherits="DialogHeaderTemplate">
+                <Attributes>
+                    <Attribute name="textString" value="QUICK_KEYBIND_MODE"/>
+                </Attributes>
+            </Frame>
+            <CheckButton parentKey="UseCharacterBindingsButton" inherits="UICheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-82" y="-65"/>
+                </Anchors>
+            </CheckButton>
+            <Button name="$parentDefaultsButton" parentKey="DefaultsButton" inherits="UIPanelButtonTemplate">
+                <Size x="128" y="22"/>
+                <Anchors>
+                    <Anchor point="CENTER" x="0" y="-95"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentCancelButton" parentKey="CancelButton" inherits="UIPanelButtonTemplate">
+                <Size x="96" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentDefaultsButton" relativePoint="BOTTOMRIGHT" x="25" y="0"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentOkayButton" parentKey="OkayButton" inherits="UIPanelButtonTemplate">
+                <Size x="96" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentDefaultsButton" relativePoint="BOTTOMLEFT" x="-25" y="0"/>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "QuickKeybindFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

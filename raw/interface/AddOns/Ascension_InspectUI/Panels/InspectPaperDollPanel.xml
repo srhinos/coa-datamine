@@ -1,0 +1,323 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="InspectItemSlotButton.lua"/>
+    <Script file="InspectPaperDollPanel.lua"/>
+    
+    <Button name="InspectItemSlotScripts" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectItemSlotButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="InspectItemSlotButtonLeftTemplate" inherits="ItemSlotButtonLeftTemplate, InspectItemSlotScripts" virtual="true"/>
+    <Button name="InspectItemSlotButtonRightTemplate" inherits="ItemSlotButtonRightTemplate, InspectItemSlotScripts" virtual="true"/>
+    <Button name="InspectItemSlotButtonBottomTemplate" inherits="ItemSlotButtonBottomTemplate, InspectItemSlotScripts" virtual="true"/>
+
+    <Frame name="InspectPaperDollPanel" setAllPoints="true" parent="AscensionInspectFrameInset">
+        <Frames>
+            <PlayerModel name="$parentModel" parentKey="Model" inherits="NineSlicePanelTemplate2">
+                <Size x="280" y="326"/>
+                <Anchors>
+                    <Anchor point="TOP" y="-4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture name="$parentBackgroundOverlay" parentKey="BackgroundOverlay" setAllPoints="true">
+                            <Color r="0" g="0" b="0"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetFacing(0.45)
+                        MixinAndLoad(self, "ModelMixin")
+                        self:SetEnableDragRotation(true)
+                        self:SetEnableScrollZoom(true)
+                        self:SetEnableDragMove(true)
+                        self:SetDragScale(0.001)
+                        self:SetMaxPosOffset(0.5, 0.5)
+                        self:SetMinMaxDistance(-1.4, 1.4)
+                        MixinAndLoad(self, "NineSlicePanelMixin")
+                    </OnLoad>
+                </Scripts>
+                <Attributes>
+                    <Attribute name="layoutType" value="InnerPaperDollBorder"/>
+                </Attributes>
+            </PlayerModel>
+
+            <Frame name="$parentFelCommutationNotice" enableMouse="true" parentKey="FelCommutationNotice" hidden="true">
+                <Size x="274" y="72"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentModel" x="4" y="-1"/>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentModel" x="-4" y="-1"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentArtwork" parentKey="Artwork">
+                            <Size x="436" y="35"/>
+                            <Anchors>
+                                <Anchor point="TOP"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentLabel" parentKey="Label" text="FEL_COMMUTATION_POTENTIAL_LOSS" inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="TOP" y="-6"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentCost" parentKey="Cost" inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentLabel" relativePoint="BOTTOM" y="-4"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                        GameTooltip:SetText(FEL_COMMUTATION, 1, 1, 1, 1)
+                        GameTooltip:AddLine(FEL_COMMUTATION_DESC, nil, nil, nil, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentItemsFrame" parentKey="ItemsFrame" setAllPoints="true">
+                <Frames>
+                    <Button name="AscensionInspectHeadSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="HeadSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectNeckSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectHeadSlot" relativePoint="BOTTOMLEFT"  x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="NeckSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectShoulderSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectNeckSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="ShoulderSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectBackSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectShoulderSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="BackSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectChestSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectBackSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="ChestSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectShirtSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectChestSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="ShirtSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectTabardSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectShirtSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="TabardSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectWristSlot" inherits="InspectItemSlotButtonLeftTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectTabardSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="WristSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectHandsSlot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-4" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="HandsSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectWaistSlot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectHandsSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="WaistSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectLegsSlot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectWaistSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="LegsSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectFeetSlot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectLegsSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="FeetSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectFinger0Slot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectFeetSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="Finger0Slot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectFinger1Slot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectFinger0Slot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="Finger1Slot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectTrinket0Slot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectFinger1Slot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="Trinket0Slot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectTrinket1Slot" inherits="InspectItemSlotButtonRightTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectTrinket0Slot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="Trinket1Slot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectMainHandSlot" inherits="InspectItemSlotButtonBottomTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="-59" y="16"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="FrameExtra">
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" relativeTo="$parentFrame" relativePoint="TOPLEFT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                self.FrameExtra:SetAtlas("Char-Slot-Bottom-Left", Const.TextureKit.UseAtlasSize)
+                                MixinAndLoadScripts(self, "InspectItemSlotButtonMixin")
+                            </OnLoad>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="invslot" value="MainHandSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectSecondaryHandSlot" inherits="InspectItemSlotButtonBottomTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectMainHandSlot" relativePoint="TOPRIGHT" x="5" y="0"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="invslot" value="SecondaryHandSlot"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="AscensionInspectRangedSlot" inherits="InspectItemSlotButtonBottomTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="AscensionInspectSecondaryHandSlot" relativePoint="TOPRIGHT" x="5" y="0"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="FrameExtra">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentFrame" relativePoint="TOPRIGHT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                self.FrameExtra:SetAtlas("Char-Slot-Bottom-Right", Const.TextureKit.UseAtlasSize)
+                                MixinAndLoadScripts(self, "InspectItemSlotButtonMixin")
+                            </OnLoad>
+                        </Scripts>
+                        <Attributes>
+                            <Attribute name="invslot" value="RangedSlot"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="AscensionInspectAmmoSlot" inherits="InspectItemSlotButtonBottomTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="AscensionInspectRangedSlot" relativePoint="BOTTOMRIGHT" x="15" y="0"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="FrameExtraLeft">
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" relativeTo="$parentFrame" relativePoint="TOPLEFT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="FrameExtraRight">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentFrame" relativePoint="TOPRIGHT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Attributes>
+                            <Attribute name="invslot" value="AmmoSlot"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnLoad>
+                                self.FrameExtraLeft:SetAtlas("Char-Slot-Bottom-Left", Const.TextureKit.UseAtlasSize)
+                                self.FrameExtraRight:SetAtlas("Char-Slot-Bottom-Right", Const.TextureKit.UseAtlasSize)
+                                MixinAndLoadScripts(self, "InspectItemSlotButtonMixin")
+                                self:SetScale(0.6)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectPaperDollPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

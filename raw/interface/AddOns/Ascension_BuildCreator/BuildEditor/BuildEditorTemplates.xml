@@ -1,0 +1,1063 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="EditableBuildElement.lua"/>
+    <Script file="EditableBuildText.lua"/>
+    <Script file="EditableBuildIcons.lua"/>
+    <Script file="EditableBuildView.lua"/>
+    
+    <Button name="EditableBuildSpellTemplate" inherits="BuildSpellTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentEditOverlay" parentKey="EditOverlay" hidden="true" setAllPoints="true">
+                <Frames>
+                    <Button name="$parentSettingsButton" parentKey="SettingsButton">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():OnClick()
+                            </OnClick>
+                            <OnEnter>
+                                self:GetParent():GetParent():OnEnter()
+                            </OnEnter>
+                            <OnLeave>
+                                self:GetParent():GetParent():OnLeave()
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentIncreaseRank" parentKey="IncreaseRank">
+                        <Size x="24" y="24"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" x="-4"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():IncreaseRank()
+                            </OnClick>
+                            <OnEnter>
+                                self:GetParent():GetParent():OnEnter()
+                            </OnEnter>
+                            <OnLeave>
+                                self:GetParent():GetParent():OnLeave()
+                            </OnLeave>
+                        </Scripts>
+                        
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+
+                    <Button name="$parentDecreaseRank" parentKey="DecreaseRank">
+                        <Size x="24" y="24"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentIncreaseRank" relativePoint="LEFT"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():DecreaseRank()
+                            </OnClick>
+                            <OnEnter>
+                                self:GetParent():GetParent():OnEnter()
+                            </OnEnter>
+                            <OnLeave>
+                                self:GetParent():GetParent():OnLeave()
+                            </OnLeave>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildSpellMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="EditableBuildEnchantTemplate" inherits="BuildEnchantTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentEditOverlay" parentKey="EditOverlay" hidden="true" setAllPoints="true">
+                <Frames>
+                    <Button name="$parentSettingsButton" parentKey="SettingsButton">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-6"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():OnClick()
+                            </OnClick>
+                            <OnEnter>
+                                self:GetParent():GetParent():OnEnter()
+                            </OnEnter>
+                            <OnLeave>
+                                self:GetParent():GetParent():OnLeave()
+                            </OnLeave>
+                        </Scripts>
+                        
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+
+                    <Button name="$parentIncreaseStacks" parentKey="IncreaseStacks">
+                        <Size x="18" y="18"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" x="-4"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():IncreaseRank()
+                            </OnClick>
+                            <OnEnter>
+                                self:GetParent():GetParent():OnEnter()
+                            </OnEnter>
+                            <OnLeave>
+                                self:GetParent():GetParent():OnLeave()
+                            </OnLeave>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+
+                    <Button name="$parentDecreaseStacks" parentKey="DecreaseStacks">
+                        <Size x="18" y="18"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentIncreaseStacks" relativePoint="LEFT"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():DecreaseRank()
+                            </OnClick>
+                            <OnEnter>
+                                self:GetParent():GetParent():OnEnter()
+                            </OnEnter>
+                            <OnLeave>
+                                self:GetParent():GetParent():OnLeave()
+                            </OnLeave>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildEnchantMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="EditableBuildElementTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentEditOverlay" parentKey="EditOverlay" toplevel="true" setAllPoints="true" hidden="true">
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentHighlight" parentKey="Highlight" setAllPoints="true">
+                            <Color r="0" g="0" b="0" a="0.6"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="26" y="26"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Icon:SetAtlas("mechagon-projects", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnEnter>
+            </OnEnter>
+            <OnLeave>
+                self.EditOverlay:Hide()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <Button name="EditableBuildIconTemplate" inherits="BorderIconTemplate, EditableBuildElementTemplate" virtual="true">
+        <Size x="64" y="64"/>
+        <Frames>
+            <Frame name="$parentIconSelector" parentKey="IconSelector" hidden="true" inherits="IconSelectionTemplate" frameLevel="20">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildIconMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="EditableBuildRoleTemplate" inherits="BorderIconTemplate, EditableBuildElementTemplate" virtual="true">
+        <Size x="48" y="48"/>
+        <Frames>
+            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildRoleMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="EditableBuildPrimaryStatTemplate" inherits="SpellIconTemplate, EditableBuildElementTemplate" virtual="true">
+        <Size x="32" y="32"/>
+        <Frames>
+            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildPrimaryStatMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="EditableBuildTextTemplate" inherits="EditableBuildElementTemplate" virtual="true">
+        <Frames>
+            <EditBox name="$parentEditBox" parentKey="EditBox" hidden="true" letters="256" inherits="InputBoxTemplate2">
+                <Size x="0" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="TOPRIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnHide>
+                        self:GetParent().Text:Show()
+                    </OnHide>
+                    <OnEnterPressed>
+                        self:GetParent().Text:SetText(self:GetText() or "")
+                        self:GetParent():HideEditModeIfEditing()
+                    </OnEnterPressed>
+                    <OnEscapePressed>
+                        self:GetParent():HideEditModeIfEditing()
+                    </OnEscapePressed>
+                </Scripts>
+            </EditBox>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildTextMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <ButtonText parentKey="Text" inherits="GameFontNormal" justifyH="LEFT" setAllPoints="true"/>
+    </Button>
+
+    <Button name="EditableBuildMultilineTextTemplate" inherits="EditableBuildElementTemplate" virtual="true">
+        <Size x="648" y="128"/>
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="ScrollableMultiLineInputBoxInstructionsTemplate" hidden="true" setAllPoints="true">
+                <Scripts>
+                    <OnHide>
+                        self:GetParent().Text:Show()
+                    </OnHide>
+                </Scripts>
+            </ScrollFrame>
+
+            <SimpleHTML name="Text" parentKey="Text" inherits="BuildSimpleHTMLTemplate">
+                <Size x="648" y="128"/>
+                
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+
+                <FontString inherits="GameFontNormal"/>
+            </SimpleHTML>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildMultilineTextMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <CheckButton name="EditableBuildClassTabTemplate" virtual="true">
+        <Size x="44" y="44"/>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentBorder" parentKey="Border">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildClassTabMixin")
+            </OnLoad>
+        </Scripts>
+
+        <HitRectInsets left="-6" right="-6" top="-6" bottom="-6"/>
+        
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontNormalOutline">
+            <Anchors>
+                <Anchor point="BOTTOM" y="-4"/>
+            </Anchors>
+        </ButtonText>
+    </CheckButton>
+    
+    <Frame name="EditableBuildViewSectionTemplate" inherits="BuildViewSectionTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildViewSectionMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="BuildAddSpellTemplate" virtual="true">
+        <Size x="178" y="32"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Size x="156" y="48"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                self.Icon:SetBorderTexture("Interface\\Buttons\\UI-Quickslot2")
+                self.Icon:SetBorderSize(62, 62)
+                self.Icon:SetIconAtlas("itemupgrade_greenplusicon")
+                self:SetNormalAtlas("GarrMission_FollowerPartyBox_Sm")
+                self:SetHighlightAtlas("GarrMission_FollowerPartyBox_Sm")
+            </OnLoad>
+            <OnClick>
+                if BuildCreatorUtil.GetHeldSpell() then
+                    return BuildCreatorUtil.PlaceHeldSpellAtLevel(self.level)
+                end
+                BuildCreatorUtil.SetPickMode(BuildCreatorUtil.PickingMode.Spells, self.level)
+                Collections:GoToTab(Collections.Tabs.CharacterAdvancement)
+                BuildCreatorUtil.RefreshFinishPickingPopup()
+            </OnClick>
+            <OnReceiveDrag>
+                BuildCreatorUtil.PlaceHeldSpellAtLevel(self.level)
+            </OnReceiveDrag>
+            <OnEnter>
+                BuildCreatorUtil.CheckHeldSpellPlacement(self.level)
+            </OnEnter>
+            <OnLeave>
+                BuildCreatorUtil.CheckHeldSpellPlacement()
+            </OnLeave>
+        </Scripts>
+        
+        <NormalTexture>
+            <Size x="156" y="46"/>
+            <Anchors>
+                <Anchor point="LEFT" y="1"/>
+            </Anchors>
+        </NormalTexture>
+
+        <HighlightTexture alphaMode="ADD">
+            <Size x="156" y="46"/>
+            <Anchors>
+                <Anchor point="LEFT" y="1"/>
+            </Anchors>
+        </HighlightTexture>
+
+        <ButtonText inherits="GameFontNormal" justifyH="LEFT" text="ADD_SPELL">
+            <Size x="142" y="26"/>
+            <Anchors>
+                <Anchor point="LEFT" x="36"/>
+            </Anchors>
+            <Color r="0" g="1" b="0"/>
+        </ButtonText>
+    </Button>
+    
+    <Button name="BuildAddEnchantTemplate" inherits="BuildAddSpellTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                self.Icon:SetBorderAtlas("EnchantSlotBorderKnownUncommon")
+                self.Icon:SetBorderSize(64, 64)
+                self.Icon:SetIcon("Interface\\PaperDollInfoFrame\\Character-Plus-BG")
+                self:SetNormalAtlas("GarrMission_FollowerPartyBox_Sm")
+                self:SetHighlightAtlas("GarrMission_FollowerPartyBox_Sm")
+            </OnLoad>
+            <OnClick>
+                if C_GameMode:IsGameModeActive(Enum.GameMode.WildCard) then
+                    return
+                end
+                BuildCreatorUtil.SetPickMode(BuildCreatorUtil.PickingMode.Enchants)
+                Collections:GoToTab(Collections.Tabs.MysticEnchants)
+                StaticPopup_Show("BUILD_CREATOR_FINISH_PICKING_ENCHANTS")
+            </OnClick>
+        </Scripts>
+
+        <ButtonText inherits="GameFontNormal" justifyH="LEFT" text="ADD_ENCHANT">
+            <Size x="142" y="26"/>
+            <Anchors>
+                <Anchor point="LEFT" x="36"/>
+            </Anchors>
+            <Color r="0" g="1" b="0"/>
+        </ButtonText>
+    </Button>
+
+    <Button name="BuildAddEquipmentTemplate" inherits="BuildAddSpellTemplate" virtual="true">
+        <Scripts>
+            <OnClick>
+                self:GetParent():ShowEquipmentDropDown(self)
+            </OnClick>
+        </Scripts>
+
+        <ButtonText inherits="GameFontNormal" justifyH="LEFT" text="ADD_EQUIPMENT">
+            <Size x="142" y="26"/>
+            <Anchors>
+                <Anchor point="LEFT" x="36"/>
+            </Anchors>
+            <Color r="0" g="1" b="0"/>
+        </ButtonText>
+    </Button>
+
+    <Frame name="EditableBuildViewTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentControls" parentKey="Controls">
+                <Size x="766" y="44"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-6" y="-24"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentPublishBuild" parentKey="PublishBuild" text="PUBLISH_BUILD" motionScriptsWhileDisabled="true" inherits="SharedGoldRedButtonTemplate">
+                        <Size x="140" y="38"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="6" y="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                BuildCreatorFrame:PromptPublishBuild()
+                            </OnClick>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentResetBuild" parentKey="ResetBuild" text="RESET_BUILD" inherits="SharedButtonTemplate">
+                        <Size x="140" y="38"/>
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentPublishBuild" relativePoint="RIGHT" x="4"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                StaticPopup_Show("BUILD_CREATOR_RESET_BUILD")
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+            <Frame name="$parentMainFrame" parentKey="MainFrame">
+                <Size x="766" y="625"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentControls" relativePoint="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentContentBackground" parentKey="ContentBackground" vertTile="true" horizTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="2" y="-88"/>
+                                <Anchor point="BOTTOMRIGHT" x="-2" y="4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentAuthor" parentKey="Author" inherits="GameFontHighlightSmall" justifyH="LEFT">
+                            <!--Set in OnLoad since Name is a button-->
+                            <!--<Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" y="-2"/>
+                            </Anchors>-->
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Button name="$parentBackButton" parentKey="BackButton" inherits="UIPanelCloseButton">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="2" y="2"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBackground" parentKey="Background">
+                                    <Size x="20" y="20"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                self.Background:SetAtlas("buildcreator-close-background", Const.TextureKit.IgnoreAtlasSize)
+                            </OnLoad>
+                            <OnClick>
+                                BuildCreatorFrame:ShowBuildList()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(BACK, 1, 1, 1, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentName" parentKey="Name" inherits="EditableBuildTextTemplate">
+                        <Size x="480" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="88" y="-18"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "EditableBuildTextMixin")
+                                self.Text:SetFontObject("GameFontNormalHuge")
+                                self.EditBox:SetMaxLetters(48)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Frame name="$parentCategoryDropDown" parentKey="CategoryDropDown" inherits="UIDropDownMenuTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentAuthor" relativePoint="BOTTOMLEFT" y="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu2_OnLoad(self)
+                                UIDropDownMenu_SetWidth(self, 140)
+                                UIDropDownMenu_JustifyText(self, "LEFT")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentDifficultyDropDown" parentKey="DifficultyDropDown" inherits="UIDropDownMenuTemplate2">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentCategoryDropDown" relativePoint="RIGHT" x="8"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                UIDropDownMenu2_OnLoad(self)
+                                UIDropDownMenu_SetWidth(self, 140)
+                                UIDropDownMenu_JustifyText(self, "LEFT")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Button name="$parentIcon" parentKey="Icon" inherits="EditableBuildIconTemplate">
+                        <Size x="52" y="52"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="22" y="-16"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentRole" parentKey="Role" inherits="EditableBuildRoleTemplate">
+                        <Size x="48" y="48"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-22" y="-20"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(self.tooltipTitle, 1, 1, 1, 1)
+                                GameTooltip:AddLine(self.tooltipText, nil, nil, nil, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentPrimaryStat" parentKey="PrimaryStat" inherits="EditableBuildPrimaryStatTemplate">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" x="-4" y="4"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "EditableBuildPrimaryStatMixin")
+                                self:SetFrameLevel(self:GetFrameLevel() + 5)
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentSpecIcon" parentKey="SpecIcon" inherits="SpellIconTemplate">
+                        <Size x="52" y="52"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentRole" relativePoint="LEFT" x="-12" y="2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentShadowOverlay" parentKey="ShadowOverlay" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-88"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="ShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+
+                    <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                        <Size x="764" y="510"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-88"/>
+                            <Anchor point="BOTTOMRIGHT" x="-26" y="4"/>
+                        </Anchors>
+
+                        <ScrollChild>
+                            <Frame parentKey="Content">
+                                <Size x="764" y="1"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT"/>
+                                    <Anchor point="TOPRIGHT"/>
+                                </Anchors>
+                                
+                                <Frames>
+                                    <Frame name="$parentOverview" parentKey="Overview" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" y="-52"/>
+                                            <Anchor point="TOPRIGHT" y="-52"/>
+                                        </Anchors>
+                                        
+                                        <Attributes>
+                                            <Attribute name="category" value="OVERVIEW"/>
+                                        </Attributes>
+
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentHint" parentKey="Hint" text="BUILD_CREATOR_OVERVIEW_HINT" justifyH="RIGHT" inherits="GameFontDisableSmall">
+                                                    <Anchors>
+                                                        <Anchor point="TOPRIGHT" x="-58" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                        
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentSpells" parentKey="Spells" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="62"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentOverview" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentOverview" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+                                        
+                                        <Frames>
+                                            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+                                        </Frames>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="SPELLS_AND_TALENTS"/>
+                                        </Attributes>
+                                        
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "EditableBuildSpellSectionMixin")
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+
+                                    <Frame name="$parentMysticEnchants" parentKey="MysticEnchants" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="62"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentSpells" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentSpells" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Frames>
+                                            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+                                        </Frames>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="MYSTIC_ENCHANTS"/>
+                                        </Attributes>
+
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "EditableBuildEnchantSectionMixin")
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+
+                                    <Frame name="$parentEquipment" parentKey="Equipment" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="62"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentMysticEnchants" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentMysticEnchants" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Frames>
+                                            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+                                            <Frame name="$parentAddEquipmentDropDown" parentKey="AddEquipmentDropDown" inherits="UIDropDownMenuTemplate"/>
+                                        </Frames>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="EQUIPMENT"/>
+                                        </Attributes>
+
+                                        <Scripts>
+                                            <OnLoad>
+                                                MixinAndLoadScripts(self, "EditableBuildEquipmentSectionMixin")
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+
+                                    <Frame name="$parentProsAndCons" parentKey="ProsAndCons" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentEquipment" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentEquipment" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="PROS_AND_CONS"/>
+                                        </Attributes>
+
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentHint" parentKey="Hint" text="BUILD_CREATOR_PROS_AND_CONS_HINT" justifyH="RIGHT" inherits="GameFontDisableSmall">
+                                                    <Anchors>
+                                                        <Anchor point="TOPRIGHT" x="-58" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                                
+                                                <Scripts>
+                                                    <OnLoad>
+                                                        MixinAndLoadScripts(self, "EditableBuildProsAndConsTextMixin")
+                                                    </OnLoad>
+                                                </Scripts>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentItemization" parentKey="Itemization" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentProsAndCons" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentProsAndCons" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="ITEMIZATION"/>
+                                        </Attributes>
+
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentHint" parentKey="Hint" text="BUILD_CREATOR_LINK_ITEMS_HINT" justifyH="RIGHT" inherits="GameFontDisableSmall">
+                                                    <Anchors>
+                                                        <Anchor point="TOPRIGHT" x="-58" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentRotation" parentKey="Rotation" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentItemization" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentItemization" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="ROTATION"/>
+                                        </Attributes>
+
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentHint" parentKey="Hint" text="BUILD_CREATOR_LINK_SPELLS_HINT" justifyH="RIGHT" inherits="GameFontDisableSmall">
+                                                    <Anchors>
+                                                        <Anchor point="TOPRIGHT" x="-58" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentConsumables" parentKey="Consumables" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentRotation" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentRotation" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+                                        
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentHint" parentKey="Hint" text="BUILD_CREATOR_LINK_ITEMS_HINT" justifyH="RIGHT" inherits="GameFontDisableSmall">
+                                                    <Anchors>
+                                                        <Anchor point="TOPRIGHT" x="-58" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="CONSUMABLES"/>
+                                        </Attributes>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentMacros" parentKey="Macros" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentConsumables" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentConsumables" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="MACROS"/>
+                                        </Attributes>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentWeakAuras" parentKey="WeakAuras" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentMacros" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentMacros" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+                                        
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString name="$parentHint" parentKey="Hint" text="BUILD_CREATOR_WEAKAURAS_HINT" justifyH="RIGHT" inherits="GameFontDisableSmall">
+                                                    <Anchors>
+                                                        <Anchor point="TOPRIGHT" x="-58" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="WEAKAURAS"/>
+                                        </Attributes>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentNotes" parentKey="Notes" inherits="EditableBuildViewSectionTemplate">
+                                        <Size x="764" y="190"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeTo="$parentWeakAuras" relativePoint="BOTTOMLEFT" y="-16"/>
+                                            <Anchor point="TOPRIGHT" relativeTo="$parentWeakAuras" relativePoint="BOTTOMRIGHT" y="-16"/>
+                                        </Anchors>
+
+                                        <Attributes>
+                                            <Attribute name="category" value="NOTES"/>
+                                        </Attributes>
+
+                                        <Frames>
+                                            <Button name="$parentText" parentKey="Text" inherits="EditableBuildMultilineTextTemplate">
+                                                <Size x="648" y="128"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="58" y="-36"/>
+                                                    <Anchor point="TOPRIGHT" x="-58" y="-36"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </ScrollChild>
+
+                        <Scripts>
+                            <OnLoad>
+                                ScrollFrame_OnLoad(self);
+                                self.scrollbar = _G[self:GetName().."ScrollBar"]
+                                self.scrollUpButton = _G[self.scrollbar:GetName().."ScrollUpButton"]
+                                self.scrollDownButton = _G[self.scrollbar:GetName().."ScrollDownButton"]
+                            </OnLoad>
+                            <OnVerticalScroll>
+                                self.scrollbar:SetValue(offset)
+                                local min, max
+                                min, max = self.scrollbar:GetMinMaxValues()
+
+                                if offset == 0 then
+                                    self.scrollUpButton:Disable()
+                                else
+                                    self.scrollUpButton:Enable()
+                                end
+
+                                if (self.scrollbar:GetValue() - max) == 0 then
+                                    self.scrollDownButton:Disable()
+                                else
+                                    self.scrollDownButton:Enable()
+                                end
+
+                                self:GetParent():GetParent():OnVerticalScroll(offset)
+                            </OnVerticalScroll>
+                            <OnMouseWheel>
+                                ScrollFrameTemplate_OnMouseWheelVariable(self, delta, self.scrollbar, 50)
+                            </OnMouseWheel>
+                        </Scripts>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentCategoryScroll" parentKey="CategoryScroll" inherits="StandardProportionalScrollListTemplate">
+                <Size x="260" y="640"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="24"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Button name="$parentBackButton" parentKey="BackButton" text="BACK" inherits="StandardButtonTemplate">
+                <Size x="284" y="28"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentCategoryScroll" relativePoint="BOTTOMLEFT" x="-2" y="-2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        BuildCreatorFrame:ShowBuildCategories()
+                        BuildCreatorFrame:ShowBuildList()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(BACK, 1, 1, 1, 1)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableBuildViewMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

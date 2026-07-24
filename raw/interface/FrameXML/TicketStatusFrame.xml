@@ -1,0 +1,74 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TicketStatusFrame.lua"/>
+
+    <Button name="TicketStatusFrame" toplevel="true" parent="UIParent" inherits="ResizeLayoutFrame, BackdropTemplate" hidden="true">
+        <Size x="208" y="75"/>
+        <Anchors>
+            <Anchor point="TOPRIGHT" x="-180" y="-8"/>
+        </Anchors>
+        <Attributes>
+            <Attribute name="minimumHeight" value="40" type="number"/>
+            <Attribute name="minimumWidth" value="132" type="number"/>
+        </Attributes>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall" justifyH="LEFT">
+                    <Size x="0" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="10" y="-8"/>
+                    </Anchors>
+                </FontString>
+                <Texture name="$parentIcon" parentKey="Icon" file="Interface\HelpFrame\OpenTicketIcon">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentText" relativePoint="TOPRIGHT" y="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentGlow" parentKey="Glow" inherits="NineSlicePanelTemplate2" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-2"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                <Animations>
+                    <AnimationGroup parentKey="Anim" looping="REPEAT">
+                        <Alpha order="1" duration="2" change="-1" smoothing="IN">
+                            <Scripts>
+                                <OnPlay>
+                                    if InCombatLockdown() then
+                                        return
+                                    end
+                                    PlaySoundFile("Sound\\Interface\\GM_ChatWarning.ogg")
+                                </OnPlay>
+                            </Scripts>
+                        </Alpha>
+                        <Alpha order="2" startDelay="1" duration="0.12" change="1"/>
+                        
+                        <Scripts>
+                            <OnPlay>
+                                self:GetParent():Show()
+                            </OnPlay>
+                            <OnStop>
+                                self:GetParent():Hide()
+                            </OnStop>
+                        </Scripts>
+                    </AnimationGroup>
+                </Animations>
+                <Attributes>
+                    <Attribute name="layoutType" value="HelpBoxGlow"/>
+                    <Attribute name="ignoreInLayout" value="true"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TicketStatusFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

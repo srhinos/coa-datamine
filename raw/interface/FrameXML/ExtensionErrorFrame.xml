@@ -1,0 +1,219 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+
+    <Script file="ExtensionErrorFrame.lua"/>
+    
+    <Button name="ExtensionErrorLineTemplate" virtual="true">
+        <Size x="460" y="48"/>
+        
+        <ButtonText parentKey="Text" justifyH="LEFT" justifyV="TOP" inherits="GameFontNormalLarge">
+            <Size x="460" y="48"/>
+    
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+        
+        <NormalFont style="GameFontNormalLarge"/>
+        
+        <Scripts>
+            <OnLoad>
+                self:SetText(_G["ERR_DLL_LINE"..self:GetID()] or "ERR_DLL_LINE"..self:GetID())
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="ExtensionErrorLineHighlightTemplate" inherits="ExtensionErrorLineTemplate" virtual="true">
+        <HighlightFont style="GameFontHighlightLarge"/>
+
+        <Scripts>
+            <OnEnter>
+                self:GetParent():GetParent():SetImage(self:GetID())
+            </OnEnter>
+            <OnLeave>
+                self:GetParent():GetParent():ClearImage()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <Frame name="ExtensionErrorFrameTemplate" parent="UIParent" frameStrata="FULLSCREEN" virtual="true">
+        <Size x="920" y="640"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" vertTile="true" horizTile="true" setAllPoints="true" file="Interface\FrameGeneral\uiframeneutralbackground"/>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate" frameLevel="1" setAllPoints="true">
+                <Attributes>
+                    <Attribute name="layoutType" value="WoodenNeutralFrameTemplate"/>
+                </Attributes>
+            </Frame>
+            
+            <Frame name="$parentContent" parentKey="Content" frameLevel="50" setAllPoints="true">
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentMainBackground" parentKey="MainBackground">
+                            <Anchors>
+                                <Anchor point="LEFT" x="40" y="0"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentImageBackground" parentKey="ImageBackground">
+                            <Anchors>
+                                <Anchor point="RIGHT" x="-60" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentTitleLeft" parentKey="TitleLeft">
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="TOP" x="-75"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentTitleRight" parentKey="TitleRight">
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="TOP" x="75"/>
+                            </Anchors>
+                        </Texture>
+
+                        <Texture name="$parentImageTextBackground" parentKey="ImageTextBackground">
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentImageBackground" relativePoint="BOTTOM" y="10"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString parentKey="Text" inherits="GameFontNormalHuge" text="ERR_DLL_NOT_LOADED">
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="TOP"/>
+                            </Anchors>
+                        </FontString>
+                        
+                        <Texture name="$parentImage" parentKey="Image">
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentImageBackground"/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString parentKey="ImageText" inherits="GameFontHighlightLarge" text="ERR_DLL_HOVER_TEXT_HELP">
+                            <Size x="220" y="60"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentImageTextBackground" relativePoint="CENTER" x="0" y="2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Button name="$parentExitGame" parentKey="ExitGame" text="EXIT_GAME" inherits="SharedGoldRedButtonLargeTemplate">
+                        <Size x="180" y="52"/>
+                        
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="28"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.ESCAPE_SCREEN_CLOSE)
+                                ForceQuit()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentHideButton" parentKey="HideButton" text="CLOSE" inherits="SharedButtonTemplate">
+                        <Size x="100" y="32"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-20" y="18"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.ESCAPE_SCREEN_CLOSE_50)
+                                self:GetParent():GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    
+                    <Button name="$parentLine1" parentKey="Line1" inherits="ExtensionErrorLineTemplate" id="1">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentMainBackground" x="28" y="-34"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentLine2" parentKey="Line2" inherits="ExtensionErrorLineHighlightTemplate" id="2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLine1" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentLine3" parentKey="Line3" inherits="ExtensionErrorLineHighlightTemplate" id="3">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLine2" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentLine4" parentKey="Line4" inherits="ExtensionErrorLineTemplate" id="4">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLine3" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentLine5" parentKey="Line5" inherits="ExtensionErrorLineTemplate" id="5">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLine4" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentLine6" parentKey="Line6" inherits="ExtensionErrorLineHighlightTemplate" id="6">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLine5" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentLine7" parentKey="Line7" inherits="ExtensionErrorLineHighlightTemplate" id="7">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentLine6" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self.TitleLeft:SetAtlas("UI-Frame-Neutral-TitleLeft", Const.TextureKit.UseAtlasSize)
+                        self.TitleRight:SetAtlas("UI-Frame-Neutral-TitleRight", Const.TextureKit.UseAtlasSize)
+                        self.ImageBackground:SetAtlas("UI-Frame-Neutral-CardParchment", Const.TextureKit.UseAtlasSize)
+                        self.ImageBackground:SetVertexColor(0.7, 0.65, 0.65)
+                        self.MainBackground:SetAtlas("UI-Frame-Neutral-CardParchmentWider", Const.TextureKit.UseAtlasSize)
+                        self.MainBackground:SetVertexColor(0.7, 0.65, 0.65)
+                        self.ImageTextBackground:SetAtlas("UI-Frame-Neutral-Ribbon", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "ExtensionErrorFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

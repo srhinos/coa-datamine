@@ -1,0 +1,29 @@
+{
+ "conditions": [],
+ "description": "Slay Fizzle Darkstorm in NW Durotar before level 10 or die! Then reach max level. This Hardcore challenge sends you on an adventure to Thunder Ridge, where you'll need to take down this nasty goblin.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":52,"id":1388,"reward":null},
+  {"f2":56,"id":1389,"reward":null},
+  {"f2":80,"id":1390,"reward":null}
+ ],
+ "iconToken": "rogue_subterfuge",
+ "id": 393,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":1131}
+ ],
+ "modeToken": "hardcore",
+ "modifiers": [],
+ "name": "Prestige - Hardcore - Fizzle Darkstorm",
+ "requirements": [
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1162358784,"f6":1092616192,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot gain experience from professions.","f2":0,"f3":1,"name":"No Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_PROFESSION_EXPERIENCE"}
+ ],
+ "spells": [
+  {"name":"Hardcore - Fizzle Darkstorm","spellId":93169}
+ ]
+}

@@ -1,0 +1,126 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Poll.lua"/>
+    
+    <Frame name="PollingFrame" parent="UIParent" enableMouse="true" movable="true" clampedToScreen="true" frameStrata="FULLSCREEN" inherits="BasicFrameTemplate">
+        <Size x="806" y="512"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true" file="Interface\FrameGeneral\ui-background-rock2" horizTile="true" vertTile="true"/>
+            </Layer>
+            <Layer>
+                <FontString name="$parentPage" parentKey="Page" inherits="GameFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="40"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentQuestion" parentKey="Question" inherits="PollQuestionTemplate">
+                <Anchors>
+                    <Anchor point="TOP" y="-22"/>
+                </Anchors>
+            </Frame>
+            
+            <Button name="$parentNextQuestionButton" parentKey="NextQuestionButton">
+                <Size x="80" y="108"/>
+                <Anchors>
+                    <Anchor point="RIGHT" x="-4" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("poll-arrow-next")
+                        self:SetDisabledAtlas("poll-arrow-next")
+                        self:GetDisabledTexture():SetDesaturated(true)
+                        self:SetHighlightAtlas("poll-arrow-next")
+                        self:SetPushedAtlas("poll-arrow-next")
+                        self:GetPushedTexture():SetVertexColor(0.4, 0.4, 0.4)
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():NextQuestion()
+                    </OnClick>
+                </Scripts>
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+
+            <Button name="$parentPreviousQuestionButton" parentKey="PreviousQuestionButton">
+                <Size x="80" y="108"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="4"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("poll-arrow-previous")
+                        self:SetDisabledAtlas("poll-arrow-previous")
+                        self:GetDisabledTexture():SetDesaturated(true)
+                        self:SetHighlightAtlas("poll-arrow-previous")
+                        self:SetPushedAtlas("poll-arrow-previous")
+                        self:GetPushedTexture():SetVertexColor(0.4, 0.4, 0.4)
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():PreviousQuestion()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentQuestionListButton" parentKey="QuestionListButton" text="OPEN_POLL_OVERVIEW" inherits="StandardButtonTemplate">
+                <Size x="120" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent().QuestionList:SetShown(not self:GetParent().QuestionList:IsShown())
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentQuestionList" parentKey="QuestionList" inherits="StandardProportionalScrollListTemplate">
+                <Size x="464" y="330"/>
+                <Anchors>
+                    <Anchor point="CENTER" x="-12" y="-18"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentShadow" parentKey="Shadow">
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="BORDER">
+                        <Texture file="Interface\Collections\CollectionsBackgroundTile" horizTile="true" vertTile="true" setAllPoints="true"/>
+                    </Layer>
+                    <Layer>
+                        <FontString name="$parentInfoText" parentKey="InfoText" text="POLL_OVERVIEW" inherits="GameFontHighlight">
+                            <Size x="536" y="0"/>
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" x="12" y="12"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-2" y="2"/>
+                            <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PollFrameMixin", "NineSlicePanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame> 
+</Ui>

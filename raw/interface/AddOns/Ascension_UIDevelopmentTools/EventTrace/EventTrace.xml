@@ -1,0 +1,338 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="EventTrace.lua"/>
+    <Script file="EventArgNames.lua"/>
+    <Script file="EventTraceMixin.lua"/>
+    <Script file="EventTraceFilterItemMixin.lua"/>
+    <Script file="EventTraceItemMixin.lua"/>
+    
+    <Button name="EventTraceItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size y="20"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture>
+                    <Color r=".1" g=".1" b=".1" a="1"/>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="Alternate" hidden="true" alphaMode="ADD">
+                    <Color r=".02" g=".02" b=".02" a="1"/>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentRightLabel" parentKey="RightLabel" justifyH="RIGHT" wordwrap="false" inherits="GameFontHighlightSmall">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-5" y="-2"/>
+                    </Anchors>
+                    <Color r="0.5" g="0.5" b="0.5"/>
+                </FontString>
+                <FontString name="$parentLeftLabel" parentKey="LeftLabel" justifyH="LEFT" wordwrap="false" inherits="GameFontNormalSmall">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="20"/>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentRightLabel" relativePoint="TOPLEFT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentFilterButton" parentKey="FilterButton" inherits="UIPanelCloseButtonNoScripts">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():FilterEvent()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EventTraceItemMixin")
+            </OnLoad>
+        </Scripts>
+        <NormalTexture/>
+        <HighlightTexture alphaMode="ADD">
+            <Color r="0.1" g="0.1" b="0.1" a="1"/>
+        </HighlightTexture>
+    </Button>
+
+    <Button name="EventTraceFilterItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size y="20"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture>
+                    <Color r=".1" g=".1" b=".1" a="1"/>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="Alternate" hidden="true" alphaMode="ADD">
+                    <Color r=".02" g=".02" b=".02" a="1"/>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentLeftLabel" parentKey="LeftLabel" justifyH="LEFT" wordwrap="false" inherits="GameFontNormalSmall">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="20"/>
+                        <Anchor point="RIGHT" x="-20"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentRemoveButton" parentKey="RemoveButton" inherits="UIPanelCloseButtonNoScripts">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():RemoveFilter()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EventTraceFilterItemMixin")
+            </OnLoad>
+        </Scripts>
+        <NormalTexture/>
+        <HighlightTexture alphaMode="ADD">
+            <Color r="0.1" g="0.1" b="0.1" a="1"/>
+        </HighlightTexture>
+    </Button>
+    
+    <Frame name="EventTraceArgTemplate" virtual="true">
+        <Size y="20"/>
+        <Layers>
+            <Layer level="BORDER">
+                <Texture parentKey="Alternate" hidden="true" alphaMode="ADD">
+                    <Color r=".02" g=".02" b=".02" a="1"/>
+                </Texture>
+            </Layer>
+            
+            <Layer>
+                <FontString name="$parentLabel" parentKey="Label" justifyH="LEFT" inherits="GameFontHighlightSmall">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="20"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentArg" parentKey="Arg" justifyH="RIGHT" inherits="GameFontNormalSmall">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-22"/>
+                        <Anchor point="LEFT" relativeTo="$parentLabel" relativePoint="RIGHT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentCopyButton" parentKey="CopyButton" inherits="CopyButtonTemplate">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        Internal_CopyToClipboard(self:GetParent().text)
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                self.CopyButton.Icon:SetSize(10, 10)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="AscensionEventTrace" movable="true" enableMouse="true" frameStrata="FULLSCREEN_DIALOG" hidden="true" inherits="DefaultPanelTemplate">
+        <Size x="600" y="360"/>
+        <Anchors>
+            <Anchor point="LEFT" x="220"/>
+        </Anchors>
+        
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="ClosePanelButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="6" y="5"/>
+                </Anchors>
+            </Button>
+            
+            <Button name="$parentClearButton" parentKey="ClearButton" text="CLEAR" inherits="StandardButtonSmallTemplate">
+                <Size x="80" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-26"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        EventTrace.Clear()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentFiltersButton" parentKey="FiltersButton" text="SHOW_FILTERS" inherits="StandardButtonSmallTemplate">
+                <Size x="80" y="20"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentClearButton" relativePoint="RIGHT" x="4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleFilterTab()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentOptionsButton" parentKey="OptionsButton" text="OPTIONS" inherits="StandardButtonSmallTemplate">
+                <Size x="80" y="20"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentFiltersButton" relativePoint="RIGHT" x="4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        ToggleDropDownMenu(1, nil, self.DropDown, self:GetName(), 0, 0)
+                    </OnClick>
+                </Scripts>
+                
+                <Frames>
+                    <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+                </Frames>
+            </Button>
+            
+            <Button name="$parentToggleButton" parentKey="ToggleButton" text="PAUSE" inherits="StandardButtonSmallTemplate">
+                <Size x="80" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-5" y="-26"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        EventTrace.TogglePaused()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentAddMarker" parentKey="AddMarker" text="MARKER" inherits="StandardButtonSmallTemplate">
+                <Size x="80" y="20"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentToggleButton" relativePoint="LEFT" x="-4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        EventTrace.AddMarker()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                <Size x="160" y="20"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentAddMarker" relativePoint="LEFT" x="-4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self)
+                        if self:IsVisible() then
+                            EventTrace.SetSearch(self:GetText())
+                            self:GetParent():Update()
+                        end
+                    </OnTextChanged>
+                </Scripts>
+            </EditBox>
+            
+            <Frame name="$parentEventList" parentKey="EventList" inherits="ProportionalScrollListTemplate">
+                <Size x="576" y="306"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="4" y="-48"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="18"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-2" y="2"/>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="18" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentFilterList" parentKey="FilterList" inherits="ProportionalScrollListTemplate" hidden="true">
+                <Size x="576" y="306"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="4" y="-48"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="18"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-2" y="2"/>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="18" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EventTraceMixin")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+</Ui>

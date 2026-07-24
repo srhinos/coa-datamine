@@ -1,0 +1,768 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ChallengeItemMixin.lua"/>
+    <Script file="ChallengeExtendedInfoMixin.lua"/>
+    <Script file="ChallengeInfoLineMixin.lua"/>
+    <Script file="ChallengeLeaderboardEntryMixin.lua"/>
+    
+    <Button name="ChallengesSpellIconTemplate" inherits="SpellIconTemplate" virtual="true">
+        <Size x="42" y="42"/>
+
+        <Frames>
+            <Frame name="$parentAuraType" parentKey="AuraType" enableMouse="true">
+                <Size x="22" y="22"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-6" y="6"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnEnter>
+                        if self.tooltipTitle then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            GameTooltip:SetText(self.tooltipTitle, 1, 1, 1, 1, false)
+                            if self.tooltipText then
+                                GameTooltip:AddLine(self.tooltipText, nil, nil, nil, true)
+                            end
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Button>
+    
+    <Button name="ChallengeRewardTemplate" enableMouse="true" virtual="true">
+        <Size x="38" y="38"/>
+        
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="38" y="38"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="58" y="58"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <FontString name="$parentCount" parentKey="Count" justifyH="RIGHT" inherits="PTFontHighlightOutline">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="4" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnEnter>
+                if self.itemID then
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:SetHyperlink("item:"..self.itemID)
+                    GameTooltip:Show()
+                elseif self.achievementID then
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:SetHyperlink(GetAchievementLink(self.achievementID))
+                    GameTooltip:Show()
+                elseif self.tooltipTitle then
+                    GameTooltip_GenericTooltip(self)
+                end
+                self:GetParent():LockHighlight()
+            </OnEnter>
+            <OnLeave>
+                self:GetParent():UnlockHighlight()
+                GameTooltip:Hide()
+            </OnLeave>
+            <OnClick>
+                self:GetParent():Click()
+            </OnClick>
+        </Scripts>
+    </Button>
+    
+    <Button name="ChallengeInfoLineTemplate" enableMouse="true" inherits="ScrollListItemBaseTemplate" virtual="true">
+        <Size x="0" y="18"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, ChallengeInfoLineMixin)
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" parentKey="Text" inherits="PTFontNormal">
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Frame name="ChallengeLeaderboardEntryTemplate" inherits="ScrollListItemBaseTemplate" enableMouse="true" virtual="true">
+        <Size x="0" y="48"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true">
+                    <Size x="360" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentGlow" parentKey="Glow">
+                    <Size x="74" y="74"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="16" y="2"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="Animation" looping="REPEAT">
+                            <Rotation duration="60" degrees="360"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+            
+            <Layer level="BORDER">
+                <Texture name="$parentBackground2" parentKey="Background2">
+                    <Size x="360" y="22"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentIcon" parentKey="Icon" file="Interface\Glues\CharacterCreate\UI-CHARACTERCREATE-RACES_Round">
+                    <Size x="38" y="38"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="32" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer>
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentRank" parentKey="Rank" justifyH="RIGHT" inherits="PTFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativePoint="LEFT" x="22" y="3"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentMedal" parentKey="Medal" hidden="true">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentRank" relativePoint="LEFT" x="-6"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentName" parentKey="Name" justifyH="LEFT" wordwrap="false" inherits="PTFontHighlight3">
+                    <Anchors>
+                        <Anchor point="LEFT" x="78" y="10"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentClass" parentKey="Class" justifyH="LEFT" wordwrap="false"  inherits="PTFontHighlight">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" y="-2"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentTime" parentKey="Time" justifyH="RIGHT" inherits="PTFontNormalSmall">
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-12" y="8"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentDate" parentKey="Date" justifyH="RIGHT" inherits="PTFontNormalSmall">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentTime" relativePoint="BOTTOMRIGHT" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ChallengeLeaderboardEntryMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="ChallengeIconTemplate" virtual="true">
+        <Size x="22" y="22"/>
+        
+        <Scripts>
+            <OnEnter>
+                self:GetParent():ChallengeIconOnEnter(self)
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+                self:GetParent():UnlockHighlight()
+            </OnLeave>
+            <OnClick>
+                self:GetParent():Click()
+            </OnClick>
+        </Scripts>
+
+        <NormalTexture setAllPoints="true"/>
+    </Button>
+
+    <Button name="ChallengeTabButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="158" y="24"/>
+
+        <Scripts>
+            <OnLoad>
+                self:GetDisabledTexture():SetDesaturated(true)
+            </OnLoad>
+            <OnClick>
+                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                self:GetParent():GetParent():SelectTab(self:GetID())
+            </OnClick>
+            <OnEnter function="GameTooltip_GenericTooltip"/>
+            <OnLeave function="GameTooltip_Hide"/>
+        </Scripts>
+
+        <NormalTexture file="Interface\AchievementFrame\UI-Achievement-Category-Background">
+            <Size x="170" y="32"/>
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+                <Anchor point="TOPRIGHT"/>
+            </Anchors>
+            <TexCoords left="0" right="0.6640625" top="0" bottom="1"/>
+        </NormalTexture>
+
+        <HighlightTexture file="Interface\AchievementFrame\UI-Achievement-Category-Highlight" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="0" y="0"/>
+                <Anchor point="BOTTOMRIGHT" x="-1" y="-7"/>
+            </Anchors>
+            <TexCoords left="0" right="0.6640625" top="0" bottom="1"/>
+        </HighlightTexture>
+
+        <DisabledTexture file="Interface\AchievementFrame\UI-Achievement-Category-Background">
+            <Size x="170" y="32"/>
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+                <Anchor point="TOPRIGHT"/>
+            </Anchors>
+            <TexCoords left="0" right="0.6640625" top="0" bottom="1"/>
+            <Color r="0.4" g="0.4" b="0.4"/>
+        </DisabledTexture>
+
+        <ButtonText justifyH="LEFT" inherits="PTFontNormal">
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" x="16" y="3"/>
+                <Anchor point="TOPRIGHT" x="-8" y="-5"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="-4" y="0"/>
+        
+        <NormalFont style="PTFontNormal"/>
+        <HighlightFont style="PTFontHighlight"/>
+        <DisabledFont style="PTFontDisable"/>
+    </Button>
+
+    <Button name="ChallengeItemBaseTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="596" y="89"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="18" y="-20"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="58" y="58"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentLockedIcon" parentKey="LockedIcon" hidden="true">
+                    <Size x="36" y="47"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentFeaturedHighlight" parentKey="FeaturedHighlight" alpha="0.7" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="6" y="-7"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-6" y="-83"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentSelectedHighlight" parentKey="SelectedHighlight" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-5"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-4" y="-83"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentFeatured" parentKey="Featured" hidden="true">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Click()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(CHALLENGE_FEATURED, 1, 1, 1, 1)
+                        GameTooltip:AddLine(CHALLENGE_FEATURED_TOOLTIP, nil, nil, nil, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentCompleteCheck" parentKey="CompleteCheck" hidden="true">
+                <Size x="24" y="24"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Click()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(CHALLENGE_COMPLETED)
+                        GameTooltip:AddLine(CHALLENGE_COMPLETED_TOOLTIP, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ChallengeItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+
+        <PushedTextOffset x="0" y="0"/>
+
+        <ButtonText name="$parentText" parentKey="Text" wordwrap="false" justifyH="LEFT" inherits="PTFontNormalOutlineHuge2">
+            <Size x="0" y="30"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPRIGHT" x="10"/>
+            </Anchors>
+        </ButtonText>
+
+        <NormalTexture setAllPoints="true"/>
+        <HighlightTexture alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-7"/>
+                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="-84"/>
+            </Anchors>
+        </HighlightTexture>
+    </Button>
+
+    <Button name="ChallengeItemTemplate" inherits="ChallengeItemBaseTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentExtendedInfo" parentKey="ExtendedInfo" enableMouse="true" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="8" y="-94"/>
+                    <Anchor point="BOTTOMRIGHT" x="-8"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentCurrentLevel" parentKey="CurrentLevel" inherits="PTFontNormal3">
+                            <Size x="140" y="40"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="-16" y="70"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentTabContent" parentKey="TabContent">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="16" y="4"/>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="134" y="8"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormalOutlineHuge">
+                                    <Size x="1" y="22"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                                        <Anchor point="TOPRIGHT" x="-8" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormalOutline3">
+                                    <Size x="1" y="14"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-2"/>
+                                        <Anchor point="TOPRIGHT" relativeTo="$parentTitle" relativePoint="BOTTOMRIGHT" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentDescription" parentKey="Description" inherits="ScrollableTextTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                    <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="font" value="PTFontHighlight"/>
+                                </Attributes>
+                            </Frame>
+                            
+                            <Frame name="$parentInfoScroll" parentKey="InfoScroll" hidden="true" inherits="ProportionalScrollListTemplate">
+                                <Size x="368" y="166"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentLeaderboardScroll" parentKey="LeaderboardScroll" hidden="true" inherits="ProportionalScrollListTemplate">
+                                <Size x="368" y="166"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "ChallengeExtendedInfoMixin")
+                            </OnLoad>
+                        </Scripts>
+
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                            <EdgeSize  val="16"/>
+                            <TileSize val="16"/>
+                            <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                            <BorderColor r="0.5" g="0.5" b="0.5"/>
+                        </Backdrop>
+                    </Frame>
+
+                    <Button name="$parentTab1" parentKey="Tab1" text="CHALLENGES_ABOUT" id="1" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTabContent" relativePoint="TOPRIGHT" x="-4"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab2" parentKey="Tab2" text="CHALLENGES_LEADERBOARD" id="2" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab1" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab3" parentKey="Tab3" text="CHALLENGES_AURAS" id="3" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab2" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab4" parentKey="Tab4" text="CHALLENGES_RESTRICTIONS" id="4" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab3" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab5" parentKey="Tab5" text="CHALLENGES_REQUIREMENTS" id="5" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab4" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentActivateButton" parentKey="ActivateButton" text="ACTIVATE" inherits="SharedButtonTemplate">
+                        <Size x="150" y="32"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parentTabContent" relativePoint="BOTTOMRIGHT"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ToggleChallengeActive()
+                            </OnClick>
+                            <OnEnter>
+                                if not self.disabledReasons then return end
+                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                GameTooltip:SetText(CHALLENGES_CANNOT_ACTIVATE)
+                                for _, reason in ipairs(self.disabledReasons) do
+                                    GameTooltip:AddLine(_G[reason] or reason, 1, 0, 0, true)
+                                end
+                                GameTooltip:Show()
+                            </OnEnter>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentMinusLevelButton" parentKey="MinusLevelButton" inherits="LeftButtonTemplate">
+                        <Size x="24" y="24"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentCurrentLevel" relativePoint="BOTTOM" x="-12" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():DecreaseChallengeLevel()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                GameTooltip:SetText(CHALLENGES_DECREASE_LEVEL, 1, 1, 1, 1)
+                                GameTooltip:AddLine(CHALLENGES_DECREASE_LEVEL_TOOLTIP, nil, nil, nil, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentPlusLevelButton" parentKey="PlusLevelButton" inherits="RightButtonTemplate">
+                        <Size x="24" y="24"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentCurrentLevel" relativePoint="BOTTOM" x="12" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():IncreaseChallengeLevel()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                GameTooltip:SetText(CHALLENGES_INCREASE_LEVEL, 1, 1, 1, 1)
+                                GameTooltip:AddLine(CHALLENGES_INCREASE_LEVEL_TOOLTIP, nil, nil, nil, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ChallengeItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+        
+        <PushedTextOffset x="0" y="0"/>
+
+        <ButtonText name="$parentText" parentKey="Text" wordwrap="false" justifyH="LEFT" inherits="PTFontNormalOutlineHuge">
+            <Size x="0" y="30"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPRIGHT" x="10"/>
+            </Anchors>
+        </ButtonText>
+        
+        <NormalTexture setAllPoints="true"/>
+        <HighlightTexture alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-7"/>
+                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="-84"/>
+            </Anchors>
+        </HighlightTexture>
+    </Button>
+
+    <Button name="GameModeItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="596" y="89"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="18" y="-20"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="58" y="58"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentLockedIcon" parentKey="LockedIcon" hidden="true">
+                    <Size x="36" y="47"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentFeaturedHighlight" parentKey="FeaturedHighlight" alpha="0.7" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="6" y="-7"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-6" y="-83"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentSelectedHighlight" parentKey="SelectedHighlight" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-5"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-4" y="-83"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentExtendedInfo" parentKey="ExtendedInfo" enableMouse="true" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="8" y="-94"/>
+                    <Anchor point="BOTTOMRIGHT" x="-8"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentTabContent" parentKey="TabContent">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="16" y="4"/>
+                            <Anchor point="BOTTOMRIGHT" x="-16" y="46"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormalOutlineHuge">
+                                    <Size x="1" y="22"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                                        <Anchor point="TOPRIGHT" x="-8" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormalOutline3" hidden="true"/>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentDescription" parentKey="Description" inherits="ScrollableTextTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-2"/>
+                                    <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="font" value="PTFontHighlight"/>
+                                </Attributes>
+                            </Frame>
+
+                            <Frame name="$parentInfoScroll" parentKey="InfoScroll" hidden="true" inherits="ProportionalScrollListTemplate">
+                                <Size x="368" y="166"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentLeaderboardScroll" parentKey="LeaderboardScroll" hidden="true" inherits="ProportionalScrollListTemplate">
+                                <Size x="368" y="166"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "ChallengeExtendedInfoMixin")
+                            </OnLoad>
+                        </Scripts>
+
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                            <EdgeSize  val="16"/>
+                            <TileSize val="16"/>
+                            <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                            <BorderColor r="0.5" g="0.5" b="0.5"/>
+                        </Backdrop>
+                    </Frame>
+
+                    <Button name="$parentActivateButton" parentKey="ActivateButton" text="ACTIVATE" inherits="SharedButtonTemplate">
+                        <Size x="150" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativeTo="$parentTabContent" relativePoint="BOTTOMRIGHT"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ToggleGameMode()
+                            </OnClick>
+                            <OnEnter>
+                                if not self.disabledReasons then return end
+                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                GameTooltip:SetText(CHALLENGES_GAME_MODE_DISABLED)
+                                for _, reason in ipairs(self.disabledReasons) do
+                                    GameTooltip:AddLine(_G[reason] or reason, 1, 0, 0, true)
+                                end
+                                GameTooltip:Show()
+                            </OnEnter>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "GameModeItemTemplate")
+            </OnLoad>
+        </Scripts>
+
+        <PushedTextOffset x="0" y="0"/>
+
+        <ButtonText name="$parentText" parentKey="Text" wordwrap="false" justifyH="LEFT" inherits="PTFontNormalOutlineHuge2">
+            <Size x="0" y="30"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPRIGHT" x="10"/>
+            </Anchors>
+        </ButtonText>
+
+        <NormalTexture setAllPoints="true"/>
+        <HighlightTexture alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-7"/>
+                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="-84"/>
+            </Anchors>
+        </HighlightTexture>
+    </Button>
+</Ui>

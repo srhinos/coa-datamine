@@ -1,0 +1,161 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="GlueExtensionError.lua"/>
+    
+    <Frame name="GlueExtensionError" frameStrata="FULLSCREEN_DIALOG" enableKeyboard="true" setAllPoints="true" hidden="true">
+        <Layers>
+            <Layer>
+                <Texture name="$parentLogo" file="Interface\Glues\MainMenu\AscensionLogo">
+                    <Size x="512" y="256"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="220"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentDisplay" parentKey="Display" inherits="SimpleDialogTemplate">
+                <Size x="536" y="320"/>
+                <Anchors>
+                    <Anchor point="CENTER" y="-40"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentImage" parentKey="Image" file="Interface\FrameGeneral\ui-background-rock2" vertTile="true" horizTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="12" y="-12"/>
+                                <Anchor point="BOTTOMRIGHT" x="-12" y="12"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentTitle" parentKey="Title" justifyV="TOP" inherits="GameFontNormalLarge">
+                            <Size x="482" y="28"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-30"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentBody" parentKey="Body" justifyH="LEFT" inherits="GameFontHighlightSmall">
+                            <Size x="248" y="204"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="8"/>
+                            </Anchors>
+                        </FontString>
+                        
+                        <Texture name="$parentHintImage" parentKey="HintImage">
+                            <Anchors>
+                                <Anchor point="RIGHT" x="-26"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame parentKey="ShadowOverlay" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="12" y="-12"/>
+                            <Anchor point="BOTTOMRIGHT" x="-12" y="12"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="ShadowOverlay"/>
+                            <Attribute name="drawLayer" value="ARTWORK"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoad(self, "NineSlicePanelMixin")
+                                UseParentLevel(self)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    <Frame parentKey="Header" inherits="DialogHeaderTemplate">
+                        <Attributes>
+                            <Attribute name="textString" value="An Error Occurred"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="StandardButtonTemplate" text="Exit Game">
+                        <Size x="120" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="38"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                QuitGame()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    
+                    <Button name="$parentNextButton" parentKey="NextButton" inherits="StandardButtonTemplate" text="Next">
+                        <Size x="120" y="28"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOM" x="18" y="-14"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():OnNext()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentBackButton" parentKey="BackButton" inherits="StandardButtonTemplate" text="Back">
+                        <Size x="120" y="28"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativePoint="BOTTOM" x="-18" y="-14"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():OnBack()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    
+                    <StatusBar name="$parentProgress" parentKey="Progress" drawLayer="BORDER">
+                        <Size x="512" y="12"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="12"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBackground" parentKey="Background" file="Interface\TargetingFrame\UI-StatusBar" setAllPoints="true">
+                                    <Color r="0" g="0" b="0" a="0.4"/>
+                                </Texture>
+                            </Layer>
+                            
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall">
+                                    <Anchors>
+                                        <Anchor point="CENTER" y="1"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+                        <BarColor r="0" g="1" b="0"/>
+                    </StatusBar>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="StandardButtonTemplate" text="Exit Game">
+                <Size x="140" y="32"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="40"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        QuitGame()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "GlueExtensionErrorMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

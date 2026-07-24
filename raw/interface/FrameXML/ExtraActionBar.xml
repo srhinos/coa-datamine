@@ -1,0 +1,184 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+
+    <Script file="ExtraActionBar.lua"/>
+    
+    <CheckButton name="ExtraActionButtonTemplate" inherits="ActionButtonTemplate, QuickKeybindButtonTemplate" motionScriptsWhileDisabled="true" hidden="true" virtual="true">
+        <Size x="52" y="52"/>
+        <Attributes>
+            <Attribute name="leftPadding" value="80"/>
+            <Attribute name="rightPadding" value="80"/>
+            <Attribute name="topPadding " value="18"/>
+            <Attribute name="bottomPadding" value="18"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="BORDER">
+                <Texture name="$parentFlash" parentKey="Flash" file="Interface\Buttons\UI-QuickslotRed" hidden="true"/>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <FontString name="$parentHotKey" parentKey="HotKey" inherits="NumberFontNormalSmallGray" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="6" y="-5"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentCount" parentKey="Count" inherits="NumberFontNormal" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-10" y="10"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture file="Interface\ExtraButton\Default" parentKey="Art">
+                    <Size x="256" y="128"/>
+                    
+                    <Anchors>
+                        <Anchor point="CENTER" x="-1" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Cooldown name="$parentCooldown" parentKey="Cooldown" inherits="CooldownFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-4"/>
+                    <Anchor point="BOTTOMRIGHT" x="-5" y="5"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalHuge">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Cooldown>
+        </Frames>
+
+        <Animations>
+            <AnimationGroup parentKey="FadeIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.3" order="2"/>
+
+                <Scripts>
+                    <OnPlay>
+                        if self:GetParent().FadeOut:IsPlaying() then
+                            self:GetParent().FadeOut:Stop()
+                        end
+                        self:GetParent():Show()
+                    </OnPlay>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="FadeOut">
+                <Alpha change="-1" duration="0.3" order="1"/>
+                <Scripts>
+                    <OnPlay>
+                        if self:GetParent().FadeIn:IsPlaying() then
+                            self:GetParent().FadeIn:Stop()
+                        end
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+        
+        <NormalTexture name="$parentNormalTexture" parentKey="NormalTexture" file="Interface\Buttons\UI-Quickslot2">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-15" y="15"/>
+                <Anchor point="BOTTOMRIGHT" x="15" y="-15"/>
+            </Anchors>
+        </NormalTexture>
+
+        <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+        <CheckedTexture alphaMode="ADD" file="Interface\Buttons\CheckButtonHilight"/>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ExtraActionButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+    
+    <Frame name="ExtraActionBar" parent="UIParent" frameStrata="LOW" inherits="HorizontalLayoutFrame" enableMouse="true" movable="true" clampedToScreen="true">
+        <Size x="256" y="128"/>
+        
+        <Anchors>
+            <Anchor point="BOTTOM" x="0" y="240"/>
+        </Anchors>
+
+        <Attributes>
+            <Attribute name="spacing" value="8" type="number"/>
+        </Attributes>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentMoveBackground" parentKey="MoveBackground" hidden="true">
+                    <Color r="0" g="0" b="0" a="0.2"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Animations>
+            <AnimationGroup parentKey="FadeIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.3" order="2"/>
+                
+                <Scripts>
+                    <OnPlay>
+                        if self:GetParent().FadeOut:IsPlaying() then
+                            self:GetParent().FadeOut:Stop()
+                        end
+                        self:GetParent():Show()
+                    </OnPlay>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="FadeOut">
+                <Alpha change="-1" duration="0.3" order="1"/>
+                <Scripts>
+                    <OnPlay>
+                        if self:GetParent().FadeIn:IsPlaying() then
+                            self:GetParent().FadeIn:Stop()
+                        end
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ExtraActionBarMixin")
+            </OnLoad>
+            <OnDragStart>
+                if self.Movable then
+                    self:StartMoving()
+                end
+            </OnDragStart>
+            <OnDragStop>
+                if self.Movable then
+                    self:StopMovingOrSizing()
+                end
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+</Ui>

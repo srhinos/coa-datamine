@@ -1,0 +1,159 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_NewPlayerExperience.lua"/>
+    
+    <Button name="NPEDialogPopupTemplate" inherits="NineSlicePanelTemplate2" frameStrata="FULLSCREEN_DIALOG" virtual="true">
+        <Size x="226" y="100" />
+
+        <Anchors>
+            <Anchor point="CENTER" y="-256"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentCompleteTex" parentKey="CompleteTex" hidden="true">
+                    <Size x="72" y="72"/>
+                    <Anchors>
+                        <Anchor point="CENTER" y="16"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Alpha order="2" duration="0.25" change="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentCompleteTexAnim" parentKey="CompleteTexAnim" alphaMode="ADD" alpha="0">
+                    <Size x="72" y="72"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentCompleteTex" relativePoint="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="AnimInOut">
+                            <Scale order="1" duration="0.5" scaleX="2" scaleY="2" smoothing="IN_OUT"/>
+                            <Alpha order="1" duration="0.15" change="1"/>
+                            <Alpha order="1" startDelay="0.2" duration="0.3" change="-1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <FontString name="$parentCompleteText" parentKey="CompleteText" inherits="GameFontHighlight" hidden="true" fontSize="16" text="COMPLETE">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentCompleteTex" relativePoint="BOTTOM"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentTexture" parentKey="Texture" hidden="true">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="20"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentInputHint" parentKey="InputHint" hidden="true">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="20"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <FontString name="$parentInputText" parentKey="InputText" inherits="GameFontHighlightEnormous">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentInputHint"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0"/>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Attributes>
+            <Attribute name="layoutType" value="NPEPopupLayout"/>
+        </Attributes>
+        
+        <Frames>
+            <DressUpModel name="$parentModel" parentKey="Model" hidden="true">
+                <Size x="64" y="64"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="20"/>
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        self:SetCamera(0)
+                    </OnShow>
+                </Scripts>
+            </DressUpModel>
+
+            <Button name="$parentCloseButton" parentKey="CloseButton">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-20" y="-4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("NPE_Close-Button")
+                        self:SetPushedAtlas("NPE_Close-Button-Pushed")
+                    </OnLoad>
+                    <OnClick>
+                        local parent = self:GetParent()
+                        if parent.info and parent.info.onClose then
+                            parent.info.onClose(parent)
+                        end
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                        parent:Hide()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentOkayButton" parentKey="OkayButton" inherits="StandardButtonSmallTemplate" text="OKAY" hidden="true">
+                <Size x="110" y="22" />
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="12" />
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        local parent = self:GetParent()
+
+                        if parent.info and parent.info.onOkButtonClick then
+                            parent.info.onOkButtonClick(parent)
+                            return
+                        end
+
+                        self:GetParent().CloseButton:GetScript("OnClick")(self:GetParent().CloseButton)
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontHighlight" wordwrap="true">
+            <Size y="64" />
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+        
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha order="1" duration="0" change="-1"/>
+                <Alpha order="2" duration="0.15" change="1"/>
+            </AnimationGroup>
+        </Animations>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "NPEDialogPopupMixin")
+                self.CompleteTexAnim:SetAtlas("common-icon-checkmark", Const.TextureKit.IgnoreAtlasSize)
+                self.CompleteTex:SetAtlas("common-icon-checkmark", Const.TextureKit.IgnoreAtlasSize)
+                self.CompleteText:SetText(COMPLETE.."!")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

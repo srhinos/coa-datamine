@@ -1,0 +1,32 @@
+{
+ "conditions": [],
+ "description": "You prefer to get knee-deep in blood. Complete your challenge without at any point completing a quest.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":24,"id":223,"reward":null},
+  {"f2":103,"id":407,"reward":null},
+  {"f2":105,"id":1809,"reward":null}
+ ],
+ "iconToken": "ability_hunter_rapidkilling",
+ "id": 15,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":385}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Bloodbath",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You are unable to do any quests. ","f2":0,"f3":1,"name":"No Quests","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_QUESTS"},
+  {"description":"You may not queue for or participate in battlegrounds.","f2":0,"f3":1,"name":"No Battlegrounds","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_BATTLEGROUNDS"},
+  {"description":"You cannot trade with other players.","f2":0,"f3":1,"name":"No Trading","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_TRADE"},
+  {"description":"You cannot buy or sell items at any vendor.","f2":0,"f3":1,"name":"No Vendors","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_VENDORS"},
+  {"description":"You cannot use the Auction House.","f2":0,"f3":1,"name":"No Auction House","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_AUCTIONHOUSE"},
+  {"description":"You cannot use your Guild Bank.","f2":0,"f3":1,"name":"No Guild Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_GUILD_BANK"},
+  {"description":"You cannot use your Realm Bank.","f2":0,"f3":1,"name":"No Realm Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_REALM_BANK"},
+  {"description":"You cannot use the Mailbox.","f2":0,"f3":1,"name":"No Mail","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_MAIL"}
+ ],
+ "spells": []
+}

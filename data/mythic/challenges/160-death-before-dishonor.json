@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "Your honor demands that you harm no human life. If you kill any Humanoid, you will commit seppuku and fail this challenge.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_EASY",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":211,"reward":null},
+  {"f2":22,"id":310,"reward":null},
+  {"f2":103,"id":531,"reward":null},
+  {"f2":105,"id":1915,"reward":null}
+ ],
+ "iconToken": "INV_Misc_Head_Human_01",
+ "id": 160,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":941}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Death Before Dishonor",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"Killing humanoids will fail your challenge.","f2":0,"f3":1,"name":"No Killing Humanoids","ruleTypeToken":"CHALLENGE_RULES_TYPE_FAILABLE_NO_KILL_HUMANOIDS"}
+ ],
+ "spells": []
+}

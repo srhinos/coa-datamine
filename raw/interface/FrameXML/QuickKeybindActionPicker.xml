@@ -1,0 +1,122 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="QuickKeybindActionPicker.lua"/>
+
+    <!-- Action grid row template (icon buttons created in Lua) -->
+    <Button name="QuickKeybindActionGridRowTemplate" virtual="true">
+        <Size x="0" y="40"/>
+        <Anchors>
+            <Anchor point="LEFT"/>
+            <Anchor point="RIGHT"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                Mixin(self, QuickKeybindActionGridRowMixin)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <!-- Main picker frame: PortraitFrameTemplate-style (no portrait).
+         Recipe follows SharedPanelTemplates PortraitFrameTemplate: TitleBg
+         tiled strip at top, Rock body background, TopTileStreaks decorative
+         band, NineSlice border with ButtonFrameTemplateNoPortrait corners. -->
+    <Frame name="QuickKeybindActionPickerFrame" parent="UIParent" frameStrata="DIALOG" hidden="true" clampedToScreen="true" enableMouse="true">
+        <Size x="460" y="240"/>
+        <Attributes>
+            <Attribute name="layoutType" value="ButtonFrameTemplateNoPortrait" type="string"/>
+        </Attributes>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <!-- Title bar background strip -->
+                <Texture parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-3"/>
+                        <Anchor point="TOPRIGHT" x="-25" y="-3"/>
+                    </Anchors>
+                </Texture>
+                <!-- Main body background: darker rock variant matching
+                     Ascension's BuildCreator/CharacterAdvancement aesthetic -->
+                <Texture parentKey="Bg" file="Interface\FrameGeneral\UI-Background-Rock2" horizTile="true" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-21"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <!-- Decorative streaks under the title bar -->
+                <Texture parentKey="TopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-21"/>
+                        <Anchor point="TOPRIGHT" x="-2" y="-21"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString parentKey="TitleText" inherits="GameFontNormal" text="Action Picker" wordwrap="false">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-5"/>
+                        <Anchor point="LEFT" x="60"/>
+                        <Anchor point="RIGHT" x="-60"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <!-- Metal NineSlice border (no portrait) -->
+            <Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true"/>
+
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="5" y="5"/>
+                </Anchors>
+            </Button>
+
+            <!-- Category list (left panel) - vertical layout, no scroll -->
+            <Frame name="$parentCategoryList" parentKey="CategoryList" inherits="VerticalLayoutFrame">
+                <Size x="155" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="14" y="-32"/>
+                </Anchors>
+            </Frame>
+
+            <!-- Inset around the action grid + scrollbar. NineSlicePanelTemplate2
+                 with InsetFrameTemplate layoutType renders the inner recessed
+                 corners/edges. Black semi-transparent backdrop fills interior.
+                 BOTTOMRIGHT extends past the scrollbar. -->
+            <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentCategoryList" relativePoint="TOPRIGHT" x="4" y="4"/>
+                    <Anchor point="BOTTOMRIGHT" x="-12" y="10"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+                </Attributes>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Bg" setAllPoints="true">
+                            <Color r="0" g="0" b="0" a="0.65"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <!-- Action grid (right panel) - sits inside the inset, leaves
+                 room on the right for the scrollbar inside the inset border. -->
+            <Frame name="$parentActionGrid" parentKey="ActionGrid" inherits="MinimalScrollListTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentInset" relativePoint="TOPLEFT" x="6" y="-6"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentInset" relativePoint="BOTTOMRIGHT" x="-24" y="6"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "QuickKeybindActionPickerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

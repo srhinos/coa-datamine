@@ -1,0 +1,25 @@
+{
+ "conditions": [],
+ "description": "You're interested in a real challenge. You can only gain kill credit on monsters of a higher level than you.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":25,"id":290,"reward":null},
+  {"f2":103,"id":504,"reward":null},
+  {"f2":105,"id":1888,"reward":null}
+ ],
+ "iconToken": "nhi_bloodhide_Border",
+ "id": 133,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":914}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Punching Up",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You only gain kill credit on monsters higher level than you.","f2":0,"f3":1,"name":"Must fight powerful monsters","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_KILL_CREDIT_UNLESS_AT_DISADVANTAGE"}
+ ],
+ "spells": []
+}

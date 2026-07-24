@@ -1,0 +1,108 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="FeedbackFrameMixin.lua"/>
+
+    <Frame name="FeedbackFrame" parent="UIParent" enableMouse="true" movable="true" clampedToScreen="true" frameStrata="FULLSCREEN" toplevel="true" hidden="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="400" y="400"/>
+
+        <Anchors>
+            <Anchor point="CENTER" y="50"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            
+            <Layer>
+                <FontString name="$parentAbout" parentKey="About" text="FEEDBACK_ABOUT" inherits="GameFontHighlight">
+                    <Size x="320" y="42"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="64" y="-28"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentRatingLabel" parentKey="RatingLabel" text="FEEDBACK_RATE_YOUR_EXPERIENCE" inherits="GameFontNormalLarge">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-78"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentAdditionalInformationLabel" parentKey="AdditionalInformationLabel" text="FEEDBACK_ADDITIONAL_INFORMATION" inherits="GameFontNormalLarge">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-128"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentRating" parentKey="Rating" inherits="HorizontalRatingTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentRatingLabel" relativePoint="BOTTOMLEFT" y="-4"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="ratingTemplate" value="StarRatingButtonTemplate"/>
+                    <Attribute name="rating" value="3" type="number"/>
+                </Attributes>
+            </Frame>
+
+            <EditBox name="$parentAdditionalInformation" parentKey="AdditionalInformation" letters="2048" inherits="MultiLineInputBoxInstructionsTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentAdditionalInformationLabel" relativePoint="BOTTOMLEFT" x="-2" y="-4"/>
+                    <Anchor point="BOTTOMRIGHT" x="-8" y="32"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="instruction" value="FEEDBACK_ADDITIONAL_INFORMATION_INSTRUCTION"/>
+                </Attributes>
+                <Scripts>
+                    <OnShow>
+                        self:SetText("")
+                    </OnShow>
+                    <OnEnterPressed>
+                        if IsShiftKeyDown() then
+                            return self:Insert("\n")
+                        end
+                        self:ClearFocus()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            
+            <Button name="$parentSubmitButton" parentKey="SubmitButton" text="SUBMIT" inherits="StandardButtonTemplate">
+                <Size x="120" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="8"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON)
+                        self:GetParent():SubmitFeedback()
+                        HideUIPanel(FeedbackFrame)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" inherits="InputBlockTextTemplate" setAllPoints="true" hidden="true">
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="18"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "FeedbackFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

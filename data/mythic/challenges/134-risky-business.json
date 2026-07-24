@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "No need for 1v1: you'll take them all on. You cannot gain kill credit in honorable combat zones.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_EASY",
+ "featured": false,
+ "groups": [
+  {"f2":21,"id":291,"reward":null},
+  {"f2":103,"id":505,"reward":null},
+  {"f2":105,"id":1889,"reward":null}
+ ],
+ "iconToken": "nhi_extinction_Border",
+ "id": 134,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":915}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Risky Business",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot gain kill credit inside honorable combat zones.","f2":0,"f3":1,"name":"No Honorable Combat Zones","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_KILL_CREDIT_UNLESS_IN_NON_HONORABLE_COMBAT_ZONE"},
+  {"description":"You must always participate in High-Risk","f2":0,"f3":1,"name":"Only High-Risk","ruleTypeToken":"CHALLENGE_RULES_TYPE_HIGH_RISK_ONLY"}
+ ],
+ "spells": []
+}

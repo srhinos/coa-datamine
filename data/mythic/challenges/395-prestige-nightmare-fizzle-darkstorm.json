@@ -1,0 +1,30 @@
+{
+ "conditions": [],
+ "description": "Slay Fizzle Darkstorm in NW Durotar  before level 10 or die! Then reach max level. The Nightmare has you, so you take increased damage, but you'll still need to make it to Thunder Ridge to take down this nasty goblin.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":54,"id":1394,"reward":null},
+  {"f2":63,"id":1395,"reward":null},
+  {"f2":80,"id":1396,"reward":null}
+ ],
+ "iconToken": "_Soulfire_Purple",
+ "id": 395,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":1133}
+ ],
+ "modeToken": "nightmare",
+ "modifiers": [],
+ "name": "Prestige - Nightmare - Fizzle Darkstorm",
+ "requirements": [
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1162358784,"f6":1092616192,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"},
+  {"description":"You must complete the challenge without dying |cffffffff%1$d|r or more times.","f2":0,"f3":1,"f5":1077936128,"f6":0,"f7":0,"f8":10000,"name":"%1$d |4Life:Lives;","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_COMPLETE_WITHOUT_DEATH"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot gain experience from professions.","f2":0,"f3":1,"name":"No Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_PROFESSION_EXPERIENCE"}
+ ],
+ "spells": [
+  {"name":"Nightmare - Fizzle Darkstorm","spellId":93171}
+ ]
+}

@@ -1,0 +1,71 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="AutoCompleteTemplate.lua"/>
+    
+    <Button name="AutoCompleteListItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="0" y="18"/>
+        <ButtonText justifyH="LEFT" inherits="GameFontHighlightSmall" maxLines="1">
+            <Anchors>
+                <Anchor point="LEFT" x="5"/>
+                <Anchor point="RIGHT" x="-5"/>
+            </Anchors>
+        </ButtonText>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, AutoCompleteItemMixin)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <EditBox name="AutoCompleteInputTemplate" inherits="InputBoxTemplate2" virtual="true">
+        <Frames>
+            <Frame name="$parentDialog" parentKey="Dialog">
+                <Size x="1" y="252"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT"/> 
+                </Anchors>
+                
+                <Frames>
+                    <Frame name="$parentScroll" parentKey="Scroll" inherits="ProportionalScrollListTemplate">
+                        <Size x="0" y="252"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-4"/>
+                            <Anchor point="BOTTOMRIGHT" x="-22" y="4"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+
+                <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                    <Color r="0" g="0" b="0" a="0.99"/>
+                    <EdgeSize val="16"/>
+                    <TileSize val="16"/>
+                    <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                </Backdrop>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, AutoCompleteInputMixin)
+            </OnLoad>
+            <OnTextChanged>
+                if self:HasFocus() then
+                    self:AutoCompleteOnTextChanged()
+                end
+            </OnTextChanged>
+            <OnTabPressed>
+                self:AutoCompleteOnTabPressed()
+            </OnTabPressed>
+            <OnEditFocusLost>
+                EditBox_ClearHighlight(self)
+                self.Dialog:Hide()
+            </OnEditFocusLost>
+            <OnEnterPressed>
+                self:AutoCompleteOnEnterPressed()
+            </OnEnterPressed>
+        </Scripts>
+    </EditBox>
+</Ui>

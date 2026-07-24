@@ -1,0 +1,1 @@
+﻿DevConsole:RegisterCommand("dump", "Dumps the value following the command", DevTools_DumpConsoleCommand)
