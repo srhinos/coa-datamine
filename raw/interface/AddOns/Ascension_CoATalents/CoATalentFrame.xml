@@ -1,0 +1,493 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CoATreeViewMixin.lua"/>
+    <Script file="CoASpecViewMixin.lua"/>
+    <Script file="CoATalentFrame.lua"/>
+    
+    <Frame name="CoATalentFrame" parent="Collections" frameStrata="DIALOG" hidden="true" inherits="RaisedPortraitFrameTemplate">
+        <Size x="1294" y="666"/>
+    
+        <Anchors>
+            <Anchor point="BOTTOM" y="8"/>
+        </Anchors>
+        
+        <Frames>
+            <Frame name="$parentSpecView" parentKey="SpecView">
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CoASpecViewMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            <Frame name="$parentTreeView" parentKey="TreeView">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground1" parentKey="Background1" setAllPoints="true"/>
+                    </Layer>
+
+                    <!--<Layer level="BORDER">
+                        <Texture name="$parentBackground2" parentKey="Background2" alphaMode="MOD" alpha="0.2" setAllPoints="true"/>
+                    </Layer>-->
+                    
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBackground3" parentKey="Background3" alpha="0" alphaMode="ADD" setAllPoints="true">
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" looping="REPEAT">
+                                    <Alpha order="1" duration="5" change="0.18"/>
+                                    <Alpha order="2" duration="5" change="-0.04" endDelay="2"/>
+                                    <Alpha order="3" duration="5" change="0.04" endDelay="4"/>
+                                    <Alpha order="4" duration="5" change="-0.08" endDelay="2"/>
+                                    <Alpha order="5" duration="5" change="0.08" endDelay="12"/>
+                                    <Alpha order="6" duration="5" change="-0.18"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <ScrollFrame name="$parentFXFrame" parentKey="FXFrame" setAllPoints="true" inherits="CoATreeFXFrameTemplate"/>
+                    <Frame name="$parentShadowOverlay" parentKey="ShadowOverlay" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                            <Anchor point="BOTTOMRIGHT" y="66"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+                    <Frame name="$parentClassTree" parentKey="ClassTree" inherits="TalentTreeBase">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="128" y="-110"/>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="-140" y="40"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontHighlightHuge2">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" y="70"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentPoints" parentKey="Points" inherits="GameFontHighlightHuge">
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentLabel" relativePoint="BOTTOM" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Attributes>
+                            <Attribute name="buttonWidth" value="30" type="number"/>
+                            <Attribute name="buttonHeight" value="30" type="number"/>
+                            <Attribute name="buttonSpacingX" value="14" type="number"/>
+                            <Attribute name="buttonSpacingY" value="14" type="number"/>
+                            <Attribute name="getNodeTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForEntry"/>
+                            <Attribute name="getChoiceNodeTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForEntryChoice"/>
+                            <Attribute name="getConnectionTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForConnection" type="string"/>
+
+                            <Attribute name="useGates" value="true" type="boolean"/>
+                            <Attribute name="onlyOneGate" value="true" type="boolean"/>
+                            <Attribute name="getGateTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForGate" type="string"/>
+                            <Attribute name="getGateAttachmentPoint" value="global:CoACharacterAdvancementUtil.GetGateLeftAttachmentPoint" type="string"/>
+                            <Attribute name="gateCurrency" value="383080" type="number"/>
+                            <Attribute name="gateCurrencyCount" value="global:C_CharacterAdvancement.GetPendingTabAEInvestment" type="string"/>
+                            <Attribute name="getEntryGateRequirement" value="global:CoACharacterAdvancementUtil.GetEntryAEGateRequirement" type="string"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Frame name="$parentSpecTree" parentKey="SpecTree" inherits="TalentTreeBase">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-128" y="-110"/>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" x="140" y="40"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontHighlightHuge2">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" y="70"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentPoints" parentKey="Points" inherits="GameFontHighlightHuge">
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentLabel" relativePoint="BOTTOM" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                            
+                            <Layer level="OVERLAY">
+                                <Texture name="$parentPassivesBackground" parentKey="PassivesBackground">
+                                    <Size x="74" y="480"/>
+                                    <Anchors>
+                                        <Anchor point="RIGHT" x="113" y="58"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Attributes>
+                            <Attribute name="buttonWidth" value="30" type="number"/>
+                            <Attribute name="buttonHeight" value="30" type="number"/>
+                            <Attribute name="buttonSpacingX" value="14" type="number"/>
+                            <Attribute name="buttonSpacingY" value="14" type="number"/>
+                            <Attribute name="getNodeTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForEntry"/>
+                            <Attribute name="getChoiceNodeTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForEntryChoice"/>
+                            <Attribute name="getConnectionTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForConnection" type="string"/>
+
+                            <Attribute name="useGates" value="true" type="boolean"/>
+                            <Attribute name="onlyOneGate" value="true" type="boolean"/>
+                            <Attribute name="getGateTemplate" value="global:CoACharacterAdvancementUtil.GetDisplayTemplateForGate" type="string"/>
+                            <Attribute name="getGateAttachmentPoint" value="global:CoACharacterAdvancementUtil.GetGateLeftAttachmentPoint" type="string"/>
+                            <Attribute name="gateCurrency" value="383081" type="number"/>
+                            <Attribute name="gateCurrencyCount" value="global:C_CharacterAdvancement.GetPendingTabTEInvestment" type="string"/>
+                            <Attribute name="getEntryGateRequirement" value="global:CoACharacterAdvancementUtil.GetEntryTEGateRequirement" type="string"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Frame name="$parentBottomBar" parentKey="BottomBar">
+                        <Size x="1290" y="66"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT"/>
+                            <Anchor point="BOTTOMRIGHT"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentTexture" parentKey="Texture" setAllPoints="true"/>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Button name="$parentSpecDropDown" parentKey="SpecDropDown" enableMouse="true" inherits="UIDropDownMenuTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="4" y="-7"/>
+                                </Anchors>
+                                
+                                <Scripts>
+                                    <OnLoad>
+                                        self.Button:SetScript("OnClick", FrameUtil.PassOnClickToParent)
+                                    </OnLoad>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        local specMenu = self:GetParent().SpecializationMenu
+                                        specMenu:SetShown(not specMenu:IsShown())
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentBuildDropDown" parentKey="BuildDropDown" enableMouse="true" inherits="UIDropDownMenuTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="4" y="-34"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnLoad>
+                                        self.Button:SetScript("OnClick", FrameUtil.PassOnClickToParent)
+                                    </OnLoad>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        local buildMenu = self:GetParent().BuildCreatorMenu
+                                        buildMenu:SetShown(not buildMenu:IsShown())
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                            
+                            <Frame name="$parentSpecializationMenu" parentKey="SpecializationMenu" inherits="SpecializationMenuTemplate" hidden="true">
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="12" y="2"/>
+                                </Anchors>
+                                
+                                <Scripts>
+                                    <OnShow>
+                                        self:GetParent().BuildCreatorMenu:Hide()
+                                        self:RegisterEvent("GLOBAL_MOUSE_DOWN")
+                                    </OnShow>
+                                    <OnHide>
+                                        self:UnregisterEvent("GLOBAL_MOUSE_DOWN")
+                                    </OnHide>
+                                    <OnEvent>
+                                        if event == "GLOBAL_MOUSE_DOWN" then
+                                            FrameUtil.DialogStyleGlobalMouseDown(self, self:GetParent().SpecDropDown)
+                                        end
+                                    </OnEvent>
+                                </Scripts>
+                            </Frame>
+                            
+                            <Frame name="$parentBuildCreatorMenu" parentKey="BuildCreatorMenu" inherits="UIPanelDialogTemplate" hidden="true">
+                                <Size x="265" y="242"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="12" y="2"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentNoItemText" parentKey="NoItemText" text="BUILD_CREATOR_NO_BUILDS" inherits="GameFontDisableLarge">
+                                            <Size x="226" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="CENTER"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Frame name="$parentLoading" parentKey="Loading" inherits="InputBlockLoadingTemplate">
+                                        <Size x="248" y="206"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="10" y="-28"/>
+                                        </Anchors>
+                                    </Frame>
+                                    <Frame name="$parentBuildList" parentKey="BuildList" inherits="StandardProportionalScrollListTemplate">
+                                        <Size x="226" y="206"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="10" y="-28"/>
+                                        </Anchors>
+                                        
+                                        <Frames>
+                                            <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                                    <Anchor point="BOTTOMRIGHT" x="22" y="0"/>
+                                                </Anchors>
+
+                                                <Attributes>
+                                                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                                </Attributes>
+                                            </Frame>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+                                
+                                <Scripts>
+                                    <OnLoad>
+                                        MixinAndLoadScripts(self, "CoABuildCreatorMenuMixin")
+                                    </OnLoad>
+                                </Scripts>
+                            </Frame>
+                            
+                            <Button name="$parentSaveChanges" parentKey="SaveChanges" motionScriptsWhileDisabled="true" text="SAVE_CHANGES" inherits="StandardButtonTemplate">
+                                <Size x="164" y="22"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" relativePoint="BOTTOM" y="10"/>
+                                </Anchors>
+
+                                <Frames>
+                                    <Frame name="$parentYellowGlow" parentKey="YellowGlow" hidden="true" inherits="ButtonYellowGlowTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="-12" y="12"/>
+                                            <Anchor point="BOTTOMRIGHT" x="12" y="-12"/>
+                                        </Anchors>
+                                    </Frame>
+                                </Frames>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        CharacterAdvancementUtil.ConfirmApplyPendingBuild()
+                                    </OnClick>
+                                    <OnEnter>
+                                        if self:IsEnabled() == 0 then
+                                            GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                                        end
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentDeactivateBuild" parentKey="DeactivateBuild" text="DEACTIVATE_BUILD" inherits="StandardButtonTemplate" hidden="true">
+                                <Size x="164" y="22"/>
+                                <Anchors>
+                                    <Anchor point="RIGHT" relativeTo="$parentSaveChanges" relativePoint="LEFT" x="-12"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        local activeBuildID = BuildCreatorUtil.GetActiveBuildID()
+                                        if activeBuildID then
+                                            StaticPopup_Show("CONFIRM_DEACTIVATE_BUILD", nil, nil, activeBuildID)
+                                        end
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentUndoButton" parentKey="UndoButton">
+                                <Size x="24" y="22"/>
+
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentSaveChanges" relativePoint="RIGHT" x="12"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer level="ARTWORK">
+                                        <Texture parentKey="Icon">
+                                            <Size x="24" y="22"/>
+                                            <Anchors>
+                                                <Anchor point="CENTER" x="0" y="0"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+
+                                <Scripts>
+                                    <OnLoad>
+                                        self.Icon:SetAtlas("talents-button-undo", Const.TextureKit.IgnoreAtlasSize)
+                                        self.tooltipTitle = TALENT_FRAME_DISCARD_CHANGES_BUTTON_TOOLTIP
+                                    </OnLoad>
+                                    <OnShow>
+                                        self.Icon:SetPoint("CENTER", 0, 0)
+                                    </OnShow>
+                                    <OnMouseDown>
+                                        self.Icon:SetPoint("CENTER", 1, -1)
+                                    </OnMouseDown>
+                                    <OnMouseUp>
+                                        self.Icon:SetPoint("CENTER", 0, 0)
+                                    </OnMouseUp>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        BuildCreatorUtil.ClearPendingBuildID()
+                                        C_CharacterAdvancement.CancelPendingBuild()
+                                    </OnClick>
+                                    <OnEnter>
+                                        GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentShareBuildButton" parentKey="ShareBuildButton" inherits="ExternalLinkButtonTemplate">
+                                <Size x="24" y="24"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentSpecDropDown" relativePoint="RIGHT" x="-16" y="2.75"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="tooltip-title" value="COA_SHARE_BUILD" type="string"/>
+                                    <Attribute name="tooltip-text" value="COA_SHARE_BUILD_TOOLTIP" type="string"/>
+                                </Attributes>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                        local link = CharacterAdvancementUtil.GetBuildWebURL()
+                                        if link then
+                                            Internal_CopyToClipboard(link)
+                                            SendSystemMessage(BUILD_URL_COPIED_TO_CLIPBOARD)
+                                        end
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentImportBuildButton" parentKey="ImportBuildButton" inherits="CopyButtonTemplate">
+                                <Size x="24" y="24"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentBuildDropDown" relativePoint="RIGHT" x="-16" y="1.75"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="tooltip-title" value="COA_IMPORT_BUILD" type="string"/>
+                                    <Attribute name="tooltip-text" value="COA_IMPORT_BUILD_TOOLTIP" type="string"/>
+                                </Attributes>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                        StaticPopup_Show("CHARACTER_ADVANCEMENT_IMPORT_PENDING_BUILD")
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentResetButton" parentKey="ResetButton" text="COA_RESET_TREES" inherits="StandardButtonTemplate">
+                                <Size x="180" y="22"/>
+
+                                <Anchors>
+                                    <Anchor point="TOPRIGHT" x="-8" y="-10"/>
+                                </Anchors>
+
+                                <Frames>
+                                    <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+                                </Frames>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        self:GetParent():GetParent():ShowResetDropDown()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentChangeSpec" parentKey="ChangeSpec" text="CHANGE_TALENTS" inherits="StandardButtonTemplate">
+                                <Size x="180" y="22"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMRIGHT" x="-8" y="10"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                        self:GetParent():GetParent():GetParent():ShowSpecView()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                                <Size x="312" y="22"/>
+                                <Anchors>
+                                    <Anchor point="CENTER" x="0" y="13"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnTextChanged>
+                                        if not self:HasFocus() then return end
+                                        SearchBoxTemplate_OnTextChanged(self)
+                                        self:GetParent():GetParent():UpdateSearch()
+                                    </OnTextChanged>
+                                    <OnTextSet>
+                                        if not self:HasFocus() then return end
+                                        SearchBoxTemplate_OnTextChanged(self)
+                                        self:GetParent():GetParent():UpdateSearch()
+                                    </OnTextSet>
+                                </Scripts>
+                            </EditBox>
+
+                        </Frames>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                self.Texture:SetAtlas("talents-background-bottombar", Const.TextureKit.IgnoreAtlasSize)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CoATreeViewMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

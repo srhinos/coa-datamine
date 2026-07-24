@@ -1,0 +1,1024 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CAConnectedNodes.lua"/>
+    <Script file="CABranchTexture.lua"/>
+    <Script file="CAClassButton.lua"/>
+    <Script file="CASpellButton.lua"/>
+    <Script file="CASpecTab.lua"/>
+    <Script file="CARarityBar.lua"/>
+    <Script file="CAGate.lua"/>
+    <Script file="CASpellCategory.lua"/>
+    <Script file="CATalentBrowser.lua"/>
+
+    <Button name="CACurrencyBorderButtonTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Size x="48" y="48"/>
+
+        <Layers>
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="Shadow" alpha="1">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                 <FontString inherits="SubZoneTextFont" name="$parentCurrencyTotal" parentKey="CurrencyTotal">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parent.Icon" x="0" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString inherits="GameFontHighlightOutline" name="$parentCurrencyName" parentKey="CurrencyName">
+                    <Anchors>
+                        <Anchor Point="TOP" x="0" y="24"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnEnter>
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                if self.item then
+                    GameTooltip:SetHyperlink("item:"..self.item)
+
+                    if self.item == ItemData.ABILITY_ESSENCE or self.item == ItemData.TALENT_ESSENCE then
+                        CharacterAdvancement:AddFakeLevelTooltip(self.item)
+                    end
+                end
+                GameTooltip:Show()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+            <OnLoad>
+                self.Highlight:SetAtlas("bags-roundhighlight", Const.TextureKit.IgnoreAtlasSize)
+                self.Shadow:SetAtlas("talents-node-choiceflyout-circle-shadow", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+                self:SetRounded(true)
+                self:SetIcon("Interface\\Icons\\inv_custom_abilityessence")
+                self:SetBorderAtlas("ca-navigation-bigRing")
+                self:SetBorderSize(64, 64)
+                --self:SetBorderOffset(0, -2)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="CATalentsClassTemplate" virtual="true">
+        <Size x="270" y="539"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" name="$parentBackground">
+                    <Anchors>
+                        <Anchor point="RIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="Shadow" name="$parentShadow">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-64" y="128"/>
+                        <Anchor point="BOTTOMRIGHT" x="64" y="-128"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightMedium" justifyH="CENTER">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentGateDisappearanceFrame" parentKey="GateDisappearanceFrame">
+                <Size x="64" y="64"/>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentGlow" file="SPELLS\7fx_flash_shard" alpha="0" parentKey="Glow" alphaMode="ADD">
+                            <Size x="1" y="1"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Explosion">
+                                    <Scale duration="0.2" scaleX="100" scaleY="100" order="1"/>
+                                    <Alpha change="1" duration="0.2" smoothing="IN_OUT" order="1"/>
+                                    <Alpha change="-1" duration="0.5" smoothing="OUT" order="2"/>
+                                    <Scale duration="0.5" scaleX="0.5" scaleY="0.5" order="2"/>
+                                </AnimationGroup>
+                            </Animations>
+                            <Color r="0.2" g="0.7" b="1"/>
+                        </Texture>
+                        <Texture name="$parentShockwave" alphaMode="ADD" file="SPELLS\7fx_alphamask_shockwavesoft_contrast_256" alpha="0" parentKey="Shockwave">
+                            <Size x="20" y="20"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Explosion">
+                                    <Scale duration="2" scaleX="10" scaleY="10" order="1"/>
+                                    <Rotation degrees="-90" duration="1" smoothing="IN_OUT" order="1"/>
+                                    <Alpha change="1" duration="0.2" smoothing="IN" order="1"/>
+                                    <Alpha change="-1" duration="0.6" smoothing="OUT" order="1" startDelay="0.4"/>
+                                </AnimationGroup>
+                            </Animations>
+                            <Color r="0.2" g="0.7" b="1"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                --local atlasInfo = AtlasUtil:GetAtlasInfo("levelup-line-white-horizontal")
+                self.Background:SetAtlas("levelup-line-white", Const.TextureKit.UseAtlasSize)
+                self.Background:SetSize(2, 418)
+
+                self.Shadow:SetAtlas("common-shadow-circle", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "CATalentsClassMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="CASpellCategoryTemplate" enableMouse="true" inherits="ThreeSliceTemplate" virtual="true">
+        <Size x="256" y="24"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Size x="800" y="96"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="56"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-6"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="6"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parent.Title" parentKey="Title" inherits="GameFontHighlight" justifyH="CENTER">
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parent.Description" parentKey="Description" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                    <Size x="600" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Attributes>
+            <Attribute name="atlasName" value="ca-tab"/>
+        </Attributes>
+
+        <Scripts>
+            <OnEnter>
+                if self.tooltipTitle then
+                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                    GameTooltip:SetText(self.tooltipTitle, 1, 1, 1, 1, false)
+                    if self.tooltipText then
+                        GameTooltip:AddLine(self.tooltipText, nil, nil, nil, true)
+                    end
+                    GameTooltip:Show()
+                end
+            </OnEnter>
+            <OnLeave function="GameTooltip_Hide"/>
+            <OnLoad>
+                self.Background:SetAlpha(0.5)
+                self.Left:SetDrawLayer("BORDER")
+                self.Right:SetDrawLayer("BORDER")
+                self.Center:SetDrawLayer("BORDER")
+                self.Background:SetAtlas("common-shadow-circle", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "CASpellCategoryMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="CATalentGateTemplate" enableMouse="true" virtual="true">
+        <Size x="82" y="40"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parent.LockIcon" parentKey="LockIcon">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="48" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parent.Line" parentKey="Line">
+                    <Size y="3"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parent.LockIcon" relativePoint="LEFT" x="-2" y="0"/>
+                        <Anchor point="RIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parent.GateText" parentKey="GateText" inherits="GameFontHighlightMedium" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parent.LockIcon" relativePoint="LEFT" x="-6" y="-1"/>
+                    </Anchors>
+                    <Color r="1" g="0.64" b="0.56"/>
+                </FontString>
+                <Texture name="$parent.LockIconAdd" parentKey="LockIconAdd">
+                    <Size x="28" y="28"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="42" y="0"/>
+                    </Anchors>
+                </Texture>
+                <FontString name="$parentAnimatedText" parentKey="AnimatedText" inherits="AnimatedCurrencyFontTemplate">
+                    <Anchors>
+                        <Anchor point="RIGHT" x="10" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Shadow" alpha="1">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parent.GateText" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CATalentGateMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="CATalentGateCounterTemplate" enableMouse="true" inherits="CATalentGateTemplate" virtual="true">
+        <Size x="82" y="40"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parent.LockIcon" parentKey="LockIcon">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CATalentGateCounterMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="CASpellCountTemplate" virtual="true">
+        <Size x="22" y="22"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                self.Background:SetAtlas("ca-spellcount-bg", Const.TextureKit.IgnoreAtlasSize)
+                self.SetCount = function(self, count)
+                    self.Text:SetText(count)
+                end
+            </OnLoad>
+            <OnEnter>
+                self:GetParent():OnSpellCountEnter(self)
+            </OnEnter>
+            <OnLeave>
+                self:GetParent():OnCountLeave()
+            </OnLeave>
+            <OnClick>
+                self:GetParent():OnClick()
+            </OnClick>
+        </Scripts>
+    </Button>
+    
+    <Button name="CATalentCountTemplate" inherits="CASpellCountTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                self.Background:SetAtlas("ca-talentcount-bg", Const.TextureKit.IgnoreAtlasSize)
+                self.SetCount = function(self, count)
+                    self.Text:SetText(count)
+                end
+            </OnLoad>
+            <OnEnter>
+                self:GetParent():OnTalentCountEnter(self)
+            </OnEnter>
+            <OnLeave>
+                self:GetParent():OnCountLeave()
+            </OnLeave>
+            <OnClick>
+                self:GetParent():OnClick()
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <Button name="CAClassPointsTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Size x="18" y="18"/>
+
+        <ButtonText name="$parentText" parentKey="Text" text="0" inherits="GameFontHighlightSmall">
+            <Anchors>
+                <Anchor point="CENTER" x="0" y="0"/>
+            </Anchors>
+        </ButtonText>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Shadow" alpha="1">
+                    <Size x="1024" y="1024"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parent.Icon" x="2" y="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+                self:EnableMouse(false)
+                self.Shadow:SetAtlas("talents-node-choiceflyout-circle-shadow", Const.TextureKit.IgnoreAtlasSize)
+                self:SetIconAtlas("realm-select-icon-bg")
+                self.Icon:SetVertexColor(0, 0, 0)
+                self.Icon:SetDrawLayer("BACKGROUND")
+                self:SetBorderOffset(-1, -2)
+                self.IconBorder:SetDrawLayer("BORDER")
+                self:SetRounded(true)
+                self:SetBorderAtlas("pta-icon-border")
+                self:SetBorderSize(24, 24)
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="CAClassButtonTemplate" virtual="true">
+        <Size x="128" y="48"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Overlay" alpha="1" alphaMode="ADD">
+                    <Size x="134.1" y="57.2"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="-2" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" alpha="1">
+                    <Size x="117.9" y="44.8"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="-2" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Size x="134.1" y="57.2"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="-2" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon"  inherits="BorderIconTemplate">
+                <Size x="26" y="26"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="16" y="0"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentClassPoints" parentKey="ClassPoints" inherits="CAClassPointsTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="8" y="-8"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self:EnableMouse(false)
+                        MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+                        self.Icon:SetDrawLayer("BACKGROUND")
+                        self.IconBorder:SetDrawLayer("BORDER")
+                        self:SetRounded(true)
+                        self:SetBorderAtlas("ca-navigation-smallRing")
+                        self:SetBorderSize(40, 40)
+                    </OnLoad>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" justifyV="CENTER" inherits="GameFontNormalOutline">
+            <Size x="76" y="36"/>
+        </ButtonText>
+
+        <Scripts>
+            <OnLoad>
+                --self:SetBackdrop(GameTooltip:GetBackdrop())
+                self.Overlay:SetAtlas("ca-navigation-bookmark-highlight", Const.TextureKit.IgnoreAtlasSize)
+                self.Highlight:SetAtlas("ca-navigation-bookmark-highlight", Const.TextureKit.IgnoreAtlasSize)
+                self.Background:SetAtlas("ca-navigation-bookmark", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "CAClassButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="CASpecTabTemplate" inherits="SpellBookTabTopTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentSpellCount" parentKey="SpellCount" inherits="CASpellCountTemplate">
+                <Anchors>
+                    <Anchor point="RIGHT" x="0" y="0"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentTalentCount" parentKey="TalentCount" inherits="CATalentCountTemplate">
+                <Anchors>
+                    <Anchor point="RIGHT" x="0" y="0"/>
+                </Anchors>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CASpecTabMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CASpellIconTemplate" enableMouse="false" inherits="SpellIconTemplate" virtual="true">
+        <Size x="32" y="32"/>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentLockIcon" parentKey="LockIcon" hidden="true">
+                    <Size x="14" y="18"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentKnownGlow" parentKey="KnownGlow" hidden="true" alphaMode="ADD">
+                    <Size x="76" y="76"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentDisabledOverlay" parentKey="DisabledOverlay" inherits="DisabledOverlayTemplate" hidden="true">
+                 <Anchors>
+                    <Anchor point="TOPLEFT" x="-1" y="1"/>
+                    <Anchor point="BOTTOMRIGHT" x="1" y="-1"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentLocationIcon" parentKey="LocationIcon" inherits="LocationIndicatorTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="1" y="1"/>
+                </Anchors>
+            </Frame>
+            
+            <Button name="$parentRankUp" parentKey="RankUp" inherits="UINewSpellRankIndicator" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+                </Anchors>
+            </Button>
+        </Frames>
+        <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPLEFT" x="0" y="0"/>
+                <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconBorder" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+            </Anchors>
+        </PushedTexture>
+    </Button>
+    
+    <Button name="CASpellButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="128" y="32"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentShadow" parentKey="Shadow">
+                    <Size x="159" y="39"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="28"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <!--<Layer>
+                <FontString name="$parentRarityGemText" parentKey="RarityGemText" justifyH="LEFT" justifyV="BOTTOM" hidden="true" inherits="GameFontNormal">
+                    <Size x="90" y="26"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="36"/>
+                    </Anchors>
+                </FontString>
+            </Layer>-->
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="CASpellIconTemplate">
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentClassPoints" parentKey="ClassPoints" inherits="ClassPointsTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentPendingChange" parentKey="PendingChange" inherits="AutoCastShineTemplate" hidden="true">
+                        <Size x="30" y="30"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Button name="$parentMastery" parentKey="Mastery" hidden="true">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-18" y="12"/>
+                        </Anchors>
+                        <Frames>
+                            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="CASpellIconTemplate">
+                                <Anchors>
+                                    <Anchor point="CENTER"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer level="OVERLAY">
+                                        <Texture name="$parentKnownGlow" parentKey="KnownGlow" hidden="true" alphaMode="ADD">
+                                            <Size x="64" y="64"/>
+                                            <Anchors>
+                                                <Anchor point="CENTER"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                            </Button>
+                        </Frames>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBackground" parentKey="Background">
+                                    <Size x="48" y="64"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" x="0" y="-8"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CAMasteryButtonMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CASpellButtonMixin")
+                self.Icon.LocationIcon:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.RankUp:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.Mastery:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+2)
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontNormalSmall2">
+            <Size x="90" y="48"/>
+            <Anchors>
+                <Anchor point="LEFT" x="36" y="0"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+    
+    <Button name="CATalentButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="SpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentLockIcon" parentKey="LockIcon" hidden="true">
+                            <Size x="14" y="18"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentPendingChange" parentKey="PendingChange" inherits="AutoCastShineTemplate" hidden="true">
+                        <Size x="30" y="30"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame name="$parentDisabledOverlay" parentKey="DisabledOverlay" inherits="DisabledOverlayTemplate" hidden="true">
+                         <Anchors>
+                            <Anchor point="TOPLEFT" x="-1" y="1"/>
+                            <Anchor point="BOTTOMRIGHT" x="1" y="-1"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Button name="$parentClassPoints" parentKey="ClassPoints" inherits="ClassPointsTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentLocationIcon" parentKey="LocationIcon" inherits="LocationIndicatorTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="1" y="1"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Button name="$parentRankUp" parentKey="RankUp" inherits="UINewSpellRankIndicator" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentRankFrame" parentKey="RankFrame" inherits="AnimatedRankTemplate" hidden="true">
+                        <Attributes>
+                            <Attribute name="rankFontObject" value="GameFontNormalSmall"/>
+                        </Attributes>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-5" y="3"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+
+                <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconBorder" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </PushedTexture>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CATalentButtonMixin")
+                self.Icon.LocationIcon:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.RankUp:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.RankFrame:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="CAPrimaryStatButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="SpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Size x="42" y="42"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentKnownGlow" parentKey="KnownGlow" hidden="true" alphaMode="ADD">
+                            <Size x="64" y="64"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Pulse">
+                                    <Alpha change="-1" duration="0.5" smoothing="IN_OUT" order="1"/>
+                                    <Alpha change="1" duration="0.5" smoothing="IN_OUT" order="2"/>
+                                    <Scripts>
+                                        <OnFinished>
+                                            self:Play()
+                                        </OnFinished>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentLocationIcon" parentKey="LocationIcon" inherits="LocationIndicatorTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="1" y="1"/>
+                        </Anchors>
+                    </Frame>
+                    
+                    <Frame name="$parentPendingChange" parentKey="PendingChange" inherits="AutoCastShineTemplate" hidden="true">
+                        <Size x="30" y="30"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+                
+                <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconBorder" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </PushedTexture>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self.Icon.Background:SetAtlas("emptyslot", Const.TextureKit.IgnoreAtlasSize)
+                MixinAndLoadScripts(self, "CAPrimaryStatButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CARarityBarTemplate" parentKey="CARarityBarTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentLeft" parentKey="Left">
+                    <Size x="76" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+    
+                <Texture name="$parentRight" parentKey="Right">
+                    <Size x="76" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+    
+                <Texture name="$parentMiddle" parentKey="Middle">
+                    <Size x="0" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentLeft" relativePoint="TOPRIGHT" x="-20"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentRight" relativePoint="BOTTOMLEFT" x="20"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentRarityGemContainer" parentKey="RarityGemContainer" inherits="RarityGemContainerTemplate">
+                <Size x="200" y="16"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                    <Anchor point="RIGHT"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CARarityBarMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlightSmall">
+            <Anchors>
+                <Anchor point="LEFT" x="8"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+    
+    <Frame name="CATalentBranchTemplate" virtual="true">
+        <Size x="70" y="52"/>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentCenter" parentKey="Center">
+                    <Size x="10" y="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentDownArrow" parentKey="DownArrow">
+                    <Size x="16" y="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentOuterDownArrow" parentKey="OuterDownArrow">
+                    <Size x="16" y="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentUpArrow" parentKey="UpArrow">
+                    <Size x="16" y="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentOuterUpArrow" parentKey="OuterUpArrow">
+                    <Size x="16" y="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="TOP"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentLeftArrow" parentKey="LeftArrow">
+                    <Size x="10" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentOuterLeftArrow" parentKey="OuterLeftArrow">
+                    <Size x="10" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentRightArrow" parentKey="RightArrow">
+                    <Size x="10" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentOuterRightArrow" parentKey="OuterRightArrow">
+                    <Size x="10" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <Texture name="$parentDown" parentKey="Down">
+                    <Size x="12" y="0"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM"/>
+                        <Anchor point="TOP" relativePoint="CENTER" y="-4"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentUp" parentKey="Up">
+                    <Size x="12" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                        <Anchor point="BOTTOM" relativePoint="CENTER" y="4"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentLeft" parentKey="Left">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                        <Anchor point="RIGHT" relativePoint="CENTER" x="-4"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentRight" parentKey="Right">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                        <Anchor point="LEFT" relativePoint="CENTER" x="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CABranchMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="CACompactSpellButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="CASpellIconTemplate">
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentClassPoints" parentKey="ClassPoints" inherits="ClassPointsTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentPendingChange" parentKey="PendingChange" inherits="AutoCastShineTemplate" hidden="true">
+                        <Size x="30" y="30"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CACompactSpellButtonMixin")
+                self.Icon.LocationIcon:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.RankUp:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CASummaryClassIconTemplate" inherits="ClassPointsTemplate" virtual="true">
+        <Size x="24" y="24"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+                self.Icon:SetDrawLayer("BACKGROUND")
+                self.IconBorder:SetDrawLayer("BORDER")
+                self:SetRounded(true)
+                self:SetBorderAtlas("category-icon-ring")
+                self:SetBorderSize(40, 40)
+                self.Count:SetVertexColor(1, 1, 1)
+                self.Count:ClearAndSetPoint("BOTTOM", 0, -8)
+                self.Count:SetWidth(52)
+                self.Shadow:Hide()
+            </OnLoad>
+            <OnClick>
+                CharacterAdvancement:SelectClass(self.class)
+            </OnClick>
+        </Scripts>
+    </Button>
+</Ui>

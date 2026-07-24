@@ -1,0 +1,1281 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RandomModeRewardTabMixin.lua"/>
+    <Script file="BoosterTabMixin.lua"/>
+    <Script file="TicketTabMixin.lua"/>
+    <Script file="RepurchaseTabMixin.lua"/>
+    <Script file="RandomModeGossipMixin.lua"/>
+
+    <Frame name="RandomModeGossipFrame" parent="UIParent" hidden="true" enableMouse="true" clampedToScreen="true" movable="true" frameStrata="DIALOG" inherits="RaisedPortraitFrameTemplate">
+        <Size x="1048" y="512"/>
+        <Anchors>
+            <Anchor point="CENTER" y="48"/>
+        </Anchors>
+        
+        <Frames>
+            <Frame name="$parentSpecs" parentKey="Specs" enableMouse="true" inherits="StandardProportionalScrollListTemplate">
+                <Size x="260" y="432"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-30" y="8"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="24"/>
+                            </Anchors>
+                            <Color r="0" g="0" b="0" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="InsetFrameTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-2" y="2"/>
+                            <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                UseParentLevel(self)
+                                MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentTabs" parentKey="Tabs" inherits="InsetFrameTemplate2">
+                <Size x="202" y="436"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="4" y="6"/>
+                </Anchors>
+                
+                <Frames>
+                    <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-2"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnLoad>
+                                UseParentLevel(self)
+                                MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentCurrency" parentKey="Currency">
+                        <Size x="202" y="128"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" x="0" y="0"/>
+                        </Anchors>
+
+                        <Frames>
+                            <Button name="$parentGoldenTickets" parentKey="GoldenTickets" inherits="RandomModeCurrencyTemplate">
+                                <Size x="202" y="32"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" x="0" y="0"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="fixedWidth" value="true" type="boolean"/>
+                                </Attributes>
+
+                                <Layers>
+                                    <Layer>
+                                        <Texture name="$parentSeparator" parentKey="Separator">
+                                            <Size x="202" y="2"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-1"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                            </Button>
+
+                            <Button name="$parentTickets" parentKey="Tickets" inherits="RandomModeCurrencyTemplate">
+                                <Size x="202" y="32"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativeTo="$parentGoldenTickets" relativePoint="TOPLEFT" x="0" y="0"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="fixedWidth" value="true" type="boolean"/>
+                                </Attributes>
+
+                                <Layers>
+                                    <Layer>
+                                        <Texture name="$parentSeparator" parentKey="Separator">
+                                            <Size x="202" y="2"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-1"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                            </Button>
+
+                            <Button name="$parentMarks" parentKey="Marks" inherits="RandomModeCurrencyTemplate">
+                                <Size x="202" y="32"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativeTo="$parentTickets" relativePoint="TOPLEFT" x="0" y="0"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="fixedWidth" value="true" type="boolean"/>
+                                </Attributes>
+                            </Button>
+                        </Frames>
+                    </Frame>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                        MixinAndLoadScripts(self, "TabSystemMixin")
+                        self:SetTabTemplate("RandomModeCategoryTabTemplate")
+                        self:SetTabLayout("VERTICAL")
+                        self:SetTabPoint("TOPLEFT", self, "TOPLEFT", 6, -6)
+                        self:SetTabWidthConstraints(190, 190)
+
+                        self.Currency.GoldenTickets.Separator:SetAtlas("store-receipt-line", Const.TextureKit.IgnoreAtlasSize)
+                        self.Currency.Tickets.Separator:SetAtlas("store-receipt-line", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame> 
+            
+            <Frame name="$parentContent" parentKey="Content" inherits="InsetFrameTemplate2">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentTabs" relativePoint="BOTTOMRIGHT"/>
+                    <Anchor point="TOP" relativeTo="$parentSpecs" relativePoint="TOP" x="0" y="2"/>
+                    <Anchor point="RIGHT" relativeTo="$parentSpecs" relativePoint="LEFT" x="-2" y="0"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentArtBottom" parentKey="ArtBottom" file="Interface\Darkmoon\art_bottom">
+                            <Size x="558" y="279"/>
+                            <Anchors>
+                                <Anchor point="BOTTOM"/>
+                            </Anchors>
+                            <TexCoords left="1" right="0" top="0" bottom="1"/>
+                        </Texture>
+                        <Texture name="$parentArtTop" parentKey="ArtTop" file="Interface\Darkmoon\art_top">
+                            <Size x="502" y="126"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-12"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentRewardsTab" parentKey="RewardsTab" hidden="true" setAllPoints="true">
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentNextRelease" parentKey="NextRelease" inherits="GameFontHighlight">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" y="4"/>
+                                    </Anchors>
+                                    <Color r="1" g="0" b="0"/>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Frames>
+                            <Frame name="$parentMagic" parentKey="Magic" inherits="AnimatedMagicRingTemplate">
+                                <Anchors>
+                                    <Anchor point="CENTER" y="12"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" hidden="true" inherits="InputBlockTextTemplate" setAllPoints="true">
+                                <Frames>
+                                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                                        <Size x="100" y="28"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" y="28"/>
+                                        </Anchors>
+                                        
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():Hide()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                            <Frame name="$parentMainReward" parentKey="MainReward">
+                                <Size x="338" y="100"/>
+                                <Anchors>
+                                    <Anchor point="CENTER" y="32"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentArt" parentKey="Art" alpha="0.9">
+                                            <Anchors>
+                                                <Anchor point="CENTER" x="-16" y="12"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                    <Layer level="BORDER">
+                                        <Texture name="$parentShadow" parentKey="Shadow" file="Interface\Common\ShadowCircle">
+                                            <Size x="428" y="128"/>
+                                            <Anchors>
+                                                <Anchor point="CENTER"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Button name="$parentItem" parentKey="Item" inherits="RandomModeLargeItemRewardTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="4" y="-8"/>
+                                        </Anchors>
+                                        
+                                        <Layers>
+                                            <Layer level="OVERLAY">
+                                                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontHighlightHuge">
+                                                    <Size x="256" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="LEFT" relativePoint="RIGHT" x="12" y="12"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                        
+                                        <Frames>
+                                            <Frame name="$parentBigDigits" parentKey="BigDigits" hidden="true" inherits="BigDigitBoxTemplate">
+                                                <Anchors>
+                                                    <Anchor point="CENTER" relativePoint="BOTTOM" x="0" y="2"/>
+                                                </Anchors>
+                                            </Frame>
+                                        </Frames>
+
+                                        <ButtonText name="$parentSubText" parentKey="SubText" text="SOF_DESCRIPTION" justifyH="LEFT" inherits="GameFontNormal">
+                                            <Size x="256" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                                            </Anchors>
+                                        </ButtonText>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+
+                            <Button name="$parentClaimButton" parentKey="ClaimButton" text="SOF_CLAIM" inherits="SharedButtonTemplate">
+                                <Size x="240" y="60"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" y="138"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentErrorText" parentKey="ErrorText" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="TOP" relativePoint="BOTTOM" y="-2"/>
+                                            </Anchors>
+                                            <Color r="1" g="0" b="0"/>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                     <Button name="$parentUpButton" parentKey="UpButton" inherits="UpButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOMLEFT" relativePoint="RIGHT" x="8"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():GetParent():ChangeClaimAmount(IsShiftKeyDown() and 10 or 1)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(INCREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_INCREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentDownButton" parentKey="DownButton" inherits="DownButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativePoint="RIGHT" x="8"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():GetParent():ChangeClaimAmount(IsShiftKeyDown() and -10 or -1)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                                GameTooltip:SetText(DECREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_DECREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Frame name="$parentBonusRewards" parentKey="BonusRewards" hidden="true" inherits="HorizontalLayoutFrame">
+                                        <Size x="0" y="38"/>
+
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" relativePoint="TOP" y="12"/>
+                                        </Anchors>
+                                        
+                                        <Attributes>
+                                            <Attribute name="spacing" value="12" type="number"/>
+                                        </Attributes>
+                                        
+                                        <Frames>
+                                            <Button name="$parentReward1" parentKey="Reward1" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                                <Size x="38" y="38"/>
+                                                <Attributes>
+                                                    <Attribute name="layoutIndex" value="1" type="number"/>
+                                                </Attributes>
+                                            </Button>
+                                            <Button name="$parentReward2" parentKey="Reward2" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                                <Size x="38" y="38"/>
+                                                <Attributes>
+                                                    <Attribute name="layoutIndex" value="2" type="number"/>
+                                                </Attributes>
+                                            </Button>
+                                            <Button name="$parentReward3" parentKey="Reward3" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                                <Size x="38" y="38"/>
+                                                <Attributes>
+                                                    <Attribute name="layoutIndex" value="3" type="number"/>
+                                                </Attributes>
+                                            </Button>
+                                            <Button name="$parentReward4" parentKey="Reward4" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                                <Size x="38" y="38"/>
+                                                <Attributes>
+                                                    <Attribute name="layoutIndex" value="4" type="number"/>
+                                                </Attributes>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():OnClaimReward()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Frame name="$parentRewardProgress" parentKey="RewardProgress" enableMouse="true" inherits="BetterStatusBarTemplate">
+                                <Size x="240" y="12"/>
+                
+                                <Anchors>
+                                    <Anchor point="TOP" x="0" y="-24"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer level="ARTWORK">
+                                        <FontString name="$parentLabel" parentKey="Label" text="RANDOM_MODE_REWARD_PROGRESS_LABEL" inherits="GameFontHighlight">
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" y="8"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                
+                                <Attributes>
+                                    <Attribute name="bar-atlas" value="ui-frame-bar-fill-yellow"/>
+                                </Attributes>
+                
+                                <Frames>
+                                    <Frame name="$parentPendingClaimProgress" parentKey="PendingClaimProgress" inherits="BetterStatusBarTemplate" setAllPoints="true">
+                                        <Attributes>
+                                            <Attribute name="bar-atlas" value="ui-frame-bar-fill-green"/>
+                                            <Attribute name="font" value="GameFontHighlightSmall"/>
+                                        </Attributes>
+                                        <Frames>
+                                            <Frame>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="-5" y="5"/>
+                                                    <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                                                </Anchors>
+                
+                                                <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border" tile="true">
+                                                    <TileSize val="12"/>
+                                                    <EdgeSize val="12"/>
+                                                </Backdrop>
+                                            </Frame>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+                
+                                <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                                    <TileSize val="12"/>
+                                    <Color r="0" g="0" b="0" a="0.8"/>
+                                </Backdrop>
+                            </Frame>
+
+                            <ScrollFrame name="$parentLevelingScroll" parentKey="LevelingScroll">
+                                <Size x="400" y="106"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" y="20"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentLabel" parentKey="Label" text="SOF_RESETS_IN_PRESTIGE_MODE" inherits="GameFontDisable">
+                                            <Anchors>
+                                                <Anchor point="TOP" relativePoint="BOTTOM"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Button name="$parentScrollLeftButton" parentKey="ScrollLeftButton" inherits="LeftButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="RIGHT" relativePoint="LEFT" x="-12"/>
+                                        </Anchors>
+                                        <Scripts>    
+                                            <OnClick>
+                                                self:GetParent():GetParent():ScrollLevelingRewards(-1)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentScrollRightButton" parentKey="ScrollRightButton" inherits="RightButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="LEFT" relativePoint="RIGHT" x="12"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():ScrollLevelingRewards(1)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+
+                                <ScrollChild>
+                                    <Frame name="$parentChild" parentKey="Child">
+                                        <Size x="400" y="96"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM"/>
+                                        </Anchors>
+                                        
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture name="$parentBackground" parentKey="Background" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true">
+                                                    <Size x="390" y="14"/>
+                                                    <Anchors>
+                                                        <Anchor point="BOTTOMLEFT" x="5" y="2"/>
+                                                        <Anchor point="BOTTOMRIGHT" x="-5" y="2"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                            <Layer>
+                                                <Texture name="$parentFill" parentKey="Fill" horizTile="true" vertTile="true">
+                                                    <Size x="390" y="14"/> 
+                                                    <Anchors>
+                                                        <Anchor point="BOTTOMLEFT" x="5" y="2"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                            <Layer level="ARTWORK">
+                                                <Texture name="$parentLeft" parentKey="Left">
+                                                    <Size x="16" y="18"/>
+                                                    <Anchors>
+                                                        <Anchor point="BOTTOMLEFT"/>
+                                                    </Anchors>
+                                                </Texture>
+
+                                                <Texture name="$parentRight" parentKey="Right">
+                                                    <Size x="16" y="18"/>
+                                                    <Anchors>
+                                                        <Anchor point="BOTTOMRIGHT"/>
+                                                    </Anchors>
+                                                </Texture>
+
+                                                <Texture name="$parentCenter" parentKey="Center">
+                                                    <Size x="18" y="18"/>
+                                                    <Anchors>
+                                                        <Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+                                                        <Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                        </Layers>
+                                        
+                                        <Scripts>
+                                            <OnLoad>
+                                                self.Left:SetAtlas("ui-frame-bar-borderleft", Const.TextureKit.IgnoreAtlasSize)
+                                                self.Right:SetAtlas("ui-frame-bar-borderright", Const.TextureKit.IgnoreAtlasSize) 
+                                                self.Center:SetAtlas("ui-frame-bar-bordercenter", Const.TextureKit.IgnoreAtlasSize)
+                                            </OnLoad>
+                                        </Scripts>
+                                    </Frame>
+                                </ScrollChild>
+                            </ScrollFrame>
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "RandomModeRewardTabMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    <Frame name="$parentBoosterTab" parentKey="BoosterTab" hidden="true" setAllPoints="true">
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentArt" parentKey="Art" file="Interface\Darkmoon\Booster_Gold">
+                                    <Size x="286" y="286"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" y="36"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentTitle" parentKey="Title" text="GOLDEN_BOOSTER_PACK" inherits="GameFontHighlightHuge">
+                                    <Anchors>
+                                        <Anchor point="CENTER" y="-16"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentSubText" parentKey="SubText" text="GOLDEN_BOOSTER_PACK_DESC" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                            
+                            <Layer level="BORDER">
+                                <Texture name="$parentShadow" parentKey="Shadow" file="Interface\Common\ShadowCircle">
+                                    <Size x="428" y="132"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativeTo="$parentSubText" relativePoint="CENTER"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" hidden="true" inherits="InputBlockTextTemplate" setAllPoints="true">
+                                <Frames>
+                                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                                        <Size x="100" y="28"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" y="28"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():Hide()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+
+                            <Frame name="$parentRewards" parentKey="Rewards" inherits="HorizontalLayoutFrame">
+                                <Size x="0" y="38"/>
+
+                                <Anchors>
+                                    <Anchor point="TOP" relativeTo="$parentSubText" relativePoint="BOTTOM" y="-22"/>
+                                </Anchors>
+
+                                <Attributes>
+                                    <Attribute name="spacing" value="16" type="number"/>
+                                </Attributes>
+
+                                <Frames>
+                                    <Button name="$parentReward1" parentKey="Reward1" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                        <Size x="38" y="38"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="1" type="number"/>
+                                        </Attributes>
+                                    </Button>
+                                    <Button name="$parentReward2" parentKey="Reward2" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                        <Size x="38" y="38"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="2" type="number"/>
+                                        </Attributes>
+                                    </Button>
+                                    <Button name="$parentReward3" parentKey="Reward3" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                        <Size x="38" y="38"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="3" type="number"/>
+                                        </Attributes>
+                                    </Button>
+                                    <Button name="$parentReward4" parentKey="Reward4" hidden="true" inherits="RandomModeItemRewardTemplate">
+                                        <Size x="38" y="38"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="4" type="number"/>
+                                        </Attributes>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+
+                            <Button name="$parentPurchaseButton" parentKey="PurchaseButton" inherits="SharedButtonTemplate">
+                                <Size x="240" y="60"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" y="36"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentErrorText" parentKey="ErrorText" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="TOP" relativePoint="BOTTOM" y="-4"/>
+                                            </Anchors>
+                                            <Color r="1" g="0" b="0"/>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Button name="$parentUpButton" parentKey="UpButton" inherits="UpButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOMLEFT" relativePoint="RIGHT" x="3" y="-2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():GetParent():ChangeClaimAmount(IsShiftKeyDown() and 10 or 1)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(INCREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_INCREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentDownButton" parentKey="DownButton" inherits="DownButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativePoint="RIGHT" x="3" y="2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():GetParent():ChangeClaimAmount(IsShiftKeyDown() and -10 or -1)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(DECREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_DECREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():OnPurchaseBooster()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "BoosterTabMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    <Frame name="$parentTicketTab" parentKey="TicketTab" setAllPoints="true" hidden="true">
+                        <Frames>
+                            <Frame name="$parentLoadingFrame" parentKey="LoadingFrame" inherits="InputBlockLoadingTemplate" setAllPoints="true" hidden="true"/>
+
+                            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" hidden="true" inherits="InputBlockTextTemplate" setAllPoints="true">
+                                <Frames>
+                                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                                        <Size x="100" y="28"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" y="28"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():Hide()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                            
+                            <Frame name="$parentStore" parentKey="Store" setAllPoints="true" hidden="true">
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalHuge">
+                                            <Anchors>
+                                                <Anchor point="TOP" y="-12"/>
+                                            </Anchors>
+                                        </FontString>
+                                        <FontString name="$parentPageText" parentKey="PageText" inherits="GameFontHighlight">
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" y="44"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                <Frames>
+                                    <Frame name="$parentClassButtons" parentKey="ClassButtons" inherits="HorizontalLayoutFrame">
+                                        <Size x="26" y="26"/>
+                                        <Attributes>
+                                            <Attribute name="spacing" value="16" type="number"/>
+                                        </Attributes>
+                                        <Anchors>
+                                            <Anchor point="TOP" y="-84"/>
+                                        </Anchors>
+                                    </Frame>
+                                    <Button name="$parentBackButton" parentKey="BackButton" inherits="LeftButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOMLEFT" x="16" y="12"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():CloseStore()
+                                            </OnClick>
+                                        </Scripts>
+                                        
+                                        <ButtonText name="$parentText" parentKey="Text" text="BACK" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="LEFT" relativePoint="RIGHT"/>
+                                            </Anchors>
+                                        </ButtonText>
+                                    </Button>
+
+                                    <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                                        <Size x="220" y="20"/>
+                                        <Anchors>
+                                            <Anchor point="TOP" x="-42" y="-50"/>
+                                        </Anchors>
+                                    </EditBox>
+
+                                    <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                                        <Size x="78" y="22"/>
+
+                                        <Anchors>
+                                            <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT" x="6" y="-1"/>
+                                        </Anchors>
+                                    </Button>
+
+                                    <Button name="$parentPreviousPageButton" parentKey="PreviousPageButton" inherits="LeftButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" x="-16" y="12"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():PreviousPage()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentNextPageButton" parentKey="NextPageButton" inherits="RightButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" x="16" y="12"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():NextPage()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                                <Scripts>
+                                    <OnLoad>
+                                        MixinAndLoadScripts(self, "CustomVendorMixin")
+                                    </OnLoad>
+                                </Scripts>
+                            </Frame>
+                            <Frame name="$parentChooseStore" parentKey="ChooseStore" setAllPoints="true" hidden="true">
+                                <Frames>
+                                    <Frame name="$parentCosmetics" parentKey="Cosmetics" id="4">
+                                        <Size x="175" y="332"/>
+
+                                        <Anchors>
+                                            <Anchor point="CENTER" x="0" y="16"/>
+                                        </Anchors>
+
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture name="$parentArt" parentKey="Art" file="Interface\Darkmoon\cosmetics_art">
+                                                    <Size x="256" y="256"/>
+                                                    <Anchors>
+                                                        <Anchor point="CENTER" y="-6"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                            <Layer>
+                                                <FontString name="$parentTitle" parentKey="Title" text="DARKMOON_TICKET_PRIZES" inherits="GameFontHighlightLarge">
+                                                    <Size x="175" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOP" y="-16"/>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentSubText" parentKey="SubText" text="DARKMOON_TICKET_PRIZES_SUBTITLE" inherits="GameFontNormal">
+                                                    <Size x="175" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-4"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Frames>
+                                            <Button name="$parentSelectButton" parentKey="SelectButton" inherits="SharedButtonTemplate">
+                                                <Size x="172" y="40"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" y="8"/>
+                                                </Anchors>
+                                                <Scripts>
+                                                    <OnClick>
+                                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                        self:GetParent():GetParent():GetParent():OpenStore(self:GetParent():GetID())
+                                                    </OnClick>
+                                                </Scripts>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentSkillCards" parentKey="SkillCards" id="5">
+                                        <Size x="175" y="332"/>
+                                        
+                                        <Anchors>
+                                            <Anchor point="RIGHT" relativeTo="$parentCosmetics" relativePoint="LEFT" x="-16" y="0"/>
+                                        </Anchors>
+                                        
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture name="$parentArt" parentKey="Art" file="Interface\Darkmoon\Normal_Card">
+                                                    <Size x="256" y="256"/>
+                                                    <Anchors>
+                                                        <Anchor point="CENTER" y="-6"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                            <Layer>
+                                                <FontString name="$parentTitle" parentKey="Title" text="SKILL_CARDS" inherits="GameFontHighlightLarge">
+                                                    <Size x="175" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOP" y="-16"/>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentSubText" parentKey="SubText" text="PRIZES_CARDS" inherits="GameFontNormal">
+                                                    <Size x="175" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-4"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                        
+                                        <Frames>
+                                            <Button name="$parentSelectButton" parentKey="SelectButton" inherits="SharedButtonTemplate">
+                                                <Size x="172" y="40"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" y="8"/>
+                                                </Anchors>
+
+                                                <Scripts>
+                                                    <OnClick>
+                                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                        self:GetParent():GetParent():GetParent():OpenStore(self:GetParent():GetID())
+                                                    </OnClick>
+                                                </Scripts>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+
+                                    <Frame name="$parentGoldenSkillCards" parentKey="GoldenSkillCards" id="6">
+                                        <Size x="175" y="332"/>
+
+                                        <Anchors>
+                                            <Anchor point="LEFT" relativeTo="$parentCosmetics" relativePoint="RIGHT" x="16" y="0"/>
+                                        </Anchors>
+
+                                        <Layers>
+                                            <Layer level="BACKGROUND">
+                                                <Texture name="$parentArt" parentKey="Art" file="Interface\Darkmoon\gold_card">
+                                                    <Size x="256" y="256"/>
+                                                    <Anchors>
+                                                        <Anchor point="CENTER" y="-6"/>
+                                                    </Anchors>
+                                                </Texture>
+                                            </Layer>
+                                            <Layer>
+                                                <FontString name="$parentTitle" parentKey="Title" text="GOLDEN_SKILL_CARDS" inherits="GameFontHighlightLarge">
+                                                    <Size x="175" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOP" y="-16"/>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString name="$parentSubText" parentKey="SubText" text="PRIZES_GOLD_CARDS" inherits="GameFontNormal">
+                                                    <Size x="175" y="0"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-4"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+
+                                        <Frames>
+                                            <Button name="$parentSelectButton" parentKey="SelectButton" inherits="SharedButtonTemplate">
+                                                <Size x="172" y="40"/>
+                                                <Anchors>
+                                                    <Anchor point="BOTTOM" y="8"/>
+                                                </Anchors>
+                                                
+                                                <Scripts>
+                                                    <OnClick>
+                                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                        self:GetParent():GetParent():GetParent():OpenStore(self:GetParent():GetID())
+                                                    </OnClick>
+                                                </Scripts>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "TicketTabMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    <Frame name="$parentRepurchaseTab" parentKey="RepurchaseTab" hidden="true" setAllPoints="true">
+                        <Layers>
+                            <Layer level="BORDER">
+                                <Texture name="$parentShadow" parentKey="Shadow" file="Interface\Common\ShadowCircle">
+                                    <Size x="428" y="132"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativeTo="$parentSubText" relativePoint="CENTER"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" hidden="true" inherits="InputBlockTextTemplate" setAllPoints="true">
+                                <Frames>
+                                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                                        <Size x="100" y="28"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" y="28"/>
+                                        </Anchors>
+
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                self:GetParent():Hide()
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                            
+                            <CheckButton name="$parentUseGold" parentKey="UseGold" text="REPURCHASE_USE_GOLD" inherits="UICheckButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="BOTTOM" x="-48" y="12"/>
+                                </Anchors>
+                                
+                                <Scripts>
+                                    <OnShow>
+                                        local width = self:GetWidth() + self.Text:GetStringWidth() + 20
+                                        self:SetPoint("BOTTOM", -(width/2), 12)
+                                    </OnShow>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                        if self:GetBoolValue() then
+                                            StaticPopup_Show("CONFIRM_REPURCHASE_USE_GOLD", nil, nil, self)
+                                        else
+                                            self:GetParent():Refresh(true)
+                                        end
+                                    </OnClick>
+                                </Scripts>
+                                
+                                <ButtonText name="$parentText" parentKey="Text" inherits="GameFontHighlight">
+                                    <Anchors>
+                                        <Anchor point="LEFT" relativePoint="RIGHT"/>
+                                    </Anchors>
+                                </ButtonText>
+                            </CheckButton>
+
+                            <Button name="$parentPurchaseScrollsButton" parentKey="PurchaseScrollsButton" inherits="SharedButtonTemplate">
+                                <Size x="280" y="70"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" x="65" y="112"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentErrorText" parentKey="ErrorText" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="TOP" relativePoint="BOTTOM" y="-4"/>
+                                            </Anchors>
+                                            <Color r="1" g="0" b="0"/>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+
+                                <Frames>
+                                    <Button name="$parentUpButton" parentKey="UpButton" inherits="UpButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOMLEFT" relativePoint="RIGHT" x="3" y="-2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                local amount = 1
+                                                if IsControlKeyDown() then
+                                                    amount = 100
+                                                elseif IsShiftKeyDown() then
+                                                    amount = 10
+                                                end
+                                                self:GetParent():GetParent():ChangeScrollClaimAmount(amount)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(INCREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_INCREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:AddLine(HOLD_S_TO_INCREASE_BY_D:format(CTRL_KEY, 100), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentDownButton" parentKey="DownButton" inherits="DownButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativePoint="RIGHT" x="3" y="2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                local amount = -1
+                                                if IsControlKeyDown() then
+                                                amount = -100
+                                                elseif IsShiftKeyDown() then
+                                                amount = -10
+                                                end
+                                                self:GetParent():GetParent():ChangeScrollClaimAmount(amount)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(DECREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_DECREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:AddLine(HOLD_S_TO_DECREASE_BY_D:format(CTRL_KEY, 100), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():OnPurchaseScrolls()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentScrollReward" parentKey="ScrollReward" inherits="RandomModeLargeItemRewardTemplate">
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativeTo="$parentPurchaseScrollsButton" relativePoint="TOPLEFT" x="-18" y="44"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer level="OVERLAY">
+                                        <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontHighlightHuge">
+                                            <Size x="256" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="LEFT" relativePoint="RIGHT" x="12" y="12"/>
+                                            </Anchors>
+                                        </FontString>
+
+                                        <FontString name="$parentRemaining" parentKey="Remaining" inherits="GameFontNormalGiant">
+                                            <Size x="256" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativeTo="$parentTitle" relativePoint="TOP" x="-18" y="38"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+
+                                <Frames>
+                                    <Frame name="$parentBigDigits" parentKey="BigDigits" inherits="BigDigitBoxTemplate">
+                                        <Anchors>
+                                            <Anchor point="CENTER" relativePoint="BOTTOM" x="0" y="2"/>
+                                        </Anchors>
+                                    </Frame>
+                                </Frames>
+
+                                <ButtonText name="$parentSubText" parentKey="SubText" text="SOF_DESCRIPTION" justifyH="LEFT" inherits="GameFontNormal">
+                                    <Size x="256" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                                    </Anchors>
+                                </ButtonText>
+                            </Button>
+                            
+                            <Button name="$parentPurchaseTalentScrollsButton" parentKey="PurchaseTalentScrollsButton" inherits="SharedButtonTemplate">
+                                <Size x="280" y="70"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOMRIGHT" x="-100" y="112"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer>
+                                        <FontString name="$parentErrorText" parentKey="ErrorText" inherits="GameFontNormal">
+                                            <Anchors>
+                                                <Anchor point="TOP" relativePoint="BOTTOM" y="-4"/>
+                                            </Anchors>
+                                            <Color r="1" g="0" b="0"/>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+
+                                <Frames>
+                                    <Button name="$parentUpButton" parentKey="UpButton" inherits="UpButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="BOTTOMLEFT" relativePoint="RIGHT" x="3" y="-2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                local amount = 1
+                                                if IsControlKeyDown() then
+                                                    amount = 100
+                                                elseif IsShiftKeyDown() then
+                                                    amount = 10
+                                                end
+                                                self:GetParent():GetParent():ChangeTalentScrollClaimAmount(amount)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(INCREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_INCREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:AddLine(HOLD_S_TO_INCREASE_BY_D:format(CTRL_KEY, 100), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentDownButton" parentKey="DownButton" inherits="DownButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativePoint="RIGHT" x="3" y="2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                                local amount = -1
+                                                if IsControlKeyDown() then
+                                                    amount = -100
+                                                elseif IsShiftKeyDown() then
+                                                    amount = -10
+                                                end
+                                                self:GetParent():GetParent():ChangeTalentScrollClaimAmount(amount)
+                                            </OnClick>
+                                            <OnEnter>
+                                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                                GameTooltip:SetText(DECREASE, 1, 1, 1)
+                                                GameTooltip:AddLine(HOLD_S_TO_DECREASE_BY_D:format(SHIFT_KEY, 10), 1, 0.82, 0, true)
+                                                GameTooltip:AddLine(HOLD_S_TO_DECREASE_BY_D:format(CTRL_KEY, 100), 1, 0.82, 0, true)
+                                                GameTooltip:Show()
+                                            </OnEnter>
+                                            <OnLeave function="GameTooltip_Hide"/>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():OnPurchaseTalentScrolls()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentTalentScrollReward" parentKey="TalentScrollReward" inherits="RandomModeLargeItemRewardTemplate">
+                                <Anchors>
+                                    <Anchor point="BOTTOMLEFT" relativeTo="$parentPurchaseTalentScrollsButton" relativePoint="TOPLEFT" x="-28" y="44"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer level="OVERLAY">
+                                        <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontHighlightHuge">
+                                            <Size x="256" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="LEFT" relativePoint="RIGHT" x="12" y="12"/>
+                                            </Anchors>
+                                        </FontString>
+
+                                        <FontString name="$parentRemaining" parentKey="Remaining" inherits="GameFontNormalGiant">
+                                            <Size x="256" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativeTo="$parentTitle" relativePoint="TOP" x="-18" y="38"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+
+                                <Frames>
+                                    <Frame name="$parentBigDigits" parentKey="BigDigits" inherits="BigDigitBoxTemplate">
+                                        <Anchors>
+                                            <Anchor point="CENTER" relativePoint="BOTTOM" x="0" y="2"/>
+                                        </Anchors>
+                                    </Frame>
+                                </Frames>
+
+                                <ButtonText name="$parentSubText" parentKey="SubText" text="SOF_DESCRIPTION" justifyH="LEFT" inherits="GameFontNormal">
+                                    <Size x="256" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                                    </Anchors>
+                                </ButtonText>
+                            </Button>
+                        </Frames>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "RepurchaseTabMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-2"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="ShadowOverlay"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnLoad>
+                                UseParentLevel(self)
+                                MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeGossipMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

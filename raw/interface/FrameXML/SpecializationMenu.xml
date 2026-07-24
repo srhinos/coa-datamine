@@ -1,0 +1,93 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="SpecializationMenu.lua"/>
+
+    <Frame name="SpecializationListTemplate" inherits="StandardProportionalScrollListTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-2" y="2"/>
+                    <Anchor point="BOTTOMRIGHT" x="22" y="0"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentIconSelector" parentKey="IconSelector" inherits="IconSelectorFrameTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="8"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentSelectFrame" parentKey="SelectFrame" inherits="BackdropTemplate" enableMouse="true" hidden="true">
+                <Size x="228" y="154"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10"/>
+                    <Anchor point="TOPRIGHT" x="-10"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-2" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentScrollList" parentKey="ScrollList" inherits="ProportionalScrollListTemplate">
+                        <Size x="204" y="124"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-28"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnSizeChanged>
+                                local width, height = self:GetSize()
+                                self.ScrollFrame:SetSize(width, height)
+                            </OnSizeChanged>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self:SetBackdrop(BACKDROP_TOOLTIP_8_8_1111)
+                        self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGBA())
+                        self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR:GetRGBA())
+                    </OnLoad>
+                    <OnSizeChanged>
+                        local width, height = self:GetSize()
+                        self.ScrollList:SetSize(width, height)
+                    </OnSizeChanged>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpecializationListMixin")
+            </OnLoad>
+            <OnSizeChanged>
+                local width, height = self:GetSize()
+                self.ScrollFrame:SetSize(width, height)
+            </OnSizeChanged>
+        </Scripts>
+    </Frame>
+
+    <Frame name="SpecializationMenuTemplate" inherits="UIPanelDialogTemplate" enableMouse="true" virtual="true">
+        <Size x="265" y="542"/>
+        <Frames>
+            <Frame name="$parentList" parentKey="List" inherits="SpecializationListTemplate">
+                <Size x="226" y="506"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10" y="-28"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpecializationMenuMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

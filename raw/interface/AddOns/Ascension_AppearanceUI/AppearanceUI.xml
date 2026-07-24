@@ -1,0 +1,406 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="AppearanceWardrobeMixin.lua"/>
+    <Script file="AppearanceCollectionMixin.lua"/>
+    <Script file="AppearancePlayerModelMixin.lua"/>
+
+    <Script file="AppearanceUI.lua"/>
+
+    <Frame name="AppearanceWardrobeFrame" parent="Collections" hidden="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="1140" y="606"/>
+    
+        <Anchors>
+            <Anchor point="BOTTOM"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture vertTile="true" horizTile="true" file="Interface\FrameGeneral\UI-Background-Rock2">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <DressUpModel name="$parentPlayerModel" parentKey="PlayerModel">
+                <Size x="380" y="538"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-60"/>
+                    <Anchor point="BOTTOMLEFT" x="4" y="4"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                    
+
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentApplyError" parentKey="ApplyError" inherits="GameFontRed">
+                            <Size x="248" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="-50"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                    
+                    <Button name="$parentApplyButton" parentKey="ApplyButton" text="APPLY" inherits="SharedGoldRedButtonTemplate" hidden="true">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="-64" y="-14"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UI_TRANSMOGRIFY_APPLY)
+                                self:Disable()
+                                self:GetParent().CancelButton:Disable()
+                                C_Appearance.ApplyPendingAppearances(false)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentClearInvalidButton" parentKey="ClearInvalidButton" text="CLEAR_INVALID_APPEARANCES" inherits="SharedGoldRedButtonTemplate" hidden="true">
+                        <Size x="136" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="0" y="-14"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UI_VOIDSTORAGE_UNDO)
+                                C_Appearance.ClearInvalidPendingAppearances()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+
+                    <Button name="$parentCancelButton" parentKey="CancelButton" text="CANCEL" inherits="SharedButtonTemplate" hidden="true">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="64" y="-14"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UI_VOIDSTORAGE_UNDO)
+                                C_Appearance.ClearPendingAppearances()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentSaveOutfitButton" parentKey="SaveOutfitButton" text="SAVE_OUTFIT" inherits="SharedButtonTemplate" hidden="true">
+                        <Size x="130" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="0" y="-14"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                AppearanceUI.OpenToOutfits()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <MessageFrame name="$parentErrorFrame" parentKey="ErrorFrame" displayDuration="1" fadeDuration="2" insertMode="TOP">
+                        <Size x="380" y="60"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="0" y="-122"/>
+                        </Anchors>
+                        <FontString inherits="ErrorFont" justifyH="CENTER"/>
+                    </MessageFrame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "AppearancePlayerModelMixin")
+                    </OnLoad>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </DressUpModel>
+
+
+            <Button name="$parentDisableTransmogButton" parentKey="DisableTransmogButton" text="DISABLE_TRANSMOG" inherits="StandardButtonTemplate">
+                <Size x="130" y="26"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentPlayerModel" relativePoint="TOP" x="-4" y="2"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        self:GetParent():ToggleItemTransmog()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_BOTTOM")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+            <Button name="$parentDisableSpellVisualsButton" parentKey="DisableSpellVisualsButton" text="DISABLE_SPELLVISUAL_TRANSMOG" inherits="StandardButtonTemplate">
+                <Size x="130" y="26"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentDisableTransmogButton" relativePoint="RIGHT" x="8"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                        self:GetParent():ToggleSpellVisuals()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_BOTTOM")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentCollection" parentKey="Collection" enableMouse="true" inherits="CollectionsBackgroundTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentPlayerModel" relativePoint="TOPRIGHT" x="2"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentPageText" parentKey="PageText" text="PAGE %s / %s" justifyH="RIGHT" inherits="GameFontHighlightLarge">
+                            <Size x="180" y="0"/>
+
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="-12" y="28"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                        <Size x="170" y="20"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativePoint="TOP" x="-88" y="-6"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnTextChanged>
+                                if not self:HasFocus() then return end
+                                SearchBoxTemplate_OnTextChanged(self)
+                                self:GetParent():UpdateSearch()
+                            </OnTextChanged>
+                            <OnTextSet>
+                                SearchBoxTemplate_OnTextChanged(self)
+                                self:GetParent():UpdateSearch()
+                            </OnTextSet>
+                        </Scripts>
+                    </EditBox>
+
+                    <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                        <Size x="78" y="22"/>
+
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT" x="6" y="-1"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentSorting" parentKey="Sorting" text="BUILD_ORDER" inherits="FilterDropDownButtonTemplate">
+                        <Size x="78" y="22"/>
+
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT" x="6"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentCategories" parentKey="Categories" setAllPoints="true"/>
+                    <Frame name="$parentProgress" parentKey="Progress" inherits="BetterStatusBarTemplate">
+                        <Size x="284" y="14"/>
+                        
+                        <Anchors>
+                            <Anchor point="TOP" y="-84"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="bar-atlas" value="_Legionfall_BarFill_Active"/>
+                            <Attribute name="text" value="Collected 0/#.INF"/>
+                        </Attributes>
+
+                        <Frames>
+                            <Frame>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-5" y="5"/>
+                                    <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                                </Anchors>
+
+                                <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border" tile="true">
+                                    <TileSize val="12"/>
+                                    <EdgeSize val="12"/>
+                                </Backdrop>
+                            </Frame>
+                        </Frames>
+
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <TileSize val="12"/>
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                        </Backdrop>
+                    </Frame>
+
+                    <Button name="$parentPageLeftButton" parentKey="PageLeftButton" inherits="LeftButtonTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentPageText" relativePoint="RIGHT" x="12"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.ABILITIES_TURN_PAGEA)
+                                self:GetParent():PreviousPage()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentPageRightButton" parentKey="PageRightButton" inherits="RightButtonTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentPageLeftButton" relativePoint="RIGHT" x="8"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.ABILITIES_TURN_PAGEA)
+                                self:GetParent():NextPage()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <DressUpModel name="$parentItem1" parentKey="Item1" id="1" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <!--x="(gap * -3) - (width * 2) - (width / 2) + (gap / 2)"-->
+                            <Anchor point="CENTER" x="-235" y="120"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem2" parentKey="Item2" id="2" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem1" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem3" parentKey="Item3" id="3" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem2" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem4" parentKey="Item4" id="4" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem3" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem5" parentKey="Item5" id="5" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem4" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem6" parentKey="Item6" id="6" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem5" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem7" parentKey="Item7" id="7" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItem1" relativePoint="BOTTOMLEFT" y="-16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem8" parentKey="Item8" id="8" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem7" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem9" parentKey="Item9" id="9" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem8" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem10" parentKey="Item10" id="10" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem9" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem11" parentKey="Item11" id="11" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem10" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem12" parentKey="Item12" id="12" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem11" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem13" parentKey="Item13" id="13" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentItem7" relativePoint="BOTTOMLEFT" y="-16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem14" parentKey="Item14" id="14" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem13" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem15" parentKey="Item15" id="15" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem14" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem16" parentKey="Item16" id="16" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem15" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem17" parentKey="Item17" id="17" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem16" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+
+                    <DressUpModel name="$parentItem18" parentKey="Item18" id="18" inherits="AppearanceModelTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentItem17" relativePoint="RIGHT" x="16"/>
+                        </Anchors>
+                    </DressUpModel>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "AppearanceCollectionMixin")
+                    </OnLoad>
+                    <OnEvent function="OnEventToMethod"/>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AppearanceWardrobeMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -1,0 +1,348 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ActionButton.lua"/>
+    <CheckButton name="ActionBarButtonTemplate" inherits="SecureActionButtonTemplate, QuickKeybindButtonTemplate, ActionButtonTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                self._isActionBarButton = true
+                SecureActionButton_OnLoad(self)
+                ActionButton_OnLoad(self);
+            </OnLoad>
+            <OnShow>
+                self:QuickKeybindButtonOnShow()
+            </OnShow>
+            <OnHide>
+                self:QuickKeybindButtonOnHide()
+            </OnHide>
+            <OnAttributeChanged>
+                ActionButton_UpdateAction(self, name, value);
+                SecureActionButton_OnAttributeChanged(self, name, value)
+            </OnAttributeChanged>
+            <OnEvent>
+                ActionButton_OnEvent(self, event, ...);
+            </OnEvent>
+            <PostClick>
+                ActionButton_UpdateState(self, button, down);
+            </PostClick>
+            <OnDragStart>
+                if ( LOCK_ACTIONBAR ~= "1" or IsModifiedClick("PICKUPACTION") ) then
+                    PickupAction(self.action);
+                    ActionButton_UpdateState(self);
+                    ActionButton_UpdateFlash(self);
+                end
+            </OnDragStart>
+            <OnReceiveDrag>
+                PlaceAction(self.action);
+                ActionButton_UpdateState(self);
+                ActionButton_UpdateFlash(self);
+            </OnReceiveDrag>
+            <OnEnter>
+                self:QuickKeybindButtonOnEnter()
+                ActionButton_SetTooltip(self);
+            </OnEnter>
+            <OnLeave>
+                self:QuickKeybindButtonOnLeave()
+                GameTooltip:Hide();
+            </OnLeave>
+            <OnUpdate>
+                ActionButton_OnUpdate(self, elapsed);
+            </OnUpdate>
+        </Scripts>
+    </CheckButton>
+    <CheckButton name="ActionButton1" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="1">
+        <Anchors>
+            <Anchor point="BOTTOMLEFT">
+                <Offset>
+                    <AbsDimension x="8" y="4"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton2" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="2">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton1" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton3" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="3">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton2" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton4" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="4">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton3" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton5" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="5">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton4" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton6" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="6">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton5" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton7" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="7">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton6" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton8" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="8">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton7" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton9" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="9">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton8" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton10" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="10">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton9" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton11" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="11">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton10" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <CheckButton name="ActionButton12" inherits="ActionBarButtonTemplate" parent="MainMenuBarArtFrame" id="12">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="ActionButton11" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="6" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+    </CheckButton>
+    <Button name="ActionBarUpButton" parent="MainMenuBarArtFrame">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="MainMenuBarArtFrame" relativePoint="TOPLEFT">
+                <Offset>
+                    <AbsDimension x="522" y="-22"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <HitRectInsets>
+            <AbsInset left="6" right="6" top="7" bottom="7"/>
+        </HitRectInsets>
+        <Scripts>
+            <OnClick>
+                ActionBar_PageUp(self);
+                PlaySound("UChatScrollButton");
+            </OnClick>
+        </Scripts>
+        <NormalTexture file="Interface\MainMenuBar\UI-MainMenu-ScrollUpButton-Up"/>
+        <PushedTexture file="Interface\MainMenuBar\UI-MainMenu-ScrollUpButton-Down"/>
+        <DisabledTexture file="Interface\Buttons\UI-ScrollBar-ScrollUpButton-Disabled"/>
+        <HighlightTexture alphaMode="ADD" file="Interface\MainMenuBar\UI-MainMenu-ScrollUpButton-Highlight"/>
+    </Button>
+    <Button name="ActionBarDownButton" parent="MainMenuBarArtFrame">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="MainMenuBarArtFrame" relativePoint="TOPLEFT">
+                <Offset>
+                    <AbsDimension x="522" y="-42"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <HitRectInsets>
+            <AbsInset left="6" right="6" top="7" bottom="7"/>
+        </HitRectInsets>
+        <Scripts>
+            <OnClick>
+                ActionBar_PageDown(self);
+                PlaySound("UChatScrollButton");
+            </OnClick>
+        </Scripts>
+        <NormalTexture file="Interface\MainMenuBar\UI-MainMenu-ScrollDownButton-Up"/>
+        <PushedTexture file="Interface\MainMenuBar\UI-MainMenu-ScrollDownButton-Down"/>
+        <DisabledTexture file="Interface\Buttons\UI-ScrollBar-ScrollDownButton-Disabled"/>
+        <HighlightTexture alphaMode="ADD" file="Interface\MainMenuBar\UI-MainMenu-ScrollDownButton-Highlight"/>
+    </Button>
+    <Frame name="ActionBarButtonSpellActivationAlert" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentSpark" parentKey="spark" file="Interface\SpellActivationOverlay\IconAlert" alpha="0">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.00781250" right="0.61718750" top="0.00390625" bottom="0.26953125"/>
+                    <Animations>
+                        <AnimationGroup parentKey="animIn">
+                            <Alpha order="1" change="-0.7" duration="0"/>
+                            <Scale duration="0.2" scaleX="1.5" scaleY="1.5" order="1"/>
+                            <Alpha duration="0.2" change="1" order="1"/>
+                            <Scale startDelay="0.2" duration="0.2" scaleX="0.666666" scaleY="0.666666" order="1"/>
+                            <Alpha startDelay="0.2" duration="0.2" change="-1" order="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentInnerGlow" parentKey="innerGlow" file="Interface\SpellActivationOverlay\IconAlert" alpha="0">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.00781250" right="0.50781250" top="0.27734375" bottom="0.52734375"/>
+                    <Animations>
+                        <AnimationGroup parentKey="animIn">
+                            <Alpha order="1" change="1" duration="0"/>
+                            <Scale duration="0.3" scaleX="2" scaleY="2" order="1"/>
+                            <Alpha duration="0.3" change="-1" order="1"/>
+                            
+                            <Scripts>
+                                <OnFinished>
+                                    local frame = self:GetParent():GetParent();
+                                    local frameWidth, frameHeight = frame:GetSize();
+                                    self:GetParent():SetSize(frameWidth, frameHeight);
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+                <Texture name="$parentInnerGlowOver" parentKey="innerGlowOver" file="Interface\SpellActivationOverlay\IconAlert" alpha="0">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.00781250" right="0.50781250" top="0.53515625" bottom="0.78515625"/>
+                    <Animations>
+                        <AnimationGroup parentKey="animIn">
+                            <Alpha order="1" change="1" duration="0"/>
+                            <Scale duration="0.3" scaleX="2" scaleY="2" order="1"/>
+                            <Alpha startDelay="0.3" duration="0.2" change="-1" order="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+                <Texture name="$parentOuterGlow" parentKey="outerGlow" file="Interface\SpellActivationOverlay\IconAlert">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.00781250" right="0.50781250" top="0.27734375" bottom="0.52734375"/>
+                    <Animations>
+                        <AnimationGroup parentKey="animOut">
+                            <Alpha order="1" change="1" duration="0"/>
+                            <Alpha duration="0.2" change="-1" order="1" startDelay="0.2"/>
+                            <Scripts>
+                                <OnFinished function="ActionButton_OnOverlayGlowSubAnimationFinished"/>
+                            </Scripts>
+                        </AnimationGroup>
+                        <AnimationGroup parentKey="animIn">
+                            <Scale duration="0.3" scaleX="0.5" scaleY="0.5" order="1"/>
+                            <Scripts>
+                                <OnFinished>
+                                    local frame = self:GetParent():GetParent();
+                                    local frameWidth, frameHeight = frame:GetSize();
+                                    self:GetParent():SetSize(frameWidth, frameHeight);
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+                <Texture name="$parentOuterGlowOver" parentKey="outerGlowOver" file="Interface\SpellActivationOverlay\IconAlert" alpha="0">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.00781250" right="0.50781250" top="0.53515625" bottom="0.78515625"/>
+                    <Animations>
+                        <AnimationGroup parentKey="animOut">
+                            <Alpha duration="0" change="-1" order="1"/>
+                            <Alpha duration="0.2" change="1" order="2"/>
+                            <Alpha duration="0.2" change="-1" order="3"/>
+                            <Scripts>
+                                <OnFinished function="ActionButton_OnOverlayGlowSubAnimationFinished"/>
+                            </Scripts>
+                        </AnimationGroup>
+                        <AnimationGroup parentKey="animIn">
+                            <Alpha order="1" change="1" duration="0"/>
+                            <Scale duration="0.3" scaleX="0.5" scaleY="0.5" order="1"/>
+                            <Alpha duration="0.3" change="-1" order="1"/>
+                            <Scripts>
+                                <OnFinished>
+                                    local frame = self:GetParent():GetParent();
+                                    local frameWidth, frameHeight = frame:GetSize();
+                                    self:GetParent():SetSize(frameWidth, frameHeight);
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentAnts" parentKey="ants" file="Interface\SpellActivationOverlay\IconAlertAnts">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <Animations>
+                        <AnimationGroup parentKey="animOut">
+                            <Alpha duration="0.2" change="-1" order="1"/>
+                            <Scripts>
+                                <OnFinished function="ActionButton_OnOverlayGlowSubAnimationFinished"/>
+                            </Scripts>
+                        </AnimationGroup>
+                        <AnimationGroup parentKey="animIn">
+                            <Alpha order="1" change="-1" duration="0"/>
+                            <Alpha startDelay="0.3" duration="0.2" change="1" order="1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnUpdate function="ActionButton_OverlayGlowOnUpdate"/>
+            <OnHide>
+                if self.activeAnimations and self.activeAnimations > 0 then
+                    ActionButton_OverlayGlowStopAnimOut(self:GetParent())
+                    ActionButton_OverlayGlowAnimOutFinished(self:GetParent())
+                end
+            </OnHide>
+        </Scripts>
+    </Frame>
+</Ui>

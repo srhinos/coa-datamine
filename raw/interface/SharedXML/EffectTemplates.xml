@@ -1,0 +1,192 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    
+    <Script file="EffectTemplates.lua"/>
+    
+    <Texture name="SparkleTemplate" virtual="true" alphaMode="ADD" hidden="true" file="SPELLS\Flare">
+        <Size x="16" y="16"/>
+
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Animations>
+            <AnimationGroup parentKey="FadeOut">
+                <Alpha duration="0" change="1" order="1"/>
+                <Alpha duration="0.4" change="-1" order="2"/>
+
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent().Anim.Alpha1:Stop()
+                        self:GetParent().Anim.Alpha2:Stop()
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent().Anim:Stop()
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="Anim">
+                <Alpha duration="0" order="1" change="-1"/>
+                <Rotation parentKey="Rotation" order="2" duration="6" degrees="60" smoothing="IN_OUT"/>
+                <Translation parentKey="Translation" order="2" duration="6" offsetX="0" offsetY="0" smoothing="IN_OUT"/>
+                <Alpha parentKey="Alpha1" order="2" duration="2" change="1" smoothing="IN"/>
+                <Alpha parentKey="Alpha2" startDelay="2" order="2" duration="3" change="-1" smoothing="OUT"/>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "SparkleAnimationMixin")
+                    </OnLoad>
+                    <OnFinished>
+                        self:Refresh()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+
+    <Texture name="SparkleNoRotateTemplate" virtual="true" alphaMode="ADD" hidden="true" file="SPELLS\Flare">
+        <Size x="16" y="16"/>
+
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Animations>
+            <AnimationGroup parentKey="FadeOut">
+                <Alpha duration="0" change="1" order="1"/>
+                <Alpha duration="0.4" change="-1" order="2"/>
+
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent().Anim.Alpha1:Stop()
+                        self:GetParent().Anim.Alpha2:Stop()
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent().Anim:Stop()
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="Anim">
+                <Alpha duration="0" order="1" change="-1"/>
+                <Translation parentKey="Translation" order="2" duration="6" offsetX="0" offsetY="0" smoothing="IN_OUT"/>
+                <Alpha parentKey="Alpha1" order="2" duration="2" change="1" smoothing="IN"/>
+                <Alpha parentKey="Alpha2" startDelay="2" order="2" duration="3" change="-1" smoothing="OUT"/>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "SparkleAnimationMixin")
+                    </OnLoad>
+                    <OnFinished>
+                        self:Refresh()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+    
+    <Texture name="ParticleTemplate" virtual="true" alphaMode="ADD" hidden="true" file="SPELLS\t_vfx_freeze_c">
+        <Size x="256" y="256"/>
+
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Animations>
+            <AnimationGroup parentKey="Anim">
+                <Rotation parentKey="Rotation" order="1" degrees="60" duration="2" smoothing="OUT"/>
+                <Translation parentKey="Translation" offsetY="64" offsetX="64" duration="2" order="1" smoothing="OUT"/>
+                <Alpha duration="2" smoothing="IN_OUT" order="1" change="-1"/>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "ParticleAnimationMixin")
+                    </OnLoad>
+                    <OnStop>
+                        self:GetParent():Hide()
+                    </OnStop>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+
+    <Texture name="DraftParticleTemplate" virtual="true" alphaMode="ADD" hidden="true" file="SPELLS\t_vfx_freeze_c">
+        <Size x="256" y="256"/>
+
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Animations>
+            <AnimationGroup parentKey="Anim">
+                <Alpha order="1" duration="0" change="-1"/>
+                <Alpha order="2" startDelay="0.1" duration="0.25" change="1"/>
+                <Alpha order="2" startDelay="0.35" change="-1" duration="1.9" smoothing="OUT"/>
+                <Rotation order="2" startDelay="0.1" duration="2" degrees="60" smoothing="OUT" parentKey="Rotation"/>
+                <Translation order="2" startDelay="0.1" duration="2" offsetX="64" offsetY="64" smoothing="OUT" parentKey="Translation"/>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "SmokeParticleAnimationMixin")
+                    </OnLoad>
+                    <OnStop>
+                        self:GetParent():Hide()
+                    </OnStop>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+    
+    <Texture name="LoopingParticleTemplate" virtual="true" alphaMode="ADD" hidden="true" file="SPELLS\t_vfx_smoke_cigarette_blackwhite">
+        <Size x="256" y="256"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Animations>
+            <AnimationGroup parentKey="FadeIn">
+                <Alpha duration="0" change="-1" order="1"/>
+                <Alpha duration="0.75" change="1" order="2"/>
+                
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent().Anim:Play()
+                    </OnPlay>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="FadeOut">
+                <Alpha duration="0.4" change="-1" order="2"/>
+                
+                <Scripts>
+                    <OnFinished>
+                        self:GetParent().Anim:Stop()
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+
+            <AnimationGroup parentKey="Anim" looping="REPEAT">
+                <Translation offsetX="-2" offsetY="2" duration="10" order="1"/>
+                <Translation offsetX="2" offsetY="-2" duration="10" order="2"/>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, "LoopingParticleAnimationMixin")
+                    </OnLoad>
+                    <OnUpdate>
+                        self:OnUpdate(elapsed)
+                    </OnUpdate>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+</Ui>

@@ -1,0 +1,167 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="FilterDropDown.lua"/>
+
+    <Button name="FilterDropDownButtonTemplate" text="FILTER" inherits="UIMenuButtonStretchTemplate"  virtual="true">
+        <Size x="93" y="22"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                    <Size x="10" y="12"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-5"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button parentKey="ClearFilterButton" hidden="true">
+                <Size x="23" y="23"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT" x="3" y="0"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="HIGHLIGHT">
+                        <Texture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ClearFilters()
+                        HideDropDownMenu(1)
+                        self:Hide()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+                        GameTooltip:SetText(CLEAR_FILTER, 1, 1, 1)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                    <OnShow>
+                        local parent = self:GetParent()
+                        parent:LockHighlight()
+                        parent:GetHighlightTexture():SetAlpha(0.4)
+                    </OnShow>
+                    <OnHide>
+                        local parent = self:GetParent()
+                        parent:UnlockHighlight()
+                        parent:GetHighlightTexture():SetAlpha(1)
+                    </OnHide>
+                </Scripts>
+
+                <NormalTexture parentKey="NormalTexture">
+                    <Size x="23" y="23"/>
+                </NormalTexture>
+            </Button>
+
+            <Frame name="$parentMenu" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "FilterDropDownButtonMixin")
+                self.ClearFilterButton.NormalTexture:SetAtlas("auctionhouse-ui-filter-redx", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+            <OnClick>
+                self:Initialize()
+                ToggleDropDownMenu(1, nil, self.DropDown, self, 0, 0)
+                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON)
+            </OnClick>
+        </Scripts>
+
+        <ButtonText inherits="GameFontNormalSmall" parentKey="Text" justifyH="LEFT">
+            <Anchors>
+                <Anchor point="LEFT" x="8" y="1"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Button name="FilterDropDownMenuTemplate" text="FILTER" inherits="UIMenuButtonStretchTemplate"  virtual="true">
+        <Size x="93" y="22"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                    <Size x="10" y="12"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-5"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button parentKey="ClearFiltersButton" hidden="true">
+                <Size x="23" y="23"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT" x="3" y="0"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="HIGHLIGHT">
+                        <Texture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnClick>
+                        if self:GetParent().ClearFilters then
+                            self:GetParent():ClearFilters()
+                        end
+                        HideDropDownMenu(1)
+                        self:Hide()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+                        GameTooltip:SetText(CLEAR_FILTER, 1, 1, 1)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                    <OnShow>
+                        local parent = self:GetParent()
+                        parent:LockHighlight()
+                        parent:GetHighlightTexture():SetAlpha(0.4)
+                    </OnShow>
+                    <OnHide>
+                        local parent = self:GetParent()
+                        parent:UnlockHighlight()
+                        parent:GetHighlightTexture():SetAlpha(1)
+                    </OnHide>
+                </Scripts>
+
+                <NormalTexture parentKey="NormalTexture">
+                    <Size x="23" y="23"/>
+                </NormalTexture>
+            </Button>
+
+            <Frame name="$parentMenu" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "FilterDropDownMenuMixin")
+                self.ClearFiltersButton.NormalTexture:SetAtlas("auctionhouse-ui-filter-redx", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+            <OnClick>
+                ToggleDropDownMenu(1, nil, self.DropDown, self, 0, 0)
+                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON)
+            </OnClick>
+        </Scripts>
+
+        <ButtonText inherits="GameFontNormalSmall" parentKey="Text" justifyH="LEFT">
+            <Anchors>
+                <Anchor point="LEFT" x="8" y="1"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+</Ui>

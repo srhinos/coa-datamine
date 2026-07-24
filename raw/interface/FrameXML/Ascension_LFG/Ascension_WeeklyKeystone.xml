@@ -1,0 +1,318 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_WeeklyKeystone.lua"/>
+
+    <Button name="BestDungeonListItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="194" y="53"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Size x="144" y="51"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                    <!--Crop image by (y/x). - do (y/x)/2 for top and 1-top for bottom-->
+                    <TexCoords left="0" right="1" top="0.177" bottom="0.823"/>
+                </Texture>
+
+                <Texture parentKey="BackgroundAdd" alphaMode="ADD">
+                    <Size x="144" y="51"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                    <!--Crop image by (y/x). - do (y/x)/2 for top and 1-top for bottom-->
+                    <TexCoords left="0" right="1" top="0.177" bottom="0.823"/>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+
+                <Texture name="$parentLevelRing" parentKey="LevelRing">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="2" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture name="$parentLevelRingGlow" parentKey="LevelRingGlow" alphaMode="ADD">
+                    <Size x="62" y="62"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentLevelRing" y="1"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentLevelText" parentKey="LevelText" inherits="GameFontNormalLarge">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentLevelRing"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <ButtonText justifyH="LEFT" inherits="GameFontHighlight" maxLines="2">
+            <Anchors>
+                <Anchor point="TOP"/>
+                <Anchor point="LEFT" relativeTo="$parentLevelRing" relativePoint="RIGHT" x="5"/>
+                <Anchor point="BOTTOMRIGHT" x="-8"/>
+            </Anchors>
+        </ButtonText>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, BestDungeonListItemMixin)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="AscensionWeeklyKeystoneFrame" parent="AscensionLFGFrameContent" setAllPoints="true" hidden="true">
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Size x="650" y="562"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\FrameGeneral\UI-Background-Marble" vertTile="true" horizTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBackground"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture parentKey="Dial">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentBackground" y="4"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Animation">
+                            <Scale scaleX="0.1" scaleY="0.1" duration="0" order="1"/>
+                            <Scale parentKey="FinalScale" scaleX="10" scaleY="10" duration="0.42" order="2" smoothing="IN"/>
+
+                            <Scripts>
+                                <OnFinished>
+                                    self:GetParent():GetParent().DialGlow:SetAlpha(1)
+                                    self:GetParent():GetParent().DialGlow.Animation:Play()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture parentKey="DialGlow" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentBackground" x="2" y="2"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Animation">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Alpha order="2" duration="0.25" change="1"/>
+                            <Alpha order="3" duration="0.40" change="-1"/>
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentBestKeystone" parentKey="BestKeystone">
+                <Size x="138" y="138"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentBackground" y="2"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Background">
+                            <Size x="238" y="236"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Border">
+                            <Size x="238" y="236"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentInformation" parentKey="Information">
+                        <Size x="238" y="238"/>
+
+                        <Anchors>
+                            <Anchor point="CENTER"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+
+                                <Texture name="$parentDungeonShadow" parentKey="DungeonShadow">
+                                    <Size x="322" y="84"/>
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" y="12"/>
+                                    </Anchors>
+                                </Texture>
+
+                                <Texture name="$parentTitleShadow" parentKey="TitleShadow">
+                                    <Size x="256" y="60"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-12"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+
+                            <Layer>
+                                <FontString parentKey="TitleText" inherits="PTFontNormalHuge" text="MYTHIC_PLUS_NO_BEST_AFFIX_SET_RUN">
+                                    <Size x="200" y="64"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativeTo="$parentTitleShadow" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString parentKey="DungeonText" inherits="PTFontHighlightOutlineHuge" text="MYTHIC_PLUS_COMPLETE_A_KEYSTONE">
+                                    <Size x="256" y="64"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativeTo="$parentDungeonShadow" y="-3"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString parentKey="LevelText" inherits="PTFontNormalOutlineEnormous" text="0">
+                                    <Size x="68" y="38"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" x="-4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.DungeonShadow:SetAtlas("common-shadow-circle", Const.TextureKit.IgnoreAtlasSize)
+                                self.TitleShadow:SetAtlas("common-shadow-circle", Const.TextureKit.IgnoreAtlasSize)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Background:SetAtlas("mythic-keystone-socket-background", Const.TextureKit.IgnoreAtlasSize)
+                        self.Border:SetAtlas("mythic-keystone-socket-border", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Button name="$parentAffix1" parentKey="Affix1" id="1" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-21" y="218"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix2" parentKey="Affix2" id="2" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="111" y="88"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix3" parentKey="Affix3" id="3" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="107" y="-92"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix4" parentKey="Affix4" id="4" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-22" y="-218"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix5" parentKey="Affix5" id="5" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-202" y="-218"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix6" parentKey="Affix6" id="6" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-330" y="-91"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix7" parentKey="Affix7" id="7" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-331" y="87"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentAffix8" parentKey="Affix8" id="8" inherits="KeystoneAffixTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-205" y="218"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentExpansionDropdown" parentKey="ExpansionDropdown" inherits="UIDropDownMenuTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="16"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        UIDropDownMenu_SetWidth(self, 202)
+                        UIDropDownMenu_JustifyText(self, "LEFT")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentDungeonScroll" parentKey="DungeonScroll" inherits="StandardProportionalScrollListTemplate">
+                <Size x="194" y="0"/>
+
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentExpansionDropdown" relativePoint="BOTTOM" y="4"/>
+                    <Anchor point="LEFT" relativeTo="$parentBackground" relativePoint="RIGHT"/>
+                    <Anchor point="BOTTOMRIGHT" x="-22"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                self.Background:SetAtlas("mythic-keystone-backdrop-8", Const.TextureKit.IgnoreAtlasSize)
+                self.Dial:SetAtlas("mythic-keystone-dial", Const.TextureKit.UseAtlasSize)
+                MixinAndLoad(self, WeeklyKeystoneMixin)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+        </Scripts>
+    </Frame>
+</Ui>

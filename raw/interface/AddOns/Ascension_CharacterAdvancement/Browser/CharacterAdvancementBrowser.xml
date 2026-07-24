@@ -1,0 +1,196 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CharacterAdvancementBrowser.lua"/>
+
+    <Button name="CASpellTagTemplate" inherits="CollapsibleHeaderTemplate" virtual="true">
+        <Size x="32" y="32"/>
+        <HighlightTexture alphaMode="ADD"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CASpellTagMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CABrowserSpellButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+        <Frames>
+            <Frame name="$parentPendingChange" parentKey="PendingChange" hidden="true" setAllPoints="true">
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentTexture" parentKey="Texture" setAllPoints="true">
+                            <Color r="0" g="0.8" b="1" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="CASpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+                <Frames>
+                    <Frame name="$parentPendingChange" parentKey="PendingChange" inherits="AutoCastShineTemplate" hidden="true">
+                        <Size x="30" y="30"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Button name="$parentMastery" parentKey="Mastery" hidden="true">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-18" y="12"/>
+                        </Anchors>
+                        <Frames>
+                            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="CASpellIconTemplate">
+                                <Anchors>
+                                    <Anchor point="CENTER"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer level="OVERLAY">
+                                        <Texture name="$parentKnownGlow" parentKey="KnownGlow" hidden="true" alphaMode="ADD">
+                                            <Size x="64" y="64"/>
+                                            <Anchors>
+                                                <Anchor point="CENTER"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                            </Button>
+                        </Frames>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBackground" parentKey="Background">
+                                    <Size x="48" y="64"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER" x="0" y="-8"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CAMasteryButtonMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Button>
+            <Button name="$parentClass" parentKey="Class" enableMouse="true">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+            </Button>
+            <Button name="$parentClassPoints" parentKey="ClassPoints" inherits="ClassPointsTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentSuggested" parentKey="Suggested" enableMouse="true">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="-4" y="-4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="40" y="40"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self.Suggested.Icon:SetAtlas("talents-search-notonactionbar", Const.TextureKit.IgnoreAtlasSize)
+                self.Suggested:SetFrameLevel(self.Icon:GetFrameLevel()+1)
+                self.Class:SetFrameLevel(self.Icon:GetFrameLevel()+1)
+                MixinAndLoadScripts(self, "CABrowserAbilityMixin")
+                self.Icon.LocationIcon:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.RankUp:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="CABrowserRowTemplate"  virtual="true">
+    	<Size x="802" y="48"/>
+    	<Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentShadow" parentKey="Shadow">
+                    <Size y="48"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="0" y="-8"/>
+                        <Anchor point="RIGHT" x="0" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+    	</Layers>
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon">
+                <Size x="92" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="24" y="-6"/>
+                </Anchors>
+                <Layers>
+                     <Layer level="BORDER">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="22" y="22"/>
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="LEFT" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                     <Layer level="ARTWORK">
+                        <Texture name="$parentRing" parentKey="Ring">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                        <FontString inherits="SystemFont_Shadow_Large2"  parentKey="Text">
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="$parentRing" relativePoint="RIGHT" x="4" y="0"/>
+                            </Anchors>
+                        </FontString>
+                     </Layer>
+                     <Layer level="OVERLAY">
+                        <Texture name="$parentLock" parentKey="Lock" hidden="true">
+                            <Size x="24" y="24"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                     </Layer>
+                    <Layer level="HIGHLIGHT">
+                        <Texture file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" alphaMode="ADD" setAllPoints="true">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
+    	<Scripts>
+    		<OnLoad>
+                self.Icon.Lock:SetAtlas("communities-icon-lock", Const.TextureKit.IgnoreAtlasSize)
+    			self.Shadow:SetAtlas("spellbook-text-background", Const.TextureKit.IgnoreAtlasSize)
+    			self.Icon.Ring:SetAtlas("category-icon-ring", Const.TextureKit.IgnoreAtlasSize)
+    			MixinAndLoadScripts(self, "CABrowserRowMixin")
+    		</OnLoad>
+    	</Scripts>
+    </Frame>
+</Ui>

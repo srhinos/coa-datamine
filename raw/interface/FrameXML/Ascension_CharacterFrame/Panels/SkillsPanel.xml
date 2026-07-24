@@ -1,0 +1,187 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="SkillsPanel.lua"/>
+
+    <Button name="SkillsPanelItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="360" y="18"/>
+        
+        <Frames>
+            <StatusBar name="$parentStatusBar" drawLayer="BORDER" parentKey="StatusBar" hidden="true">
+                <Size x="332" y="15"/>
+
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+
+                <Layers>
+                        <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground">
+                            <Color r="1.0" g="1.0" b="1.0" a="0.2"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentSkillName" parentKey="SkillName" inherits="GameFontHighlightSmall" justifyH="LEFT">
+                            <Size x="210" y="11"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="11" y="0"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentSkill" parentKey="Skill" inherits="GameFontHighlightSmall" justifyH="RIGHT">
+                            <Size x="210" y="11"/>
+                            <Anchors>
+                                <Anchor point="RIGHT" x="-11" y="0"/>
+                            </Anchors>
+                        </FontString>
+
+                        <Texture name="$parentBorder" parentKey="Border" file="Interface\PaperDollInfoFrame\UI-Character-Skills-BarBorder">
+                            <Size x="344" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\PaperDollInfoFrame\UI-Character-Skills-BarBorderHighlight" hidden="true">
+                            <Size x="344" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <BarTexture name="$parentBarFill" parentKey="BarFill" file="Interface\PaperDollInfoFrame\UI-Character-Skills-Bar"/>
+                <BarColor r="0.25" g="0.25" b="0.75"/>
+            </StatusBar>
+        </Frames>
+
+        <Layers>
+            <Layer level="BORDER">
+                <FontString name="$parentCategoryName" parentKey="CategoryName" inherits="GameFontNormal" justifyH="LEFT" hidden="true">
+                    <Size x="300" y="11"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="28" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentCategoryBackground" parentKey="CategoryBackground" hidden="true">
+                    <Size x="354" y="18"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="8"/>
+                        <Anchor point="RIGHT" x="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentExpandIcon" parentKey="ExpandIcon" file="Interface\Buttons\UI-PlusMinus-Buttons" hidden="true">
+                    <Size x="7" y="7"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="16" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SkillsPanelItemMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <NormalTexture/>
+        <HighlightTexture/>
+    </Button>
+
+    <Frame name="AscensionSkillsPanel" inherits="CharacterFramePanelTemplate" hidden="true">
+        <Frames>
+            <Frame name="$parentScrollList" parentKey="ScrollList" inherits="StandardProportionalScrollListTemplate">
+                <Size x="354" y="354"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="-2"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentDetailsFrame" parentKey="DetailsFrame" hidden="true" enableMouse="true">
+                <Size x="205" y="160"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormal" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="25" y="-16"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentDescription" parentKey="Description" inherits="GameFontHighlightSmall" justifyH="LEFT">
+                            <Size x="130" y="72"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentCorner" file="Interface\DialogFrame\UI-DialogBox-Corner">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="-6" y="-7"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Button name="$parentAbandonButton" parentKey="AbandonButton" text="UNLEARN" inherits="SharedButtonSmallTemplate">
+                        <Size x="92" y="26"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="12"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                local skillID = GetSelectedSkill()
+                               StaticPopup_Show("UNLEARN_SKILL", GetSkillLineInfo(skillID), nil, skillID)
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(UNLEARN_SKILL_TOOLTIP)
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-3" y="-3"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+                    <BackgroundInsets left="11" right="12" top="12" bottom="11"/>
+                    <TileSize val="32"/>
+                    <EdgeSize val="32"/>
+                </Backdrop>
+
+                <Scripts>
+                    <OnHide>
+                        SetSelectedSkill(0)
+                    </OnHide>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SkillsPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -1,0 +1,186 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RealmMerge.lua"/>
+    
+    <Button name="RealmMergeChoiceTemplate" enableMouse="true" frameStrata="FULLSCREEN_DIALOG" virtual="true">
+        <Size x="280" y="480"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            
+            <Layer>
+                <FontString name="$parentName" parentKey="Name" inherits="RealmTitleFont">
+                    <Size x="240" y="72"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-28"/>
+                    </Anchors>
+                    <Color r="1" g="0.82" b="0"/>
+                </FontString>
+
+                <FontString name="$parentOverview" parentKey="Overview" text="OVERVIEW" inherits="GameFontNormalOutline">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="12" y="208"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentOverviewText" parentKey="OverviewText" justifyV="TOP" justifyH="LEFT" inherits="GameFontHighlightOutline">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentOverview" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-12" y="90"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentSelectButton" parentKey="SelectButton" text="SELECT_REALM" inherits="SharedButtonTemplate">
+                <Size x="200" y="38"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" y="28"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnEnter>
+                        self:GetParent():OnEnter()
+                    </OnEnter>
+                    <OnLeave>
+                        self:GetParent():OnLeave()
+                    </OnLeave>
+                    <OnClick>
+                        self:GetParent():ChooseRealm()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentGameMode" parentKey="GameMode" inherits="RealmInfoIconTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="12" y="-120"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentExpansion" parentKey="Expansion" inherits="RealmInfoIconTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentGameMode" relativePoint="BOTTOMLEFT" x="0" y="-20"/>
+                </Anchors>
+            </Frame>
+            
+            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                <Attributes>
+                    <Attribute name="layoutType" value="RealmBorderThin"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentShadowNineSlice" parentKey="ShadowNineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                <Attributes>
+                    <Attribute name="layoutType" value="ShadowOverlay"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RealmMergeChoiceMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Frame name="RealmMergeFrame" parent="CharacterSelect" enableMouse="true" frameStrata="FULLSCREEN" hidden="true" setAllPoints="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture setAllPoints="true">
+                    <Color r="0" g="0" b="0" a="0.95"/>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentTitle" parentKey="Title" text="REALM_MERGE_CHOOSE" inherits="PTFontNormalEnormous">
+                    <Size x="680" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-82"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentAbout" parentKey="About" text="REALM_MERGE_ABOUT" inherits="PTFontHighlightLarge">
+                    <Size x="500" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-6"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+    
+    <Button name="RealmMergeChangeChoiceFrame" parent="CharacterSelect" frameStrata="HIGH" hidden="true">
+        <Size x="280" y="140"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" x="10" y="-10"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentTitle" parentKey="Title" text="REALM_MERGE_AVAILABLE" inherits="PTFontNormalLarge">
+                    <Size x="200" y="0"/>
+                    <Anchors>
+                        <Anchor point="CENTER" y="18"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentCurrent" parentKey="Current" inherits="PTFontNormal" maxLines="1">
+                    <Size x="200" y="0"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="6"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentAbout" parentKey="About" justifyV="TOP" text="REALM_MERGE_AVAILABLE_ABOUT" inherits="PTFontHighlight">
+                    <Size x="200" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM"/>
+                        <Anchor point="BOTTOM" relativeTo="$parentCurrent" relativePoint="TOP"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentNineSlice" parentKey="NineSlice" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                <Attributes>
+                    <Attribute name="layoutType" value="RealmBorderThin"/>
+                </Attributes>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                Mixin(self.Background, "TextureDollyMixin")
+                self.Background:SetDollyFinishCallback(function()
+                    self:SetScript("OnUpdate", nil)
+                end)
+            </OnLoad>
+            <OnClick>
+                RealmMerge.ShowChoiceDialog()
+            </OnClick>
+            <OnEnter>
+                if not self.Background:GetTexture() then return end
+                self.Background:SetDollyTimeScale(0.5)
+                self:SetScript("OnUpdate", function(self, elapsed)
+                    self.Background:MoveDollyForward(elapsed)
+                end)
+            </OnEnter>
+            <OnLeave>
+                if not self.Background:GetTexture() then return end
+                self.Background:SetDollyTimeScale(1.2)
+                self:SetScript("OnUpdate", function(self, elapsed)
+                    self.Background:MoveDollyBackward(elapsed)
+                end)
+            </OnLeave>
+        </Scripts>
+    </Button>
+</Ui>

@@ -1,0 +1,202 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ScenarioTemplates.lua"/>
+    
+    <Frame name="ScenarioTextObjectiveTemplate" virtual="true">
+        <Size x="240" y="16"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon" file="Interface\Scenarios\scenarioicon-combat">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" y="-2"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentText" parentKey="Text" justifyH="LEFT" text="Placeholder Encounter Name" inherits="PTFontHighlight">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="4"/>
+                        <Anchor point="RIGHT" x="-28"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentCounter" parentKey="Counter" justifyH="RIGHT" text="0/1" inherits="PTFontHighlight">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentText" relativePoint="TOPRIGHT"/>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture parentKey="IconFlash" hidden="true" alphaMode="ADD">
+                    <Size x="36" y="36"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Scale order="1" duration="0" scaleX="0.1" scaleY="0.1"/>
+                            <Scale order="2" duration="0.25" scaleX="10" scaleY="10"/>
+                            <Alpha order="2" duration="0.2" change="1"/>
+                            <Alpha order="2" startDelay="0.2" duration="0.45" change="-1"/>
+
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="Sheen" hidden="true" alphaMode="ADD">
+                    <Size x="44" y="20"/>
+
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIcon" y="1"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Alpha order="2" duration="0.1" change="1"/>
+                            <Alpha order="2" startDelay="0.1" duration="0.35" change="-1"/>
+                            <Translation order="2" duration="0.55" offsetX="110" offsetY="0" smoothing="OUT"/>
+
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "ScenarioObjectiveMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="ScenarioExpandableObjectiveTemplate" inherits="ScenarioTextObjectiveTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentCollapseExpandButton" parentKey="CollapseExpandButton">
+                <Size  x="16" y="16"/>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleExpand()
+                    </OnClick>
+                </Scripts>
+
+                <NormalTexture file="Interface\Buttons\UI-Panel-QuestHideButton">
+                    <TexCoords left="0" right="0.5" top="0" bottom="0.5"/>
+                </NormalTexture>
+                <PushedTexture file="Interface\Buttons\UI-Panel-QuestHideButton">
+                    <TexCoords left="0.5" right="1" top="0" bottom="0.5"/>
+                </PushedTexture>
+                <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+                <DisabledTexture file="Interface\Buttons\UI-Panel-QuestHideButton-disabled"/>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "ScenarioExpandableObjectiveMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+ 
+    <Frame name="ScenarioStatusBarObjectiveTemplate" inherits="ScenarioTextObjectiveTemplate" virtual="true">
+        <Size x="240" y="48"/>
+
+        <Frames>
+            <Frame name="$parentStatusBar" parentKey="StatusBar" inherits="BetterStatusBarTemplate">
+                <Size x="198" y="20"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBorder" parentKey="Border">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="-5" y="5"/>
+                                <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="Glow" alphaMode="ADD" hidden="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentBorder"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentBorder"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Anim">
+                                    <Alpha order="1" change="-1" duration="0"/>
+                                    <Alpha order="2" change="0.6" duration="0.35"/>
+                                    <Alpha order="3" change="-0.6" duration="0.45" smoothing="OUT"/>
+                                    <Scripts>
+                                        <OnPlay>
+                                            self:GetParent():Show()
+                                        </OnPlay>
+                                        <OnStop>
+                                            self:GetParent():Hide()
+                                        </OnStop>
+                                        <OnFinished>
+                                            self:GetParent():Hide()
+                                        </OnFinished>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Attributes>
+                    <Attribute name="background-atlas" value="bonusobjectives-bar-bg"/>
+                </Attributes>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Border:SetAtlas("bonusobjectives-bar-frame", Const.TextureKit.IgnoreAtlasSize)
+                        self.Glow:SetAtlas("bonusobjectives-bar-glow", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "MythicPlusStatusBarObjectiveMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

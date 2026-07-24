@@ -1,0 +1,155 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="PTRFeedbackMixin.lua"/>
+    
+    <Frame name="PTRFeedbackFrame" parent="UIParent" movable="true" clampedToScreen="true" frameStrata="FULLSCREEN" toplevel="true" enableMouse="true">
+        <Size x="98" y="48"/>
+        
+        <Anchors>
+            <Anchor point="BOTTOMRIGHT" x="-130" y="140"/>
+        </Anchors>
+        
+        <Frames>
+            <Button name="$parentReportBugButton"  parentKey="ReportBugButton" inherits="BackdropTemplate">
+                <Size x="48" y="48"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" x="-25"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "BackdropTemplateMixin")
+                        self:SetBackdrop(BACKDROP_TOAST_12_12)
+                        self:RegisterForDrag("LeftButton")
+                        self:SetNormalAtlas("HelpIcon-Bug", Const.TextureKit.UseAtlasSize)
+                        self:SetHighlightAtlas("HelpIcon-Bug", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON)
+                        self:GetParent():ReportBug()
+                    </OnClick>
+                    <OnDragStart>
+                        FrameUtil.PassOnDragStartToParent(self)
+                    </OnDragStart>
+                    <OnDragStop>
+                        FrameUtil.PassOnDragStopToParent(self)
+                    </OnDragStop>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, GameTooltip_AutoAnchor(self))
+                        GameTooltip:SetText(CREATE_BUG_REPORT, 1, 1, 1)
+                        GameTooltip:AddLine(HELPFRAME_BUG_REPORT_OPTION2, 1, 0.82, 0, true)
+                        GameTooltip:AddLine(HELPFRAME_BUG_REPORT_OPTION3_HEADER, 0, 0.82, 1, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+
+                <HitRectInsets left="-10" right="-10" top="-10" bottom="-10"/>
+
+                <NormalTexture>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </NormalTexture>
+                <HighlightTexture alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </HighlightTexture>
+                <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </PushedTexture>
+            </Button>
+            
+            <Frame name="$parentReportLabel" parentKey="ReportLabel" inherits="BackdropTemplate">
+                <Size x="1" y="24"/>
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentText" parentKey="Text" text="SUBMIT_FEEDBACK" inherits="GameFontHighlightSmall">
+                            <Anchors>
+                                <Anchor point="CENTER" y="1"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetBackdrop(BACKDROP_TOAST_12_12)
+                        self:SetWidth(self.Text:GetStringWidth()+20)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Button name="$parentSubmitFeedbackButton"  parentKey="SubmitFeedbackButton" inherits="BackdropTemplate">
+                <Size x="48" y="48"/>
+
+                <Anchors>
+                    <Anchor point="CENTER" x="25"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "BackdropTemplateMixin")
+                        self:SetBackdrop(BACKDROP_TOAST_12_12)
+                        self:RegisterForDrag("LeftButton")
+                        self:SetNormalAtlas("helpicon-suggestion", Const.TextureKit.UseAtlasSize)
+                        self:SetHighlightAtlas("helpicon-suggestion", Const.TextureKit.UseAtlasSize)
+                    </OnLoad>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON)
+                        self:GetParent():SubmitFeedback()
+                    </OnClick>
+                    <OnDragStart>
+                        FrameUtil.PassOnDragStartToParent(self)
+                    </OnDragStart>
+                    <OnDragStop>
+                        FrameUtil.PassOnDragStopToParent(self)
+                    </OnDragStop>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, GameTooltip_AutoAnchor(self))
+                        GameTooltip:SetText(SUBMIT_FEEDBACK, 1, 1, 1)
+                        GameTooltip:AddLine(FEEDBACK_ABOUT, 1, 0.82, 0, true)
+                        GameTooltip:AddLine(HELPFRAME_BUG_REPORT_OPTION3_HEADER, 0, 0.82, 1, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+
+                <HitRectInsets left="-10" right="-10" top="-10" bottom="-10"/>
+
+                <NormalTexture>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </NormalTexture>
+                <HighlightTexture alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </HighlightTexture>
+                <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </PushedTexture>
+            </Button>
+        </Frames>
+        
+        <HitRectInsets left="0" right="0" top="0" bottom="-24"/>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PTRFeedbackMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

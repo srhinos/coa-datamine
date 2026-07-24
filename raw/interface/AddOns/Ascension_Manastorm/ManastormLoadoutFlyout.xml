@@ -1,0 +1,54 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ManastormLoadoutFlyout.lua"/>
+
+    <Button name="ManastormLoadoutFlyoutButtonTemplate" inherits="SpellIconTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ManastormLoadoutFlyoutButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="ManastormLoadoutFlyoutFrame" hidden="true" parent="ManastormQueueFrame" frameStrata="HIGH">
+        <Size x="43" y="43"/>
+
+        <Frames>
+            <Frame name="$parentButtons" frameStrata="HIGH" enableMouse="true" parentKey="Buttons" clampedToScreen="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="12" y="-6"/>
+                </Anchors>
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                            </Anchors>
+                            <Color r="0" g="0" b="0"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Frame>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-4" y="4"/>
+                            <Anchor point="BOTTOMRIGHT" x="4" y="-4"/>
+                        </Anchors>
+                        <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border"
+                                  tile="true">
+                            <TileSize val="12"/>
+                            <EdgeSize val="12"/>
+                            <BorderColor r="1" g="1" b="0"/>
+                        </Backdrop>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ManastormLoadoutFlyoutMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

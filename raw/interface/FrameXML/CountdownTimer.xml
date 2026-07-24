@@ -1,0 +1,143 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CountdownTimer.lua"/>
+    
+    <AnimationGroup name="CountdownNumberAnimationTemplate" virtual="true">
+        <Scale scaleX="0.25" scaleY="0.25" duration="0" order="1"/>
+
+        <Scale scaleX="4" scaleY="4" duration="0.3" order="2" smoothing="OUT"/>
+
+        <Scale startDelay="0.6" scaleX="1.2" scaleY="1.2" duration="0.1" order="3"/>
+        <Alpha startDelay="0.6" change="-1" duration="0.1" order="3"/>
+
+        <Scripts>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+
+    <AnimationGroup name="CountdownGlowNumberAnimationTemplate" virtual="true">
+        <Scale scaleX="0.25" scaleY="0.25" duration="0" order="1"/>
+        
+        <Alpha change="-1" duration="0.3" order="2" smoothing="OUT"/>
+        <Scale scaleX="4" scaleY="4" duration="0.3" order="2" smoothing="OUT"/>
+        
+        <Scripts>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+
+    <Frame name="CountdownTimer" parent="UIParent" setAllPoints="true" hidden="true">
+        <Layers>
+            <Layer>
+                <Texture name="$parentDigit1" parentKey="Digit1" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup inherits="CountdownNumberAnimationTemplate" parentKey="Anim"/>
+                    </Animations>
+                </Texture>
+                <Texture name="$parentDigit2" parentKey="Digit2" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup inherits="CountdownNumberAnimationTemplate" parentKey="Anim"/>
+                        <AnimationGroup inherits="CountdownNumberAnimationTemplate" parentKey="LogoAnim">
+                            <Scripts>
+                                <OnFinished>
+                                    self:GetParent():GetParent():StopTimer()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture parentKey="Digit1Glow" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentDigit1"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentDigit1"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup inherits="CountdownGlowNumberAnimationTemplate" parentKey="Anim"/>
+                    </Animations>
+                </Texture>
+
+                <Texture parentKey="Digit2Glow" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentDigit2"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentDigit2"/>>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup inherits="CountdownGlowNumberAnimationTemplate" parentKey="Anim"/>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <StatusBar name="$parentProgressBar" parentKey="ProgressBar" hidden="true">
+                <Size x="195" y="13"/>
+                <Anchors>
+                    <Anchor point="TOP" x="0" y="-128"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture>
+                            <Size x="195" y="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="-2"/>
+                            </Anchors>
+                            <Color r="0" g="0" b="0" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentBorder" file="Interface\CastingBar\UI-CastingBar-Border">
+                            <Size x="256" y="64"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="25"/>
+                            </Anchors>
+                        </Texture>
+                        <FontString name="$parentText" inherits="GameFontHighlight" parentKey="Text">
+                            <Size x="0" y="9"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+                <BarColor r="1" g="0.0" b="0.0" />
+                
+                <Animations>
+                    <AnimationGroup parentKey="FadeIn">
+                        <Alpha order="1" change="-1" duration="0"/>
+                        <Alpha order="2" change="1" duration="1.0"/>
+                        <Scripts>
+                            <OnPlay>
+                                self:GetParent():Show()
+                            </OnPlay>
+                        </Scripts>
+                    </AnimationGroup>
+                </Animations>
+            </StatusBar>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, CountdownTimerMixin)
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

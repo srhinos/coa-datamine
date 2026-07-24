@@ -1,0 +1,133 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CharacterAdvancementBrowser.lua"/>
+
+    <Button name="CASpellTagTemplate" inherits="CollapsibleHeaderTemplate" virtual="true">
+        <Size x="32" y="32"/>
+        <HighlightTexture alphaMode="ADD"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CASpellTagMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CABrowserSpellButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="CASpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentClass" parentKey="Class" enableMouse="true">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+            </Button>
+            <Button name="$parentSuggested" parentKey="Suggested" enableMouse="true">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="-4" y="-4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="40" y="40"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self.Suggested.Icon:SetAtlas("talents-search-notonactionbar", false)
+                self.Suggested:SetFrameLevel(self.Icon:GetFrameLevel()+1)
+                self.Class:SetFrameLevel(self.Icon:GetFrameLevel()+1)
+                MixinAndLoadScripts(self, "CABrowserAbilityMixin")
+                self.Icon.LocationIcon:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+                self.Icon.RankUp:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CABrowserRowTemplate"  virtual="true">
+    	<Size x="802" y="48"/>
+    	<Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentShadow" parentKey="Shadow">
+                    <Size y="48"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="0" y="-8"/>
+                        <Anchor point="RIGHT" x="0" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+    	</Layers>
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon">
+                <Size x="92" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="24" y="-6"/>
+                </Anchors>
+                <Layers>
+                     <Layer level="BORDER">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="22" y="22"/>
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="LEFT" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                     <Layer level="ARTWORK">
+                        <Texture name="$parentRing" parentKey="Ring">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                        <FontString inherits="SystemFont_Shadow_Large2"  parentKey="Text">
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="$parentRing" relativePoint="RIGHT" x="4" y="0"/>
+                            </Anchors>
+                        </FontString>
+                     </Layer>
+                     <Layer level="OVERLAY">
+                        <Texture name="$parentLock" parentKey="Lock" hidden="true">
+                            <Size x="24" y="24"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                     </Layer>
+                    <Layer level="HIGHLIGHT">
+                        <Texture file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" alphaMode="ADD" setAllPoints="true">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
+    	<Scripts>
+    		<OnLoad>
+                self.Icon.Lock:SetAtlas("communities-icon-lock", false)
+    			self.Shadow:SetAtlas("spellbook-text-background")
+    			self.Icon.Ring:SetAtlas("category-icon-ring", false)
+    			MixinAndLoadScripts(self, "CABrowserRowMixin")
+    		</OnLoad>
+    	</Scripts>
+    </Button>
+</Ui>

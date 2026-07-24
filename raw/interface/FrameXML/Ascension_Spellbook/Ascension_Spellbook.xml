@@ -1,0 +1,944 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+
+    <Script file="Ascension_Spellbook.lua"/>
+    <Script file="Ascension_ProfessionBook.lua"/>
+
+    <Font name="NewSubSpellFont" font="Fonts\FRIZQT__.TTF" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0"/>
+        </Shadow>
+
+        <FontHeight val="11"/>
+        <Color r="1" g="0.98" b="0.72"/>
+    </Font>
+
+    <Font name="ProfessionDescriptionFont" font="Fonts\FRIZQT__.TTF" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0"/>
+        </Shadow>
+        
+        <FontHeight val="11"/>
+        <Color r="1" g="0.98" b="0.72"/>
+    </Font>
+
+    <Frame name="SpellbookPageTemplate" setAllPoints="true" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "SpellbookPageMixin")
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+    <CheckButton name="AscensionSpellButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
+        <Size x="37" y="37"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="EmptySlot">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentIconTextureBg" setAllPoints="true" hidden="true" parentKey="IconTextureBg">
+                    <Color r="0.40" g="0.20" b="0"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIconTexture" parentKey="IconTexture" setAllPoints="true" hidden="true"/>
+                
+
+                <Texture name="$parentTrainSlotFrame" hidden="true" parentKey="TrainFrame">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-35" y="35"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentTextBackground" parentKey="TextBackground">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBackground" relativePoint="TOPRIGHT" x="-4" y="-5"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentTextBackground2" parentKey="TextBackground2">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBackground" relativePoint="TOPRIGHT" x="-4" y="-5"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="ClickBindingIconCover" setAllPoints="true" hidden="true">
+                    <Color r="0" g="0" b="0" a="0.3"/>
+                </Texture>
+
+                <Texture name="$parentLevelLinkLockBg" hidden="true" setAllPoints="true">
+                    <Color r="0" g="0" b="0" a=".3"/>
+                </Texture>
+
+                <Texture name="$parentSlotFrame" parentKey="SlotFrame">
+                    <Anchors>
+                        <Anchor point="CENTER" x="2"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentSpellName" inherits="GameFontNormal" maxLines="3" hidden="true" justifyH="LEFT" parentKey="SpellName">
+                    <Size x="145" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="8" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentSubSpellName" inherits="NewSubSpellFont" hidden="true" justifyH="LEFT" parentKey="SubSpellName">
+                    <Size x="145" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentSpellName" relativePoint="BOTTOMLEFT" x="0" y="-1"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentRequiredLevelString" inherits="GameFontBlackSmall" hidden="true" justifyH="LEFT" parentKey="RequiredLevelString">
+                    <Size x="145" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentSubSpellName" relativePoint="BOTTOMLEFT" x="0" y="-1"/>
+                    </Anchors>
+
+                    <Color r="0.25" g="0.12" b="0"/>
+                </FontString>
+
+                <FontString name="$parentSeeTrainerString" inherits="GameFontHighlightSmall" hidden="true" justifyH="LEFT" parentKey="SeeTrainerString" text="SPELLBOOK_TRAINABLE">
+                    <Size x="145" y="0"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentSubSpellName" relativePoint="BOTTOMLEFT" x="0" y="-1"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentAutoCastable" parentKey="AutoCastable" file="Interface\Buttons\UI-AutoCastableOverlay" hidden="true">
+                    <Size x="60" y="60"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="AbilityHighlight" hidden="true" alphaMode="ADD" alpha="0.5" file="Interface\Buttons\CheckButtonHilight-Blue">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="REPEAT">
+                            <Alpha duration="0.25" order="1" change="0.5"/>
+                            <Alpha startDelay="0.5" duration="0.75" order="1" change="-0.5"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentFlyoutArrow" file="Interface\Buttons\ActionBarFlyoutButton" parentKey="FlyoutArrow" hidden="true">
+                    <Size x="23" y="11"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="2" y="0"/>
+                    </Anchors>
+                    <TexCoords left="0.62500000" right="0.98437500" top="0.74218750" bottom="0.82812500"/>
+                </Texture>
+
+                <Texture parentKey="SpellHighlightTexture" hidden="true">
+                    <Size x="42" y="42"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture parentKey="ClickBindingHighlight" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTrainTextBackground" parentKey="TrainTextBackground" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTrainSlotFrame" relativePoint="TOPRIGHT" x="0" y="-12"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Cooldown name="$parentCooldown" parentKey="Cooldown" setAllPoints="true" inherits="CooldownFrameTemplate"/>
+
+            <Frame name="$parentTrainBook" hidden="true" parentKey="TrainBook" setAllPoints="true">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentTrainBook" parentKey="Icon">
+                            <Size x="32" y="31"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="4" y="3"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Icon:SetAtlas("spellbook-trainbook", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellButtonMixin")
+            </OnLoad>
+            <PreClick>
+                self:SetChecked(false)
+            </PreClick>
+        </Scripts>
+
+        <PushedTexture parentKey="PushedTexture" file="Interface\Buttons\UI-Quickslot-Depress"/>
+        <HighlightTexture parentKey="HighlightTexture" name="$parentHighlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+        <CheckedTexture parentKey="CheckedTexture" file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
+    </CheckButton>
+
+    <StatusBar name="ProfessionStatusBarTemplate" virtual="true">
+        <Size x="64" y="16"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentRank" inherits="TextStatusBarText" parentKey="RankText" text="0/0">
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="3"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentLeft" parentKey="CapLeft">
+                    <Size x="12" y="12"/>
+
+                    <Anchors>
+                        <Anchor point="RIGHT" relativePoint="LEFT" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentRight" parentKey="CapRight">
+                    <Size x="12" y="12"/>
+
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBGLeft" parentKey="BGLeft">
+                    <Size x="16" y="16"/>
+
+                    <Anchors>
+                        <Anchor point="RIGHT" relativePoint="LEFT" y="2"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBGRight" parentKey="BGRight">
+                    <Size x="16" y="16"/>
+
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" y="2"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBGMiddle" parentKey="BGMiddle" file="Interface\Spellbook\ProfessionsBook">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBGLeft" relativePoint="TOPRIGHT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBGRight" relativePoint="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <BarTexture name="$parentBar" file="Interface\Spellbook\Professions-Progress-Fill"/>
+
+        <Scripts>
+            <OnLoad>
+                self.BGRight:SetAtlas("professionbook-statusbar-bg-right", Const.TextureKit.IgnoreAtlasSize)
+                self.BGLeft:SetAtlas("professionbook-statusbar-bg-left", Const.TextureKit.IgnoreAtlasSize)
+                self.CapLeft:SetAtlas("professionbook-statusbar-left", Const.TextureKit.IgnoreAtlasSize)
+                self.CapRight:SetAtlas("professionbook-statusbar-right", Const.TextureKit.IgnoreAtlasSize)
+                self.BGMiddle:SetAtlas("professionbook-statusbar-bg-middle", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+            <OnEnter>
+                if self.tooltip then
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:SetText(self.tooltip)
+                    GameTooltip:Show()
+                end
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+        </Scripts>
+    </StatusBar>
+    
+    <Button name="SpellbookProfessionTemplate" inherits="SecureActionButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="100" y="92"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTextShadow" parentKey="TextShadow" file="Interface\Common\ShadowCircle" alpha="0.5">
+                    <Size x="128" y="92"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                    <TexCoords left="0" right="1" top="0" bottom="0.5"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentRank" parentKey="Rank" inherits="ProfessionDescriptionFont">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM" y="-18"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-1" y="1"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="1" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-1" y="1"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="1" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <StatusBar name="$parentProgressBar" parentKey="ProgressBar" inherits="ProfessionStatusBarTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentRank" relativePoint="BOTTOM" y="-4"/>
+                </Anchors>
+            </StatusBar>
+            
+            <Button name="$parentAbandonButton" parentKey="AbandonButton">
+                <Size x="14" y="14"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-8"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:SetNormalAtlas("common-icon-redx")
+                        self:SetHighlightAtlas("common-icon-redx")
+                    </OnLoad>
+                    <OnClick>
+                        StaticPopup_Show("UNLEARN_SKILLID", GetSkillInfo(self:GetParent().skillID), nil, self:GetParent().skillID)
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(UNLEARN_SKILL_TOOLTIP)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellbookProfessionMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <ButtonText name="$parentName" parentKey="Name" inherits="GameFontNormal">
+            <Anchors>
+                <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM" y="-8"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+        <NormalFont style="GameFontNormal"/>
+        <HighlightFont style="GameFontHighlight"/>
+        <DisabledFont style="GameFontDisable"/>
+    </Button>
+    
+    <Button name="SpellbookProfessionExtraTemplate" inherits="SecureActionButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="18" y="18"/>
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-1" y="1"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="1" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-1" y="1"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="1" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                SecureActionButton_OnLoad(self)
+                self.IconBorder:SetAtlas("professionbook-icon-border", Const.TextureKit.IgnoreAtlasSize)
+                self.Highlight:SetAtlas("bags-roundhighlight", Const.TextureKit.IgnoreAtlasSize)
+                self:SetAttribute("type", "spellbook")
+                self:RegisterForDrag("LeftButton")
+            </OnLoad>
+            <OnEnter>
+                if self.spellID then
+                    GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                    GameTooltip:SetHyperlink("spell:"..self.spellID)
+                    GameTooltip:Show()
+                end
+            </OnEnter>
+            <OnLeave function="GameTooltip_Hide"/>
+            <OnDragStart>
+                local spellIndex = self:GetAttribute("spell")
+                local bookType = self:GetAttribute("bookType")
+                if spellIndex and bookType and self:IsEnabled() == 1 then
+                    PickupSpell(spellIndex, bookType)
+                end
+            </OnDragStart>
+        </Scripts>
+    </Button>
+
+    <Button name="AscensionSpellbookTabTemplate" frameLevel="60" inherits="CharacterFrameTabButtonTemplate" virtual="true" hidden="false">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "SpellbookTabMixin")
+            </OnLoad>
+            <OnClick>
+                self:OnClick()
+            </OnClick>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+            <OnEnable>
+                self:GetFontString():SetPoint("CENTER", 0, 3)
+            </OnEnable>
+            <OnDisable>
+                self:GetFontString():SetPoint("CENTER", 0, 5)
+            </OnDisable>
+        </Scripts>
+    </Button>
+
+    <CheckButton name="AscensionSpellbookSideTabTemplate" virtual="true" hidden="true">
+        <Size x="32" y="32"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\SpellBook\SpellBook-SkillLineTab">
+                    <Size x="64" y="64"/>
+
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-3" y="11"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentFlash" parentKey="Flash" file="Interface\Buttons\CheckButtonGlow" alphaMode="ADD" hidden="true">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="REPEAT">
+                            <Alpha change="-0.6" order="1" duration="0"/>
+                            <Alpha change="1" order="2" duration="0.75" smoothing="IN"/>
+                            <Alpha change="-0.6" order="3" duration="0.5" smoothing="OUT"/>
+                            
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentSearchGlow" parentKey="SearchHighlight" file="Interface\Buttons\CheckButtonGlow" alphaMode="ADD" hidden="true">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    
+                    <Color r="0" g="0.8" b="1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+             <Button name="$parentRankUp" parentKey="RankUp" inherits="UINewSpellRankIndicator" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+                </Anchors>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "SpellbookSideTabMixin")
+            </OnLoad>
+            <OnClick>
+                self:OnClick()
+            </OnClick>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+
+        <NormalTexture parentKey="NormalTexture"/>
+        <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+        <CheckedTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
+    </CheckButton>
+
+    <Frame name="SpellbookSpellsPageTemplate" virtual="true" inherits="SpellbookPageTemplate">
+        <Frames>
+            <CheckButton name="$parentSpellButton1" parentKey="SpellButton1" inherits="AscensionSpellButtonTemplate" id="1">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="100" y="-72"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton2" parentKey="SpellButton2" inherits="AscensionSpellButtonTemplate" id="2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton1" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton3" parentKey="SpellButton3" inherits="AscensionSpellButtonTemplate" id="3">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton2" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton4" parentKey="SpellButton4" inherits="AscensionSpellButtonTemplate" id="4">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton3" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton5" parentKey="SpellButton5" inherits="AscensionSpellButtonTemplate" id="5">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton4" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton6" parentKey="SpellButton6" inherits="AscensionSpellButtonTemplate" id="6">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton5" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton7" parentKey="SpellButton7" inherits="AscensionSpellButtonTemplate" id="7">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton1" x="225" y="0"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton8" parentKey="SpellButton8" inherits="AscensionSpellButtonTemplate" id="8">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton7" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton9" parentKey="SpellButton9" inherits="AscensionSpellButtonTemplate" id="9">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton8" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton10" parentKey="SpellButton10" inherits="AscensionSpellButtonTemplate" id="10">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton9" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton11" parentKey="SpellButton11" inherits="AscensionSpellButtonTemplate" id="11">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton10" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentSpellButton12" parentKey="SpellButton12" inherits="AscensionSpellButtonTemplate" id="12">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSpellButton11" relativePoint="BOTTOMLEFT" x="0" y="-29"/>
+                </Anchors>
+            </CheckButton>
+        </Frames>
+    </Frame>
+
+    <Frame name="AscensionSpellbookFrame" toplevel="true" parent="UIParent" enableMouse="true" hidden="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="540" y="525"/>
+
+        <Anchors>
+            <Anchor point="TOPLEFT" x="24" y="-104"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground1" parentKey="Background1" file="Interface\Spellbook\Spellbook-Page-1">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-25"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBackground2" parentKey="Background2" file="Interface\Spellbook\Spellbook-Page-2">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBackground1" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentInset" parentKey="Inset" frameLevel="1" inherits="InsetFrameNoBGTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="4"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentContent" parentKey="Content">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="4"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentSpells" parentKey="Spells" inherits="SpellbookSpellsPageTemplate" id="1">
+                        <Frames>
+                            <CheckButton name="$parentShowAllSpellRanks" parentKey="ShowAllSpellRanks" text="SHOW_ALL_SPELL_RANKS" inherits="SquareIconCheckButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPRIGHT" x="-38" y="-27"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer>
+                                        <Texture parentKey="TextBackground" alpha="0.4">
+                                            <Size x="124" y="24"/>
+                                            <Anchors>
+                                                <Anchor point="RIGHT" relativePoint="LEFT" x="6" y="-1"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+
+                                <ButtonText>
+                                    <Anchors>
+                                        <Anchor point="RIGHT" relativePoint="LEFT" x="-4"/>
+                                    </Anchors>
+                                </ButtonText>
+                                
+                                <PushedTextOffset x="0" y="0"/>
+                                
+                                <Scripts>
+                                    <OnLoad>
+                                        self.TextBackground:SetAtlas("Rewards-Shadow", Const.TextureKit.IgnoreAtlasSize)
+                                    </OnLoad>
+                                    <OnShow>
+                                        local hasMultipleRanks = C_Spell.HasMultipleSpellRanks()
+                                        self:SetChecked(GetCVarBool("ShowAllSpellRanks") and hasMultipleRanks)
+                                        self:SetEnabled(hasMultipleRanks)
+                                    </OnShow>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                        SetCVar("ShowAllSpellRanks", self:GetChecked())
+                                        UpdateSpells()
+                                    </OnClick>
+                                </Scripts>
+                                
+                                <NormalFont style="GameFontNormal"/>
+                            </CheckButton>
+                            
+                            <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                                <Size x="140" y="20"/>
+
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="110" y="-34"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnTextChanged>
+                                        SearchBoxTemplate_OnTextChanged(self)
+                                        AscensionSpellbookFrame:UpdateSearch(self:GetText())
+                                    </OnTextChanged>
+                                </Scripts>
+                            </EditBox>
+                        </Frames>
+                    </Frame>
+
+                    <Frame name="$parentPetSpells" hidden="true" parentKey="PetSpells" inherits="SpellbookSpellsPageTemplate" id="2">
+
+                    </Frame>
+
+                    <Frame name="$parentProfessions" hidden="true" parentKey="Professions" inherits="SpellbookPageTemplate" id="3">
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "ProfessionTabMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentTab1" parentKey="Tab1" text="SPELLS" inherits="AscensionSpellbookTabTemplate" id="1">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="2"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentTab2" parentKey="Tab2" text="PET" inherits="AscensionSpellbookTabTemplate" id="2">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT" x="-15" y="0"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentTab3" parentKey="Tab3" text="TRADE_SKILLS" inherits="AscensionSpellbookTabTemplate" id="3">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT" x="-15" y="0"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentSideBar" parentKey="SideBar">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="64" y="0"/>
+                </Anchors>
+
+                <Frames>
+                    <CheckButton name="$parentTab1" parentKey="Tab1" inherits="AscensionSpellbookSideTabTemplate" id="1">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="0" y="-48"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab2" parentKey="Tab2" inherits="AscensionSpellbookSideTabTemplate" id="2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab1" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab3" parentKey="Tab3" inherits="AscensionSpellbookSideTabTemplate" id="3">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab2" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab4" parentKey="Tab4" inherits="AscensionSpellbookSideTabTemplate" id="4">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab3" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab5" parentKey="Tab5" inherits="AscensionSpellbookSideTabTemplate" id="5">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab4" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab6" parentKey="Tab6" inherits="AscensionSpellbookSideTabTemplate" id="6">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab5" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab7" parentKey="Tab7" inherits="AscensionSpellbookSideTabTemplate" id="7">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab6" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab8" parentKey="Tab8" inherits="AscensionSpellbookSideTabTemplate" id="8">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab7" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab9" parentKey="Tab9" inherits="AscensionSpellbookSideTabTemplate" id="9">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab8" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab10" parentKey="Tab10" inherits="AscensionSpellbookSideTabTemplate" id="10">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab9" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab11" parentKey="Tab11" inherits="AscensionSpellbookSideTabTemplate" id="11">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab1" relativePoint="RIGHT" x="3" y="-5"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab12" parentKey="Tab12" inherits="AscensionSpellbookSideTabTemplate" id="12">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab11" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab13" parentKey="Tab13" inherits="AscensionSpellbookSideTabTemplate" id="13">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab12" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab14" parentKey="Tab14" inherits="AscensionSpellbookSideTabTemplate" id="14">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab13" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab15" parentKey="Tab15" inherits="AscensionSpellbookSideTabTemplate" id="15">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab14" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab16" parentKey="Tab16" inherits="AscensionSpellbookSideTabTemplate" id="16">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab15" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab17" parentKey="Tab17" inherits="AscensionSpellbookSideTabTemplate" id="17">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab16" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab18" parentKey="Tab18" inherits="AscensionSpellbookSideTabTemplate" id="18">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab17" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="$parentTab19" parentKey="Tab19" inherits="AscensionSpellbookSideTabTemplate" id="19">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab18" relativePoint="BOTTOMLEFT" x="0" y="-11"/>
+                        </Anchors>
+                    </CheckButton>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentNextPageButton" parentKey="NextPageButton">
+                <Size x="32" y="32"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-28" y="18"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():NextSpellPage()
+                    </OnClick>
+                </Scripts>
+
+                <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+                <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+                <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+                <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            </Button>
+
+            <Button name="$parentPreviousPageButton" parentKey="PreviousPageButton">
+                <Size x="32" y="32"/>
+
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentNextPageButton" relativePoint="LEFT"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():PreviousSpellPage()
+                    </OnClick>
+                </Scripts>
+
+                <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+                <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+                <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+                <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "SpellbookMixin")
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+            <OnEvent>
+                self:OnEvent(event, ...)
+            </OnEvent>
+            <OnMouseWheel>
+                if delta > 0 then
+                    self.PreviousPageButton:Click()
+                else
+                    self.NextPageButton:Click()
+                end
+            </OnMouseWheel>
+            <OnAttributeChanged>
+                self:OnAttributeChanged(name, value)
+            </OnAttributeChanged>
+        </Scripts>
+    </Frame>
+</Ui>

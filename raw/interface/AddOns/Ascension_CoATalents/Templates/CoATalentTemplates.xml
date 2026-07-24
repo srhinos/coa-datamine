@@ -1,0 +1,691 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CoASpecChoiceMixin.lua"/>
+    <Script file="CoATalentTemplates.lua"/>
+
+    <Frame name="CoASpecRoleTemplate" virtual="true">
+        <Size x="48" y="48"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalOutline">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM" y="14"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASpecRoleMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="CoASpecRoleContainerTemplate" inherits="HorizontalLayoutFrame" virtual="true">
+        <Size x="1" y="48"/>
+        <Attributes>
+            <Attribute name="spacing" value="8" type="number"/>
+            <Attribute name="align" value="center" type="string"/>
+            <Attribute name="topPadding" value="8" type="number"/>
+        </Attributes>
+    </Frame>
+
+    <Frame name="CoASpecStatTemplate" virtual="true">
+        <Size x="32" y="32"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightOutline">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM" y="8"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASpecStatMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="CoASpecStatContainerTemplate" inherits="HorizontalLayoutFrame" virtual="true">
+        <Size x="1" y="32"/>
+        <Attributes>
+            <Attribute name="spacing" value="8" type="number"/>
+            <Attribute name="align" value="center" type="string"/>
+        </Attributes>
+    </Frame>
+    
+    <Button name="CoASampleAbilityTemplate" inherits="SpellIconTemplate" virtual="true">
+        <Size x="46" y="46"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASampleAbilityMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="CoATalentButtonTemplate" inherits="CATalentBaseTemplate" virtual="true">
+        <Size x="40" y="40"/>
+
+        <Frames>
+            <Frame name="$parentRankFrame" parentKey="RankFrame" inherits="SimpleRankFrameTemplate" hidden="true">
+                <Size x="28" y="28"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-8" y="7"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "SimpleRankMixin")
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="CoATalentButtonSquareTemplate" inherits="CoATalentButtonTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentButtonSquareMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CoATalentButtonCircleTemplate" inherits="CoATalentButtonTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentButtonCircleMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CoATalentButtonHexTemplate" inherits="CoATalentButtonTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentButtonHexMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CoATalentButtonDiamondTemplate" inherits="CoATalentButtonTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentButtonDiamondMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="CoATalentChoiceButtonTemplate" inherits="CATalentChoiceBaseTemplate" virtual="true">
+        <Size x="40" y="40"/>
+
+        <Frames>
+            <Frame name="$parentRankFrame" parentKey="RankFrame" inherits="SimpleRankFrameTemplate" hidden="true">
+                <Size x="28" y="28"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-4" y="11"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "SimpleRankMixin")
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentChoiceButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Frame name="CoAGateTemplate" inherits="CAGateBaseTemplate" virtual="true">
+        <Size x="84" y="14"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentLockIcon" parentKey="LockIcon">
+                    <Size x="84" y="14"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <FontString name="$parentGateText" parentKey="GateText" inherits="GameFontHighlightHuge2" hidden="true">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentLockIcon" relativePoint="LEFT" x="-2" y="-1"/>
+                    </Anchors>
+                    <Color r="1" g="0.64" b="0.56"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoAGateMixin")
+            </OnLoad>
+        </Scripts>
+        <HitRectInsets left="-22" right="0" top="0" bottom="0"/>
+    </Frame>
+
+    <ScrollFrame name="CoASpecChoiceFXFrameTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASpecChoiceFXMixin")
+            </OnLoad>
+        </Scripts>
+        <ScrollChild>
+            <Frame name="$parentChild" parentKey="Child">
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentActivationFX" parentKey="ActivationFX" alpha="0.45" alphaMode="ADD" hidden="true">
+                            <Size x="120" y="120"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Flash" inherits="AnimationOneShotTemplate">
+                                    <Alpha order="1" change="-1" duration="1.2" smoothing="IN"/>
+                                    <Scale order="1" scaleX="30" scaleY="30" duration="1.2" smoothing="IN"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </ScrollChild>
+    </ScrollFrame>
+
+    <ScrollFrame name="CoATreeFXFrameTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATreeFXMixin")
+            </OnLoad>
+        </Scripts>
+        <ScrollChild>
+            <Frame name="$parentChild" parentKey="Child">
+                <Frames>
+                    <Frame name="$parentCloudsContainer" parentKey="CloudsContainer">
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                            <Anchor point="BOTTOMLEFT"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BORDER">
+                                <Texture name="$parentClouds1" parentKey="Clouds1" alpha="0.05" alphaMode="ADD">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                        <Anchor point="BOTTOMLEFT"/>
+                                    </Anchors>
+                                </Texture>
+                                <Texture name="$parentClouds2" parentKey="Clouds2" alpha="0.05" alphaMode="ADD">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentClouds1" relativePoint="TOPRIGHT"/>
+                                        <Anchor point="BOTTOMLEFT" relativeTo="$parentClouds1" relativePoint="BOTTOMRIGHT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Animations>
+                            <AnimationGroup parentKey="Anim" looping="REPEAT" inherits="AnimationOneShotTemplate">
+                                <Translation order="1" offsetX="0" offsetY="0"/>
+                                <Translation order="2" offsetX="-1160" offsetY="0" duration="80"/>
+                                <Translation order="3" offsetX="1160" offsetY="0"/>
+                            </AnimationGroup>
+                        </Animations>
+                    </Frame>
+                </Frames>
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture parentKey="AirParticlesClose" alpha="0" alphaMode="ADD">
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="CENTER"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" looping="REPEAT">
+                                    <Translation order="1" offsetX="300" offsetY="0"/>
+                                    <Translation order="2" offsetX="-600" offsetY="0" duration="27"/>
+                                    <Alpha order="2" change="0.15" duration="5" smoothing="NONE"/>
+                                    <Alpha order="2" change="-0.15" startDelay="22" duration="5" smoothing="NONE"/>
+                                    <Rotation order="2" duration="36" degrees="20"/>
+
+                                    <Translation order="3" offsetX="600" offsetY="0"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+
+                        <Texture parentKey="AirParticlesFar" alpha="0" alphaMode="ADD">
+                            <Size x="800" y="473"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="CENTER"/>
+                            </Anchors>
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" looping="REPEAT">
+                                    <Translation order="1" offsetX="100" offsetY="0"/>
+                                    <Translation order="2" offsetX="-200" offsetY="0" duration="36"/>
+                                    <Alpha order="2" change="0.14" duration="5" smoothing="NONE"/>
+                                    <Alpha order="2" change="-0.14" startDelay="31" duration="5" smoothing="NONE"/>
+                                    <Rotation order="2" duration="36" degrees="-20"/>
+                                    
+                                    <Translation order="3" offsetX="200" offsetY="0"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </ScrollChild>
+    </ScrollFrame>
+    
+    <Texture name="CoASpecActivatedBackgroundTemplate" virtual="true">
+        <Animations>
+            <AnimationGroup parentKey="Flash" inherits="AnimationOneShotTemplate">
+                <Alpha order="1" change="-1" duration="1" smoothing="IN"/>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+    
+    <Frame name="CoASpecChoiceTemplate" enableMouse="true" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="HoverBackground" alpha="0.01" alphaMode="ADD" hidden="true"/>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentColumnDivider" parentKey="ColumnDivider">
+                    <Size x="7" y="1"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="TOPRIGHT"/>
+                        <Anchor point="BOTTOM" relativePoint="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentSelectedBackgroundBack1" parentKey="SelectedBackgroundBack1" alpha="0.1" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOP" y="24"/>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentSelectedBackgroundBack2" parentKey="SelectedBackgroundBack2" alpha="0.1" alphaMode="MOD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOP" y="24"/>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentSelectedBackgroundLeft1" parentKey="SelectedBackgroundLeft1" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundLeft2" alpha="0.1" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundLeft3" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundLeft4" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundRight1" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundRight2" alpha="0.1" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundRight3" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="SelectedBackgroundRight4" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentActivatedBackgroundBack1" parentKey="ActivatedBackgroundBack1" alpha="0.1" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentActivatedBackgroundBack2" parentKey="ActivatedBackgroundBack2" alpha="0.1" alphaMode="MOD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentActivatedBackgroundLeft1" parentKey="ActivatedBackgroundLeft1" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundLeft2" alpha="0.1" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundLeft3" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundLeft4" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3.5" y="24"/>
+                        <Anchor point="BOTTOMLEFT" x="3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundRight1" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundRight2" alpha="0.1" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundRight3" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="ActivatedBackgroundRight4" alphaMode="ADD" inherits="CoASpecActivatedBackgroundTemplate"  hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3.5" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3.5" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <ScrollFrame name="$parentFXFrame" parentKey="FXFrame" inherits="CoASpecChoiceFXFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="3.5"/>
+                    <Anchor point="BOTTOMRIGHT" x="-3.5"/>
+                </Anchors>
+            </ScrollFrame>
+            <Frame name="$parentBanner" parentKey="Banner">
+                <Size x="245" y="149"/>
+                <Anchors>
+                    <Anchor point="TOP" y="-38"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentImage" parentKey="Image" setAllPoints="true"/>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture name="$parentImageHover" parentKey="ImageHover"  alpha="0.1" alphaMode="ADD" hidden="true" setAllPoints="true"/>
+                    </Layer>
+                    
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBorderNormal" parentKey="BorderNormal">
+                            <Size x="258" y="162"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentBorderHover" parentKey="BorderHover" alpha="0.1" alphaMode="ADD">
+                            <Size x="258" y="162"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <Frame name="$parentSpecInfo" parentKey="SpecInfo" inherits="VerticalLayoutFrame">
+                <Size x="258" y="152"/>
+                
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentBanner" relativePoint="BOTTOM" y="-28"/>
+                </Anchors>
+                
+                <Attributes>
+                    <Attribute name="fixedWidth" value="258" type="number"/>
+                    <Attribute name="fixedHeight" value="300" type="number"/>
+                    <Attribute name="expand" value="false" type="boolean"/>
+                    <Attribute name="defaultAlign" value="center" type="string"/>
+                </Attributes>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentName" parentKey="Name" inherits="Game30Font">
+                            <Anchors>
+                                <Anchor point="TOP"/>
+                            </Anchors>
+                        </FontString>
+
+                        <Texture name="$parentSeparator" parentKey="Separator" alpha="0.2" alphaMode="ADD">
+                            <Size x="203" y="2"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="4"/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString name="$parentDescription" parentKey="Description" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOP"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentComplexity" parentKey="Complexity" inherits="GameFontHighlight">
+                            <Anchors>
+                                <Anchor point="TOP"/>
+                            </Anchors>
+                        </FontString>
+
+                        <Texture name="$parentComplexitySeparator" parentKey="ComplexitySeparator" alpha="0.2" alphaMode="ADD">
+                            <Size x="203" y="2"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+            <Frame name="$parentSampleAbilities" parentKey="SampleAbilities" inherits="HorizontalLayoutFrame">
+                <Size x="1" y="1"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="84"/>
+                </Anchors>
+                
+                <Attributes>
+                    <Attribute name="align" value="center" type="string"/>
+                    <Attribute name="expand" value="true" type="boolean"/>
+                    <Attribute name="spacing" value="8" type="number"/>
+                </Attributes>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentLabel" parentKey="Label" text="SAMPLE_ABILITIES" inherits="GameFontHighlight">
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" y="8"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Button name="$parentSelectButton" parentKey="SelectButton" inherits="StandardButtonTemplate">
+                <Size x="240" y="28"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="24"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentActiveText" parentKey="ActiveText" text="ACTIVE" inherits="GameFontHighlightLarge" hidden="true">
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" y="8"/>
+                            </Anchors>
+                            <Color r="0" g="1" b="0"/>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                        self:GetParent():OnSelected()
+                    </OnClick>
+                    <OnEnter function="FrameUtil.PassOnEnterToParent"/>
+                    <OnLeave function="FrameUtil.PassOnLeaveToParent"/>
+                </Scripts>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASpecChoiceMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="CoATalentBuildTemplate" inherits="ScrollListItemTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="210" y="54"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontNormal">
+                    <Size x="160"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="54" y="6"/>
+                    </Anchors>
+                </FontString>
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentSelected" parentKey="Selected" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="-2"/>
+                    </Anchors>
+                </Texture>
+                <FontString name="$parentRatingText" parentKey="RatingText" inherits="GameFontHighlightSmall">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="36" y="36"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="8" y="0"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRole" parentKey="Role" inherits="BorderIconTemplate">
+                <Size x="28" y="28"/>
+                <Anchors>
+                    <Anchor point="RIGHT" x="-8" y="0"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnEnter function="GameTooltip_GenericTooltip"/>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+
+            <CheckButton name="$parentLikeButton" parentKey="LikeButton">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentRatingText" relativePoint="RIGHT" x="2" y="-2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        self:SetCheckedAtlas("heart-icon")
+                        self:SetNormalAtlas("heart-icon")
+                        self:SetHighlightAtlas("heart-icon")
+                        self:GetHighlightTexture():SetVertexColor(0.4, 1, 0)
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():LikeBuild()
+                    </OnClick>
+                </Scripts>
+            </CheckButton>
+        </Frames>
+
+        <Scripts>
+            <OnLeave function="GameTooltip_Hide"/>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoATalentBuildScrollItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Button>
+</Ui>

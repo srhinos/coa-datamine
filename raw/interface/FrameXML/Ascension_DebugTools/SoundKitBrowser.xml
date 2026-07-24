@@ -1,0 +1,145 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="SoundKitBrowser.lua"/>
+    
+    <Button name="SoundKitButtonTemplate" inherits="FatButtonNoIconTemplate" virtual="true">
+        <Size x="309" y="46"/>
+
+        <Scripts>
+            <OnClick>
+                if self.parent and self.sound then
+                    self.parent:Select(self.sound)
+                end
+            </OnClick>
+            <OnDoubleClick>
+                if self.parent and self.sound and self.parent.selected == self.sound then
+                    self.parent:Play()
+                end
+            </OnDoubleClick>
+        </Scripts>
+    </Button>
+    
+    <Frame name="SoundKitBrowser" parent="UIParent" enableMouse="true" movable="true" clampedToScreen="true" inherits="PortraitFrameTemplate">
+        <Size x="349" y="500"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Frames>
+            <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                <Size x="140" y="34"/>
+                <Anchors>
+                    <Anchor point="TOP" x="24" y="-24"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self)
+                        self:GetParent():UpdateSearch()
+                    </OnTextChanged>
+                </Scripts>
+            </EditBox>
+            <Frame name="$parentBrowser" parentKey="Browser" inherits="InsetFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-62"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="84"/>
+                </Anchors>
+
+                <Frames>
+                    <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="HybridScrollFrameTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-4"/>
+                            <Anchor point="BOTTOMRIGHT" x="-22" y="0"/>
+                        </Anchors>
+
+                        <Frames>
+                            <Slider name="$parentScrollBar" inherits="HybridScrollBarTemplate" parentKey="scrollBar" frameLevel="11">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="0" y="-18"/>
+                                    <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="0" y="15"/>
+                                </Anchors>
+                            </Slider>
+                        </Frames>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentPlayer" parentKey="Player" inherits="InsetFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentBrowser" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="8" y="-6"/>
+                                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="-34"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentCount" parentKey="Count" inherits="GameFontHighlight">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentTitle" relativePoint="BOTTOMRIGHT" x="0" y="-24"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Button name="$parentPlay" parentKey="Play" inherits="RightButtonTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" x="4" y="4"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="tooltip-title" value="Play" type="string"/>
+                            <Attribute name="tooltip-text" value="Play the selected sound" type="string"/>
+                        </Attributes>
+                        
+                        <Scripts>
+                            <OnClick>
+                                -- Overwrite onclick so we don't play the ui click sound
+                                self:GetParent():GetParent():Play()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCopy" parentKey="Copy" inherits="CopyButtonTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                        </Anchors>
+                        
+                        <Animations>
+                            <AnimationGroup parentKey="Flash">
+                                <Scale order="1" scaleY="1.2" scaleX="1.2" duration="0.25" smoothing="OUT"/>
+                                <Scale order="2" scaleY="1" scaleX="1" duration="0.1" smoothing="IN"/>
+                            </AnimationGroup>
+                        </Animations>
+
+                        <Attributes>
+                            <Attribute name="tooltip-title" value="Copy to Clipboard" type="string"/>
+                            <Attribute name="tooltip-text" value="Copies a pre-filled PlaySound function to your clipboard" type="string"/>
+                            <Attribute name="on-click-handler-table" value="SoundKitBrowser" type="string"/>
+                            <Attribute name="on-click-handler" value="Copy" type="string"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "SoundKitBrowserMixin")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -1,0 +1,542 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ToastMixin.lua"/>
+
+    <AnimationGroup name="ToastAnimInTemplate" virtual="true">
+        <Alpha change="-1" duration="0" order="1"/>
+        <Alpha change="1" duration="0.2" order="2"/>
+
+        <Scripts>
+            <OnFinished>
+                local parent = self:GetParent()
+                if parent.Glow then
+                    parent.Glow.AnimIn:Play()
+                end
+                if parent.Shine then
+                    parent.Shine.AnimIn:Play()
+                end
+                self:GetParent():PlayFadeOut()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+    <AnimationGroup name="ToastAnimOutTemplate" virtual="true">
+        <Alpha parentKey="Alpha" change="-1" startDelay="1.25" duration="0.75" order="1"/>
+        <Scripts>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+
+    <Texture name="ToastGlowTemplate" parentKey="Glow" alphaMode="ADD" hidden="true" virtual="true">
+        <Size x="286" y="109"/>
+        <Anchors>
+            <Anchor point="CENTER" x="0" y="0"/>
+        </Anchors>
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.2" order="2"/>
+                <Alpha change="-1" duration="0.5" order="3"/>
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent():Show()
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+    <Texture name="ToastShineTemplate" parentKey="Shine" alphaMode="ADD" hidden="true" virtual="true">
+        <Size x="171" y="75"/>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" x="-10" y="12"/>
+        </Anchors>
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.1" order="2"/>
+                <Translation offsetX="200" offsetY="0" duration="0.71" order="3"/>
+                <Alpha change="-1" duration="0.25" startDelay="0.175" order="3"/>
+                <Scripts>
+                    <OnPlay>
+                        self:GetParent():Show()
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent():Hide()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+    </Texture>
+    <FontString name="ToastItemCountTemplate" inherits="GameFontHighlight" justifyH="RIGHT" virtual="true">
+        <Animations>
+            <AnimationGroup parentKey="ChangedAnim">
+                <Alpha change="-1" duration="0" order="1"/>
+                <Alpha change="1" duration="0.1" order="2"/>
+            </AnimationGroup>
+        </Animations>
+    </FontString>
+    
+    <Button name="ToastBaseTemplate" virtual="true" hidden="true">
+        <Size x="276" y="96"/>
+
+        <Animations>
+            <AnimationGroup parentKey="AnimIn" inherits="ToastAnimInTemplate"/>
+            <AnimationGroup parentKey="AnimOut" inherits="ToastAnimOutTemplate"/>
+        </Animations>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    <Button name="ItemToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="loottoast-item"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Size x="276" y="96"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="52" y="52"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="23" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentCount" parentKey="Count" inherits="ToastItemCountTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="-6" y="6"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormal" justifyH="LEFT" text="YOU_RECEIVED">
+                    <Size x="167" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="7" y="5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlight" justifyH="LEFT" justifyV="MIDDLE">
+                    <Size x="167" y="33"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="10" y="-16"/>
+                    </Anchors>
+                </FontString>
+                <Texture parentKey="IconBorder">
+                    <Size x="60" y="60"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate"/>
+                <Texture name="$parentShine" inherits="ToastShineTemplate"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ItemToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    <Button name="LegendaryItemToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="LegendaryToast-background"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="52" y="52"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="34"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <!--Intentionally above, legendary toasts have their own icon border-->
+            <Layer level="BORDER">
+                <Texture parentKey="Background">
+                    <Size x="302" y="119"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentCount" parentKey="Count" inherits="ToastItemCountTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="-6" y="6"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormal" justifyH="LEFT" text="YOU_RECEIVED">
+                    <Size x="167" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="7" y="5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlight" justifyH="LEFT" justifyV="MIDDLE">
+                    <Size x="167" y="33"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="14" y="-16"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate"/>
+                <Texture name="$parentShine" inherits="ToastShineTemplate"/>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "LegendaryItemToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    <Button name="SpellToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="loottoast-money"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Size x="249" y="71"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="38" y="38"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="30" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentCount" parentKey="Count" inherits="ToastItemCountTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="-6" y="6"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormal" justifyH="LEFT" text="YOU_RECEIVED">
+                    <Size x="167" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="7" y="4"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlight" justifyH="LEFT" justifyV="MIDDLE">
+                    <Size x="167" y="33"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="10" y="-9"/>
+                    </Anchors>
+                </FontString>
+                <Texture parentKey="IconBorder">
+                    <Size x="46" y="46"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate">
+                    <Size x="252" y="72"/>
+                </Texture>
+                <Texture name="$parentShine" inherits="ToastShineTemplate">
+                    <Size x="120" y="52"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="0" y="20"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    <Button name="TokenToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="loottoast-item"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Size x="276" y="96"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="52" y="52"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="23" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentCount" parentKey="Count" inherits="ToastItemCountTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="-6" y="6"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormal" justifyH="LEFT" text="YOU_RECEIVED">
+                    <Size x="167" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="7" y="5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlight" justifyH="LEFT" justifyV="MIDDLE">
+                    <Size x="167" y="33"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="10" y="-16"/>
+                    </Anchors>
+                </FontString>
+                <Texture parentKey="IconBorder">
+                    <Size x="60" y="60"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate"/>
+                <Texture name="$parentShine" inherits="ToastShineTemplate"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TokenToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="ManastormToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Size x="304" y="96"/>
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="loottoast-manastorm"/>
+            <Attribute name="useAtlasSize" value="false" type="boolean"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="52" y="52"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="18"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture parentKey="Background">
+                    <Size x="304" y="96"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentCount" parentKey="Count" inherits="ToastItemCountTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="-6" y="6"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormalSmall" justifyH="LEFT" text="YOU_RECEIVED">
+                    <Size x="200" y="14"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="8" y="-2"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE">
+                    <Size x="200" y="38"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="8" y="-12"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate">
+                    <Size x="314" y="98"/>
+                </Texture>
+                <Texture name="$parentShine" inherits="ToastShineTemplate">
+                    <Size x="176" y="75"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ManastormToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="MysticEnchantToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="loottoast-me"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Size x="276" y="96"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="52" y="52"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="23" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentCount" parentKey="Count" inherits="ToastItemCountTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="-6" y="6"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontNormal" justifyH="LEFT" text="YOU_RECEIVED">
+                    <Size x="167" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="7" y="5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlight" justifyH="LEFT" justifyV="MIDDLE">
+                    <Size x="167" y="33"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="10" y="-16"/>
+                    </Anchors>
+                </FontString>
+                <Texture parentKey="IconBorder">
+                    <Size x="96" y="96"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate"/>
+                <Texture name="$parentShine" inherits="ToastShineTemplate"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "MysticEnchantToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="AchievementToastTemplate" inherits="ToastBaseTemplate" virtual="true">
+        <Size x="300" y="101"/>
+        <Attributes>
+            <Attribute name="backgroundAtlas" value="ui-achievement-alert-background"/>
+            <Attribute name="useAtlasSize" value="true" type="boolean"/>
+        </Attributes>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Size x="310" y="101"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="70" y="70"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-13"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="92" y="92"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon"/>
+                    </Anchors>
+                </Texture>
+                <FontString name="$parentLabel" parentKey="Label" inherits="GameFontBlackTiny" justifyH="CENTER" text="ACHIEVEMENT_UNLOCKED">
+                    <Size x="200" y="12"/>
+                    <Anchors>
+                        <Anchor point="TOP" x="7" y="-23"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentItemName" parentKey="ItemName" inherits="GameFontHighlight" justifyH="CENTER" justifyV="MIDDLE">
+                    <Size x="155" y="36"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentLabel" relativePoint="BOTTOM"/>
+                    </Anchors>
+                </FontString>
+                <Texture name="$parentShield" parentKey="Shield">
+                    <Size x="63" y="56"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-4" y="-21"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <FontString name="$parentCount" parentKey="Count" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentShield" relativePoint="CENTER" x="-1" y="-2"/>
+                    </Anchors>
+                </FontString>
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate">
+                    <Size x="400" y="171"/>
+                </Texture>
+                <Texture name="$parentShine" inherits="ToastShineTemplate">
+                    <Size x="67" y="85"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AchievementToastMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+</Ui>

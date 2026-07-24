@@ -1,0 +1,1 @@
+﻿C_CVar.RegisterSavedCVar("GlueTipBitfield", "0")

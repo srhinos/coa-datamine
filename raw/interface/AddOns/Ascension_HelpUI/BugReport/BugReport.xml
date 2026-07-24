@@ -1,0 +1,249 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Include file="BugReportTemplates.xml"/>
+    <Script file="BugReportFrameMixin.lua"/>
+
+    <Frame name="BugReportFrame" parent="UIParent" movable="true" clampedToScreen="true" frameStrata="FULLSCREEN" toplevel="true" hidden="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="400" y="770"/>
+        <Anchors>
+            <Anchor point="CENTER" y="50"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString parentKey="ReminderText" inherits="PTFontNormalSmall" text="BUG_REPORT_REMINDER_VERIFY_EMAIL" justifyH="CENTER" wordwrap="true" maxLines="2">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="12" y="48"/>
+                        <Anchor point="BOTTOMRIGHT" x="-12" y="48"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentSubmitButton" parentKey="SubmitButton" motionScriptsWhileDisabled="true" text="CREATE_ISSUE" inherits="SharedButtonTemplate">
+                <Size x="120" y="34"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnEnter>   
+                        self:GetParent():SubmitOnEnter(self)
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                        self:GetParent():SubmitReport()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTalkToGMButton" parentKey="TalkToGMButton" motionScriptsWhileDisabled="true" text="KBASE_GMTALK" inherits="SharedButtonTemplate">
+                <Size x="120" y="34"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentSubmitButton" relativePoint="LEFT" x="-2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnEnter>
+                        self:GetParent():SubmitOnEnter(self)
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                        self:GetParent():SubmitReportToGM()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <CheckButton name="$parentPublic" parentKey="Public" checked="true" text="BUG_REPORT_PUBLIC_LABEL" inherits="SquareIconCheckButtonTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="4" y="8"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="tooltip-title" value="BUG_REPORT_PUBLIC_LABEL" type="string"/>
+                    <Attribute name="tooltip-text" value="BUG_REPORT_PUBLIC_TOOLTIP" type="string"/>
+                </Attributes>
+                <ButtonText inherits="PTFontNormal">
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="2"/>
+                    </Anchors>
+                </ButtonText>
+            </CheckButton>
+            
+            <Frame name="$parentSubmittingInputBlock" parentKey="SubmittingInputBlock" inherits="InputBlockTextLoadingTemplate" toplevel="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="title" value="BUG_REPORT_SUBMITTING" type="string"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentSuccessInputBlock" parentKey="SuccessInputBlock" inherits="InputBlockTextTemplate" toplevel="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="title" value="BUG_REPORT_SUBMITTED" type="string"/>
+                </Attributes>
+                
+                <Frames>
+                    <Button name="$parentViewButton" parentKey="ViewButton" inherits="SharedButtonSmallTemplate" text="BUG_REPORT_OPEN_URL">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" y="-48"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                OpenAscensionURL("bugtracker/view/"..self:GetParent().ReportID)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCopyButton" parentKey="CopyButton" inherits="SharedButtonSmallTemplate" text="BUG_REPORT_COPY_URL">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentViewButton" relativePoint="BOTTOM" y="-2"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                Internal_CopyToClipboard("https://ascension.gg/bugtracker/view/"..self:GetParent().ReportID)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="SharedButtonSmallTemplate" text="CLOSE">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentCopyButton" relativePoint="BOTTOM" y="-2"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                self:GetParent():Hide()
+                                self:GetParent():GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+                
+                <Scripts>
+                    <OnHide>
+                        self.ReportID = nil
+                    </OnHide>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentOutOfDateInputBlock" parentKey="OutOfDateInputBlock" inherits="InputBlockTextTemplate" toplevel="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="title" value="BUG_REPORT_OUT_OF_DATE" type="string"/>
+                    <Attribute name="subtext" value="BUG_REPORT_OUT_OF_DATE_SUBTEXT" type="string"/>
+                </Attributes>
+
+                <Frames>
+                    <Button name="$parentSubmitAnywayButton" parentKey="SubmitAnywayButton" inherits="SharedButtonSmallTemplate" text="SUBMIT">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" y="-48"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                self:GetParent():Hide()
+                                self:GetParent():GetParent():SubmitReport(true)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCancelButton" parentKey="CancelButton" inherits="SharedButtonSmallTemplate" text="CANCEL">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentSubmitAnywayButton" relativePoint="BOTTOM" y="-2"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentErrorInputBlock" parentKey="ErrorInputBlock" inherits="InputBlockTextTemplate" toplevel="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="title" value="BUG_REPORT_NOT_SUBMITTED" type="string"/>
+                </Attributes>
+
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" inherits="SharedButtonSmallTemplate" text="CLOSE">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="CENTER" y="-48"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                PlaySound(SOUNDKIT.UCHATSCROLLBUTTON_70)
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                self:RegisterForDrag("LeftButton")
+                MixinAndLoad(self, BugReportFrameMixin)
+            </OnLoad>
+            <OnEvent>
+                self:OnEvent(event, ...)
+            </OnEvent>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnShow>
+                PlaySound(SOUNDKIT.UCHARACTERSHEETOPEN_50)
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+        </Scripts>
+    </Frame>
+</Ui>

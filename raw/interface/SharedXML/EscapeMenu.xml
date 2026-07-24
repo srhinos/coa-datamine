@@ -1,0 +1,87 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="EscapeMenu.lua"/>
+
+    <Button name="EscapeMenuButtonTemplate" inherits="StandardButtonTemplate" virtual="true">
+        <Size x="144" y="22"/>
+        <Scripts>
+            <PreClick>
+                PlaySound("igMainMenuOption")
+            </PreClick>
+            <OnClick>
+                if self.hideEscapeMenu then
+                    HideUIPanel(self:GetParent())
+                end
+                if self.callback then
+                    self:callback(button)
+                end
+            </OnClick>
+        </Scripts>
+        <NormalFont style="GameFontHighlight"/>
+    </Button>
+
+    <Frame name="EscapeMenu" toplevel="true" frameStrata="FULLSCREEN_DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent">
+        <Size x="195" y="248"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="11" right="12" top="12" bottom="11"/>
+            </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="32"/>
+            </EdgeSize>
+        </Backdrop>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <Animations>
+                        <AnimationGroup parentKey="FadeIn">
+                            <Alpha change="-1" duration="0" order="1"/>
+                            <Alpha change="1" duration="0.15" order="2"/>
+                        </AnimationGroup>
+                    </Animations>
+                    <Color r="0" g="0" b="0" a="0.75"/>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+                    <Size>
+                        <AbsDimension x="256" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOP">
+                            <Offset>
+                                <AbsDimension x="0" y="12"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <FontString inherits="GameFontNormal" text="OPTIONS">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentHeader">
+                            <Offset>
+                                <AbsDimension x="0" y="-14"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EscapeMenuMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

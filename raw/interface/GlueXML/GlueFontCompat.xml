@@ -1,0 +1,41 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <!--Fonts so templates dont break
+    Better solution not possible at this time because locale patches will break-->
+    <Font name="GameFontNormal" inherits="GlueFontNormal" virtual="true"/>
+    <Font name="GameFontNormalLeft" inherits="GlueFontNormalLeft" virtual="true"/>
+    <Font name="GameFontHighlight" inherits="GlueFontHighlight" virtual="true"/>
+    <Font name="GameFontHighlightLeft" inherits="GlueFontHighlightLeft" virtual="true"/>
+    <Font name="GameFontDisable" inherits="GlueFontDisable" virtual="true"/>
+    <Font name="GameFontDisableLeft" inherits="GlueFontDisableLeft" virtual="true"/>
+    <Font name="GameFontGreen" inherits="GlueFontGreen" virtual="true"/>
+    <Font name="GameFontRed" inherits="GlueFontRed" virtual="true"/>
+    <Font name="GameFontBlack" inherits="GlueFontBlack" virtual="true"/>
+    <Font name="GameFontWhite" inherits="GlueFontWhite" virtual="true"/>
+    <Font name="GameFontNormalSmall" inherits="GlueFontNormalSmall" virtual="true"/>
+    <Font name="GameFontNormalSmallLeft" inherits="GlueFontNormalSmallLeft" virtual="true"/>
+    <Font name="GameFontHighlightSmall" inherits="GlueFontHighlightSmall" virtual="true"/>
+    <Font name="GameFontHighlightSmallLeft" inherits="GlueFontHighlightSmallLeft" virtual="true"/>
+    <Font name="GameFontHighlightSmallLeftTop" inherits="GlueFontHighlightSmallLeftTop" virtual="true"/>
+    <Font name="GameFontHighlightExtraSmall" inherits="GlueFontHighlightExtraSmall" virtual="true"/>
+    <Font name="GameFontHighlightExtraSmallLeft" inherits="GlueFontHighlightExtraSmallLeft" virtual="true"/>
+    <Font name="GameFontHighlightExtraSmallLeftTop" inherits="GlueFontHighlightExtraSmallLeftTop" virtual="true"/>
+    <Font name="GameFontDisableSmall" inherits="GlueFontDisableSmall" virtual="true"/>
+    <Font name="GameFontDisableSmallLeft" inherits="GlueFontDisableSmallLeft" virtual="true"/>
+    <Font name="GameFontGreenSmall" inherits="GlueFontGreenSmall" virtual="true"/>
+    <Font name="GameFontRedSmall" inherits="GlueFontRedSmall" virtual="true"/>
+    <Font name="GameFontNormalLarge" inherits="GlueFontNormalLarge" virtual="true"/>
+    <Font name="GameFontNormalLargeLeft" inherits="GlueFontNormalLargeLeft" virtual="true"/>
+    <Font name="GameFontNormalLargeLeftTop" inherits="GlueFontNormalLargeLeftTop" virtual="true"/>
+    <Font name="GameFontHighlightLarge" inherits="GlueFontHighlightLarge" virtual="true"/>
+    <Font name="GameFontDisableLarge" inherits="GlueFontDisableLarge" virtual="true"/>
+    <Font name="GameFontGreenLarge" inherits="GlueFontGreenLarge" virtual="true"/>
+    <Font name="GameFontRedLarge" inherits="GlueFontRedLarge" virtual="true"/>
+    <Font name="GameFontNormalHuge" inherits="GlueFontNormalHuge" virtual="true"/>
+    <Font name="ChatFontNormal" inherits="NumberFontNormal" virtual="true"/>
+    <Font name="ChatFontSmall" inherits="NumberFontNormalSmall" virtual="true"/>
+    <Font name="GameTooltipText" inherits="OptionsFont" virtual="true"/>
+    <Font name="GameTooltipTextSmall" inherits="OptionsFontSmall" virtual="true"/>
+    <Font name="GameTooltipHeaderText" inherits="OptionsFontLarge" virtual="true"/>
+    <Font name="MovieSubtitleFont" inherits="GlueFontHighlightHuge" virtual="true"/>
+</Ui>

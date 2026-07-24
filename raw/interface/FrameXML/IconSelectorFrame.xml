@@ -1,0 +1,370 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="IconSelectorFrame.lua"/>
+
+	<CheckButton name="IconSelectorButtonTemplate" inherits="SimplePopupButtonTemplate" virtual="true">
+		<NormalTexture name="$parentIcon" parentKey="Icon" nonBlocking="true">
+			<Size>
+				<AbsDimension x="36" y="36"/>
+			</Size>
+			<Anchors>
+				<Anchor point="CENTER">
+					<Offset>
+						<AbsDimension x="0" y="-1"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</NormalTexture>
+		<HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+		<CheckedTexture alphaMode="ADD" file="Interface\Buttons\CheckButtonHilight"/>
+
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, "IconSelectorButtonMixin")
+			</OnLoad>
+		</Scripts>
+	</CheckButton>
+
+	<Frame name="IconSelectorFrameTemplate" toplevel="true" enableMouse="true" hidden="true" virtual="true">
+		<Size>
+			<AbsDimension x="297" y="298"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\MacroFrame\MacroPopup-TopLeft">
+					<Size>
+						<AbsDimension x="256" y="256"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\MacroFrame\MacroPopup-TopRight">
+					<Size>
+						<AbsDimension x="64" y="256"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="256" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\MacroFrame\MacroPopup-BotLeft">
+					<Size>
+						<AbsDimension x="256" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-256"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\MacroFrame\MacroPopup-BotRight">
+					<Size>
+						<AbsDimension x="64" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="256" y="-256"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontHighlightSmall" parentKey="Text" text="MACRO_POPUP_TEXT">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="24" y="-21"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontHighlightSmall" parentKey="SubText" text="MACRO_POPUP_CHOOSE_ICON">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="24" y="-69"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="$parent.EditBox" parentKey="EditBox" letters="32" historyLines="0">
+				<Size>
+					<AbsDimension x="182" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="29" y="-35"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="$parent.NameLeft" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
+							<Size>
+								<AbsDimension x="12" y="29"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset>
+										<AbsDimension x="-11" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.09375" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture name="$parent.NameMiddle" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
+							<Size>
+								<AbsDimension x="175" y="29"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parent.NameLeft" relativePoint="RIGHT"/>
+							</Anchors>
+							<TexCoords left="0.09375" right="0.90625" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture name="$parent.NameRight" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
+							<Size>
+								<AbsDimension x="12" y="29"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parent.NameMiddle" relativePoint="RIGHT"/>
+							</Anchors>
+							<TexCoords left="0.90625" right="1.0" top="0" bottom="1.0"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+			<ScrollFrame name="$parent.ScrollFrame" parentKey="ScrollFrame" inherits="ClassTrainerListScrollFrameTemplate">
+				<Size>
+					<AbsDimension x="296" y="195"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-39" y="-67"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</ScrollFrame>
+			<CheckButton name="$parent.Button1" parentKey="Button1" inherits="IconSelectorButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="24" y="-85"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button2" parentKey="Button2" inherits="IconSelectorButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button1" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button3" parentKey="Button3" inherits="IconSelectorButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button2" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button4" parentKey="Button4" inherits="IconSelectorButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button3" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button5" parentKey="Button5" inherits="IconSelectorButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button4" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button6" parentKey="Button6" inherits="IconSelectorButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent.Button1" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-8"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button7" parentKey="Button7" inherits="IconSelectorButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button6" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button8" parentKey="Button8" inherits="IconSelectorButtonTemplate" id="8">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button7" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button9" parentKey="Button9" inherits="IconSelectorButtonTemplate" id="9">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button8" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button10" parentKey="Button10" inherits="IconSelectorButtonTemplate" id="10">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button9" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button11" parentKey="Button11" inherits="IconSelectorButtonTemplate" id="11">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent.Button6" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-8"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button12" parentKey="Button12" inherits="IconSelectorButtonTemplate" id="12">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button11" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button13" parentKey="Button13" inherits="IconSelectorButtonTemplate" id="13">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button12" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button14" parentKey="Button14" inherits="IconSelectorButtonTemplate" id="14">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button13" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button15" parentKey="Button15" inherits="IconSelectorButtonTemplate" id="15">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button14" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button16" parentKey="Button16" inherits="IconSelectorButtonTemplate" id="16">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent.Button11" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-8"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button17" parentKey="Button17" inherits="IconSelectorButtonTemplate" id="17">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button16" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button18" parentKey="Button18" inherits="IconSelectorButtonTemplate" id="18">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button17" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button19" parentKey="Button19" inherits="IconSelectorButtonTemplate" id="19">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button18" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parent.Button20" parentKey="Button20" inherits="IconSelectorButtonTemplate" id="20">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent.Button19" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Button name="$parent.CancelButton" parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
+				<Size>
+					<AbsDimension x="78" y="22"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="-11" y="13"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parent.OkayButton" parentKey="OkayButton" inherits="UIPanelButtonTemplate" text="OKAY">
+				<Size>
+					<AbsDimension x="78" y="22"/>
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent.CancelButton" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="-2" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				MixinAndLoadScripts(self, IconSelectorFrameMixin)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,216 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="PetPaperDollPanel.lua"/>
+    
+    <CheckButton name="AscensionPetPaperDollTabTemplate" inherits="TabSystemTopTabTemplate" virtual="true"/>
+
+    <Frame name="AscensionPetPaperDollPanel" inherits="CharacterFramePanelTemplate" hidden="true">
+        <Frames>
+            <PlayerModel name="$parentPetTab" parentKey="PetTab" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-2"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentOverlay" parentKey="Overlay" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentPetName" parentKey="PetName" inherits="BossEmoteNormalHuge">
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-20"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentPetLevel" parentKey="PetLevel" inherits="GameFontHighlightLarge">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" y="20"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentHappiness" parentKey="Happiness" enableMouse="true">
+                                <Size x="24" y="23"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="8" y="-8"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture name="$parentTexture" parentKey="Texture" file="Interface\PetPaperDollFrame\UI-PetHappiness" setAllPoints="true">
+                                            <TexCoords left="0" right="0.1875" top="0" bottom="0.359375"/>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                                <Scripts>
+                                    <OnEnter>
+                                        if ( self.tooltip ) then
+                                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+                                            GameTooltip:SetText(self.tooltip);
+                                            if ( self.tooltipDamage ) then
+                                                GameTooltip:AddLine(self.tooltipDamage, "", 1, 1, 1);
+                                            end
+                                            GameTooltip:AddLine(format(PET_DIET_TEMPLATE, BuildListString(GetPetFoodTypes())))
+                                            GameTooltip:Show();
+                                        end
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Frame>
+                        </Frames>
+                        <Attributes>
+                            <Attribute name="layoutType" value="LargeShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self:SetFacing(0.45)
+                        MixinAndLoad(self, "ModelMixin")
+                        self:SetEnableDragRotation(true)
+                        self:SetEnableScrollZoom(true)
+                        self:SetEnableDragMove(true)
+                        self:SetDragScale(0.001)
+                        self:SetMaxPosOffset(0.5, 0.5)
+                        self:SetMinMaxDistance(-1.4, 1.4)
+                        self:RegisterEvent("DISPLAY_SIZE_CHANGED")
+                    </OnLoad>
+                    <OnEvent>
+                        self:RefreshUnit()
+                    </OnEvent>
+                </Scripts>
+            </PlayerModel>
+            
+            <Frame name="$parentCompanionTab" parentKey="CompanionTab" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-2"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+
+                <Frames>
+                    <DressUpModel name="$parentCompanionModel" parentKey="CompanionModel">
+                        <Size x="204" y="354"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-2"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true" file="Interface\Collections\MountJournal-BG">
+                                    <TexCoords left="0" right="0.7871" top="0" bottom="1"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentOverlay" parentKey="Overlay" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                                <Attributes>
+                                    <Attribute name="layoutType" value="ShadowOverlay" type="string"/>
+                                </Attributes>
+                                
+                                <Layers>
+                                    <Layer level="ARTWORK">
+                                        <Texture name="$parentShadow">
+                                            <Size x="204" y="78"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT"/>
+                                                <Anchor point="BOTTOMRIGHT"/>
+                                            </Anchors>
+                                            <Color r="0" g="0" b="0" a="0.6"/>
+                                        </Texture>
+
+                                        <Texture name="$parentShadowEdge">
+                                            <Size x="204" y="24"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativeTo="$parentShadow" relativePoint="TOPLEFT"/>
+                                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentShadow" relativePoint="TOPRIGHT"/>
+                                            </Anchors>
+                                            <Gradient orientation="VERTICAL">
+                                                <MinColor r="0" g="0" b="0" a="0.6"/>
+                                                <MaxColor r="0" g="0" b="0" a="0"/>
+                                            </Gradient>
+                                            <Color r="0" g="0" b="0"/>
+                                        </Texture>
+                                    </Layer>
+
+                                    <Layer level="OVERLAY">
+                                        <FontString name="$parentDescription" parentKey="Description" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontNormalSmall">
+                                            <Size x="220" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" y="52"/>
+                                            </Anchors>
+                                        </FontString>
+
+
+                                        <FontString name="$parentTitle" parentKey="Title" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlight">
+                                            <Size x="220" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativeTo="$parentDescription" relativePoint="TOP" y="4"/>
+                                            </Anchors>
+                                        </FontString>
+
+                                        <FontString name="$parentNoCompanionText" parentKey="NoCompanionText" justifyV="BOTTOM" text="YOU_HAVE_NO_PETS" inherits="GameFontDisableLarge">
+                                            <Size x="220" y="0"/>
+                                            <Anchors>
+                                                <Anchor point="CENTER"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Button name="$parentSummonButton" parentKey="SummonButton" inherits="SharedButtonTemplate">
+                                        <Size x="148" y="28"/>
+                                        <Anchors>
+                                            <Anchor point="BOTTOM" y="12"/>
+                                        </Anchors>
+                                        
+                                        <Scripts>
+                                            <OnClick>
+                                                if self.onClick then
+                                                    self.onClick()
+                                                end
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                self:SetFacing(0.45)
+                                MixinAndLoad(self, "ModelMixin")
+                                self:SetEnableDragRotation(true)
+                                self:SetEnableScrollZoom(true)
+                                self:SetEnableDragMove(true)
+                                self:SetDragScale(0.001)
+                                self:SetMaxPosOffset(0.5, 0.5)
+                                self:SetMinMaxDistance(-1.4, 1.4)
+                                self:RegisterEvent("DISPLAY_SIZE_CHANGED")
+                            </OnLoad>
+                            <OnEvent>
+                                self:RefreshUnit()
+                            </OnEvent>
+                        </Scripts>
+                    </DressUpModel>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "PetPaperDollPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

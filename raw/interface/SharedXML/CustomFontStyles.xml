@@ -1,0 +1,326 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Font name="GameFontNormalSmall2" inherits="SystemFont_Shadow_Med" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalLarge2" inherits="SystemFont_Shadow_Large2" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontHighlightLarge2" inherits="GameFontNormalLarge2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontNormalOutlineSmall" inherits="SystemFont_Outline_Small" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalOutlineTiny" inherits="SystemFont_Outline_Tiny" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+    
+    <Font name="GameFontNormalOutline" inherits="SystemFont_Outline_Med1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalOutline2" inherits="SystemFont_Outline_Med2" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalOutline3" inherits="SystemFont_Outline_Med3" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+    
+    <Font name="GameFontNormalOutlineLarge" inherits="SystemFont_Outline_Large1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalOutlineHuge" inherits="SystemFont_Outline_Huge1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalOutlineMassive" inherits="SystemFont_Outline_Massive" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontNormalGiant" inherits="SystemFont_Shadow_Giant" virtual="true">
+        <Color r="1" g="0.82" b="0"/>
+    </Font>
+    
+    <Font name="GameFontNormalEnormous" inherits="SystemFont_Shadow_Enormous" virtual="true">
+        <Color r="1" g="0.82" b="0"/>
+    </Font>
+    
+    <Font name="GameFontHighlightHuge" inherits="GameFontNormalHuge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightHuge2" inherits="GameFontNormalHuge2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightSmall2" inherits="GameFontNormalSmall2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutlineSmall" inherits="GameFontNormalOutlineSmall" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutlineTiny" inherits="GameFontNormalOutlineTiny" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    
+    <Font name="GameFontHighlightOutline" inherits="GameFontNormalOutline" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutline2" inherits="GameFontNormalOutline2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutline3" inherits="GameFontNormalOutline3" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutlineLarge" inherits="GameFontNormalOutlineLarge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutlineHuge" inherits="GameFontNormalOutlineHuge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutlineMassive" inherits="GameFontNormalOutlineMassive" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightGiant" inherits="GameFontNormalGiant" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontHighlightEnormous" inherits="GameFontNormalEnormous" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontNormal" inherits="PTSans_Med1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalSmall" inherits="PTSans_Small" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormal2" inherits="PTSans_Med2" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormal3" inherits="PTSans_Med3" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalLarge" inherits="PTSans_Large1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalHuge" inherits="PTSans_Huge1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalEnormous" inherits="PTSans_Enormous" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontHighlight" inherits="PTFontNormal" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightSmall" inherits="PTFontNormalSmall" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlight2" inherits="PTFontNormal2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlight3" inherits="PTFontNormal3" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightLarge" inherits="PTFontNormalLarge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightHuge" inherits="PTFontNormalHuge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightEnormous" inherits="PTFontNormalEnormous" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontDisable" inherits="PTFontNormal" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisableSmall" inherits="PTFontNormalSmall" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisable2" inherits="PTFontNormal2" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisable3" inherits="PTFontNormal3" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisableLarge" inherits="PTFontNormalLarge" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisableHuge" inherits="PTFontNormalHuge" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisableEnormous" inherits="PTFontNormalEnormous" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    
+    <Font name="PTFontNormalOutline" inherits="PTSans_Outline_Med1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutline2" inherits="PTSans_Outline_Med2" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutline3" inherits="PTSans_Outline_Med3" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutlineLarge" inherits="PTSans_Outline_Large1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutlineHuge" inherits="PTSans_Outline_Huge1" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutlineHuge2" inherits="PTSans_Outline_Huge2" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutlineHuge3" inherits="PTSans_Outline_Huge3" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontNormalOutlineEnormous" inherits="PTSans_Outline_Enormous" virtual="true">
+        <Color r="1.0" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutline" inherits="PTFontNormalOutline" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutline2" inherits="PTFontNormalOutline2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutline3" inherits="PTFontNormalOutline3" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutlineLarge" inherits="PTFontNormalOutlineLarge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutlineHuge" inherits="PTFontNormalOutlineHuge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutlineHuge2" inherits="PTFontNormalOutlineHuge2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutlineHuge3" inherits="PTFontNormalOutlineHuge3" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontHighlightOutlineEnormous" inherits="PTFontNormalOutlineEnormous" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="PTFontDisableOutline" inherits="PTFontNormalOutline" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    
+    <Font name="PTFontDisableOutline2" inherits="PTFontNormalOutline2" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="PTFontDisableOutline3" inherits="PTFontNormalOutline3" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutline2" inherits="GameFontNormalOutline2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontDisableHuge" inherits="GameFontNormalHuge" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="GameFontDisableOutline2" inherits="GameFontNormalOutline2" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+
+    <Font name="GameFontHighlightOutline" inherits="GameFontNormalOutline" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="GameFontDisableOutlineSmall" inherits="GameFontNormalOutlineSmall" virtual="true">
+        <Color r="0.4" g="0.4" b="0.4"/>
+    </Font>
+
+    <Font name="GameFontDisableOutline" inherits="GameFontNormalOutline" virtual="true">
+        <Color r="0.4" g="0.4" b="0.4"/>
+    </Font>
+
+    <Font name="GameFontDisableOutlineLarge" inherits="GameFontNormalOutlineLarge" virtual="true">
+        <Color r="0.4" g="0.4" b="0.4"/>
+    </Font>
+
+    <Font name="GameFontDisableOutlineMassive" inherits="GameFontNormalOutlineMassive" virtual="true">
+        <Color r="0.4" g="0.4" b="0.4"/>
+    </Font>
+    
+    <Font name="GameFontDisableMed3" inherits="SystemFont_Shadow_Med3" virtual="true">
+        <Color r="0.4" g="0.4" b="0.4"/>
+    </Font>
+
+    <Font name="GameFontNormalMed2" inherits="SystemFont_Shadow_Med2" virtual="true">
+        <Color r="1" g="0.82" b="0"/>
+    </Font>
+
+    <Font name="GameFontHighlightMed2" inherits="GameFontNormalMed2" virtual="true">
+        <Color r="1" g="1" b="1"/>
+    </Font>
+    
+    <Font name="GameFontWhiteTiny2" inherits="SystemFont_Tiny2" virtual="true">
+        <Color r="1" g="1" b="1"/>
+    </Font>
+
+    <Font name="GameFontKeyword" inherits="GameFontNormal" virtual="true">
+        <Color r="0" g="0.8" b="1"/>
+    </Font>
+    
+    <Font name="GameFontKeywordLarge" inherits="GameFontNormalLarge" virtual="true">
+        <Color r="0" g="0.8" b="1"/>
+    </Font>
+
+    <Font name="GameFontKeywordGiant" inherits="GameFontNormalGiant" virtual="true">
+        <Color r="0" g="0.8" b="1"/>
+    </Font>
+</Ui>

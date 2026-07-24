@@ -1,0 +1,408 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="SpellListItem.lua"/>
+
+    <Frame name="ClassPointsTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Size x="14" y="14"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentCount" parentKey="Count" inherits="GameFontHighlightSmall">
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-1" y="2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Shadow" alpha="1">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="6" y="-5"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+
+                self.Icon:SetDrawLayer("BACKGROUND")
+                self.IconBorder:SetDrawLayer("BORDER")
+                self:SetRounded(true)
+                self:SetBorderAtlas("category-icon-ring")
+                self:SetBorderSize(19, 19)
+                self.Shadow:SetAtlas("talents-node-choiceflyout-circle-shadow", Const.TextureKit.IgnoreAtlasSize)
+                self:EnableMouse(true)
+            </OnLoad>
+            <OnLeave function="GameTooltip_Hide"/>
+        </Scripts>
+    </Frame>
+
+    <Button name="SpellListItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="226" y="40"/>
+        
+        <Layers>
+            <Layer>
+                <FontString name="$parentEssenceText" parentKey="EssenceText" justifyH="RIGHT" hidden="true" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-8" y="-4"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentRarityGemText" parentKey="RarityGemText" justifyH="RIGHT" hidden="true" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-6" y="-22"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="SpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="6" y="-4"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentRankBorder" parentKey="RankBorder" hidden="true" file="Interface\TalentFrame\TalentFrame-RankBorder">
+                            <Size x="58" y="36"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-5" y="5"/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString name="$parentRank" parentKey="Rank" hidden="true" inherits="GameFontNormalSmall">
+                            <Size x="22" y="8"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="$parentRankBorder" y="1"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                     <Button name="$parentRankUp" parentKey="RankUp" inherits="UINewSpellRankIndicator" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+                        </Anchors>
+                    </Button>
+
+                    <Frame name="$parentPendingChange" parentKey="PendingChange" inherits="AutoCastShineTemplate" hidden="true">
+                        <Size x="30" y="30"/>
+                        <Anchors>
+                            <Anchor point="CENTER" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+
+                <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconBorder" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </PushedTexture>
+            </Button>    
+
+            <Button name="$parentAbilityEssence" parentKey="AbilityEssence" inherits="BorderIconTemplate">
+                <Size x="14" y="14"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-8" y="-6"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentCount" parentKey="Count" inherits="GameFontHighlightSmall">
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" y="2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetHyperlink("item:"..ItemData.ABILITY_ESSENCE)
+                        GameTooltip:Show()
+                        self:GetParent().Icon:LockHighlight()
+                        self:GetParent():LockHighlight()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                        self:GetParent().Icon:UnlockHighlight()
+                        if not self:GetParent():IsSelected() then
+                            self:GetParent():UnlockHighlight()
+                        end
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTalentEssence" parentKey="TalentEssence" inherits="BorderIconTemplate">
+                <Size x="14" y="14"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentAbilityEssence" relativePoint="TOPLEFT" x="-4"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentCount" parentKey="Count" inherits="GameFontHighlightSmall">
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" y="2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetHyperlink("item:"..ItemData.TALENT_ESSENCE)
+                        GameTooltip:Show()
+                        self:GetParent():LockHighlight()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                        self:GetParent():UnlockHighlight()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentLockButton" parentKey="LockButton">
+                <Size x="17" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-8" y="-6"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleLocked()
+                    </OnClick>
+                    <OnEnter function="GameTooltip_GenericTooltip"/>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+                <HighlightTexture alphaMode="ADD"/>
+            </Button>
+
+            <Frame name="$parentRarityGemContainer" parentKey="RarityGemContainer" inherits="RarityGemContainerTemplate">
+                <Size x="14" y="14"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-6" y="-22"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentClassPoints" parentKey="ClassPoints" inherits="ClassPointsTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-7" y="-22"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentExpandedContent" parentKey="ExpandedContent" enableMouse="true" hidden="true">
+                <Size x="195" y="126"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="-40"/>
+                    <Anchor point="TOPRIGHT" y="-40"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture name="$parentBorder" parentKey="Border" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentClassIcon" parentKey="ClassIcon" inherits="BorderIconTemplate">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="14" y="-10"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall2">
+                                    <Anchors>
+                                        <Anchor point="LEFT" relativePoint="RIGHT" x="6"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Button name="$parentGMMenu" parentKey="GMMenu" motionScriptsWhileDisabled="true" inherits="SettingsGearButtonTemplate">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-14" y="-10"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                CharacterAdvancement:ShowSpellDropDownMenu(self:GetParent():GetParent(), self)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    
+                    <Button name="$parentSearchButton" parentKey="SearchButton">
+                        <Size x="102" y="18"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="28" y="-38"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="12" y="12"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" x="4"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.Icon:SetAtlas("common-search-magnifyingglass", Const.TextureKit.IgnoreAtlasSize)
+                            </OnLoad>
+                            <OnClick>
+                                self:GetParent():GetParent():Search()
+                            </OnClick>
+                            <OnEnter>
+                                self.Icon:SetVertexColor(1, 0.82, 0)
+                            </OnEnter>
+                            <OnLeave>
+                                self.Icon:SetVertexColor(1, 1, 1)
+                            </OnLeave>
+                        </Scripts>
+                        
+                        <ButtonText name="$parentText" parentKey="Text" text="SEARCH" justifyH="LEFT" inherits="GameFontHighlight">
+                            <Size x="72" y="18"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20"/>
+                            </Anchors>
+                        </ButtonText>
+                        <NormalFont style="GameFontHighlight"/>
+                        <HighlightFont style="GameFontNormal"/>
+                    </Button>
+
+                    <Button name="$parentLocateButton" parentKey="LocateButton">
+                        <Size x="102" y="18"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentSearchButton" relativePoint="BOTTOMLEFT" y="-4"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="12" y="12"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" x="4"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.Icon:SetAtlas("common-search-magnifyingglass", Const.TextureKit.IgnoreAtlasSize)
+                            </OnLoad>
+                            <OnClick>
+                                self:GetParent():GetParent():Locate()
+                            </OnClick>
+                            <OnEnter>
+                                self.Icon:SetVertexColor(1, 0.82, 0)
+                            </OnEnter>
+                            <OnLeave>
+                                self.Icon:SetVertexColor(1, 1, 1)
+                            </OnLeave>
+                        </Scripts>
+
+                        <ButtonText name="$parentText" parentKey="Text" text="LOCATE" justifyH="LEFT" inherits="GameFontHighlight">
+                            <Size x="72" y="18"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20"/>
+                            </Anchors>
+                        </ButtonText>
+                        <NormalFont style="GameFontHighlight"/>
+                        <HighlightFont style="GameFontNormal"/>
+                    </Button>
+
+                    <Button name="$parentLearnButton" parentKey="LearnButton" text="LEARN" motionScriptsWhileDisabled="true" inherits="SharedGoldRedButtonTemplate">
+                        <Size x="92" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="-4" y="8"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():Learn()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentUnlearnButton" parentKey="UnlearnButton" text="UNLEARN" motionScriptsWhileDisabled="true" inherits="SharedButtonTemplate">
+                        <Size x="92" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" x="4" y="8"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():Unlearn()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellListItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+
+        <PushedTextOffset x="0" y="0"/>
+
+        <ButtonText parentKey="Text" inherits="GameFontNormalSmall2" justifyH="LEFT">
+            <Size x="128" y="40"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="46"/>
+            </Anchors>
+        </ButtonText>
+        
+        <NormalTexture>
+            <Size x="147" y="40"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="40"/>
+                <Anchor point="TOPRIGHT"/>
+            </Anchors>
+        </NormalTexture>
+
+        <HighlightTexture alphaMode="ADD">
+            <Size x="147" y="40"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="40"/>
+                <Anchor point="TOPRIGHT"/>
+            </Anchors>
+        </HighlightTexture>
+    </Button>
+</Ui>

@@ -1,0 +1,241 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Frame name="Card1" parent="UIParent" id="1" hidden="true" inherits="DraftCardTemplate">
+        <Anchors>
+            <Anchor point="CENTER" x="-350" y="-30"/>
+        </Anchors>
+    </Frame>
+
+    <Frame name="Card2" parent="UIParent" id="2" hidden="true" inherits="DraftCardTemplate">
+        <Anchors>
+            <Anchor point="CENTER" x="0" y="-30"/>
+        </Anchors>
+    </Frame>
+
+    <Frame name="Card3" parent="UIParent" id="3" hidden="true" inherits="DraftCardTemplate">
+        <Anchors>
+            <Anchor point="CENTER" x="350" y="-30"/>
+        </Anchors>
+    </Frame>
+
+    <Frame name="DraftMissingCardsWarning" parent="UIParent" hidden="true" enableMouse="false" frameStrata="DIALOG">
+        <Size x="640" y="120"/>
+
+        <Anchors>
+            <Anchor point="CENTER" y="-30"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\Common\ShadowCircle">
+                    <Size x="800" y="220"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightLarge" justifyH="CENTER" justifyV="MIDDLE">
+                    <Size x="600" y="0"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+    
+    <Frame name="DraftHelpFrame" parent="UIParent" hidden="true">
+        <Size x="256" y="64"/>
+        
+        <Anchors>
+            <Anchor point="BOTTOM" relativePoint="CENTER" y="185"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\Common\ShadowCircle">
+                    <Size x="600" y="220"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <FontString name="$parentTip" parentKey="Tip" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightLarge">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativeTo="$parentTip" relativePoint="TOP" y="4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftHelpMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="DraftActionContainer" parent="UIParent" hidden="true">
+        <Size x="256" y="128"/>
+        <Anchors>
+            <Anchor point="TOP" relativePoint="CENTER" y="-230"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\Common\ShadowCircle">
+                    <Size x="600" y="220"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <CheckButton name="$parentButton1" parentKey="Button1" inherits="DraftActionButtonTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </CheckButton>
+
+            <CheckButton name="$parentButton2" parentKey="Button2" inherits="DraftActionButtonTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </CheckButton>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "DraftActionContainerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <AnimationGroup name="DraftUnlockAnimationTemplate" virtual="true">
+        <Alpha order="1" duration="0" change="-1"/>
+        <Alpha order="2" duration="0.2" change="1" smoothing="IN"/>
+        <Scale order="2" duration="0.4" scaleX="10" scaleY="10" smoothing="IN_OUT"/>
+        <Rotation parentKey="RotationIn" order="2" duration="0.4" degrees="30" smoothing="IN"/>
+
+        <Scale order="3" duration="1" scaleX="0.86" scaleY="0.86" smoothing="IN_OUT"/>
+        <Rotation parentKey="RotationMid" order="3" duration="0.5" degrees="90"/>
+
+        <Alpha order="4" duration="0.5" startDelay="0.2" change="-1" smoothing="OUT"/>
+        <Scale order="4" duration="0.6" scaleX="2" scaleY="2" smoothing="OUT"/>
+        <Rotation parentKey="RotationOut" order="4" duration="1" degrees="60" smoothing="OUT"/>
+        <Scripts>
+            <OnPlay>
+                self:GetParent():Show()
+            </OnPlay>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+            <OnStop>
+                self:GetParent():Hide()
+            </OnStop>
+        </Scripts>
+    </AnimationGroup>
+
+    <AnimationGroup name="DraftUnlockAnimationTemplate2" virtual="true">
+        <Alpha order="1" duration="0" change="-1"/>
+        <Scale order="2" duration="0.4" scaleX="10" scaleY="10" smoothing="IN_OUT"/>
+        <Rotation order="2" duration="0.4" degrees="30" smoothing="IN"/>
+
+        <Alpha order="3" duration="1" change="1" smoothing="IN"/>
+        <Scale order="3" duration="1" scaleX="0.86" scaleY="0.86" smoothing="IN_OUT"/>
+        <Rotation order="3" duration="1" degrees="180" smoothing="IN"/>
+        
+        <Rotation order="4" duration="0.5" degrees="120"/>
+        
+        <Alpha order="5" duration="0.5" startDelay="0.2" change="-1" smoothing="OUT"/>
+        <Scale parentKey="ScaleOut" order="5" duration="0.6" scaleX="1.5" scaleY="1.5" smoothing="OUT"/>
+        <Rotation order="5" duration="1" degrees="40" smoothing="OUT"/>
+        
+        <Scripts>
+            <OnPlay>
+                self:GetParent():Show()
+            </OnPlay>
+            <OnFinished>
+                self:GetParent():Hide()
+            </OnFinished>
+            <OnStop>
+                self:GetParent():Hide()
+            </OnStop>
+        </Scripts>
+    </AnimationGroup>
+    
+    <Frame name="DraftUnlockAnimation" parent="UIParent" frameStrata="FULLSCREEN">
+        <Size x="32" y="32"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentMagic" parentKey="Magic" file="Interface\darkmoon\magic" hidden="true">
+                    <Size x="70" y="70"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" inherits="DraftUnlockAnimationTemplate"/>
+                    </Animations>
+                </Texture>
+            </Layer>
+            
+            <Layer>
+                <Texture name="$parentMagicAdd" parentKey="MagicAdd" alphaMode="ADD" file="Interface\darkmoon\magic" hidden="true">
+                    <Size x="70" y="70"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" inherits="DraftUnlockAnimationTemplate"/>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentMagicAdd2" parentKey="MagicAdd2" alphaMode="ADD" file="Interface\darkmoon\magic" hidden="true">
+                    <Size x="70" y="70"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" inherits="DraftUnlockAnimationTemplate2"/>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentMagicAdd3" parentKey="MagicAdd3" alphaMode="ADD" file="Interface\darkmoon\magic" hidden="true">
+                    <Size x="70" y="70"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" inherits="DraftUnlockAnimationTemplate2"/>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "DraftUnlockAnimationMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

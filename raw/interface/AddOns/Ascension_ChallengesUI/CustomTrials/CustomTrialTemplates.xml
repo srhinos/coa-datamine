@@ -1,0 +1,507 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CustomTrialExtendedInfoMixin.lua"/>
+    <Script file="EditableChallengeElementMixin.lua"/>
+    <Script file="EditableTrialMixin.lua"/>
+    <Script file="CustomTrialItemMixin.lua"/>
+    
+    <Frame name="EditableTrialElementTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentEditOverlay" parentKey="EditOverlay" toplevel="true" setAllPoints="true" hidden="true">
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentHighlight" parentKey="Highlight" setAllPoints="true">
+                            <Color r="0" g="0" b="0" a="0.6"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="26" y="26"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="TOPLEFT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Icon:SetAtlas("mechagon-projects", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnEnter>
+                if self:IsEditMode() then
+                self.EditOverlay:Hide()
+                return
+                end
+                self.EditOverlay:Show()
+            </OnEnter>
+            <OnLeave>
+                self.EditOverlay:Hide()
+            </OnLeave>
+        </Scripts>
+    </Frame>
+
+    <Frame name="EditableTrialTemplate" setAllPoints="true" virtual="true">
+        <Frames>
+
+            <Button name="$parentResetButton" parentKey="ResetButton" text="RESET" inherits="SharedButtonTemplate">
+                <Size x="100" y="32"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-12" y="-32"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Reset()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentPublishButton" parentKey="PublishButton" motionScriptsWhileDisabled="true" text="PUBLISH_TRIAL" inherits="SharedGoldRedButtonTemplate">
+                <Size x="100" y="32"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentResetButton" relativePoint="BOTTOMRIGHT" y="-2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Publish()
+                    </OnClick>
+                    <OnEnter>
+                        if self:IsEnabled() == 0 then
+                        if not self.disabledReason then return end
+                        GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                        GameTooltip:SetText(CHALLENGES_EDITOR_PUBLISH_DISABLED)
+                        GameTooltip:AddLine(_G[self.disabledReason] or self.disabledReason, 1, 0, 0, true)
+                        GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentAddChallengeButton" parentKey="AddChallengeButton" text="CHALLENGES_EDITOR_ADD_CHALLENGE" motionScriptsWhileDisabled="true" inherits="SharedButtonTemplate">
+                <Size x="120" y="34"/>
+
+                <Anchors>
+                    <Anchor point="RIGHT" x="-12" y="32"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():StartSelectingChallenge()
+                    </OnClick>
+                    <OnEnter>
+                        if self:IsEnabled() == 0 then
+                        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+                        GameTooltip:SetText(CHALLENGES_EDITOR_ADD_CHALLENGE_DISABLED, 1, 1, 1, 1)
+                        GameTooltip:AddLine(CHALLENGES_EDITOR_CANT_CHANGE_CHALLENGES, 1, 0, 0, true)
+                        GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate, EditableTrialElementTemplate">
+                <Size x="64" y="64"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="36" y="-44"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentIconSelector" parentKey="IconSelector" hidden="true" inherits="IconSelectionTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "EditableChallengeIconMixin", "BorderIconTemplateMixin")
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():SetEditElement(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTitle" parentKey="Title" inherits="EditableTrialElementTemplate">
+                <Size x="380" y="90"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="18"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentTitle" parentKey="Title" inherits="PTFontHighlightLarge" text="CHALLENGES_EDITOR_LABEL_TITLE" justifyH="LEFT" justifyV="TOP">
+                            <Size x="0" y="22"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <EditBox name="$parentEditBox" parentKey="EditBox" hidden="true" letters="64" inherits="InputBoxTemplate2">
+                        <Size x="280" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnShow>
+                                self:SetText(self:GetParent():GetText() or "")
+                            </OnShow>
+                            <OnHide>
+                                self:GetParent().Text:Show()
+                            </OnHide>
+                            <OnEnterPressed>
+                                self:GetParent():SetText(self:GetText() or "")
+                                self:GetParent():HideEditModeIfEditing()
+                            </OnEnterPressed>
+                            <OnEscapePressed>
+                                self:GetParent():HideEditModeIfEditing()
+                            </OnEscapePressed>
+                        </Scripts>
+                    </EditBox>
+                </Frames>
+
+                <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" justifyV="TOP" nonspacewrap="true" inherits="PTFontNormalOutlineHuge2" setAllPoints="true"/>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "EditableChallengeTextMixin")
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():SetEditElement(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentAbout" parentKey="About" inherits="EditableTrialElementTemplate">
+                <Size x="420" y="86"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="BOTTOMLEFT" x="-4" y="-30"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentTitle" parentKey="Title" inherits="PTFontHighlightLarge" text="CHALLENGES_EDITOR_LABEL_ABOUT" justifyH="LEFT" justifyV="TOP">
+                            <Size x="0" y="22"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <EditBox name="$parentEditBox" parentKey="EditBox" setAllPoints="true" hidden="true" letters="256" inherits="MultiLineInputBoxInstructionsTemplate">
+                        <Scripts>
+                            <OnShow>
+                                self:SetText(self:GetParent():GetText() or "")
+                            </OnShow>
+                            <OnHide>
+                                self:GetParent().Text:Show()
+                            </OnHide>
+                            <OnEnterPressed>
+                                if IsShiftKeyDown() then
+                                return self:Insert("\n")
+                                end
+                                self:GetParent():SetText(self:GetText() or "")
+                                self:GetParent():HideEditModeIfEditing()
+                            </OnEnterPressed>
+                            <OnEscapePressed>
+                                self:GetParent():HideEditModeIfEditing()
+                            </OnEscapePressed>
+                        </Scripts>
+                    </EditBox>
+                </Frames>
+
+                <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormal" setAllPoints="true"/>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "EditableChallengeTextMixin")
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():SetEditElement(self)
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentChallenges" parentKey="Challenges" inherits="StandardProportionalScrollListTemplate">
+                <Size x="596" y="240"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" x="-12" y="6"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true">
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentDivider" parentKey="Divider">
+                            <Size x="625" y="2"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString name="$parentNoChallenges" parentKey="NoChallenges" text="NO_CHALLENGES_SELECTED" hidden="true" inherits="PTFontNormalLarge">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EditableTrialMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="CustomTrialItemTemplate" inherits="ChallengeItemBaseTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentExtendedInfo" parentKey="ExtendedInfo" enableMouse="true" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="8" y="-94"/>
+                    <Anchor point="BOTTOMRIGHT" x="-8"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentTabContent" parentKey="TabContent">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="16" y="4"/>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="134" y="8"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormalOutlineHuge">
+                                    <Size x="1" y="22"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                                        <Anchor point="TOPRIGHT" x="-120" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="PTFontNormalOutline3">
+                                    <Size x="1" y="14"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-2"/>
+                                        <Anchor point="TOPRIGHT" relativeTo="$parentTitle" relativePoint="BOTTOMRIGHT" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentScore" parentKey="Score" justifyH="RIGHT" justifyV="TOP" inherits="PTFontNormalOutline">
+                                    <Size x="0" y="22"/>
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" x="-4" y="-22"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <CheckButton name="$parentDownvoteButton" parentKey="DownvoteButton">
+                                <Size x="22" y="22"/>
+                                <Anchors>
+                                    <Anchor point="TOPRIGHT" x="-4" y="-6"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnLoad>
+                                        self:SetNormalAtlas("map-markeddefeated")
+                                        self:SetHighlightAtlas("map-markeddefeated")
+                                        self:SetCheckedAtlas("map-markeddefeated")
+                                        self:GetNormalTexture():SetDesaturated(true)
+                                        self:GetHighlightTexture():SetDesaturated(true)
+                                    </OnLoad>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                                        self:GetParent():GetParent():GetParent():Downvote(self:GetChecked())
+                                    </OnClick>
+                                </Scripts>
+
+                                <HighlightTexture alphaMode="ADD"/>
+                            </CheckButton>
+
+                            <CheckButton name="$parentUpvoteButton" parentKey="UpvoteButton">
+                                <Size x="14" y="14"/>
+                                <Anchors>
+                                    <Anchor point="RIGHT" relativeTo="$parentDownvoteButton" relativePoint="LEFT" y="1"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnLoad>
+                                        self:SetNormalAtlas("auctionhouse-icon-favorite-off")
+                                        self:SetHighlightAtlas("auctionhouse-icon-favorite")
+                                        self:SetCheckedAtlas("auctionhouse-icon-favorite")
+                                        self:GetHighlightTexture():SetDesaturated(true)
+                                    </OnLoad>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                                        self:GetParent():GetParent():GetParent():Upvote(self:GetChecked())
+                                    </OnClick>
+                                </Scripts>
+
+                                <HighlightTexture alphaMode="ADD"/>
+                            </CheckButton>
+
+                            <Frame name="$parentDescription" parentKey="Description" inherits="ScrollableTextTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                    <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="font" value="PTFontHighlight"/>
+                                </Attributes>
+                            </Frame>
+
+                            <Frame name="$parentInfoScroll" parentKey="InfoScroll" hidden="true" inherits="ProportionalScrollListTemplate">
+                                <Size x="368" y="166"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                </Anchors>
+                            </Frame>
+
+                            <Frame name="$parentLeaderboardScroll" parentKey="LeaderboardScroll" hidden="true" inherits="ProportionalScrollListTemplate">
+                                <Size x="368" y="166"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT" y="-2"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CustomTrialExtendedInfoMixin")
+                            </OnLoad>
+                        </Scripts>
+
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                            <EdgeSize  val="16"/>
+                            <TileSize val="16"/>
+                            <BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                            <BorderColor r="0.5" g="0.5" b="0.5"/>
+                        </Backdrop>
+                    </Frame>
+
+                    <Button name="$parentTab1" parentKey="Tab1" text="CHALLENGES_ABOUT" id="1" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTabContent" relativePoint="TOPRIGHT" x="-4"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab2" parentKey="Tab2" text="CHALLENGES_LEADERBOARD" id="2" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab1" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab3" parentKey="Tab3" text="CHALLENGES_AURAS" id="3" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab2" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab4" parentKey="Tab4" text="CHALLENGES_RESTRICTIONS" id="4" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab3" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab5" parentKey="Tab5" text="CHALLENGES_REQUIREMENTS" id="5" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab4" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTab6" parentKey="Tab6" text="CHALLENGES" id="6" inherits="ChallengeTabButtonTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentTab5" relativePoint="BOTTOMLEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentActivateButton" parentKey="ActivateButton" text="ACTIVATE" inherits="SharedButtonTemplate">
+                        <Size x="150" y="32"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parentTabContent" relativePoint="BOTTOMRIGHT"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ToggleChallengeActive()
+                            </OnClick>
+                            <OnEnter>
+                                if not self.disabledReasons then return end
+                                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                                GameTooltip:SetText(CHALLENGES_CANNOT_ACTIVATE)
+                                for _, reason in ipairs(self.disabledReasons) do
+                                GameTooltip:AddLine(_G[reason] or reason, 1, 0, 0, true)
+                                end
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentEditButton" parentKey="EditButton" text="EDIT_TRIAL" inherits="SharedButtonTemplate">
+                        <Size x="150" y="32"/>
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parentTabContent" relativePoint="BOTTOMRIGHT" y="32"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():EditTrial()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentDeleteButton" parentKey="DeleteButton" text="DELETE_TRIAL" inherits="SharedButtonTemplate">
+                        <Size x="120" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativeTo="$parentTabContent" relativePoint="TOPRIGHT" x="-4" y="-4"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():DeleteTrial()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CustomTrialItemMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

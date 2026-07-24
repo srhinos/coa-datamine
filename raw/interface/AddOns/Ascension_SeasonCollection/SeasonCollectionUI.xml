@@ -1,0 +1,352 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="SeasonCollectionMixin.lua"/>
+
+    <Frame name="SeasonCollectionFrame" parent="Collections" hidden="true"
+           inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="922" y="570"/>
+
+        <Anchors>
+            <Anchor point="TOP"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\FrameGeneral\UI-Background-Marble" vertTile="true" horizTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-21"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentBackgroundRight" parentKey="BackgroundRight" alpha="0.22">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" y="-21"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <Texture name="$parentLeftGlow" parentKey="LeftGlow">
+                    <Size x="258" y="540"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBottomRightGlow" parentKey="BottomRightGlow">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentProgressBar" parentKey="ProgressBar" inherits="BetterStatusBarTemplate">
+                <Size x="812" y="22"/>
+
+                <Attributes>
+                    <Attribute name="bar-atlas" value="ui-frame-bar-fill-green"/>
+                    <Attribute name="background-atlas" value="ui-frame-bar-bgcenter"/>
+                    <Attribute name="spark-atlas" value="ui-frame-bar-spark"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" y="48"/>
+                </Anchors>
+                <Frames>
+                    <Frame>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-5" y="5"/>
+                            <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                        </Anchors>
+
+                        <Backdrop edgeFile="Interface\Common\UI-Metal-Backdrop-Edge" tile="true">
+                            <EdgeSize val="12"/>
+                            <BorderColor r="0.4" g="0.4" b="0.4"/>
+                        </Backdrop>
+                    </Frame>
+
+                    <Button name="$parentTier0" parentKey="Tier0" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="LEFT"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier1" parentKey="Tier1" id="1" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier0" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier2" parentKey="Tier2" id="2" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier1" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier3" parentKey="Tier3" id="3" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier2" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier4" parentKey="Tier4" id="4" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier3" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier5" parentKey="Tier5" id="5" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier4" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier6" parentKey="Tier6" id="6" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier5" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentTier7" parentKey="Tier7" id="7" inherits="SeasonTierTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTier6" relativePoint="RIGHT" x="20"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, SeasonProgressBarMixin)
+                    </OnLoad>
+                    <OnShow>
+                        self:OnShow()
+                    </OnShow>
+                    <OnHide>
+                        self:OnHide()
+                    </OnHide>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentUnlockInfo" parentKey="UnlockInfo" id="3" inherits="SeasonInfoTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" x="64" y="156"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentUnlockButton" parentKey="UnlockButton" motionScriptsWhileDisabled="true"
+                            text="SEASON_COLLECTION_UNLOCK_NOW" inherits="SharedButtonLargeTemplate">
+                        <Size x="172" y="40"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentDescription" relativePoint="BOTTOMLEFT" y="-8"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                OpenAscensionURL("store/elune") -- todo: Go directly to item when available
+                                PlaySound(SOUNDKIT.CHARACTER_SHEET_OPEN)
+                            </OnClick>
+                            <OnShow>
+                                if IsSeasonalCollectionUnlocked() then
+                                    self:Disable()
+                                elseif C_Realm.IsSeasonal() then
+                                    self:Enable()
+                                else
+                                    self:Disable()
+                                end
+                            </OnShow>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                if self:IsEnabled() == 1 then
+                                    GameTooltip:SetText(CLICK_TO_OPEN_STORE)
+                                    local passName = GetInstantItemLink(ItemData.SEASONAL_PASS)
+                                    GameTooltip:AddLine(ITEM_ALSO_AVAILABLE_ON_AUCTIONHOUSE:format(passName), 1, 1, 1, true)
+                                else
+                                    if C_Realm.IsSeasonal() then
+                                        local passName = GetInstantItemLink(ItemData.SEASONAL_PASS)
+                                        GameTooltip:SetText(YOU_ALREADY_OWN_S:format(passName), 1, 1, 1, 1, true)
+                                    else
+                                        GameTooltip:SetText(SEASONAL_ACHIEVEMENTS_UNAVAILABLE, 1, 1, 1, 1, true)
+                                    end
+                                end
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentDraftInfo" parentKey="DraftInfo" id="1" inherits="SeasonInfoTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentUnlockInfo" relativePoint="BOTTOM" y="-64"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentPointsInfo" parentKey="PointsInfo" id="2" inherits="SeasonInfoTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentDraftInfo" relativePoint="BOTTOM" y="-8"/>
+                </Anchors>
+            </Frame>
+
+            <DressUpModel name="$parentRewardModel" parentKey="RewardModel">
+                <Size x="376" y="454"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-64" y="-22"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground1" parentKey="Background1"
+                                 file="Spells\8fx_mask_glowgeneric_a_128_brighter">
+                            <Size x="356" y="356"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER" y="32"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" inherits="SeasonRewardRotateGlowTemplate"/>
+                            </Animations>
+
+                            <Color r="0.5" g="1" b="0.5"/>
+                        </Texture>
+
+                        <Texture name="$parentBackground2" parentKey="Background2"
+                                 file="Spells\7fx_alphamask_glow_felbw">
+                            <Size x="256" y="256"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER" y="32"/>
+                            </Anchors>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Anim" inherits="SeasonRewardRotateGlowTemplate"/>
+                            </Animations>
+
+                            <Color r="0" g="1" b="0"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentHeader" parentKey="Header" text="SEASON_COLLECTION_REWARD"
+                                    inherits="GameFontNormalMed3">
+                            <Size x="280" y="24"/>
+
+                            <Anchors>
+                                <Anchor point="BOTTOM" y="98"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontNormalHuge">
+                            <Size x="280" y="48"/>
+
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentHeader" relativePoint="BOTTOM"/>
+                            </Anchors>
+
+                            <Color r="1" g="1" b="1"/>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Button name="$parentPrevButton" parentKey="PrevButton" inherits="LeftButtonTemplate">
+                        <Size x="32" y="32"/>
+
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentTitle" relativePoint="LEFT" x="-8"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():PrevReward()
+                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentNextButton" parentKey="NextButton" inherits="RightButtonTemplate">
+                        <Size x="32" y="32"/>
+
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentTitle" relativePoint="RIGHT" x="8"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():NextReward()
+                                PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON_50)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentCollectButton" parentKey="CollectButton" text="SEASON_COLLECTION_VIEW_REWARD"
+                            motionScriptsWhileDisabled="true" inherits="SharedButtonLargeTemplate">
+                        <Size x="172" y="40"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-2"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():OpenStore()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <CheckButton name="$parentKeepDressed" parentKey="KeepDressed" text="TRANSMOG_PREVIEW_CURRENT_GEAR" checked="true" inherits="UICheckButtonTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentCollectButton" relativePoint="RIGHT" x="12"/>
+                        </Anchors>
+                        
+                        <ButtonText name="$parentText" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT"/>
+                            </Anchors>
+                        </ButtonText>
+                        
+                        <NormalFont style="GameFontNormal"/>
+                        <HighlightFont style="GameFontHighlight"/>
+                        
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():RefreshCurrentDisplay()
+                            </OnClick>
+                        </Scripts>
+                    </CheckButton>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoad(self, SeasonRewardMixin)
+                    </OnLoad>
+                    <OnShow>
+                        self:OnShow()
+                    </OnShow>
+                </Scripts>
+            </DressUpModel>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, SeasonCollectionMixin)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+        </Scripts>
+    </Frame>
+</Ui>

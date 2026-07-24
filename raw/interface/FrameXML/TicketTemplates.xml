@@ -1,0 +1,78 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TicketMessageMixin.lua"/>
+    
+    <Frame name="TicketMessageTemplate" inherits="ResizeLayoutFrame, NineSlicePanelTemplate2" enableMouse="true" virtual="true">
+        <Size x="596" y="100"/>
+        <Attributes>
+            <Attribute name="minimumWidth" value="260"/>
+            <Attribute name="maximumWidth" value="596"/>
+            <Attribute name="minimumHeight" value="72"/>
+            
+            <Attribute name="layoutType" value="UniqueCornersLayout"/>
+            <Attribute name="layoutTextureKit" value="chatbubble"/>
+            <Attribute name="nineSliceIgnoreInLayout" value="true" type="boolean"/>
+            <Attribute name="drawLayer" value="BACKGROUND"/>
+        </Attributes>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentAuthor" parentKey="Author" justifyH="LEFT" inherits="GameFontHighlightSmall">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="12" y="12"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentTimestamp" parentKey="Timestamp" justifyH="RIGHT" inherits="GameFontHighlightSmall">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="12" y="12"/>
+                    </Anchors>
+                </FontString>
+                
+                <FontString name="$parentMessage" parentKey="Message" justifyH="LEFT" nonspacewrap="true" inherits="GameFontHighlight">
+                    <Size x="0" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-12"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <SimpleHTML name="$parentMessage" parentKey="Message" inherits="DynamicSimpleHTMLTemplate">
+                <Size x="366" y="0"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="12" y="-12"/>
+                </Anchors>
+            </SimpleHTML>
+
+            <Button name="$parentCopyButton" parentKey="CopyButton" hidden="true" inherits="CopyButtonTemplate">
+                <Size x="26" y="26"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                </Anchors>
+                
+                <Attributes>
+                    <Attribute name="ignoreInLayout" value="true" type="boolean"/>
+                </Attributes>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():CopyMessage()
+                    </OnClick>
+                    <OnLeave>
+                        if not self:GetParent():IsMouseOver() then
+                            self:GetParent():OnLeave()
+                        end
+                    </OnLeave>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TicketMessageMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

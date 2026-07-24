@@ -1,0 +1,240 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="AtlasBrowserImage.lua"/>
+    <Script file="AtlasBrowserListItem.lua"/>
+    <Script file="AtlasBrowser.lua"/>
+
+    <Button name="AtlasBrowserListItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="0" y="52"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "AtlasBrowserListItemMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText parentKey="Text" justifyH="LEFT" inherits="GameFontHighlightSmall" maxLines="2">
+            <Anchors>
+                <Anchor point="LEFT" x="5"/>
+                <Anchor point="RIGHT" x="-5"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+    
+    <Button name="AtlasBrowserAtlasFrameTemplate" virtual="true">
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Top">
+                    <Size x="1" y="2"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-1" y="1"/>
+                        <Anchor point="TOPRIGHT" x="1" y="1"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1" a="1"/>
+                </Texture>
+                <Texture parentKey="Bottom">
+                    <Size x="1" y="2"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="-1" y="-1"/>
+                        <Anchor point="BOTTOMRIGHT" x="1" y="-1"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1" a="1"/>
+                </Texture>
+                <Texture parentKey="Left">
+                    <Size x="2" y="1"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-1" y="-1"/>
+                        <Anchor point="BOTTOMLEFT" x="-1" y="1"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1" a="1"/>
+                </Texture>
+                <Texture parentKey="Right">
+                    <Size x="2" y="1"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="1" y="-1"/>
+                        <Anchor point="BOTTOMRIGHT" x="1" y="1"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1" a="1"/>
+                </Texture>
+
+                <Texture parentKey="CopyFlash" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                    <Animations>
+                        <AnimationGroup parentKey="Anim">
+                            <Alpha change="-1" duration="0" order="1"/>
+                            <Alpha change="0.1" duration="0.15" order="2"/>
+                            <Alpha change="-0.1" duration="0.4" order="3"/>
+
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                                <OnFinished>
+                                    self:GetParent():Hide()
+                                </OnFinished>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                    <Color r="0" g="1" b="0" a="1"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture parentKey="Highlight">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1" a="0.1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AtlasBrowserAtlasFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Frame name="AtlasBrowserImageTemplate" virtual="true">
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentImage" parentKey="Image">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+                
+                <FontString name="$parentTopLeft" text="0,0" inherits="GameFontDisableSmall">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentImage" relativePoint="TOPLEFT"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentBottomLeft" text="0,1" inherits="GameFontDisableSmall">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentImage" relativePoint="BOTTOMLEFT"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentTopRight" text="1,0" inherits="GameFontDisableSmall">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parentImage" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentBottomRight" text="1,1" inherits="GameFontDisableSmall">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentImage" relativePoint="BOTTOMRIGHT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AtlasBrowserImageMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="AtlasBrowser" parent="UIParent" movable="true" clampedToScreen="true" toplevel="true" enableMouse="true" frameStrata="DIALOG" hidden="true" inherits="BasicFrameTemplate">
+        <Size x="1000" y="600"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\Common\TooltipStage" horizTile="true" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-4"/>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentLeftInset" parentKey="LeftInset" inherits="InsetFrameTemplate2">
+                <Size x="220" y="576"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="1" y="-22"/>
+                    <Anchor point="BOTTOMLEFT" x="1" y="2"/>
+                </Anchors>
+                
+                <Frames>
+                    <EditBox name="$parentSearch" parentKey="Search" inherits="SearchBoxTemplate">
+                        <Size y="20"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="10" y="-6"/>
+                            <Anchor point="TOPRIGHT" x="-10" y="-6"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnTextChanged>
+                                if self:HasFocus() then
+                                    SearchBoxTemplate_OnTextChanged(self)
+                                    self:GetParent():GetParent():UpdateSearch()
+                                end
+                            </OnTextChanged>
+                        </Scripts>
+                    </EditBox>
+                    
+                    <Frame name="$parentScrollList" parentKey="ScrollList" inherits="ProportionalScrollListTemplate">
+                        <Size x="198" y="542"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-32"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentRightInset" parentKey="RightInset" inherits="InsetFrameNoBGTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentLeftInset" relativePoint="TOPRIGHT"/>
+                    <Anchor point="BOTTOMRIGHT" x="-3" y="2"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true">
+                            <Color r="0" g="0" b="0" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <ScrollFrame name="$parentPanZoom" parentKey="PanZoom" inherits="PanZoomTemplate">
+                        <Size x="772" y="574"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentName" parentKey="Name" inherits="GameFontHighlightSmall">
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-5"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AtlasBrowserMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

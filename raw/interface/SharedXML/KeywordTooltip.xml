@@ -1,0 +1,62 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="KeywordTooltip.lua"/>
+    
+    <SimpleHTML name="KeywordTextTemplate" inherits="DynamicSimpleHTMLTemplate" virtual="true">
+        <FontString inherits="GameFontHighlight"/>
+    </SimpleHTML>
+    
+    <Frame name="KeywordTooltipTemplate" enableMouse="true" movable="true" frameStrata="TOOLTIP" clampedToScreen="true" inherits="BackdropTemplate" virtual="true">
+        <Size x="320" y="58"/>
+        <Layers>
+            <Layer>
+                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontNormal">
+                    <Size x="276" y="12"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-12"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButtonNoScripts">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-2" y="-2"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Close()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentViewMoreButton" parentKey="ViewMoreButton" text="LINK_MORE_INFO">
+                <Size x="100" y="24"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ViewAppendix()
+                    </OnClick>
+                </Scripts>
+
+                <ButtonText name="$parentText" parentKey="Text" inherits="GameFontHighlight">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <Color r="0" g="0.82" b="1"/>
+                </ButtonText>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "KeywordTooltipMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -1,0 +1,856 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RapidRollSpellListItemMixin.lua"/>
+    <Script file="RapidRollDesiredSpellListItemMixin.lua"/>
+    <Script file="RapidRollUndesiredSpellListItemMixin.lua"/>
+
+    <Script file="RapidRollingSpells.lua"/>
+    <Script file="RapidRollingDB.lua"/>
+    <Script file="RapidRollingRender.lua"/>
+    <Script file="RapidRollingDropDown.lua"/>
+    <Script file="RapidRollingLayoutCoordinator.lua"/>
+
+    <Script file="RapidRolling.lua"/>
+
+    <AnimationGroup name="RapidRollToastAnimOutTemplate" virtual="true">
+        <Alpha parentKey="Alpha" change="-1" startDelay="0.6" duration="0.1" order="1"/>
+        <Scripts>
+            <OnFinished>
+                self:GetParent():Hide()
+                self:GetParent():GetParent():OnAnimFinished()
+            </OnFinished>
+        </Scripts>
+    </AnimationGroup>
+
+    <Frame name="RapidRollItemGlowToastTemplate" virtual="true">
+        <Anchors>
+            <!--<Anchor point="CENTER" x="0" y="0"/>-->
+            <Anchor point="TOPLEFT" x="0" y="0"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+        </Anchors>
+
+        <Animations>
+            <AnimationGroup parentKey="AnimIn" inherits="ToastAnimInTemplate"/>
+            <AnimationGroup parentKey="AnimOut" inherits="RapidRollToastAnimOutTemplate"/>
+        </Animations>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" inherits="ToastGlowTemplate">
+                    <Size x="232" y="48"/>
+                </Texture>
+                <Texture name="$parentShine" inherits="ToastShineTemplate">
+                    <Size x="171" y="36"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="-10" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                self.Glow:SetAtlas("loottoast-glow", Const.TextureKit.IgnoreAtlasSize)
+                self.Shine:SetAtlas("loottoast-sheen", Const.TextureKit.IgnoreAtlasSize)
+
+                function self:PlayFadeOut()
+                    self.AnimOut:Play()
+                end
+                
+                self:SetFrameLevel(self:GetParent():GetFrameLevel() + 16)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="RapidRollDesiredSpellListItemTemplate" inherits="SpellListItemTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentShine" parentKey="Shine" inherits="AutoCastShineTemplate" hidden="true">
+                <Size x="30" y="30"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+
+			<Button name="$parentCoreIcon" parentKey="CoreIcon" inherits="SpellButtonCoreIcon">
+			    <Anchors>
+			        <Anchor point="CENTER" relativeTo="$parentIcon"  relativePoint="TOPLEFT"/>
+			    </Anchors>
+			</Button>
+
+			<Button name="$parentOptimalIcon" parentKey="OptimalIcon" inherits="SpellButtonOptimalIcon">
+			    <Anchors>
+			        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+			    </Anchors>
+			</Button>
+
+			<Button name="$parentEmpoweringIcon" parentKey="EmpoweringIcon" inherits="SpellButtonEmpoweringIcon">
+			    <Anchors>
+			        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+			    </Anchors>
+			</Button>
+
+			<Button name="$parentSynergisticIcon" parentKey="SynergisticIcon" inherits="SpellButtonSynergisticIcon">
+			    <Anchors>
+			        <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+			    </Anchors>
+			</Button>
+            
+            <Frame name="$parentGlowToast" parentKey="GlowToast" inherits="RapidRollItemGlowToastTemplate"/>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RapidRollDesiredSpellListItemMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="RapidRollUndesiredSpellListItemTemplate" inherits="SpellListItemTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentShine" parentKey="Shine" inherits="AutoCastShineTemplate" hidden="true">
+                <Size x="30" y="30"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="CENTER" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+
+            <Button name="$parentCoreIcon" parentKey="CoreIcon" inherits="SpellButtonCoreIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon"  relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentOptimalIcon" parentKey="OptimalIcon" inherits="SpellButtonOptimalIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentEmpoweringIcon" parentKey="EmpoweringIcon" inherits="SpellButtonEmpoweringIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentSynergisticIcon" parentKey="SynergisticIcon" inherits="SpellButtonSynergisticIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentGlowToast" parentKey="GlowToast" inherits="RapidRollItemGlowToastTemplate"/>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RapidRollUndesiredSpellListItemMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="WildCardRapidRollingFrame" inherits="DefaultPanelTemplate" frameStrata="DIALOG" parent="UIParent" hidden="true">
+        <Size x="1024" y="512"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="5.6" y="5"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentDesiredAbilities" parentKey="DesiredAbilities" inherits="ScrollListTemplate">
+                <Size x="250" y="382"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="4" y="28"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentNoResultsText" parentKey="NoResultsText" text="CA_WCMR_SEARCH_FOR_DESIRED_SPELLS" inherits="GameFontDisableLarge">
+                            <Size x="192" y="0"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="-16" y="0"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentLabel" parentKey="Label" text="CA_WCMR_DESIRED_SPELLS" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="54"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentInsetFrame" relativePoint="TOPLEFT" x="4" y="-3"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentInsetFrame" relativePoint="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentUndesiredAbilities" parentKey="UndesiredAbilities" inherits="ScrollListTemplate">
+                <Size x="250" y="382"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="28"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentNoResultsText" parentKey="NoResultsText" text="CA_WCMR_UNLEARN_SPELLS_HINT" inherits="GameFontDisableLarge">
+                            <Size x="192" y="0"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="-16" y="0"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentLabel" parentKey="Label" text="CA_WCMR_UNLEARN_SPELLS" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="54"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentInsetFrame" relativePoint="TOPLEFT" x="4" y="-3"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentInsetFrame" relativePoint="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="layoutType" value="SmallShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Button name="$parentHeroArchitectImport" parentKey="HeroArchitectImport" text="IMPORT_ARCHITECT_BUILD" inherits="StandardButtonTemplate">
+                <Size x="250" y="26"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="4" y="2"/>
+                </Anchors>
+                
+                <Frames>
+                    <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate"/>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self.tooltipTitle = IMPORT_ARCHITECT_BUILD
+                        self.tooltipText = NO_RECENT_BUILDS_TOOLTIP
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                    <OnClick>
+                        HelpTip:Hide(self, IMPORT_YOUR_ARCHITECT_BUILD)
+                        ToggleDropDownMenu(1, nil, self.DropDown, "cursor", 0, 0)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentUndesireAllButton" parentKey="UndesireAllButton" text="STOP_UNDESIRE_NON_BUILD" inherits="StandardButtonTemplate">
+                <Size x="250" y="26"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnLoad>
+                        self.tooltipTitle = UNDESIRE_ALL_SPELLS
+                        self.tooltipText = UNDESIRE_ALL_SPELLS_TOOLTIP
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                    <OnClick>
+                        self:GetParent():StopUndesireAll()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <CheckButton name="$parentUndesireSynergistic" parentKey="UndesireSynergistic" text="UNDESIRE_SYNERGISTIC" inherits="UICheckButtonTemplate" hidden="true">
+                <Size x="26" y="26"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentUndesireAllButton" relativePoint="LEFT" x="-160" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self.tooltipTitle = UNDESIRE_SYNERGISTIC
+                        self.tooltipText = UNDESIRE_SYNERGISTIC_TOOLTIP
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                    </OnEnter>
+                    <OnClick>
+                        if self:GetParent().savedBuild then
+                            self:GetParent():UndesireBuildAllSpells(self:GetParent().savedBuild)
+                        end
+                    </OnClick>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+                <ButtonText name="$parentText" parentKey="Text" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT"/>
+                    </Anchors>
+                </ButtonText>
+            </CheckButton>
+
+            <CheckButton name="$parentUndesireEmpowering" parentKey="UndesireEmpowering" text="UNDESIRE_EMPOWERING" inherits="UICheckButtonTemplate">
+                <Size x="26" y="26"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentUndesireSynergisticText" relativePoint="LEFT" x="-180" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self.tooltipTitle = UNDESIRE_EMPOWERING
+                        self.tooltipText = UNDESIRE_EMPOWERING
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_TOP")
+                    </OnEnter>
+                    <OnClick>
+                        if self:GetParent().savedBuild then
+                            self:GetParent():UndesireBuildAllSpells(self:GetParent().savedBuild)
+                        end
+                    </OnClick>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+                <ButtonText name="$parentText" parentKey="Text" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT"/>
+                    </Anchors>
+                </ButtonText>
+            </CheckButton>
+
+            <Frame name="$parentRollingFrame" parentKey="RollingFrame" inherits="InsetFrameTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentDesiredAbilities" relativePoint="TOPRIGHT" x="0" y="22"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentUndesiredAbilities" relativePoint="BOTTOMLEFT" x="0" y="3"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentScrollsSpentLabel" parentKey="ScrollsSpentLabel" justifyH="CENTER" inherits="GameFontHighlightLarge" hidden="true">
+                            <Size x="192"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="" y="-96"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentGeneralScrollLabel" parentKey="GeneralScrollLabel" justifyH="LEFT" inherits="GameFontHighlightLarge">
+                            <Size x="192"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="32" y="-24"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentGeneralScrollCount" parentKey="GeneralScrollCount" inherits="Game32Font_Shadow2">
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentGeneralScrollLabel" relativePoint="BOTTOM" x="0" y="-16"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentGeneralScrollMinus" parentKey="GeneralScrollMinus" hidden="true" inherits="Game32Font_Shadow2">
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="$parentGeneralScrollCount" relativePoint="RIGHT" x="4" y="0"/>
+                            </Anchors>
+                            <Color r="1" g="0" b="0"/>
+
+                            <Animations>
+                                <AnimationGroup parentKey="Anim">
+                                    <Alpha order="1" change="-1" duration="0"/>
+                                    <Alpha order="2" change="1" duration="0.15"/>
+                                    <Alpha order="2" change="-1" duration="0.65" startDelay="2.35"/>
+                                    <Translation order="2" offsetX="25" duration="3.2" smoothing="IN_OUT"/>
+                                    <Scripts>
+                                        <OnPlay>
+                                            self:GetParent():Show()
+                                        </OnPlay>
+                                        <OnFinished>
+                                            self:GetParent():Hide()
+                                        </OnFinished>
+                                        <OnStop>
+                                            self:GetParent():Hide()
+                                        </OnStop>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </FontString>
+                        <FontString name="$parentTalentScrollLabel" parentKey="TalentScrollLabel" justifyH="RIGHT" inherits="GameFontHighlightLarge">
+                            <Size x="192"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-32" y="-24"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentTalentScrollCount" parentKey="TalentScrollCount" inherits="Game32Font_Shadow2">
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentTalentScrollLabel" relativePoint="BOTTOM" x="0" y="-16"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentTalentScrollMinus" parentKey="TalentScrollMinus" hidden="true" inherits="Game32Font_Shadow2">
+                            <Anchors>
+                                <Anchor point="RIGHT" relativeTo="$parentTalentScrollCount" relativePoint="LEFT" x="-4" y="0"/>
+                            </Anchors>
+                            <Color r="1" g="0" b="0"/>
+                            
+                            <Animations>
+                                <AnimationGroup parentKey="Anim">
+                                    <Alpha order="1" change="-1" duration="0"/>
+                                    <Alpha order="2" change="1" duration="0.15"/>
+                                    <Alpha order="2" change="-1" duration="0.65" startDelay="2.35"/>
+                                    <Translation order="2" offsetX="-25" duration="3.2" smoothing="IN_OUT"/>
+                                    <Scripts>
+                                        <OnPlay>
+                                            self:GetParent():Show()
+                                        </OnPlay>
+                                        <OnFinished>
+                                            self:GetParent():Hide()
+                                        </OnFinished>
+                                        <OnStop>
+                                            self:GetParent():Hide()
+                                        </OnStop>
+                                    </Scripts>
+                                </AnimationGroup>
+                            </Animations>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentErrorFrame" parentKey="ErrorFrame" hidden="true" inherits="InputBlockTextTemplate" setAllPoints="true">
+                        <Frames>
+                            <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                                <Size x="100" y="28"/>
+                                <Anchors>
+                                    <Anchor point="BOTTOM" y="28"/>
+                                </Anchors>
+
+                                <Scripts>
+                                    <OnClick>
+                                        PlaySound(SOUNDKIT.CHAT_SCROLL_BUTTON)
+                                        self:GetParent():Hide()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                    </Frame>
+                    <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-2"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="ShadowOverlay"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnLoad>
+                                UseParentLevel(self)
+                                MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Button name="$parentRollButton" parentKey="RollButton" motionScriptsWhileDisabled="true" text="CA_WCMR_START_PROCESSING" inherits="SharedButtonTemplate">
+                        <Size x="172" y="40"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="30"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnEnter>
+                                if self.reason and self:IsEnabled() == 0 then
+                                    GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                    GameTooltip:AddLine(self.reason, 1, 0, 0, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave>
+                                GameTooltip:Hide()
+                            </OnLeave>
+                            <OnClick>
+                                self:GetParent():GetParent():Roll()
+                            </OnClick>
+                        </Scripts>
+
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentError" parentKey="Error" inherits="GameFontRed">
+                                    <Size x="478" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" relativePoint="BOTTOM" x="0" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+
+					            <FontString name="$parentSpellTypeText" parentKey="SpellTypeText" justifyH="CENTER" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="8"/>
+                                    </Anchors>
+					            </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+							<Button name="$parentCoreIcon" parentKey="CoreIcon" inherits="SpellButtonCoreIcon">
+							    <Anchors>
+							        <Anchor point="RIGHT" relativeTo="$parentSpellTypeText"  relativePoint="LEFT" x="-8"/>
+							    </Anchors>
+							</Button>
+
+							<Button name="$parentOptimalIcon" parentKey="OptimalIcon" inherits="SpellButtonOptimalIcon">
+							    <Anchors>
+							        <Anchor point="RIGHT" relativeTo="$parentSpellTypeText"  relativePoint="LEFT" x="-8"/>
+							    </Anchors>
+							</Button>
+
+							<Button name="$parentEmpoweringIcon" parentKey="EmpoweringIcon" inherits="SpellButtonEmpoweringIcon">
+							    <Anchors>
+							        <Anchor point="RIGHT" relativeTo="$parentSpellTypeText"  relativePoint="LEFT" x="-8"/>
+							    </Anchors>
+							</Button>
+
+							<Button name="$parentSynergisticIcon" parentKey="SynergisticIcon" inherits="SpellButtonSynergisticIcon">
+							    <Anchors>
+							        <Anchor point="RIGHT" relativeTo="$parentSpellTypeText"  relativePoint="LEFT" x="-8"/>
+							    </Anchors>
+							</Button>
+                        </Frames>
+                    </Button>
+                    
+                    <Button name="$parentLockButton" parentKey="LockButton" hidden="true" inherits="SquareIconButtonTemplate">
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentRollButton" relativePoint="RIGHT" x="12"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="icon-atlas" value="spell-list-unlocked" type="string"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():ToggleLocked()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentUnlearnButton" parentKey="UnlearnButton" hidden="true" inherits="SquareIconButtonTemplate">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentRollButton" relativePoint="LEFT" x="-12"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="icon-atlas" value="common-icon-redx" type="string"/>
+                            <Attribute name="tooltip-title" value="SET_UNDESIRED" type="string"/>
+                        </Attributes>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():MarkForUnlearn()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Frame name="$parentScrollProgress" parentKey="ScrollProgress" enableMouse="true" inherits="BetterStatusBarTemplate" hidden="true">
+                        <Size x="240" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="2" y="4"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentRewardText" parentKey="RewardText" justifyH="RIGHT" inherits="GameFontNormalSmall">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" y="5"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Attributes>
+                            <Attribute name="bar-atlas" value="ui-frame-bar-fill-white"/>
+                            <Attribute name="bar-color" value="0.6,0.1,0.85,1"/>
+                            <Attribute name="background-atlas" value="ui-frame-bar-bgcenter"/>
+                            <Attribute name="font" value="GameFontHighlightSmall"/>
+                        </Attributes>
+
+                        <Frames>
+                            <Frame>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-5" y="5"/>
+                                    <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                                </Anchors>
+
+                                <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border" tile="true">
+                                    <EdgeSize val="12"/>
+                                </Backdrop>
+                            </Frame>
+                        </Frames>
+
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <TileSize val="12"/>
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                        </Backdrop>
+                        
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                local _, _, nextMaxRoll = C_Wildcard.GetRapidRollAbilityBreakpointInfo()
+                                GameTooltip:SetText(NEXT_SPELL_ROLL_LIMIT:format(nextMaxRoll), 1, 1, 1)
+                                GameTooltip:AddLine(NEXT_SPELL_ROLL_LIMIT_TOOLTIP, 1, 0.82, 0, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentTalentScrollProgress" parentKey="TalentScrollProgress" enableMouse="true" inherits="BetterStatusBarTemplate" hidden="true">
+                        <Size x="240" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-2" y="4"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentRewardText" parentKey="RewardText" justifyH="RIGHT" inherits="GameFontNormalSmall">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" y="5"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Attributes>
+                            <Attribute name="bar-atlas" value="ui-frame-bar-fill-white"/>
+                            <Attribute name="bar-color" value="0.6,0.1,0.85,1"/>
+                            <Attribute name="background-atlas" value="ui-frame-bar-bgcenter"/>
+                            <Attribute name="font" value="GameFontHighlightSmall"/>
+                        </Attributes>
+
+                        <Frames>
+                            <Frame>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="-5" y="5"/>
+                                    <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                                </Anchors>
+
+                                <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border" tile="true">
+                                    <EdgeSize val="12"/>
+                                </Backdrop>
+                            </Frame>
+                        </Frames>
+
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                            <TileSize val="12"/>
+                            <Color r="0" g="0" b="0" a="0.8"/>
+                        </Backdrop>
+
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                local _, _, nextMaxRoll = C_Wildcard.GetRapidRollTalentBreakpointInfo()
+                                GameTooltip:SetText(NEXT_TALENT_ROLL_LIMIT:format(nextMaxRoll), 1, 1, 1)
+                                GameTooltip:AddLine(NEXT_TALENT_ROLL_LIMIT_TOOLTIP, 1, 0.82, 0, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Frame>
+                    
+                    <Frame name="$parentDiceFrame" parentKey="DiceFrame">
+                        <Size x="64" y="64"/>
+                        <Anchors>
+                            <Anchor point="TOP" y="-18"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer>
+                                <Texture name="$parentDice" parentKey="Dice" file="Interface\WildCard\anim_constant_final_3">
+                                    <Size x="120" y="120"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-96"/>
+                                    </Anchors>
+                                    <Animations>
+                                        <AnimationGroup parentKey="Anim" looping="BOUNCE">
+                                            <Translation order="1" duration="2" offsetX="0" offsetY="-4" smoothing="IN"/>
+                                            <Translation order="2" duration="2" offsetX="0" offsetY="4" smoothing="OUT"/>
+                                        </AnimationGroup>
+                                    </Animations>
+                                    <TexCoords left="0.724609375" right="0.90576171875" top="0.732421875" bottom="0.91552734375"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        
+                        <Scripts>
+                            <OnShow>
+                                self.Dice.Anim:Play()
+                            </OnShow>
+                            <OnHide>
+                                self.Dice.Anim:Stop()
+                            </OnHide>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentPreviousUpgradeFrame" parentKey="PreviousUpgradeFrame" hidden="true" enableMouse="false">
+                        <Size x="168" y="38"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" relativeTo="$parentRollButton" relativePoint="TOP" x="0" y="4"/>
+                        </Anchors>
+                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                            <TileSize val="12"/>
+                            <EdgeSize val="12"/>
+                            <Color r="0" g="0" b="0" a="0.72"/>
+                            <BorderColor r="0.6" g="0.1" b="0.85" a="0.85"/>
+                        </Backdrop>
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentIcon" parentKey="Icon">
+                                    <Size x="32" y="32"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="6" y="-3"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentName" parentKey="Name" justifyH="LEFT" inherits="GameFontHighlightSmall">
+                                    <Size x="118" y="14"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="7" y="0"/>
+                                    </Anchors>
+                                </FontString>
+                                <FontString name="$parentRank" parentKey="Rank" justifyH="LEFT" inherits="GameFontNormalSmall">
+                                    <Size x="118" y="14"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" x="0" y="-1"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentDesiredDeselectAll" parentKey="DesiredDeselectAll" text="DESELECT_ALL" inherits="StandardButtonTemplate">
+                <Size x="122" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentDesiredAbilities" relativePoint="TOPLEFT" x="1" y="0"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        C_Wildcard.ClearDesiredSpells()
+                        local specID = SpecializationUtil.GetActiveSpecialization()
+                        if specID and RapidRollDesired[specID] then
+                            wipe(RapidRollDesired[specID])
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentDesiredSelectAll" parentKey="DesiredSelectAll" text="SELECT_ALL" inherits="StandardButtonTemplate">
+                <Size x="122" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentDesiredDeselectAll" relativePoint="BOTTOMRIGHT" x="2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        C_Wildcard.AddAllDesiredFilter()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <EditBox name="$parentDesiredSearchBox" parentKey="DesiredSearchBox" inherits="SearchBoxTemplate">
+                <Size x="150" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentDesiredDeselectAll" relativePoint="TOPLEFT" x="9" y="2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self)
+                        if self:IsVisible() then
+                            self:GetParent():DesiredSearch(self:GetText():trim())
+                        end
+                    </OnTextChanged>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </EditBox>
+
+            <Button name="$parentDesiredFilter" parentKey="DesiredFilter" inherits="FilterDropDownButtonTemplate" motionScriptsWhileDisabled="true">
+                <Size x="86" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentDesiredSearchBox" relativePoint="RIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentUndesiredDeselectAll" parentKey="UndesiredDeselectAll" text="DESELECT_ALL" inherits="StandardButtonTemplate">
+                <Size x="247" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentUndesiredAbilities" relativePoint="TOPLEFT" x="1"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        C_Wildcard.ClearUndesiredSpells()
+                        local specID = SpecializationUtil.GetActiveSpecialization()
+                        if specID and RapidRollUndesired[specID] then
+                            wipe(RapidRollUndesired[specID])
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <EditBox name="$parentUndesiredSearchBox" parentKey="UndesiredSearchBox" inherits="SearchBoxTemplate">
+                <Size x="150" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentUndesiredDeselectAll" relativePoint="TOPLEFT" x="9" y="4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self)
+                        if self:IsVisible() then
+                            self:GetParent():UndesiredSearch(self:GetText():trim())
+                        end
+                    </OnTextChanged>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </EditBox>
+
+            <Button name="$parentUndesiredFilter" parentKey="UndesiredFilter" inherits="FilterDropDownButtonTemplate" motionScriptsWhileDisabled="true">
+                <Size x="86" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentUndesiredSearchBox" relativePoint="RIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "WildCardRapidRollingMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

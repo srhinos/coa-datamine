@@ -1,0 +1,51 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TalentTreeBase.lua"/>
+
+    <Frame name="TalentTreeBase" virtual="true">
+        <Attributes>
+            <!--
+            getNodeTemplate: returns Talent Node Template
+            getConnectionTemplate: returns the connection display used for a given node (arrows)
+            getChoiceNodeTemplate: returns Template to use for group node choices.
+            getEntries: returns tree entries.
+            getPosition: returns a given entrys column and row.
+            buttonWidth: width of buttons
+            buttonHeight: height of buttons
+            buttonSpacingX: spacing between buttons on X axis
+            buttonSpacingY: spacing between buttons on Y axis
+            
+            ** Gates may need refactoring if multiple gate types are needed**
+            
+            useGates: if this tree uses gates (required investments) or not
+            getGateTemplate: template to use for gates
+            getGateAttachmentPoint: passes all the nodes that have the gate's value. returns point gate attaches itself
+            gateCurrency: currency ID gate checks
+            gateCurrencyCount: function to get how much currency the player has spent
+            getEntryGateRequirement: returns what gate value a given entry should return
+            -->
+            <Attribute name="getNodeTemplate" value="global:CharacterAdvancementUtil.GetDisplayTemplateForEntry" type="string"/>
+            <Attribute name="getConnectionTemplate" value="global:CharacterAdvancementUtil.GetDisplayTemplateForConnection" type="string"/>
+            <Attribute name="getChoiceNodeTemplate" value="global:CharacterAdvancementUtil.GetDisplayTemplateForEntryChoice" type="string"/>
+            <Attribute name="getEntries" value="global:C_CharacterAdvancement.GetEntriesByClass" type="string"/>
+            <Attribute name="getPosition" value="global:CharacterAdvancementUtil.GetEntryPosition" type="string"/>
+            <Attribute name="buttonWidth" value="32" type="number"/>
+            <Attribute name="buttonHeight" value="32" type="number"/>
+            <Attribute name="buttonSpacingX" value="12" type="number"/>
+            <Attribute name="buttonSpacingY" value="12" type="number"/>
+            
+            <Attribute name="useGates" value="false" type="boolean"/>
+            <Attribute name="getGateTemplate" value="global:CharacterAdvancementUtil.GetDisplayTemplateForGate" type="string"/>
+            <Attribute name="getGateAttachmentPoint" value="global:CharacterAdvancementUtil.GetGateAttachmentPoint" type="string"/>
+            <Attribute name="gateCurrency" value="383080" type="number"/>
+            <Attribute name="gateCurrencyCount" value="global:C_CharacterAdvancement.GetPendingTabAEInvestment" type="string"/>
+            <Attribute name="getEntryGateRequirement" value="global:CharacterAdvancementUtil.GetEntryAEGateRequirement" type="string"/>
+        </Attributes>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TalentTreeBaseMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

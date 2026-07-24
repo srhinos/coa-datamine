@@ -1,0 +1,315 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TutorialExperience.lua"/>
+    <Script file="CharacterCreateChoice.lua"/>
+    <Script file="CharacterCreateTransmogChoice.lua"/>
+    <Script file="CharacterCreateLevelScalingChoice.lua"/>
+
+    <Button name="ExperienceRoundIconTemplate" virtual="true">
+    	<Size x="160" y="160"/>
+
+    	<Layers>
+    		<Layer level="BACKGROUND">
+			    <Texture name="$parentBackground" parentKey="Background">
+			        <Anchors>
+			            <Anchor point="CENTER" x="0" y="0"/>
+			        </Anchors>
+			        <Size x="160" y="160"/>
+			    </Texture>  
+			</Layer>
+    		<Layer level="BORDER">
+			    <Texture name="$parentChecked" parentKey="Checked" alphaMode="ADD" hidden="true">
+			        <Anchors>
+			            <Anchor point="CENTER" x="0" y="0"/>
+			        </Anchors>
+			        <Size x="160" y="160"/>
+			    </Texture>  
+			</Layer>
+			<Layer level="ARTWORK">
+			    <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD" hidden="true">
+			        <Anchors>
+			            <Anchor point="CENTER" x="0" y="0"/>
+			        </Anchors>
+			        <Size x="160" y="160"/>
+			    </Texture>  
+			</Layer>
+    		<Layer level="OVERLAY">
+			    <Texture name="$parentIcon" parentKey="Icon">
+			        <Anchors>
+			            <Anchor point="CENTER" x="0" y="0"/>
+			        </Anchors>
+			        <Size x="160" y="160"/>
+			    </Texture>  
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Frame name="$parentNameFrame" parentKey="NameFrame">
+				<Size x="128" y="48"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM" x="0" y="32"/>
+                </Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="$parentText" parentKey="Text" inherits="GameFontNormalOutlineLarge" justifyV="TOP" justifyH="CENTER">
+		                    <Anchors>
+		                        <Anchor point="CENTER" x="0" y="12"/>
+		                    </Anchors>
+						</FontString>
+		                <FontString name="$parentDesc" parentKey="Desc" inherits="GameFontHighlight" justifyV="TOP" justifyH="CENTER"/>
+		            </Layer>
+		            <Layer level="BACKGROUND">
+		                <Texture name="$parentShadowText" parentKey="ShadowText" alpha="1">
+		                    <Anchors>
+		                        <Anchor point="CENTER"/>
+		                    </Anchors>
+		                    <Size x="320" y="120"/>
+		                </Texture>
+		            </Layer>
+		        </Layers>
+			</Frame>
+		</Frames>
+
+        <Scripts>
+        	<OnLoad>
+        		MixinAndLoadScripts(self, "ExperienceRoundIconMixin")
+        	</OnLoad>
+        </Scripts>
+    </Button>
+    
+    <CheckButton name="ExperienceChoiceTemplate" virtual="true">
+        <Size x="304" y="580"/>
+
+        <CheckedTexture/>
+        <HighlightTexture alphaMode="ADD"/>
+
+        <Frames>
+        	<Frame name="$parentIcon" parentKey="Icon" inherits="ExperienceRoundIconTemplate">
+        		<Anchors>
+					<Anchor point="CENTER" x="0" y="96"/>
+                </Anchors>
+        	</Frame>
+        </Frames>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-22"/>
+                        <Anchor point="BOTTOMRIGHT"  x="-12" y="72"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentBorder" parentKey="Border">
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="-10"/>
+                    </Anchors>
+                    <Size x="304.85" y="580.22"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentPortalVFX" parentKey="PortalVFX" alphaMode="ADD" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="42"/>
+                    </Anchors>
+                    <Size x="490" y="490"/>
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn" smoothing="IN">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Alpha order="2" duration="0.15" change="1"/>
+                            <Alpha order="3" duration="0.25" change="-0.2"/>
+                            <Alpha order="4" duration="0.3" change="0.2"/>
+                        </AnimationGroup>
+                        <AnimationGroup parentKey="AnimOut" smoothing="OUT">
+                            <Alpha order="1" duration="0" change="1"/>
+                            <Alpha order="1" duration="0.25" change="-1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentArtOverlay" parentKey="ArtOverlay">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-22"/>
+                        <Anchor point="BOTTOMRIGHT"  x="-12" y="72"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="0.7" />
+                    <Animations>
+                        <AnimationGroup parentKey="AnimIn" smoothing="IN">
+                            <Alpha order="1" duration="0" change="-1"/>
+                            <Alpha order="2" duration="0.25" change="1"/>
+                        </AnimationGroup>
+                        <AnimationGroup parentKey="AnimOut" smoothing="OUT">
+                            <Alpha order="1" duration="0" change="1"/>
+                            <Alpha order="1" duration="0.4" change="-1"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TutorialExperienceButtonMixin")
+                self.Border:SetAtlas("ExperienceChoiceBorder", Const.TextureKit.IgnoreAtlasSize)
+
+                self:GetCheckedTexture():ClearAndSetPoint("CENTER", 0, -10)
+                self:GetCheckedTexture():SetSize(304.85, 580.22)
+                self:GetHighlightTexture():ClearAndSetPoint("CENTER", 0, -10)
+                self:GetHighlightTexture():SetSize(304.85, 580.22)
+
+                self:GetCheckedTexture():SetAtlas("ExperienceChoiceChecked", Const.TextureKit.IgnoreAtlasSize)
+                self:GetHighlightTexture():SetAtlas("ExperienceChoiceHighlight", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+
+    <CheckButton name="TransmogChoiceTemplate" inherits="ExperienceChoiceTemplate" virtual="true">
+        <Size x="304" y="580"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CharacterCreateTransmogChoiceMixin")
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+
+    <Frame name="TutorialExpereinceSelect" toplevel="true" parent="GlueParent" setAllPoints="true" enableMouse="true" enableKeyboard="true" frameStrata="DIALOG" hidden="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-2" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="0.9" />
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalOutlineMassive">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-72"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentTransmogSelect" setAllPoints="true" parentKey="TransmogSelect" inherits="CharacterCreateTransmogSelectTemplate">
+                <Frames>
+                    <CheckButton name="$parentEnableTransmog" parentKey="EnableTransmog" inherits="TransmogChoiceTemplate">
+                        <Anchors>
+                            <Anchor point="CENTER" x="-192" y="-32"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CharacterCreateTransmogChoiceEnableMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </CheckButton>
+
+                    <CheckButton name="$parentDisableTransmog" parentKey="DisableTransmog" inherits="TransmogChoiceTemplate">
+                        <Anchors>
+                            <Anchor point="CENTER" x="192" y="-32"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CharacterCreateTransmogChoiceDisableMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </CheckButton>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CharacterCreateStepMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentLevelScalingSelect" setAllPoints="true" parentKey="LevelScalingSelect" inherits="CharacterCreateLevelScalingSelectTemplate">
+                <Frames>
+                    <CheckButton name="$parentEnableLevelScaling" parentKey="EnableLevelScaling" inherits="TransmogChoiceTemplate">
+                        <Anchors>
+                            <Anchor point="CENTER" x="-192" y="-32"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CharacterCreateLevelScalingEnableMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </CheckButton>
+
+                    <CheckButton name="$parentDisableLevelScaling" parentKey="DisableLevelScaling" inherits="TransmogChoiceTemplate">
+                        <Anchors>
+                            <Anchor point="CENTER" x="192" y="-32"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                MixinAndLoadScripts(self, "CharacterCreateLevelScalingDisableMixin")
+                            </OnLoad>
+                        </Scripts>
+                    </CheckButton>
+                </Frames>
+                
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CharacterCreateStepMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentArtworkFrame" parentKey="ArtworkFrame">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="0"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentBottomArtwork" parentKey="BottomArtwork">
+                            <Anchors>
+                                <Anchor point="BOTTOM" x="0" y="0"/>
+                            </Anchors>
+                            <Size x="1372" y="471"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <CheckButton name="$parentExperience1" parentKey="Experience1" inherits="ExperienceChoiceTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" x="140" y="-50"/>
+                </Anchors>
+            </CheckButton>
+            <CheckButton name="$parentExperience2" parentKey="Experience2" inherits="ExperienceChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="0" y="-50"/>
+                </Anchors>
+            </CheckButton>
+            <CheckButton name="$parentExperience3" parentKey="Experience3" inherits="ExperienceChoiceTemplate">
+                <Anchors>
+                    <Anchor point="RIGHT" x="-140" y="-50"/>
+                </Anchors>
+            </CheckButton>
+
+            <Button name="$parentOkayButton" parentKey="OkayButton" inherits="SharedButtonTemplate" text="ENTER_WORLD">
+                <Anchors>
+                    <Anchor point="BOTTOM" x="" y="40"/>
+                </Anchors>
+                <Size x="170" y="50"/>
+            </Button>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TutorialExperienceFrameMixin")
+                self.ArtworkFrame.BottomArtwork:SetAtlas("ExperienceArtworkBottom", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

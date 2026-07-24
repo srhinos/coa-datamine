@@ -1,0 +1,111 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Warmode.lua"/>
+    
+    <Frame name="WarmodeMapFrame" parent="WorldMapButton" frameStrata="HIGH" hidden="true">
+        <Size x="174" y="92"/>
+        <Anchors>
+            <Anchor point="BOTTOMRIGHT" x="-24" y="12"/>
+        </Anchors>
+
+        <Frames>
+            <Button name="$parentTier1Button" parentKey="Tier1Button" inherits="WarmodeTierTemplate" id="1">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentTier2Button" parentKey="Tier2Button" inherits="WarmodeTierTemplate" id="2">
+                <Anchors>
+                    <Anchor point="TOP"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentTier3Button" parentKey="Tier3Button" inherits="WarmodeTierTemplate" id="3">
+                <Anchors>
+                    <Anchor point="TOPRIGHT"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentBanner" parentKey="Banner" frameLevel="5">
+                <Size x="198" y="65"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture name="$parentTexture" parentKey="Texture" setAllPoints="true">
+                        </Texture>
+                    </Layer>
+
+                    <Layer>
+                        <FontString name="$parentText" parentKey="Text" text="HIGH_RISK" inherits="GameFontNormal">
+                            <Size x="168" y="48"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="6"/>
+                            </Anchors>
+
+                            <Color r="0.2" g="1" b="0.2"/>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnLoad>
+                        self.Texture:SetAtlas("GarrMission_RewardsBanner", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+
+            <Frame name="$parentTooltip" parentKey="Tooltip" inherits="VerticalLayoutFrame" hidden="true">
+                <Size x="254" y="439"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentBanner" relativePoint="TOPRIGHT" x="-4" y="40"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="fixedWidth" value="254" type="number"/>
+                    <Attribute name="fixedHeight" value="439" type="number"/>
+
+                    <Attribute name="expand" value="false" type="boolean"/>
+
+                    <Attribute name="topPadding" value="20" type="number"/>
+                    <Attribute name="bottomPadding" value="20" type="number"/>
+                    <Attribute name="leftPadding" value="20" type="number"/>
+                    <Attribute name="rightPadding" value="20" type="number"/>
+
+                    <Attribute name="spacing" value="2" type="number"/>
+
+                    <Attribute name="respectChildScale" value="true" type="boolean"/>
+                </Attributes>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Button name="$parentToggleInfo" parentKey="ToggleInfo" text="MORE_INFO" inherits="StandardButtonTemplate">
+                <Size x="160" y="22"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentBanner" relativePoint="BOTTOM" y="12"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleTooltip()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "WarModeMapFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -1,0 +1,156 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ScrollableDropDown.lua"/>
+
+    <Button name="ScrollableDropDownItemTemplate" virtual="true">
+        <Size x="0" y="16"/>
+        <Anchors>
+            <Anchor point="LEFT"/>
+            <Anchor point="RIGHT"/>
+        </Anchors>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Check" file="Interface\Buttons\UI-CheckBox-Check" hidden="true">
+                    <Size x="14" y="14"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall" justifyH="LEFT" maxLines="1">
+            <Anchors>
+                <Anchor point="LEFT" x="4"/>
+                <Anchor point="RIGHT" x="-4"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture parentKey="HighlightTexture" file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD" setAllPoints="true"/>
+        <Scripts>
+            <OnLoad>
+                Mixin(self, ScrollListItemBaseMixin, ScrollableDropDownItemMixin)
+                self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+            </OnLoad>
+            <OnClick>
+                self:OnClick(button)
+            </OnClick>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                self:OnLeave()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <Frame name="ScrollableDropDownTemplate" virtual="true">
+        <Size x="40" y="32"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentLeft" parentKey="Left" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+                    <Size x="25" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="17"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.1953125" top="0" bottom="1"/>
+                </Texture>
+                <Texture name="$parentMiddle" parentKey="Middle" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+                    <Size x="115" y="64"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.1953125" right="0.8046875" top="0" bottom="1"/>
+                </Texture>
+                <Texture name="$parentRight" parentKey="Right" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+                    <Size x="25" y="64"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentMiddle" relativePoint="RIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.8046875" right="1" top="0" bottom="1"/>
+                </Texture>
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightSmall" justifyH="RIGHT">
+                    <Size x="0" y="10"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentRight" x="-43" y="2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentButton" parentKey="Button">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentRight" x="-16" y="-18"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        PlaySound("igMainMenuOptionCheckBoxOn")
+                        self:GetParent():ToggleMenu()
+                    </OnClick>
+                </Scripts>
+                <NormalTexture name="$parentNormalTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Up">
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </NormalTexture>
+                <PushedTexture name="$parentPushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down">
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </PushedTexture>
+                <DisabledTexture name="$parentDisabledTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Disabled">
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </DisabledTexture>
+                <HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD">
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </HighlightTexture>
+            </Button>
+
+            <Frame name="$parentMenu" parentKey="Menu" toplevel="true" frameStrata="FULLSCREEN_DIALOG" hidden="true" enableMouse="true">
+                <Size x="180" y="160"/>
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM" y="-2"/>
+                </Anchors>
+
+                <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+                    <BackgroundInsets>
+                        <AbsInset left="11" right="12" top="12" bottom="9"/>
+                    </BackgroundInsets>
+                    <TileSize>
+                        <AbsValue val="32"/>
+                    </TileSize>
+                    <EdgeSize>
+                        <AbsValue val="32"/>
+                    </EdgeSize>
+                </Backdrop>
+
+                <Frames>
+                    <Frame name="$parentScrollList" parentKey="ScrollList" inherits="ProportionalScrollListTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="12" y="-14"/>
+                            <Anchor point="BOTTOMRIGHT" x="-38" y="12"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, ScrollableDropDownMixin)
+            </OnLoad>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+        </Scripts>
+    </Frame>
+</Ui>

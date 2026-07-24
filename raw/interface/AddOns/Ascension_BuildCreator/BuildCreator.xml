@@ -1,0 +1,206 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="BuildCreator.lua"/>
+
+    <Frame name="BuildCreatorFrame" parent="Collections" hidden="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="1060" y="698"/>
+
+        <Anchors>
+            <Anchor point="BOTTOM" y="8"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\FrameGeneral\UI-Background-Rock2" vertTile="true" horizTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentLoading" parentKey="Loading" hidden="true" frameLevel="40" toplevel="false" inherits="InputBlockTextLoadingTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="alpha" value="0.99" type="number"/>
+                </Attributes>
+            </Frame>
+
+            <Frame name="$parentError" parentKey="Error" hidden="true" frameLevel="40" toplevel="false" inherits="InputBlockTextTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="alpha" value="0.99" type="number"/>
+                </Attributes>
+                
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="SharedButtonTemplate">
+                        <Size x="100" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="128"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():HideError()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentDeactivateButton" parentKey="DeactivateButton" text="DEACTIVATE_BUILD" inherits="SharedButtonTemplate">
+                        <Size x="140" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="92"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():HideError()
+                                BuildCreatorUtil.ToggleBuildActive(BuildCreatorUtil.GetActiveBuildID(), Enum.BuildCategory.BuildDraft, true)
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                <Size x="340" y="20"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-218" y="-36"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnTextChanged>
+                        if not self:HasFocus() then return end
+                        SearchBoxTemplate_OnTextChanged(self)
+                        self:GetParent():UpdateSearch()
+                    </OnTextChanged>
+                </Scripts>
+            </EditBox>
+
+            <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                <Size x="78" y="22"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT" x="6" y="-1"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentSorting" parentKey="Sorting" text="BUILD_ORDER" inherits="FilterDropDownMenuTemplate">
+                <Size x="78" y="22"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT" x="6"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentCategoryScroll" parentKey="CategoryScroll" inherits="StandardProportionalScrollListTemplate">
+                <Size x="260" y="598"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-68"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" file="Interface\FrameGeneral\UI-Background-Marble" vertTile="true" horizTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="24"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer>
+                        <Texture name="$parentArtwork" parentKey="Artwork" alpha="0.4">
+                            <Size x="258" y="178"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-3" y="3"/>
+                            <Anchor point="BOTTOMRIGHT" x="5" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Button name="$parentToggleCreateButton" parentKey="ToggleCreateButton" text="CREATE_BUILD" inherits="StandardButtonTemplate">
+                <Size x="284" y="26"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentCategoryScroll" relativePoint="BOTTOMLEFT" x="-2" y="-2"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ToggleCreate()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentBuildScroll" parentKey="BuildScroll" inherits="StandardProportionalScrollListTemplate">
+                <Size x="744" y="626"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-28" y="-68"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" file="Interface\FrameGeneral\UI-Background-Marble" vertTile="true" horizTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="24"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    
+                    <Layer level="BORDER">
+                        <Texture name="$parentArtwork" parentKey="Artwork" alpha="0.4">
+                            <Size x="766" y="372"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-3" y="3"/>
+                            <Anchor point="BOTTOMRIGHT" x="3" y="-2"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentBuildViewPanel" parentKey="BuildViewPanel" inherits="BuildViewTemplate" setAllPoints="true"/>
+            <Frame name="$parentEditableBuildViewPanel" parentKey="EditableBuildViewPanel" inherits="EditableBuildViewTemplate" setAllPoints="true"/>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildCreatorMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

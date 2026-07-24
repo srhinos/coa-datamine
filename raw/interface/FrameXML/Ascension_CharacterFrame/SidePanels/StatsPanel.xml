@@ -1,0 +1,120 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="StatsPanel.lua"/>
+
+    <Button name="StatsPanelStatButtonTemplate" inherits="CollapsibleButtonTemplate, ScrollListItemTemplate" virtual="true">
+        <Size x="158" y="18"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" alpha="0.3" hidden="true">
+                    <Size x="157" y="18"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentLabel" parentKey="Label" justifyH="LEFT" inherits="GameFontNormalSmall">
+                    <Size x="0" y="18"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="8"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentStatText" parentKey="StatText" justifyH="RIGHT" inherits="GameFontHighlightSmall">
+                    <Size x="0" y="18"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentLabel" relativePoint="RIGHT" x="4"/>
+                        <Anchor point="RIGHT" x="-8"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentMoveDownButton" parentKey="MoveDownButton">
+                <Size x="10" y="10"/>
+                <Anchors>
+                    <Anchor point="RIGHT" x="-8" y="1"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.MINI_MAP_ZOOM_70)
+                        self:GetParent():MoveCategoryDown()
+                    </OnClick>
+                </Scripts>
+                <HitRectInsets left="-4" right="-4" bottom="-2" top="-2"/>
+                <NormalTexture file="Interface\Buttons\UI-DownButton" setAllPoints="true"/>
+                <HighlightTexture file="Interface\Buttons\UI-DownButton" alphaMode="ADD" setAllPoints="true"/>
+                <PushedTexture file="Interface\Buttons\UI-DownButton" setAllPoints="true">
+                    <Color r="0.5" g="0.5" b="0.5"/>
+                </PushedTexture>
+            </Button>
+            <Button name="$parentMoveUpButton" parentKey="MoveUpButton">
+                <Size x="10" y="10"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentMoveDownButton" relativePoint="LEFT" x="-2" y="-1"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        PlaySound(SOUNDKIT.MINI_MAP_ZOOM_70)
+                        self:GetParent():MoveCategoryUp()
+                    </OnClick>
+                </Scripts>
+                <HitRectInsets left="-4" right="-4" bottom="-2" top="-2"/>
+                <NormalTexture file="Interface\Buttons\UI-UpButton" setAllPoints="true"/>
+                <HighlightTexture file="Interface\Buttons\UI-UpButton" alphaMode="ADD" setAllPoints="true"/>
+                <PushedTexture file="Interface\Buttons\UI-UpButton" setAllPoints="true">
+                    <Color r="0.5" g="0.5" b="0.5"/>
+                </PushedTexture>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "StatsPanelStatMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" parentKey="Text" setAllPoints="true" hidden="true" inherits="GameFontNormal"/>
+
+        <HighlightTexture parentKey="Highlight" file="Interface\TokenFrame\UI-TokenFrame-CategoryButton" alphaMode="ADD" alpha="0.4">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="3" y="-2"/>
+                <Anchor point="BOTTOMRIGHT" x="-3" y="2"/>
+            </Anchors>
+            <TexCoords left="0" right="1" top="0.609375" bottom="0.796875"/>
+        </HighlightTexture>
+    </Button>
+    
+    <ScrollFrame name="StatsPanelTemplate" hidden="true" inherits="StandardProportionalScrollListTemplate" virtual="true">
+        <Size x="162" y="352"/>
+        
+        <Anchors>
+            <Anchor point="TOPLEFT" x="2" y="-4"/>
+        </Anchors>
+        <Layers>
+            <Layer>
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <ScrollChild>
+            <Frame name="$parentScrollChild" parentKey="ScrollChild">
+                <Size x="186" y="354"/>
+                <Anchors>
+                    <Anchor point="TOP"/>
+                </Anchors>
+            </Frame>
+        </ScrollChild>
+    </ScrollFrame>
+    
+    <ScrollFrame name="AscensionCharacterStatsPanel" parent="AscensionCharacterFrameRightInset" inherits="StatsPanelTemplate">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "StatsPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </ScrollFrame>
+</Ui>

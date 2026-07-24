@@ -1,0 +1,22 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	
+	<!-- Template Definitions -->
+	<CheckButton name="SOCDCheckTemplate" inherits="OptionsSmallCheckButtonTemplate" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="0" top="0" bottom="0" />
+		</HitRectInsets>
+	</CheckButton>
+
+	<!-- Main Frame -->
+	<Frame name="SOCD_MainFrame" parent="UIParent" hidden="true">
+		<Scripts>
+ 			<OnLoad>
+				SOCD_MainFrame_OnLoad(self);
+			</OnLoad>
+			<OnEvent>
+				SOCD_MainFrame_OnEvent(self, event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>

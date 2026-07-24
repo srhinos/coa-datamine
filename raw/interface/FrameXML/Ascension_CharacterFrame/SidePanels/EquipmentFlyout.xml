@@ -1,0 +1,84 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="EquipmentFlyout.lua"/>
+
+   <!-- <Texture name="EquipmentFlyoutTexture" file="Interface\PaperDollInfoFrame\UI-GearManager-Flyout" hidden="true" virtual="true"/>-->
+    <Button name="EquipmentFlyoutButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+        <Frames>
+            <Cooldown name="$parentCooldown" parentKey="Cooldown" inherits="CooldownFrameTemplate"/>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EquipmentFlyoutButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="EquipmentFlyoutPopoutButtonTemplate" hidden="true" virtual="true">
+        <Size x="16" y="32"/>
+        <Anchors>
+            <Anchor point="LEFT" relativePoint="RIGHT" x="6"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EquipmentFlyoutPopoutButtonMixin")
+            </OnLoad>
+        </Scripts>
+        <NormalTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
+        <HighlightTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
+    </Button>
+
+    <Frame name="EquipmentFlyoutFrame" hidden="true" parent="AscensionCharacterFrame" frameStrata="HIGH">
+        <Size x="43" y="43"/>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentHighlight" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">
+                    <Size x="50" y="50"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="-4" y="0"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.78125" top="0" bottom="0.78125"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentButtons" frameStrata="HIGH" enableMouse="true" parentKey="Buttons" clampedToScreen="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="12" y="-6"/>
+                </Anchors>
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                            </Anchors>
+                            <Color r="0" g="0" b="0"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Frame>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-8" y="6"/>
+                            <Anchor point="BOTTOMRIGHT" x="8" y="-8"/>
+                        </Anchors>
+                        <Backdrop edgeFile="Interface\FriendsFrame\UI-Toast-Border"
+                                  tile="true">
+                            <TileSize val="12"/>
+                            <EdgeSize val="12"/>
+                            <BorderColor r="1" g="1" b="0"/>
+                        </Backdrop>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "EquipmentFlyoutMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

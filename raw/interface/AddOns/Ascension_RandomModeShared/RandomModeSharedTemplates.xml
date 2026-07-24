@@ -1,0 +1,250 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RandomModeItemRewardMixin.lua"/>
+    <Script file="RandomModeCategoryTabMixin.lua"/>
+    <Script file="RandomModeLevelingRewardMixin.lua"/>
+    <Script file="RandomModeSpecItemMixin.lua"/>
+    <Script file="RandomModeStoreItemMixin.lua"/>
+    <Script file="RandomModeStoreClassButtonMixin.lua"/>
+
+    <Button name="RandomModeItemRewardTemplate" inherits="ItemIconTemplate" virtual="true">
+        <Size x="38" y="38"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeItemRewardMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" justifyH="LEFT" inherits="GameFontHighlightMedium">
+            <Size x="128" y="0"/>
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" x="12" y="0"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Button name="RandomModeLargeItemRewardTemplate" inherits="ItemIconTemplate" virtual="true">
+        <Size x="48" y="48"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeLargeItemRewardMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" justifyH="LEFT" inherits="GameFontHighlightLarge">
+            <Size x="128" y="0"/>
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" x="12" y="0"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+    
+    <Frame name="RandomModeLevelingRewardTemplate" enableMouse="true" virtual="true">
+        <Size x="100" y="76"/>
+
+        <Layers>
+            <Layer>
+                <Texture name="$parentSeparator" parentKey="Separator">
+                    <Size x="9" y="16"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="4" y="2"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentLevelPlate" parentKey="LevelPlate">
+                    <Anchors>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <FontString name="$parentLevel" parentKey="Level" inherits="GameFontHighlight">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentLevelPlate" x="-1"/>
+                    </Anchors>
+                </FontString>
+                
+                <Texture name="$parentIcon" parentKey="Icon" file="Interface\Icons\Mail_GMIcon">
+                    <Size x="24" y="24"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentLevelPlate"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentItems" parentKey="Items" inherits="HorizontalLayoutFrame">
+                <Size x="100" y="38"/>
+                <Anchors>
+                    <Anchor point="TOP" x="0" y="0"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="spacing" value="8" type="number"/>
+                    <Attribute name="align" value="center" type="string"/>
+                </Attributes>
+                
+                <Frames>
+                    <Button name="$parentReward1" parentKey="Reward1" inherits="RandomModeItemRewardTemplate">
+                        <Size x="38" y="38"/>
+                        <Attributes>
+                            <Attribute name="layoutIndex" value="1" type="number"/>
+                        </Attributes>
+                    </Button>
+                    <Button name="$parentReward2" parentKey="Reward2" inherits="RandomModeItemRewardTemplate">
+                        <Size x="38" y="38"/>
+                        <Attributes>
+                            <Attribute name="layoutIndex" value="2" type="number"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeLevelingRewardMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="RandomModeCategoryTabTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="190" y="39"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentSelected" parentKey="Selected" alphaMode="ADD" hidden="true">
+                    <Size x="186" y="36" />
+                    <Anchors>
+                        <Anchor point="CENTER" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD">
+                    <Size x="186" y="36" />
+                    <Anchors>
+                        <Anchor point="CENTER" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="26" y="26"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="6" y="2"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeCategoryTabMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontNormal">
+            <Size x="138" y="36"/>
+            <Anchors>
+                <Anchor point="LEFT" x="44"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+    
+    <Button name="RandomModeSpecItemTemplate" inherits="OldSpecializationButtonTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeSpecItemMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="RandomModeStoreItemTemplate" hidden="true" virtual="true">
+        <Size x="140" y="36"/>
+
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="36" y="36"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentCost" parentKey="Cost" inherits="HorizontalLayoutFrame">
+                <Size x="106" y="12"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="40" y="-1"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeStoreItemMixin")
+            </OnLoad>
+        </Scripts>
+        <ButtonText name="$parentName" parentKey="Name" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlight">
+            <Size x="106" y="24"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="40" y="1"/>
+            </Anchors>
+        </ButtonText>
+
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Button name="RandomModeCurrencyTemplate" virtual="true">
+        <Size x="202" y="32"/>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="14" y="14"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CurrencyBarItemMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlightSmall">
+            <Size x="176" y="0"/>
+            <Anchors>
+                <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="0"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Button name="RandomModeStoreClassButtonTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Size x="26" y="26"/>
+        <HitRectInsets left="-2" right="-2" top="-2" bottom="-2"/>
+
+        <Layers>
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RandomModeStoreClassButtonMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

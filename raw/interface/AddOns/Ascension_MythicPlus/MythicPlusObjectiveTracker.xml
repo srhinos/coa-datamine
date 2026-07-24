@@ -1,0 +1,184 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="MythicPlusObjectiveTracker.lua"/>
+    
+    <Frame name="MythicPlusObjectiveTracker" parent="UIParent" inherits="ObjectiveTrackerBase">
+        <Frames>
+            <Frame name="$parentMainBlock" parentKey="MainBlock">
+                <Size x="261" y="87"/>
+                
+                <Anchors>
+                    <Anchor point="TOP" y="-40"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="TimerBarBackground">
+                            <Anchors>
+                                <Anchor point="BOTTOM" x="0" y="13"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                    
+                    <Layer>
+                        <FontString name="$parentLevel" parentKey="Level" inherits="PTFontNormal2" text="Level 38" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="28" y="-18"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentTimeLeft" parentKey="TimeLeft" inherits="PTFontHighlightHuge" text="00:00" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentLevel" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentTimeLeft2" parentKey="TimeLeft2" inherits="PTFontHighlight2" text="11:11">
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentLevel" relativePoint="BOTTOMLEFT" x="81" y="-12"/>
+                            </Anchors>
+
+                            <Color r="0.7" g="0.75" b="0.75"/>
+                        </FontString>
+
+                        <FontString name="$parentTimeLeft3" parentKey="TimeLeft3" inherits="PTFontHighlight2" text="22:22">
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentLevel" relativePoint="BOTTOMLEFT" x="125" y="-12"/>
+                            </Anchors>
+                            
+                            <Color r="1" g="0.82" b="0"/>
+                        </FontString>
+
+                        <FontString name="$parentBottomRightText" parentKey="BottomRightText" inherits="PTFontNormal" justifyH="RIGHT">
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="-14" y="30"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Frames>
+                    <Frame name="$parentTimer" parentKey="Timer" inherits="BetterStatusBarTemplate">
+                        <Size x="224" y="13"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="10"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <Texture name="$parentPlusTwoNotch" parentKey="PlusTwoNotch">
+                                    <Size x="11" y="24"/>
+                                    
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativePoint="LEFT" x="90" y="2"/>
+                                    </Anchors>
+                                </Texture>
+
+                                <Texture name="$parentPlusThreeNotch" parentKey="PlusThreeNotch">
+                                    <Size x="11" y="24"/>
+
+                                    <Anchors>
+                                        <Anchor point="CENTER" relativePoint="LEFT" x="134" y="2"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                self.PlusTwoNotch:SetAtlas("specdial_divider", Const.TextureKit.IgnoreAtlasSize)
+                                self.PlusTwoNotch:SetVertexColor(0.7, 0.75, 0.75)
+                                self.PlusThreeNotch:SetAtlas("specdial_divider", Const.TextureKit.IgnoreAtlasSize)
+                                self.PlusThreeNotch:SetVertexColor(1, 0.82, 0)
+                                UseParentLevel(self)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                    
+                    <Button name="$parentAffix1" parentKey="Affix1" id="1" hidden="true" inherits="KeystoneAffixSmallTemplate">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-28" y="-18"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentAffix2" parentKey="Affix2" id="2" hidden="true" inherits="KeystoneAffixSmallTemplate">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentAffix1" relativePoint="LEFT" x="-4"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentAffix3" parentKey="Affix3" id="3" hidden="true" inherits="KeystoneAffixSmallTemplate">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentAffix2" relativePoint="LEFT" x="-4"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentAffix4" parentKey="Affix4" id="4" hidden="true" inherits="KeystoneAffixSmallTemplate">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentAffix3" relativePoint="LEFT" x="-4"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentAffix5" parentKey="Affix5" id="5" hidden="true" inherits="KeystoneAffixSmallTemplate">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentAffix4" relativePoint="LEFT" x="-4"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self.TimerBarBackground:SetAtlas("ChallengeMode-TimerBG-back", Const.TextureKit.UseAtlasSize)
+                        self.Background:SetAtlas("ChallengeMode-Timer", Const.TextureKit.IgnoreAtlasSize)
+                        self.Timer:SetMinMaxValues(0, 100)
+                        self.Timer:SetValue(50)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentObjectiveBlock" parentKey="ObjectiveBlock">
+                <Size x="220" y="1"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentMainBlock" relativePoint="BOTTOM" y="2"/>
+                </Anchors>
+                
+                <Frames>
+                    <Frame name="$parentFinalEncounter" parentKey="FinalEncounter" inherits="MythicPlusTextObjectiveTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" y="-2"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame name="$parentEncounters" parentKey="Encounters" inherits="MythicPlusExpandableObjectiveTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentFinalEncounter" relativePoint="BOTTOM" y="-4"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame name="$parentChampions" parentKey="Champions" inherits="MythicPlusTextObjectiveTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentEncounters" relativePoint="BOTTOM" y="-4"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame name="$parentEnemyForces" parentKey="EnemyForces" inherits="MythicPlusStatusBarObjectiveTemplate">
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentChampions" relativePoint="BOTTOM" y="-8"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "MythicPlusObjectiveTrackerMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

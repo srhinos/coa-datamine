@@ -1,0 +1,94 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Script file="PrimaryStat.lua"/>
+
+	<Button name="ForcedPrimaryStatButtonTemplate" inherits="CAPrimaryStatButtonTemplate" virtual="true">
+		<Size x="48" y="48"/>
+
+		<Layers>
+			<Layer level="ARTWORK">
+	        	<Texture name="$parentNameShadow" parentKey="NameShadow" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow" alpha="0.7">
+	        		<Size x="96" y="32"/>
+	        	</Texture>
+	        </Layer>
+	    </Layers>
+
+	    <Frames>
+            <Button name="$parentSuggested" parentKey="Suggested" enableMouse="true" hidden="true">
+                <Size x="20" y="20"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentIcon" relativePoint="TOPRIGHT" x="-4" y="-4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="40" y="40"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
+
+		<Scripts>
+            <OnLoad>
+				self.Suggested.Icon:SetAtlas("talents-search-notonactionbar", Const.TextureKit.IgnoreAtlasSize)
+				self.Suggested:SetFrameLevel(self.Icon:GetFrameLevel()+1)
+            	MixinAndLoadScripts(self, "ForcedPrimaryStatButtonMixin")
+            </OnLoad>
+        </Scripts>
+	</Button>
+
+	<Frame name="ForcedPrimaryStatFrame" parent="UIParent" hidden="true" frameStrata="FULLSCREEN_DIALOG">
+		<Size x="256" y="96"/>
+		<Anchors>
+            <Anchor point="TOP" x="0" y="-96"/>
+        </Anchors>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentHintText" parentKey="HintText" text="CHOOSE_A_PRIMARY_STAT" inherits="GameFontHighlightMedium">
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="BACKGROUND">
+            	<Texture name="$parentBG" parentKey="BG" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+            		<Size x="256" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentHintText"/>
+                    </Anchors>
+            	</Texture>
+                <Texture name="$parentBG2" parentKey="BG2" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+                    <Size x="512" y="512"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBG3" parentKey="BG3" file="Interface\AddOns\AwAddons\Textures\Collections\Shadow">
+                    <Size x="512" y="512"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentBG4" parentKey="BG4" file="Interface\CharacterAdvancement\statCircle3" alphaMode="ADD"> 
+                    <Size x="267" y="267"/>
+                    <Anchors>
+                        <Anchor point="CENTER" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+	    <Scripts>
+	    	<OnLoad>
+	    		MixinAndLoadScripts(self, ForcedPrimaryStatMixin)
+	    	</OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+	    </Scripts>
+	</Frame>
+</Ui>

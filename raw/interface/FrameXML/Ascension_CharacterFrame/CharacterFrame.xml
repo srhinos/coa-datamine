@@ -1,0 +1,80 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CharacterFrame.lua"/>
+    
+    <CheckButton name="AscensionCharacterFrameTabTemplate" inherits="TabSystemTabTemplate" virtual="true"/>
+
+    <CheckButton name="AscensionCharacterFrameSideTabTemplate" inherits="TabSystemTopTabTemplate" virtual="true">
+        <Size x="88" y="34"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon" alpha="0.4">
+                    <Size x="22" y="25"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CharacterFrameSideTabMixin")
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+    
+    <Frame name="CharacterFramePanelTemplate" setAllPoints="true" parent="AscensionCharacterFrameInset" virtual="true"/>
+
+    <Frame name="AscensionCharacterFrameTemplate" hidden="true" movable="true" enableMouse="true" parent="UIParent" inherits="PortraitFrameTemplate" virtual="true">
+        <Size x="384" y="424"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" x="22" y="-104"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer>
+                <FontString name="$parentClassLevelLabel" parentKey="ClassLevelLabel" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOP" x="-18" y="-34"/><!--might need to move more left if someone finds a wider name-->
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentInset" parentKey="Inset" inherits="InsetFrameTemplate2">
+                <Size x="376" y="358"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-62"/>
+                </Anchors>
+            </Frame>
+            
+            <Frame name="$parentRightInset" parentKey="RightInset" inherits="InsetFrameTemplate2">
+                <Size x="190" y="358"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentInset" relativePoint="TOPRIGHT" x="4"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Frame>
+
+    <Frame name="AscensionCharacterFrame" inherits="AscensionCharacterFrameTemplate">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CharacterFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Include file="SidePanels\StatsPanel.xml"/>
+    <Include file="SidePanels\TitlesPanel.xml"/>
+    <Include file="SidePanels\EquipmentManagerPanel.xml"/>
+    <Include file="SidePanels\MysticEnchantPanel.xml"/>
+    <Include file="SidePanels\CompanionPanel.xml"/>
+    <Include file="Panels\PaperDollPanel.xml"/>
+    <Include file="Panels\PetPaperDollPanel.xml"/>
+    <Include file="Panels\ReputationPanel.xml"/>
+    <Include file="Panels\SkillsPanel.xml"/>
+    <Include file="Panels\CurrencyPanel.xml"/>
+</Ui>

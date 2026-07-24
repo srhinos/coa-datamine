@@ -1,0 +1,41 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+
+    <Script file="CoA_SpellActivationOverlayOld.lua"/>
+
+    <Frame name="CoASpellActivationOverlayTemplate" virtual="true">
+        <Animations>
+            <AnimationGroup parentKey="Pulse">
+                <Scale scaleX="1.08" scaleY="1.08" duration="0.5" smoothing="IN_OUT" order="1"/>
+                <Scale scaleX="0.9259259259259258" scaleY="0.9259259259259258" duration="0.5" smoothing="IN_OUT" order="2"/>
+                <Scripts>
+                    <OnFinished>
+                        self:Play()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Texture" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASpellOverlayMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    <Frame name="CoASpellActivationOverlay" parent="UIParent">
+        <Size x="256" y="256"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoASpellActivationOverlayMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+    </Frame>
+</Ui>

@@ -1,0 +1,43 @@
+## Interface: 30300
+## Title: |cfffe8c00A|r|cffff9a35s|r|cffffa954c|r|cffffb771e|r|cffffc58dn|r|cffffd3a9s|r|cffffe2c5i|r|cfffff0e2o|r|cffffffffn|r |cffFFFFFFUI|r
+## Notes: Main UI for Ascension
+## SavedVariables: AscensionUI_DB, AscensionUILDBIconDB
+## SavedVariablesPerCharacter: AscensionUI_CDB
+## Dependencies: Ascension_Collections
+
+libs\libs.xml
+
+Shared\ButtonTemplates.lua
+Shared\HybridScrollFrame.lua
+Shared\IconSelector.lua
+
+Shared\Client_LocalizationStuff.lua
+
+util.lua
+
+AscensionUI.lua
+
+DeathRecap\DeathRecap.lua
+DeathRecap\DeathRecapEntry.lua
+DeathRecap\DeathRecapFrame.lua
+
+CharacterAdvancement\CASpecListMixin.lua
+
+PathToAscensionHooks.lua
+# Tutorials\Tutorials.lua
+
+SkillTree\SkillTree.lua
+
+Gossips\GossipTimerMixin.lua
+Gossips\gossipShared.lua
+Gossips\PrestigeMode.lua
+Gossips\Lottery.lua
+Gossips\SkillCard.lua
+Gossips\CallBoardCore.lua
+Gossips\CallBoardWidgets.lua
+Gossips\CallBoardLayout.lua
+Gossips\CallBoardRender.lua
+Gossips\CallBoardTimers.lua
+
+BuildCreatorHelp\SelectionMenuTemplates.lua
+BuildCreatorHelp\BuildCreatorHelpFreepick.lua

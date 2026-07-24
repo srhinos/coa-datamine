@@ -1,0 +1,216 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TableInspectorLineMixin.lua"/>
+    <Script file="TableInspector.lua"/>
+    
+    <Button name="TableInspectorLineTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentAlternative" parentKey="Alternative" setAllPoints="true" hidden="true">
+                    <Color r="0" g="0" b="0" a="0.2"/>
+                </Texture>
+            </Layer>
+            <Layer>
+
+                <FontString name="$parentKey" parentKey="Key" justifyH="LEFT" inherits="GameFontNormalSmall">
+                    <Size x="0" y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="4"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentValue" parentKey="Value" justifyH="RIGHT" inherits="GameFontHighlightSmall">
+                    <Size x="0" y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentKey" relativePoint="RIGHT" x="8"/>
+                        <Anchor point="RIGHT" x="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TableInspectorLineMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+
+    <Frame name="TableInspectorFrame" movable="true" enableMouse="true" frameStrata="FULLSCREEN" hidden="true" inherits="DefaultPanelTemplate">
+        <Size x="600" y="380"/>
+        
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer>
+                <Texture name="$parentBackground" parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-4"/>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentCloseButton" parentKey="ClosePanelButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="6" y="5"/>
+                </Anchors>
+            </Button>
+
+            <EditBox name="$parentSearch" parentKey="Search" inherits="InputBoxInstructionsTemplate">
+                <Size x="280" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="48" y="-24"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentLabel" parentKey="Label" text="Table: " inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="RIGHT" relativePoint="LEFT" x="-4"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                
+                <Attributes>
+                    <Attribute name="instruction" value="Search a global table or function.."/>
+                </Attributes>
+                
+                <Scripts>
+                    <OnEnterPressed>
+                        self:GetParent():SearchObject(self:GetText())
+                        self:ClearFocus()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+
+            <EditBox name="$parentFilterSearch" parentKey="FilterSearch" inherits="SearchBoxTemplate">
+                <Size x="120" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-8" y="-24"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentLabel" parentKey="Label" text="Filter: " inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="RIGHT" relativePoint="LEFT" x="-4"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnEnterPressed>
+                        self:GetParent():FilterObject(self:GetText())
+                        self:ClearFocus()
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+            
+            <Button name="$parentSelectTarget" parentKey="SelectTarget" text="Select Frame" inherits="StandardButtonTemplate">
+                <Size x="120" y="20"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="8" y="8"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():TargetFrame()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentRefresh" parentKey="Refresh" text="Refresh" inherits="StandardButtonTemplate">
+                <Size x="120" y="20"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentSelectTarget" relativePoint="RIGHT" x="4"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Refresh()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentGoBackButton" parentKey="GoBackButton" text="Back" inherits="StandardButtonTemplate">
+                <Size x="80" y="20"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():GoBack()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentCopyEntireTableButton" parentKey="CopyEntireTableButton" text="Copy Table" inherits="StandardButtonTemplate">
+                <Size x="100" y="20"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentGoBackButton" relativePoint="LEFT" x="-24"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():CopyEntireTable()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Frame name="$parentInspectedTableList" parentKey="InspectedTableList" inherits="ProportionalScrollListTemplate">
+                <Size x="572" y="300"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-48"/>
+                </Anchors>
+            </Frame>
+            
+            <Frame name="$parentInstruction" parentKey="Instruction">
+                <Size x="592" y="300"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-48"/>
+                    <Anchor point="TOPRIGHT" x="-4" y="-48"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentText" parentKey="Text" text="-- No Data --" inherits="GameFontDisable">
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TableInspectorMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="TableInspectSelectFrame" parent="UIParent" frameStrata="FULLSCREEN_DIALOG" hidden="true">
+        <Size x="380" y="180"/>
+        <Anchors>
+            <Anchor point="CENTER" y="180"/>
+        </Anchors>
+        
+        <Layers>
+            <Layer>
+                <FontString name="$parentText" parentKey="Text" text="Left Click to Target a Frame|nRight Click to Cancel" inherits="GameFontNormalLarge">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

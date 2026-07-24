@@ -1,0 +1,182 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CoAClassBundleStore.lua"/>
+    
+    <Button name="CoAClassBundleStoreItemTemplate" motionScriptsWhileDisabled="true" hidden="true" virtual="true">
+        <Size x="140" y="32"/>
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="ItemIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Frame>
+            <SimpleHTML name="$parentCost" parentKey="Cost" inherits="BaseHyperlinkHTMLScriptsTemplate">
+                <Size x="106" y="12"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="32" y="-1"/>
+                </Anchors>
+
+                <FontString justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightSmall"/>
+            </SimpleHTML>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoAClassBundleStoreItemMixin")
+            </OnLoad>
+        </Scripts>
+        <ButtonText name="$parentName" parentKey="Name" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightSmall">
+            <Size x="106" y="24"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="34" y="2"/>
+            </Anchors>
+        </ButtonText>
+
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Frame name="CoAClassBundleStoreBase" parent="UIParent" frameStrata="HIGH" movable="true" enableMouse="true" inherits="RaisedPortraitFrameTemplateNoBackground" toplevel="true" virtual="true" hidden="true">
+        <Size x="600" y="400"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture vertTile="true" horizTile="true" file="Interface\FrameGeneral\UI-Background-Rock2">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentPageText" parentKey="PageText" inherits="GameFontHighlight">
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="44"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="layoutType" value="LargeShadowOverlay"/>
+                    <Attribute name="useParentLevel" value="true" type="boolean"/>
+                </Attributes>
+            </Frame>
+
+            <EditBox name="$parentSearchBox" parentKey="SearchBox" inherits="SearchBoxTemplate">
+                <Size x="180" y="20"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="62" y="-34"/>
+                </Anchors>
+            </EditBox>
+
+            <Button name="$parentFilter" parentKey="Filter" inherits="FilterDropDownButtonTemplate">
+                <Size x="78" y="22"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentSearchBox" relativePoint="RIGHT" x="6" y="-1"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentPreviousPageButton" parentKey="PreviousPageButton" inherits="LeftButtonTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOM" x="-16" y="12"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():PreviousPage()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentNextPageButton" parentKey="NextPageButton" inherits="RightButtonTemplate">
+                <Anchors>
+                    <Anchor point="BOTTOM" x="16" y="12"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():NextPage()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" inherits="InputBlockTextTemplate" setAllPoints="true" hidden="true">
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="SharedButtonTemplate">
+                        <Size x="100" y="28"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="84"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+            <Frame name="$parentLoadingFrame" parentKey="LoadingFrame" inherits="InputBlockLoadingTemplate" setAllPoints="true" hidden="true"/>
+
+            <Button name="$parentCurrency" parentKey="Currency">
+                <Size x="202" y="32"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="12" y="12"/>
+                </Anchors>
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentIcon" parentKey="Icon">
+                            <Size x="18" y="18"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="8"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CurrencyBarItemMixin")
+                    </OnLoad>
+                </Scripts>
+
+                <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlightSmall">
+                    <Size x="176" y="0"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="0"/>
+                    </Anchors>
+                </ButtonText>
+
+                <PushedTextOffset x="0" y="0"/>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoAClassBundleStoreMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="CoAClassBundleStore" parent="UIParent" inherits="CoAClassBundleStoreBase" hidden="true"/>
+    <Frame name="CoAClassBundleStore2" parent="UIParent" inherits="CoAClassBundleStoreBase" hidden="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CoAClassBundleStore2Mixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

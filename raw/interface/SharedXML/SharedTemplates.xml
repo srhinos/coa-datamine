@@ -1,0 +1,176 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    
+    <Script file="SharedTemplates.lua"/>
+
+    <Frame name="BorderIconTemplate" virtual="true">
+        <Size x="32" y="32"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+            </Layer>
+            <Layer>
+                <Texture name="$parentIconBorder" parentKey="IconBorder" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentOverlay" parentKey="Overlay" setAllPoints="true"/>
+            </Layer>
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="SpellIconTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellIconTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="ItemIconTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Layers>
+            <Layer>
+                <FontString name="$parentCount" parentKey="Count" inherits="NumberFontNormal" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "ItemIconTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="CooldownItemIconTemplate" inherits="ItemIconTemplate" virtual="true">
+        <Frames>
+            <Cooldown name="$parentCooldown" parentKey="Cooldown" setAllPoints="true" inherits="CooldownFrameTemplate"/>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CooldownItemIconTemplateMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="DisabledOverlayTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentDisabledBlack" parentKey="DisabledBlack">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentDisabledOverlay" parentKey="DisabledOverlay">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                self.DisabledBlack:SetTexture(0, 0, 0, 0.7)
+                self.DisabledOverlay:SetAtlas("talents-node-choiceflyout-square-locked", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="AnimatedMagicRingTemplate" virtual="true">
+        <Size x="600" y="600"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentRing" parentKey="Ring" setAllPoints="true" alphaMode="ADD" file="Interface\Darkmoon\Magic">
+                    <Animations>
+                        <AnimationGroup parentKey="Animation" looping="REPEAT">
+                            <Rotation order="1" duration="60" degrees="-360" smoothing="IN_OUT"/>
+                        </AnimationGroup>
+                        
+                        <AnimationGroup parentKey="Breathe" looping="REPEAT">
+                            <Alpha order="1" duration="2" change="-0.5" smoothing="IN_OUT"/>
+                            <Alpha order="2" duration="2" change="0.5" smoothing="IN_OUT"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentUnlock" parentKey="Unlock" setAllPoints="true" alphaMode="ADD" alpha="0" file="Interface\Darkmoon\Magic">
+                    <Animations>
+                        <AnimationGroup parentKey="Animation" looping="REPEAT">
+                            <Rotation order="1" duration="90" degrees="-360"/>
+                        </AnimationGroup>
+
+                        <AnimationGroup parentKey="Splash">
+                            <Alpha order="1" duration="0.2" change="1" smoothing="IN"/>
+                            <Alpha order="2" duration="2" change="-1" smoothing="OUT"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+
+                <Texture name="$parentSplash" parentKey="Splash" setAllPoints="true" alphaMode="ADD" alpha="0" file="Interface\Darkmoon\Magic">
+                    <Animations>
+                        <AnimationGroup parentKey="Animation" looping="REPEAT">
+                            <Rotation order="1" duration="30" degrees="-360"/>
+                        </AnimationGroup>
+
+                        <AnimationGroup parentKey="Splash">
+                            <Alpha order="1" duration="0.2" change="1" smoothing="IN"/>
+                            <Alpha order="2" duration="2" change="-1" smoothing="OUT"/>
+                            <Scale order="2" duration="2" scaleX="1.5" scaleY="1.5" smoothing="OUT"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentAdd" parentKey="Add" setAllPoints="true" alphaMode="ADD" file="Interface\Darkmoon\Magic_Add">
+                    <Animations>
+                        <AnimationGroup parentKey="Animation" looping="REPEAT">
+                            <Rotation order="1" duration="60" degrees="360"/>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "AnimatedMagicRingMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="TestSecureTemplate" inherits="BorderIconTemplate" virtual="true">
+        <Size x="32" y="32"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BorderIconTemplateMixin")
+                self:SetIcon("Interface\\Icons\\INV_Misc_QuestionMark")
+            </OnLoad>
+            
+            <OnClick>
+                dprint("issecure():", issecure() or "nil")
+            </OnClick>
+        </Scripts>
+    </Button>
+</Ui>

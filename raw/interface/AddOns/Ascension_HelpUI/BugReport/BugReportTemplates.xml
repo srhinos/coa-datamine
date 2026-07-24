@@ -1,0 +1,254 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="BugReportTemplates.lua"/>
+    
+    <Frame name="BugReportFieldTemplate" enableMouse="true" hidden="true" virtual="true">
+        <Layers>
+            <Layer>
+                <FontString name="$parentLabel" parentKey="Label" inherits="PTFontNormal3" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="2"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentRequired" parentKey="Required" text="*" justifyH="LEFT" inherits="PTFontNormal3" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentLabel" relativePoint="RIGHT"/>
+                    </Anchors>
+                    <Color r="0.2" g="1" b="0.2"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BugReportFieldMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <EditBox name="BugReportOneLineFieldTemplate" inherits="InputBoxInstructionsTemplate, BugReportFieldTemplate" virtual="true">
+        <Size x="20" y="20"/>
+        <Scripts>
+            <OnLoad>
+                self.type = "oneline"
+                MixinAndLoadScripts(self, "BugReportFieldMixin")
+                InputBoxInstructions_OnLoad(self)
+            </OnLoad>
+        </Scripts>
+    </EditBox>
+
+    <EditBox name="BugReportAutoCompleteTemplate" inherits="AutoCompleteInputTemplate, BugReportFieldTemplate" virtual="true">
+        <Size x="400" y="20"/>
+        <Anchors>
+            <!--this has to have an anchor or dialog scroll wont initialize properly-->
+            <Anchor point="TOP"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                self.type = "autocomplete"
+                MixinAndLoadScripts(self, "BugReportAutoCompleteFieldMixin", "AutoCompleteInputMixin")
+            </OnLoad>
+            <OnTextChanged>
+                if self:HasFocus() then
+                    self:AutoCompleteOnTextChanged()
+                end
+                self:UpdateValue(self:GetText())
+            </OnTextChanged>
+        </Scripts>
+    </EditBox>
+
+    <ScrollFrame name="BugReportMultiLineFieldTemplate" enableMouse="true" inherits="BasicSharedScrollFrameTemplate, BugReportFieldTemplate" virtual="true">
+        <Size x="376" y="64"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="4"/>
+                        <Anchor point="BOTTOMRIGHT" x="24" y="0"/>
+                    </Anchors>
+
+                    <Color r="0" g="0" b="0" a="0.8"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentInset" inherits="NineSlicePanelTemplate">
+                <Attributes>
+                    <Attribute name="layoutType" value="InsetFrameTemplate" type="string"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="4"/>
+                    <Anchor point="BOTTOMRIGHT" x="24" y="0"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <ScrollChild>
+            <EditBox name="$parentText" parentKey="Text" inherits="MultiLineInputBoxInstructionsTemplate">
+                <Backdrop/>
+                <Scripts>
+                    <OnLoad>
+                        ScrollingEdit_OnCursorChanged(self, 0, 0, 0, 0)
+                        InputBoxInstructions_OnLoad(self)
+                    </OnLoad>
+                    <OnShow>
+                        self:SetSize(self:GetParent():GetSize())
+                    </OnShow>
+                    <OnTextChanged>
+                        InputBoxInstructions_OnTextChanged(self)
+                        ScrollingEdit_OnTextChanged(self, self:GetParent())
+                        self:GetParent():UpdateValue(self:GetText())
+                    </OnTextChanged>
+                    <OnCursorChanged>
+                        ScrollingEdit_OnCursorChanged(self, x, y, w, h * 1.5)
+                    </OnCursorChanged>
+                    <OnUpdate>
+                        ScrollingEdit_OnUpdate(self, elapsed, self:GetParent());
+                    </OnUpdate>
+                    <OnEnterPressed>
+                        if IsShiftKeyDown() then
+                            self:Insert("\n")
+                            return
+                        end
+
+                        EditBox_ClearFocus(self)
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+        </ScrollChild>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BasicSharedScrollMixin")
+
+                self.type = "multiline"
+                MixinAndLoadScripts(self, "BugReportMultiLineFieldMixin")
+            </OnLoad>
+            <OnMouseUp>
+                EditBox_SetFocus(self.Text)
+            </OnMouseUp>
+        </Scripts>
+    </ScrollFrame>
+    
+    <Frame name="BugReportDropdownTemplate" inherits="UIDropDownMenuTemplate2, BugReportFieldTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                UIDropDownMenu2_OnLoad(self)
+                self.type = "dropdown"
+                MixinAndLoadScripts(self, "BugReportDropDownFieldMixin")
+                UIDropDownMenu_SetWidth(self, 140)
+                UIDropDownMenu_JustifyText(self, "LEFT")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <EditBox name="BugReportSpellTemplate" inherits="InputBoxInstructionsTemplate, BugReportFieldTemplate" virtual="true">
+        <Size x="20" y="20"/>
+        <Frames>
+            <Frame name="$parentSpell" parentKey="Spell" enableMouse="true" hidden="true">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" x="6"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true">
+                            <Color r="1" g="1" b="1"/>
+                        </Texture>
+                    </Layer>
+                    <Layer>
+                        <Texture parentKey="IconBorder">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-2" y="2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="2" y="-2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                
+                <Scripts>
+                    <OnLoad>
+                        self.IconBorder:SetAtlas("auctionhouse-itemicon-small-border", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                    <OnEnter>
+                        self:GetParent():OnEnterIcon(self)
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                self.type = "spell"
+                MixinAndLoadScripts(self, "BugReportSpellFieldMixin")
+                InputBoxInstructions_OnLoad(self)
+            </OnLoad>
+            <OnEditFocusGained>
+                ChatEdit_SetInsertTarget(self:GetName())
+            </OnEditFocusGained>
+        </Scripts>
+    </EditBox>
+
+    <EditBox name="BugReportMysticEnchantTemplate" inherits="BugReportSpellTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                self.type = "mysticenchant"
+                MixinAndLoadScripts(self, "BugReportMysticEnchantFieldMixin")
+                InputBoxInstructions_OnLoad(self)
+            </OnLoad>
+        </Scripts>
+    </EditBox>
+
+    <EditBox name="BugReportItemTemplate" inherits="InputBoxInstructionsTemplate, BugReportFieldTemplate" virtual="true">
+        <Size x="20" y="20"/>
+        <Frames>
+            <Frame name="$parentItem" parentKey="Item" enableMouse="true" hidden="true">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" x="6"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true">
+                            <Color r="1" g="1" b="1"/>
+                        </Texture>
+                    </Layer>
+                    <Layer>
+                        <Texture parentKey="IconBorder">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentIcon" x="-2" y="2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentIcon" x="2" y="-2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.IconBorder:SetAtlas("auctionhouse-itemicon-small-border", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                    <OnEnter>
+                        self:GetParent():OnEnterIcon(self)
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                self.type = "item"
+                MixinAndLoadScripts(self, "BugReportItemFieldMixin")
+                InputBoxInstructions_OnLoad(self)
+            </OnLoad>
+            <OnEditFocusGained>
+                ChatEdit_SetInsertTarget(self:GetName())
+            </OnEditFocusGained>
+        </Scripts>
+    </EditBox>
+</Ui>

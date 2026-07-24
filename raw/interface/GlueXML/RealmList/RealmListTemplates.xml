@@ -1,0 +1,696 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="RealmInfo.lua"/>
+    <Script file="Realm.lua"/>
+    <Script file="RealmTab.lua"/>
+    <Script file="RealmScrollListItem.lua"/>
+    
+    <Frame name="RealmInfoScriptsTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RealmInfoMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="SmallRealmInfoIconTemplate" inherits="RealmInfoScriptsTemplate" virtual="true">
+        <Size x="300" y="24"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIconBackground" parentKey="IconBackground">
+                    <Size x="21" y="21"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="26" y="26"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentHeader" parentKey="Header" inherits="GameFontNormalOutlineSmall">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIconBackground" relativePoint="RIGHT" x="4" y="6"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightOutlineSmall">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIconBackground" relativePoint="RIGHT" x="4" y="-6"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" x="0" y="1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBadge" parentKey="Badge">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" relativePoint="BOTTOM" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentIconHighlight" alphaMode="ADD" parentKey="IconHighlight">
+                    <Size x="20" y="20"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Frame name="SmallRealmInfoIconOneLineTemplate" inherits="RealmInfoScriptsTemplate" virtual="true">
+        <Size x="300" y="24"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIconBackground" parentKey="IconBackground">
+                    <Size x="21" y="21"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="26" y="26"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentHeader" parentKey="Header" inherits="GameFontNormalOutlineSmall">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIconBackground" relativePoint="RIGHT" x="4" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" x="0" y="1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBadge" parentKey="Badge">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" relativePoint="BOTTOM" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentIconHighlight" alphaMode="ADD" parentKey="IconHighlight">
+                    <Size x="20" y="20"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Frame name="RealmInfoIconTemplate" inherits="RealmInfoScriptsTemplate" virtual="true">
+        <Size x="300" y="44"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIconBackground" parentKey="IconBackground">
+                    <Size x="39" y="39"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentHeader" parentKey="Header" inherits="GameFontNormalOutline">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIconBackground" relativePoint="RIGHT" x="4" y="8"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlightOutline">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIconBackground" relativePoint="RIGHT" x="4" y="-8"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBadge" parentKey="Badge">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" relativePoint="BOTTOM" x="0" y="4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentIconHighlight" alphaMode="ADD" parentKey="IconHighlight">
+                    <Size x="35" y="36"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Frame name="RealmInfoIconOneLineTemplate" inherits="RealmInfoScriptsTemplate" virtual="true">
+        <Size x="300" y="44"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIconBackground" parentKey="IconBackground">
+                    <Size x="39" y="39"/>
+                    <Anchors>
+                        <Anchor point="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentIconBorder" parentKey="IconBorder">
+                    <Size x="48" y="48"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentHeader" parentKey="Header" inherits="GameFontNormalOutline">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentIconBackground" relativePoint="RIGHT" x="4" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentIconHighlight" alphaMode="ADD" parentKey="IconHighlight">
+                    <Size x="35" y="36"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIconBackground"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+    
+    <CheckButton name="RealmTabTemplate" virtual="true">
+        <Size x="176" y="42"/>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "RealmTabMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText parentKey="Text">
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </ButtonText>
+
+        <PushedTextOffset x="0" y="-2"/>
+
+        <NormalFont style="GameFontNormalOutline"/>
+        <HighlightFont style="GameFontHighlightOutline"/>
+        <DisabledFont style="GameFontHighlightOutline"/>
+
+        <NormalTexture alpha="0.5" setAllPoints="true"/>
+        <PushedTexture alpha="0.5" setAllPoints="true"/>
+        <HighlightTexture alphaMode="ADD" alpha="0.5" setAllPoints="true"/>
+        <CheckedTexture alphaMode="ADD" setAllPoints="true"/>
+    </CheckButton>
+
+    <Button name="BaseRealmChoiceTemplate" virtual="true">
+        <Size x="330" y="600"/>
+
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentBanner" parentKey="Banner" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="12" y="-22"/>
+                        <Anchor point="BOTTOMRIGHT"  x="-12" y="72"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <FontString name="$parentName" parentKey="Name" inherits="RealmTitleFont" text="REALM_NAME">
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="160"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentNameTexture" parentKey="NameTexture">
+                    <Size x="256" y="64"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="160"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentSubName" parentKey="SubName" inherits="LargeRealmTitleFont" text="REALM_NAME">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentName" relativePoint="BOTTOM" y="-1"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentNotice" parentKey="Notice" inherits="GameFontHighlightOutline" hidden="true" text="ALPHA_PURCHASE_REQUIRED">
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="TOP" x="0" y="-92"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentStatus" parentKey="Status" inherits="GameFontNormalOutline" text="REALM_IS_S">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-48"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentStatusIcon" parentKey="StatusIcon" file="Interface\FriendsFrame\StatusIcon-Online">
+                    <Size x="8" y="8"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentStatus" relativePoint="LEFT" x="-2" y="0"/>
+                    </Anchors>
+                </Texture>
+                
+                <FontString name="$parentWrongClient" parentKey="WrongClient" inherits="GameFontHighlightOutline" hidden="true" text="DOWNLOAD_PTR_CLIENT">
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="96"/>
+                    </Anchors>
+                    <Color r="1" g="0.42" b="0.42"/>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentSelectButton" parentKey="SelectButton" text="SELECT_REALM" inherits="SharedButtonTemplate">
+                <Size x="155" y="38"/>
+
+                <Anchors>
+                    <Anchor point="BOTTOM" x="0" y="52"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Select()
+                    </OnClick>
+                    <OnEnter>
+                        if self:IsEnabled() == 1 and self:GetParent():IsEnabled() == 1 then
+                            self:GetParent():OnEnter()
+                            self:GetParent():LockHighlight()
+                        end
+                    </OnEnter>
+                    <OnLeave>
+                        if self:IsEnabled() == 1 and self:GetParent():IsEnabled() == 1 then
+                            self:GetParent():OnLeave()
+                            self:GetParent():UnlockHighlight()
+                        end
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parentFlashFrame" parentKey="FlashFrame" hidden="true" setAllPoints="true">
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture alphaMode="ADD" setAllPoints="true">
+                            <Color r="1" g="1" b="1" a="1"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Animations>
+                    <AnimationGroup parentKey="Anim">
+                        <Alpha change="0" order="1" duration="0"/>
+                        <Alpha change="1" order="2" duration="0.1" smoothing="IN"/>
+                        <Alpha change="-1" order="3" duration="0.2" smoothing="IN_OUT"/>
+
+                        <Scripts>
+                            <OnPlay>
+                                self:GetParent():Show()
+                            </OnPlay>
+                            <OnStop>
+                                self:GetParent():Hide()
+                            </OnStop>
+                            <OnFinished>
+                                self:GetParent():Hide()
+                            </OnFinished>
+                        </Scripts>
+                    </AnimationGroup>
+                </Animations>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "LargeRealmMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="SmallRealmChoiceTemplate" inherits="BaseRealmChoiceTemplate" virtual="true">
+        <Size x="319" y="166"/>
+
+        <Layers>
+            <Layer>
+                <FontString name="$parentOverview" parentKey="Overview" text="OVERVIEW" inherits="GameFontNormalOutline">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="28" y="92"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentOverviewText" parentKey="OverviewText" justifyV="TOP" justifyH="LEFT" inherits="GameFontHighlightOutline">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentOverview" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-28" y="32"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentSelected" parentKey="Selected" alpha="0.3" hidden="true" alphaMode="ADD">
+                    <Size x="312" y="69"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alpha="0.2" alphaMode="ADD">
+                    <Size x="312" y="69"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentCharacters" parentKey="Characters" inherits="SmallRealmInfoIconOneLineTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="20" y="-14"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentExpansion" parentKey="Expansion" inherits="SmallRealmInfoIconOneLineTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentCharacters" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SmallRealmMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="RealmChoiceTemplate" inherits="BaseRealmChoiceTemplate" virtual="true">
+        <Layers>
+            <Layer>
+                <FontString name="$parentOverviewText" parentKey="OverviewText" justifyV="TOP" inherits="GameFontHighlightOutline">
+                    <Size x="280" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentSubName" relativePoint="BOTTOM" x="0" y="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentSelected" parentKey="Selected" alpha="0.3" hidden="true" alphaMode="ADD">
+                    <Size x="326" y="120"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="6"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <Texture name="$parentHighlight" parentKey="Highlight" alpha="0.2" alphaMode="ADD">
+                    <Size x="326" y="120"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="6"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentGameMode" parentKey="GameMode" inherits="RealmInfoIconTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" x="28" y="-46"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentExpansion" parentKey="Expansion" inherits="RealmInfoIconTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentGameMode" relativePoint="BOTTOMLEFT" x="0" y="-20"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentCharacters" parentKey="Characters" inherits="RealmInfoIconOneLineTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentExpansion" relativePoint="BOTTOMLEFT" x="0" y="-20"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Button>
+
+    <Frame name="RealmPageTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                self:GetParent().Pages = self:GetParent().Pages or {}
+                tinsert(self:GetParent().Pages, self)
+                self:SetSize(GlueParent:GetWidth(), GetScreenHeight())
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="DevelopmentRealmPageTemplate" inherits="RealmPageTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentRealm1" parentKey="Realm1" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="70" y="-15"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm2" parentKey="Realm2" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOP" x="0" y="-15"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm3" parentKey="Realm3" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-70" y="-15"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentRealm4" parentKey="Realm4" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentRealm1" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm5" parentKey="Realm5" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentRealm2" relativePoint="BOTTOM" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm6" parentKey="Realm6" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentRealm3" relativePoint="BOTTOMRIGHT" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentRealm7" parentKey="Realm7" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentRealm4" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm8" parentKey="Realm8" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentRealm5" relativePoint="BOTTOM" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm9" parentKey="Realm9" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentRealm6" relativePoint="BOTTOMRIGHT" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentRealm10" parentKey="Realm10" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentRealm7" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm11" parentKey="Realm11" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentRealm8" relativePoint="BOTTOM" x="0" y="-4"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm12" parentKey="Realm12" inherits="SmallRealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentRealm9" relativePoint="BOTTOMRIGHT" x="0" y="-8"/>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+
+    <Frame name="ThreeRealmPageLayout" inherits="RealmPageTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentRealm1" parentKey="Realm1" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" x="70" y="0"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm2" parentKey="Realm2" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm3" parentKey="Realm3" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="RIGHT" x="-70" y="0"/>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+
+    <Frame name="SixRealmPageLayout" inherits="RealmPageTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentRealm1" parentKey="Realm1" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-400" y="310"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm2" parentKey="Realm2" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="0" y="310"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm3" parentKey="Realm3" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="400" y="310"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm4" parentKey="Realm4" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="-400" y="-310"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm5" parentKey="Realm5" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="0" y="-310"/>
+                </Anchors>
+            </Button>
+            <Button name="$parentRealm6" parentKey="Realm6" inherits="RealmChoiceTemplate">
+                <Anchors>
+                    <Anchor point="CENTER" x="400" y="-310"/>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+
+    <Button name="RealmScrollListItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="0" y="32"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentStatusIcon" parentKey="StatusIcon">
+                    <Size x="10" y="10"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="8" y="0"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentName" parentKey="Name" inherits="GameFontNormalOutline" justifyH="LEFT" maxLines="1">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentStatusIcon" relativePoint="RIGHT" x="6" y="0"/>
+                        <Anchor point="RIGHT" x="-110"/>
+                    </Anchors>
+                </FontString>
+
+                <Texture name="$parentExpansion" parentKey="Expansion">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentName" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentCharacters" parentKey="Characters" inherits="GameFontHighlightOutline" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-8" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, RealmScrollListItemMixin)
+            </OnLoad>
+            <OnClick>
+                self:OnClick(button)
+            </OnClick>
+            <OnDoubleClick>
+                self:OnDoubleClick()
+            </OnDoubleClick>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                self:OnLeave()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <Frame name="ScrollRealmPageTemplate" inherits="RealmPageTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentRealmScrollList" parentKey="RealmScrollList" inherits="ProportionalScrollListTemplate">
+                <Size x="800" y="600"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Frame>
+</Ui>

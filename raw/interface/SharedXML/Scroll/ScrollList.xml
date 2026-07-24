@@ -1,0 +1,676 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="ScrollListItemBase.lua"/>
+    <Script file="MinimalScrollListBar.lua"/>
+    <Script file="ScrollList.lua"/>
+
+    <Button name="MinimalScrollBarStepperScripts" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Texture"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, MinimalScrollBarStepperScriptsMixin)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                self:OnLeave()
+            </OnLeave>
+            <OnMouseDown>
+                self:OnMouseDown()
+            </OnMouseDown>
+            <OnMouseUp>
+                self:OnMouseUp()
+            </OnMouseUp>
+            <OnEnable>
+                self:OnEnable()
+            </OnEnable>
+            <OnDisable>
+                self:OnDisable()
+            </OnDisable>
+        </Scripts>
+    </Button>
+
+    <Button name="ScrollThumbScriptsTemplate" parentKey="Thumb" virtual="true">
+        <Anchors>
+            <Anchor point="TOP"/>
+        </Anchors>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, MinimalScrollListThumbMixin)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnEnable>
+                self:OnEnable()
+            </OnEnable>
+            <OnDisable>
+                self:OnDisable()
+            </OnDisable>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                self:OnLeave()
+            </OnLeave>
+            <OnMouseDown>
+                self:OnMouseDown()
+            </OnMouseDown>
+            <OnMouseUp>
+                self:OnMouseUp()
+            </OnMouseUp>
+        </Scripts>
+    </Button>
+
+    <Button name="MinimalScrollThumbTemplate" inherits="ScrollThumbScriptsTemplate" virtual="true">
+        <Size x="8" y="52"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentBegin" parentKey="Begin">
+                    <Size x="8" y="8"/>
+
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentEnd" parentKey="End">
+                    <Size x="8" y="36"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentMiddle" parentKey="Middle">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentBegin" relativePoint="BOTTOM" y="2"/>
+                        <Anchor point="BOTTOM" relativeTo="$parentEnd" relativePoint="TOP" y="-22"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Attributes>
+            <Attribute name="upBeginTexture" value="minimal-scrollbar-thumb-top"/>
+            <Attribute name="upMiddleTexture" value="minimal-scrollbar-thumb-middle"/>
+            <Attribute name="upEndTexture" value="minimal-scrollbar-thumb-bottom"/>
+            <Attribute name="overBeginTexture" value="minimal-scrollbar-thumb-top-over"/>
+            <Attribute name="overMiddleTexture" value="minimal-scrollbar-thumb-middle-over"/>
+            <Attribute name="overEndTexture" value="minimal-scrollbar-thumb-bottom-over"/>
+            <Attribute name="downBeginTexture" value="minimal-scrollbar-thumb-top-down"/>
+            <Attribute name="downMiddleTexture" value="minimal-scrollbar-thumb-middle-down"/>
+            <Attribute name="downEndTexture" value="minimal-scrollbar-thumb-bottom-down"/>
+        </Attributes>
+    </Button>
+
+    <Button name="StandardScrollThumbTemplate" parentKey="Thumb" inherits="ScrollThumbScriptsTemplate" virtual="true">
+        <Size x="18" y="47"/>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentBegin" parentKey="Begin">
+                    <Size x="18" y="21"/>
+
+                    <Anchors>
+                        <Anchor point="TOP" x="1" y="-1"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentEnd" parentKey="End">
+                    <Size x="18" y="21"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="1" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentMiddle" parentKey="Middle">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentBegin" relativePoint="BOTTOM" y="8"/>
+                        <Anchor point="BOTTOM" relativeTo="$parentEnd" relativePoint="TOP" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Attributes>
+            <Attribute name="upBeginTexture" value="ui-scrollbar-knob-endcap-top"/>
+            <Attribute name="upMiddleTexture" value="ui-scrollbar-knob-center"/>
+            <Attribute name="upEndTexture" value="ui-scrollbar-knob-endcap-bottom"/>
+            <Attribute name="overBeginTexture" value="ui-scrollbar-knob-mouseover-endcap-top"/>
+            <Attribute name="overMiddleTexture" value="ui-scrollbar-knob-mouseover-center"/>
+            <Attribute name="overEndTexture" value="ui-scrollbar-knob-mouseover-endcap-bottom"/>
+            <Attribute name="downBeginTexture" value="ui-scrollbar-knob-endcap-top-disabled"/>
+            <Attribute name="downMiddleTexture" value="ui-scrollbar-knob-center-disabled"/>
+            <Attribute name="downEndTexture" value="ui-scrollbar-knob-endcap-bottom-disabled"/>
+        </Attributes>
+    </Button>
+    
+    <Button name="ProportionalScrollThumbTemplate" parentKey="Thumb" inherits="MinimalScrollThumbTemplate" virtual="true">
+       <Scripts>
+           <OnLoad>
+               MixinAndLoad(self, ProportionalScrollListThumbMixin)
+           </OnLoad>
+       </Scripts>
+    </Button>
+
+    <Button name="StandardProportionalScrollThumbTemplate" parentKey="Thumb" inherits="StandardScrollThumbTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, ProportionalScrollListThumbMixin)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="ScrollListItemBaseTemplate" virtual="true">
+        <Anchors>
+            <Anchor point="LEFT"/>
+            <Anchor point="RIGHT"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                Mixin(self, ScrollListItemBaseMixin)
+            </OnLoad>
+            <OnClick>
+                self:OnClick(button)
+            </OnClick>
+            <OnEnter>
+                self:OnEnter()
+            </OnEnter>
+            <OnLeave>
+                self:OnLeave()
+            </OnLeave>
+        </Scripts>
+    </Button>
+    
+    <Button name="ScrollListItemTemplate" inherits="ScrollListItemBaseTemplate" virtual="true">
+        <Size x="0" y="20"/>
+
+        <NormalTexture setAllPoints="true" file="Interface\GuildFrame\GuildFrame">
+            <TexCoords left="0.36230469" right="0.38183594" top="0.95898438" bottom="0.99804688"/>
+        </NormalTexture>
+        <HighlightTexture parentKey="HighlightTexture" file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar" alphaMode="ADD" setAllPoints="true"/>
+    </Button>
+
+    <Button name="ScrollListItemTextTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontNormal" justifyH="LEFT" maxLines="1">
+            <Anchors>
+                <Anchor point="LEFT" x="4" y="0"/>
+                <Anchor point="RIGHT" x="-4" y="0"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Frame name="ScrollListTemplateNoScrollBar" virtual="true">
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="HybridScrollFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-7"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="3"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentArtOverlay" parentKey="ArtOverlay" setAllPoints="true">
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <Texture parentKey="SelectedHighlight" hidden="true">
+                                    <Color r="1" g="0.8" b="0.2" a="0.2"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Slider name="$parentScrollBar" parentKey="scrollBar" inherits="MinimalHybridScrollBarTemplate">
+                    </Slider>
+                </Frames>
+            </ScrollFrame>
+
+            <Frame name="$parentInsetFrame" parentKey="InsetFrame" inherits="InsetFrameTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="BOTTOMRIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        UseParentLevel(self)
+                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, ScrollListMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="ScrollListTemplate" virtual="true">
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="HybridScrollFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-7"/>
+                    <Anchor point="BOTTOMRIGHT" x="-28" y="3"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentArtOverlay" parentKey="ArtOverlay" setAllPoints="true">
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <Texture parentKey="SelectedHighlight" hidden="true">
+                                    <Color r="1" g="0.8" b="0.2" a="0.2"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+
+                    <Slider name="$parentScrollBar" parentKey="scrollBar" inherits="HybridScrollBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="4" y="-10"/>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="4" y="12"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="Background" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" setAllPoints="true"/>
+                            </Layer>
+                        </Layers>
+                    </Slider>
+                </Frames>
+            </ScrollFrame>
+
+            <Frame name="$parentInsetFrame" parentKey="InsetFrame" inherits="InsetFrameTemplate2">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="BOTTOMRIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        UseParentLevel(self)
+                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, ScrollListMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Button name="MinimalScrollListBarBaseTemplate" parentKey="scrollBar" virtual="true">
+        <Size x="8" y="0"/>
+        
+        <Attributes>
+            <Attribute name="middleAtlas" value="!minimal-scrollbar-track-middle"/>
+            <Attribute name="beginAtlas" value="minimal-scrollbar-track-top"/>
+            <Attribute name="endAtlas" value="minimal-scrollbar-track-bottom"/>
+        </Attributes>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTrackBegin" parentKey="TrackBegin">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentTrackEnd" parentKey="TrackEnd">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentTrackMiddle" parentKey="TrackMiddle">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTrackBegin" relativePoint="BOTTOMLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentTrackEnd" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, MinimalScrollListBarMixin)
+            </OnLoad>
+            <OnClick>
+                self:OnClick()
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <Button name="MinimalScrollListBarTemplate" inherits="MinimalScrollListBarBaseTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentThumb" parentKey="Thumb" inherits="MinimalScrollThumbTemplate"/>
+        </Frames>
+    </Button>
+
+    <Button name="ProportionalScrollListBarTemplate" inherits="MinimalScrollListBarBaseTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentThumb" parentKey="Thumb" inherits="ProportionalScrollThumbTemplate"/>
+        </Frames>
+    </Button>
+
+    <Button name="StandardScrollListBarBaseTemplate" parentKey="scrollBar" virtual="true">
+        <Size x="22" y="0"/>
+
+        <Attributes>
+            <Attribute name="middleAtlas" value="!ui-scrollbar-center"/>
+            <Attribute name="beginAtlas" value="ui-scrollbar-endcap-top"/>
+            <Attribute name="endAtlas" value="ui-scrollbar-endcap-bottom"/>
+        </Attributes>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTrackBegin" parentKey="TrackBegin">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-1" y="21"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentTrackEnd" parentKey="TrackEnd">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="-1" y="-23"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentTrackMiddle" parentKey="TrackMiddle">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTrackBegin" relativePoint="BOTTOMLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentTrackEnd" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, MinimalScrollListBarMixin)
+            </OnLoad>
+            <OnClick>
+                self:OnClick()
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <Button name="StandardScrollListBarTemplate" inherits="StandardScrollListBarBaseTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentThumb" parentKey="Thumb" inherits="StandardScrollThumbTemplate"/>
+        </Frames>
+    </Button>
+
+    <Button name="StandardProportionalScrollListBarTemplate" inherits="StandardScrollListBarBaseTemplate" virtual="true">
+        <Frames>
+            <Button name="$parentThumb" parentKey="Thumb" inherits="StandardProportionalScrollThumbTemplate"/>
+        </Frames>
+    </Button>
+
+    <ScrollFrame name="BaseScrollFrameTemplate" parentKey="ScrollFrame" inherits="HybridScrollFrameTemplate" virtual="true">
+        <Anchors>
+            <Anchor point="TOPLEFT"/>
+            <Anchor point="BOTTOMRIGHT"/>
+        </Anchors>
+
+        <Frames>
+            <Frame name="$parentArtOverlay" parentKey="ArtOverlay" setAllPoints="true">
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="SelectedHighlight" hidden="true">
+                            <Color r="1" g="0.8" b="0.2" a="0.2"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+    </ScrollFrame>
+
+    <Frame name="ScrollListScriptTemplate" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, ScrollListMixin)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="MinimalScrollListTemplate" inherits="ScrollListScriptTemplate" virtual="true">
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="BaseScrollFrameTemplate">
+                <Frames>
+                    <Button name="$parentScrollBar" parentKey="scrollBar" inherits="MinimalScrollListBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="4" y="-16"/>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="4" y="12"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentScrollUpButton" parentKey="scrollUp" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="14" y="9"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" relativeTo="$parentScrollBar" relativePoint="TOP" x="0" y="1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="1" type="number"/>
+                            <Attribute name="normalTexture" value="minimal-scrollbar-arrow-top"/>
+                            <Attribute name="overTexture" value="minimal-scrollbar-arrow-top-over"/>
+                            <Attribute name="downTexture" value="minimal-scrollbar-arrow-top-down"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentScrollDownButton" parentKey="scrollDown" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="14" y="9"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentScrollBar" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="-1" type="number"/>
+                            <Attribute name="normalTexture" value="minimal-scrollbar-arrow-bottom"/>
+                            <Attribute name="overTexture" value="minimal-scrollbar-arrow-bottom-over"/>
+                            <Attribute name="downTexture" value="minimal-scrollbar-arrow-bottom-down"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+
+    <Frame name="ProportionalScrollListTemplate" inherits="ScrollListScriptTemplate" virtual="true">
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="BaseScrollFrameTemplate">
+                <Frames>
+                    <Button name="$parentScrollBar" parentKey="scrollBar" inherits="ProportionalScrollListBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="4" y="-20"/>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="4" y="16"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentScrollUpButton" parentKey="scrollUp" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="14" y="9"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" relativeTo="$parentScrollBar" relativePoint="TOP" x="0" y="1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="1" type="number"/>
+                            <Attribute name="normalTexture" value="minimal-scrollbar-arrow-top"/>
+                            <Attribute name="overTexture" value="minimal-scrollbar-arrow-top-over"/>
+                            <Attribute name="downTexture" value="minimal-scrollbar-arrow-top-down"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentScrollDownButton" parentKey="scrollDown" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="14" y="9"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentScrollBar" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="-1" type="number"/>
+                            <Attribute name="normalTexture" value="minimal-scrollbar-arrow-bottom"/>
+                            <Attribute name="overTexture" value="minimal-scrollbar-arrow-bottom-over"/>
+                            <Attribute name="downTexture" value="minimal-scrollbar-arrow-bottom-down"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+
+    <Frame name="StandardScrollListTemplate" inherits="ScrollListScriptTemplate" virtual="true">
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="BaseScrollFrameTemplate">
+                <Frames>
+                    <Button name="$parentScrollBar" parentKey="scrollBar" inherits="StandardScrollListBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" y="-20"/>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" y="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentScrollUpButton" parentKey="scrollUp" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="18" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" relativeTo="$parentScrollBar" relativePoint="TOP" x="0" y="1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="1" type="number"/>
+                            <Attribute name="normalTexture" value="ui-scrollbar-scrollupbutton-up"/>
+                            <Attribute name="overTexture" value="ui-scrollbar-scrollupbutton-highlight"/>
+                            <Attribute name="downTexture" value="ui-scrollbar-scrollupbutton-down"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentScrollDownButton" parentKey="scrollDown" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="18" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentScrollBar" relativePoint="BOTTOM" x="0" y="-3"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="-1" type="number"/>
+                            <Attribute name="normalTexture" value="ui-scrollbar-scrolldownbutton-up"/>
+                            <Attribute name="overTexture" value="ui-scrollbar-scrolldownbutton-highlight"/>
+                            <Attribute name="downTexture" value="ui-scrollbar-scrolldownbutton-down"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+
+    <Frame name="StandardProportionalScrollListTemplate" inherits="ScrollListScriptTemplate" virtual="true">
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="BaseScrollFrameTemplate">
+                <Frames>
+                    <Button name="$parentScrollBar" parentKey="scrollBar" inherits="StandardProportionalScrollListBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" y="-20"/>
+                            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" y="20"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentScrollUpButton" parentKey="scrollUp" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="18" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" relativeTo="$parentScrollBar" relativePoint="TOP" x="0" y="1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="1" type="number"/>
+                            <Attribute name="normalTexture" value="ui-scrollbar-scrollupbutton-up"/>
+                            <Attribute name="overTexture" value="ui-scrollbar-scrollupbutton-highlight"/>
+                            <Attribute name="downTexture" value="ui-scrollbar-scrollupbutton-down"/>
+                        </Attributes>
+                    </Button>
+
+                    <Button name="$parentScrollDownButton" parentKey="scrollDown" inherits="MinimalScrollBarStepperScripts">
+                        <Size x="18" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentScrollBar" relativePoint="BOTTOM" x="0" y="-3"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                HybridScrollFrameScrollButton_OnClick(self, button, down)
+                            </OnClick>
+                        </Scripts>
+
+                        <Attributes>
+                            <Attribute name="direction" value="-1" type="number"/>
+                            <Attribute name="normalTexture" value="ui-scrollbar-scrolldownbutton-up"/>
+                            <Attribute name="overTexture" value="ui-scrollbar-scrolldownbutton-highlight"/>
+                            <Attribute name="downTexture" value="ui-scrollbar-scrolldownbutton-down"/>
+                        </Attributes>
+                    </Button>
+                </Frames>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+</Ui>

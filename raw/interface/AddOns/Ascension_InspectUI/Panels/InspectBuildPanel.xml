@@ -1,0 +1,261 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="InspectBuildPanel.lua"/>
+
+    <Button name="InspectBuildSpellTemplate" virtual="true">
+        <Size x="352" y="42"/>
+
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                <Size x="30" y="30"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" x="10" y="0"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentRankFrame" parentKey="RankFrame" inherits="AnimatedRankTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-8" y="5"/>
+                        </Anchors>
+
+                        <Attributes>
+                            <Attribute name="rankFontObject" value="GameFontNormalSmall"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+            </Button>
+
+            <Frame name="$parentClass" parentKey="Class" inherits="BorderIconTemplate">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="RIGHT" x="-10" y="0"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectBuildSpellMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontNormal">
+            <Size x="264" y="26"/>
+            <Anchors>
+                <Anchor point="LEFT" x="48" y="0"/>
+            </Anchors>
+        </ButtonText>
+
+        <NormalTexture parentKey="Normal" file="Interface\Buttons\White8x8" setAllPoints="true"/>
+        <HighlightTexture parentKey="Highlight" alphaMode="ADD" setAllPoints="true"/>
+    </Button>
+
+    <Button name="InspectBuildTalentTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" inherits="SpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentDisabledOverlay" parentKey="DisabledOverlay" inherits="DisabledOverlayTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-1" y="1"/>
+                            <Anchor point="BOTTOMRIGHT" x="1" y="-1"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame name="$parentRankFrame" parentKey="RankFrame" inherits="AnimatedRankTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-5" y="3"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="rankFontObject" value="GameFontNormalSmall"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+
+                <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIconBorder" relativePoint="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentIconBorder" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </PushedTexture>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectBuildTalentMixin")
+                self.Icon.RankFrame:SetFrameLevel(self.Icon.DisabledOverlay:GetFrameLevel()+1)
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Button name="InspectBuildSpecTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="166" y="32"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectBuildSpecMixin")
+            </OnLoad>
+        </Scripts>
+        <ButtonText name="$parentText" parentKey="Text" inherits="GameFontNormal">
+            <Anchors>
+                <Anchor point="LEFT" x="12"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+
+    <Frame name="InspectBuildPanel" hidden="true" setAllPoints="true" parent="AscensionInspectFrameInset">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-28"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentErrorFrame" parentKey="ErrorFrame" inherits="InputBlockTextTemplate" setAllPoints="true" hidden="true">
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton" text="CLOSE" inherits="StandardButtonTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="18"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():Hide()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+            
+            <ScrollFrame name="$parentTalentScroll" parentKey="TalentScroll" inherits="StandardProportionalScrollFrameTemplate" hidden="true">
+                <Size x="352" y="328"/>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-28"/>
+                    <Anchor point="BOTTOMRIGHT" x="-24" y="2"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-2" y="2"/>
+                            <Anchor point="BOTTOMRIGHT"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                    
+                    <Frame name="$parentShadowOverlay" parentKey="ShadowOverlay" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                        <Attributes>
+                            <Attribute name="layoutType" value="ShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        ScrollFrame_OnLoad(self)
+                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                    </OnLoad>
+                </Scripts>
+
+                <ScrollChild>
+                    <Frame name="$parentChild" parentKey="Child">
+                        <Size x="352" y="1"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="0" y="0"/>
+                            <Anchor point="TOPRIGHT" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+
+            <ScrollFrame name="$parentBuildScroll" parentKey="BuildScroll" inherits="NineSlicePanelTemplate2, StandardProportionalScrollFrameTemplate" hidden="true">
+                <Size x="352" y="354"/>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-2"/>
+                    <Anchor point="BOTTOMRIGHT" x="-24" y="2"/>
+                </Anchors>
+
+                <Attributes>
+                    <Attribute name="layoutType" value="ShadowOverlay"/>
+                </Attributes>
+
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2" setAllPoints="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="-2"/>
+                            <Anchor point="BOTTOMRIGHT"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                        </Attributes>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        ScrollFrame_OnLoad(self)
+                        MixinAndLoadScripts(self, "NineSlicePanelMixin")
+                    </OnLoad>
+                </Scripts>
+
+                <ScrollChild>
+                    <Frame name="$parentChild" parentKey="Child">
+                        <Size x="352" y="1"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="0" y="0"/>
+                            <Anchor point="TOPRIGHT" x="0" y="0"/>
+                        </Anchors>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+
+            <Frame name="$parentSpecs" parentKey="Specs" inherits="StandardProportionalScrollListTemplate">
+                <Size x="166" y="354"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentBuildScroll" relativePoint="TOPRIGHT" x="26"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Background" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectBuildPanelMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

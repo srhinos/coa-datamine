@@ -1,0 +1,213 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_CoAResources.lua"/>
+    <Script file="Ascension_CoAResource_Orb.lua"/>
+    <Script file="Ascension_RuneMasterResource.lua"/>
+    <Script file="Ascension_WorgenResource.lua"/>
+    <Script file="Ascension_CultistResource.lua"/>
+    <Script file="Ascension_TinkerResource.lua"/>
+    <Script file="Ascension_ReaperResource.lua"/>
+    <Script file="Ascension_BarbarianResource.lua"/>
+    <Script file="Ascension_PrimalistResource.lua"/>
+    <Script file="Ascension_SunClericResource.lua"/>
+    <Script file="Ascension_StarcallerResource.lua"/>
+    <Script file="Ascension_ChronomancerResource.lua"/>
+    <Script file="Ascension_StormbringerResource.lua"/>
+
+    <Frame name="CoAResourceSegmentTemplate" virtual="true">
+        <Size x="30" y="30"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentFill" parentKey="Fill" hidden="true" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Button name="CoAResourceSegmentBar" clampedToScreen="true" movable="true" parent="UIParent" hidden="true" frameStrata="LOW">
+        <Size x="90" y="30"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="PlayerFrame" relativePoint="BOTTOMLEFT" x="86" y="0"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBg" parentKey="Bg" hidden="true">
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBgLeft" parentKey="BgLeft" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBgRight" parentKey="BgRight" hidden="true">
+                    <Anchors>
+                        <Anchor point="RIGHT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBgMiddle" parentKey="BgMiddle" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBgLeft" relativePoint="TOPRIGHT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentBgRight" relativePoint="BOTTOMLEFT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="TextStatusBarText">
+                    <Size x="150" y="30"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" hidden="true" id="1"/>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "CoAResourceSegmentBarMixin")
+            </OnLoad>
+            <OnClick>
+                self:OnClick(button)
+            </OnClick>
+            <OnDragStart>
+                self:StartMoving()
+                HideDropDownMenu(1)
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+                self:SavePosition()
+                HideDropDownMenu(1)
+            </OnDragStop>
+            <OnEnter>
+                if self.tooltipTitle then
+                GameTooltip:SetOwner(self, "ANCHOR_TOP")
+                GameTooltip:AddLine(self.tooltipTitle, 1, 1, 1, true)
+                GameTooltip:AddLine(COA_RESOURCE_CUSTOMIZE_HELPER, 0, 0.8, 1, true)
+                end
+                GameTooltip:Show()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <StatusBar name="CoAResourceBar" clampedToScreen="true" movable="true" enableMouse="true" parent="UIParent" hidden="true" frameStrata="LOW">
+        <Size x="180" y="40"/>
+
+        <Anchors>
+            <Anchor point="CENTER" x="0" y="-140"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentBorder" parentKey="Border">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-24" y="24"/>
+                        <Anchor point="BOTTOMRIGHT" x="24" y="-24"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <FontString name="$parentText" parentKey="Text" inherits="TextStatusBarText">
+                    <Size x="150" y="30"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" hidden="true" id="1"/>
+        </Frames>
+
+        <BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+        <BarColor r="1" g="1" b="1"/>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, CoAResourceBarMixin)
+            </OnLoad>
+            <OnMouseUp>
+                self:OnClick(button)
+            </OnMouseUp>
+            <OnValueChanged>
+                self:Update()
+            </OnValueChanged>
+            <OnDragStart>
+                self:StartMoving()
+                HideDropDownMenu(1)
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+                self:SavePosition()
+                HideDropDownMenu(1)
+            </OnDragStop>
+        </Scripts>
+    </StatusBar>
+
+    <Button name="CoAResourceOrb" parent="UIParent" clampedToScreen="true" movable="true" hidden="true" frameStrata="LOW">
+        <Size x="64" y="64"/>
+
+        <Anchors>
+            <Anchor point="BOTTOM" relativeTo="MainMenuBar" relativePoint="TOP">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentResourceFlipBook" parentKey="ResourceFlipBook"/>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture name="$parentResourceOverlayFlipBook" parentKey="ResourceOverlayFlipBook"/>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentArtWork" parentKey="ArtWork"/>
+            </Layer>
+
+            <Layer level="HIGHLIGHT">
+                <FontString name="$parentText" parentKey="Text" inherits="TextStatusBarText">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" hidden="true" id="1"/>
+        </Frames>
+        <Scripts>
+        	<OnLoad>
+				MixinAndLoadScripts(self, CoAResourceOrbMixin)
+        	</OnLoad>
+        </Scripts>
+    </Button>
+</Ui>

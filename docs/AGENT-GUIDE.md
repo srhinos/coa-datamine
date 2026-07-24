@@ -35,6 +35,29 @@ this repo needs an exemption).
 | `data/talents/_meta.json` | tab/talent counts, per-class tab counts, unresolved rank-spell count | small |
 | `data/dungeons/index.json` | one compact record per dungeon: `{id, name, file, mapId, isRaid, levels}` | small |
 | `data/dungeons/<id>-<slug>.json` | one dungeon incl. its encounters (ordered) + reward brackets; `<slug>` = lowercase name, non-alnum runs -> `-`, collapsed, max 40 chars | small |
+| `data/creatures/index.json` | bucket manifest: `bucketSize` (5000), `count` (127175), `buckets: [{bucket, file, count, minId, maxId}]` | small |
+| `data/creatures/creatures-<id//5000*5000>.jsonl` | `{id, name, subname}` per `Creature.dbc` row, ONE JSON PER LINE, ascending id within bucket; `subname` is **always `null`** - probed and disproven, see Honest limits | small-medium per file |
+| `data/creatures/_meta.json` | `count`, `provenColumns` (id/name proof), `subnameFinding` (the disproof writeup) | small |
+| `data/quests/index.json` | bucket manifest, same shape as creatures (`bucketSize` 5000, `count` 18561) | small |
+| `data/quests/quests-<id//5000*5000>.jsonl` | `{id, sort: null, info: null, f1..f28}` per `Quest.dbc` row - **this table has no string block at all** (no quest title/objective text anywhere in it, see Honest limits); `sort`/`info` are always `null` (probed and disproven); the 28 remaining columns are raw/unnamed | small-medium per file |
+| `data/quests/_meta.json` | `count`, `provenColumns`, `sortInfoFinding` | small |
+| `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13001) | small |
+| `data/trainers/trainers-<id//2000*2000>.json` | `{bucket, count, minId, maxId, entries: [{id, spellId, name, skillLine:{id,name}\|null, f3}]}` - a **flat per-row list**, not grouped by trainer: `NPCTrainer.dbc` has no trainer-NPC identity column at all (see `trainerIdFinding` in `_meta.json`) | small |
+| `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
+| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {25 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json` | small |
+| `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
+| `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (401 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.8778 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
+| `data/mythic/challenges/index.json` | one compact record per Mythic+ Challenge: `{id, name, file, difficultyToken, modeToken, featured}` (297 challenges) | small |
+| `data/mythic/challenges/<id>-<slug>.json` | one challenge incl. `groups`/`levels`/`rules`/`modifiers`/`conditions`/`requirements`/`rewards`/`spells` (one-record-per-line `sharding.dump_manifest` format - the default "Adventure Mode" challenge alone aggregates ~2,000 rows across those lists) | small-medium |
+| `data/mythic/challenges/_lookups.json` | `ChallengeRuleTypes`/`ModifierTypes`/`ConditionTypes`/`RequirementTypes` lookup tables (127/8/18/22 rows) | small |
+| `data/mythic/challenges/_meta.json` | per-link-table `challengeId` join rates, the Challenge-7 "Nudist" golden, `conditionsFinding` | small |
+| `data/mythic/keystones/index.json` + `<dungeonId>-<slug>.json` | `MythicKeystones` levels grouped per dungeon (66 resolved dungeons; `dungeonId` is the same id space as `data/dungeons/index.json`'s `id` - both key off `LFGDungeons.dbc`) | small |
+| `data/mythic/keystones/_unresolved.json` | 101 `MythicKeystones` rows whose `dungeonId` doesn't resolve against `LFGDungeons.dbc` (raw, documented; overall join rate 0.9851) | small |
+| `data/mythic/affixes/affixes-<id//5000*5000>.jsonl` + `index.json` | 13409 `MythicAffixes` rows; affix identity is `grantSpellId`/`effectSpells` (resolved spell names) - the brief's `ChallengeModifierTypes` name hypothesis was tested and disproven, see `tools/dbc.py` | small-medium |
+| `data/mythic/scaling.json` / `timedDungeons.json` / `mapDifficulty.json` | small standalone Mythic+ tables: `MythicPlusScaling` (200 rows), `TimedDungeons` (82 rows, `dungeonName` resolved), `MapDifficulty` (685 rows, `mapName`/`lockoutMessage` resolved) | small |
+| `raw/interface/_manifest.json` | every extracted Interface file: sorted relative path -> `{source, size, sha256}` (1553 files: 1444 archive-sourced + 109 disk-sourced, per the 2026-07-23 capture) | small |
+| `raw/interface/AddOns/APIDocumentation/**` | Ascension's own API-documentation addon, copied **verbatim from the live client install** (disk copy, not an archive snapshot - it always wins any path collision against an archive-extracted file) - **their real API**, the ground-truth reference for porting agents; see "Interface/API code layer" below | large |
+| `raw/interface/{AddOns,FrameXML,GlueXML,SharedXML,LibraryXML,LCDXML}/**` | every other `.lua`/`.xml`/`.toc`/`.txt`/`.md` file found under the client's `Interface\` tree across every MPQ archive (art/BLPs/sounds/models excluded - this is a code layer, not an art dump); winner per file resolved by the same chain-order rule as the DBCs | large |
 | `raw/dbc/*.csv.gz` | full decoded DBC dumps (every column) | large |
 | `raw/content/*.json` | verbatim client sidecar JSONs | large |
 | `raw/provenance.json` | source hashes, archive resolution, build stats | small |
@@ -66,7 +89,56 @@ entries}`) and listed in `data/classes/<Class>/index.json`'s `files` array with 
 `tab`/`type`/`cadIdRange`/`count`, so you can always find every piece of a class or
 tab without guessing the split level.
 
-## Key semantics
+### Empirical-mapping convention: `f<N>` means "unproven by design"
+
+Every V2 table (creatures/quests/trainers/class metadata/spell enrichment/Mythic+) was
+mapped under one binding rule: **a column gets a real name in `tools/dbc.py`'s
+`TABLE_MAPS` only with golden-record proof pinned in a test or an inline comment -
+otherwise it stays `f<N>` (raw signed int, column's own index)**. This is not laziness
+or an unfinished pass - `f<N>` is a deliberate, permanent signal that means "this
+column's meaning was investigated and not established," distinct from a column that
+simply wasn't looked at yet. Concretely:
+
+- `raw/dbc/<Table>.colinfo.json` (written by `dbc.dump_unmapped`, task V2-1) is the
+  evidence trail for every unmapped table: per-column `distinct`/`min`/`max`/`pct_zero`/
+  `string_likelihood` plus up to 3 decoded string samples for string-likely columns.
+  This is where a future task's next hypothesis should start.
+- A high raw join-rate against another table's ids is **not sufficient proof by itself**
+  when the target id space is dense (e.g. `Creature.dbc`'s ids fill 1..127175 with no
+  gaps) - several real hypotheses in this codebase cleared a naive 90%+ join-rate bar
+  and were still wrong (Creature subname, the `DungeonEncounterExtra` creature link,
+  `SpellAddon`'s f20/f21/f22, `CharacterCreationPetDetails`/`ShapeshiftDetails`'s spellId
+  candidate). Every proven column in `tools/dbc.py` additionally has either a golden
+  semantic check (a known name/description decodes correctly) or an overwhelming
+  range/density argument (e.g. a value ceiling landing within 5 of the target table's
+  real max id). Read a `TABLE_MAPS` entry's inline comment before trusting a column name
+  or before re-deriving a mapping that's already been tried and disproven - the comments
+  document *why*, not just *what*.
+- Every dataset's own `_meta.json` (creatures/quests/trainers) or module docstring
+  (classmeta/mythic/spells v2) carries the same evidence in plain prose next to the data
+  it produced, so you don't have to cross-reference `tools/dbc.py` just to understand why
+  a field is `null` or missing.
+
+### Interface/API code layer
+
+`raw/interface/` is a **committed** mirror of the client's `Interface\` directory tree -
+every `.lua`/`.xml`/`.toc`/`.txt`/`.md` file from every MPQ archive (chain-order winner
+per file, same rule as the DBCs), plus Ascension's `AddOns/APIDocumentation` addon copied
+verbatim from the live client install (that copy always wins - it's the launcher-managed
+live version, not a possibly-stale archive snapshot). This is the only part of the
+dataset that is source *code*, not extracted *data* - use it when a question is about how
+the client actually implements something (a Lua function, an XML frame template, an
+addon's TOC dependencies) rather than about game content.
+
+**`raw/interface/AddOns/APIDocumentation/` is Ascension's real API** - Blizzard's/
+Ascension's own machine-readable documentation of every Lua global function, event,
+table and system available to addons (`Documentation/*.lua`, one file per subsystem:
+`SpellDocumentation.lua`, `CombatDocumentation.lua`, `UnitDocumentation.lua`, ...). For
+any porting-agent question of the form "does this API exist / what does it take / what
+does it return on this client," **this is ground truth** - prefer it over assuming
+retail/Classic API shape, since Ascension's client carries a mix of backported and
+custom systems (see the WoW-addon-porting projects' own hard-learned lesson: assuming
+unaudited retail API parity is a recurring source of live-client crashes).
 
 - **Four realms, one account-wide CAD file.** This client serves four realms:
   "Area 52 - Free-Pick" (classless), "Bronzebeard - Warcraft Reborn" (the Reborn*
@@ -119,6 +191,43 @@ tab without guessing the split level.
   talents does class X have" and X isn't one of the 12, `data/talents/` will have
   no file for it - that's expected; the answer lives in the class's CAD entry
   shards, not the DBC talent tree.
+- **Creatures/quests/trainers are id-keyed facts, not a quest/trainer content
+  browser.** `data/creatures/` gives `id`/`name` only (`subname` is always `null`,
+  disproven - see Honest limits). `data/quests/` gives `id` plus 28 raw numeric columns
+  and no text of any kind - there is no quest title, objective, or category name
+  anywhere in this dataset (see Honest limits). `data/trainers/` gives one row per
+  `NPCTrainer.dbc` entry (`spellId`/`name`/`skillLine`), not grouped by an actual
+  trainer NPC - there is no trainer-identity column in the source table at all.
+- **Mythic+/Challenges pack** (`data/mythic/`): `challenges/` is the CoA "Challenge
+  Mode" feature (name/description/rules/modifiers/conditions/requirements/rewards/
+  featured spells per challenge, not Blizzard retail Mythic+ dungeons); `keystones/`
+  and `scaling.json`/`timedDungeons.json` are the separate CoA Mythic+ dungeon-scaling
+  system, keyed by `LFGDungeons.dbc` ids shared with `data/dungeons/`. These are two
+  related but distinct systems living under one directory - don't assume a
+  `data/mythic/challenges/*` entry has anything to do with a specific dungeon unless
+  its own fields say so (most don't; challenges are largely dungeon-agnostic modifiers).
+- **Class specs/roles/archetypes** (`data/classes/specs.json` /`archetypes.json`,
+  owned solely by `build_classmeta.py` per Amendment D - never edited by
+  `build_classes.py` or present in `index.json`): coverage differs per key inside
+  `specs.json` - `roles` covers all 32 `ChrClasses` (`ChrClassesRoles.dbc` has a row
+  for every class), but `perClass` only lists the 25/32 that actually have `ChrSpecs`
+  rows in this snapshot (the other 7 - see Honest limits - get `[]`), and
+  `specialAbilities` only has an entry for the 3 classes with a nonzero
+  `specialAbilitySpellId` (Shaman, Bloodmage, Primalist) - absence there means
+  "no special ability," not "unresolved." `archetypes.json` is character-*creation*
+  flavor content (races/weapon-armor preferences/ability-preview text for the
+  "Choose your Archetype" screen) - it has no `classId` link at all, it's
+  class-agnostic by design.
+- **Spell v2 enrichment** (`data/spells/by-id/*.jsonl`, `schemaVersion: 2` in
+  `_meta.json`): records gain `tags` (alphabetical display-name list, deduplicated -
+  two different `tagTypeId`s that both decode to "Priest" collapse into one entry),
+  `customAttr` (10 raw u32s, no further semantics proven), `category` (bare int, only
+  when `Spell.category != 0` and it resolves), `descriptionVariables` (resolved
+  tooltip-math text via `spellDescriptionVariableID`), `addon` (`{raw: [...]}`, 22
+  numbers), `overrideData` (`{spells: [...], raw}`) - **every one of these keys is
+  omitted, not `null`, when the spell has no data for it** (check `"tags" in spell`,
+  don't assume a default). `charges` is deliberately **not** one of these keys - see
+  `data/spells/charges.json` above and Honest limits.
 
 ## Recipes (PowerShell / Python)
 
@@ -170,6 +279,62 @@ error. The old `encountersByMap` duplicate view is gone - if you need encounters
 grouped by map instead of by dungeon, derive it by reading every dungeon file and
 grouping on `(mapId, difficulty)`.
 
+All encounters of a Mythic+ challenge dungeon, with a best-effort creature match
+(`data/dungeons/index.json`'s `id` and `data/mythic/keystones/index.json`'s
+`dungeonId` are the same `LFGDungeons.dbc` id space, so they join directly - but
+`DungeonEncounterExtra`'s creature-id column was probed and disproven [Honest limits],
+so every encounter's own `creature` field is always `null`; the closest available
+signal is a **name match**, not a proven FK, and is not guaranteed unique - e.g.
+Ragnaros has 11 creature-template variants):
+
+```python
+import json
+
+def mythic_dungeon_encounters(dungeon_id):
+    kidx = json.load(open(r"data/mythic/keystones/index.json", encoding="utf-8"))
+    keystone = next(d for d in kidx["dungeons"] if d["dungeonId"] == dungeon_id)
+
+    didx = json.load(open(r"data/dungeons/index.json", encoding="utf-8"))
+    dungeon_file = next(d["file"] for d in didx["dungeons"] if d["id"] == dungeon_id)
+    dungeon = json.load(open(rf"data/dungeons/{dungeon_file}", encoding="utf-8"))
+
+    by_name = {}   # lazily populated from data/creatures/ on first use
+    def creature_candidates(name):
+        if not by_name:
+            cidx = json.load(open(r"data/creatures/index.json", encoding="utf-8"))
+            for b in cidx["buckets"]:
+                for line in open(rf"data/creatures/{b['file']}", encoding="utf-8"):
+                    r = json.loads(line)
+                    by_name.setdefault(r["name"], []).append(r["id"])
+        return by_name.get(name, [])
+
+    return keystone, [
+        {"encounter": e["name"], "creatureIdCandidates": creature_candidates(e["name"])}
+        for e in dungeon["encounters"]
+    ]
+```
+
+A class's specs and roles (`data/classes/specs.json`, not `index.json` -
+Amendment D moved spec/role data there):
+
+```python
+import json
+
+def class_specs_and_roles(class_name):
+    cidx = json.load(open(r"data/classes/index.json", encoding="utf-8"))
+    class_id = next(c["classId"] for c in cidx["classes"] if c["name"] == class_name)
+
+    sd = json.load(open(r"data/classes/specs.json", encoding="utf-8"))
+    spec_ids = sd["perClass"].get(class_name, [])
+    by_id = {s["id"]: s for s in sd["specs"]}
+    return {
+        "classId": class_id,
+        "specs": [by_id[i] for i in spec_ids],       # [] if this class has none - see Honest limits
+        "roles": sd["roles"].get(class_name, []),     # e.g. Mage -> ["DPS"]
+        "specialAbility": sd["specialAbilities"].get(class_name),  # None for most classes
+    }
+```
+
 ## Honest limits
 
 - Client data cannot see server-side logic: boss scripts, loot tables, runtime
@@ -204,6 +369,42 @@ grouping on `(mapId, difficulty)`.
   WitchDoctor); every other class's talents live only in CAD entries
   (`type == "Talent"`/`"TalentAbility"` across that class's `data/classes/<Class>/*.json`
   shards) - absence from `data/talents/` does not mean the class has no talents.
+- **Quest text is server-side, not in this dataset.** `Quest.dbc` carries **zero
+  string data** (`string_block_size == 0`, verified directly) - there is no title,
+  objective text, or completion text anywhere in the 18561 `data/quests/` records,
+  only `id` plus 28 raw numeric columns. If you need quest text, it lives in the
+  server's own quest-template data, which this pipeline (client-side DBCs + Content
+  JSONs only) cannot see.
+- **Disproven mappings ship as documented `null`/raw, never a guessed value** - each
+  was probed against the empirical-mapping rule's bar and failed it; the
+  `_meta.json`/`TABLE_MAPS` comment pointer is listed so you can re-run the same
+  probe methodology if a future client patch changes the underlying table:
+  - `data/creatures/*.jsonl`'s `subname` - always `null` (`data/creatures/_meta.json`'s
+    `subnameFinding`; the two candidate columns' apparent string-likeliness matched a
+    random-offset control's coincidence rate, ~3.45%).
+  - `data/quests/*.jsonl`'s `sort`/`info` - always `null` (`data/quests/_meta.json`'s
+    `sortInfoFinding`; best real candidate topped out at 58.6%/58.2% join-rate,
+    short of the 80% bar).
+  - Every dungeon encounter's `creature` field (`data/dungeons/*.json`) - always
+    `null` (`tools/build_dungeons.py`'s module docstring; the naive join-rate cleared
+    92.4% but every famous-boss golden resolved to an unrelated random NPC - a false
+    positive caused by `Creature.dbc`'s fully dense id space, see the empirical-mapping
+    convention above).
+  - `data/classes/specs.json`'s `f63` field - ChrSpecs' one low-cardinality column,
+    tested as both Tank/Healer/DPS role and ordinal spec position and disproven both
+    ways (`tools/dbc.py`'s `ChrSpecs` comment); shipped raw, not named `"role"`.
+  - `SpellAlternativePowerType`/`SpellAddon`'s f20-f22/`CharacterCreationPetDetails`
+    and `ShapeshiftDetails`' spellId candidates - all disproven, documented inline in
+    `tools/dbc.py`.
+- **`SpellCharges` is shipped standalone, not attached to any spell.** Its spellId
+  join-rate against live `Spell.dbc` ids is **0.8778** (352/401) - short of the 0.90
+  bar the brief set specifically for attaching a `charges` field to `spells.jsonl`
+  records, even though the categoryId link to `SpellChargesCategory` is 100% proven
+  and 95.45% of the resolved rows mention "charge" in their own tooltip text (strong
+  circumstantial support that the mapping itself is right, just short of the stated
+  bar). The 401 rows are still fully usable at `data/spells/charges.json`, keyed by
+  their own `ref` (not called `spellId`, since the link wasn't proven to that bar) -
+  see the file map above.
 
 ## Regenerating after a client patch
 
@@ -226,6 +427,29 @@ whenever CoA ships new content:
   per-class entry counts, dungeons 431) so sharding can't silently drop/duplicate
   records; also the repo-wide <=5,000-line gate (empty allowlist today - re-add an
   entry here and in the allowlist if content growth ever forces one)
+- `tests/test_creatures.py`: 127175 creatures / 18561 quests / 13001 trainers
+  (`Creature.dbc`/`Quest.dbc`/`NPCTrainer.dbc` record counts), trainer spellId
+  join-rate >=90% (measured 0.9892)
+- `tests/test_classmeta.py`: 101 specs / 56 archetypes, >=60% of the 32 `ChrClasses`
+  covered by >=1 spec (measured 25/32 = 78.1%)
+- `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags
+  26281, category 6034, customAttr 7635, descriptionVariables 1302, addon 133,
+  overrideData 6, all of 27441 referenced spells)
+- `tests/test_mythic.py`: 297 challenges / 6801 keystones (66 resolved dungeons) /
+  13409 affixes / 200 scaling rows / 82 timed dungeons / 685 map-difficulty rows;
+  every link table's `challengeId` join rate >=80% (lowest: `ChallengeLevels` 84.9%)
+- `tests/test_interface.py`: `raw/interface/_manifest.json` >=1500 files (measured
+  1553: 1444 archive-sourced + 109 disk-sourced `APIDocumentation`), sha256 sample
+  check, zero non-code extensions
+
+Interface extraction counts are also snapshot pins in the sense above, but of a
+different flavor: they drift with the CLIENT install (which archive wins a given
+`.lua`/`.xml` file, whether Ascension patches `APIDocumentation`), not with game
+content churn, and there is no golden-record test for any single file's *content* -
+only shape/count/hash-integrity gates. A big swing in `archiveSourced` or a drop in
+`AddOns/APIDocumentation`'s `.lua` count below 10 means something changed about which
+archives carry the Interface tree (or the on-disk client install itself) and is worth
+a manual look, not a reflexive re-pin.
 
 Note: the spells count above (27441) already reflects one round of exactly this kind
 of drift - discovered mid-task when a controlled re-run of the pre-sharding writer

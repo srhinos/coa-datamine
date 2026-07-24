@@ -1,0 +1,26 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    
+    <Script file="CommandHyperlinks.lua"/>
+    <Include file="SoundKitBrowser.xml"/>
+    
+    <Frame name="DrawDebugTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture setAllPoints="true">
+                    <Color r="1" g="1" b="1" a="0.4"/>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <FontString parentKey="Text" inherits="GameFontNormalLarge" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnShow>
+                self.Text:SetText(self:GetName())
+            </OnShow>
+        </Scripts>
+    </Frame>
+</Ui>

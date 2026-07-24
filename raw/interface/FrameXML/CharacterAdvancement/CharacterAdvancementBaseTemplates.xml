@@ -1,0 +1,180 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="CharacterAdvancementBaseTemplates.lua"/>
+    <Script file="CAConnectionBaseMixin.lua"/>
+    <Script file="CALineConnectionMixin.lua"/>
+    <Script file="CATalentBaseMixin.lua"/>
+    <Script file="CATalentChoiceBaseMixin.lua"/>
+    <Script file="CAGateBaseMixin.lua"/>
+
+    <Frame name="LocationIndicatorTemplate" hidden="true" virtual="true">
+        <Size x="52" y="52"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentGlow" parentKey="Glow" setAllPoints="true">
+                    <Animations>
+                        <AnimationGroup parentKey="Anim" looping="REPEAT">
+                            <Scale order="1" scaleX="1" scaleY="1" duration="0"/>
+                            <Alpha order="1" change="-1" duration="0"/>
+
+                            <Scale order="2" scaleX="1.1" scaleY="1.1" duration="1.5" smoothing="OUT"/>
+                            <Alpha order="2" change="0.5" duration="0.2" smoothing="IN"/>
+                            <Alpha order="2" startDelay="0.5" change="-0.5" duration="0.8" smoothing="OUT"/>
+                            <Scripts>
+                                <OnPlay>
+                                    self:GetParent():Show()
+                                </OnPlay>
+                                <OnStop>
+                                    self:GetParent():Hide()
+                                </OnStop>
+                            </Scripts>
+                        </AnimationGroup>
+                    </Animations>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                self.Icon:SetAtlas("talents-search-match", Const.TextureKit.IgnoreAtlasSize)
+                self.Glow:SetAtlas("talents-search-match", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+            <OnShow>
+                self.Glow.Anim:Play()
+            </OnShow>
+            <OnHide>
+                self.Glow.Anim:Stop()
+            </OnHide>
+        </Scripts>
+    </Frame>
+
+    <Button name="CATalentBaseTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+
+        <Frames>
+            <Button name="$parentIcon" parentKey="Icon" enableMouse="false" setAllPoints="true" inherits="SpellIconTemplate">
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentLockIcon" parentKey="LockIcon" hidden="true">
+                            <Size x="14" y="18"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="HIGHLIGHT">
+                        <Texture name="$parentHighlight" parentKey="Highlight" alphaMode="ADD" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentLocationIcon" parentKey="LocationIcon" inherits="LocationIndicatorTemplate" hidden="true">
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-4" y="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnLoad>
+                                self.Icon:SetAtlas("talents-search-match", Const.TextureKit.IgnoreAtlasSize)
+                                self.Glow:SetAtlas("talents-search-match", Const.TextureKit.IgnoreAtlasSize)
+                                self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CATalentBaseMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Frame name="CATalentChoiceSelectionTemplate" enableMouse="true" inherits="IgnoreLayoutIndexHorizontalLayoutFrame" virtual="true">
+        <Size x="32" y="32"/>
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha order="1" change="-1" duration="0"/>
+                <Alpha order="2" change="1" duration="0.08"/>
+            </AnimationGroup>
+        </Animations>
+
+        <Attributes>
+            <Attribute name="topPadding" value="20" type="number"/>
+            <Attribute name="leftPadding" value="20" type="number"/>
+            <Attribute name="rightPadding" value="20" type="number"/>
+
+            <Attribute name="align" value="center" type="string"/>
+            <Attribute name="expand" value="true" type="boolean"/>
+            <Attribute name="spacing" value="8" type="number"/>
+        </Attributes>
+        
+        <Scripts>
+            <OnHide>
+                self.AnimIn:Stop()
+            </OnHide>
+        </Scripts>
+    </Frame>
+    
+    <Button name="CATalentChoiceBaseTemplate" inherits="CATalentBaseTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CATalentChoiceBaseMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Frame name="CALineConnectionTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentLine1" parentKey="Line1" alphaMode="ALPHAKEY" file="Interface\Common\White256x256">
+                    <Size x="2" y="2"/>
+                    <Color r="0" g="0" b="0"/>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentLine2" parentKey="Line2" alphaMode="ALPHAKEY" file="Interface\Common\White256x256">
+                    <Size x="2" y="2"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentArrow" parentKey="Arrow">
+                <Size x="24" y="24"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentTexture" parentKey="Texture">
+                            <Size x="24" y="24"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CALineConnectionMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="CAGateBaseTemplate" enableMouse="true" virtual="true">
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "CAGateBaseMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

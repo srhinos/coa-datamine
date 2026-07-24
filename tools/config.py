@@ -12,6 +12,7 @@ WORK_DBC_DIR = WORK_DIR / "dbc"
 RAW_DIR = REPO_ROOT / "raw"
 RAW_DBC_DIR = RAW_DIR / "dbc"
 RAW_CONTENT_DIR = RAW_DIR / "content"
+RAW_INTERFACE_DIR = RAW_DIR / "interface"
 DATA_DIR = REPO_ROOT / "data"
 
 WANTED_DBCS = [

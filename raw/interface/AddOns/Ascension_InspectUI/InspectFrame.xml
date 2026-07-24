@@ -1,0 +1,16 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="InspectFrame.lua"/>
+
+    <CheckButton name="AscensionInspectFrameTabTemplate" inherits="TabSystemTabTemplate" virtual="true"/>
+    <CheckButton name="AscensionInspectFrameSideTabTemplate" inherits="AscensionCharacterFrameSideTabTemplate" virtual="true"/>
+
+    <Frame name="AscensionInspectFrame" inherits="AscensionCharacterFrameTemplate">
+        <Size x="574" y="424"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "InspectFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

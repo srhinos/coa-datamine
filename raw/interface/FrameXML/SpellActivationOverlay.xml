@@ -1,0 +1,62 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+
+    <Script file="SpellActivationOverlay.lua"/>
+
+    <Frame name="SpellActivationOverlayTemplate" virtual="true">
+        <Animations>
+            <AnimationGroup parentKey="AnimIn">
+                <Alpha order="1" change="-1" duration="0"/>
+                <Alpha parentKey="Alpha" order="2" change="1" duration="0.2"/>
+                <Scripts>
+                    <OnPlay>
+                        self.Alpha:SetChange(self:GetParent():GetAlpha())
+                    </OnPlay>
+                    <OnFinished>
+                        self:GetParent().Pulse:Play()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+            <AnimationGroup parentKey="AnimOut">
+                <Alpha change="-1" duration="0.1"/>
+                <Scripts>
+                    <OnFinished>
+                        local overlay = self:GetParent()
+                        overlay.Pulse:Stop()
+                        overlay:GetParent():ReleaseOverlay(overlay)
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+            <AnimationGroup parentKey="Pulse">
+                <Scale scaleX="1.08" scaleY="1.08" duration="0.5" smoothing="IN_OUT" order="1"/>
+                <Scale scaleX="0.9259259259259258" scaleY="0.9259259259259258" duration="0.5" smoothing="IN_OUT" order="2"/>
+                <Scripts>
+                    <OnFinished>
+                        self:Play()
+                    </OnFinished>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Texture" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellActivationOverlayTextureMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    <Frame name="SpellActivationOverlayFrame" parent="UIParent">
+        <Size x="256" y="256"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "SpellActivationOverlayMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

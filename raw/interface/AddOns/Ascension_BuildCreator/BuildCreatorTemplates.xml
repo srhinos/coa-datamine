@@ -1,0 +1,1048 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="BuildSpell.lua"/>
+    <Script file="CategoryListItem.lua"/>
+    <Script file="BuildListItem.lua"/>
+    <Script file="BuildCategory.lua"/>
+    <Script file="SectionListItem.lua"/>
+    <Script file="BuildViewSection.lua"/>
+    <Script file="BuildView.lua"/>
+    
+    <Button name="BuildSpellTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="178" y="32"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentShadow" parentKey="Shadow">
+                    <Size x="135" y="32"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="30"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer>
+                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightSmall">
+                    <Size x="142" y="12"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="LEFT" x="36" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentKnown" parentKey="Known" hidden="true">
+                        <Size x="14" y="14"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-2" y="-2"/>
+                        </Anchors>
+                        
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(YOU_KNOW_THIS_SPELL, 1, 1, 1, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentRarityGems" parentKey="RarityGems" inherits="RarityGemContainerTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="LEFT" x="36"/>
+                </Anchors>
+            </Frame>
+            
+            <Button name="$parentNotesIcon" parentKey="NotesIcon">
+                <Size x="16" y="16"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="2" y="2"/>
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentCoreIcon" parentKey="CoreIcon" inherits="SpellButtonCoreIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentOptimalIcon" parentKey="OptimalIcon" inherits="SpellButtonOptimalIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentEmpoweringIcon" parentKey="EmpoweringIcon" inherits="SpellButtonEmpoweringIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentSynergisticIcon" parentKey="SynergisticIcon" inherits="SpellButtonSynergisticIcon">
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="TOPLEFT"/>
+                </Anchors>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildSpellMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText inherits="GameFontNormalSmall2" parentKey="Text" justifyH="LEFT" justifyV="BOTTOM">
+            <Size x="142" y="26"/>
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="LEFT" x="36" y="1"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+    
+    <Button name="BuildSpellHeaderTemplate" virtual="true">
+        <Size x="164" y="37"/>
+        
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="34" y="34"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="2"/>
+                    </Anchors>
+                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <Texture name="$parentAbilityEssenceIcon" parentKey="AbilityEssenceIcon" hidden="true" file="Interface\Icons\inv_custom_abilityessence">
+                    <Size x="12" y="12"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-12" y="8"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentTalentEssenceIcon" parentKey="TalentEssenceIcon" hidden="true" file="Interface\Icons\inv_custom_talentessence">
+                    <Size x="12" y="12"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-12" y="-8"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentAbilityEssenceText" parentKey="AbilityEssenceText" hidden="true" inherits="GameFontHighlightSmall">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentAbilityEssenceIcon" relativePoint="LEFT" x="-2"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentTalentEssenceText" parentKey="TalentEssenceText" hidden="true" inherits="GameFontHighlightSmall">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentTalentEssenceIcon" relativePoint="LEFT" x="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Scripts>
+            <OnLoad>
+                self:SetNormalAtlas("buildcreator-class-header")
+            </OnLoad>
+            <OnClick>
+                if self.level and BuildCreatorUtil.GetHeldSpell() then
+                    BuildCreatorUtil.PlaceHeldSpellAtLevel(self.level)
+                end
+            </OnClick>
+            <OnReceiveDrag>
+                if self.level then
+                    BuildCreatorUtil.PlaceHeldSpellAtLevel(self.level)
+                end
+            </OnReceiveDrag>
+            <OnEnter>
+                if self.level then
+                    BuildCreatorUtil.CheckHeldSpellPlacement(self.level)
+                end
+            </OnEnter>
+            <OnLeave>
+                BuildCreatorUtil.CheckHeldSpellPlacement()
+            </OnLeave>
+        </Scripts>
+
+        <ButtonText parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
+            <Size x="125" y="32"/>
+            <Anchors>
+                <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="-2"/>
+            </Anchors>
+        </ButtonText>
+        
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Button name="BuildEnchantTemplate" virtual="true">
+        <Size x="178" y="32"/>
+        
+        <Layers>
+            <Layer>
+                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightSmall">
+                    <Size x="142" y="12"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="LEFT" x="36" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                </Anchors>
+                <Frames>
+                    <Button name="$parentKnown" parentKey="Known" hidden="true">
+                        <Size x="14" y="14"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-4" y="-4"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(MYSTIC_ENCHANT_COLLECTED, 1, 1, 1, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Button name="$parentNotesIcon" parentKey="NotesIcon">
+                <Size x="16" y="16"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip_GenericTooltip(self, "ANCHOR_RIGHT")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildEnchantMixin")
+            </OnLoad>
+        </Scripts>
+
+        <ButtonText inherits="GameFontHighlightSmall2" justifyH="LEFT" justifyV="BOTTOM">
+            <Size x="142" y="26"/>
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="LEFT" x="36" y="1"/>
+            </Anchors>
+        </ButtonText>
+
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Button name="BuildListCategoryListItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="0" y="55"/>
+        
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentSeparator" parentKey="Separator" hidden="true">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" y="1"/>
+                        <Anchor point="BOTTOMRIGHT" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="12"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildListCategoryListItemMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <NormalFont style="GameFontNormalLarge"/>
+        <HighlightFont style="GameFontHighlightLarge"/>
+        <DisabledFont style="GameFontDisableLarge"/>
+
+        <ButtonText inherits="GameFontNormalLarge" justifyH="RIGHT">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="12" y="-8"/>
+                <Anchor point="BOTTOMRIGHT" x="-12" y="8"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture alphaMode="ADD"/>
+    </Button>
+
+    <Button name="BuildListItemTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="0" y="119"/>
+        
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentName" parentKey="Name" justifyH="LEFT" inherits="GameFontNormalHuge">
+                    <Size x="380" y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="88" y="-16"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentSubText" parentKey="SubText" justifyH="LEFT" justifyV="TOP" inherits="GameFontHighlightLarge">
+                    <Size x="380" y="34"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" y="-4"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentRatingText" parentKey="RatingText" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="16" y="24"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentAuthor" parentKey="Author" inherits="GameFontNormalSmall" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentRatingText" relativePoint="RIGHT" x="24"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentDifficultyText" parentKey="DifficultyText" inherits="GameFontHighlight">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-168" y="24"/>
+                    </Anchors>
+                </FontString>
+                
+                <Texture name="$parentDifficultyIcon" parentKey="DifficultyIcon">
+                    <Size x="18" y="18"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentDifficultyText" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="$parentBorder" parentKey="Border" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Button name="$parentChooseButton" parentKey="ChooseButton" text="CHOOSE_THIS_BUILD" inherits="StandardButtonTemplate">
+                <Size x="148" y="21"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="18"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ChooseBuild()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="52" y="52"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="22" y="-16"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentCompletedBuild" parentKey="CompletedBuild" hidden="true">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="6" y="6"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:SetNormalAtlas("auctionhouse-icon-checkmark")
+                                self:SetHighlightAtlas("auctionhouse-icon-checkmark")
+                                self.tooltipTitle = BUILD_DRAFT_COMPLETED_BUILD
+                                self.tooltipText = BUILD_DRAFT_COMPLETED_BUILD_TOOLTIP
+                            </OnLoad>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+
+                    <Button name="$parentTrophyEligible" parentKey="TrophyEligible" hidden="true" inherits="BorderIconTemplate">
+                        <Size x="22" y="22"/>
+                        <Anchors>
+                            <Anchor point="CENTER" relativePoint="BOTTOMRIGHT" x="-6" y="6"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                            <OnClick>
+                                HideUIPanel(Collections)
+                                OpenChallengesUI()
+                                ChallengesFrame:OpenTab(2)
+                                ChallengesFrame.StoreTab.StoreButtonLayout.BuildMasterButton:Click()
+                            </OnClick>
+                        </Scripts>
+
+                        <HighlightTexture alphaMode="ADD"/>
+                    </Button>
+                </Frames>
+            </Button>
+
+            <Button name="$parentPrimaryStat" parentKey="PrimaryStat">
+                <Size x="152" y="28"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" y="-8"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="LEFT" y="-2"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="SubSpellFont">
+                    <Size x="118" y="28"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="34"/>
+                    </Anchors>
+                    <FontHeight val="12"/>
+                </ButtonText>
+                
+                <PushedTextOffset x="0" y="0"/>
+            </Button>
+
+            <Button name="$parentRole" parentKey="Role" inherits="BorderIconTemplate">
+                <Size x="48" y="48"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-22" y="-20"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(self.tooltipTitle, 1, 1, 1, 1)
+                        GameTooltip:AddLine(self.tooltipText, nil, nil, nil, true)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentSpecIcon" parentKey="SpecIcon">
+                <Size x="142" y="28"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentPrimaryStat" relativePoint="RIGHT" x="12"/>
+                </Anchors>
+
+                <Frames>
+                    <Button name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                        <Size x="28" y="28"/>
+                        <Anchors>
+                            <Anchor point="LEFT"/>
+                        </Anchors>
+                    </Button>
+                </Frames>
+
+                <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlight">
+                    <Size x="108" y="28"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="34"/>
+                    </Anchors>
+                </ButtonText>
+
+                <PushedTextOffset x="0" y="0"/>
+            </Button>
+
+            <CheckButton name="$parentLikeButton" parentKey="LikeButton" >
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentRatingText" relativePoint="RIGHT" x="2" y="-2"/>
+                </Anchors>
+                
+                <Scripts>
+                    <OnLoad>
+                        self:SetCheckedAtlas("heart-icon")
+                        self:SetNormalAtlas("heart-icon")
+                        self:SetHighlightAtlas("heart-icon")
+                        self:GetHighlightTexture():SetVertexColor(0.4, 1, 0)
+                    </OnLoad>
+                    <OnClick>
+                        self:GetParent():LikeBuild()
+                    </OnClick>
+                </Scripts>
+            </CheckButton>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildListItemMixin")
+            </OnLoad>
+            <OnEvent function="OnEventToMethod"/>
+        </Scripts>
+        <HighlightTexture alphaMode="ADD"/>
+    </Button>
+    
+    <Button name="BuildCategoryTemplate" virtual="true">
+        <Size x="256" y="670"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <Texture name="$parentTopShadow" parentKey="TopShadow">
+                    <Size x="256" y="168"/>
+                    <Anchors>
+                        <Anchor point="TOP"/>
+                    </Anchors>
+                    <Gradient orientation="VERTICAL">
+                        <MinColor r="0" g="0" b="0" a="0"/>
+                        <MaxColor r="0" g="0" b="0" a="1"/>
+                    </Gradient>
+                    <Color r="0" g="0" b="0"/>
+                </Texture>
+
+                <Texture name="$parentBottomShadow" parentKey="BottomShadow">
+                    <Size x="256" y="168"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM"/>
+                    </Anchors>
+                    <Gradient orientation="VERTICAL">
+                        <MinColor r="0" g="0" b="0" a="1"/>
+                        <MaxColor r="0" g="0" b="0" a="0"/>
+                    </Gradient>
+                    <Color r="0" g="0" b="0"/>
+                </Texture>
+            </Layer>
+            
+            <Layer level="OVERLAY">
+                <FontString name="$parentText" parentKey="Text" inherits="WorldMapTextFont">
+                    <Size  x="216" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" y="-22"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentSmallText" parentKey="SmallText" inherits="GameFontNormalLarge">
+                    <Size  x="216" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentText" relativePoint="BOTTOM" y="-4"/>
+                    </Anchors>
+                </FontString>
+                
+                <Texture name="$parentBorderLeft" parentKey="BorderLeft" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+
+                <Texture name="$parentBorderRight" parentKey="BorderRight" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentUnlockCover" parentKey="UnlockCover" inherits="InputBlockTextTemplate" setAllPoints="true" hidden="true">
+                <Scripts>
+                    <OnLoad>
+                        InputBlockText_OnLoad(self)
+                        self:SetTextColor(0.6, 0.6, 0.6, 0.7)
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel()+5)
+                        self:SetText(FEATURE_BECOMES_AVAILABLE_AT_LEVEL:format(GetMaxLevel()))
+                        self.Title:SetWidth(236)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildCategoryMixin")
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+    <Button name="BuildCategoryButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="226" y="48"/>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildCategoryButtonMixin")
+            </OnLoad>
+        </Scripts>
+
+        <HighlightTexture alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+            </Anchors>
+        </HighlightTexture>
+
+        <ButtonText inherits="GameFontHighlightLarge">
+            <Anchors>
+                <Anchor point="CENTER" y="1"/>
+            </Anchors>
+        </ButtonText>
+    </Button>
+    
+    <Button name="BuildViewSectionListItemTemplate" inherits="ScrollListItemTextTemplate" virtual="true">
+        <Size x="0" y="55"/>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildViewSectionListItemMixin")
+            </OnLoad>
+        </Scripts>
+        
+        <ButtonText inherits="GameFontNormalLarge" justifyH="RIGHT">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="12" y="-8"/>
+                <Anchor point="BOTTOMRIGHT" x="-12" y="8"/>
+            </Anchors>
+        </ButtonText>
+        <HighlightTexture alphaMode="ADD"/>
+    </Button>
+    
+    <Frame name="BuildViewSectionTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="32" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="12"/>
+                </Anchors>
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightLarge2">
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" x="12"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildViewSectionMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="BuildViewTemplate" virtual="true">
+        <Frames>
+            <Frame name="$parentControls" parentKey="Controls">
+                <Size x="766" y="44"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-6" y="-24"/>
+                </Anchors>
+                
+                <Frames>
+                    <Button name="$parentActivateBuildButton" parentKey="ActivateBuildButton" text="ACTIVATE_BUILD" inherits="SharedGoldRedButtonTemplate">
+                        <Size x="140" y="38"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="6" y="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                self:GetParent():GetParent():OnActivateButtonClicked()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <CheckButton name="$parentAutoLearn" parentKey="AutoLearn" inherits="SquareIconCheckButtonTemplate">
+                        <Size x="24" y="24"/>
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentActivateBuildButton" relativePoint="RIGHT" x="4"/>
+                        </Anchors>
+
+                        <ButtonText name="$parentText" parentKey="Text" text="ENABLE_AUTO_LEARN" inherits="GameFontNormalHuge">
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT"/>
+                            </Anchors>
+                        </ButtonText>
+
+                        <Scripts>
+                            <OnLoad>
+                                self:SetChecked(C_CVar.GetBool("heroArchitectAutoLearn"))
+                            </OnLoad>
+                            <OnClick>
+                                C_CVar.Set("heroArchitectAutoLearn", self:GetBoolValue())
+                            </OnClick>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </CheckButton>
+
+                    <Button name="$parentDeleteBuildButton" parentKey="DeleteBuildButton" text="DELETE_BUILD" inherits="SharedButtonTemplate">
+                        <Size x="140" y="38"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-6" y="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                BuildCreatorFrame:PromptDeleteBuild()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentEditBuildButton" parentKey="EditBuildButton" text="EDIT_BUILD" inherits="SharedGoldRedButtonTemplate">
+                        <Size x="140" y="38"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeTo="$parentDeleteBuildButton" relativePoint="LEFT" x="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                BuildCreatorFrame:PromptEditBuild()
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
+
+            <Frame name="$parentMainFrame" parentKey="MainFrame">
+                <Size x="766" y="625"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentControls" relativePoint="BOTTOMRIGHT"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentContentBackground" parentKey="ContentBackground" vertTile="true" horizTile="true">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="2" y="-88"/>
+                                <Anchor point="BOTTOMRIGHT" x="-2" y="4"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture name="$parentBackground" parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentName" parentKey="Name" justifyH="LEFT" inherits="GameFontNormalHuge">
+                            <Size x="380" y="20"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="88" y="-14"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentAuthor" parentKey="Author" inherits="GameFontHighlightSmall" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" x="4" y="-2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Button name="$parentBackButton" parentKey="BackButton" inherits="UIPanelCloseButton">
+                        <Size x="32" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="2" y="2"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture name="$parentBackground" parentKey="Background">
+                                    <Size x="20" y="20"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <Scripts>
+                            <OnLoad>
+                                self.Background:SetAtlas("buildcreator-close-background", Const.TextureKit.IgnoreAtlasSize)
+                            </OnLoad>
+                            <OnClick>
+                                BuildCreatorFrame:ShowBuildCategories()
+                                BuildCreatorFrame:ShowBuildList()
+                            </OnClick>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(BACK, 1, 1, 1, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                        <Size x="52" y="52"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="22" y="-16"/>
+                        </Anchors>
+                    </Button>
+
+                    <Button name="$parentPrimaryStat" parentKey="PrimaryStat">
+                        <Size x="152" y="28"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT" y="-12"/>
+                        </Anchors>
+
+                        <Frames>
+                            <Button name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                                <Size x="32" y="32"/>
+                                <Anchors>
+                                    <Anchor point="LEFT" y="-2"/>
+                                </Anchors>
+                            </Button>
+                        </Frames>
+
+                        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="SubSpellFont">
+                            <Size x="118" y="28"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="34"/>
+                            </Anchors>
+                            <FontHeight val="12"/>
+                        </ButtonText>
+
+                        <PushedTextOffset x="0" y="0"/>
+                    </Button>
+
+                    <Button name="$parentRole" parentKey="Role" inherits="BorderIconTemplate">
+                        <Size x="48" y="48"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" x="-22" y="-20"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(self.tooltipTitle, 1, 1, 1, 1)
+                                GameTooltip:AddLine(self.tooltipText, nil, nil, nil, true)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentSpecIcon" parentKey="SpecIcon">
+                        <Size x="142" y="28"/>
+                        <Anchors>
+                            <Anchor point="LEFT" relativeTo="$parentPrimaryStat" relativePoint="RIGHT" x="12"/>
+                        </Anchors>
+
+                        <Frames>
+                            <Button name="$parentIcon" parentKey="Icon" inherits="SpellIconTemplate">
+                                <Size x="28" y="28"/>
+                                <Anchors>
+                                    <Anchor point="LEFT"/>
+                                </Anchors>
+                            </Button>
+                        </Frames>
+
+                        <ButtonText name="$parentText" parentKey="Text" justifyH="LEFT" inherits="GameFontHighlight">
+                            <Size x="108" y="28"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="34"/>
+                            </Anchors>
+                        </ButtonText>
+                        
+                        <PushedTextOffset x="0" y="0"/>
+                    </Button>
+
+                    <Frame name="$parentShadowOverlay" parentKey="ShadowOverlay" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-88"/>
+                            <Anchor point="BOTTOMRIGHT" x="-2" y="4"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="ShadowOverlay"/>
+                        </Attributes>
+                    </Frame>
+
+                    <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                        <Size x="764" y="510"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="2" y="-88"/>
+                            <Anchor point="BOTTOMRIGHT" x="-26" y="4"/>
+                        </Anchors>
+
+                        <ScrollChild>
+                            <Frame parentKey="Content">
+                                <Size x="764" y="1"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT"/>
+                                    <Anchor point="TOPRIGHT"/>
+                                </Anchors>
+                                
+                                <Frames>
+                                    <Button name="$parentAlternateBuild1" parentKey="AlternateBuild1" text="VIEW_PVE_BUILD" inherits="SharedButtonTemplate">
+                                        <Size x="140" y="38"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="21" y="-4"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                BuildCreatorFrame:ViewBuildID(self.buildID)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentAlternateBuild2" parentKey="AlternateBuild2" text="VIEW_PVP_BUILD" inherits="SharedButtonTemplate">
+                                        <Size x="140" y="38"/>
+                                        <Anchors>
+                                            <Anchor point="LEFT" relativeTo="$parentAlternateBuild1" relativePoint="RIGHT" x="2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                BuildCreatorFrame:ViewBuildID(self.buildID)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentAlternateBuild3" parentKey="AlternateBuild3" text="VIEW_LEVELING_BUILD" inherits="SharedButtonTemplate">
+                                        <Size x="140" y="38"/>
+                                        <Anchors>
+                                            <Anchor point="LEFT" relativeTo="$parentAlternateBuild2" relativePoint="RIGHT" x="2"/>
+                                        </Anchors>
+                                        <Scripts>
+                                            <OnClick>
+                                                BuildCreatorFrame:ViewBuildID(self.buildID)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                        </ScrollChild>
+                        
+                        <Scripts>
+                            <OnLoad>
+                                ScrollFrame_OnLoad(self);
+                                self.scrollbar = _G[self:GetName().."ScrollBar"]
+                                self.scrollUpButton = _G[self.scrollbar:GetName().."ScrollUpButton"]
+                                self.scrollDownButton = _G[self.scrollbar:GetName().."ScrollDownButton"]
+                            </OnLoad>
+                            <OnVerticalScroll>
+                                self.scrollbar:SetValue(offset)
+                                local min, max
+                                min, max = self.scrollbar:GetMinMaxValues()
+
+                                if offset == 0 then
+                                    self.scrollUpButton:Disable()
+                                else
+                                    self.scrollUpButton:Enable()
+                                end
+
+                                if (self.scrollbar:GetValue() - max) == 0 then
+                                    self.scrollDownButton:Disable()
+                                else
+                                    self.scrollDownButton:Enable()
+                                end
+                                
+                                self:GetParent():GetParent():OnVerticalScroll(offset)
+                            </OnVerticalScroll>
+                            <OnMouseWheel>
+                                ScrollFrameTemplate_OnMouseWheelVariable(self, delta, self.scrollbar, 30)
+                            </OnMouseWheel>
+                        </Scripts>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+            
+            <Frame name="$parentCategoryScroll" parentKey="CategoryScroll" inherits="StandardProportionalScrollListTemplate">
+                <Size x="260" y="640"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-24"/>
+                </Anchors>
+                
+                <Layers>
+                    <Layer>
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT"/>
+                                <Anchor point="BOTTOMRIGHT" x="24"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Button name="$parentBackButton" parentKey="BackButton" text="BACK" inherits="StandardButtonTemplate">
+                <Size x="284" y="26"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentCategoryScroll" relativePoint="BOTTOMLEFT" x="-2" y="-2"/>
+                </Anchors>
+
+                <Scripts>
+                    <OnClick>
+                        BuildCreatorFrame:ShowBuildCategories()
+                        BuildCreatorFrame:ShowBuildList()
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(BACK, 1, 1, 1, 1)
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildViewMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <SimpleHTML name="BuildSimpleHTMLTemplate" virtual="true">
+        <Layers>
+            <Layer>
+                <FontString name="$parentHiddenText" parentKey="HiddenText" justifyV="TOP" justifyH="LEFT" inherits="GameFontNormal">
+                    <Size x="648" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "BuildViewSectionHTMLMixin")
+            </OnLoad>
+        </Scripts>
+
+        <FontString inherits="GameFontNormal"/>
+        <FontStringHeader1 inherits="GameFontNormalLarge2"/>
+        <FontStringHeader2 inherits="GameFontNormalLarge2"/>
+        <FontStringHeader3 inherits="GameFontNormalLarge"/>
+    </SimpleHTML>
+</Ui>

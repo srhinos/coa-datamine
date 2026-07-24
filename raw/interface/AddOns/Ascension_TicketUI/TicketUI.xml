@@ -1,0 +1,707 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="TicketUI.lua"/>
+    <Script file="CreateTicketPanelMixin.lua"/>
+    <Script file="ViewTicketPanelMixin.lua"/>
+    <Script file="TicketCharacterChoiceMixin.lua"/>
+
+    <Frame name="TicketCharacterChoiceTemplate" inherits="ScrollListItemTemplate" virtual="true">
+        <Size x="508" y="38"/>
+        <Layers>
+            <Layer>
+                <FontString name="$parentName" parentKey="Name" justifyH="LEFT" inherits="GameFontNormal">
+                    <Size x="110" y="32"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="44"/>
+                    </Anchors>
+                </FontString>
+                
+                <Texture name="$parentFactionIcon" parentKey="FactionIcon">
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-8"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentUnitInfo" parentKey="UnitInfo" justifyH="LEFT" inherits="GameFontHighlight">
+                    <Size x="312" y="32"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentName" relativePoint="RIGHT" x="6"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentIcon" parentKey="Icon" inherits="BorderIconTemplate">
+                <Size x="28" y="28"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="8"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TicketCharacterChoiceMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    
+    <Frame name="TicketFrame" parent="UIParent" frameStrata="DIALOG" enableMouse="true" movable="true" clampedToScreen="true" inherits="RaisedPortraitFrameTemplateNoBackground">
+        <Size x="700" y="580"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" parentKey="Background" file="Interface\FrameGeneral\UI-Background-Rock2" vertTile="true" horizTile="true" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        
+        <Layers>
+            <Layer>
+                <FontString name="$parentLabel" parentKey="Label" text="HELPFRAME_GMTALK_TITLE" inherits="GameFontNormalEnormous">
+                    <Anchors>
+                        <Anchor point="TOP" y="-32"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        
+        <Frames>
+            <Frame name="$parentCreateTicketPanel" parentKey="CreateTicketPanel" hidden="false" setAllPoints="true">
+                <Frames>
+                    <Frame name="$parentChooseAffectedCharacter" parentKey="ChooseAffectedCharacter" setAllPoints="true" hidden="true">
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentLabel" parentKey="Label" text="TICKET_CHOOSE_CHARACTER" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-108"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Frames>
+                            <Frame name="$parentCharacterList" parentKey="CharacterList" inherits="StandardProportionalScrollListTemplate">
+                                <Size x="508" y="320"/>
+                                <Anchors>
+                                    <Anchor point="CENTER"/>
+                                </Anchors>
+                                
+                                <Layers>
+                                    <Layer>
+                                        <Texture name="$parentBackground" parentKey="Background">
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                                <Anchor point="BOTTOMRIGHT" x="24" y="-2"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+                                
+                                <Frames>
+                                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" x="-2" y="2"/>
+                                            <Anchor point="BOTTOMRIGHT" x="26" y="-2"/>
+                                        </Anchors>
+                                        <Attributes>
+                                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                                        </Attributes>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                    <Frame name="$parentDescribeIssue" parentKey="DescribeIssue" setAllPoints="true">
+                        <Frames>
+                            <EditBox name="$parentTitle" parentKey="Title" letters="128" inherits="InputBoxInstructionsTemplate">
+                                <Size x="604" y="20"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" x="48" y="-92"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer>
+                                        <FontString text="TITLE" inherits="GameFontNormalHuge">
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="-4" y="2"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                <Attributes>
+                                    <Attribute name="instruction" value="PLAYER_TICKET_TITLE_INSTRUCTION"/>
+                                </Attributes>
+                                
+                                <Scripts>
+                                    <OnTextChanged>
+                                        InputBoxInstructions_OnTextChanged(self)
+                                        self:GetParent():GetParent():UpdateNextButton()
+                                    </OnTextChanged>
+                                    <OnEnterPressed>
+                                        if self:GetText():len() >= 3 then
+                                            self:GetParent().Content.Text:SetFocus()
+                                        end
+                                    </OnEnterPressed>
+                                </Scripts>
+                                
+                                <FontString inherits="ChatFontNormal"/>
+                            </EditBox>
+
+                            <ScrollFrame name="$parentContent" parentKey="Content" inherits="ScrollableMultiLineInputBoxInstructionsTemplate">
+                                <Size x="580" y="312"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="-4" y="-38"/>
+                                </Anchors>
+                                <Layers>
+                                    <Layer>
+                                        <FontString text="HELPFRAME_OPENTICKET_EDITTEXT" inherits="GameFontNormalHuge">
+                                            <Anchors>
+                                                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" y="6"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                            </ScrollFrame>
+                        </Frames>
+                    </Frame>
+                    <Frame name="$parentAssignPriority" parentKey="AssignPriority" setAllPoints="true">
+                        <Frames>
+                            <Frame name="$parentButtonContainer" parentKey="ButtonContainer" inherits="VerticalLayoutFrame">
+                                <Size x="200" y="1"/>
+                                <Anchors>
+                                    <Anchor point="CENTER"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="spacing" value="4" type="number"/>
+                                </Attributes>
+                                <Layers>
+                                    <Layer>
+                                        <FontString text="PLAYER_TICKET_ISSUE_PRIORITY" inherits="GameFontNormalLarge">
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" y="18"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                <Frames>
+                                    <Button name="$parentLow" parentKey="Low" text="PLAYER_TICKET_PRIORITY_LOW" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="1" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketPriority(Enum.TicketPriority.Low)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentMedium" parentKey="Medium" text="PLAYER_TICKET_PRIORITY_MEDIUM" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="2" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketPriority(Enum.TicketPriority.Medium)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentHigh" parentKey="High" text="PLAYER_TICKET_PRIORITY_HIGH" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="3" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketPriority(Enum.TicketPriority.High)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+
+                                    <Button name="$parentUrgent" parentKey="Urgent" text="PLAYER_TICKET_PRIORITY_URGENT" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="4" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketPriority(Enum.TicketPriority.Urgent)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                    <Frame name="$parentAssignCategory" parentKey="AssignCategory" setAllPoints="true">
+                        <Frames>
+                            <Frame name="$parentButtonContainer" parentKey="ButtonContainer" inherits="VerticalLayoutFrame">
+                                <Size x="200" y="1"/>
+                                <Anchors>
+                                    <Anchor point="CENTER"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="spacing" value="4" type="number"/>
+                                </Attributes>
+                                <Layers>
+                                    <Layer>
+                                        <FontString text="PLAYER_TICKET_ISSUE_CATEGORY" inherits="GameFontNormalLarge">
+                                            <Anchors>
+                                                <Anchor point="BOTTOM" relativePoint="TOP" y="18"/>
+                                            </Anchors>
+                                        </FontString>
+                                    </Layer>
+                                </Layers>
+                                <Frames>
+                                    <Button name="$parentOther" parentKey="Other" text="GM_TICKET_CATEGORY_OTHER" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="1" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Other)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentSpells" parentKey="Spells" text="GM_TICKET_CATEGORY_SPELLS_AND_ABILITIES" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="2" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Spells)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentTalents" parentKey="Talents" text="GM_TICKET_CATEGORY_TALENTS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="3" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Talents)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentMysticEnchants" parentKey="MysticEnchants" text="GM_TICKET_CATEGORY_MYSTIC_ENCHANTS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="4" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.MysticEnchants)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentItems" parentKey="Items" text="GM_TICKET_CATEGORY_ITEMS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="5" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Items)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentDungeons" parentKey="Talents" text="GM_TICKET_CATEGORY_DUNGEONS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="6" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Dungeons)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentRaids" parentKey="Raids" text="GM_TICKET_CATEGORY_RAIDS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="7" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Raids)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentQuests" parentKey="Quests" text="GM_TICKET_CATEGORY_QUESTS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="8" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Quests)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentInterface" parentKey="Interface" text="GM_TICKET_CATEGORY_UI_OR_ADDONS" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="9" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Interface)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                    <Button name="$parentWeb" parentKey="Web" text="GM_TICKET_CATEGORY_WEBSITE_OR_LAUNCHER" inherits="StandardButtonTemplate">
+                                        <Size x="280" y="32"/>
+                                        <Attributes>
+                                            <Attribute name="layoutIndex" value="10" type="number"/>
+                                        </Attributes>
+                                        <Scripts>
+                                            <OnClick>
+                                                self:GetParent():GetParent():GetParent():SelectTicketCategory(Enum.TicketCategory.Web)
+                                            </OnClick>
+                                        </Scripts>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                    <Frame name="$parentFinalize" parentKey="Finalize" setAllPoints="true">
+                        <Layers>
+                            <Layer>
+                                <FontString text="PLAYER_TICKET_FINALIZE" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOP" y="-64"/>
+                                    </Anchors>
+                                </FontString>
+                                
+                                <FontString name="$parentTitleLabel" parentKey="TitleLabel" text="TITLE" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="48" y="-108"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontHighlight">
+                                    <Size x="400" y="32"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentTitleLabel" relativePoint="BOTTOMLEFT" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentPriorityLabel" parentKey="PriorityLabel" text="PRIORITY" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" x="-48" y="-108"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentPriority" parentKey="Priority" justifyH="RIGHT" inherits="GameFontHighlight">
+                                    <Size x="240" y="32"/>
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" relativeTo="$parentPriorityLabel" relativePoint="BOTTOMRIGHT" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentAffectedCharacterLabel" parentKey="AffectedCharacterLabel" text="TICKET_AFFECTED_CHARACTER" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-6"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentAffectedCharacter" parentKey="AffectedCharacter" justifyH="LEFT" inherits="GameFontHighlight">
+                                    <Size x="400" y="32"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentAffectedCharacterLabel" relativePoint="BOTTOMLEFT" y="-2"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentContentLabel" parentKey="ContentLabel" text="HELPFRAME_OPENTICKET_EDITTEXT" inherits="GameFontNormalLarge">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentAffectedCharacter" relativePoint="BOTTOMLEFT" y="-6"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        
+                        <Frames>
+                            <Frame name="$parentContent" parentKey="Content" inherits="ScrollableTextTemplate">
+                                <Size x="580" y="282"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentContentLabel" relativePoint="BOTTOMLEFT" y="-4"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="font" value="GameFontHighlight"/>
+                                </Attributes>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                    
+                    <Frame name="$parentButtonContainer" parentKey="ButtonContainer" inherits="HorizontalLayoutFrame">
+                        <Size x="1" y="1"/>
+                        <Anchors>
+                            <Anchor point="BOTTOM" y="24"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="spacing" value="24" type="number"/>
+                        </Attributes>
+                        <Layers>
+                            <Layer>
+                                <FontString name="$parentCannotCreateReason" parentKey="CannotCreateReason" inherits="GameFontRedLarge">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativeTo="TOP" y="8"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Frames>
+                            <Button name="$parentBackButton" parentKey="BackButton" text="BACK" hidden="true" inherits="StandardButtonTemplate">
+                                <Attributes>
+                                    <Attribute name="layoutIndex" value="1" type="number"/>
+                                </Attributes>
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():GetParent():OnBack()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                            <Button name="$parentNextButton" parentKey="NextButton" text="NEXT" hidden="true" inherits="StandardButtonTemplate">
+                                <Attributes>
+                                    <Attribute name="layoutIndex" value="2" type="number"/>
+                                </Attributes>
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():GetParent():OnNext()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentSubmitButton" parentKey="SubmitButton" text="SUBMIT" hidden="true" inherits="StandardButtonTemplate">
+                                <Attributes>
+                                    <Attribute name="layoutIndex" value="3" type="number"/>
+                                </Attributes>
+                                <Scripts>
+                                    <OnClick>
+                                        self:GetParent():GetParent():SubmitTicket()
+                                    </OnClick>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "CreateTicketPanelMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            <Frame name="$parentViewTicketPanel" parentKey="ViewTicketPanel" hidden="true" setAllPoints="true">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBackground" parentKey="Background">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" y="-106"/>
+                                <Anchor point="BOTTOMRIGHT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer>
+                        <FontString name="$parentTitle" parentKey="Title" justifyH="LEFT" inherits="GameFontNormalLarge">
+                            <Size x="412" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="64" y="-32"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentTicketStatusLabel" parentKey="TicketStatusLabel" justifyH="RIGHT" text="PLAYER_TICKET_STATUS" inherits="GameFontNormalLarge">
+                            <Size x="200" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="-12" y="-32"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentTicketStatus" parentKey="TicketStatus" justifyH="RIGHT" inherits="GameFontHighlight">
+                            <Size x="200" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" relativeTo="$parentTicketStatusLabel" relativePoint="BOTTOMRIGHT" y="-2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Button name="$parentCancelTicketButton" parentKey="CancelTicketButton" text="PLAYER_TICKET_CANCEL" inherits="StandardButtonTemplate">
+                        <Size x="180" y="24"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativeTo="$parentTicketStatus" relativePoint="BOTTOMRIGHT" x="2" y="-4"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                StaticPopup_Show("PLAYER_TICKET_CLOSE_CONFIRM", nil, nil, self)
+                            </OnClick>
+                            <OnEnter function="GameTooltip_GenericTooltip"/>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                        <Size x="670" y="414"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="4" y="-108"/>
+                            <Anchor point="BOTTOMRIGHT" x="-28" y="58"/>
+                        </Anchors>
+                        
+                        <ScrollChild>
+                            <Frame name="$parentChild" parentKey="Child" inherits="VerticalLayoutFrame">
+                                <Size x="670" y="1"/>
+                                <Anchors>
+                                    <Anchor point="TOP"/>
+                                </Anchors>
+                                <Attributes>
+                                    <Attribute name="fixedWidth" value="670" type="number"/>
+                                    <Attribute name="minimumHeight" value="414" type="number"/>
+                                    <Attribute name="expand" value="false" type="boolean"/>
+                                    <Attribute name="spacing" value="18" type="number"/>
+                                    <Attribute name="leftPadding" value="24" type="number"/>
+                                    <Attribute name="topPadding" value="18" type="number"/>
+                                    <Attribute name="bottomPadding" value="18" type="number"/>
+                                </Attributes>
+                                
+                                <Frames>
+                                    <Frame name="$parentClosedTicketNotice" parentKey="ClosedTicketNotice">
+                                        <Size x="670" y="48"/>
+                                        <Layers>
+                                            <Layer>
+                                                <FontString name="$parentText" parentKey="Text" text="PLAYER_TICKET_CLOSED_NOTICE" inherits="GameFontDisable">
+                                                    <Size x="400" y="0"/>
+                                                </FontString>
+                                            </Layer>
+                                            
+                                            <Layer>
+                                                <Texture>
+                                                    <Size x="120" y="1"/>
+                                                    <Anchors>
+                                                        <Anchor point="LEFT" x="8"/>
+                                                    </Anchors>
+                                                    <Color r="0.4" g="0.4" b="0.4"/>
+                                                </Texture>
+
+                                                <Texture>
+                                                    <Size x="120" y="1"/>
+                                                    <Anchors>
+                                                        <Anchor point="RIGHT" x="-8"/>
+                                                    </Anchors>
+                                                    <Color r="0.4" g="0.4" b="0.4"/>
+                                                </Texture>
+                                            </Layer>
+                                        </Layers>
+                                        
+                                        <Frames>
+                                            <Button name="$parentResolveButton" parentKey="ResolveButton" text="PLAYER_TICKET_ISSUE_RESOLVED" inherits="StandardButtonTemplate">
+                                                <Size x="220" y="24"/>
+                                                <Anchors>
+                                                    <Anchor point="TOP" relativePoint="BOTTOM"/>
+                                                </Anchors>
+                                                
+                                                <Scripts>
+                                                    <OnClick>
+                                                        StaticPopup_Show("PLAYER_TICKET_CLOSE_CONFIRM", nil, nil, self)
+                                                    </OnClick>
+                                                </Scripts>
+                                            </Button>
+
+                                            <Button name="$parentReopenButton" parentKey="ReopenButton" text="PLAYER_TICKET_ISSUE_REOPEN" inherits="StandardButtonTemplate">
+                                                <Size x="220" y="24"/>
+                                                <Anchors>
+                                                    <Anchor point="TOP" relativeTo="$parentResolveButton" relativePoint="BOTTOM"/>
+                                                </Anchors>
+
+                                                <Scripts>
+                                                    <OnClick>
+                                                        StaticPopup_Show("PLAYER_TICKET_REOPEN_CONFIRM", nil, nil, self)
+                                                    </OnClick>
+                                                </Scripts>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </ScrollChild>
+                    </ScrollFrame>
+                    
+                    <Frame name="$parentInset" parentKey="Inset" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentScrollFrame" y="4"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" y="-4" x="24"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="InsetFrameTemplate"/>
+                            <Attribute name="useParentLevel" value="true" type="boolean"/>
+                        </Attributes>
+                    </Frame>
+
+                    <Frame name="$parentShadow" parentKey="Shadow" inherits="NineSlicePanelTemplate2">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentScrollFrame" y="2"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" y="-2" x="22"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="layoutType" value="LargeShadowOverlay"/>
+                            <Attribute name="useParentLevel" value="true" type="boolean"/>
+                        </Attributes>
+                    </Frame>
+                    
+                    <ScrollFrame name="$parentMessageInput" parentKey="MessageInput" inherits="ScrollableMultiLineInputBoxInstructionsTemplate">
+                        <Size x="694" y="46"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentScrollFrame" relativePoint="BOTTOMLEFT" y="-6"/>
+                            <Anchor point="TOPRIGHT" relativeTo="$parentScrollFrame" relativePoint="BOTTOMRIGHT" y="-6"/>
+                        </Anchors>
+                        <Attributes>
+                            <Attribute name="instructions" value="PLAYER_TICKET_SEND_MESSAGE_INSTRUCTIONS"/>
+                        </Attributes>
+                    </ScrollFrame>
+                </Frames>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, "ViewTicketPanelMixin")
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            
+            <Frame name="$parentLoading" parentKey="Loading" inherits="InputBlockLoadingTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+                <Attributes>
+                    <Attribute name="alpha" value="0.95" type="number"/>
+                    <Attribute name="size" value="60" type="number"/>
+                </Attributes>
+            </Frame>
+            
+            <Frame name="$parentError" parentKey="Error" inherits="InputBlockTextCloseButtonTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+            </Frame>
+
+            <Frame name="$parentSuccess" parentKey="Success" inherits="InputBlockTextCloseButtonTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-24"/>
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+        
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, "TicketFrameMixin")
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>

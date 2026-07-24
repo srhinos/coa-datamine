@@ -1,0 +1,1474 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_PVP.lua"/>
+
+    <Frame name="PVPRewardTemplate" enableMouse="true" virtual="true">
+		<Size x="30" y="30"/>
+
+		<HitRectInsets>
+			<AbsInset left="-4" right="-4" top="-4" bottom="-4" />
+		</HitRectInsets>
+
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentBorder" parentKey="Border" setAllPoints="true"/>
+			</Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture parentKey="IconBG" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                        <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+			<Layer level="BORDER">
+				<Texture parentKey="Icon">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="8" y="-8"/>
+                        <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+        <Scripts>
+            <OnLoad>
+                self.Border:SetAtlas("honorsystem-bar-rewardborder-circle", Const.TextureKit.IgnoreAtlasSize)
+
+                local rewardType = self:GetAttribute("rewardType")
+                if rewardType  == "honor" then
+                    local faction = strlower(UnitFactionGroup("player"))
+                    self.Icon:SetAtlas("pvpqueue-sidebar-honorbar-badge-"..faction)
+                    self.IconBG:SetAtlas("pvpqueue-sidebar-honorbar-background-"..faction)
+                    self.IconBG:Show()
+
+                elseif rewardType =="arena" then
+                    self.Icon:SetTexture("Interface\\PVPFrame\\PVP-ArenaPoints-Icon")
+                end
+            </OnLoad>
+        </Scripts>
+	</Frame>
+
+	<Frame name="PVPStandardRewardTemplate" inherits="PVPRewardTemplate" virtual="true">
+		<Scripts>
+			<OnEnter>
+                if not self.itemId and not self.winXP and not self.winHonor and not self.winArenaPoints then
+                    return
+                end
+
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                if self.itemId then
+                    GameTooltip:SetHyperlink("item:"..self.itemId)
+                end
+
+                if self.winXP and self.winXP > 0 then
+                    GameTooltip:AddLine(EXPERIENCE, 1, 1, 1)
+                    GameTooltip:AddLine(" ")
+                    if self.lossXP and self.lossXP > 0 then
+                        GameTooltip:AddLine(PVP_REWARD_TOOLTIP, ni, nil, nil, false)
+                        GameTooltip:AddLine(format(PVP_REWARD_XP_FORMAT, self.lossXP), 1, 1, 1, false)
+                        GameTooltip:AddLine(" ")
+                    end
+                    GameTooltip:AddLine(PVP_REWARD_WIN_TOOLTIP, ni, nil, nil, false)
+                    GameTooltip:AddLine(format(PVP_REWARD_XP_FORMAT, self.winXP - (self.lossXP or 0)), 0.2, 1, 0, false)
+                end
+
+                if self.winHonor and self.winHonor > 0 then
+                    GameTooltip:AddLine(HONOR_POINTS, 1, 1, 1)
+                    GameTooltip:AddLine(" ")
+                    if self.lossHonor and self.lossHonor > 0 then
+                        GameTooltip:AddLine(PVP_REWARD_TOOLTIP, ni, nil, nil, false)
+                        GameTooltip:AddLine(format(MERCHANT_HONOR_POINTS, self.lossHonor), 1, 1, 1, false)
+                        GameTooltip:AddLine(" ")
+                    end
+                    GameTooltip:AddLine(PVP_REWARD_WIN_TOOLTIP, ni, nil, nil, false)
+                    GameTooltip:AddLine(format(MERCHANT_HONOR_POINTS, self.winHonor - (self.lossHonor or 0)), 0.2, 1, 0, false)
+                end
+
+                if self.winArenaPoints and self.winArenaPoints > 0 then
+                    GameTooltip:AddLine(ARENA_POINTS, 1, 1, 1)
+                    GameTooltip:AddLine(" ")
+                    if self.lossArenaPoints and self.lossArenaPoints > 0 then
+                        GameTooltip:AddLine(PVP_REWARD_TOOLTIP, ni, nil, nil, false)
+                        GameTooltip:AddLine(format(MERCHANT_ARENA_POINTS, self.lossArenaPoints), 1, 1, 1, false)
+                        GameTooltip:AddLine(" ")
+                    end
+                    GameTooltip:AddLine(PVP_REWARD_WIN_TOOLTIP, ni, nil, nil, false)
+                    GameTooltip:AddLine(format(MERCHANT_ARENA_POINTS, self.winArenaPoints - (self.lossArenaPoints or 0)), 0.2, 1, 0, false)
+                end
+
+                GameTooltip:Show()
+            </OnEnter>
+			<OnLeave function="GameTooltip_Hide"/>
+		</Scripts>
+	</Frame>
+
+    <Button name="PVPCasualActivityButton" virtual="true">
+		<Size x="365" y="58"/>
+
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture parentKey="SelectedTexture" setAllPoints="true" alphaMode="ADD" hidden="true"/>
+                <Texture parentKey="FrenzyTexture" setAllPoints="true" alphaMode="ADD" hidden="true"/>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture name="$parentAnchor" parentKey="Anchor" setAllPoints="true"/>
+
+				<FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlightLarge" justifyH="LEFT" maxLines="2">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentAnchor" x="20" y="-1"/>
+						<Anchor point="RIGHT" relativeTo="$parentAnchor" x="-20" y="-1"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentLevelRequirement" parentKey="LevelRequirement" justifyV="TOP" inherits="GameFontNormalMed3" hidden="true">
+                    <Size x="325" y="68"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentAnchor" x="20" y="0"/>
+						<Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" x="0" y="-4"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentAnchor" x="-20" y="10"/>
+					</Anchors>
+
+					<Color r="0.4" g="0.4" b="0.4"/>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<NormalTexture parentKey="NormalTexture"/>
+		<PushedTexture parentKey="PushedTexture"/>
+		<HighlightTexture parentKey="HighlightTexture" alphaMode="ADD"/>
+
+		<Scripts>
+            <OnLoad>
+                Mixin(self, "PVPCasualActivityButtonMixin")
+                self.NormalTexture:SetAtlas("pvpqueue-button-casual-up", Const.TextureKit.IgnoreAtlasSize)
+                self.PushedTexture:SetAtlas("pvpqueue-button-casual-down", Const.TextureKit.IgnoreAtlasSize)
+                self.HighlightTexture:SetAtlas("pvpqueue-button-casual-highlight", Const.TextureKit.IgnoreAtlasSize)
+                self.SelectedTexture:SetAtlas("pvpqueue-button-casual-selected", Const.TextureKit.IgnoreAtlasSize)
+                self.FrenzyTexture:SetAtlas("pvpqueue-button-casual-selected", Const.TextureKit.IgnoreAtlasSize)
+                self.FrenzyTexture:SetVertexColor(1, 0.5, 0)
+            </OnLoad>
+			<OnClick>
+                self:OnClick()
+            </OnClick>
+			<OnEnter>
+                self:OnEnter()
+            </OnEnter>
+			<OnMouseDown>
+                self:OnMouseDown()
+            </OnMouseDown>
+			<OnMouseUp>
+                self:OnMouseUp()
+            </OnMouseUp>
+			<OnLeave>
+                self:OnLeave()
+            </OnLeave>
+		</Scripts>
+	</Button>
+
+	<Button name="PVPCasualStandardButtonTemplate" inherits="PVPCasualActivityButton" virtual="true">
+		<Frames>
+			<Frame name="$parentRewardHonor" parentKey="RewardHonor" inherits="PVPStandardRewardTemplate" hidden="true">
+                <Attributes>
+                    <Attribute name="rewardType" value="honor" type="string"/>
+                </Attributes>
+				<Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentAnchor" x="-16" y="-1"/>
+				</Anchors>
+			</Frame>
+
+            <Frame name="$parentRewardArena" parentKey="RewardArena" inherits="PVPStandardRewardTemplate" hidden="true">
+                <Attributes>
+                    <Attribute name="rewardType" value="arena" type="string"/>
+                </Attributes>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentAnchor" x="-16" y="-1"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Button>
+
+    <Button name="PVPRatedActivityButtonTemplate" motionScriptsWhileDisabled="true" virtual="true">
+		<Size x="365" y="81"/>
+
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture parentKey="SelectedTexture" setAllPoints="true" alphaMode="ADD" hidden="true"/>
+                <Texture parentKey="FrenzyTexture" setAllPoints="true" alphaMode="ADD" hidden="true"/>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<Texture name="$parentAnchor" parentKey="Anchor" setAllPoints="true"/>
+
+				<FontString name="$parentTeamSizeText" parentKey="TeamSizeText" inherits="SystemFont_Huge1">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentAnchor" x="20" y="9"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parentTeamTypeText" parentKey="TeamTypeText" inherits="GameFontDisable">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentAnchor" x="19" y="0"/>
+						<Anchor point="TOP" relativeTo="$parentTeamSizeText" relativePoint="BOTTOM" x="0" y="-4"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<NormalTexture parentKey="NormalTexture"/>
+		<PushedTexture parentKey="PushedTexture"/>
+		<HighlightTexture parentKey="HighlightTexture" alphaMode="ADD"/>
+
+		<Frames>
+			<Frame name="$parentReward" parentKey="Reward" inherits="PVPStandardRewardTemplate" hidden="true">
+                <Size x="38" y="38"/>
+
+                <Attributes>
+                    <Attribute name="rewardType" value="arena" type="string"/>
+                </Attributes>
+
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentAnchor" x="-16" y="-2"/>
+				</Anchors>
+			</Frame>
+
+			<Frame name="$parentTier" parentKey="Tier" inherits="PVPRatedTierTemplate">
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parentAnchor" x="-4" y="6"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+                Mixin(self, "PVPRatedActivityButtonMixin")
+				self.bgIndex = self:GetID()
+				self.TeamSizeText:SetText(RATED_SIZE_STRINGS[self.bgIndex])
+				self.TeamTypeText:SetText(RATED_TYPE_STRINGS[self.bgIndex])
+
+                self:SetNormalAtlas("pvpqueue-button-up")
+                self:SetPushedAtlas("pvpqueue-button-down")
+                self:SetHighlightAtlas("pvpqueue-button-highlight")
+
+                self.SelectedTexture:SetAtlas("pvpqueue-button-selected", Const.TextureKit.IgnoreAtlasSize)
+                self.FrenzyTexture:SetAtlas("pvpqueue-button-selected", Const.TextureKit.IgnoreAtlasSize)
+                self.FrenzyTexture:SetVertexColor(1, 0.5, 0)
+			</OnLoad>
+			<OnClick>
+                self:OnClick()
+            </OnClick>
+			<OnEnter>
+                self:OnEnter()
+            </OnEnter>
+			<OnLeave function="GameTooltip_Hide"/>
+			<OnMouseDown>
+				if self:IsEnabled() == 1 then
+					self.Anchor:SetPoint("TOPLEFT", -1, -1)
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				self.Anchor:SetPoint("TOPLEFT", 0, 0)
+			</OnMouseUp>
+		</Scripts>
+	</Button>
+
+    <Frame name="PVPRatedTierTemplate" virtual="true">
+        <Size x="50" y="50"/>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon">
+                    <Size x="50" y="50"/>
+
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString name="$parentRanking" parentKey="Ranking" inherits="GameFontHighlightLarge">
+                    <Size x="100" y="0"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parentIcon" relativePoint="BOTTOM"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString name="$parentTeamRank" parentKey="TeamRank" inherits="NumberFont_Outline_Large" hidden="true">
+                    <Size x="50" y="0"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeTo="$parentIcon" y="-3"/>
+                    </Anchors>
+                </FontString>
+                
+				<FontString name="$parentCurrentRating" parentKey="CurrentRating" inherits="GameFontNormalLarge" text="0">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" y="0"/>
+					</Anchors>
+				</FontString>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "PVPRatedTierMixin")
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+    <StatusBar name="PVPCurrencyBarTemplate" drawLayer="BORDER" enableMouse="true" virtual="true">
+		<Size x="340" y="20"/>
+    
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Border">
+					<Anchors>
+						<Anchor point="LEFT" x="-9" y="-2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<FontString parentKey="Label" inherits="GameFontHighlightSmall" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Background">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Frames>
+            <Frame parentKey="IconFrame" enableMouse="true">
+                <Size x="36" y="36"/>
+
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" x="-8" y="-2"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Ring">
+                            <Size x="48" y="48"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="IconBG">
+                            <Size x="38" y="38"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BORDER">
+                        <Texture parentKey="Icon">
+                            <Size x="26" y="26"/>
+
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="CheckMark" hidden="true">
+                            <Size x="30" y="26"/>
+
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="5" y="-4"/>
+                            </Anchors>
+                        </Texture>
+                      </Layer>
+                </Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.CheckMark:SetAtlas("pvpqueue-conquestbar-checkmark", Const.TextureKit.IgnoreAtlasSize)
+                        self.Ring:SetAtlas("pvpqueue-rewardring", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                    <OnEnter>
+                        if self.tooltip then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            for i, text in ipairs(self.tooltip) do
+                                if i == 1 then
+                                    GameTooltip:AddLine(text, 1, 1, 1, true)
+                                else
+                                    GameTooltip:AddLine(text, nil, nil, nil, true)
+                                end
+                            end
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </Frame>
+
+			<Frame parentKey="Lock" hidden="true">
+				<Size x="36" y="47"/>
+
+				<Anchors>
+					<Anchor point="CENTER" x="11" y="3"/>
+				</Anchors>
+
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture parentKey="Texture" setAllPoints="true"/>
+					</Layer>
+
+					<Layer level="HIGHLIGHT">
+						<Texture parentKey="Highlight" alpha="0.1" setAllPoints="true"/>
+					</Layer>
+				</Layers>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Texture:SetAtlas("honorsystem-bar-lock", Const.TextureKit.IgnoreAtlasSize)
+                        self.Highlight:SetAtlas("honorsystem-bar-lock", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+			</Frame>
+		</Frames>
+
+        <BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+        <BarColor r="1" g="1" b="1"/>
+
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "PVPCurrencyBarMixin")
+                self:OnLoad()
+                self.Border:SetAtlas("pvpqueue-conquestbar-frame", Const.TextureKit.UseAtlasSize)
+                self.Background:SetAtlas("pvpqueue-conquestbar-background", Const.TextureKit.IgnoreAtlasSize)
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnEnter>
+                self.IconFrame:GetScript("OnEnter")(self.IconFrame)
+            </OnEnter>
+            <OnLeave>
+                self.IconFrame:GetScript("OnLeave")(self.IconFrame)
+            </OnLeave>
+            <OnMouseDown>
+                self:OnMouseDown()
+            </OnMouseDown>
+        </Scripts>
+	</StatusBar>
+
+    <Frame name="AscensionPVPFrame" parent="AscensionLFGFrameContent" setAllPoints="true" hidden="true">
+        <Scripts>
+            <OnLoad>
+                Mixin(self, "PVPFrameMixin")
+                self:OnLoad()
+            </OnLoad>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+        </Scripts>
+
+        <Frames>
+            <Button name="$parentHelpPlateButton" parentKey="HelpPlateButton" frameLevel="1000" inherits="HelpPlateButtonTemplate">
+                <Attributes>
+                    <Attribute name="HelpPlate" value="PVP_FRAME" type="string"/>
+                </Attributes>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-178" y="46"/>
+                </Anchors>
+            </Button>
+
+            <StatusBar name="$parentHonorBar" parentKey="HonorBar" inherits="PVPCurrencyBarTemplate" id="1">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-10"/>
+                </Anchors>
+            </StatusBar>
+
+            <StatusBar name="$parentArenaBar" parentKey="ArenaBar" inherits="PVPCurrencyBarTemplate" id="2">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentHonorBar" relativePoint="BOTTOMLEFT" x="0" y="-20"/>
+                </Anchors>
+            </StatusBar>
+
+            <Frame name="$parentCasualFrame" parentKey="CasualFrame" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" x="-175" y="0"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="InsetFrameTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="8" y="-85"/>
+                            <Anchor point="BOTTOMRIGHT" x="-5" y="52"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame parentKey="BonusFrame">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentInset"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentInset"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentWorldBattlesTexture" parentKey="WorldBattlesTexture" setAllPoints="true"/>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <Button name="$parentRandomBGButton" parentKey="RandomBGButton" inherits="PVPCasualStandardButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOP" relativeTo="$parentInset" y="-9"/>
+                                </Anchors>
+                            </Button>
+
+                            <Button name="$parentCallToArmsButton1" parentKey="CallToArmsButton1" inherits="PVPCasualStandardButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOP" relativeTo="$parentRandomBGButton" relativePoint="BOTTOM" x="0" y="-1"/>
+                                </Anchors>
+                            </Button>
+
+                            <Button name="$parentCallToArmsButton2" parentKey="CallToArmsButton2" inherits="PVPCasualStandardButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOP" relativeTo="$parentCallToArmsButton1" relativePoint="BOTTOM" x="0" y="-1"/>
+                                </Anchors>
+                            </Button>
+
+                            <Button name="$parentRandomBrawlButton" parentKey="RandomBrawlButton" inherits="PVPCasualStandardButtonTemplate">
+                                <Anchors>
+                                    <Anchor point="TOP" relativeTo="$parentCallToArmsButton2" relativePoint="BOTTOM" x="0" y="-1"/>
+                                </Anchors>
+                            </Button>
+
+                            <Button name="$parentSkirmish1v1Button" parentKey="Skirmish1v1Button" inherits="PVPCasualStandardButtonTemplate">
+                                <Size x="118" y="68"/>
+
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentRandomBrawlButton" relativePoint="BOTTOMLEFT" x="0" y="-1"/>
+                                </Anchors>
+                            </Button>
+
+                            <Button name="$parentSkirmish2v2Button" parentKey="Skirmish2v2Button" inherits="PVPCasualStandardButtonTemplate">
+                                <Size x="118" y="68"/>
+
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentSkirmish1v1Button" relativePoint="RIGHT" x="1" y="0"/>
+                                </Anchors>
+                            </Button>
+
+                            <Button name="$parentSkirmish3v3Button" parentKey="Skirmish3v3Button" inherits="PVPCasualStandardButtonTemplate">
+                                <Size x="118" y="68"/>
+
+                                <Anchors>
+                                    <Anchor point="LEFT" relativeTo="$parentSkirmish2v2Button" relativePoint="RIGHT" x="1" y="0"/>
+                                </Anchors>
+                            </Button>
+
+                            <Frame parentKey="ShadowOverlay" inherits="ShadowOverlaySmallTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentWorldBattlesTexture" relativePoint="TOPLEFT" x="0" y="0"/>
+                                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentWorldBattlesTexture" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.WorldBattlesTexture:SetAtlas("pvpqueue-background-casual-"..strlower(UnitFactionGroup("player", Const.TextureKit.IgnoreAtlasSize), Const.TextureKit.UseAtlasSize))
+                            </OnLoad>
+                            <OnShow>
+                                -- For a single frame this frame won't have the correct size
+                                Timer.After(0.01, function() self:GetParent():Update() end)
+                            </OnShow>
+                        </Scripts>
+                    </Frame>
+
+                    <Button name="$parentQueueButton" parentKey="QueueButton" inherits="RedButtonTemplate" text="BATTLEFIELD_GROUP_JOIN" motionScriptsWhileDisabled="true">
+                        <Size x="191" y="54"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPGroupQueueButtonMixin")
+                            </OnLoad>
+                            <OnClick>
+                                if self:IsEnabled() == 1 then
+                                    local button = self:GetParent().selectedButton
+                                    if button then
+                                        if C_Player:IsHero() and not C_PrimaryStat:GetActivePrimaryStat() then
+                                            ShowForcedPrimaryStat()
+                                            return
+                                        end
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        JoinBattlefield(button.bgIndex, 1)
+                                    end
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                if self.tooltip then
+                                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                    GameTooltip:SetText(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+        
+                    <Button name="$parentSoloQueueButton" parentKey="SoloQueueButton" inherits="RedButtonTemplate" text="BATTLEFIELD_JOIN" motionScriptsWhileDisabled="true">
+                        <Size x="191" y="54"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+                        
+                        <Layers>
+                            <Layer level = "OVERLAY">
+                                <FontString name="$parentErrorMessage" parentKey="ErrorMessage" inherits="GameFontRedSmall">
+                                    <Size x="180" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" x="0" y="4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPQueueButtonMixin")
+                            </OnLoad>
+                            <OnClick>
+                                if self:IsEnabled() == 1 then
+                                    local button = self:GetParent().selectedButton
+                                    if button then
+                                        if C_Player:IsHero() and not C_PrimaryStat:GetActivePrimaryStat() then
+                                            ShowForcedPrimaryStat()
+                                            return
+                                        end
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        if button.bgIndex == 1 and button.teamSize == 2 then
+                                            C_Quest:SendPathToAscensionEvent("ACTION_QUEUE_FOR_2V2_SOLO_ARENA")
+                                        end
+                                        JoinBattlefield(button.bgIndex)
+                                    end
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                if self.tooltip then
+                                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                    GameTooltip:SetText(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentLeaveQueueButton" parentKey="LeaveQueueButton" inherits="RedButtonTemplate" text="LEAVE_QUEUE" motionScriptsWhileDisabled="true" hidden="true">
+                        <Size x="191" y="54"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPGroupQueueButtonMixin")
+                            </OnLoad>
+                            <OnClick>
+                                if self:IsEnabled() == 1 then
+                                    if self:GetParent().leaveQueueIndex then
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        AcceptBattlefieldPort(self:GetParent().leaveQueueIndex, 0)
+                                        self:GetParent().leaveQueueIndex = nil
+                                    end
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                if self.tooltip then
+                                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                    GameTooltip:SetText(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        Mixin(self, "CasualPVPMixin")
+                        self:OnLoad()
+                    </OnLoad>
+                    <OnShow>
+                        self:OnShow()
+                    </OnShow>
+                    <OnHide>
+                        self:OnHide()
+                    </OnHide>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentRatedFrame" parentKey="RatedFrame" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" x="-175" y="0"/>
+                </Anchors>
+
+                <Frames>
+                    <Frame name="$parentInset" parentKey="Inset" inherits="InsetFrameTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="8" y="-85"/>
+                            <Anchor point="BOTTOMRIGHT" x="-5" y="52"/>
+                        </Anchors>
+                    </Frame>
+
+                    <Frame parentKey="BonusFrame">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentInset"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentInset"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentWorldBattlesTexture" parentKey="WorldBattlesTexture" setAllPoints="true"/>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <Button name="$parentArena1v1" parentKey="Arena1v1" inherits="PVPRatedActivityButtonTemplate" id="3">
+								<Anchors>
+									<Anchor point="TOP" x="0" y="-9"/>
+								</Anchors>
+							</Button>
+
+                            <Button name="$parentArena2v2" parentKey="Arena2v2" inherits="PVPRatedActivityButtonTemplate" id="1">
+								<Anchors>
+									<Anchor point="TOP" relativeTo="$parentArena1v1" relativePoint="BOTTOM" x="0" y="-1"/>
+								</Anchors>
+							</Button>
+
+							<Button name="$parentArena3v3" parentKey="Arena3v3" inherits="PVPRatedActivityButtonTemplate" id="2">
+								<Anchors>
+									<Anchor point="TOP" relativeTo="$parentArena2v2" relativePoint="BOTTOM" x="0" y="-1"/>
+								</Anchors>
+							</Button>
+
+                            <Frame parentKey="ShadowOverlay" inherits="ShadowOverlaySmallTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="$parentWorldBattlesTexture" relativePoint="TOPLEFT" x="0" y="0"/>
+                                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentWorldBattlesTexture" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                self.WorldBattlesTexture:SetAtlas("pvpqueue-background-rated", Const.TextureKit.UseAtlasSize)
+                            </OnLoad>
+                        </Scripts>
+                    </Frame>
+
+                    <Button name="$parentQueueButton" parentKey="QueueButton" inherits="RedButtonTemplate" text="BATTLEFIELD_GROUP_JOIN" motionScriptsWhileDisabled="true">
+                        <Size x="191" y="54"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPGroupQueueButtonMixin")
+                            </OnLoad>
+                            <OnClick>
+                                if self:IsEnabled() == 1 then
+                                    local button = self:GetParent().selectedButton
+                                    if button then
+                                        if C_Player:IsHero() and not C_PrimaryStat:GetActivePrimaryStat() then
+                                            ShowForcedPrimaryStat()
+                                            return
+                                        end
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        JoinBattlefield(button.bgIndex, 1, 1)
+                                    end
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                if self.tooltip then
+                                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                    GameTooltip:SetText(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+        
+                    <Button name="$parentSoloQueueButton" parentKey="SoloQueueButton" inherits="RedButtonTemplate" text="BATTLEFIELD_SOLO_JOIN" motionScriptsWhileDisabled="true">
+                        <Size x="191" y="54"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="$parentErrorMessage" parentKey="ErrorMessage" inherits="GameFontRedSmall">
+                                    <Size x="180" y="0"/>
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" x="0" y="4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPQueueButtonMixin")
+                            </OnLoad>
+                            <OnClick>
+                                if self:IsEnabled() == 1 then
+                                    local button = self:GetParent().selectedButton
+                                    if button then
+                                        if C_Player:IsHero() and not C_PrimaryStat:GetActivePrimaryStat() then
+                                            ShowForcedPrimaryStat()
+                                            return
+                                        end
+                                        local arenaIndex = button.bgIndex == 3 and 5 or (button.bgIndex + 1)
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        if button.bgIndex == 1 and button.teamSize == 2 then
+                                            C_Quest:SendPathToAscensionEvent("ACTION_QUEUE_FOR_2V2_SOLO_ARENA")
+                                        end
+                                        if button.teamSize ~= 1 and C_CVar.GetNumber("pvpRole") == 0 then
+                                            StaticPopupSpecial_Show(PvPRoleCheckPopup)
+                                            PvPRoleCheckPopup.arenaIndex = arenaIndex
+                                            return
+                                        end
+                                        JoinArenaWithRole(arenaIndex, C_CVar.GetNumber("pvpRole"))
+                                    end
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                if self.tooltip then
+                                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                    GameTooltip:SetText(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+
+                    <Button name="$parentLeaveQueueButton" parentKey="LeaveQueueButton" inherits="RedButtonTemplate" text="LEAVE_QUEUE" motionScriptsWhileDisabled="true" hidden="true">
+                        <Size x="191" y="54"/>
+
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPGroupQueueButtonMixin")
+                            </OnLoad>
+                            <OnClick>
+                                if self:IsEnabled() == 1 then
+                                    if self:GetParent().leaveQueueIndex then
+                                        PlaySound("igMainMenuOptionCheckBoxOn")
+                                        AcceptBattlefieldPort(self:GetParent().leaveQueueIndex, 0)
+                                        self:GetParent().leaveQueueIndex = nil
+                                    end
+                                end
+                            </OnClick>
+                            <OnEnter>
+                                if self.tooltip then
+                                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                    GameTooltip:SetText(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1, true)
+                                    GameTooltip:Show()
+                                end
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Button>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        Mixin(self, "RatedPVPMixin")
+                        self:OnLoad()
+                    </OnLoad>
+                    <OnShow>
+                        self:OnShow()
+                    </OnShow>
+                </Scripts>
+            </Frame>
+
+            <Frame name="$parentHonorInset" parentKey="HonorInset" inherits="InsetFrameTemplate">
+                <Size x="175" y="0"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="0" y="-12"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="52"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+
+                <Frames>
+                    <Frame name="$parentRoleSelect" parentKey="RoleSelect">
+                        <Size x="1" y="58"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                            <Anchor point="TOPRIGHT"/>
+                        </Anchors>
+                        
+                        <Frames>
+
+
+                            <Button name="$parentRoleButtonHealer" inherits="LFGRoleButtonTemplate" id="3">
+                                <Size x="36" y="36"/>
+                                <Anchors>
+                                    <Anchor point="TOP" x="-20" y="-8"/>
+                                </Anchors>
+                                <Scripts>
+                                    <OnLoad>
+                                        self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-healer-micro", Const.TextureKit.IgnoreAtlasSize)
+                                        SetParentArray(self, "RoleButtons")
+                                        self.checkButton.onClick = function()
+                                            C_CVar.Set("pvpRole", self.checkButton:GetBoolValue() and Enum.LFGRoles.Healer or 0)
+                                                for i, button in ipairs(self:GetParent().RoleButtons) do
+                                                if button ~= self then
+                                                    button.checkButton:SetChecked(false)
+                                                end
+                                            end
+                                        end
+                                    </OnLoad>
+                                    <OnShow>
+                                        self.checkButton:SetChecked(C_CVar.GetNumber("pvpRole") == Enum.LFGRoles.Healer)
+                                    </OnShow>
+                                </Scripts>
+                            </Button>
+
+                            <Button name="$parentRoleButtonDamager" inherits="LFGRoleButtonTemplate" id="1">
+                                <Size x="36" y="36"/>
+
+                                <Anchors>
+                                    <Anchor point="TOP" x="20" y="-8"/>
+                                </Anchors>
+                                <Scripts>
+                                    <OnLoad>
+                                        self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-dps-micro", Const.TextureKit.IgnoreAtlasSize)
+                                        SetParentArray(self, "RoleButtons")
+                                        self.checkButton.onClick = function()
+                                            C_CVar.Set("pvpRole",  self.checkButton:GetBoolValue() and Enum.LFGRoles.Damager or 0)
+                                            for i, button in ipairs(self:GetParent().RoleButtons) do
+                                                if button ~= self then
+                                                    button.checkButton:SetChecked(false)
+                                                end
+                                            end
+                                        end
+                                    </OnLoad>
+                                    <OnShow>
+                                        self.checkButton:SetChecked(C_CVar.GetNumber("pvpRole") == Enum.LFGRoles.Damager)
+                                    </OnShow>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+                    </Frame>
+
+                    <Frame name="$parentHonorLevelDisplay" parentKey="HonorLevelDisplay" inherits="CircularStatusBarTemplate">
+                        <Size x="128" y="128"/>
+
+                        <Anchors>
+                            <Anchor point="TOP" relativeTo="$parentRoleSelect" relativePoint="BOTTOM"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="Background">
+                                    <Size x="95" y="95"/>
+
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        
+                            <Layer level="ARTWORK">
+                                <Texture parentKey="HonorBarBackground">
+                                    <Anchors>
+                                        <Anchor point="CENTER" x="0" y="-1"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+
+                            <Layer level="OVERLAY">
+                                <FontString parentKey="LevelLabel" inherits="GameFontNormal">
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" x="0" y="4"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <Texture parentKey="FactionBadge">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x="48" y="-48"/>
+                                        <Anchor point="BOTTOMRIGHT" x="-48" y="48"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <Button parentKey="NextRewardLevel" frameLevel="10">
+                                <Size x="40" y="40"/>
+
+                                <Anchors>
+                                    <Anchor point="TOP" x="0" y="-1"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <Texture parentKey="Background">
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" x="6" y="-6"/>
+                                                <Anchor point="BOTTOMRIGHT" x="-6" y="6"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+
+                                    <Layer level="BORDER">
+                                        <Texture parentKey="Rank">
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" x="12" y="-12"/>
+                                                <Anchor point="BOTTOMRIGHT" x="-12" y="12"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                    
+                                    <Layer level="ARTWORK">
+                                        <Texture parentKey="Border" setAllPoints="true"/>
+                                    </Layer>
+                                </Layers>
+
+                                <Scripts>
+                                    <OnLoad>
+                                        self.Background:SetAtlas("pvpqueue-sidebar-honorbar-background-"..strlower(UnitFactionGroup("player", Const.TextureKit.IgnoreAtlasSize)))
+                                        self.Border:SetAtlas("pvpqueue-rewardring", Const.TextureKit.IgnoreAtlasSize)
+                                    </OnLoad>
+                                    <OnEnter>
+                                        if self.nextRank then
+                                            GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+                                            GameTooltip:SetText(TOOLTIP_HONOR_LEVEL_NEXT_LEVEL)
+                                            GameTooltip:AddLine(self.nextRank.." "..GLORY, 1, 1, 1)
+                                            GameTooltip:Show()
+                                        end
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Button>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "CircularStatusBarMixin", "PVPHonorLevelMixin")
+                                self.HonorBarBackground:SetAtlas("pvpqueue-sidebar-honorbar-background", Const.TextureKit.UseAtlasSize)
+                                self:OnLoad()
+                            </OnLoad>
+                            <OnShow>
+                                self:OnShow()
+                            </OnShow>
+                            <OnHide>
+                                self:OnHide()
+                            </OnHide>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentHonorableKills" parentKey="HonorableKills" enableMouse="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentHonorLevelDisplay" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parentHonorLevelDisplay" relativePoint="BOTTOMRIGHT" x="0" y="-62"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentHKLabel" parentKey="HKLabel" inherits="GameFontNormal" text="GLORY">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                        <Anchor point="TOPRIGHT"/>
+                                    </Anchors>
+                                </FontString>
+        
+                                <FontString name="$parentHKValue" parentKey="HKValue" inherits="NumberFont_Outline_Large" text="0">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativeTo="$parentHKLabel" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+                                        <Anchor point="TOPRIGHT" relativeTo="$parentHKLabel" relativePoint="BOTTOMRIGHT" x="0" y="-8"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnEnter>
+                                -- today
+                                local todayHK, todayHonor = GetPVPSessionStats()
+
+                                -- yesterday
+                                local yesterdayHK, yesterdayHonor = GetPVPYesterdayStats()
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                GameTooltip:SetText(HONORABLE_KILLS)
+                                GameTooltip:AddLine(HONOR_TODAY..": "..todayHK, 1, 1, 1)
+                                GameTooltip:AddLine(HONOR_YESTERDAY..": "..yesterdayHK, 1, 1, 1)
+                                GameTooltip:AddLine(" ")
+                                GameTooltip:AddLine(HONOR_GAINED)
+                                GameTooltip:AddLine(HONOR_TODAY..": "..todayHonor, 1, 1, 1)
+                                GameTooltip:AddLine(HONOR_YESTERDAY..": "..yesterdayHonor, 1, 1, 1)
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Frame>
+
+                    <Frame name="$parentTier" parentKey="Tier" inherits="PVPRatedTierTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOM" x="0" y="28"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentTitle" parentKey="Title" inherits="GameFontHighlight" text="0">
+                                    <Size x="142" y="0"/>
+
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativePoint="TOP" y="4"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentBestRating" parentKey="BestRating" inherits="GameFontNormal" text="PVP_CURRENT_BEST_RATING">
+                                    <Size x="142" y="0"/>
+
+                                    <Anchors>
+                                        <Anchor point="BOTTOM" relativeTo="$parentTitle" relativePoint="TOP" y="4"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Frames>
+                            <Frame parentKey="NextTier" hidden="true">
+                                <Size x="26" y="26"/>
+
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="8" y="-17"/>
+                                </Anchors>
+
+                                <Layers>
+                                    <Layer level="ARTWORK">
+                                        <Texture parentKey="Icon" setAllPoints="true" alpha="0.6"/>
+                                        <Texture parentKey="Arrow">
+                                            <Size x="16" y="25"/>
+                                            <Anchors>
+                                                <Anchor point="TOPLEFT" x="-13" y="-1"/>
+                                            </Anchors>
+                                        </Texture>
+                                    </Layer>
+                                </Layers>
+
+                                <Scripts>
+                                    <OnEnter>
+                                        if self.name and self.rating then
+                                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                            GameTooltip:SetText(format(TOOLTIP_PVP_NEXT_RANK, self.name))
+                                            GameTooltip:AddLine(format(PVP_NEXT_RANK_DESC, (self.rating - 1)), 1, 1, 1, false)
+                                            GameTooltip:Show()
+                                        end
+                                    </OnEnter>
+                                    <OnLeave function="GameTooltip_Hide"/>
+                                </Scripts>
+                            </Frame>
+                        </Frames>
+
+                        <Scripts>
+                            <OnLoad>
+                                Mixin(self, "PVPRatedTierMixin")
+                                self.NextTier.Arrow:SetAtlas("pvpqueue-sidebar-nextarrow", Const.TextureKit.IgnoreAtlasSize)
+                                self.CurrentRating:ClearAndSetPoint("RIGHT", self.Icon, "LEFT", -4, 0)
+                            </OnLoad>
+                            <OnShow>
+                                local best, arenaType, index = C_PVP:GetCurrentBestRating()
+                                local name, _, _, _, nextTier, icon = C_PVP:GetPVPTierInfo(best)
+
+                                self.Title:SetText(arenaType)
+
+                                self:SetID(index)
+                                self:Update()
+
+                                if nextTier then
+                                    local nextName, _, _, _, _, nextIcon = C_PVP:GetPVPTierInfo(nextTier)
+                                    self.NextTier.Icon:SetTexture(nextIcon)
+
+                                    self.NextTier.name = nextName   
+                                    self.NextTier.rating = nextTier
+
+                                    self.NextTier:Show()
+                                else
+                                    self.NextTier.name = nil
+                                    self.NextTier.rating = nil
+                                    self.NextTier:Hide()
+                                end
+                            </OnShow>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+
+                <Scripts>
+                    <OnLoad>
+                        self.Background:SetAtlas("pvpqueue-sidebar-background", Const.TextureKit.IgnoreAtlasSize)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            <Frame name="$parentStatsInset" parentKey="StatsInset" inherits="InsetFrameTemplate">
+                <Size x="175" y="0"/>
+
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentHonorInset" relativePoint="BOTTOMRIGHT" x="0" y="-2"/>
+                    <Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BORDER">
+                        <Texture parentKey="Background" setAllPoints="true"/>
+                    </Layer>
+                </Layers>
+              <Frames>
+                    <Frame name="$parentPrimaryStat" parentKey="PrimaryStat" enableMouse="true">
+                        <Size x="175" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x = "0" y = "-8"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall" text="PRIMARY_STAT">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x = "6" y = "0"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentValue" parentKey="Value" inherits="GameFontHighlightSmall" text="Intellect">
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" x = "-6" y = "0"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnEnter>
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                                if (self.tooltipTitle) then
+                                    GameTooltip:AddLine(self.tooltipTitle, 1, 1, 1, 1)
+                                end
+
+                                if (self.tooltipText) then
+                                    GameTooltip:AddLine(self.tooltipText, 1, 0.82, 0, 1, 1)
+                                end
+                                GameTooltip:Show()
+                            </OnEnter>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Frame>
+                    <Frame name="$parentPvPPower" parentKey="PvPPower" enableMouse="true">
+                        <Size x="175" y="16"/>
+
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parentPrimaryStat" relativePoint="BOTTOMLEFT" x = "0" y = "-4"/>
+                        </Anchors>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall" text="PVP_POWER_LABEL">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" x = "6" y = "0"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <FontString name="$parentValue" parentKey="Value" inherits="GameFontHighlightSmall" text="123">
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" x = "-6" y = "0"/>
+                                    </Anchors>
+                                </FontString>
+
+                                <Texture name="$parentAlert" parentKey="Alert" file="Interface\DialogFrame\UI-Dialog-Icon-AlertNew">
+                                    <Size>
+                                        <AbsDimension x="20" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="RIGHT" relativeTo="$parentValue" relativePoint="LEFT" x = "-8" y = "0"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+
+                        <Scripts>
+                            <OnLeave function="GameTooltip_Hide"/>
+                        </Scripts>
+                    </Frame>
+                </Frames>
+                <Scripts>
+                    <OnLoad>
+                        Mixin(self, "PVPStatsMixin")
+                        self:OnLoad()
+                    </OnLoad>
+                    <OnShow>
+                        self:OnShow()
+                    </OnShow>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Frame>
+
+    <Frame name="PVPLeaveFrame" parent="UIParent" inherits="LeaveActivityTemplate">
+        <Anchors>
+            <Anchor point="TOP" x="0" y="-32"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoad(self, "PVPLeaveMixin")
+            </OnLoad>
+            <OnUpdate>
+                self:OnUpdate()
+            </OnUpdate>
+        </Scripts>
+    </Frame>
+
+    <Frame name="PvPRoleCheckPopup" parent="UIParent" frameStrata="DIALOG" hidden="true">
+        <Size x="306" y="162"/>
+
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets left="11" right="12" top="12" bottom="11"/>
+            <TileSize val="32"/>
+            <EdgeSize val="32"/>
+        </Backdrop>
+
+        <Layers>
+            <Layer>
+                <FontString inherits="GameFontHighlight" parentKey="HeaderText" text="CONFIRM_YOUR_ROLE">
+                    <Anchors>
+                        <Anchor point="TOP" y="-15"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Button name="$parentRoleButtonHealer" inherits="LFGRoleButtonTemplate" id="3">
+                <Size x="70" y="70"/>
+                <Anchors>
+                    <Anchor point="TOP" x="-40" y="-35"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-healer", Const.TextureKit.IgnoreAtlasSize)
+                        SetParentArray(self, "RoleButtons")
+                        self.checkButton.onClick = function()
+                            C_CVar.Set("pvpRole", self.checkButton:GetBoolValue() and Enum.LFGRoles.Healer or 0)
+                            for i, button in ipairs(self:GetParent().RoleButtons) do
+                                if button ~= self then
+                                    button.checkButton:SetChecked(false)
+                                end
+                            end
+                        end
+                    </OnLoad>
+                    <OnShow>
+                        self.checkButton:SetChecked(C_CVar.GetNumber("pvpRole") == Enum.LFGRoles.Healer)
+                    </OnShow>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentRoleButtonDamager" inherits="LFGRoleButtonTemplate" id="1">
+                <Size x="70" y="70"/>
+                <Anchors>
+                    <Anchor point="TOP" x="40" y="-35"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:GetNormalTexture():SetAtlas("ui-lfg-roleicon-dps", Const.TextureKit.IgnoreAtlasSize)
+                        SetParentArray(self, "RoleButtons")
+                        self.checkButton.onClick = function()
+                            C_CVar.Set("pvpRole", self.checkButton:GetBoolValue() and Enum.LFGRoles.Damager or 0)
+                            for i, button in ipairs(self:GetParent().RoleButtons) do
+                                if button ~= self then
+                                    button.checkButton:SetChecked(false)
+                                end
+                            end
+                        end
+                    </OnLoad>
+                    <OnShow>
+                        self.checkButton:SetChecked(C_CVar.GetNumber("pvpRole") == Enum.LFGRoles.Damager)
+                    </OnShow>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentAcceptButton" parentKey="AcceptButton" inherits="UIPanelButtonTemplate2" text="ACCEPT">
+                <Size x="115" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="-3" y="15"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        if C_Player:IsHero() and not C_PrimaryStat:GetActivePrimaryStat() then
+                            ShowForcedPrimaryStat()
+                            return
+                        end
+                        JoinArenaWithRole(self:GetParent().arenaIndex, C_CVar.GetNumber("pvpRole"))
+                        StaticPopupSpecial_Hide(self:GetParent())
+                    </OnClick>
+                    <OnUpdate>
+                        self:SetEnabled(C_CVar.GetNumber("pvpRole") ~= 0)
+                    </OnUpdate>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentDeclineButton" parentKey="DeclineButton" inherits="UIPanelButtonTemplate2" text="DECLINE">
+                <Size x="115" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentAcceptButton" relativePoint="RIGHT" x="6" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        StaticPopupSpecial_Hide(self:GetParent())
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+</Ui>

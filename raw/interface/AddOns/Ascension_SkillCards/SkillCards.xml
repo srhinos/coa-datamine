@@ -1,0 +1,172 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+	<Button name="SkillCardsScrollItem" inherits="ScrollListItemTemplate" virtual="true">
+		<Size x="209" y="46"/>
+
+		<NormalTexture/>
+		<HighlightTexture/>
+		<DisabledTexture/>
+		
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardsScrollItemMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Button name="SkillCardStatisticRewardItemFrame" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardStatisticRewardItemMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Button name="SkillCardTemplate" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Button name="SkillCardUnlockTemplate" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardUnlockMixin)
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Frame name="SkillCardGlowTemplate" virtual="true">
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardDuplicateGlowMixin)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<CheckButton name="SkillCardBoosterActionButton" inherits="ExtraActionButtonTemplate" virtual="true">
+		<Size x="54" y="54"/>
+
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardBoosterActionButtonMixin)
+			</OnLoad>
+			<OnMouseUp>
+				PlaySound(SOUNDKIT.UI_715_BRAWLERS_GUILD_PURCHASE_UPGRADE)
+			</OnMouseUp>
+		</Scripts>
+	</CheckButton>
+
+	<Button name="SkillCardBoosterPurchaseButton" inherits="ExtraActionButtonTemplate" virtual="true">
+		<Size x="54" y="54"/>
+
+		<Scripts>
+			<OnLoad> 
+				MixinAndLoadScripts(self, SkillCardBoosterPurchaseButtonMixin)
+			</OnLoad>
+			<OnMouseUp>
+				PlaySound(SOUNDKIT.UI_715_BRAWLERS_GUILD_PURCHASE_UPGRADE)
+			</OnMouseUp>
+		</Scripts>
+	</Button>
+
+	<Frame name="SkillCardInsetFrameTemplate" inherits="InsetFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parent.Background" setAllPoints="true" parentKey="Background" file="Interface\Draft\skillCardFrameBG" horizTile="true" vertTile="true" />
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parent.CornerTopLeft" parentKey="CornerTopLeft">
+					<Size x="147" y="149"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.CornerTopRight" parentKey="CornerTopRight">
+					<Size x="147" y="149"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.CornerBottomLeft" parentKey="CornerBottomLeft">
+					<Size x="147" y="149"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.CornerBottomRight" parentKey="CornerBottomRight">
+					<Size x="147" y="149"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.ShadowTop" parentKey="ShadowTop" file="Interface\COMMON\ShadowOverlay-Top" alpha="0.6">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent.CornerTopLeft" relativePoint="TOPRIGHT">
+							<Offset x="0" y="0"/>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent.CornerTopRight" relativePoint="BOTTOMLEFT">
+							<Offset x="0" y="-50"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.ShadowBottom" parentKey="ShadowBottom" file="Interface\COMMON\ShadowOverlay-Bottom" alpha="0.6">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent.CornerBottomLeft" relativePoint="TOPRIGHT">
+							<Offset x="0" y="50"/>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent.CornerBottomRight" relativePoint="BOTTOMLEFT">
+							<Offset x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.ShadowLeft" parentKey="ShadowLeft" file="Interface\COMMON\ShadowOverlay-left" alpha="0.6">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent.CornerTopLeft" relativePoint="BOTTOMLEFT">
+							<Offset x="0" y="0"/>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent.CornerBottomLeft" relativePoint="TOPRIGHT">
+							<Offset x="50" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent.ShadowRight" parentKey="ShadowRight" file="Interface\COMMON\ShadowOverlay-Right" alpha="0.6">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parent.CornerTopRight" relativePoint="BOTTOMRIGHT">
+							<Offset x="0" y="0"/>
+						</Anchor>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parent.CornerBottomRight" relativePoint="TOPLEFT">
+							<Offset x="-50" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parent.ShadowGradient" parentKey="ShadowGradient" file="Interface\COMMON\ShadowOverlay-Bottom" alpha="0.5">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="0" y="-64"/>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.NineSlice:SetFrameLevel(self:GetFrameLevel()+1)
+				self.CornerTopLeft:SetAtlas("collections-background-shadow-large", Const.TextureKit.IgnoreAtlasSize)
+				self.CornerTopRight:SetAtlas("collections-background-shadow-large", Const.TextureKit.IgnoreAtlasSize)
+				self.CornerBottomLeft:SetAtlas("collections-background-shadow-large", Const.TextureKit.IgnoreAtlasSize)
+				self.CornerBottomRight:SetAtlas("collections-background-shadow-large", Const.TextureKit.IgnoreAtlasSize)
+				self.CornerTopRight:SetTexCoord(0.464844, 0.181641, 0.416016, 0.703125)
+				self.CornerBottomLeft:SetTexCoord(0.181641, 0.464844, 0.703125, 0.416016)
+				self.CornerBottomRight:SetTexCoord(0.464844, 0.181641, 0.703125, 0.416016)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

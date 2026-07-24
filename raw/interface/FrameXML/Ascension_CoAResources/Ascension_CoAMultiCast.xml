@@ -1,0 +1,171 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+https://raw.githubusercontent.com/Ascension-Addons/UI.xsd/main/UI.xsd">
+    <Script file="Ascension_CoAMultiCast.lua"/>
+    <Script file="Ascension_NecromancerResource.lua"/>
+    
+    <CheckButton name="CoAMultiCastFlyoutButtonTemplate" virtual="true">
+        <Size x="24" y="24"/>
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="0" y="0"/>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentIcon" parentKey="Icon"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CoAMultiCastFlyoutButtonMixin)
+            </OnLoad>
+        </Scripts>
+        <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+    </CheckButton>
+    <CheckButton name="CoAMultiCastActionButtonTemplate" inherits="ExtraActionButtonTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="30" y="30"/>
+        </Size>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentHotKey" parentKey="HotKey" inherits="NumberFontNormalSmallGray" justifyH="RIGHT">
+                    <Size>
+                        <AbsDimension x="36" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="-2" y="-2"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <!--<Layer level="OVERLAY">
+                <Texture name="$parentHighlight" file="Interface\Buttons\UI-TotemBar">
+                    <Size x="34" y="34"/>
+                    <Anchors>
+                        <Anchor point="CENTER">
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0.0078125" right="0.2734375" top="0.53515625" bottom="0.66796875"/>
+                </Texture>
+            </Layer>-->
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CoAMultiCastActionButtonMixin)
+            </OnLoad>
+        </Scripts>
+    </CheckButton>
+    <Frame name="CoAMultiCastActionBarFrame" clampedToScreen="true" movable="true" enableMouse="true" parent="UIParent" hidden="true">
+        <Size>
+            <AbsDimension x="230" y="38"/>
+        </Size>
+        <Anchors>
+            <Anchor point="BOTTOM" relativeTo="MainMenuBar" relativePoint="TOP">
+                <Offset>
+                    <AbsDimension x="0" y="45"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Frame name="$parentFlyoutFrame" parentKey="FlyoutFrame" hidden="true">
+                <Size x="32" y="30"/>
+                <Anchors>
+                    <Anchor point="BOTTOM">
+                        <Offset x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTop" file="Interface\Buttons\UI-TotemBar" parentKey="top">
+                            <Size x="32" y="20"/>
+                            <Anchors>
+                                <Anchor point="TOP">
+                                    <Offset x="0" y="-10"/>
+                                </Anchor>
+                            </Anchors>
+                             <TexCoords left="0.2578125" right="0.5078125" top="0.00390625" bottom="0.08984375"/>
+                        </Texture>
+                        <Texture name="$parentMiddle" file="Interface\Buttons\UI-TotemBar" parentKey="middle">
+                            <Size x="32" y="20"/>
+                            <Anchors>
+                                <Anchor point="TOP" relativeTo="$parentTop" relativePoint="BOTTOM">
+                                    <Offset x="0" y="0"/>
+                                </Anchor>
+                                <Anchor point="BOTTOM">
+                                    <Offset x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                             <TexCoords left="0.2578125" right="0.5078125" top="0.08984375" bottom="0.16796875"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Button name="$parentCloseButton" parentKey="CloseButton">
+                        <Size x="28" y="18"/>
+                        <Anchors>
+                            <Anchor point="TOP">
+                                <Offset x="0" y="0"/>
+                            </Anchor>
+                        </Anchors>
+                        <NormalTexture file="Interface\Buttons\UI-TotemBar" parentKey="NormalTexture">
+                            <TexCoords left="0.7734375" right="0.9921875" top="0.25390625" bottom="0.32421875"/>
+                        </NormalTexture>
+                        <HighlightTexture file="Interface\Buttons\UI-TotemBar" alphaMode="ADD">
+                            <Size x="20" y="11"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                            <TexCoords left="0.5625" right="0.71875" top="0.26953125" bottom="0.30859375"/>
+                        </HighlightTexture>
+                    </Button>
+                </Frames>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, CoAMultiCastFlyoutMixin)
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+            <Button name="$parentFlyoutFrameOpenButton" parentKey="FlyoutFrameOpenButton" hidden="true">
+                <Size x="28" y="18"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP">
+                        <Offset x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+                <NormalTexture file="Interface\Buttons\UI-TotemBar" parentKey="normalTexture">
+                    <TexCoords left="0.7734375" right="0.9921875" top="0.328125" bottom="0.3984375"/>
+                </NormalTexture>
+                <HighlightTexture file="Interface\Buttons\UI-TotemBar" alphaMode="ADD">
+                    <Size x="20" y="11"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                    <TexCoords left="0.5625" right="0.71875" top="0.34375" bottom="0.3828125"/>
+                </HighlightTexture>
+                <Scripts>
+                    <OnLoad>
+                        MixinAndLoadScripts(self, CoAMultiCastFlyoutOpenButtonMixin)
+                    </OnLoad>
+                </Scripts>
+            </Button>
+            <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" hidden="true" id="1"/>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                MixinAndLoadScripts(self, CoAMultiCastActionBarMixin)
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+                HideDropDownMenu(1)
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+                self:SavePosition()
+                HideDropDownMenu(1)
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+</Ui>

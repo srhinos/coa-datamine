@@ -1,0 +1,74 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\Blizzard_SharedXML\UI.xsd">
+    <Script file="StreamingFrame.lua"/>
+    <Frame name="StreamingIcon" toplevel="true" parent="UIParent" hidden="true">
+        <Animations>
+            <AnimationGroup parentKey="FadeIN">
+                <Alpha order="1" change="-1" duration="0"/>
+                <Alpha order="2" change="1" duration="2" />
+                <Scripts>
+                    <OnFinished function="StreamingFrame_FadeIN_OnFinished"/>
+                    <OnStop function="StreamingFrame_FadeIN_OnFinished"/>
+                </Scripts>
+            </AnimationGroup>
+            <AnimationGroup parentKey="FadeOUT">
+                <Alpha order="1" change="-1" startDelay="3" duration="10" />
+                <Scripts>
+                    <OnFinished function="StreamingFrame_FadeOUT_OnFinished"/>
+                    <OnStop function="StreamingFrame_FadeOUT_OnFinished"/>
+                </Scripts>
+            </AnimationGroup>
+        </Animations>
+        <Anchors>
+            <Anchor point="TOP" x="0" y="-80"/>
+        </Anchors>
+        <Size x="48" y="48"/>
+        <Frames>
+            <Frame name="$parentFrame" setAllPoints="true" >
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture file="Interface\COMMON\StreamBackground" name="$parentBackground" setAllPoints="true" />
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <Texture file="Interface\COMMON\StreamFrame" name="$parentAlpha" setAllPoints="true" />
+                    </Layer>
+                </Layers>
+            </Frame>
+            <Frame name="$parentSpin" setAllPoints="true" >
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture file="Interface\COMMON\StreamCircle" name="$parentSpinner" setAllPoints="true">
+                            <Animations>
+                                <AnimationGroup parentKey="Loop" looping="REPEAT">
+                                    <Rotation order="1" duration="8" degrees="-360"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY" >
+                        <Texture file="Interface\COMMON\StreamSpark" name="$parentSpark" setAllPoints="true">
+                            <Animations>
+                                <AnimationGroup parentKey="Loop" looping="REPEAT">
+                                    <Rotation order="1" duration="8" degrees="-360"/>
+                                </AnimationGroup>
+                            </Animations>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnEnter>
+                if(self.tooltip ~= nil) then
+                GameTooltip:SetOwner(self, "ANCHOR_LEFT");
+                GameTooltip:SetText(self.tooltip, nil, nil, nil, nil, true);
+                end
+            </OnEnter>
+            <OnShow function="StreamingIcon_OnShow"/>
+            <OnHide function="StreamingIcon_OnHide"/>
+            <OnLeave function="GameTooltip_Hide"/>
+            <OnLoad function="StreamingIcon_OnLoad"/>
+            <OnEvent function="StreamingIcon_OnEvent"/>
+        </Scripts>
+    </Frame>
+</Ui>
