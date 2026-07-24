@@ -23,9 +23,9 @@ on top of the raw named columns:
 - 9 link tables (Groups/Levels/Rules/Modifiers/Conditions/Requirements/Rewards/Featured/
   Spells) each carry a proven challengeId column (join-rate >=80% raw, see tools/dbc.py
   and challenges/_meta.json); rows are grouped onto their owning challenge file.
-  ChallengeGroupRewards has no direct challengeId - it is proven (100%) to key by
-  ChallengeLevels.id instead, so it is chained through levels as each level's
-  "bonusReward".
+  ChallengeGroupRewards has no direct challengeId - it is proven to key by
+  ChallengeGroups.id instead (93.75% chained join through ChallengeGroups.challengeId),
+  so it is attached as each group's "reward", nested under a challenge's "groups" list.
 - ChallengeRules/ChallengeRequirements additionally resolve a per-row *TypeToken (a
   proven STRING match, not a numeric FK - see tools/dbc.py) against the corresponding
   Types lookup table for name/description. ChallengeConditions has no provable type link

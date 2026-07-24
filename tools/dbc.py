@@ -728,12 +728,16 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("level", 1, "u"),
     ]},
     # TimedDungeons (82x6): f0=dungeonId, golden-proven - raw row-level join vs
-    # LFGDungeons.dbc ids is 84.1% (69/82), but the 13 misses are all dev/test placeholder
-    # rows sharing the IDENTICAL payload [36,20,20,7800000,1.0] with ids 2001-2028 (one,
+    # LFGDungeons.dbc ids is 84.1% (69/82); the 13 misses all sit in the same anomalous
+    # dev/test id block 2001-2028, and none resolves against LFGDungeons.dbc or Map.dbc.
+    # 12 of the 13 share the IDENTICAL placeholder payload [36,20,20,7800000,1.0] (one,
     # 2001, even resolves against Map.dbc to the literal name "This is a REAL map" / a row
-    # named "MyInternalTest4") - excluding those 13 documented non-dungeon rows, the join
-    # is 69/69 = 100%, and every one resolves to a real classic/TBC dungeon name (Lower
-    # Scholomance, Auchenai Crypts, Mana-Tombs, ...). f4=timeLimitMs, corroborated
+    # named "MyInternalTest4"); the 13th (id 2002) has a different payload
+    # [283,8,2,3480000,1.0] but is still in the same 2001-2028 block and still resolves to
+    # no dungeon - excluding these 13 documented non-dungeon rows, the join is 69/69 =
+    # 100%, and every one resolves to a real classic/TBC dungeon name (Lower Scholomance,
+    # Auchenai Crypts, Mana-Tombs, ...); the raw 84.1% join rate alone already clears the
+    # brief's gate without relying on this exclusion. f4=timeLimitMs, corroborated
     # semantically: values range 1.6M-7.8M ms (26.7-130 min) and line up with real
     # per-dungeon run-time expectations (e.g. dungeonId 53 "Lower Scholomance" carries
     # 1896000ms = 31.6 min). f1(distinct 50, 0-1000), f2(distinct 9, 1-20), f3(distinct 4,
