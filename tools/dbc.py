@@ -812,13 +812,22 @@ def dump_table(table: str) -> Path:
     return out
 
 
-def dump_unmapped(table: str) -> Path:
+def dump_unmapped(table: str, out_dir: Path = None) -> Path:
     """Dump a table with no TABLE_MAPS entry as raw signed ints (f0..fN) plus
     a colinfo.json evidence sidecar: per-column distinct/min/max/pct_zero and
     a string-likelihood score (fraction of rows whose value is a plausible
     string-block offset), with up to 3 decoded samples for string-likely
     columns. This is the mapping-evidence trail for later empirical curation.
+
+    out_dir defaults to config.RAW_DBC_DIR (dump_all()'s behavior). Callers
+    that just want to inspect/verify a dump (e.g. tests) should pass a
+    scratch dir instead, so they don't clobber committed raw/ artifacts -
+    especially for tables that HAVE since become mapped, where this
+    unmapped f0..fN shape would corrupt the committed named-header dump.
     """
+    if out_dir is None:
+        out_dir = config.RAW_DBC_DIR
+    out_dir.mkdir(parents=True, exist_ok=True)
     f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
     n = f.fields
     strblock_size = len(f._strings)
@@ -831,7 +840,7 @@ def dump_unmapped(table: str) -> Path:
     strlike = [0] * n
     samples = [[] for _ in range(n)]
 
-    out = config.RAW_DBC_DIR / f"{table}.csv.gz"
+    out = out_dir / f"{table}.csv.gz"
     with open(out, "wb") as fb, \
          gzip.GzipFile(fileobj=fb, mode="wb", mtime=0) as gz, \
          io.TextIOWrapper(gz, encoding="utf-8", newline="") as fh:
@@ -874,7 +883,7 @@ def dump_unmapped(table: str) -> Path:
         "table": table, "records": records, "fields": n,
         "string_block_size": strblock_size, "columns": columns,
     }
-    (config.RAW_DBC_DIR / f"{table}.colinfo.json").write_text(
+    (out_dir / f"{table}.colinfo.json").write_text(
         json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
     return out
 

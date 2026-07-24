@@ -32,9 +32,13 @@ for name in config.WANTED_DBCS_V2:
     if name in expected:
         assert (recs, fields) == expected[name], f"{name}: got ({recs},{fields}) want {expected[name]}"
 
-# Creature.dbc colinfo evidence: a proven-string-likely column with non-empty samples
-p = dbc.dump_unmapped("Creature")
-colinfo = json.loads((config.RAW_DBC_DIR / "Creature.colinfo.json").read_text(encoding="utf-8"))
+# Creature.dbc colinfo evidence: a proven-string-likely column with non-empty samples.
+# Creature has been a MAPPED table since V2-2 (named header in raw/dbc/Creature.csv.gz) -
+# dump into a scratch dir, NOT config.RAW_DBC_DIR, so this verification step doesn't
+# clobber the committed mapped dump with the unmapped f0..fN shape.
+scratch_dir = config.WORK_DIR / "test_dumps"
+p = dbc.dump_unmapped("Creature", out_dir=scratch_dir)
+colinfo = json.loads((scratch_dir / "Creature.colinfo.json").read_text(encoding="utf-8"))
 assert colinfo["table"] == "Creature"
 assert colinfo["records"] == 127175
 string_cols = [c for c in colinfo["columns"] if c["string_likelihood"] >= 0.9]
