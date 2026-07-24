@@ -1,0 +1,31 @@
+{
+ "conditions": [],
+ "description": "You're a master artisan, but you're old and frail. Any attack might kill you!",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":54,"id":1327,"reward":null},
+  {"f2":63,"id":1328,"reward":null},
+  {"f2":80,"id":1329,"reward":null}
+ ],
+ "iconToken": "inv_misc_cauldron_shadow",
+ "id": 380,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":1118}
+ ],
+ "modeToken": "nightmare",
+ "modifiers": [],
+ "name": "Prestige - Nightmare - Artisan's Guild",
+ "requirements": [
+  {"description":"You must complete the challenge without dying |cffffffff%1$d|r or more times.","f2":0,"f3":1,"f5":1077936128,"f6":0,"f7":0,"f8":10000,"name":"%1$d |4Life:Lives;","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_COMPLETE_WITHOUT_DEATH"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"Profession Experience you gain is shared with your group members.","f2":0,"f3":1,"name":"Shared Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_GROUP_PROFESSION_EXPERIENCE"},
+  {"description":"You only gain experience from gaining skill in professions.","f2":0,"f3":1,"name":"Only Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EXPERIENCE_EXCEPT_PROFESSIONS"},
+  {"description":"You cannot gain experience from professions.","f2":0,"f3":1,"name":"No Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_PROFESSION_EXPERIENCE"}
+ ],
+ "spells": [
+  {"name":"Nightmare - Artisan's Guild","spellId":93152}
+ ]
+}

@@ -530,6 +530,231 @@ TABLE_MAPS = {
     "SpellChargesCategory": {"expected_fields": 3, "columns": [
         ("id", 0, "u"),
     ]},
+    # v2 (task V2-5): proven via golden-record probes (see .superpowers/sdd/task-v2-5-report.md).
+    # Challenge (297x53, the hub table): f0 golden-proven id (distinct==records==297, sparse
+    # 5-622, not contiguous - a real custom id space, not row order). f7 golden-proven
+    # name_enUS (distinct 291/297: id5="Partner Up!", id7="Nudist", ...). f24 golden-proven
+    # description_enUS (distinct 210/297, 1:1 with f7 per row). Golden: Challenge 7 "Nudist"
+    # decodes description "You are unable to equip or wear armor of any kind." - this cross-
+    # validates against ChallengeRuleTypes id5 (CHALLENGE_RULES_TYPE_NO_EQUIP_ARMOR / "No
+    # Equipping Armor" / "You may not equip any armor.") and ChallengeRules' own per-challenge
+    # row for challenge 7 (ruleTypeToken == that exact same token) - the brief's requested
+    # cross-table corroboration, verified end-to-end. f42 iconToken (distinct 203/297, icon
+    # path tokens). f43 difficultyToken (5 distinct: CHALLENGE_DIFFICULTY_EASY/HARD/
+    # IMPOSSIBLE/NORMAL/VERY_HARD). f52 modeToken (8 distinct: default/ironman/hardcore/
+    # Hardcore/nightmare/resolute/Resolute/adventure). f1-f2,f8-f23,f25-f41,f44-f51 are
+    # either the 16-locale-offset+mask LangString filler block this build always carries
+    # around each real string column (see DBCFile.string's offset-0 note) or unproven
+    # boolean/flag columns - left f<N>.
+    "Challenge": {"expected_fields": 53, "columns": [
+        ("id", 0, "u"), ("name_enUS", 7, "s"), ("description_enUS", 24, "s"),
+        ("iconToken", 42, "s"), ("difficultyToken", 43, "s"), ("modeToken", 52, "s"),
+    ]},
+    # ChallengeModifierTypes (8x37, lookup table): f0=id(1-8). f1=token
+    # (CHALLENGE_MODIFIERS_TYPE_*). f2=name_enUS (short display, e.g. "Physical Damage
+    # Done"). f19=descriptionFormat_enUS (templated tooltip w/ {1} placeholder, e.g. "{1}%
+    # Physical Damage Done"). f36=iconToken. All golden-verified by direct row decode (8
+    # rows, trivial to eyeball in full - see report).
+    "ChallengeModifierTypes": {"expected_fields": 37, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"),
+        ("descriptionFormat_enUS", 19, "s"), ("iconToken", 36, "s"),
+    ]},
+    # ChallengeRuleTypes (127x36, lookup table): f0=id(1-127). f1=token. f2=name_enUS
+    # (short, e.g. "No Equipping Armor"). f19=description_enUS (full sentence, e.g. "You
+    # may not equip any armor.") - id5's row is the Challenge-7 "Nudist" golden's
+    # cross-validation target, see Challenge's comment above.
+    "ChallengeRuleTypes": {"expected_fields": 36, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"), ("description_enUS", 19, "s"),
+    ]},
+    # ChallengeConditionTypes (18x73, lookup table): f0=id(1-18). f1=token. f2=name_enUS.
+    # f19=description_enUS. f36=negatedName_enUS ("<Name> (Inverted)"). f53=
+    # negatedDescription_enUS. (No ChallengeConditions.dbc row carries a provable numeric
+    # or token link back to this table - see ChallengeConditions below; this lookup table
+    # itself decodes cleanly and is shipped for completeness/evidence.)
+    "ChallengeConditionTypes": {"expected_fields": 73, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"), ("description_enUS", 19, "s"),
+        ("negatedName_enUS", 36, "s"), ("negatedDescription_enUS", 53, "s"),
+    ]},
+    # ChallengeRequirementTypes (22x41, lookup table): f0=id(1-22). f1=token. f2=name_enUS.
+    # f19=description_enUS (templated, e.g. "You must complete the quest: ... before
+    # reaching level ..."). ChallengeRequirements.requirementTypeToken (below) is a proven
+    # 100% string-match link to this table's f1.
+    "ChallengeRequirementTypes": {"expected_fields": 41, "columns": [
+        ("id", 0, "u"), ("token", 1, "s"), ("name_enUS", 2, "s"), ("description_enUS", 19, "s"),
+    ]},
+    # ChallengeGroups (1203x3): f0=id (own row id, unique, sparse 1-5531). f1=challengeId,
+    # golden-proven 100% row-level join vs Challenge.dbc ids (1203/1203). f2 (distinct 76,
+    # range 1-221) has no provable semantics (no lookup table clears any bar) - left raw.
+    "ChallengeGroups": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeLevels (1334x5): f0=id (own row id, unique, sparse 1-5022). f1=challengeId,
+    # proven 84.9% raw row-level join vs Challenge.dbc ids (1133/1334; the brief's own
+    # >=80% link-table gate) - the closest-to-threshold of all 8 link tables but still a
+    # clean pass, and the remaining 199 rows are the value 0 ("unassigned") sentinel this
+    # codebase already documents for other FK columns, not noise (99.8% join once 0 is
+    # excluded: 1133/1135). f2 (distinct 63, 0-300), f3 (distinct 100, 1-100 - the SAME
+    # distinct-100/range-1-100 shape recurs identically across Rules/Conditions/
+    # Requirements/Rewards/Spells/MythicPlusScaling, never independently provable as
+    # anything more specific than "a generic small parameter"), f4 (distinct 9, 0-2763)
+    # have no provable semantics - left raw.
+    "ChallengeLevels": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeRules (3646x5): f0=id. f1=challengeId, proven 93.5% raw (99.9% once the
+    # value-0 sentinel is excluded: 3408/3410). f4=ruleTypeToken, proven 100% (3646/3646)
+    # by STRING match against ChallengeRuleTypes.token - not a numeric FK: the brief's
+    # natural "small numeric id" hypothesis (f2, distinct 12, 0-300) was tried and
+    # DISPROVEN (only 6.3% raw / 97.5% on its own mostly-zero-sentinel nonzero subset,
+    # much weaker and redundant with f4's clean 100% string proof) - f2 stays raw. f3 is
+    # the same distinct-100/1-100 recurring column noted under ChallengeLevels - raw.
+    "ChallengeRules": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"), ("ruleTypeToken", 4, "s"),
+    ]},
+    # ChallengeModifiers (2x8, tiny - only 2 challenges currently use a modifier).
+    # f0=modifierTypeId, proven 100% (2/2) vs ChallengeModifierTypes ids. f1=challengeId,
+    # proven 100% (2/2) vs Challenge.dbc ids. f2-f7 (mostly 0/constant/one float-looking
+    # value) have no provable semantics on a 2-row sample - left raw.
+    "ChallengeModifiers": {"expected_fields": 8, "columns": [
+        ("modifierTypeId", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeConditions (354x10): f0=id. f1=challengeId, proven 91.2% raw (100% once the
+    # value-0 sentinel is excluded: 323/323). NO conditionTypeId link is provable: every
+    # remaining column (f2,f5,f6 and the always-zero f4/f7/f8/f9) was tested against
+    # ChallengeConditionTypes ids and none clears any real bar (best real candidate f5's
+    # nonzero subset: 0/144 - a hard disproof, its populated values cluster on 72/35/...,
+    # nothing to do with the 18-row type table). Unlike Rules/Requirements, this table's
+    # OWN string block is only 167 bytes (vs Rules' 4976 / Requirements' 3985) - too small
+    # to carry a per-row denormalized type token, so there is no string-match escape hatch
+    # either. Conditions ship with challengeId only; f2-f9 all raw, no type name resolved.
+    "ChallengeConditions": {"expected_fields": 10, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeRequirements (2047x9): f0=id. f1=challengeId, proven 99.9% raw (100% once
+    # the value-0 sentinel is excluded: 2044/2044). f4=requirementTypeToken, proven 100%
+    # (2033/2047 populated rows - the other 14 are 0/unset - all of which string-match
+    # ChallengeRequirementTypes.token) - same string-match pattern as ChallengeRules.f4,
+    # not a numeric FK (no numeric column clears any bar: best is f3 at 96.2% but f3 is
+    # the ubiquitous distinct-100/1-100 generic parameter column, not a type id - its
+    # values densely fill 1-100 while RequirementTypes only has 22 rows). f2,f3,f5,f6,f7,f8
+    # (float-bit-pattern-looking large numbers and small counts, likely template
+    # parameters for f4's description text) have no independently provable semantics -
+    # left raw.
+    "ChallengeRequirements": {"expected_fields": 9, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"), ("requirementTypeToken", 4, "s"),
+    ]},
+    # ChallengeRewards (21677x11): f0=id. f1=challengeId, proven 97.1% raw (100% once the
+    # value-0 sentinel is excluded: 21048/21048). Per the brief, "item-ish reward columns
+    # stay f<N>" - f2-f10 (itemId/quantity/currency-looking numeric columns, one boolean)
+    # carried raw, not decoded further.
+    "ChallengeRewards": {"expected_fields": 11, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"),
+    ]},
+    # ChallengeFeatured (54x5): f0=id. f2=challengeId, proven 100% (54/54) vs Challenge.dbc
+    # ids. f1 (distinct 54, 0-53, near-bijective with row order - a UI ordering/season
+    # index) and f3 (distinct 9, 0-402) have no independently provable semantics - raw.
+    "ChallengeFeatured": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"), ("challengeId", 2, "u"),
+    ]},
+    # ChallengeSpells (7702x10): f0=id. f1=challengeId, proven 100% (7702/7702) vs
+    # Challenge.dbc ids. f5=spellId, proven 100% on its populated subset (802/802 nonzero
+    # rows join Spell.dbc) AND semantically corroborated: 72.7% of the resolved spell
+    # names literally embed the OWNING challenge's own name plus a colorized "Tier N"
+    # suffix (e.g. challenge 25 "Fleeting" -> spell 207 "Fleeting\n|cFF1EFF0CTier 1|r") -
+    # not the colorized-tooltip-garbage false positive documented elsewhere in this
+    # codebase (SpellAddon, CharacterCreationPetDetails), because the text is legibly
+    # on-theme rather than unrelated fragments. f4 (distinct 7526, populated on ALL 7702
+    # rows but only 19.4% join Spell.dbc ids, and its resolved names are the same
+    # Tier-N pattern for the subset that DOES join) looks like a stale/legacy duplicate of
+    # f5 - left raw, not named, since it clears no join-rate bar. f2 (always 0), f3 (the
+    # recurring distinct-100/1-100 column), f6-f9 (near-constant/boolean) - raw.
+    "ChallengeSpells": {"expected_fields": 10, "columns": [
+        ("id", 0, "u"), ("challengeId", 1, "u"), ("spellId", 5, "u"),
+    ]},
+    # ChallengeGroupRewards (144x10): f0 is NOT its own independent PK - golden-proven to
+    # reuse ChallengeGroups' OWN id space (this table keys directly by challengeGroupId,
+    # awarding a reward for completing that group). Two candidate id spaces were tested
+    # (both pass a naive "is this a valid id" check near-100%, since both tables' id
+    # spaces are ~72-77% dense over 1-653): chaining through ChallengeGroups.challengeId
+    # resolves 135/144=93.75% of rows to a real Challenge (and every row whose f0 is a
+    # valid ChallengeGroups id ALSO resolves via that group's already-100%-proven
+    # challengeId - a fully coherent chain), whereas chaining through
+    # ChallengeLevels.challengeId only resolves 72/144=50% (weaker, and the naive 100%
+    # id-membership figure was mostly the ~72% background density of small integers being
+    # valid Levels ids too - the same false-positive class as this codebase's other dense-
+    # id-space findings). f0 is therefore named groupId, not levelId. f4=expansionToken,
+    # proven (distinct 3: EXPANSION_CLASSIC/THE_BURNING_CRUSADE/WRATH_OF_THE_LICH_KING - a
+    # plain string lookup, trivially decoded). f1(distinct 6, 1-54), f2(always 1),
+    # f3(distinct 8, 1-8), f5(always 18), f6(distinct 48, itemId-ish per the brief's
+    # "item-ish reward columns stay f<N>"), f7(always 1), f8(always 0), f9(always
+    # 1000000, a gold-amount-looking sentinel) - all raw, not decoded further.
+    "ChallengeGroupRewards": {"expected_fields": 10, "columns": [
+        ("groupId", 0, "u"), ("expansionToken", 4, "s"),
+    ]},
+    # MythicKeystones (6801x3): f0=id (own row id, sparse, no further semantics needed).
+    # f1=dungeonId, proven 98.5% row-level join vs LFGDungeons.dbc ids (6700/6801 - the
+    # remainder are non-dungeon/test map ids, same class of residual noise documented
+    # throughout this codebase). f2=level (0-100, matches the real WotLK-era Mythic+
+    # keystone-level concept; corroborated by MythicPlusScaling.level using the identical
+    # 1-100 range).
+    "MythicKeystones": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("dungeonId", 1, "u"), ("level", 2, "u"),
+    ]},
+    # MythicAffixes (13409x16): f0=id. The brief's own hypothesis ("affix name source =
+    # ChallengeModifierTypes if join proves it") was tested and DISPROVEN - no column
+    # clears any join-rate bar against ChallengeModifierTypes' 8 rows. Instead
+    # grantSpellId(f3)/effectSpellId1-3(f11-f13) all prove out 100% against Spell.dbc on
+    # their populated subsets, with clean on-theme resolved names ("Pack Tactics",
+    # "Fast", "Resistant", "Life Stealing", "True Sight", "Avenger", "Horde", "Tiny") -
+    # these ARE the de-facto affix names/effects, used instead of the disproven
+    # ChallengeModifierTypes route. f1 (distinct 53, 0-52, exactly 253 rows per value -
+    # a real structural dimension, likely an affix-slot index) and f2 (distinct 253,
+    # 2-254) have no independently provable NAME/semantic (no lookup table of the right
+    # size exists) - left raw despite the clean structural regularity, per the empirical
+    # rule (structural regularity alone is not a golden). f4-f10,f14 (always 0), f15
+    # (always the float bit-pattern for 1.0) - raw.
+    "MythicAffixes": {"expected_fields": 16, "columns": [
+        ("id", 0, "u"), ("grantSpellId", 3, "u"),
+        ("effectSpellId1", 11, "u"), ("effectSpellId2", 12, "u"), ("effectSpellId3", 13, "u"),
+    ]},
+    # MythicPlusScaling (200x8): f0=id (own row id, 0-199, ascending). f1=level, proven by
+    # direct row inspection (ascending 1,2,3,...,100 repeated twice across the 200 rows,
+    # i.e. 2 scaling categories x 100 levels) and corroborated by the identical 1-100
+    # range MythicKeystones.level uses. f2(always 0), f3/f5 (identical increasing-curve
+    # values, distinct 100, likely a health/damage scalar), f4(always 0), f6(distinct 100,
+    # a second increasing curve), f7(distinct 3, 0-14) have no independently provable
+    # semantics - left raw.
+    "MythicPlusScaling": {"expected_fields": 8, "columns": [
+        ("id", 0, "u"), ("level", 1, "u"),
+    ]},
+    # TimedDungeons (82x6): f0=dungeonId, golden-proven - raw row-level join vs
+    # LFGDungeons.dbc ids is 84.1% (69/82), but the 13 misses are all dev/test placeholder
+    # rows sharing the IDENTICAL payload [36,20,20,7800000,1.0] with ids 2001-2028 (one,
+    # 2001, even resolves against Map.dbc to the literal name "This is a REAL map" / a row
+    # named "MyInternalTest4") - excluding those 13 documented non-dungeon rows, the join
+    # is 69/69 = 100%, and every one resolves to a real classic/TBC dungeon name (Lower
+    # Scholomance, Auchenai Crypts, Mana-Tombs, ...). f4=timeLimitMs, corroborated
+    # semantically: values range 1.6M-7.8M ms (26.7-130 min) and line up with real
+    # per-dungeon run-time expectations (e.g. dungeonId 53 "Lower Scholomance" carries
+    # 1896000ms = 31.6 min). f1(distinct 50, 0-1000), f2(distinct 9, 1-20), f3(distinct 4,
+    # 0-20), f5(always the float bit-pattern for 1.0) - raw.
+    "TimedDungeons": {"expected_fields": 6, "columns": [
+        ("dungeonId", 0, "u"), ("timeLimitMs", 4, "u"),
+    ]},
+    # MapDifficulty (685x23): not named in the brief's V2-5 output schema, but included in
+    # this task's mapping-evidence file list and cleanly provable, so curated too. f0=id.
+    # f1=mapId, proven 97.5% row-level join vs Map.dbc ids (668/685). f2=difficultyIndex
+    # (0-3, matches WotLK's per-map difficulty-tier concept). f3=lockoutMessage_enUS
+    # (distinct 35, e.g. "Mythic Difficulty requires you to be level 70." - the literal
+    # string that first suggested this table was in-scope for the Mythic+ pack).
+    # f22=difficultyToken (distinct 8: DUNGEON_DIFFICULTY_5PLAYER[_HEROIC/_EPIC],
+    # RAID_DIFFICULTY_10PLAYER_HEROIC/25PLAYER[_HEROIC]/40PLAYER). f4-f18 (LangString
+    # filler block for f3), f19-f21 (a color-looking constant, a lockout-duration-looking
+    # value, a small count) have no independently provable semantics - raw.
+    "MapDifficulty": {"expected_fields": 23, "columns": [
+        ("id", 0, "u"), ("mapId", 1, "u"), ("difficultyIndex", 2, "u"),
+        ("lockoutMessage_enUS", 3, "s"), ("difficultyToken", 22, "s"),
+    ]},
 }
 
 

@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "You should probably see a doctor. You are unable to passively regenerate health.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":186,"reward":null},
+  {"f2":23,"id":292,"reward":null},
+  {"f2":103,"id":506,"reward":null},
+  {"f2":105,"id":1890,"reward":null}
+ ],
+ "iconToken": "nhi_bloodhealth_Border",
+ "id": 135,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":916}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Unhealthy",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot regenerate health.","f2":0,"f3":1,"name":"Cannot Regenerate Health","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_HEALTH_REGENERATION"}
+ ],
+ "spells": []
+}

@@ -1,0 +1,35 @@
+{
+ "conditions": [],
+ "description": "The single-life challenge. Leap into a test of skill and perseverance and battle through a merciless world with only one life. But you don't have to adventure alone: group up with other Hardcore adventurers to overcome the challenge together!",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_EASY",
+ "featured": false,
+ "groups": [
+  {"f2":27,"id":218,"reward":null},
+  {"f2":103,"id":558,"reward":null},
+  {"f2":105,"id":1942,"reward":null}
+ ],
+ "iconToken": "ability_pvp_hardiness",
+ "id": 187,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":968}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Hardcore",
+ "requirements": [
+  {"description":"You must complete the challenge without dying |cffffffff%1$d|r or more times.","f2":0,"f3":1,"f5":1065353216,"f6":0,"f7":0,"f8":10000,"name":"%1$d |4Life:Lives;","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_COMPLETE_WITHOUT_DEATH"}
+ ],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot queue for Arenas.","f2":0,"f3":1,"name":"No Arena Queue","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_ARENA_FINDER"},
+  {"description":"You cannot use the Auction House.","f2":0,"f3":1,"name":"No Auction House","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_AUCTIONHOUSE"},
+  {"description":"You cannot queue for Battlegrounds.","f2":0,"f3":1,"name":"No Battleground Queue","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_BATTLEGROUND_FINDER"},
+  {"description":"You cannot use boosting items.\n|cffe6cc80[Tradesman's Scroll]|r\n|cffe6cc80[Incantation of Experience]|r\n|cffe6cc80[Scroll of Experience]|r","f2":0,"f3":1,"name":"No Boosting Items","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_CONVENIENCE_ITEMS"},
+  {"description":"You cannot use the Dungeon Finder.","f2":0,"f3":1,"name":"No Dungeon Finder","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_DUNGEON_FINDER"},
+  {"description":"You cannot use your Guild Bank.","f2":0,"f3":1,"name":"No Guild Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_GUILD_BANK"},
+  {"description":"You cannot use the Mailbox.","f2":0,"f3":1,"name":"No Mail","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_MAIL"},
+  {"description":"You cannot use your Realm Bank.","f2":0,"f3":1,"name":"No Realm Bank","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_REALM_BANK"},
+  {"description":"You cannot trade with other players.","f2":0,"f3":1,"name":"No Trading","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_TRADE"}
+ ],
+ "spells": []
+}

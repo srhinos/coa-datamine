@@ -1,0 +1,27 @@
+{
+ "conditions": [],
+ "description": "You're just really, really sleepy. You have a fatigue bar, and it drains every second you're not in a rested area. If it hits 0, you fall asleep and never wake up.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":160,"reward":null},
+  {"f2":26,"id":268,"reward":null},
+  {"f2":103,"id":480,"reward":null},
+  {"f2":105,"id":1864,"reward":null}
+ ],
+ "iconToken": "Spell_Nature_Sleep",
+ "id": 106,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":890}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Narcolepsy",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You are fatigued if not in a rested area.","f2":0,"f3":1,"name":"Fatigued Unless Resting","ruleTypeToken":"CHALLENGE_RULES_TYPE_FATIGUED_UNLESS_RESTED"},
+  {"description":"You cannot queue for or participate in Dungeons.","f2":0,"f3":1,"name":"No Dungeons","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_DUNGEONS"}
+ ],
+ "spells": []
+}

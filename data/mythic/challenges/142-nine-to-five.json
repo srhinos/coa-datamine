@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "Monsters are kind of scary, and you prefer a steady job. You can only gain experience from gaining skill in professions.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":26,"id":299,"reward":null},
+  {"f2":103,"id":513,"reward":null},
+  {"f2":105,"id":1897,"reward":null}
+ ],
+ "iconToken": "nhi_tech_steamdetector_Border",
+ "id": 142,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":923}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Nine to Five",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You only gain experience from gaining skill in professions.","f2":0,"f3":1,"name":"Only Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EXPERIENCE_EXCEPT_PROFESSIONS"},
+  {"description":"While participating in this challenge, you cannot enter the Manastorm.","f2":0,"f3":1,"name":"No Manastorm","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_MANASTORM"}
+ ],
+ "spells": []
+}

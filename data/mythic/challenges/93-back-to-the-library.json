@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "You are an apprentice spellcaster. You cannot passively or with mana-replenishing drinks regenerate mana unless you are in a rested area.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":147,"reward":null},
+  {"f2":22,"id":255,"reward":null},
+  {"f2":103,"id":467,"reward":null},
+  {"f2":105,"id":1851,"reward":null}
+ ],
+ "iconToken": "INV_Ascend_Tavern_87",
+ "id": 93,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":877}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Back to the Library",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot passively or with mana-replenishing drinks regenerate mana unless you are in a rested area.","f2":0,"f3":1,"name":"No Mana Regen Unless Resting","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_MANA_REGENERATION_UNLESS_RESTED"}
+ ],
+ "spells": []
+}

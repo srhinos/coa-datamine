@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "Dark magic saps your energy. You cannot passively regenerate mana, rage, or energy. ",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":187,"reward":null},
+  {"f2":22,"id":293,"reward":null},
+  {"f2":103,"id":507,"reward":null},
+  {"f2":105,"id":1891,"reward":null}
+ ],
+ "iconToken": "nhi_lightning_empower_Border",
+ "id": 136,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":917}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Weakened State",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot regenerate mana, rage, or energy.","f2":0,"f3":1,"name":"Cannot Regenerate Mana/Rage/Energy","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_POWER_REGENERATION"}
+ ],
+ "spells": []
+}

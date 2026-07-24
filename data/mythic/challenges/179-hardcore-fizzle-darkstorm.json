@@ -1,0 +1,28 @@
+{
+ "conditions": [],
+ "description": "Slay Fizzle Darkstorm in NW Durotar before level 10 or die! Then reach max level. This Hardcore challenge sends you on an adventure to Thunder Ridge, where you'll need to take down this nasty goblin.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":1,"id":58,"reward":{"expansionToken":"EXPANSION_THE_BURNING_CRUSADE","f1":1,"f2":1,"f3":2,"f5":18,"f6":85342,"f7":1,"f8":0,"f9":1000000}},
+  {"f2":5,"id":77,"reward":null},
+  {"f2":103,"id":550,"reward":null},
+  {"f2":105,"id":1934,"reward":null}
+ ],
+ "iconToken": "rogue_subterfuge",
+ "id": 179,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":960}
+ ],
+ "modeToken": "hardcore",
+ "modifiers": [],
+ "name": "Hardcore - Fizzle Darkstorm",
+ "requirements": [
+  {"description":"You must kill |cffffff00[%1$s]|r before reaching level |cffffffff%2$d|r.","f2":0,"f3":1,"f5":1162358784,"f6":1092616192,"f7":0,"f8":10000,"name":"Level Restricted Creature Kill","requirementTypeToken":"CHALLENGE_REQUIREMENT_TYPE_KILL_CREATURE_BEFORE_LEVEL"}
+ ],
+ "rewards": [],
+ "rules": [],
+ "spells": [
+  {"name":"Hardcore - Fizzle Darkstorm","spellId":93169}
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "conditions": [],
+ "description": "Dedicate yourself to the people of Azeroth! Embark on a heroic quest to aid them with their many problems, gaining experience only from yellow quests and above. Along the way, you'll encounter citizens whose stories you may never have heard, and prove yourself a champion of compassion and kindness. Join forces with fellow adventurers to do some good in the world and prove your mettle as a true Hero of Azeroth!",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":52,"id":1304,"reward":null},
+  {"f2":56,"id":1305,"reward":null},
+  {"f2":80,"id":1306,"reward":null}
+ ],
+ "iconToken": "achievement_bg_interruptx_flagcapture_attempts_1game",
+ "id": 288,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":1113}
+ ],
+ "modeToken": "hardcore",
+ "modifiers": [],
+ "name": "Prestige - Hardcore - Golden Champion of the People",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You only gain experience from completing quests.","f2":0,"f3":1,"name":"Only Quest Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_EXPERIENCE_EXCEPT_QUESTS"},
+  {"description":"You are unable to accept or turn-in gray quests.","f2":0,"f3":1,"name":"No Gray Quests","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_GRAY_QUESTS"},
+  {"description":"You are unable to accept or turn-in green quests.","f2":0,"f3":1,"name":"No Green Quests","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_GREEN_QUESTS"},
+  {"description":"You cannot gain experience from professions.","f2":0,"f3":1,"name":"No Profession Experience","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_PROFESSION_EXPERIENCE"}
+ ],
+ "spells": [
+  {"name":"Hardcore - Golden Champion of the People","spellId":93147}
+ ]
+}

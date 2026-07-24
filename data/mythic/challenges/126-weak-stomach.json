@@ -1,0 +1,25 @@
+{
+ "conditions": [],
+ "description": "Potions taste gross, so you refuse to use them. You are unable to use health potions.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_EASY",
+ "featured": false,
+ "groups": [
+  {"f2":18,"id":283,"reward":null},
+  {"f2":103,"id":497,"reward":null},
+  {"f2":105,"id":1881,"reward":null}
+ ],
+ "iconToken": "inv_potion_49",
+ "id": 126,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":907}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Weak Stomach",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You are unable to use health potions.","f2":0,"f3":1,"name":"No Health Potions","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_HEALTH_POTIONS"}
+ ],
+ "spells": []
+}

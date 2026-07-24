@@ -1,0 +1,26 @@
+{
+ "conditions": [],
+ "description": "Damage you take sticks harder. You cannot passively or with health-replenishing food regenerate health unless you are in a rested area.",
+ "difficultyToken": "CHALLENGE_DIFFICULTY_NORMAL",
+ "featured": false,
+ "groups": [
+  {"f2":16,"id":145,"reward":null},
+  {"f2":22,"id":253,"reward":null},
+  {"f2":103,"id":465,"reward":null},
+  {"f2":105,"id":1849,"reward":null}
+ ],
+ "iconToken": "INV_Ascend_Tavern_24",
+ "id": 91,
+ "levels": [
+  {"f2":0,"f3":1,"f4":0,"id":875}
+ ],
+ "modeToken": "default",
+ "modifiers": [],
+ "name": "Short Rest",
+ "requirements": [],
+ "rewards": [],
+ "rules": [
+  {"description":"You cannot passively or with health-replenishing food regenerate health unless you are in a rested area.","f2":0,"f3":1,"name":"No Health Regen Unless Resting","ruleTypeToken":"CHALLENGE_RULES_TYPE_NO_HEALTH_REGENERATION_UNLESS_RESTED"}
+ ],
+ "spells": []
+}
