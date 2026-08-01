@@ -60,7 +60,16 @@ this repo needs an exemption).
 | `raw/interface/{AddOns,FrameXML,GlueXML,SharedXML,LibraryXML,LCDXML}/**` | every other `.lua`/`.xml`/`.toc`/`.txt`/`.md` file found under the client's `Interface\` tree across every MPQ archive (art/BLPs/sounds/models excluded - this is a code layer, not an art dump); winner per file resolved by the same chain-order rule as the DBCs | large |
 | `raw/dbc/*.csv.gz` | full decoded DBC dumps (every column) | large |
 | `raw/content/*.json` | verbatim client sidecar JSONs | large |
-| `raw/provenance.json` | source hashes, archive resolution, build stats | small |
+| `raw/provenance.json` | source hashes, archive resolution, build stats, top-level `headerMismatches` (must be `[]` - see "Manastorm + realm overlays" below) | small |
+| `data/manastorm/manastorm.json` | `Manastorm.dbc` rows (1017, one file - under the 5k-line gate as-is): `{id, mapId, mapName, difficulty, dungeonEncounterId, dungeonEncounterName, raw}` - `mapName` is a 100% join vs `Map.dbc`; `dungeonEncounterId` resolves >=95% (measured 99.51%) via a two-hop chain against `DungeonEncounter.dbc` whose own `mapID`/`difficulty` must agree with this row's (100% match, gated); `raw` is the 5 undecoded columns (f4-f8) | small |
+| `data/manastorm/messages.json` | `ManastormMessages.dbc` rows (291): `{id, iconToken, title, text, raw}` - seasonal unlock-flavor strings (golden: id 1's `text` literally contains the word "Manastorm") | small |
+| `data/manastorm/index.json` + `modifiers-<id//5000*5000>.jsonl` | `ManastormModifiers.dbc` bucket manifest + buckets (32768 rows, `bucketSize` 5000, 7 buckets): `{id, raw}` per row - only `id` is proven, no spellId or other FK column exists anywhere in this table | small-medium per file |
+| `data/manastorm/playerGroupModifiers.json` | `ManastormPlayerGroupModifiers.dbc` rows (15): `{id, raw}` - only `id` is proven | small |
+| `data/manastorm/_meta.json` | per-table `counts`, `provenColumns`, `dungeonEncounterJoinRate`, `spellIdFinding`/`areaIdFinding` (both DISPROVEN column hypotheses for `ManastormMessages`, left raw - see Honest limits) | small |
+| `data/realms/<realm>/index.json` | one realm's overlay-evidence index (currently one realm on this install, `area-52`): per-table `{records, fields, mapped, baseRecords\|null, delta\|null}` (`declaredFields` key present only when that table's WDBC header disagrees with its own byte-accurate field count - see "Manastorm + realm overlays" below), plus `spellIdRange`, `newSpellCount` (realm-only Spell.dbc ids), `missingRefResolution` (id-membership evidence - **read the framing below before trusting this field**) | small |
+| `data/realms/<realm>/_meta.json` | `mappedTables`/`unmappedTables` + `futureMilestone` (full realm spell/class curation - out of v3's scope, see below) | small |
+| `raw/realms/<realm>/dbc/<Table>.csv.gz` | mapped realm tables (base `tools/dbc.py` `TABLE_MAPS` column map + layout guard reused as-is - zero new column proofs introduced for realm data) - named-header dump, same shape as `raw/dbc/<Table>.csv.gz` | large |
+| `raw/realms/<realm>/dbc/<Table>.csv.gz` + `<Table>.colinfo.json` | unmapped realm tables (no same-named base `TABLE_MAPS` entry, or a field-count mismatch against it) - raw `f0..fN` dump + evidence sidecar, same shape as `dbc.dump_unmapped`'s base-table output | large |
 
 ### Class tab sharding (why three levels, not one)
 
@@ -228,6 +237,95 @@ unaudited retail API parity is a recurring source of live-client crashes).
   omitted, not `null`, when the spell has no data for it** (check `"tags" in spell`,
   don't assume a default). `charges` is deliberately **not** one of these keys - see
   `data/spells/charges.json` above and Honest limits.
+
+### Manastorm + realm overlays
+
+**Manastorm** (`data/manastorm/`) is CoA's seasonal-difficulty system (patch-M):
+`Manastorm.dbc` rows link a map/raid + difficulty to a `DungeonEncounter.dbc` boss
+(the two-hop `mapId`/`difficulty` cross-check between the two tables is what proves
+the link, not just the raw join-rate - see the `_meta.json` `provenColumns` note),
+`ManastormMessages.dbc` carries the seasonal unlock-flavor text shown to players
+(e.g. id 1: *"You have unlocked Iskarr Village in your next Manastorm!"*), and
+`ManastormModifiers.dbc`/`ManastormPlayerGroupModifiers.dbc` are unproven-beyond-`id`
+numeric tables (no spellId or other FK column exists in either, despite several
+candidates tested - see `tools/dbc.py`'s `TABLE_MAPS` comments). This is a
+game-content system, distinct from the realm-overlay layer below.
+
+**Realm overlays** (`data/realms/<realm>/`, `raw/realms/<realm>/dbc/`) are a
+*separate* concept: this client serves four realms (see the "Four realms, one
+account-wide CAD file" note above), and each realm ships its **own** small DBC
+archive set under `Data\<realm>\` on top of the shared base chain - e.g. area-52's
+`Data\area-52\patch-D.MPQ`. `tools/config.discover_realms()` finds any `Data\<dir>\`
+that carries its own `listarchive` file (excluding the base client's `enUS`/`Content`
+dirs); **only realms actually present on THIS machine's client install are
+extracted - a realm this install doesn't carry on disk is out of scope, by user
+decision (2026-08-01), not a gap to fill later.** On this install that means exactly
+one realm, `area-52` ("Area 52 - Free-Pick") - the other three realms named in the
+four-realm note (Bronzebeard/Rexxar/Vol'jin) have no `listarchive` directory here and
+so contribute nothing to `data/realms/`.
+
+- **Chain semantics.** A realm's `listarchive` file lists that realm's own archives
+  in load order; the LAST line wins on a filename collision - the identical
+  later-wins rule `tools/extract_mpq.py` uses for the base chain, just scoped to one
+  realm's small archive set (`tools/extract_realms.py`). A realm's DBCs are a
+  server-side OVERRIDE layer that sits above the base chain by definition, but this
+  pipeline never merges the two: `work/realms/<realm>/dbc/` and `work/dbc/` (and
+  their `raw/` dumps) stay two fully independent layers, one archive set apiece -
+  "sits above" describes the game server's own resolution order, not something this
+  extractor performs.
+- **Mapped vs. unmapped realm tables.** `tools/build_realms.py` dumps a realm table
+  through the **same base `tools/dbc.py` `TABLE_MAPS` column map and field-count
+  layout guard** as the base client's own dump, when a base map of that name exists
+  AND the realm file's field count matches it exactly (`data/realms/<realm>/index.json`'s
+  `mapped: true`) - zero new column proofs are introduced for realm data in v3. A
+  table with no matching base map (or a field-count mismatch) dumps `dump_unmapped`-
+  style instead (raw `f0..fN` + a `.colinfo.json` evidence sidecar), `mapped: false`.
+  On area-52, 9 of 12 extracted tables are mapped (`Spell`, `SkillLineAbility`,
+  `Talent`, `SpellCharges`, `SpellChargesCategory`, and all 4 Manastorm tables); 3 are
+  unmapped (`CharacterAdvancement`, `CharacterAdvancementEssence`, `SpellRank` - none
+  of the three has a same-named base `TABLE_MAPS` column proof to reuse).
+- **Header-invariant parity.** `tools/dbc.py`'s `DBCFile` trusts `record_size // 4`
+  for row layout (byte-accurate), never the WDBC header's own declared `FieldCount` -
+  a deliberate task V3-2 change, because area-52's `CharacterAdvancement.dbc` header
+  DECLARES 179 fields but its `record_size` only fits 173 (`declaredFields: 179` on
+  that table's `index.json` entry, the sole disagreement across every base + realm
+  table probed so far). That fix is why a lying header no longer hard-crashes the
+  reader - but it also removed the base pipeline's old crash canary for a lying
+  **base** header. `raw/provenance.json`'s top-level `headerMismatches` list (also at
+  `["extract"]["headerMismatches"]`) restores that visibility: every one of the 77
+  base `config.WANTED_DBCS` tables where declared and byte-accurate field counts
+  disagree is recorded there, and `tests/test_dataset.py` gates that list at exactly
+  `[]` - a future base table that starts lying about its own header fails this
+  assertion loudly rather than shipping a silently-mismatched dump. Realm tables are
+  NOT held to that gate - a realm-side mismatch is expected to happen again and is
+  surfaced instead via the per-table `declaredFields` key described above.
+- **`missingRefResolution` - what it proves and what it doesn't.** For each bucket in
+  the BASE client's `data/spells/_missing_refs.json` (spell ids that base CAD/talent/
+  rank chains reference but that are absent from the base, account-wide `Spell.dbc`
+  snapshot), this field reports how many of those ids exist as a real row in the
+  REALM's own `Spell.dbc` - **id-set membership only**, report-only, no pass/fail
+  threshold. Measured on area-52: `cad_other` 181/181 (100%), `cad_reborn` 7119/7119
+  (100%), `rank` 605/2812 (21.5%), `talent` 1/13 (7.7%). **Read this carefully before
+  treating it as more than it is:** area-52's `Spell.dbc` is a superset that happens
+  to resolve 100% of the base client's `cad_other` AND `cad_reborn` missing ids - that
+  is real evidence of *where this content lives* (a realm-side snapshot carries rows
+  the shared/account-wide snapshot doesn't), but it is **not proof that those spells
+  are realm-appropriate for area-52** (obtainable there, balanced there, or intended
+  for a character actually playing there) - only that a row with that numeric id
+  exists. Area 52 is the "Free-Pick" realm (any class), so a broad `Spell.dbc` there
+  is unsurprising on its own; a Reborn-class spell resolving here says nothing about
+  whether it's meant to be cast by an Area-52 character, since Bronzebeard - not
+  Area 52 - is that spell's actual home realm per the four-realm note above. Treat
+  `missingRefResolution` as a lead for follow-up investigation, not a join you can
+  build curated cross-realm data on top of as-is.
+- **Out of scope, by design: no realm spell/class curation in v3.** `data/classes/`
+  stays keyed off the base, account-wide `CharacterAdvancementData.json` only -
+  nothing in `data/realms/` feeds into it. Turning a realm's raw overlay
+  (`raw/realms/<realm>/dbc/`) into a realm-scoped equivalent of `data/classes/`
+  (per-record spell enrichment, realm-specific class/spec mapping) is a **documented
+  future milestone**, not implemented here - tracked in every
+  `data/realms/<realm>/_meta.json`'s `futureMilestone` field, which points back to
+  this section.
 
 ## Recipes (PowerShell / Python)
 
@@ -451,6 +549,21 @@ whenever CoA ships new content:
 - `tests/test_interface.py`: `raw/interface/_manifest.json` >=1500 files (measured
   1553: 1444 archive-sourced + 109 disk-sourced `APIDocumentation`), sha256 sample
   check, zero non-code extensions
+- `tests/test_manastorm.py`: 1017 Manastorm / 291 ManastormMessages / 32768
+  ManastormModifiers / 15 ManastormPlayerGroupModifiers rows; `dungeonEncounterJoinRate`
+  gated >=0.95 (measured 0.9951); Shadowfang Keep boss-roster + seasonal-message-text
+  goldens
+- `tests/test_realms.py`: pins the same live-probed header facts as this file's
+  "Manastorm + realm overlays" section for whichever realm(s) are actually present on
+  the machine running the suite (currently area-52 only - see that section for why);
+  its own module docstring already warns these may drift slightly with a future
+  client patch, same re-pin treatment as every other snapshot pin here.
+  `newSpellCount` is gated loosely (>10000, measured 31507) rather than pinned exactly,
+  since a realm's own content churns independently of the base client's.
+- `tests/test_dataset.py`: 10 `buildStats` keys; `headerMismatches == []` for the base
+  77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
+  "Header-invariant parity" above. Don't re-pin a nonzero list; investigate which base
+  table's header started lying and why.
 
 Interface extraction counts are also snapshot pins in the sense above, but of a
 different flavor: they drift with the CLIENT install (which archive wins a given

@@ -148,7 +148,7 @@ def build_realm(realm: str) -> dict:
             "the way data/classes/ does for the base client) is explicitly OUT of "
             "this task's scope. v3 delivers extraction (work/realms/) + the raw dump "
             "layer (raw/realms/) + this overlay evidence index (data/realms/) only - "
-            "see AGENT-GUIDE.md."
+            "see AGENT-GUIDE.md's 'Manastorm + realm overlays' section (task V3-3)."
         ),
     }
     (data_dir / "_meta.json").write_text(
@@ -157,10 +157,19 @@ def build_realm(realm: str) -> dict:
     return index
 
 
-def build() -> dict:
+def build(skip_extract: bool = False) -> dict:
+    """skip_extract mirrors the base pipeline's --skip-extract convention (task
+    V3-3 orchestrator wiring): reuse an already-populated work/realms/<realm>/dbc/
+    for every discovered realm instead of re-reading MPQ archives. Falls back to a
+    real extract if any discovered realm has no cached dbc dir yet (first run,
+    or a newly-appeared realm directory)."""
     config.ensure_dirs()
-    extract_realms.extract_all()
-    return {realm: build_realm(realm) for realm in config.discover_realms()}
+    realms = config.discover_realms()
+    already_cached = realms and all(
+        (config.WORK_REALMS_DIR / r / "dbc").is_dir() for r in realms)
+    if not (skip_extract and already_cached):
+        extract_realms.extract_all()
+    return {realm: build_realm(realm) for realm in realms}
 
 
 if __name__ == "__main__":
