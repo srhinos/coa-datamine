@@ -60,6 +60,15 @@ WANTED_DBCS_V2 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V2
 
+# v3 (task V3-1): Manastorm seasonal-modifier system (patch-M, verified headers
+# 2026-08-01 per .superpowers/sdd/task-v3-1-brief.md - Manastorm 1017x9,
+# ManastormMessages 291x39, ManastormModifiers 32768x15, ManastormPlayerGroupModifiers 15x5).
+WANTED_DBCS_V3 = [
+    "Manastorm.dbc", "ManastormMessages.dbc", "ManastormModifiers.dbc",
+    "ManastormPlayerGroupModifiers.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V3
+
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)

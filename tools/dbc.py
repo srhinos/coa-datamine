@@ -791,6 +791,95 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("mapId", 1, "u"), ("difficultyIndex", 2, "u"),
         ("lockoutMessage_enUS", 3, "s"), ("difficultyToken", 22, "s"),
     ]},
+    # v3 (task V3-1): proven via golden-record probes (see .superpowers/sdd/task-v3-1-report.md).
+    # Manastorm (1017x9, no strings): f0 ascending-unique 1-1212 (id). f1 golden-proven
+    # mapId: 100% (73/73) of its distinct values are valid Map.dbc ids AND every single
+    # one resolves to a real classic/TBC/WotLK dungeon or raid zone name (Shadowfang Keep,
+    # Deadmines, Molten Core, Blackwing Lair, Naxxramas, Hellfire Citadel wings, ...) - not
+    # a density coincidence (Map.dbc is only 374/4000 = 9.4% dense over f1's own 33-1806
+    # range, so 73/73 random hits would be astronomically unlikely). f3 golden-proven
+    # dungeonEncounterId: 99.5% (1012/1017) resolve against DungeonEncounter.dbc ids, and
+    # of those, 100% (1012/1012) have the resolved encounter's OWN mapID column equal to
+    # this row's f1 (a full two-hop chain validation, not just membership) - e.g. Manastorm
+    # rows with mapId=33 (Shadowfang Keep) resolve f3 to exactly SFK's 7 real bosses
+    # (Rethilgore, Baron Silverlaine, Commander Springvale, Odo the Blindwatcher, Fenrus the
+    # Devourer, Wolf Master Nandos, Archmage Arugal). The 5 unresolved rows all carry
+    # f3=0 - the same "0 = unassigned sentinel" pattern this codebase documents elsewhere
+    # (DungeonEncounterExtra, ChallengeGroups/Levels/Rules/...). f2 golden-proven difficulty:
+    # 0 mismatches across all 1012 resolved rows against the resolved DungeonEncounter row's
+    # OWN "difficulty" column (values are the identical {0,2} set) - e.g. encounter 464
+    # "Rethilgore" has difficulty=0 and its paired variant 2464 (same name, same mapID) has
+    # difficulty=2, matching Manastorm's own f2 for the rows referencing each. f4-f8 are
+    # IEEE-754 floats (empirically obvious: sequential rows show canonical values like 1.0/
+    # 0.125/10.0; f7 is a 200-distinct "weight"-looking value 0.125-1.95, plausibly a random-
+    # selection weight) but have NO provable per-row semantic identity or lookup-table target -
+    # left raw (carried as signed ints, not float-decoded, per the empirical rule - "unproven"
+    # covers both meaning AND wire-type interpretation).
+    "Manastorm": {"expected_fields": 9, "columns": [
+        ("id", 0, "u"), ("mapId", 1, "u"), ("difficulty", 2, "u"), ("dungeonEncounterId", 3, "u"),
+    ]},
+    # ManastormMessages (291x39): f0 ascending-unique 1-1206 (id). f4 golden-proven iconToken
+    # (string_likelihood 1.0, samples are real texture-path tokens like
+    # "inv_misc_stormdragonpale"). f5 golden-proven a short notification title (string_
+    # likelihood 1.0, e.g. "Unlocked Iskarr Village!"). f22 golden-proven the full message
+    # text (string_likelihood 1.0, e.g. "You have unlocked Iskarr Village in your next
+    # Manastorm!" - literally contains "Manastorm", the brief's requested seasonal-flavor
+    # golden). f6-f21 and f23-f38 (32 columns total, exactly two 16-column blocks) are the
+    # LangString locale-filler pattern already documented elsewhere in this file (Challenge.
+    # dbc etc.) - every row carries the SAME constant value (50, decoding to the empty
+    # string) across all 32 columns, i.e. zero information (this build only populates
+    # enUS); dropped from output entirely, not even carried raw. f1 (2 distinct: {0,2}) is
+    # the SAME value domain as Manastorm.difficulty and behaves identically here (id 1 and
+    # its exact content-duplicate id 12 differ ONLY in f1, 0 vs 2) - strong circumstantial
+    # match to the same seasonal-tier concept, but NOT independently provable within this
+    # table alone (no DungeonEncounter-style cross-table anchor exists for messages) - left
+    # raw, not named. f2 (187 distinct, 5-102550) was hypothesized as a spellId - DISPROVEN:
+    # 90.4% raw join rate against Spell.dbc but the resolved "spells" are unrelated ancient
+    # low-id test/base spells ("Heal Self (TEST)", "Blizzard", "Stun") with zero thematic
+    # connection to the message text - a textbook Spell.dbc low-id density false positive
+    # (same class as this codebase's other disproven joins). f3 (19 distinct, 0-730) was
+    # hypothesized as an areaId - DISPROVEN the same way: 92.2% raw join rate against
+    # AreaTable.dbc but resolved area names (e.g. "Silverpine Forest", "Coldridge Valley")
+    # bear no relation to the grouped messages' actual content (Zul'Gurub bosses, Molten
+    # Core bosses) - a density false positive, not a real link (AreaTable's low-id range is
+    # densely populated by classic zones). f3's nonzero values DO cleanly group messages by
+    # real content pack (130=Zul'Gurub, 132=Molten Core, 134=Blackwing Lair, 135=AQ20,
+    # 137=AQ40, 139=Naxxramas) - a genuine internal grouping structure, but no WANTED_DBCS
+    # lookup table exists to independently prove what f3's own id space names, so it stays
+    # raw. f2's large outlier values for endgame unlocks (102550 "Heroic Sunwell Plateau
+    # Items", 102400 "Sunwell Plateau Items") are consistent with an unlock-point-threshold
+    # hypothesis but this is not provable via any join - left raw.
+    "ManastormMessages": {"expected_fields": 39, "columns": [
+        ("id", 0, "u"), ("iconToken", 4, "s"), ("title_enUS", 5, "s"), ("text_enUS", 22, "s"),
+    ]},
+    # ManastormModifiers (32768x15, no strings): f0 ascending-unique 1-32768 (id) - the
+    # brief's only required proof for this table besides a spellId check. No spellId
+    # column exists: every other column is either a tiny-range int (f1 in {0,2}, f2 a
+    # 1-16384 "level" index, f7/f9 always 0, f14 a 0/1 flag) or an IEEE-754 float in a
+    # small numeric range (f3-f6,f8,f10-f13, empirically obvious from smooth sequential
+    # progressions like 5.0/5.075/5.15/... and clean values like -20.0/10.0/1.0) - none
+    # remotely resembles Spell.dbc's id space (which runs into the millions). Structural
+    # observation (not a proof, no lookup table exists to verify against): rows come in
+    # id-adjacent pairs sharing the same f2 "level" value with f1 alternating 0/2 (the
+    # same value domain as Manastorm.difficulty) - looks like a precomputed two-tier
+    # (Normal/Heroic-style) scaling-curve table keyed by an internal level/stack index,
+    # not by any external entity id. All non-id columns left raw (signed, not float-
+    # decoded - see Manastorm's f4-f8 comment for the same "unproven covers wire-type too"
+    # rationale).
+    "ManastormModifiers": {"expected_fields": 15, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # ManastormPlayerGroupModifiers (15x5, no strings): f0 ascending-unique 1-15 (id).
+    # f1 is bit-for-bit IDENTICAL to f0 on every row (no distinguishing evidence that it
+    # carries independent information - could be "group size" given the table's name, but
+    # that is a naming guess, not a provable identity distinct from f0) - left raw, not
+    # renamed. f2 always 0. f3/f4 are IDENTICAL to each other per row, a float curve
+    # climbing 1.0->1.4 over ids 1-5 then plateauing at 1.4 for ids 6-15 - the same class
+    # of finding as MythicPlusScaling's f3/f5 ("likely a health/damage scalar... left
+    # raw"). No lookup table exists to independently verify any of f1-f4 - all left raw.
+    "ManastormPlayerGroupModifiers": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"),
+    ]},
 }
 
 
