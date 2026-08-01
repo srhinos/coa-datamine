@@ -15,6 +15,13 @@ RAW_CONTENT_DIR = RAW_DIR / "content"
 RAW_INTERFACE_DIR = RAW_DIR / "interface"
 DATA_DIR = REPO_ROOT / "data"
 
+# v3 (task V3-2): realm-overlay layer. work/realms owned by tools/extract_realms.py;
+# raw/realms + data/realms owned by tools/build_realms.py (Amendment D single-writer).
+WORK_REALMS_DIR = WORK_DIR / "realms"
+RAW_REALMS_DIR = RAW_DIR / "realms"
+DATA_REALMS_DIR = DATA_DIR / "realms"
+_REALM_DIR_EXCLUDE = {"enus", "content"}  # the base client's own locale/content dirs
+
 WANTED_DBCS = [
     "Spell.dbc", "ChrClasses.dbc", "ChrRaces.dbc", "Talent.dbc", "TalentTab.dbc",
     "LFGDungeons.dbc", "DungeonEncounter.dbc", "Map.dbc", "AreaTable.dbc",
@@ -72,3 +79,21 @@ WANTED_DBCS += WANTED_DBCS_V3
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)
+
+
+def discover_realms() -> list:
+    """Realm-overlay directories = subdirs of Data\\ carrying their own `listarchive`
+    file, excluding the base client's own enUS locale dir and Content dir. Generic
+    by design (task V3-2): any future realm directory following this shape is picked
+    up automatically with no code change; only realms actually present on THIS
+    machine's client are returned - off-disk realm data is out of scope by user
+    decision. Sorted for determinism."""
+    root = CLIENT_DIR / "Data"
+    if not root.is_dir():
+        return []
+    out = []
+    for p in sorted(root.iterdir()):
+        if (p.is_dir() and p.name.lower() not in _REALM_DIR_EXCLUDE
+                and (p / "listarchive").is_file()):
+            out.append(p.name)
+    return out

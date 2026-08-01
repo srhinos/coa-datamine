@@ -21,12 +21,25 @@ class DBCFile:
     def __init__(self, path):
         self.path = Path(path)
         data = self.path.read_bytes()
-        magic, self.records, self.fields, self.record_size, strsize = \
+        magic, self.records, declared_fields, self.record_size, strsize = \
             struct.unpack_from("<4s4I", data, 0)
         if magic != b"WDBC":
             raise LayoutError(f"{self.path.name}: bad magic {magic!r}")
-        if self.record_size != self.fields * 4:
-            raise LayoutError(f"{self.path.name}: record_size {self.record_size} != 4*{self.fields}")
+        if self.record_size % 4 != 0:
+            raise LayoutError(
+                f"{self.path.name}: record_size {self.record_size} not a multiple of 4")
+        # [Task V3-2 finding] The header's declared FieldCount is occasionally wrong -
+        # observed on a realm-overlay table, area-52's CharacterAdvancement.dbc:
+        # declared 179 vs the byte-accurate 173 (record_size 692 / 4), off by exactly
+        # 6 fields. record_size is what actually determines row layout AND it
+        # reconciles exactly with the file's total size (20 + records*record_size +
+        # string_block_size == len(data), verified), so it is authoritative for
+        # parsing; the declared count is kept only as a diagnostic
+        # (self.declared_fields), never trusted for the row struct format. This is a
+        # no-op for every table where the two already agree (every base-client table
+        # probed so far, and 11 of area-52's 12 tables).
+        self.fields = self.record_size // 4
+        self.declared_fields = declared_fields
         body_end = 20 + self.records * self.record_size
         if body_end + strsize != len(data):
             raise LayoutError(f"{self.path.name}: size mismatch")
@@ -884,9 +897,13 @@ TABLE_MAPS = {
 }
 
 
-def _open_checked(table: str) -> tuple[DBCFile, dict]:
+def _open_checked(table: str, dbc_dir: Path = None) -> tuple[DBCFile, dict]:
+    """dbc_dir defaults to config.WORK_DBC_DIR (base client). Task V3-2 passes an
+    explicit realm dbc dir (work/realms/<realm>/dbc) so the SAME base TABLE_MAPS
+    column map + layout guard apply to a realm-overlay DBC of the same name."""
     spec = TABLE_MAPS[table]
-    f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
+    d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
+    f = DBCFile(d / f"{table}.dbc")
     if f.fields != spec["expected_fields"]:
         raise LayoutError(
             f"{table}: field_count {f.fields} != expected {spec['expected_fields']} "
@@ -905,18 +922,23 @@ def _decode(f: DBCFile, row: tuple, name: str, idx: int, kind: str):
     return v
 
 
-def iter_named(table: str):
-    f, spec = _open_checked(table)
+def iter_named(table: str, dbc_dir: Path = None):
+    f, spec = _open_checked(table, dbc_dir)
     cols = spec["columns"]
     for row in f.iter_rows():
         yield {name: _decode(f, row, name, idx, kind) for name, idx, kind in cols}
 
 
-def dump_table(table: str) -> Path:
-    f, spec = _open_checked(table)
+def dump_table(table: str, dbc_dir: Path = None, out_dir: Path = None) -> Path:
+    """dbc_dir/out_dir default to config.WORK_DBC_DIR/config.RAW_DBC_DIR (base
+    client's dump_all() behavior). Task V3-2 passes explicit realm paths so a
+    mapped realm-overlay table dumps to raw/realms/<realm>/dbc/ instead."""
+    f, spec = _open_checked(table, dbc_dir)
     named = {idx: (name, idx, kind) for name, idx, kind in spec["columns"]}
     header = [named[i][0] if i in named else f"f{i}" for i in range(f.fields)]
-    out = config.RAW_DBC_DIR / f"{table}.csv.gz"
+    d = out_dir if out_dir is not None else config.RAW_DBC_DIR
+    d.mkdir(parents=True, exist_ok=True)
+    out = d / f"{table}.csv.gz"
     # gzip.open("wt") embeds the current mtime in the gzip header, so identical
     # CSV content re-dumped later produces byte-different .gz files - violates
     # the "raw/ diff shows exactly what a game patch changed" constraint.
@@ -934,7 +956,7 @@ def dump_table(table: str) -> Path:
     return out
 
 
-def dump_unmapped(table: str, out_dir: Path = None) -> Path:
+def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Path:
     """Dump a table with no TABLE_MAPS entry as raw signed ints (f0..fN) plus
     a colinfo.json evidence sidecar: per-column distinct/min/max/pct_zero and
     a string-likelihood score (fraction of rows whose value is a plausible
@@ -946,11 +968,16 @@ def dump_unmapped(table: str, out_dir: Path = None) -> Path:
     scratch dir instead, so they don't clobber committed raw/ artifacts -
     especially for tables that HAVE since become mapped, where this
     unmapped f0..fN shape would corrupt the committed named-header dump.
+
+    dbc_dir defaults to config.WORK_DBC_DIR (base client). Task V3-2 passes an
+    explicit realm dbc dir to colinfo-dump a realm-only table (no base
+    TABLE_MAPS entry, e.g. CharacterAdvancement/SpellRank).
     """
     if out_dir is None:
         out_dir = config.RAW_DBC_DIR
     out_dir.mkdir(parents=True, exist_ok=True)
-    f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
+    d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
+    f = DBCFile(d / f"{table}.dbc")
     n = f.fields
     strblock_size = len(f._strings)
     records = f.records
