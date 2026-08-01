@@ -75,7 +75,8 @@ def build_manastorm() -> dict:
             "raw": list(row[4:9]),
         })
     records.sort(key=lambda x: x["id"])
-    assert len(records) == f.records, "Manastorm id column is not unique"
+    assert len(records) == len({r["id"] for r in records}) == f.records, \
+        "Manastorm id column is not unique"
 
     # gates: refuse to publish if the pinned proof facts don't hold
     assert all(r["mapName"] is not None for r in records), \
@@ -112,7 +113,8 @@ def build_messages() -> dict:
             "raw": list(row[1:4]),
         })
     records.sort(key=lambda x: x["id"])
-    assert len(records) == f.records, "ManastormMessages id column is not unique"
+    assert len(records) == len({r["id"] for r in records}) == f.records, \
+        "ManastormMessages id column is not unique"
 
     # golden gate (brief: pin a verified decoded seasonal-flavor message)
     golden = next(r for r in records if r["id"] == 1)
@@ -166,7 +168,8 @@ def build_player_group_modifiers() -> dict:
 
     records = [{"id": row[0], "raw": list(row[1:5])} for row in f.iter_rows()]
     records.sort(key=lambda x: x["id"])
-    assert len(records) == f.records, "ManastormPlayerGroupModifiers id column is not unique"
+    assert len(records) == len({r["id"] for r in records}) == f.records, \
+        "ManastormPlayerGroupModifiers id column is not unique"
 
     (mdir / "playerGroupModifiers.json").write_text(
         sharding.dump_manifest({"playerGroupModifiers": records}), encoding="utf-8")
@@ -210,8 +213,9 @@ def build() -> dict:
             "column in any of the 4 Manastorm tables proves out as a spellId."
         ),
         "areaIdFinding": (
-            "ManastormMessages.f3 was hypothesized as an areaId: 92.2% raw join rate vs "
-            "AreaTable.dbc, but resolves to unrelated zone names (e.g. 'Silverpine "
+            "ManastormMessages.f3 was hypothesized as an areaId: 92.2% of the 153 "
+            "nonzero rows (48.5% of all 291 rows - the rest carry the 0 sentinel) join "
+            "vs AreaTable.dbc, but resolves to unrelated zone names (e.g. 'Silverpine "
             "Forest' for a Zul'Gurub-themed message) bearing no relation to the grouped "
             "messages' actual raid content - a density false positive, DISPROVEN, left "
             "raw. Its nonzero values do cleanly group messages by real content pack "

@@ -838,8 +838,9 @@ TABLE_MAPS = {
     # low-id test/base spells ("Heal Self (TEST)", "Blizzard", "Stun") with zero thematic
     # connection to the message text - a textbook Spell.dbc low-id density false positive
     # (same class as this codebase's other disproven joins). f3 (19 distinct, 0-730) was
-    # hypothesized as an areaId - DISPROVEN the same way: 92.2% raw join rate against
-    # AreaTable.dbc but resolved area names (e.g. "Silverpine Forest", "Coldridge Valley")
+    # hypothesized as an areaId - DISPROVEN the same way: 92.2% of the 153 nonzero rows
+    # (48.5% of all 291 rows - ~47% carry the 0 sentinel) join against AreaTable.dbc,
+    # but resolved area names (e.g. "Silverpine Forest", "Coldridge Valley")
     # bear no relation to the grouped messages' actual content (Zul'Gurub bosses, Molten
     # Core bosses) - a density false positive, not a real link (AreaTable's low-id range is
     # densely populated by classic zones). f3's nonzero values DO cleanly group messages by
