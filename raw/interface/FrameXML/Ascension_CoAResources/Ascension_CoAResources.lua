@@ -85,6 +85,84 @@ local sizeOptions = {
 	"150%",
 }
 
+-- Every movable CoA resource display, for the "reset everything" entry in the
+-- player unit popup. Frames that the current class never loads are skipped.
+local movableFrameNames = {
+	"CoAResourceSegmentBar",
+	"CoAResourceBar",
+	"CoAResourceOrb",
+	"CoAMultiCastActionBarFrame",
+}
+
+-- Where Reset Position puts each display, as {point, relativeTo, relativePoint, x, y}.
+-- "default" is the anchor from Ascension_CoAResources.xml / Ascension_CoAMultiCast.xml;
+-- the class keys mirror the classes that re-anchor a display in ClassResources.lua and
+-- Ascension_TemplarResource.lua. Keep both sides in sync when a default anchor changes.
+local defaultPositions = {
+	CoAResourceSegmentBar = {
+		default     = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 86, 0 },
+		FLESHWARDEN = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 86, -4 },
+		PYROMANCER  = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 86, 32 },
+		DEMONHUNTER = { "TOP", "PlayerFrame", "BOTTOMLEFT", 131, -4 },
+		MONK        = { "BOTTOM", "MainMenuBar", "TOP", 0, 45 }, -- Templar
+	},
+	CoAResourceBar = {
+		default    = { "CENTER", "UIParent", "CENTER", 0, -140 },
+		PYROMANCER = { "TOP", "CoAResourceSegmentBar", "BOTTOM", 0, -6 },
+	},
+	CoAResourceOrb = {
+		default   = { "BOTTOM", "MainMenuBar", "TOP", 0, 0 },
+		CULTIST   = { "TOP", "CoAResourceSegmentBar", "BOTTOM", 0, -6 },
+		SUNCLERIC = { "TOP", "CoAResourceSegmentBar", "BOTTOM", 0, -6 },
+	},
+	CoAMultiCastActionBarFrame = {
+		default = { "BOTTOM", "MainMenuBar", "TOP", 0, 45 },
+	},
+}
+
+local function GetDefaultPosition(frameName)
+	local frameDefaults = defaultPositions[frameName]
+	if not frameDefaults then return nil end
+
+	return frameDefaults[C_Player:GetClass()] or frameDefaults.default
+end
+
+local function GetSavedPositions(create)
+	local key = GetUnitRealmNameKey()
+	if not key then return nil end
+
+	if create and not COA_RESOURCE_POSITIONS[key] then
+		COA_RESOURCE_POSITIONS[key] = {}
+	end
+
+	return COA_RESOURCE_POSITIONS[key]
+end
+
+-- Serialize a frame's first anchor as {point, relativeToName, relativePoint, x, y}.
+local function GetFrameAnchor(frame)
+	local point, relativeTo, relativePoint, x, y = frame:GetPoint(1)
+	if not point then return nil end
+
+	local relativeToName
+	if type(relativeTo) == "table" then
+		relativeToName = relativeTo:GetName() or "UIParent"
+	elseif type(relativeTo) == "string" then
+		relativeToName = relativeTo
+	else
+		relativeToName = "UIParent"
+	end
+
+	return { point, relativeToName, relativePoint, x or 0, y or 0 }
+end
+
+local function SetFrameAnchor(frame, anchor)
+	local point, relativeToName, relativePoint, x, y = unpack(anchor)
+	local relativeTo = (type(relativeToName) == "string" and _G[relativeToName]) or UIParent
+
+	frame:ClearAllPoints()
+	frame:SetPoint(point, relativeTo, relativePoint, x or 0, y or 0)
+end
+
 --
 -- CoA Resource Mixin
 --
@@ -117,6 +195,19 @@ function CoAResourceMixin.InitializeDropDown(self)
 	end
 
 	UIDropDownMenu_AddButton(info)
+
+	-- Reset Position
+	if IsCustomClass() then
+		info = UIDropDownMenu_CreateInfo()
+
+		info.text = RESET_POSITION or "RESET_POSITION"
+		info.notCheckable = 1
+		info.func = function()
+			frame:ResetPosition()
+		end
+
+		UIDropDownMenu_AddButton(info)
+	end
 
 	-- Scale Title
 
@@ -183,44 +274,69 @@ end
 -- Serialize the frame's first anchor into COA_RESOURCE_POSITIONS keyed by
 -- "Name-Realm" / frame name. Call from OnDragStop after StopMovingOrSizing.
 function CoAResourceMixin:SavePosition()
-	local key = GetUnitRealmNameKey()
+	local positions = GetSavedPositions(true)
 	local frameName = self:GetName()
-	if not key or not frameName then return end
+	if not positions or not frameName then return end
 
-	local point, relativeTo, relativePoint, x, y = self:GetPoint(1)
-	if not point then return end
+	local anchor = GetFrameAnchor(self)
+	if not anchor then return end
 
-	local relativeToName
-	if type(relativeTo) == "table" then
-		relativeToName = relativeTo:GetName() or "UIParent"
-	elseif type(relativeTo) == "string" then
-		relativeToName = relativeTo
-	else
-		relativeToName = "UIParent"
-	end
-
-	COA_RESOURCE_POSITIONS[key] = COA_RESOURCE_POSITIONS[key] or {}
-	COA_RESOURCE_POSITIONS[key][frameName] = {
-		point, relativeToName, relativePoint, x or 0, y or 0,
-	}
+	positions[frameName] = anchor
 end
 
 -- Apply the saved anchor over whatever default the class lua has just set.
 -- Returns true if a saved position was applied.
 function CoAResourceMixin:RestorePosition()
-	local key = GetUnitRealmNameKey()
+	local positions = GetSavedPositions()
 	local frameName = self:GetName()
-	if not key or not frameName then return false end
+	if not positions or not frameName then return false end
 
-	local saved = COA_RESOURCE_POSITIONS[key] and COA_RESOURCE_POSITIONS[key][frameName]
+	local saved = positions[frameName]
 	if not saved then return false end
 
-	local point, relativeToName, relativePoint, x, y = unpack(saved)
-	local relativeTo = (type(relativeToName) == "string" and _G[relativeToName]) or UIParent
-
-	self:ClearAllPoints()
-	self:SetPoint(point, relativeTo, relativePoint, x or 0, y or 0)
+	SetFrameAnchor(self, saved)
 	return true
+end
+
+-- Drop the saved position and move the frame back to its hard-coded default anchor.
+function CoAResourceMixin:ResetPosition()
+	local frameName = self:GetName()
+	if not frameName then return end
+
+	local positions = GetSavedPositions()
+	if positions then
+		positions[frameName] = nil
+	end
+
+	local default = GetDefaultPosition(frameName)
+	if default then
+		SetFrameAnchor(self, default)
+	end
+end
+
+-- True if any movable CoA resource display has a saved position for this character.
+function CoAResourceMixin.HasSavedPositions()
+	if not IsCustomClass() then return false end
+
+	local positions = GetSavedPositions()
+	if not positions then return false end
+
+	for _, frameName in ipairs(movableFrameNames) do
+		if positions[frameName] then return true end
+	end
+
+	return false
+end
+
+function CoAResourceMixin.ResetAllPositions()
+	if not IsCustomClass() then return end
+
+	for _, frameName in ipairs(movableFrameNames) do
+		local frame = _G[frameName]
+		if frame and frame.ResetPosition then
+			frame:ResetPosition()
+		end
+	end
 end
 
 --

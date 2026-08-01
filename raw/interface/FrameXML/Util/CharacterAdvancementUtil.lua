@@ -770,6 +770,18 @@ function CharacterAdvancementUtil.GetSpellErrorColor(error)
     return SPELL_DISALLOWED_COLOR, false
 end
 
+function CharacterAdvancementUtil.GetLearnErrorText(reason, entry)
+    if not reason then
+        return
+    end
+
+    if reason == Enum.CALearnResult.Group and entry and entry.Group == Enum.CharacterAdvancementGroup.TameSpells then
+        return CA_LEARN_MULTIPLE_PET_SPELLS or "CA_LEARN_MULTIPLE_PET_SPELLS"
+    end
+
+    return _G[reason] or reason
+end
+
 function CharacterAdvancementUtil.IsReasonRandomMode(reason)
     return reason == Enum.CALearnResult.NoWildCard or reason == Enum.CALearnResult.NoDraft
         or reason == Enum.CAUnlearnResult.NoWildCard or reason == Enum.CAUnlearnResult.NoDraft

@@ -78,6 +78,8 @@ UnitPopupButtons["TOGGLE_DRAGON"] = { text = "Artwork", dist = 0, nested = 1 }
 UnitPopupButtons["SHOW_DRAGON"] = { text = "Show Dragon Border", dist = 0, checkable = 1 }
 UnitPopupButtons["HIDE_DRAGON"] = { text = "Hide Dragon Border", dist = 0, checkable = 1 }
 
+UnitPopupButtons["COA_RESET_RESOURCE_ELEMENTS"] = { text = COA_RESET_RESOURCE_ELEMENTS or "COA_RESET_RESOURCE_ELEMENTS", dist = 0 }
+
 UnitPopupButtons["LOOT_THRESHOLD"] = { text = LOOT_THRESHOLD, dist = 0, nested = 1 };
 UnitPopupButtons["LOOT_PROMOTE"] = { text = LOOT_PROMOTE, dist = 0 };
 UnitPopupButtons["ITEM_QUALITY2_DESC"] = { text = ITEM_QUALITY2_DESC, dist = 0, color = ITEM_QUALITY_COLORS[2] };
@@ -152,7 +154,7 @@ UnitPopupButtons["CHAT_BAN"] = { text = CHAT_BAN, dist = 0 };
 
 -- First level menus
 UnitPopupMenus = { };
-UnitPopupMenus["SELF"] = { "SET_FOCUS", "TOGGLE_DRAGON", "PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "SELECT_LOOT_SPECIALIZATION", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "LEAVE", "CANCEL" };
+UnitPopupMenus["SELF"] = { "SET_FOCUS", "TOGGLE_DRAGON", "COA_RESET_RESOURCE_ELEMENTS", "PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "SELECT_LOOT_SPECIALIZATION", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "LEAVE", "CANCEL" };
 UnitPopupMenus["PET"] = { "SET_FOCUS", "PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "PET_DISMISS", "PET_TALENTS", "CANCEL" };
 UnitPopupMenus["PARTY"] = { "SET_FOCUS", "MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL" };
 UnitPopupMenus["PLAYER"] = { "SET_FOCUS", "WHISPER", "INSPECT", "INVITE", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL" };
@@ -780,6 +782,10 @@ function UnitPopup_HideButtons ()
 			end
 		elseif ( value == "LOOT_METHOD" ) then
 			if ( inParty == 0 ) then
+				UnitPopupShown[UIDROPDOWNMENU_MENU_LEVEL][index] = 0;
+			end
+		elseif ( value == "COA_RESET_RESOURCE_ELEMENTS" ) then
+			if ( not CoAResourceMixin or not CoAResourceMixin.HasSavedPositions() ) then
 				UnitPopupShown[UIDROPDOWNMENU_MENU_LEVEL][index] = 0;
 			end
 		elseif ( value == "RESET_INSTANCES" ) then
@@ -1450,6 +1456,10 @@ function UnitPopup_OnClick (self)
 			return
 		end
 		StaticPopup_Show("COMFIRM_RESET_SPECIFIC_INSTANCE", GetMapName(mapID), _G["GENERIC_DIFFICULTY"..difficultyID], {mapID, difficultyID})
+	elseif ( button == "COA_RESET_RESOURCE_ELEMENTS" ) then
+		if ( CoAResourceMixin ) then
+			CoAResourceMixin.ResetAllPositions()
+		end
 	elseif ( button == "SHOW_DRAGON" ) then
 		C_CVar.Set("showPortraitDragon", "1")
 		if not UnitHasVehicleUI("player") then

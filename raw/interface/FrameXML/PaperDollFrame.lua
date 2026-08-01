@@ -518,11 +518,12 @@ end
 
 function PaperDollFrame_SetArmorPenetration(statFrame)
 	_G[statFrame:GetName().."Label"]:SetText(format(STAT_FORMAT, ARMOR_PENETRATION));
-	local armorPenetration = GetCombatRating(CR_ARMOR_PENETRATION)
+	local armorPenetrationRating = GetCombatRating(CR_ARMOR_PENETRATION)
+	local armorPenetrationPercent = GetArmorPenetration()
 	local text = _G[statFrame:GetName().."StatText"];
-	text:SetText(armorPenetration);
+	text:SetText(format("%.2f%%", armorPenetrationPercent));
 	statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE ..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ARMOR_PENETRATION).. FONT_COLOR_CODE_CLOSE;
-	statFrame.tooltip2 = format(ARMOR_PENETRATION_TOOLTIP, armorPenetration, GetArmorPenetration());
+	statFrame.tooltip2 = format(ARMOR_PENETRATION_TOOLTIP, armorPenetrationRating, armorPenetrationPercent);
 	statFrame:Show();
 end
 

@@ -1,7 +1,7 @@
 {
- "count": 127175,
+ "count": 127178,
  "provenColumns": {
-  "id": "Creature.dbc f0 - ascending unique 1..127175, golden-checked",
+  "id": "Creature.dbc f0 - ascending unique 1..127178, golden-checked",
   "name": "Creature.dbc f2 - string_likelihood=1.0, pct_zero=0.0, golden Hogger/Ragnaros verified"
  },
  "subnameFinding": "Hypothesized on the two next-highest string_likelihood columns (f20/f21/f22 per V2-1 colinfo). DISPROVEN: both goldens (Hogger id=437/60041/92992, Ragnaros ids 8034 etc) carry raw value 0 in all three columns (no data), and table-wide only ~0.5-5% of rows have non-zero values that pass the strict string-offset test, resolving to unrelated fragments or other creatures' full names - not this row's own subname. A random-offset control against the same string block hits the strict test ~3.45% of the time, matching the observed rate - i.e. coincidence, not a real column. Shipped as subname: null for every record."

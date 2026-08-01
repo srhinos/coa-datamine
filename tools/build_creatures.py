@@ -77,7 +77,7 @@ def build_creatures() -> dict:
     meta = {
         "count": len(records),
         "provenColumns": {
-            "id": "Creature.dbc f0 - ascending unique 1..127175, golden-checked",
+            "id": "Creature.dbc f0 - ascending unique 1..127178, golden-checked",
             "name": "Creature.dbc f2 - string_likelihood=1.0, pct_zero=0.0, golden "
                     "Hogger/Ragnaros verified",
         },
@@ -212,7 +212,7 @@ def build_trainers() -> dict:
         "count": len(records),
         "spellJoinRate": round(join_rate, 4),
         "provenColumns": {
-            "id": "NPCTrainer.dbc f0 - ascending unique 1..13060",
+            "id": "NPCTrainer.dbc f0 - ascending unique 1..13105",
             "spellId": f"NPCTrainer.dbc f1 - {join_rate:.3f} join-rate vs Spell.dbc ids "
                        "(signed decode: ~1% of rows carry small negative sentinel "
                        "values on otherwise-empty placeholder rows, kept visible rather "

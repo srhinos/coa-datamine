@@ -485,6 +485,10 @@ function CoAMultiCastActionBarMixin:RestorePosition()
 	return CoAResourceMixin.RestorePosition(self)
 end
 
+function CoAMultiCastActionBarMixin:ResetPosition()
+	CoAResourceMixin.ResetPosition(self)
+end
+
 function CoAMultiCastActionBarMixin:SetShowText(show)
 	self.AlwaysShowText = show
 

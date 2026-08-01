@@ -43,7 +43,7 @@ for b in cidx["buckets"]:
 assert total == cidx["count"] == stats["creatures"]["written"]
 
 # creatures.jsonl line count == Creature record count (brief's gate, now summed over shards)
-assert cidx["count"] == 127175, cidx["count"]
+assert cidx["count"] == 127178, cidx["count"]
 
 # golden creature records (verified via live probe - see report)
 assert by_id[437]["name"] == "Hogger"
@@ -106,7 +106,7 @@ for b in tidx["buckets"]:
         if e["name"] is not None:
             joined += 1
         total_t += 1
-assert total_t == tidx["count"] == stats["trainers"]["written"] == 13060
+assert total_t == tidx["count"] == stats["trainers"]["written"] == 13105
 
 # gate: trainer spell join-rate >= 90%
 join_rate = joined / total_t

@@ -46,7 +46,7 @@ this repo needs an exemption).
 | `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
 | `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {25 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json` | small |
 | `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
-| `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (401 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.8778 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
+| `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
 | `data/mythic/challenges/index.json` | one compact record per Mythic+ Challenge: `{id, name, file, difficultyToken, modeToken, featured}` (297 challenges) | small |
 | `data/mythic/challenges/<id>-<slug>.json` | one challenge incl. `groups`/`levels`/`rules`/`modifiers`/`conditions`/`requirements`/`rewards`/`spells` (one-record-per-line `sharding.dump_manifest` format - the default "Adventure Mode" challenge alone aggregates ~2,000 rows across those lists) | small-medium |
 | `data/mythic/challenges/_lookups.json` | `ChallengeRuleTypes`/`ModifierTypes`/`ConditionTypes`/`RequirementTypes` lookup tables (127/8/18/22 rows) | small |
@@ -397,12 +397,12 @@ def class_specs_and_roles(class_name):
     and `ShapeshiftDetails`' spellId candidates - all disproven, documented inline in
     `tools/dbc.py`.
 - **`SpellCharges` is shipped standalone, not attached to any spell.** Its spellId
-  join-rate against live `Spell.dbc` ids is **0.8778** (352/401) - short of the 0.90
+  join-rate against live `Spell.dbc` ids is **0.885** (354/400) - short of the 0.90
   bar the brief set specifically for attaching a `charges` field to `spells.jsonl`
   records, even though the categoryId link to `SpellChargesCategory` is 100% proven
-  and 95.45% of the resolved rows mention "charge" in their own tooltip text (strong
-  circumstantial support that the mapping itself is right, just short of the stated
-  bar). The 401 rows are still fully usable at `data/spells/charges.json`, keyed by
+  and a large majority of the resolved rows mention "charge" in their own tooltip
+  text (strong circumstantial support that the mapping itself is right, just short
+  of the stated bar). The 400 rows are still fully usable at `data/spells/charges.json`, keyed by
   their own `ref` (not called `spellId`, since the link wasn't proven to that bar) -
   see the file map above.
 

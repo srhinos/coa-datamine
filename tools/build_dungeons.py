@@ -11,7 +11,7 @@ as dungeonEncounterId (98.5% join + semantic golden - resolves to real encounter
 but its f1 (creature-id hypothesis) fails golden verification even though it clears the
 naive 90% join-rate bar against Creature.dbc ids (92.4%) - famous bosses (Ragnaros,
 Onyxia, Kel'Thuzad, Illidan, ...) all resolve to unrelated random NPCs. This is a false
-positive caused by Creature.dbc's fully-dense id space (every integer 1..127175 is a
+positive caused by Creature.dbc's fully-dense id space (every integer 1..127178 is a
 valid creature id, so any bounded column passes membership near-trivially); see
 .superpowers/sdd/task-v2-2-report.md for the full evidence (fuzzy name-overlap 1.3%,
 barely above a random-pairing control's 0.45%). f2/f3 fail even the naive join-rate bar

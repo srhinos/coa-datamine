@@ -192,7 +192,7 @@ function CASpellButtonBaseMixin:SetEntry(entry)
                     self:SetDisabledVisual()
                 end
                 if reason[1] ~= Enum.CALearnResult.DisplayEntry then
-                    self.cannotLearn = reason[1] and _G[reason[1]] or reason[1]
+                    self.cannotLearn = CharacterAdvancementUtil.GetLearnErrorText(reason[1], entry)
                 end
             end
         end
@@ -321,7 +321,7 @@ function CASpellButtonBaseMixin:SetEntry(entry)
 
             if not(canLearn) then
                 if reason ~= Enum.CALearnResult.DisplayEntry then
-                    self.cannotLearn = _G[reason] or reason
+                    self.cannotLearn = CharacterAdvancementUtil.GetLearnErrorText(reason, entry)
                 end
             end
         end

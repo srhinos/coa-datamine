@@ -221,6 +221,9 @@ function GetLFDChoiceLockedState(tbl)
 end
 
 _UnitDamage = _UnitDamage or UnitDamage
+local LUNAR_COMBATANT_SPELL_ID = 805828
+local LUNAR_COMBATANT_BONUS_WEAPON_DAMAGE_PER_SPELLPOWER = 1/9
+
 function UnitDamage(unit)
 	local minDamage, maxDamage, minOffHandDamage, maxOffHandDamage, physicalBonusPos, physicalBonusNeg, percent = _UnitDamage(unit);
 	if unit == "player" and select(2, UnitClass(unit)) == "HERO" then
@@ -229,6 +232,25 @@ function UnitDamage(unit)
 		end
 		local spellPower = PaperDollFrame_GetBonusSpellDamage()
 		local bonusDamage = BONUS_WEAPON_DAMAGE_PER_SPELLPOWER * spellPower
+
+		local _, offHandSpeed = UnitAttackSpeed(unit)
+		if offHandSpeed then
+			offHandSpeed = GetInventoryItemWeaponSpeed("player", INVSLOT_OFFHAND)
+			minOffHandDamage = minOffHandDamage + (bonusDamage * offHandSpeed)
+			maxOffHandDamage = maxOffHandDamage + (bonusDamage * offHandSpeed)
+		end
+
+		local mainHandSpeed = GetInventoryItemWeaponSpeed("player", INVSLOT_MAINHAND)
+		minDamage = minDamage + (bonusDamage * mainHandSpeed)
+		maxDamage = maxDamage + (bonusDamage * mainHandSpeed)
+	end
+
+	if unit == "player" and select(2, UnitClass(unit)) == "STARCALLER" and C_Aura and C_Aura.UnitHasAura(unit, LUNAR_COMBATANT_SPELL_ID) then
+		if minDamage == 0 and maxDamage == 0 then
+			return minDamage, maxDamage, minOffHandDamage, maxOffHandDamage, physicalBonusPos, physicalBonusNeg, percent
+		end
+		local spellPower = PaperDollFrame_GetBonusSpellDamage()
+		local bonusDamage = LUNAR_COMBATANT_BONUS_WEAPON_DAMAGE_PER_SPELLPOWER * spellPower
 
 		local _, offHandSpeed = UnitAttackSpeed(unit)
 		if offHandSpeed then
@@ -255,6 +277,17 @@ function UnitRangedDamage(unit)
 		local spellPower = PaperDollFrame_GetBonusSpellDamage()
 		local bonusDamage = BONUS_WEAPON_DAMAGE_PER_SPELLPOWER * spellPower * GetInventoryItemWeaponSpeed("player", INVSLOT_RANGED)
 		
+		minDamage = minDamage + bonusDamage
+		maxDamage = maxDamage + bonusDamage
+	end
+
+	if unit == "player" and select(2, UnitClass(unit)) == "STARCALLER" and C_Aura and C_Aura.UnitHasAura(unit, LUNAR_COMBATANT_SPELL_ID) then
+		if minDamage == 0 and maxDamage == 0 then
+			return rangedAttackSpeed, minDamage, maxDamage, physicalBonusPos, physicalBonusNeg, percent
+		end
+		local spellPower = PaperDollFrame_GetBonusSpellDamage()
+		local bonusDamage = LUNAR_COMBATANT_BONUS_WEAPON_DAMAGE_PER_SPELLPOWER * spellPower * GetInventoryItemWeaponSpeed("player", INVSLOT_RANGED)
+
 		minDamage = minDamage + bonusDamage
 		maxDamage = maxDamage + bonusDamage
 	end
@@ -461,7 +494,10 @@ end
 --
 -- GetArmorPenetration
 function GetArmorPenetration()
-    return GetCombatRatingBonus(CR_ARMOR_PENETRATION)
+	local ratingBonus = GetCombatRatingBonus(CR_ARMOR_PENETRATION)
+	local getAuraBonus = C_Aura and C_Aura.GetArmorPenetrationModifier
+	local auraBonus = getAuraBonus and getAuraBonus() or 0
+	return math.max(0, math.min(100, ratingBonus + auraBonus))
 end
 
 --

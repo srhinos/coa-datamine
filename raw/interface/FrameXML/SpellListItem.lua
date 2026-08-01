@@ -461,7 +461,7 @@ function SpellListItemMixin:SetKnown(known)
             self.Icon:SetIconDesaturated(desaturated)
             self.Icon:SetIconColor(color:GetRGB())
             if reason ~= Enum.CALearnResult.DisplayEntry then
-                self.cannotLearn = _G[reason] or reason
+                self.cannotLearn = CharacterAdvancementUtil.GetLearnErrorText(reason, self.entry)
             end
         end
     end
@@ -553,7 +553,8 @@ function SpellListItemMixin:UpdateExpandedContent()
             frame.LearnButton.tooltipText = nil
         else
             frame.LearnButton.tooltipTitle = LEARN
-            frame.LearnButton.tooltipText = RED_FONT_COLOR:WrapText(CA_CANNOT_LEARN_S:format(_G[reason] or reason))
+            local reasonText = CharacterAdvancementUtil.GetLearnErrorText(reason, self.entry)
+            frame.LearnButton.tooltipText = RED_FONT_COLOR:WrapText(CA_CANNOT_LEARN_S:format(reasonText))
         end
 
         frame.LearnButton:SetEnabled(canLearn)

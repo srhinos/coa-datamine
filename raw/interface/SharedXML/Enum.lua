@@ -314,6 +314,11 @@ Enum.CharacterAdvancementType = {
 	Trait = "Trait",
 }
 
+Enum.CharacterAdvancementGroup = {
+	PrimaryStats = 1,
+	TameSpells = 2,
+}
+
 Enum.CALearnResult = {
 	Ok = "CA_LEARN_OK",
 	Unknown = "CA_LEARN_UNKNOWN",
@@ -353,6 +358,7 @@ Enum.CALearnResult = {
 	NoDead = "CA_LEARN_NOT_WHILE_DEAD",
 	NoWildCard = "CA_LEARN_NOT_WILDCARD",
 	NoDraft = "CA_LEARN_NOT_DRAFT",
+	Group = "CA_LEARN_GROUP",
 	DisplayEntry = "CA_LEARN_DISPLAY_ENTRY",
 }
 

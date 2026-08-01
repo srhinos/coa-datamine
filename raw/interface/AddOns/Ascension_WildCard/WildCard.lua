@@ -44,8 +44,11 @@ function WildCard:ShowLevelingDice()
 	self:HideNotifications()
 end
 
+-- Shown, not visible: a dice whose ancestor is hidden (fullscreen map) is still up
+-- and comes back on its own, so a hide asked for during that window has to land
+-- rather than silently no-op and let the dice reappear with the map.
 function WildCard:HideDices()
-	if (WildCardDice:IsVisible()) then
+	if (WildCardDice:IsShown()) then
 		WildCardDice:UnregisterOnClick()
 		BaseFrameFadeOut(WildCardDice)
 	end
@@ -53,18 +56,18 @@ end
 
 -- Busy = a reveal is in flight (pendingReveal set during crack/scroll/collapse)
 -- or a rolled result is on screen waiting for the player's confirm/reroll
--- decision (RollButton visible). Idle covers empty-waiting and mid-appear.
+-- decision (RollButton shown). Idle covers empty-waiting and mid-appear.
 function WildCard:IsDiceBusy()
-	if not WildCardDice:IsVisible() then
+	if not WildCardDice:IsShown() then
 		return false
 	end
-	if WildCardDice.StartingChoice and WildCardDice.StartingChoice:IsVisible() then
+	if WildCardDice.StartingChoice and WildCardDice.StartingChoice:IsShown() then
 		return true
 	end
 	if WildCardDice.pendingReveal then
 		return true
 	end
-	if WildCardDice.RollButton and WildCardDice.RollButton:IsVisible() then
+	if WildCardDice.RollButton and WildCardDice.RollButton:IsShown() then
 		return true
 	end
 	return false
@@ -83,6 +86,14 @@ function WildCard:HideDicesIfIdle()
 end
 
 function WildCard:RevealDice(skipClick)
+	-- An ancestor-hidden dice (fullscreen map) still counts as up, and it resumes
+	-- its own reveal when the ancestor comes back. It reads as "not visible" here,
+	-- so without this it would take the show-from-scratch path and replace the
+	-- pending reveal with an appear/roll animation.
+	if WildCardDice.hiddenByAncestor and WildCardDice.pendingReveal then
+		return
+	end
+
 	if not(WildCardDice:IsVisible()) or WildCardDice.isRapidRolling then
 		if (skipClick) then
 
@@ -183,7 +194,10 @@ function WildCard:OnHideDice() -- here self is a dice, not WildCard TODO: Maybe 
 		self:OnHide()
 	end
 
-	if self.hidingForStaticPopup then
+	-- An ancestor hide (the fullscreen map hiding UIParent) is not the dice going
+	-- away; re-checking rolls there would restart the appear animation on top of
+	-- a reveal that is only waiting for the dice to become visible again.
+	if self.hidingForStaticPopup or self.hiddenByAncestor then
 		return
 	end
 

@@ -304,11 +304,11 @@ def _build_charges(out_dir):
     report join statistics - writes data/spells/charges.json (build_spells owns
     data/spells/, single-writer rule unaffected) and returns the _meta.json
     enrichment.charges block. SpellCharges.f0 is unnamed in TABLE_MAPS per the
-    empirical mapping rule (87.78% join vs live Spell.dbc ids, short of the brief's
+    empirical mapping rule (88.5% join vs live Spell.dbc ids, short of the brief's
     explicit >=90% bar for this pair); exposed here as "ref" - a deliberately
     noncommittal name, not "spellId" - with resolvedSpellName null where it doesn't
     resolve. categoryId (f1) is proven at 100% against SpellChargesCategory.id.
-    Full evidence (incl. the 95.45% tooltip-text semantic corroboration among
+    Full evidence (incl. the tooltip-text semantic corroboration among
     resolved rows) is in dbc.py's TABLE_MAPS comment."""
     spell_names = {r["id"]: r["name_enUS"] for r in dbc.iter_named("Spell")}
 

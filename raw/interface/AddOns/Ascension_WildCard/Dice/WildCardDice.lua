@@ -680,9 +680,7 @@ function WildCardDiceMixin:OnStaticPopupHide(activeCount)
 		self.restoringFromStaticPopup = true
 		self:Show()
 		self.restoringFromStaticPopup = nil
-		if self.pendingReveal then
-			self:PlayFlipBook("DiceCrackFlipBook")
-		end
+		self:ResumePendingReveal()
 		return
 	end
 
@@ -700,13 +698,30 @@ function WildCardDiceMixin:OnStaticPopupHide(activeCount)
 		self.staticPopupDeferredReason = nil
 		if self.pendingReveal then
 			self:Show()
-			self:PlayFlipBook("DiceCrackFlipBook")
+			self:ResumePendingReveal()
 			return
 		end
 		if WildCard and WildCard.CheckForRolls then
 			WildCard:CheckForRolls()
 		end
 	end
+end
+
+-- Replay an interrupted reveal from the crack. The dice went away mid-flight --
+-- a static popup hid it, or an ancestor did -- with the learn result still sitting
+-- in pendingReveal. The crack/roulette/collapse chain it was running is gone, so
+-- restart it instead of waiting on callbacks that will never arrive.
+function WildCardDiceMixin:ResumePendingReveal()
+	if not self.pendingReveal then
+		return false
+	end
+
+	if self.Core then
+		self.Core:PrepareForRestoredReveal()
+	end
+
+	self:PlayFlipBook("DiceCrackFlipBook")
+	return true
 end
 
 function WildCardDiceMixin:OnRouletteFinished()
@@ -879,6 +894,20 @@ function WildCardDiceMixin:OnHide()
 		return
 	end
 
+	-- Hiding an ancestor fires OnHide on every descendant while the descendant's
+	-- own shown flag stays set, and the fullscreen world map does exactly that by
+	-- hiding UIParent (so does Alt+Z). That is not a teardown: the roll is still
+	-- in flight and the dice comes back the moment the map closes, so keep the
+	-- state and let OnShow pick the reveal back up. Scoped to the standalone
+	-- dice -- while rapid rolling the dice is reparented, and its parent going
+	-- away there really does end the session.
+	if self:IsShown() and self:GetParent() == UIParent then
+		self.hiddenByAncestor = true
+		AnimatedDiceMixin.OnLeave(self)
+		return
+	end
+
+	self.hiddenByAncestor = nil
 	self.pendingReveal = nil
 	self.startingChoiceRerolling = nil
 	self.startingChoiceRerollRollFinished = nil
@@ -912,6 +941,15 @@ end
 
 function WildCardDiceMixin:OnShow()
 	if self.restoringFromStaticPopup then
+		return
+	end
+
+	-- Coming back from an ancestor hide (see OnHide): nothing was torn down, the
+	-- events are still hooked, so only the animation that was cut off needs
+	-- restarting.
+	if self.hiddenByAncestor then
+		self.hiddenByAncestor = nil
+		self:ResumePendingReveal()
 		return
 	end
 

@@ -71,6 +71,15 @@ function WildCardDiceCore:PrepareForIncomingReveal()
 	end
 end
 
+-- A reveal is about to be replayed from the start because the dice was hidden
+-- mid-flight. The watchdog armed for the interrupted attempt outlives the hide and
+-- would clear pendingReveal partway through the replay, so drop it here; entering
+-- REVEALING again arms a fresh one.
+function WildCardDiceCore:PrepareForRestoredReveal()
+	self:StopTimeoutTimer()
+	self:StopRevealAnimations()
+end
+
 function WildCardDiceCore:OnExitState(state)
 	if state == self.State.AWAITING_SERVER or state == self.State.REVEALING then
 		self:StopTimeoutTimer()

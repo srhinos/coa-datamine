@@ -106,7 +106,7 @@ assert cov["charges"]["file"] == "charges.json"
 charges_doc = json.loads((sdir / "charges.json").read_text(encoding="utf-8"))
 assert set(charges_doc) == {"_note", "categories", "charges"}
 assert "below the 90% attach bar" in charges_doc["_note"]
-assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 401
+assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 400
 assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 105
 # deterministic ascending order by "ref"
 refs = [c["ref"] for c in charges_doc["charges"]]

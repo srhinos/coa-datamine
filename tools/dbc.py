@@ -197,7 +197,7 @@ TABLE_MAPS = {
         ("runicPower", 4, "u"),
     ]},
     # v2 (task V2-2): proven via golden-record probes (see .superpowers/sdd/task-v2-2-report.md).
-    # Creature: f0 proven ascending-unique 1..127175 (id); f2 proven via golden decode
+    # Creature: f0 proven ascending-unique 1..127178 (id); f2 proven via golden decode
     # (id 437/60041/92992 -> "Hogger", id 8034 etc -> "Ragnaros"). f20/f21/f22 (the next-
     # highest string_likelihood columns per V2-1 colinfo) were probed as subname
     # candidates and DISPROVEN: on both goldens' rows the raw value is 0 (no data), and
@@ -227,7 +227,7 @@ TABLE_MAPS = {
     "QuestInfo": {"expected_fields": 18, "columns": [
         ("id", 0, "u"), ("name_enUS", 1, "s"),
     ]},
-    # NPCTrainer: f0 proven ascending-unique 1..13060 (id). f1 proven spellId (98.9%
+    # NPCTrainer: f0 proven ascending-unique 1..13105 (id). f1 proven spellId (98.9%
     # join vs Spell.dbc ids; kept signed "i" not "u" - ~1% of rows carry small negative
     # sentinel values, e.g. -210021, that are clearly unused/placeholder entries, and
     # u32-wrapping them would manufacture a misleading huge fake-looking id instead of
@@ -246,7 +246,7 @@ TABLE_MAPS = {
     # verification: famous boss encounters (Ragnaros, Onyxia, Kel'Thuzad, Illidan, ...)
     # all resolve to random unrelated NPCs (fuzzy name-overlap 1.3%, barely above a
     # random-pairing control's 0.45%). This is a false positive of naive join-rate
-    # testing caused by Creature.dbc's fully-dense id space (every integer 1..127175 is
+    # testing caused by Creature.dbc's fully-dense id space (every integer 1..127178 is
     # a valid creature id, so ANY bounded column passes membership near-trivially) - see
     # report. f2/f3 fail even the naive join-rate bar (~51-55%) against either table.
     # No creature link is provable; tools/build_dungeons.py ships "creature": null.
@@ -504,20 +504,20 @@ TABLE_MAPS = {
     "SpellAlternativePowerType": {"expected_fields": 19, "columns": [
         ("id", 0, "u"), ("name_enUS", 1, "s"),
     ]},
-    # SpellCharges (401x2) + SpellChargesCategory (105x3): linkage direction PROVEN -
-    # SpellCharges.f1 -> SpellChargesCategory.f0 joins at 100% (401/401), matching
+    # SpellCharges (400x2) + SpellChargesCategory (105x3): linkage direction PROVEN -
+    # SpellCharges.f1 -> SpellChargesCategory.f0 joins at 100% (400/400), matching
     # value range (SpellCharges.f1 max 661 == SpellChargesCategory.f0's own max) - so
     # f1 is named "categoryId" here (the category-link column is 100% proven).
-    # SpellCharges.f0 is golden-corroborated as a spellId: of the 352/401 (87.78%)
-    # rows that resolve against live Spell.dbc ids, 95.45% (336/352) mention "charge"
+    # SpellCharges.f0 is golden-corroborated as a spellId: of the 354/400 (88.5%)
+    # rows that resolve against live Spell.dbc ids, a large majority mention "charge"
     # in their tooltip/description text (e.g. id 52 "Overcharged: Manaforge Coruu") -
     # strong semantic confirmation. BUT the brief sets an explicit >=90% bar
-    # specifically for this pair's link to Spell.dbc rows, and 87.78% falls short of
+    # specifically for this pair's link to Spell.dbc rows, and 88.5% falls short of
     # it - per the empirical mapping rule (name only with proof clearing the stated
     # bar), f0 stays UNNAMED here (not "spellId") and is dumped as plain "f0" by
     # dump_table. build_spells.py's standalone data/spells/charges.json (single-writer:
     # build_spells owns data/spells/) refers to this same column as "ref" - a
-    # deliberately noncommittal name that documents the 87.78% finding inline via its
+    # deliberately noncommittal name that documents the sub-90% finding inline via its
     # own "_note" field rather than asserting a proven identity in TABLE_MAPS. Nothing
     # from this table attaches to individual spells.jsonl records; see build_spells.py.
     # SpellChargesCategory.f1 (maxCharges?, 1-10) and f2 (rechargeMs?, 4000-120000)

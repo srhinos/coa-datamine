@@ -5,7 +5,7 @@
    "entries": 23709,
    "refs_other": 14298,
    "refs_reborn": 13901,
-   "unresolved_other": 573,
+   "unresolved_other": 509,
    "unresolved_reborn": 7119
   },
   "classmeta": {
@@ -149,14 +149,14 @@
   },
   "creatures": {
    "creatures": {
-    "written": 127175
+    "written": 127178
    },
    "quests": {
     "written": 18561
    },
    "trainers": {
-    "spellJoinRate": 0.9889739663093415,
-    "written": 13060
+    "spellJoinRate": 0.9890118275467379,
+    "written": 13105
    }
   },
   "dungeons": {
@@ -171,7 +171,7 @@
    "count": 1553,
    "diskOverrodeArchive": 0,
    "diskSourced": 109,
-   "manifestSha256": "aa9a72542cc3c590b522e5e2e424d15aa986d4e7bb924edc9d4cbaa1edb1cd1a",
+   "manifestSha256": "6469aedd51f91dac8543b216bda37c8b6d1717ad6e2fe217d8aa123d6c6c8f9b",
    "multiArchiveCollisions": 411,
    "skippedArchives": 8
   },
@@ -247,10 +247,10 @@
   },
   "spells": {
    "by_source": {
-    "cad": 13739,
-    "rank": 10493,
+    "cad": 13763,
+    "rank": 10495,
     "talent": 5526,
-    "trigger": 3218
+    "trigger": 3224
    },
    "missing_by_source": {
     "cad_other": [
@@ -273,7 +273,6 @@
      500155,
      500197,
      500332,
-     500365,
      500366,
      500909,
      500921,
@@ -289,15 +288,7 @@
      704376,
      704507,
      704572,
-     704965,
-     705106,
-     705107,
      800053,
-     800093,
-     800095,
-     800148,
-     800153,
-     800159,
      800232,
      800264,
      800268,
@@ -378,19 +369,15 @@
      802116,
      802123,
      802127,
-     802272,
      802288,
      802869,
      802875,
      802992,
-     803212,
      803691,
      803944,
      803952,
      803982,
      804006,
-     804050,
-     804067,
      804167,
      804180,
      804229,
@@ -410,14 +397,6 @@
      804600,
      804601,
      804711,
-     805191,
-     805197,
-     805237,
-     805238,
-     805252,
-     805412,
-     805430,
-     805465,
      805481,
      805489,
      805491,
@@ -432,13 +411,10 @@
      805765,
      805772,
      805781,
-     805843,
-     805850,
      805903,
      806098,
      806107,
      806127,
-     806199,
      806229,
      806230,
      806238,
@@ -9745,7 +9721,6 @@
      137523,
      137524,
      137525,
-     301008,
      301009,
      301010,
      301011,
@@ -10418,13 +10393,13 @@
     "rank": 12661,
     "talent": 647
    },
-   "written": 27439
+   "written": 27470
   },
   "talents": {
    "files": 12,
    "tabs": 37,
    "talents": 2383,
-   "unresolvedRankSpells": 16
+   "unresolvedRankSpells": 14
   }
  },
  "clientDir": "E:\\ascension-live",
@@ -10505,7 +10480,7 @@
  "extract": {
   "files": {
    "areatable.dbc": {
-    "bytes": 450926,
+    "bytes": 451087,
     "fields": 36,
     "losers": [
      "locale-enUS.MPQ",
@@ -10514,8 +10489,8 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 144,
-    "records": 2847,
-    "sha256": "88298da4ce00bee23bb5d0b8c62456153f4bf033a77626a52bb94b91b847ae57",
+    "records": 2848,
+    "sha256": "2abcdb489d4c4a2efb6e63b1e218669123cd4a43ef052b07fc9aad370564c649",
     "winner": "patch-M.MPQ"
    },
    "challenge.dbc": {
@@ -10821,16 +10796,16 @@
     "losers": [],
     "record_size": 260,
     "records": 101,
-    "sha256": "78fcd3ff22ea2ad66783a4c051f7f10f79f1d61091e7dd42716ca5ed7b020f73",
+    "sha256": "1a602c618ba0aa24406fe482561d5b98133772d651e069ffc14d7ddd01988894",
     "winner": "patch-M.MPQ"
    },
    "creature.dbc": {
-    "bytes": 14257637,
+    "bytes": 14257929,
     "fields": 23,
     "losers": [],
     "record_size": 92,
-    "records": 127175,
-    "sha256": "e27b3cf81d35de33e21ef8f8b6193f297d7d2575d275fc1369ef32c4eec6d34d",
+    "records": 127178,
+    "sha256": "d3b2a75a390b6a0adb8ed5f3dc9afbb2d35acfb44ed906ce0f14dd88aa770837",
     "winner": "patch-M.MPQ"
    },
    "dungeonencounter.dbc": {
@@ -10879,7 +10854,7 @@
     ],
     "record_size": 264,
     "records": 374,
-    "sha256": "37fbc103a054c7eb42a4207d0d34e55c191d4a6f88424ca4d2bd2289c0d7abc5",
+    "sha256": "f6e9117b1e8796a2316c19683c0573ee78318502cb345f3f624185a333c3f2cb",
     "winner": "patch-M.MPQ"
    },
    "mapdifficulty.dbc": {
@@ -10923,12 +10898,12 @@
     "winner": "patch-M.MPQ"
    },
    "npctrainer.dbc": {
-    "bytes": 208980,
+    "bytes": 209700,
     "fields": 4,
     "losers": [],
     "record_size": 16,
-    "records": 13060,
-    "sha256": "7688f498fb4b6567e23356318d5a0992e722160397c66e687c9cc85e3fa38644",
+    "records": 13105,
+    "sha256": "1b74b88124f6698b23f344fbb7542d6b053119b171ac40b8b757f852ccc1aacf",
     "winner": "patch-M.MPQ"
    },
    "overridespelldata.dbc": {
@@ -10992,7 +10967,7 @@
     "winner": "patch-M.MPQ"
    },
    "skilllineability.dbc": {
-    "bytes": 2287900,
+    "bytes": 2294452,
     "fields": 14,
     "losers": [
      "locale-enUS.MPQ",
@@ -11001,8 +10976,8 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 56,
-    "records": 40855,
-    "sha256": "c460e369d16e8c58f6a1ac9aea55d34648846f2f37c156aaec6b6f8e87d67bd9",
+    "records": 40972,
+    "sha256": "3b221652488b29df1366b0a5759a021af93c53494dfdbb8a3400e4719b1b7c70",
     "winner": "patch-M.MPQ"
    },
    "skillraceclassinfo.dbc": {
@@ -11019,7 +10994,7 @@
     "winner": "patch-M.MPQ"
    },
    "spell.dbc": {
-    "bytes": 208643011,
+    "bytes": 209020869,
     "fields": 234,
     "losers": [
      "locale-enUS.MPQ",
@@ -11028,17 +11003,17 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 936,
-    "records": 208727,
-    "sha256": "6661fa5beca09686fb5a1b6c4c3d430fa0acba222fc3ab2a67006e756be6cf15",
+    "records": 209077,
+    "sha256": "56d48cbbff800da8b82810d84ed0f52190d5238b9947291453ca8feb94a8a09d",
     "winner": "patch-T.MPQ"
    },
    "spelladdon.dbc": {
-    "bytes": 515036,
+    "bytes": 515312,
     "fields": 23,
     "losers": [],
     "record_size": 92,
-    "records": 5598,
-    "sha256": "a2521e75bd50be2b4b42a0db4df552bc104862f49ff9cd82be8ec2f7ec681b50",
+    "records": 5601,
+    "sha256": "c8e908a433d01927a3bb811c4f22e0ccc765ec0ffcb37c8daae1cbfdb0550dc6",
     "winner": "patch-S.MPQ"
    },
    "spellalternativecost.dbc": {
@@ -11073,7 +11048,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellcategory.dbc": {
-    "bytes": 40212,
+    "bytes": 41524,
     "fields": 2,
     "losers": [
      "locale-enUS.MPQ",
@@ -11081,17 +11056,17 @@
      "patch-enUS-2.MPQ"
     ],
     "record_size": 8,
-    "records": 5024,
-    "sha256": "9a16c75e9a4351ab5025935881cfdd9d39cc79632a1615271b94ca5ca1de0d8a",
+    "records": 5188,
+    "sha256": "58fa98744f63875f552d2c9c7898b76717959ed7e389b908e42558435ad9ba3d",
     "winner": "patch-S.MPQ"
    },
    "spellcharges.dbc": {
-    "bytes": 3228,
+    "bytes": 3220,
     "fields": 2,
     "losers": [],
     "record_size": 8,
-    "records": 401,
-    "sha256": "6cf731ba07d96186c6ed4111602c121d4bdf30c7b5ef68c61b446804dad09f33",
+    "records": 400,
+    "sha256": "1c66cacc121ff7b12150fb278ea191afb22c8e426276f7588c24f9d26fcd6169",
     "winner": "patch-S.MPQ"
    },
    "spellchargescategory.dbc": {
@@ -11104,12 +11079,12 @@
     "winner": "patch-S.MPQ"
    },
    "spellcustomattr.dbc": {
-    "bytes": 2558620,
+    "bytes": 2568784,
     "fields": 11,
     "losers": [],
     "record_size": 44,
-    "records": 58150,
-    "sha256": "50eed8103cf4d57739e5b93335f4f9d9138c81e497ee7574a13b350aaf178f9d",
+    "records": 58381,
+    "sha256": "eff3fa935c44d31341142e86ee5ffe00dc47612b48b7d6a3098179b992feac88",
     "winner": "patch-S.MPQ"
    },
    "spelldescriptionvariables.dbc": {
@@ -11151,7 +11126,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellicon.dbc": {
-    "bytes": 785045,
+    "bytes": 785315,
     "fields": 2,
     "losers": [
      "locale-enUS.MPQ",
@@ -11160,8 +11135,8 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 8,
-    "records": 16353,
-    "sha256": "19228dbb352a6f06546c15e2cd735b627a08322edbb42a75ed835b2053fb7f02",
+    "records": 16359,
+    "sha256": "f1e245b9ebc37450f4699ab1819939fa68be0bbb3c5bafdeb800689e96b74823",
     "winner": "patch-S.MPQ"
    },
    "spellmechanic.dbc": {
@@ -11244,7 +11219,7 @@
     ],
     "record_size": 92,
     "records": 2383,
-    "sha256": "105b0582cae523ae4ef96d4a3c096de574241d853c5b2ccdde0ffcb06ee92c1d",
+    "sha256": "7c5a22340bc54da894b8260db4be87c859abf72f1ce1899a6c4469f5aefb9145",
     "winner": "patch-M.MPQ"
    },
    "talenttab.dbc": {
@@ -11304,5 +11279,5 @@
    }
   ]
  },
- "generatedUtc": "2026-07-24T21:00:51+00:00"
+ "generatedUtc": "2026-08-01T14:13:26+00:00"
 }
