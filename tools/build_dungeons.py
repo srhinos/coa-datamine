@@ -26,8 +26,9 @@ Creature's corrected f1 id space REVERSES the V2-2 disproof: row-level join-rate
 Onyxia->10184, Kel'Thuzad->15990, Illidan Stormrage->22917, ...), fuzzy word-overlap
 94.7% vs a random-pairing control's 0.55%. f2/f3 still fail even the naive join-rate bar
 (~51-55%) against either table - left unmapped. Every encounter now ships a real
-"creature": {id, name} (null only for the ~1.4% of DungeonEncounter rows with no
-DungeonEncounterExtra row, or whose creatureId doesn't resolve)."""
+"creature": {id, name} (null for ~4.5% of DungeonEncounter rows - 93/2080: 64
+(3.08%) have no matching DungeonEncounterExtra row at all, 29 (1.39%) have an
+unresolved creatureId)."""
 import json, shutil
 from collections import defaultdict
 

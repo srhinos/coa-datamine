@@ -41,7 +41,7 @@ this repo needs an exemption).
 | `data/quests/index.json` | bucket manifest, same shape as creatures (`bucketSize` 5000, `count` 18561) | small |
 | `data/quests/quests-<id//5000*5000>.jsonl` | `{id, sort: null, info: null, f1..f28}` per `Quest.dbc` row - **this table has no string block at all** (no quest title/objective text anywhere in it, see Honest limits); `sort`/`info` are always `null` (probed and disproven); the 28 remaining columns are raw/unnamed | small-medium per file |
 | `data/quests/_meta.json` | `count`, `provenColumns`, `sortInfoFinding` | small |
-| `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13001) | small |
+| `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13105) | small |
 | `data/trainers/trainers-<id//2000*2000>.json` | `{bucket, count, minId, maxId, entries: [{id, spellId, name, skillLine:{id,name}\|null, f3}]}` - a **flat per-row list**, not grouped by trainer: `NPCTrainer.dbc` has no trainer-NPC identity column at all (see `trainerIdFinding` in `_meta.json`) | small |
 | `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
 | `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {25 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json` | small |
@@ -113,7 +113,7 @@ simply wasn't looked at yet. Concretely:
   `string_likelihood` plus up to 3 decoded string samples for string-likely columns.
   This is where a future task's next hypothesis should start.
 - A high raw join-rate against another table's ids is **not sufficient proof by itself**
-  when the target id space is dense (e.g. `Creature.dbc`'s ids fill 1..127175 with no
+  when the target id space is dense (e.g. `Creature.dbc`'s ids fill 1..127178 with no
   gaps) - several real hypotheses in this codebase cleared a naive 90%+ join-rate bar
   and were still wrong (Creature subname, the `DungeonEncounterExtra` creature link,
   `SpellAddon`'s f20/f21/f22, `CharacterCreationPetDetails`/`ShapeshiftDetails`'s spellId
@@ -491,8 +491,9 @@ def class_specs_and_roles(class_name):
     the corrected f1 entry-id space (genuinely sparse, 127178 ids across 1..11001007),
     the SAME column proves out: 98.57% row-level join-rate, every famous-boss golden
     resolves correctly. `data/dungeons/*.json` encounters now carry a real
-    `creature: {id, name}` (null only for the ~1.4% of encounters with no matching
-    `DungeonEncounterExtra` row, or an unresolved id) - see
+    `creature: {id, name}` (null for ~4.5% of encounters - 93/2080: 64 (3.08%)
+    have no matching `DungeonEncounterExtra` row at all, 29 (1.39%) have an
+    unresolved `creatureId`) - see
     `tools/build_dungeons.py`'s module docstring and
     `.superpowers/sdd/task-v3-0-report.md` for the full evidence.
   - `data/classes/specs.json`'s `f63` field - ChrSpecs' one low-cardinality column,
@@ -532,7 +533,7 @@ whenever CoA ships new content:
   per-class entry counts, dungeons 431) so sharding can't silently drop/duplicate
   records; also the repo-wide <=5,000-line gate (empty allowlist today - re-add an
   entry here and in the allowlist if content growth ever forces one)
-- `tests/test_creatures.py`: 127175 creatures / 18561 quests / 13001 trainers
+- `tests/test_creatures.py`: 127178 creatures / 18561 quests / 13105 trainers
   (`Creature.dbc`/`Quest.dbc`/`NPCTrainer.dbc` record counts), trainer spellId
   join-rate >=90% (measured 0.9892)
 - `tests/test_classmeta.py`: 101 specs / 56 archetypes, >=60% of the 32 `ChrClasses`

@@ -34,8 +34,8 @@ AGENT-GUIDE.md.
 Amendment D (single-writer ownership): this module is the SOLE writer under
 raw/realms/ and data/realms/ - nothing else in this repo touches these paths. It
 does NOT touch raw/provenance.json (the base pipeline's top-level file, owned by
-tools/build_dataset.py's orchestrator - wiring a "realms" stage into that
-orchestrator is explicitly future work, same as V3-1's Manastorm tables)."""
+tools/build_dataset.py's orchestrator, which wires a "realms" stage calling
+this module's build() - see task V3-3)."""
 import json, shutil
 
 from tools import config, dbc, extract_realms
