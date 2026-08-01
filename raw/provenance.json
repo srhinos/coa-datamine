@@ -175,6 +175,21 @@
    "multiArchiveCollisions": 411,
    "skippedArchives": 8
   },
+  "manastorm": {
+   "manastorm": {
+    "count": 1017,
+    "dungeonEncounterJoinRate": 0.9951
+   },
+   "messages": {
+    "count": 291
+   },
+   "modifiers": {
+    "count": 32768
+   },
+   "playerGroupModifiers": {
+    "count": 15
+   }
+  },
   "mythic": {
    "affixes": {
     "count": 13409
@@ -243,6 +258,121 @@
     "count": 82,
     "dungeonJoinRate": 0.8415,
     "dungeonResolved": 69
+   }
+  },
+  "realms": {
+   "area-52": {
+    "missingRefResolution": {
+     "cad_other": {
+      "missingCount": 181,
+      "resolvedInRealm": 181
+     },
+     "cad_reborn": {
+      "missingCount": 7119,
+      "resolvedInRealm": 7119
+     },
+     "rank": {
+      "missingCount": 2812,
+      "resolvedInRealm": 605
+     },
+     "talent": {
+      "missingCount": 13,
+      "resolvedInRealm": 1
+     }
+    },
+    "newSpellCount": 31507,
+    "realm": "area-52",
+    "spellIdRange": [
+     1,
+     13977920
+    ],
+    "tables": {
+     "CharacterAdvancement": {
+      "baseRecords": null,
+      "declaredFields": 179,
+      "delta": null,
+      "fields": 173,
+      "mapped": false,
+      "records": 7820
+     },
+     "CharacterAdvancementEssence": {
+      "baseRecords": 5600,
+      "delta": -160,
+      "fields": 9,
+      "mapped": false,
+      "records": 5440
+     },
+     "Manastorm": {
+      "baseRecords": 1017,
+      "delta": 8,
+      "fields": 9,
+      "mapped": true,
+      "records": 1025
+     },
+     "ManastormMessages": {
+      "baseRecords": 291,
+      "delta": 0,
+      "fields": 39,
+      "mapped": true,
+      "records": 291
+     },
+     "ManastormModifiers": {
+      "baseRecords": 32768,
+      "delta": 0,
+      "fields": 15,
+      "mapped": true,
+      "records": 32768
+     },
+     "ManastormPlayerGroupModifiers": {
+      "baseRecords": 15,
+      "delta": 0,
+      "fields": 5,
+      "mapped": true,
+      "records": 15
+     },
+     "SkillLineAbility": {
+      "baseRecords": 40972,
+      "delta": -2430,
+      "fields": 14,
+      "mapped": true,
+      "records": 38542
+     },
+     "Spell": {
+      "baseRecords": 209077,
+      "delta": 29848,
+      "fields": 234,
+      "mapped": true,
+      "records": 238925
+     },
+     "SpellCharges": {
+      "baseRecords": 400,
+      "delta": 73,
+      "fields": 2,
+      "mapped": true,
+      "records": 473
+     },
+     "SpellChargesCategory": {
+      "baseRecords": 105,
+      "delta": 3,
+      "fields": 3,
+      "mapped": true,
+      "records": 108
+     },
+     "SpellRank": {
+      "baseRecords": null,
+      "delta": null,
+      "fields": 4,
+      "mapped": false,
+      "records": 19601
+     },
+     "Talent": {
+      "baseRecords": 2383,
+      "delta": -15,
+      "fields": 23,
+      "mapped": true,
+      "records": 2368
+     }
+    }
    }
   },
   "spells": {
@@ -10480,6 +10610,7 @@
  "extract": {
   "files": {
    "areatable.dbc": {
+    "actualFields": 36,
     "bytes": 451087,
     "fields": 36,
     "losers": [
@@ -10494,6 +10625,7 @@
     "winner": "patch-M.MPQ"
    },
    "challenge.dbc": {
+    "actualFields": 53,
     "bytes": 156060,
     "fields": 53,
     "losers": [],
@@ -10503,6 +10635,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengeconditions.dbc": {
+    "actualFields": 10,
     "bytes": 14347,
     "fields": 10,
     "losers": [],
@@ -10512,6 +10645,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengeconditiontypes.dbc": {
+    "actualFields": 73,
     "bytes": 9374,
     "fields": 73,
     "losers": [],
@@ -10521,6 +10655,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengefeatured.dbc": {
+    "actualFields": 5,
     "bytes": 1100,
     "fields": 5,
     "losers": [],
@@ -10530,6 +10665,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengegrouprewards.dbc": {
+    "actualFields": 10,
     "bytes": 5872,
     "fields": 10,
     "losers": [],
@@ -10539,6 +10675,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengegroups.dbc": {
+    "actualFields": 3,
     "bytes": 14456,
     "fields": 3,
     "losers": [],
@@ -10548,6 +10685,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengelevels.dbc": {
+    "actualFields": 5,
     "bytes": 26700,
     "fields": 5,
     "losers": [],
@@ -10557,6 +10695,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengemodifiers.dbc": {
+    "actualFields": 8,
     "bytes": 120,
     "fields": 8,
     "losers": [],
@@ -10566,6 +10705,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengemodifiertypes.dbc": {
+    "actualFields": 37,
     "bytes": 2040,
     "fields": 37,
     "losers": [],
@@ -10575,6 +10715,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengerequirements.dbc": {
+    "actualFields": 9,
     "bytes": 74035,
     "fields": 9,
     "losers": [],
@@ -10584,6 +10725,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengerequirementtypes.dbc": {
+    "actualFields": 41,
     "bytes": 7613,
     "fields": 41,
     "losers": [],
@@ -10593,6 +10735,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengerewards.dbc": {
+    "actualFields": 11,
     "bytes": 954413,
     "fields": 11,
     "losers": [],
@@ -10602,6 +10745,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengerules.dbc": {
+    "actualFields": 5,
     "bytes": 77916,
     "fields": 5,
     "losers": [],
@@ -10611,6 +10755,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengeruletypes.dbc": {
+    "actualFields": 36,
     "bytes": 33460,
     "fields": 36,
     "losers": [],
@@ -10620,6 +10765,7 @@
     "winner": "patch-M.MPQ"
    },
    "challengespells.dbc": {
+    "actualFields": 10,
     "bytes": 308100,
     "fields": 10,
     "losers": [],
@@ -10629,6 +10775,7 @@
     "winner": "patch-S.MPQ"
    },
    "characteradvancementcategories.dbc": {
+    "actualFields": 39,
     "bytes": 12790,
     "fields": 39,
     "losers": [],
@@ -10638,6 +10785,7 @@
     "winner": "patch-M.MPQ"
    },
    "characteradvancementclasstypes.dbc": {
+    "actualFields": 23,
     "bytes": 4879,
     "fields": 23,
     "losers": [],
@@ -10647,6 +10795,7 @@
     "winner": "patch-M.MPQ"
    },
    "characteradvancementessence.dbc": {
+    "actualFields": 9,
     "bytes": 201620,
     "fields": 9,
     "losers": [],
@@ -10656,6 +10805,7 @@
     "winner": "patch-M.MPQ"
    },
    "characteradvancementtabtypes.dbc": {
+    "actualFields": 19,
     "bytes": 8074,
     "fields": 19,
     "losers": [],
@@ -10665,6 +10815,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationarchetypecategories.dbc": {
+    "actualFields": 73,
     "bytes": 5737,
     "fields": 73,
     "losers": [],
@@ -10674,6 +10825,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationarchetypedetails.dbc": {
+    "actualFields": 28,
     "bytes": 125460,
     "fields": 28,
     "losers": [],
@@ -10683,6 +10835,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationarchetyperoles.dbc": {
+    "actualFields": 71,
     "bytes": 2376,
     "fields": 71,
     "losers": [],
@@ -10692,6 +10845,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationarchetypes.dbc": {
+    "actualFields": 157,
     "bytes": 94445,
     "fields": 157,
     "losers": [],
@@ -10701,6 +10855,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationclassdetails.dbc": {
+    "actualFields": 28,
     "bytes": 51988,
     "fields": 28,
     "losers": [],
@@ -10710,6 +10865,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationclassguideroles.dbc": {
+    "actualFields": 38,
     "bytes": 943,
     "fields": 38,
     "losers": [],
@@ -10719,6 +10875,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationclassguidesubroleclasses.dbc": {
+    "actualFields": 4,
     "bytes": 484,
     "fields": 4,
     "losers": [],
@@ -10728,6 +10885,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationclassguidesubroles.dbc": {
+    "actualFields": 40,
     "bytes": 1709,
     "fields": 40,
     "losers": [],
@@ -10737,6 +10895,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationpetdetails.dbc": {
+    "actualFields": 12,
     "bytes": 8180,
     "fields": 12,
     "losers": [],
@@ -10746,6 +10905,7 @@
     "winner": "patch-M.MPQ"
    },
    "charactercreationshapeshiftdetails.dbc": {
+    "actualFields": 21,
     "bytes": 8420,
     "fields": 21,
     "losers": [],
@@ -10755,6 +10915,7 @@
     "winner": "patch-M.MPQ"
    },
    "chrclasses.dbc": {
+    "actualFields": 60,
     "bytes": 8294,
     "fields": 60,
     "losers": [
@@ -10768,6 +10929,7 @@
     "winner": "patch-M.MPQ"
    },
    "chrclassesroles.dbc": {
+    "actualFields": 11,
     "bytes": 1428,
     "fields": 11,
     "losers": [],
@@ -10777,6 +10939,7 @@
     "winner": "patch-M.MPQ"
    },
    "chrraces.dbc": {
+    "actualFields": 69,
     "bytes": 12291,
     "fields": 69,
     "losers": [
@@ -10791,6 +10954,7 @@
     "winner": "patch-M.MPQ"
    },
    "chrspecs.dbc": {
+    "actualFields": 65,
     "bytes": 39101,
     "fields": 65,
     "losers": [],
@@ -10800,6 +10964,7 @@
     "winner": "patch-M.MPQ"
    },
    "creature.dbc": {
+    "actualFields": 23,
     "bytes": 14257929,
     "fields": 23,
     "losers": [],
@@ -10809,6 +10974,7 @@
     "winner": "patch-M.MPQ"
    },
    "dungeonencounter.dbc": {
+    "actualFields": 23,
     "bytes": 200727,
     "fields": 23,
     "losers": [
@@ -10821,6 +10987,7 @@
     "winner": "patch-M.MPQ"
    },
    "dungeonencounterextra.dbc": {
+    "actualFields": 4,
     "bytes": 33300,
     "fields": 4,
     "losers": [],
@@ -10830,6 +10997,7 @@
     "winner": "patch-M.MPQ"
    },
    "lfgdungeons.dbc": {
+    "actualFields": 49,
     "bytes": 89170,
     "fields": 49,
     "losers": [
@@ -10843,7 +11011,48 @@
     "sha256": "f903626707568eef279fc66ab364bb168c7781d1e89507a62fb8214bfd922d1b",
     "winner": "patch-M.MPQ"
    },
+   "manastorm.dbc": {
+    "actualFields": 9,
+    "bytes": 36632,
+    "fields": 9,
+    "losers": [],
+    "record_size": 36,
+    "records": 1017,
+    "sha256": "3d617c89cbc4ff721b1f13fcc2c79b4f67299c958f909e647f9ef14cb5e6d0dc",
+    "winner": "patch-M.MPQ"
+   },
+   "manastormmessages.dbc": {
+    "actualFields": 39,
+    "bytes": 67282,
+    "fields": 39,
+    "losers": [],
+    "record_size": 156,
+    "records": 291,
+    "sha256": "737adbca4c7891f3920356afd3cdac01aa06989ae3117c1264a1319b3d153770",
+    "winner": "patch-M.MPQ"
+   },
+   "manastormmodifiers.dbc": {
+    "actualFields": 15,
+    "bytes": 1966100,
+    "fields": 15,
+    "losers": [],
+    "record_size": 60,
+    "records": 32768,
+    "sha256": "87616982c6c4e58ea680b78449093897c5e8484bf419c1d60551fde6de3e7101",
+    "winner": "patch-M.MPQ"
+   },
+   "manastormplayergroupmodifiers.dbc": {
+    "actualFields": 5,
+    "bytes": 320,
+    "fields": 5,
+    "losers": [],
+    "record_size": 20,
+    "records": 15,
+    "sha256": "2b228922073ea876aa4f812c701b4b5b380ac2ad67d91e72c8b5d85ece4ce2bc",
+    "winner": "patch-M.MPQ"
+   },
    "map.dbc": {
+    "actualFields": 66,
     "bytes": 113271,
     "fields": 66,
     "losers": [
@@ -10858,6 +11067,7 @@
     "winner": "patch-M.MPQ"
    },
    "mapdifficulty.dbc": {
+    "actualFields": 23,
     "bytes": 65380,
     "fields": 23,
     "losers": [
@@ -10871,6 +11081,7 @@
     "winner": "patch-M.MPQ"
    },
    "mythicaffixes.dbc": {
+    "actualFields": 16,
     "bytes": 858196,
     "fields": 16,
     "losers": [],
@@ -10880,6 +11091,7 @@
     "winner": "patch-M.MPQ"
    },
    "mythickeystones.dbc": {
+    "actualFields": 3,
     "bytes": 81632,
     "fields": 3,
     "losers": [],
@@ -10889,6 +11101,7 @@
     "winner": "patch-M.MPQ"
    },
    "mythicplusscaling.dbc": {
+    "actualFields": 8,
     "bytes": 6420,
     "fields": 8,
     "losers": [],
@@ -10898,6 +11111,7 @@
     "winner": "patch-M.MPQ"
    },
    "npctrainer.dbc": {
+    "actualFields": 4,
     "bytes": 209700,
     "fields": 4,
     "losers": [],
@@ -10907,6 +11121,7 @@
     "winner": "patch-M.MPQ"
    },
    "overridespelldata.dbc": {
+    "actualFields": 12,
     "bytes": 2372,
     "fields": 12,
     "losers": [
@@ -10920,6 +11135,7 @@
     "winner": "patch-S.MPQ"
    },
    "quest.dbc": {
+    "actualFields": 29,
     "bytes": 2153096,
     "fields": 29,
     "losers": [],
@@ -10929,6 +11145,7 @@
     "winner": "patch-M.MPQ"
    },
    "questinfo.dbc": {
+    "actualFields": 18,
     "bytes": 897,
     "fields": 18,
     "losers": [
@@ -10941,6 +11158,7 @@
     "winner": "patch-M.MPQ"
    },
    "questsort.dbc": {
+    "actualFields": 18,
     "bytes": 13386,
     "fields": 18,
     "losers": [
@@ -10954,6 +11172,7 @@
     "winner": "patch-M.MPQ"
    },
    "skillline.dbc": {
+    "actualFields": 56,
     "bytes": 210211,
     "fields": 56,
     "losers": [
@@ -10967,6 +11186,7 @@
     "winner": "patch-M.MPQ"
    },
    "skilllineability.dbc": {
+    "actualFields": 14,
     "bytes": 2294452,
     "fields": 14,
     "losers": [
@@ -10981,6 +11201,7 @@
     "winner": "patch-M.MPQ"
    },
    "skillraceclassinfo.dbc": {
+    "actualFields": 8,
     "bytes": 7380,
     "fields": 8,
     "losers": [
@@ -10994,6 +11215,7 @@
     "winner": "patch-M.MPQ"
    },
    "spell.dbc": {
+    "actualFields": 234,
     "bytes": 209020869,
     "fields": 234,
     "losers": [
@@ -11008,6 +11230,7 @@
     "winner": "patch-T.MPQ"
    },
    "spelladdon.dbc": {
+    "actualFields": 23,
     "bytes": 515312,
     "fields": 23,
     "losers": [],
@@ -11017,6 +11240,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellalternativecost.dbc": {
+    "actualFields": 3,
     "bytes": 20,
     "fields": 3,
     "losers": [],
@@ -11026,6 +11250,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellalternativepowertype.dbc": {
+    "actualFields": 19,
     "bytes": 387,
     "fields": 19,
     "losers": [],
@@ -11035,6 +11260,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellcasttimes.dbc": {
+    "actualFields": 4,
     "bytes": 1156,
     "fields": 4,
     "losers": [
@@ -11048,6 +11274,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellcategory.dbc": {
+    "actualFields": 2,
     "bytes": 41524,
     "fields": 2,
     "losers": [
@@ -11061,6 +11288,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellcharges.dbc": {
+    "actualFields": 2,
     "bytes": 3220,
     "fields": 2,
     "losers": [],
@@ -11070,6 +11298,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellchargescategory.dbc": {
+    "actualFields": 3,
     "bytes": 1280,
     "fields": 3,
     "losers": [],
@@ -11079,6 +11308,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellcustomattr.dbc": {
+    "actualFields": 11,
     "bytes": 2568784,
     "fields": 11,
     "losers": [],
@@ -11088,6 +11318,7 @@
     "winner": "patch-S.MPQ"
    },
    "spelldescriptionvariables.dbc": {
+    "actualFields": 2,
     "bytes": 2879,
     "fields": 2,
     "losers": [
@@ -11101,6 +11332,7 @@
     "winner": "patch-S.MPQ"
    },
    "spelldispeltype.dbc": {
+    "actualFields": 21,
     "bytes": 1146,
     "fields": 21,
     "losers": [
@@ -11112,6 +11344,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellduration.dbc": {
+    "actualFields": 4,
     "bytes": 13876,
     "fields": 4,
     "losers": [
@@ -11126,6 +11359,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellicon.dbc": {
+    "actualFields": 2,
     "bytes": 785315,
     "fields": 2,
     "losers": [
@@ -11140,6 +11374,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellmechanic.dbc": {
+    "actualFields": 18,
     "bytes": 2521,
     "fields": 18,
     "losers": [
@@ -11152,6 +11387,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellradius.dbc": {
+    "actualFields": 4,
     "bytes": 5108,
     "fields": 4,
     "losers": [
@@ -11164,6 +11400,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellrange.dbc": {
+    "actualFields": 40,
     "bytes": 55407,
     "fields": 40,
     "losers": [
@@ -11178,6 +11415,7 @@
     "winner": "patch-S.MPQ"
    },
    "spellrunecost.dbc": {
+    "actualFields": 5,
     "bytes": 9540,
     "fields": 5,
     "losers": [
@@ -11192,6 +11430,7 @@
     "winner": "patch-S.MPQ"
    },
    "spelltags.dbc": {
+    "actualFields": 3,
     "bytes": 5863964,
     "fields": 3,
     "losers": [],
@@ -11201,6 +11440,7 @@
     "winner": "patch-S.MPQ"
    },
    "spelltagtypes.dbc": {
+    "actualFields": 61,
     "bytes": 59216,
     "fields": 61,
     "losers": [],
@@ -11210,6 +11450,7 @@
     "winner": "patch-S.MPQ"
    },
    "talent.dbc": {
+    "actualFields": 23,
     "bytes": 219256,
     "fields": 23,
     "losers": [
@@ -11223,6 +11464,7 @@
     "winner": "patch-M.MPQ"
    },
    "talenttab.dbc": {
+    "actualFields": 24,
     "bytes": 4458,
     "fields": 24,
     "losers": [
@@ -11235,6 +11477,7 @@
     "winner": "patch-M.MPQ"
    },
    "timeddungeons.dbc": {
+    "actualFields": 6,
     "bytes": 1988,
     "fields": 6,
     "losers": [],
@@ -11244,6 +11487,7 @@
     "winner": "patch-M.MPQ"
    }
   },
+  "headerMismatches": [],
   "skipped_archives": [
    {
     "archive": "patch-4.MPQ",
@@ -11279,5 +11523,6 @@
    }
   ]
  },
- "generatedUtc": "2026-08-01T14:37:33+00:00"
+ "generatedUtc": "2026-08-01T16:07:40+00:00",
+ "headerMismatches": []
 }
