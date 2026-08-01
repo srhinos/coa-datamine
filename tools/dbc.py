@@ -197,16 +197,26 @@ TABLE_MAPS = {
         ("runicPower", 4, "u"),
     ]},
     # v2 (task V2-2): proven via golden-record probes (see .superpowers/sdd/task-v2-2-report.md).
-    # Creature: f0 proven ascending-unique 1..127178 (id); f2 proven via golden decode
-    # (id 437/60041/92992 -> "Hogger", id 8034 etc -> "Ragnaros"). f20/f21/f22 (the next-
-    # highest string_likelihood columns per V2-1 colinfo) were probed as subname
-    # candidates and DISPROVEN: on both goldens' rows the raw value is 0 (no data), and
-    # across the table the ~4-5% of rows where they decode to non-empty text resolve to
-    # unrelated fragments/other creatures' names at a rate matching pure background
-    # coincidence (measured ~3.45% on a random-offset control) against a huge (2.5MB)
-    # shared string block - not a real subname column. Left unmapped; not carried.
+    # [V3-0 CORRECTION 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] V2-2 named f0
+    # as "id" (ascending-unique 1..127178, the classic local auto-increment PK shape) -
+    # this is WRONG: f0 is a POSITIONAL row index, not a stable entry id. The 2026-08-01
+    # client rebuild proved this directly - a patch inserted 3 rows and every downstream
+    # Ragnaros-variant id shifted by exactly +3 (107744->107747 etc), the same "row-
+    # position, not content key" churn already documented elsewhere in this file
+    # (SpellCustomAttr, SpellAddon, SpellCharges ref). f1 is the real, stable creature
+    # TEMPLATE ENTRY id: proven unique across all 127178 rows (distinct(f1) == records,
+    # zero duplicates) and golden-verified against 4 canonical WotLK 3.3.5 entry ids -
+    # Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros 11502 - matching the server's
+    # real template ids (f0 resolves those same numbers to unrelated NPCs, e.g.
+    # 448->"Demisette Cloyce", proving the two columns are genuinely different things,
+    # not a coincidental relabeling). f2 stays proven "name" (unchanged from V2-2,
+    # string_likelihood=1.0, pct_zero=0.0). f0 is dropped entirely from curated output
+    # (positional noise, not carried, not even raw). f20/f21/f22 subname hypothesis is
+    # unaffected by this correction - still DISPROVEN per V2-2's report (both goldens
+    # carry raw 0, table-wide non-zero rate matches a random-offset control's coincidence
+    # rate) - left unmapped.
     "Creature": {"expected_fields": 23, "columns": [
-        ("id", 0, "u"), ("name_enUS", 2, "s"),
+        ("id", 1, "u"), ("name_enUS", 2, "s"),
     ]},
     # Quest: NO string block (confirmed, string_block_size=0) - f0 proven unique id
     # (18561 distinct == records). No other column clears the brief's join-rate bars
@@ -236,22 +246,44 @@ TABLE_MAPS = {
     # tree names - Blacksmithing, Leatherworking, Tailoring, Arcane, Holy, Feral Combat,
     # ...). f3 (the brief's hypothesized "trainer-id low-cardinality column") does NOT
     # prove out as a trainer/NPC identity - see report; left unmapped, carried as raw f3.
+    # [V3-0 re-check 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] Every column
+    # retested against Creature.dbc's now-corrected f1 entry-id space (sparse,
+    # 1..11001007, unlike the old dense-f0 space that made false positives easy): f0 (own
+    # row id) 67.3% naive join, f1 (proven spellId) 13.2%, f2 (proven skillLine) 49.0%,
+    # f3 (unproven) 48.7% - none clears the 90% bar, all comfortably below it now that a
+    # bounded column can't coast on Creature's id density. No remap: this table still has
+    # no per-row trainer-NPC identity column anywhere; f0 stays the table's own
+    # positional row id, unrenamed.
     "NPCTrainer": {"expected_fields": 4, "columns": [
         ("id", 0, "u"), ("spellId", 1, "i"), ("skillLine", 2, "u"),
     ]},
     # DungeonEncounterExtra: f0 proven dungeonEncounterId (98.5% join vs DungeonEncounter
     # ids AND semantic golden: resolves to real encounter names - "Panzor the
-    # Invincible", "Lord Valthalak", ...). f1 (creature-id hypothesis) clears the naive
-    # 90% numeric join-rate vs Creature ids (92.4%) but is DISPROVEN by golden
-    # verification: famous boss encounters (Ragnaros, Onyxia, Kel'Thuzad, Illidan, ...)
-    # all resolve to random unrelated NPCs (fuzzy name-overlap 1.3%, barely above a
-    # random-pairing control's 0.45%). This is a false positive of naive join-rate
-    # testing caused by Creature.dbc's fully-dense id space (every integer 1..127178 is
-    # a valid creature id, so ANY bounded column passes membership near-trivially) - see
-    # report. f2/f3 fail even the naive join-rate bar (~51-55%) against either table.
-    # No creature link is provable; tools/build_dungeons.py ships "creature": null.
+    # Invincible", "Lord Valthalak", ...).
+    # [V3-0 CORRECTION 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] f1
+    # creatureId: V2-2 DISPROVED this same column joining against Creature.dbc's old f0
+    # (a fully-dense 1..127178 id space where any bounded column passes membership near-
+    # trivially - every famous-boss golden resolved to an unrelated random NPC, fuzzy
+    # name-overlap only 1.3% vs a 0.45% random control). Once Creature's real entry id
+    # was identified as f1 (a genuinely sparse space, 127178 ids spread across
+    # 1..11001007 - see the Creature entry above), the SAME DungeonEncounterExtra column
+    # f1 was retested against it and PROVEN: row-level join-rate 98.57% (2006/2035 rows
+    # whose encounter resolves a name), and every famous-boss golden now resolves
+    # correctly (Ragnaros->11502 "Ragnaros", Onyxia->10184 "Onyxia",
+    # Kel'Thuzad->15990 "Kel'Thuzad", Illidan Stormrage->22917 "Illidan Stormrage",
+    # Vaelastrasz the Corrupt->13020, Broodlord Lashlayer->12017, Chromaggus->14020,
+    # Nefarian->11583, C'thun->15727 "C'Thun" [case-only difference]) - fuzzy word-
+    # overlap across the whole table is 94.7% (1900/2006) vs a random-pairing control's
+    # 0.55%, not a coincidence. A minority of dungeonEncounterId values (20 of ~2048
+    # distinct) repeat across multiple DungeonEncounterExtra rows (extra per-difficulty
+    # metadata rows); every repeat verified to agree on f1 (same creature), so first-row-
+    # wins is safe. dungeonEncounterId==0 is a placeholder/sentinel (14 rows, disagreeing
+    # f1 values, and 0 is not a real DungeonEncounter id) - naturally excluded, no real
+    # encounter has id 0. f2/f3 still fail even the naive join-rate bar (~51-55%) against
+    # either table - left raw, unmapped. tools/build_dungeons.py now wires
+    # "creature": {id, name} | null onto every encounter.
     "DungeonEncounterExtra": {"expected_fields": 4, "columns": [
-        ("dungeonEncounterId", 0, "u"),
+        ("dungeonEncounterId", 0, "u"), ("creatureId", 1, "u"),
     ]},
     # v2 (task V2-3): proven via golden-record probes (see .superpowers/sdd/task-v2-3-report.md).
     # ChrSpecs (101x65): f0 ascending unique 1..101 (id). f1 is NOT a raw classId int -

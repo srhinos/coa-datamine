@@ -34,10 +34,10 @@ this repo needs an exemption).
 | `data/talents/_unassigned.json` | talent tabs matching no classMask/petTalentMask | small |
 | `data/talents/_meta.json` | tab/talent counts, per-class tab counts, unresolved rank-spell count | small |
 | `data/dungeons/index.json` | one compact record per dungeon: `{id, name, file, mapId, isRaid, levels}` | small |
-| `data/dungeons/<id>-<slug>.json` | one dungeon incl. its encounters (ordered) + reward brackets; `<slug>` = lowercase name, non-alnum runs -> `-`, collapsed, max 40 chars | small |
-| `data/creatures/index.json` | bucket manifest: `bucketSize` (5000), `count` (127175), `buckets: [{bucket, file, count, minId, maxId}]` | small |
-| `data/creatures/creatures-<id//5000*5000>.jsonl` | `{id, name, subname}` per `Creature.dbc` row, ONE JSON PER LINE, ascending id within bucket; `subname` is **always `null`** - probed and disproven, see Honest limits | small-medium per file |
-| `data/creatures/_meta.json` | `count`, `provenColumns` (id/name proof), `subnameFinding` (the disproof writeup) | small |
+| `data/dungeons/<id>-<slug>.json` | one dungeon incl. its encounters (ordered, each carrying a `creature: {id, name}\|null` boss link - see Honest limits) + reward brackets; `<slug>` = lowercase name, non-alnum runs -> `-`, collapsed, max 40 chars | small |
+| `data/creatures/index.json` | bucket manifest: `bucketSize` (5000), `count` (127178), `buckets: [{bucket, file, count, minId, maxId}]` - **355 buckets**, not 26: `id` is `Creature.dbc` f1 (a sparse space up to ~11M), not the old f0 row-position (see Honest limits) | small |
+| `data/creatures/creatures-<id//5000*5000>.jsonl` | `{id, name, subname}` per `Creature.dbc` row, ONE JSON PER LINE, ascending id within bucket; `id` is the real, stable creature TEMPLATE ENTRY id (`Creature.dbc` f1, task V3-0) - use it to cross-reference `data/dungeons/*.json`'s `creature.id`; `subname` is **always `null`** - probed and disproven, see Honest limits | small-medium per file |
+| `data/creatures/_meta.json` | `count`, `provenColumns` (id/name proof), `idCorrectionFinding` (the V3-0 f0->f1 writeup), `subnameFinding` (the disproof writeup) | small |
 | `data/quests/index.json` | bucket manifest, same shape as creatures (`bucketSize` 5000, `count` 18561) | small |
 | `data/quests/quests-<id//5000*5000>.jsonl` | `{id, sort: null, info: null, f1..f28}` per `Quest.dbc` row - **this table has no string block at all** (no quest title/objective text anywhere in it, see Honest limits); `sort`/`info` are always `null` (probed and disproven); the 28 remaining columns are raw/unnamed | small-medium per file |
 | `data/quests/_meta.json` | `count`, `provenColumns`, `sortInfoFinding` | small |
@@ -385,11 +385,18 @@ def class_specs_and_roles(class_name):
   - `data/quests/*.jsonl`'s `sort`/`info` - always `null` (`data/quests/_meta.json`'s
     `sortInfoFinding`; best real candidate topped out at 58.6%/58.2% join-rate,
     short of the 80% bar).
-  - Every dungeon encounter's `creature` field (`data/dungeons/*.json`) - always
-    `null` (`tools/build_dungeons.py`'s module docstring; the naive join-rate cleared
-    92.4% but every famous-boss golden resolved to an unrelated random NPC - a false
-    positive caused by `Creature.dbc`'s fully dense id space, see the empirical-mapping
-    convention above).
+  - ~~Every dungeon encounter's `creature` field - always `null`~~ **REVERSED in task
+    V3-0** (2026-08-01): the V2-2 disproof above joined against `Creature.dbc`'s OLD f0
+    column, which turned out to be a positional row index, not a stable id (see the
+    `data/creatures/` row above) - its fully-dense 1..127178 range is exactly why the
+    naive join-rate false-positived at 92.4% while every golden failed. Retested against
+    the corrected f1 entry-id space (genuinely sparse, 127178 ids across 1..11001007),
+    the SAME column proves out: 98.57% row-level join-rate, every famous-boss golden
+    resolves correctly. `data/dungeons/*.json` encounters now carry a real
+    `creature: {id, name}` (null only for the ~1.4% of encounters with no matching
+    `DungeonEncounterExtra` row, or an unresolved id) - see
+    `tools/build_dungeons.py`'s module docstring and
+    `.superpowers/sdd/task-v3-0-report.md` for the full evidence.
   - `data/classes/specs.json`'s `f63` field - ChrSpecs' one low-cardinality column,
     tested as both Tank/Healer/DPS role and ordinal spec position and disproven both
     ways (`tools/dbc.py`'s `ChrSpecs` comment); shipped raw, not named `"role"`.
