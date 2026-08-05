@@ -1,11 +1,22 @@
-"""TDD gate for task V2-2: creatures/quests/trainers + dungeon encounter enrichment.
+"""TDD gate for tasks V2-2 + V3-0: creatures/quests/trainers + dungeon encounter
+enrichment.
 
 Per the empirical-mapping rule, this test also encodes the NEGATIVE findings from the
 golden-record probes documented in .superpowers/sdd/task-v2-2-report.md: Creature
-subname, Quest sort/info links and the DungeonEncounterExtra creature link were all
-probed and DISPROVEN (naive join-rate passed but semantic golden verification failed,
-or no column cleared the join-rate bar at all) - so those fields are asserted to be
-uniformly null/absent, not "resolved for at least one record"."""
+subname and Quest sort/info links were probed and DISPROVEN (naive join-rate passed but
+semantic golden verification failed, or no column cleared the join-rate bar at all) - so
+those fields are asserted to be uniformly null/absent, not "resolved for at least one
+record".
+
+Task V3-0 (.superpowers/sdd/task-v3-0-report.md) found Creature.dbc's f0 is a POSITIONAL
+row index (shifts on every patch that inserts rows upstream), not a stable entry id - f1
+is the real, stable creature template entry id. Creatures are now keyed by f1 (goldens
+re-pinned to canonical WotLK entry ids: Hogger 448, Edwin VanCleef 639, Onyxia 10184,
+Ragnaros 11502 - stronger than the old name-only goldens). Retesting the
+DungeonEncounterExtra creature-link hypothesis against f1 (instead of V2-2's dense f0
+space) REVERSES the V2-2 disproof: the link is now proven (98.57% row-level join-rate,
+every famous-boss golden resolves correctly), so dungeon encounters now carry a real
+"creature": {id, name} link."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -45,10 +56,19 @@ assert total == cidx["count"] == stats["creatures"]["written"]
 # creatures.jsonl line count == Creature record count (brief's gate, now summed over shards)
 assert cidx["count"] == 127178, cidx["count"]
 
-# golden creature records (verified via live probe - see report)
-assert by_id[437]["name"] == "Hogger"
-ragnaros_ids = [8034, 8035, 31622, 32197, 32311, 41034, 107744, 109319, 111385, 113661, 114415]
-assert any(by_id[i]["name"] == "Ragnaros" for i in ragnaros_ids if i in by_id)
+# id//5000 bucket count grows a lot once keyed by f1's sparse (1..11001007) space vs the
+# old fully-dense f0 (1..127178) space - a coarse regression guard on the V3-0 remap
+assert len(cidx["buckets"]) >= 300, (
+    "expected many more (sparse-id) buckets once creatures are keyed by f1, not f0",
+    len(cidx["buckets"]))
+
+# golden creature records - real WotLK 3.3.5 entry ids (f1), pinned + verified via live
+# probe (task-v3-0-report.md); f0 (the old key) resolves these same numbers to unrelated
+# NPCs (e.g. 448 -> "Demisette Cloyce"), proving the remap actually took effect
+assert by_id[448]["name"] == "Hogger"
+assert by_id[639]["name"] == "Edwin VanCleef"
+assert by_id[10184]["name"] == "Onyxia"
+assert by_id[11502]["name"] == "Ragnaros"
 
 # subname: probed and disproven (see report) - documented as always-null, not attempted
 assert all(r["subname"] is None for r in by_id.values())
@@ -56,6 +76,7 @@ assert all(r["subname"] is None for r in by_id.values())
 cmeta = json.loads((cdir / "_meta.json").read_text(encoding="utf-8"))
 assert cmeta["count"] == cidx["count"]
 assert "subnameFinding" in cmeta
+assert "idCorrectionFinding" in cmeta, "V3-0 f0->f1 remap must be documented in _meta.json"
 
 # ---- quests: sharded data/quests/quests-<id//5000*5000>.jsonl + index.json ----
 qdir = config.DATA_DIR / "quests"
@@ -117,21 +138,41 @@ assert tmeta["count"] == tidx["count"]
 assert tmeta["spellJoinRate"] >= 0.90
 assert "trainerIdFinding" in tmeta
 
-# ---- dungeon encounter creature-link enrichment ----
+# ---- dungeon encounter creature-link enrichment (V3-0: retested + PROVEN vs f1) ----
 dstats = build_dungeons.build()
 assert "encounterCreatureLinks" in dstats
-assert dstats["encounterCreatureLinks"] == 0, (
-    "DungeonEncounterExtra creature link was probed and disproven (see report) - "
-    "should be documented zero, not a silently-wrong nonzero link")
+link_rate = dstats["encounterCreatureLinks"] / dstats["encounters"]
+assert link_rate >= 0.90, (
+    "DungeonEncounterExtra creature link re-tested against Creature.dbc's real f1 "
+    "entry-id space (V3-0, see task-v3-0-report.md) and proven - link rate must stay "
+    f">=90%, got {link_rate:.4f}")
 
 ddir = config.DATA_DIR / "dungeons"
 didx = json.loads((ddir / "index.json").read_text(encoding="utf-8"))
-checked = 0
-for d in didx["dungeons"][:20]:
+found_ragnaros = False
+# dedupe by encounter id - the same DungeonEncounter row can legitimately appear in
+# multiple dungeon files when >1 LFGDungeons entry shares the same (mapID, difficulty)
+# (pre-existing behavior, unrelated to this task), so a raw per-file sum overcounts
+creature_by_encounter_id = {}
+for d in didx["dungeons"]:
     doc = json.loads((ddir / d["file"]).read_text(encoding="utf-8"))
     for enc in doc["encounters"]:
-        assert enc["creature"] is None
-        checked += 1
-assert checked > 0
+        assert "creature" in enc
+        if enc["creature"] is not None:
+            assert set(enc["creature"]) == {"id", "name"}
+        creature_by_encounter_id[enc["id"]] = enc["creature"]
+        if enc["name"] == "Ragnaros":
+            # golden: Ragnaros's own encounter row must carry the real Ragnaros entry id
+            assert enc["creature"] == {"id": 11502, "name": "Ragnaros"}, enc["creature"]
+            found_ragnaros = True
+assert found_ragnaros, "Ragnaros encounter golden not found in any dungeon file"
+# not every DungeonEncounter row's (mapID, difficulty) matches an LFGDungeons entry
+# (pre-existing, unrelated to this task - some encounters never appear in any dungeon
+# file at all), so this is a subset of dstats["encounterCreatureLinks"], not an exact
+# match; still gate its own link rate independently as a second view on the same proof
+seen_total = len(creature_by_encounter_id)
+seen_creature_links = sum(1 for c in creature_by_encounter_id.values() if c is not None)
+assert seen_creature_links <= dstats["encounterCreatureLinks"]
+assert seen_creature_links / seen_total >= 0.90, seen_creature_links / seen_total
 
 print("ALL PASS")

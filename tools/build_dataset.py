@@ -3,10 +3,12 @@ import argparse, datetime, hashlib, json
 
 from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
                    build_spells, build_classes, build_talents, build_dungeons,
-                   build_creatures, build_classmeta, build_mythic)
+                   build_creatures, build_classmeta, build_mythic, build_manastorm,
+                   build_realms)
 
 
-def run(skip_extract=False, skip_dump=False, skip_interface=False) -> dict:
+def run(skip_extract=False, skip_dump=False, skip_interface=False,
+        skip_manastorm=False, skip_realm_extract=False) -> dict:
     config.ensure_dirs()
     if skip_extract and all((config.WORK_DBC_DIR / w).is_file()
                             for w in config.WANTED_DBCS):
@@ -39,6 +41,25 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False) -> dict:
     stats["mythic"] = build_mythic.build()
     print(f"[mythic]   {stats['mythic']}")
 
+    # v3: Manastorm (patch-M seasonal-modifier tables, task V3-1) reads only
+    # config.WORK_DBC_DIR (already populated above) - no extraction step of its
+    # own. skip_manastorm reuses the existing data/manastorm/_meta.json counts
+    # instead of re-parsing/re-writing (mirrors --skip-interface's reuse shape).
+    meta_path = config.DATA_DIR / "manastorm" / "_meta.json"
+    if skip_manastorm and meta_path.is_file():
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        stats["manastorm"] = {"counts": meta["counts"], "reused": True}
+    else:
+        stats["manastorm"] = build_manastorm.build()
+    print(f"[manastorm] {stats['manastorm']}")
+
+    # v3: realm-overlay extraction + raw layer + overlay evidence index (task
+    # V3-2). Depends on data/spells/_missing_refs.json (missingRefResolution),
+    # written by the spells stage above - must stay after it. skip_realm_extract
+    # mirrors --skip-extract, scoped to work/realms/ instead of work/dbc/.
+    stats["realms"] = build_realms.build(skip_extract=skip_realm_extract)
+    print(f"[realms]   {sorted(stats['realms'])}")
+
     manifest_path = config.RAW_INTERFACE_DIR / "_manifest.json"
     if skip_interface and manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -61,6 +82,14 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False) -> dict:
         "extract": extract_prov,
         "content": content_prov,
         "buildStats": stats,
+        # top-level convenience copy of extract_prov["headerMismatches"] (task
+        # V3-3): every base table whose WDBC header's declared FieldCount
+        # disagrees with its byte-accurate record_size//4 - see extract_mpq.py.
+        # tests/test_dataset.py gates this at exactly [] for the base pipeline;
+        # a realm table (e.g. area-52's CharacterAdvancement.dbc) legitimately
+        # disagreeing is a SEPARATE, allowed thing surfaced instead as
+        # data/realms/<realm>/index.json's per-table `declaredFields` key.
+        "headerMismatches": extract_prov.get("headerMismatches", []),
     }
     (config.RAW_DIR / "provenance.json").write_text(
         json.dumps(prov, ensure_ascii=False, indent=1, sort_keys=True),
@@ -76,8 +105,13 @@ def main():
                     help="skip regenerating raw/dbc CSV dumps")
     ap.add_argument("--skip-interface", action="store_true",
                     help="reuse raw/interface/_manifest.json from a previous extract")
+    ap.add_argument("--skip-manastorm", action="store_true",
+                    help="reuse data/manastorm/_meta.json counts instead of rebuilding")
+    ap.add_argument("--skip-realm-extract", action="store_true",
+                    help="reuse work/realms/<realm>/dbc from a previous extract")
     a = ap.parse_args()
-    run(skip_extract=a.skip_extract, skip_dump=a.skip_dump, skip_interface=a.skip_interface)
+    run(skip_extract=a.skip_extract, skip_dump=a.skip_dump, skip_interface=a.skip_interface,
+        skip_manastorm=a.skip_manastorm, skip_realm_extract=a.skip_realm_extract)
     print("build complete - raw/provenance.json updated")
 
 

@@ -65,7 +65,18 @@ def extract_all() -> dict:
     if missing:
         raise SystemExit(f"FATAL: wanted DBCs not found in any archive: {missing}")
 
-    prov = {"files": {}, "skipped_archives": skipped}
+    # [Task V3-3] "fields" (below) stays the header's DECLARED FieldCount - the
+    # existing, load-bearing meaning test_extract.py already pins (spell.dbc == 234).
+    # headerMismatches is new: a byte-accurate cross-check (record_size // 4, the
+    # SAME derivation tools/dbc.py's DBCFile.fields trusts for row layout - see its
+    # docstring and task V3-2's CharacterAdvancement.dbc finding) against that
+    # declared count, for every base table. V3-2 made DBCFile stop hard-crashing on
+    # a header/record_size disagreement (needed so a lying REALM header like
+    # CharacterAdvancement's stays readable) - that fix quietly removed the base
+    # pipeline's old crash canary for a lying BASE header too. This restores
+    # visibility without reintroducing the crash: a disagreement is recorded here,
+    # not swallowed, and tests/test_dataset.py gates the base list at exactly empty.
+    prov = {"files": {}, "skipped_archives": skipped, "headerMismatches": []}
     by_winner = {}
     for base, lst in carriers.items():
         lst.sort(key=lambda t: t[0])
@@ -80,13 +91,20 @@ def extract_all() -> dict:
                 raise SystemExit(f"FATAL: bad read of {base} from {winner.name}")
             out = config.WORK_DBC_DIR / wanted[base]
             out.write_bytes(data)
-            _, recs, fields, recsize, strsize = struct.unpack_from("<4s4I", data, 0)
+            _, recs, declared_fields, recsize, strsize = struct.unpack_from("<4s4I", data, 0)
+            actual_fields = recsize // 4
             prov["files"][base] = {
                 "winner": winner.name, "losers": losers,
                 "sha256": hashlib.sha256(data).hexdigest(),
-                "records": recs, "fields": fields,
+                "records": recs, "fields": declared_fields,
+                "actualFields": actual_fields,
                 "record_size": recsize, "bytes": len(data),
             }
+            if actual_fields != declared_fields:
+                prov["headerMismatches"].append({
+                    "table": base, "declaredFields": declared_fields,
+                    "actualFields": actual_fields,
+                })
 
     (config.WORK_DIR / "extract_provenance.json").write_text(
         json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8")
@@ -100,6 +118,8 @@ def main():
         flag = " COLLISION:" + ",".join(e["losers"]) if e["losers"] else ""
         print(f"{base:26s} <- {e['winner']:18s} records={e['records']:7d} fields={e['fields']:4d}{flag}")
     print(f"skipped archives: {len(prov['skipped_archives'])}")
+    if prov["headerMismatches"]:
+        print(f"HEADER MISMATCHES: {prov['headerMismatches']}")
 
 
 if __name__ == "__main__":

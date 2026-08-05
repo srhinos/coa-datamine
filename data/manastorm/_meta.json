@@ -1,0 +1,17 @@
+{
+ "areaIdFinding": "ManastormMessages.f3 was hypothesized as an areaId: 92.2% of the 153 nonzero rows (48.5% of all 291 rows - the rest carry the 0 sentinel) join vs AreaTable.dbc, but resolves to unrelated zone names (e.g. 'Silverpine Forest' for a Zul'Gurub-themed message) bearing no relation to the grouped messages' actual raid content - a density false positive, DISPROVEN, left raw. Its nonzero values do cleanly group messages by real content pack (130=Zul'Gurub, 132=Molten Core, 134=Blackwing Lair, 135=AQ20, 137=AQ40, 139=Naxxramas) - a genuine internal grouping structure, but no WANTED_DBCS lookup table exists to independently prove what f3's own id space names.",
+ "counts": {
+  "manastorm": 1017,
+  "messages": 291,
+  "modifiers": 32768,
+  "playerGroupModifiers": 15
+ },
+ "dungeonEncounterJoinRate": 0.9951,
+ "provenColumns": {
+  "Manastorm": "id (f0) / mapId (f1, 100% join + every value resolves a real dungeon-raid zone name) / difficulty (f2, 100% match vs the resolved encounter's own difficulty) / dungeonEncounterId (f3, 99.5% resolve + 100% two-hop mapId chain match) - see tools/dbc.py",
+  "ManastormMessages": "id (f0) / iconToken (f4) / title (f5) / text (f22, golden contains the literal word 'Manastorm') - see tools/dbc.py",
+  "ManastormModifiers": "id (f0) only - no spellId or other FK column proven anywhere in this table",
+  "ManastormPlayerGroupModifiers": "id (f0) only - no other column proven"
+ },
+ "spellIdFinding": "ManastormMessages.f2 was hypothesized as a spellId: 90.4% raw join rate vs Spell.dbc, but resolves to unrelated low-id test/base spells ('Heal Self (TEST)', 'Blizzard', 'Stun') with zero thematic connection to the message text - a Spell.dbc low-id density false positive, DISPROVEN, left raw. No column in any of the 4 Manastorm tables proves out as a spellId."
+}

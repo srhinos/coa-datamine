@@ -21,12 +21,25 @@ class DBCFile:
     def __init__(self, path):
         self.path = Path(path)
         data = self.path.read_bytes()
-        magic, self.records, self.fields, self.record_size, strsize = \
+        magic, self.records, declared_fields, self.record_size, strsize = \
             struct.unpack_from("<4s4I", data, 0)
         if magic != b"WDBC":
             raise LayoutError(f"{self.path.name}: bad magic {magic!r}")
-        if self.record_size != self.fields * 4:
-            raise LayoutError(f"{self.path.name}: record_size {self.record_size} != 4*{self.fields}")
+        if self.record_size % 4 != 0:
+            raise LayoutError(
+                f"{self.path.name}: record_size {self.record_size} not a multiple of 4")
+        # [Task V3-2 finding] The header's declared FieldCount is occasionally wrong -
+        # observed on a realm-overlay table, area-52's CharacterAdvancement.dbc:
+        # declared 179 vs the byte-accurate 173 (record_size 692 / 4), off by exactly
+        # 6 fields. record_size is what actually determines row layout AND it
+        # reconciles exactly with the file's total size (20 + records*record_size +
+        # string_block_size == len(data), verified), so it is authoritative for
+        # parsing; the declared count is kept only as a diagnostic
+        # (self.declared_fields), never trusted for the row struct format. This is a
+        # no-op for every table where the two already agree (every base-client table
+        # probed so far, and 11 of area-52's 12 tables).
+        self.fields = self.record_size // 4
+        self.declared_fields = declared_fields
         body_end = 20 + self.records * self.record_size
         if body_end + strsize != len(data):
             raise LayoutError(f"{self.path.name}: size mismatch")
@@ -197,16 +210,26 @@ TABLE_MAPS = {
         ("runicPower", 4, "u"),
     ]},
     # v2 (task V2-2): proven via golden-record probes (see .superpowers/sdd/task-v2-2-report.md).
-    # Creature: f0 proven ascending-unique 1..127178 (id); f2 proven via golden decode
-    # (id 437/60041/92992 -> "Hogger", id 8034 etc -> "Ragnaros"). f20/f21/f22 (the next-
-    # highest string_likelihood columns per V2-1 colinfo) were probed as subname
-    # candidates and DISPROVEN: on both goldens' rows the raw value is 0 (no data), and
-    # across the table the ~4-5% of rows where they decode to non-empty text resolve to
-    # unrelated fragments/other creatures' names at a rate matching pure background
-    # coincidence (measured ~3.45% on a random-offset control) against a huge (2.5MB)
-    # shared string block - not a real subname column. Left unmapped; not carried.
+    # [V3-0 CORRECTION 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] V2-2 named f0
+    # as "id" (ascending-unique 1..127178, the classic local auto-increment PK shape) -
+    # this is WRONG: f0 is a POSITIONAL row index, not a stable entry id. The 2026-08-01
+    # client rebuild proved this directly - a patch inserted 3 rows and every downstream
+    # Ragnaros-variant id shifted by exactly +3 (107744->107747 etc), the same "row-
+    # position, not content key" churn already documented elsewhere in this file
+    # (SpellCustomAttr, SpellAddon, SpellCharges ref). f1 is the real, stable creature
+    # TEMPLATE ENTRY id: proven unique across all 127178 rows (distinct(f1) == records,
+    # zero duplicates) and golden-verified against 4 canonical WotLK 3.3.5 entry ids -
+    # Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros 11502 - matching the server's
+    # real template ids (f0 resolves those same numbers to unrelated NPCs, e.g.
+    # 448->"Demisette Cloyce", proving the two columns are genuinely different things,
+    # not a coincidental relabeling). f2 stays proven "name" (unchanged from V2-2,
+    # string_likelihood=1.0, pct_zero=0.0). f0 is dropped entirely from curated output
+    # (positional noise, not carried, not even raw). f20/f21/f22 subname hypothesis is
+    # unaffected by this correction - still DISPROVEN per V2-2's report (both goldens
+    # carry raw 0, table-wide non-zero rate matches a random-offset control's coincidence
+    # rate) - left unmapped.
     "Creature": {"expected_fields": 23, "columns": [
-        ("id", 0, "u"), ("name_enUS", 2, "s"),
+        ("id", 1, "u"), ("name_enUS", 2, "s"),
     ]},
     # Quest: NO string block (confirmed, string_block_size=0) - f0 proven unique id
     # (18561 distinct == records). No other column clears the brief's join-rate bars
@@ -236,22 +259,44 @@ TABLE_MAPS = {
     # tree names - Blacksmithing, Leatherworking, Tailoring, Arcane, Holy, Feral Combat,
     # ...). f3 (the brief's hypothesized "trainer-id low-cardinality column") does NOT
     # prove out as a trainer/NPC identity - see report; left unmapped, carried as raw f3.
+    # [V3-0 re-check 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] Every column
+    # retested against Creature.dbc's now-corrected f1 entry-id space (sparse,
+    # 1..11001007, unlike the old dense-f0 space that made false positives easy): f0 (own
+    # row id) 67.3% naive join, f1 (proven spellId) 13.2%, f2 (proven skillLine) 49.0%,
+    # f3 (unproven) 48.7% - none clears the 90% bar, all comfortably below it now that a
+    # bounded column can't coast on Creature's id density. No remap: this table still has
+    # no per-row trainer-NPC identity column anywhere; f0 stays the table's own
+    # positional row id, unrenamed.
     "NPCTrainer": {"expected_fields": 4, "columns": [
         ("id", 0, "u"), ("spellId", 1, "i"), ("skillLine", 2, "u"),
     ]},
     # DungeonEncounterExtra: f0 proven dungeonEncounterId (98.5% join vs DungeonEncounter
     # ids AND semantic golden: resolves to real encounter names - "Panzor the
-    # Invincible", "Lord Valthalak", ...). f1 (creature-id hypothesis) clears the naive
-    # 90% numeric join-rate vs Creature ids (92.4%) but is DISPROVEN by golden
-    # verification: famous boss encounters (Ragnaros, Onyxia, Kel'Thuzad, Illidan, ...)
-    # all resolve to random unrelated NPCs (fuzzy name-overlap 1.3%, barely above a
-    # random-pairing control's 0.45%). This is a false positive of naive join-rate
-    # testing caused by Creature.dbc's fully-dense id space (every integer 1..127178 is
-    # a valid creature id, so ANY bounded column passes membership near-trivially) - see
-    # report. f2/f3 fail even the naive join-rate bar (~51-55%) against either table.
-    # No creature link is provable; tools/build_dungeons.py ships "creature": null.
+    # Invincible", "Lord Valthalak", ...).
+    # [V3-0 CORRECTION 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] f1
+    # creatureId: V2-2 DISPROVED this same column joining against Creature.dbc's old f0
+    # (a fully-dense 1..127178 id space where any bounded column passes membership near-
+    # trivially - every famous-boss golden resolved to an unrelated random NPC, fuzzy
+    # name-overlap only 1.3% vs a 0.45% random control). Once Creature's real entry id
+    # was identified as f1 (a genuinely sparse space, 127178 ids spread across
+    # 1..11001007 - see the Creature entry above), the SAME DungeonEncounterExtra column
+    # f1 was retested against it and PROVEN: row-level join-rate 98.57% (2006/2035 rows
+    # whose encounter resolves a name), and every famous-boss golden now resolves
+    # correctly (Ragnaros->11502 "Ragnaros", Onyxia->10184 "Onyxia",
+    # Kel'Thuzad->15990 "Kel'Thuzad", Illidan Stormrage->22917 "Illidan Stormrage",
+    # Vaelastrasz the Corrupt->13020, Broodlord Lashlayer->12017, Chromaggus->14020,
+    # Nefarian->11583, C'thun->15727 "C'Thun" [case-only difference]) - fuzzy word-
+    # overlap across the whole table is 94.7% (1900/2006) vs a random-pairing control's
+    # 0.55%, not a coincidence. A minority of dungeonEncounterId values (20 of ~2048
+    # distinct) repeat across multiple DungeonEncounterExtra rows (extra per-difficulty
+    # metadata rows); every repeat verified to agree on f1 (same creature), so first-row-
+    # wins is safe. dungeonEncounterId==0 is a placeholder/sentinel (14 rows, disagreeing
+    # f1 values, and 0 is not a real DungeonEncounter id) - naturally excluded, no real
+    # encounter has id 0. f2/f3 still fail even the naive join-rate bar (~51-55%) against
+    # either table - left raw, unmapped. tools/build_dungeons.py now wires
+    # "creature": {id, name} | null onto every encounter.
     "DungeonEncounterExtra": {"expected_fields": 4, "columns": [
-        ("dungeonEncounterId", 0, "u"),
+        ("dungeonEncounterId", 0, "u"), ("creatureId", 1, "u"),
     ]},
     # v2 (task V2-3): proven via golden-record probes (see .superpowers/sdd/task-v2-3-report.md).
     # ChrSpecs (101x65): f0 ascending unique 1..101 (id). f1 is NOT a raw classId int -
@@ -759,12 +804,106 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("mapId", 1, "u"), ("difficultyIndex", 2, "u"),
         ("lockoutMessage_enUS", 3, "s"), ("difficultyToken", 22, "s"),
     ]},
+    # v3 (task V3-1): proven via golden-record probes (see .superpowers/sdd/task-v3-1-report.md).
+    # Manastorm (1017x9, no strings): f0 ascending-unique 1-1212 (id). f1 golden-proven
+    # mapId: 100% (73/73) of its distinct values are valid Map.dbc ids AND every single
+    # one resolves to a real classic/TBC/WotLK dungeon or raid zone name (Shadowfang Keep,
+    # Deadmines, Molten Core, Blackwing Lair, Naxxramas, Hellfire Citadel wings, ...) - not
+    # a density coincidence (Map.dbc is only 374/4000 = 9.4% dense over f1's own 33-1806
+    # range, so 73/73 random hits would be astronomically unlikely). f3 golden-proven
+    # dungeonEncounterId: 99.5% (1012/1017) resolve against DungeonEncounter.dbc ids, and
+    # of those, 100% (1012/1012) have the resolved encounter's OWN mapID column equal to
+    # this row's f1 (a full two-hop chain validation, not just membership) - e.g. Manastorm
+    # rows with mapId=33 (Shadowfang Keep) resolve f3 to exactly SFK's 7 real bosses
+    # (Rethilgore, Baron Silverlaine, Commander Springvale, Odo the Blindwatcher, Fenrus the
+    # Devourer, Wolf Master Nandos, Archmage Arugal). The 5 unresolved rows all carry
+    # f3=0 - the same "0 = unassigned sentinel" pattern this codebase documents elsewhere
+    # (DungeonEncounterExtra, ChallengeGroups/Levels/Rules/...). f2 golden-proven difficulty:
+    # 0 mismatches across all 1012 resolved rows against the resolved DungeonEncounter row's
+    # OWN "difficulty" column (values are the identical {0,2} set) - e.g. encounter 464
+    # "Rethilgore" has difficulty=0 and its paired variant 2464 (same name, same mapID) has
+    # difficulty=2, matching Manastorm's own f2 for the rows referencing each. f4-f8 are
+    # IEEE-754 floats (empirically obvious: sequential rows show canonical values like 1.0/
+    # 0.125/10.0; f7 is a 200-distinct "weight"-looking value 0.125-1.95, plausibly a random-
+    # selection weight) but have NO provable per-row semantic identity or lookup-table target -
+    # left raw (carried as signed ints, not float-decoded, per the empirical rule - "unproven"
+    # covers both meaning AND wire-type interpretation).
+    "Manastorm": {"expected_fields": 9, "columns": [
+        ("id", 0, "u"), ("mapId", 1, "u"), ("difficulty", 2, "u"), ("dungeonEncounterId", 3, "u"),
+    ]},
+    # ManastormMessages (291x39): f0 ascending-unique 1-1206 (id). f4 golden-proven iconToken
+    # (string_likelihood 1.0, samples are real texture-path tokens like
+    # "inv_misc_stormdragonpale"). f5 golden-proven a short notification title (string_
+    # likelihood 1.0, e.g. "Unlocked Iskarr Village!"). f22 golden-proven the full message
+    # text (string_likelihood 1.0, e.g. "You have unlocked Iskarr Village in your next
+    # Manastorm!" - literally contains "Manastorm", the brief's requested seasonal-flavor
+    # golden). f6-f21 and f23-f38 (32 columns total, exactly two 16-column blocks) are the
+    # LangString locale-filler pattern already documented elsewhere in this file (Challenge.
+    # dbc etc.) - every row carries the SAME constant value (50, decoding to the empty
+    # string) across all 32 columns, i.e. zero information (this build only populates
+    # enUS); dropped from output entirely, not even carried raw. f1 (2 distinct: {0,2}) is
+    # the SAME value domain as Manastorm.difficulty and behaves identically here (id 1 and
+    # its exact content-duplicate id 12 differ ONLY in f1, 0 vs 2) - strong circumstantial
+    # match to the same seasonal-tier concept, but NOT independently provable within this
+    # table alone (no DungeonEncounter-style cross-table anchor exists for messages) - left
+    # raw, not named. f2 (187 distinct, 5-102550) was hypothesized as a spellId - DISPROVEN:
+    # 90.4% raw join rate against Spell.dbc but the resolved "spells" are unrelated ancient
+    # low-id test/base spells ("Heal Self (TEST)", "Blizzard", "Stun") with zero thematic
+    # connection to the message text - a textbook Spell.dbc low-id density false positive
+    # (same class as this codebase's other disproven joins). f3 (19 distinct, 0-730) was
+    # hypothesized as an areaId - DISPROVEN the same way: 92.2% of the 153 nonzero rows
+    # (48.5% of all 291 rows - ~47% carry the 0 sentinel) join against AreaTable.dbc,
+    # but resolved area names (e.g. "Silverpine Forest", "Coldridge Valley")
+    # bear no relation to the grouped messages' actual content (Zul'Gurub bosses, Molten
+    # Core bosses) - a density false positive, not a real link (AreaTable's low-id range is
+    # densely populated by classic zones). f3's nonzero values DO cleanly group messages by
+    # real content pack (130=Zul'Gurub, 132=Molten Core, 134=Blackwing Lair, 135=AQ20,
+    # 137=AQ40, 139=Naxxramas) - a genuine internal grouping structure, but no WANTED_DBCS
+    # lookup table exists to independently prove what f3's own id space names, so it stays
+    # raw. f2's large outlier values for endgame unlocks (102550 "Heroic Sunwell Plateau
+    # Items", 102400 "Sunwell Plateau Items") are consistent with an unlock-point-threshold
+    # hypothesis but this is not provable via any join - left raw.
+    "ManastormMessages": {"expected_fields": 39, "columns": [
+        ("id", 0, "u"), ("iconToken", 4, "s"), ("title_enUS", 5, "s"), ("text_enUS", 22, "s"),
+    ]},
+    # ManastormModifiers (32768x15, no strings): f0 ascending-unique 1-32768 (id) - the
+    # brief's only required proof for this table besides a spellId check. No spellId
+    # column exists: every other column is either a tiny-range int (f1 in {0,2}, f2 a
+    # 1-16384 "level" index, f7/f9 always 0, f14 a 0/1 flag) or an IEEE-754 float in a
+    # small numeric range (f3-f6,f8,f10-f13, empirically obvious from smooth sequential
+    # progressions like 5.0/5.075/5.15/... and clean values like -20.0/10.0/1.0) - none
+    # remotely resembles Spell.dbc's id space (which runs into the millions). Structural
+    # observation (not a proof, no lookup table exists to verify against): rows come in
+    # id-adjacent pairs sharing the same f2 "level" value with f1 alternating 0/2 (the
+    # same value domain as Manastorm.difficulty) - looks like a precomputed two-tier
+    # (Normal/Heroic-style) scaling-curve table keyed by an internal level/stack index,
+    # not by any external entity id. All non-id columns left raw (signed, not float-
+    # decoded - see Manastorm's f4-f8 comment for the same "unproven covers wire-type too"
+    # rationale).
+    "ManastormModifiers": {"expected_fields": 15, "columns": [
+        ("id", 0, "u"),
+    ]},
+    # ManastormPlayerGroupModifiers (15x5, no strings): f0 ascending-unique 1-15 (id).
+    # f1 is bit-for-bit IDENTICAL to f0 on every row (no distinguishing evidence that it
+    # carries independent information - could be "group size" given the table's name, but
+    # that is a naming guess, not a provable identity distinct from f0) - left raw, not
+    # renamed. f2 always 0. f3/f4 are IDENTICAL to each other per row, a float curve
+    # climbing 1.0->1.4 over ids 1-5 then plateauing at 1.4 for ids 6-15 - the same class
+    # of finding as MythicPlusScaling's f3/f5 ("likely a health/damage scalar... left
+    # raw"). No lookup table exists to independently verify any of f1-f4 - all left raw.
+    "ManastormPlayerGroupModifiers": {"expected_fields": 5, "columns": [
+        ("id", 0, "u"),
+    ]},
 }
 
 
-def _open_checked(table: str) -> tuple[DBCFile, dict]:
+def _open_checked(table: str, dbc_dir: Path = None) -> tuple[DBCFile, dict]:
+    """dbc_dir defaults to config.WORK_DBC_DIR (base client). Task V3-2 passes an
+    explicit realm dbc dir (work/realms/<realm>/dbc) so the SAME base TABLE_MAPS
+    column map + layout guard apply to a realm-overlay DBC of the same name."""
     spec = TABLE_MAPS[table]
-    f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
+    d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
+    f = DBCFile(d / f"{table}.dbc")
     if f.fields != spec["expected_fields"]:
         raise LayoutError(
             f"{table}: field_count {f.fields} != expected {spec['expected_fields']} "
@@ -783,18 +922,23 @@ def _decode(f: DBCFile, row: tuple, name: str, idx: int, kind: str):
     return v
 
 
-def iter_named(table: str):
-    f, spec = _open_checked(table)
+def iter_named(table: str, dbc_dir: Path = None):
+    f, spec = _open_checked(table, dbc_dir)
     cols = spec["columns"]
     for row in f.iter_rows():
         yield {name: _decode(f, row, name, idx, kind) for name, idx, kind in cols}
 
 
-def dump_table(table: str) -> Path:
-    f, spec = _open_checked(table)
+def dump_table(table: str, dbc_dir: Path = None, out_dir: Path = None) -> Path:
+    """dbc_dir/out_dir default to config.WORK_DBC_DIR/config.RAW_DBC_DIR (base
+    client's dump_all() behavior). Task V3-2 passes explicit realm paths so a
+    mapped realm-overlay table dumps to raw/realms/<realm>/dbc/ instead."""
+    f, spec = _open_checked(table, dbc_dir)
     named = {idx: (name, idx, kind) for name, idx, kind in spec["columns"]}
     header = [named[i][0] if i in named else f"f{i}" for i in range(f.fields)]
-    out = config.RAW_DBC_DIR / f"{table}.csv.gz"
+    d = out_dir if out_dir is not None else config.RAW_DBC_DIR
+    d.mkdir(parents=True, exist_ok=True)
+    out = d / f"{table}.csv.gz"
     # gzip.open("wt") embeds the current mtime in the gzip header, so identical
     # CSV content re-dumped later produces byte-different .gz files - violates
     # the "raw/ diff shows exactly what a game patch changed" constraint.
@@ -812,7 +956,7 @@ def dump_table(table: str) -> Path:
     return out
 
 
-def dump_unmapped(table: str, out_dir: Path = None) -> Path:
+def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Path:
     """Dump a table with no TABLE_MAPS entry as raw signed ints (f0..fN) plus
     a colinfo.json evidence sidecar: per-column distinct/min/max/pct_zero and
     a string-likelihood score (fraction of rows whose value is a plausible
@@ -824,11 +968,16 @@ def dump_unmapped(table: str, out_dir: Path = None) -> Path:
     scratch dir instead, so they don't clobber committed raw/ artifacts -
     especially for tables that HAVE since become mapped, where this
     unmapped f0..fN shape would corrupt the committed named-header dump.
+
+    dbc_dir defaults to config.WORK_DBC_DIR (base client). Task V3-2 passes an
+    explicit realm dbc dir to colinfo-dump a realm-only table (no base
+    TABLE_MAPS entry, e.g. CharacterAdvancement/SpellRank).
     """
     if out_dir is None:
         out_dir = config.RAW_DBC_DIR
     out_dir.mkdir(parents=True, exist_ok=True)
-    f = DBCFile(config.WORK_DBC_DIR / f"{table}.dbc")
+    d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
+    f = DBCFile(d / f"{table}.dbc")
     n = f.fields
     strblock_size = len(f._strings)
     records = f.records

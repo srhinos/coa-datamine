@@ -7,15 +7,22 @@ grouping column to shard by identity - see below) + index.json. Each dataset als
 _meta.json carrying proven-column evidence and join-rate findings.
 
 Empirical-mapping rule outcomes (full probe evidence in
-.superpowers/sdd/task-v2-2-report.md, golden checks pinned in tools/dbc.py TABLE_MAPS
-comments and tests/test_creatures.py):
+.superpowers/sdd/task-v2-2-report.md and .superpowers/sdd/task-v3-0-report.md, golden
+checks pinned in tools/dbc.py TABLE_MAPS comments and tests/test_creatures.py):
 
-- Creature: id (f0) and name (f2) proven by golden decode. subname was hypothesized on
-  the two next-highest string_likelihood columns (f20/f21/f22 per V2-1 colinfo) but
-  DISPROVEN: both goldens (Hogger, Ragnaros) carry 0 in all three, and table-wide the
-  small non-zero fraction resolves to unrelated fragments/other creatures' names at a
-  rate matching pure coincidence against Creature's huge shared string block. Shipped
-  as subname: null, always, documented.
+- Creature: id (f2 name proven unchanged since V2-2). id itself was CORRECTED in task
+  V3-0: V2-2 named f0 "id" (looked like a clean ascending-unique local PK), but the
+  2026-08-01 client rebuild proved f0 is a POSITIONAL row index that shifts on every
+  patch inserting upstream rows - not a stable entry id. The real, stable creature
+  template entry id is f1 (unique across all 127178 rows, golden-verified against 4
+  canonical WotLK entry ids: Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros
+  11502). Creatures are now keyed/sharded by f1; f0 is dropped from curated output
+  entirely (positional noise). subname was hypothesized on the two next-highest
+  string_likelihood columns (f20/f21/f22 per V2-1 colinfo) but DISPROVEN: both goldens
+  (Hogger, Ragnaros) carry 0 in all three, and table-wide the small non-zero fraction
+  resolves to unrelated fragments/other creatures' names at a rate matching pure
+  coincidence against Creature's huge shared string block. Shipped as subname: null,
+  always, documented.
 - Quest: id (f0) proven unique. No column clears the join-rate bar against QuestSort or
   QuestInfo ids (best real candidate ~58%, well under the required 80%/threshold).
   Shipped as sort: null, info: null, always, documented; all 28 other columns carried
@@ -48,13 +55,17 @@ def build_creatures() -> dict:
     for r in dbc.iter_named("Creature"):
         records[r["id"]] = {"id": r["id"], "name": r["name_enUS"], "subname": None}
 
-    # golden gate: refuse to publish if the pinned id->name facts don't hold
-    assert records.get(437, {}).get("name") == "Hogger", \
-        "golden creature 437 (Hogger) failed - column map is wrong, dataset aborted"
-    ragnaros_ids = (8034, 8035, 31622, 32197, 32311, 41034,
-                    107744, 109319, 111385, 113661, 114415)
-    assert any(records.get(i, {}).get("name") == "Ragnaros" for i in ragnaros_ids), \
-        "golden creature Ragnaros failed - column map is wrong, dataset aborted"
+    # golden gate: refuse to publish if the pinned id (f1)->name facts don't hold -
+    # these are canonical WotLK 3.3.5 entry ids (task V3-0), stronger than V2-2's
+    # name-only goldens since they also pin the id column itself
+    assert records.get(448, {}).get("name") == "Hogger", \
+        "golden creature 448 (Hogger) failed - column map is wrong, dataset aborted"
+    assert records.get(639, {}).get("name") == "Edwin VanCleef", \
+        "golden creature 639 (Edwin VanCleef) failed - column map is wrong, dataset aborted"
+    assert records.get(10184, {}).get("name") == "Onyxia", \
+        "golden creature 10184 (Onyxia) failed - column map is wrong, dataset aborted"
+    assert records.get(11502, {}).get("name") == "Ragnaros", \
+        "golden creature 11502 (Ragnaros) failed - column map is wrong, dataset aborted"
 
     bucketed = {}
     for rid in sorted(records):
@@ -77,15 +88,33 @@ def build_creatures() -> dict:
     meta = {
         "count": len(records),
         "provenColumns": {
-            "id": "Creature.dbc f0 - ascending unique 1..127178, golden-checked",
+            "id": "Creature.dbc f1 (V3-0 correction - was f0, see idCorrectionFinding) "
+                  "- unique across all 127178 rows, golden-checked against 4 canonical "
+                  "WotLK entry ids",
             "name": "Creature.dbc f2 - string_likelihood=1.0, pct_zero=0.0, golden "
-                    "Hogger/Ragnaros verified",
+                    "Hogger/Edwin VanCleef/Onyxia/Ragnaros verified",
         },
+        "idCorrectionFinding": (
+            "Task V2-2 named f0 'id' - ascending unique 1..127178, the classic local "
+            "auto-increment PK shape. Task V3-0 (2026-08-01 client rebuild) proved this "
+            "was WRONG: f0 is a POSITIONAL row index that shifts on every patch "
+            "inserting rows upstream (a patch added 3 rows and every Ragnaros-variant "
+            "id downstream shifted by exactly +3), not a stable entry id. f1 is the "
+            "real, stable creature template entry id - unique across all 127178 rows "
+            "(no duplicates) and golden-verified against 4 canonical WotLK 3.3.5 entry "
+            "ids: Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros 11502 (f0 "
+            "resolves those same numbers to unrelated NPCs, e.g. 448 -> 'Demisette "
+            "Cloyce', proving the columns are genuinely different, not a relabeling). "
+            "Creatures are now keyed/bucketed by f1; f0 is dropped entirely from "
+            "curated output (positional noise, not even carried raw)."
+        ),
         "subnameFinding": (
             "Hypothesized on the two next-highest string_likelihood columns (f20/f21/"
-            "f22 per V2-1 colinfo). DISPROVEN: both goldens (Hogger id=437/60041/92992, "
-            "Ragnaros ids 8034 etc) carry raw value 0 in all three columns (no data), "
-            "and table-wide only ~0.5-5% of rows have non-zero values that pass the "
+            "f22 per V2-1 colinfo). DISPROVEN (V2-2 probe, re-verified unaffected by "
+            "the V3-0 id-key correction below - this finding is about row CONTENT, not "
+            "the id column): both goldens' rows (Hogger, Ragnaros) carry raw value 0 in "
+            "all three columns (no data), and table-wide only ~0.5-5% of rows have "
+            "non-zero values that pass the "
             "strict string-offset test, resolving to unrelated fragments or other "
             "creatures' full names - not this row's own subname. A random-offset "
             "control against the same string block hits the strict test ~3.45% of the "
