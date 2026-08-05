@@ -31,7 +31,7 @@ ALLOWLIST = {
 # "Regenerating after a client patch" contract (small delta = content churn).
 # 2026-08-01 rebuild after a further client patch: writer now produces 27470 against
 # the patched work/dbc snapshot (+31 vs. 27439) - re-pinned per the same contract.
-PRE_SPELL_COUNT = 27470
+PRE_SPELL_COUNT = 27474
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,

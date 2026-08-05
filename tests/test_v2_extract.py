@@ -15,7 +15,7 @@ prov = extract_mpq.extract_all()
 expected = {
     "Creature.dbc": (127178, 23),
     "Quest.dbc": (18561, 29),
-    "NPCTrainer.dbc": (13105, 4),
+    "NPCTrainer.dbc": (13111, 4),
     "ChrSpecs.dbc": (101, 65),
     "SpellTags.dbc": (488662, 3),
     "Challenge.dbc": (297, 53),

@@ -899,3 +899,17 @@ DB_MapPOI.CreatePOI("theradiantspring",
         0
 )
 
+DB_MapPOI.CreatePOI("raid-regretchasm",
+        INSTANCE_POI_REGRET_CHASM,
+        "",
+        -11999.008789,
+        -2406.038818,
+        1.086998,
+        Enum.POIType.Instance,
+        Enum.POIFlags.HideOnContinent,
+        "raid",
+        scale,
+        nil,
+        967
+)
+

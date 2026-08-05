@@ -1,11 +1,11 @@
 {
  "by_source": {
-  "cad": 13763,
-  "rank": 10495,
+  "cad": 13766,
+  "rank": 10496,
   "talent": 5526,
   "trigger": 3224
  },
- "count": 27470,
+ "count": 27474,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
  "enrichment": {
   "addon": 135,
@@ -20,7 +20,7 @@
    "reason": "Hypothesized link (Spell.dbc's signed powerType going negative indexes this table) is disproven: the only negative powerType value anywhere in Spell.dbc is -2, already decoded by enums335.POWER_TYPES as the pre-existing 'Health' resource-cost sentinel (518 spells: Life Tap, Health Funnel, Bloodrage, ...), unrelated to alternate power bars. No other Spell.dbc column was found to reference this table's ids.",
    "recordCount": 4
   },
-  "category": 6053,
+  "category": 6056,
   "charges": {
    "attached": false,
    "categoryLinkJoinRate": 1.0,
@@ -30,16 +30,16 @@
    "recordCount": 400,
    "spellIdJoinRate": 0.885
   },
-  "customAttr": 7660,
-  "descriptionVariables": 1307,
+  "customAttr": 7661,
+  "descriptionVariables": 1310,
   "overrideData": 6,
-  "tags": 26305
+  "tags": 26307
  },
  "missingRefsFile": "_missing_refs.json",
  "missing_ref_counts_by_source": {
-  "cad_other": 181,
+  "cad_other": 178,
   "cad_reborn": 7119,
-  "rank": 2812,
+  "rank": 2811,
   "talent": 13
  },
  "ref_counts": {

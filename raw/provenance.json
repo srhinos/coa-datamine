@@ -5,7 +5,7 @@
    "entries": 23709,
    "refs_other": 14298,
    "refs_reborn": 13901,
-   "unresolved_other": 509,
+   "unresolved_other": 500,
    "unresolved_reborn": 7119
   },
   "classmeta": {
@@ -155,8 +155,8 @@
     "written": 18561
    },
    "trainers": {
-    "spellJoinRate": 0.9890118275467379,
-    "written": 13105
+    "spellJoinRate": 0.9890168560750515,
+    "written": 13111
    }
   },
   "dungeons": {
@@ -171,7 +171,7 @@
    "count": 1553,
    "diskOverrodeArchive": 0,
    "diskSourced": 109,
-   "manifestSha256": "6469aedd51f91dac8543b216bda37c8b6d1717ad6e2fe217d8aa123d6c6c8f9b",
+   "manifestSha256": "d0ea736ffe36dea0bcb6b1a2079d7262c7c8748914e553f60cd6cf6d0579082a",
    "multiArchiveCollisions": 411,
    "skippedArchives": 8
   },
@@ -264,23 +264,23 @@
    "area-52": {
     "missingRefResolution": {
      "cad_other": {
-      "missingCount": 181,
-      "resolvedInRealm": 181
+      "missingCount": 178,
+      "resolvedInRealm": 178
      },
      "cad_reborn": {
       "missingCount": 7119,
       "resolvedInRealm": 7119
      },
      "rank": {
-      "missingCount": 2812,
-      "resolvedInRealm": 605
+      "missingCount": 2811,
+      "resolvedInRealm": 604
      },
      "talent": {
       "missingCount": 13,
       "resolvedInRealm": 1
      }
     },
-    "newSpellCount": 31507,
+    "newSpellCount": 31498,
     "realm": "area-52",
     "spellIdRange": [
      1,
@@ -331,18 +331,18 @@
       "records": 15
      },
      "SkillLineAbility": {
-      "baseRecords": 40972,
-      "delta": -2430,
+      "baseRecords": 40981,
+      "delta": -2439,
       "fields": 14,
       "mapped": true,
       "records": 38542
      },
      "Spell": {
-      "baseRecords": 209077,
-      "delta": 29848,
+      "baseRecords": 209125,
+      "delta": 29814,
       "fields": 234,
       "mapped": true,
-      "records": 238925
+      "records": 238939
      },
      "SpellCharges": {
       "baseRecords": 400,
@@ -377,8 +377,8 @@
   },
   "spells": {
    "by_source": {
-    "cad": 13763,
-    "rank": 10495,
+    "cad": 13766,
+    "rank": 10496,
     "talent": 5526,
     "trigger": 3224
    },
@@ -454,9 +454,6 @@
      800896,
      800897,
      800900,
-     800939,
-     801110,
-     801152,
      801239,
      801267,
      801296,
@@ -9851,7 +9848,6 @@
      137523,
      137524,
      137525,
-     301009,
      301010,
      301011,
      301012,
@@ -10523,7 +10519,7 @@
     "rank": 12661,
     "talent": 647
    },
-   "written": 27470
+   "written": 27474
   },
   "talents": {
    "files": 12,
@@ -10965,12 +10961,12 @@
    },
    "creature.dbc": {
     "actualFields": 23,
-    "bytes": 14257929,
+    "bytes": 14257908,
     "fields": 23,
     "losers": [],
     "record_size": 92,
     "records": 127178,
-    "sha256": "d3b2a75a390b6a0adb8ed5f3dc9afbb2d35acfb44ed906ce0f14dd88aa770837",
+    "sha256": "aecf0a81fb2deed5d6a946efc6e79153a71245b0ad96699fa373fe86b961ba71",
     "winner": "patch-M.MPQ"
    },
    "dungeonencounter.dbc": {
@@ -11112,12 +11108,12 @@
    },
    "npctrainer.dbc": {
     "actualFields": 4,
-    "bytes": 209700,
+    "bytes": 209796,
     "fields": 4,
     "losers": [],
     "record_size": 16,
-    "records": 13105,
-    "sha256": "1b74b88124f6698b23f344fbb7542d6b053119b171ac40b8b757f852ccc1aacf",
+    "records": 13111,
+    "sha256": "79f0b0b659c1f081ef415811915e4684f72c8ec1dedc3707e2071f6d6c9dea88",
     "winner": "patch-M.MPQ"
    },
    "overridespelldata.dbc": {
@@ -11187,7 +11183,7 @@
    },
    "skilllineability.dbc": {
     "actualFields": 14,
-    "bytes": 2294452,
+    "bytes": 2294956,
     "fields": 14,
     "losers": [
      "locale-enUS.MPQ",
@@ -11196,8 +11192,8 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 56,
-    "records": 40972,
-    "sha256": "3b221652488b29df1366b0a5759a021af93c53494dfdbb8a3400e4719b1b7c70",
+    "records": 40981,
+    "sha256": "ee87e02ecd212460dd76d95f201af98c5dddcc66291a3582d33cea88894b3c54",
     "winner": "patch-M.MPQ"
    },
    "skillraceclassinfo.dbc": {
@@ -11216,7 +11212,7 @@
    },
    "spell.dbc": {
     "actualFields": 234,
-    "bytes": 209020869,
+    "bytes": 209079695,
     "fields": 234,
     "losers": [
      "locale-enUS.MPQ",
@@ -11225,18 +11221,18 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 936,
-    "records": 209077,
-    "sha256": "56d48cbbff800da8b82810d84ed0f52190d5238b9947291453ca8feb94a8a09d",
+    "records": 209125,
+    "sha256": "ce3fe1100c53ad2c20d63fcb28089be5a4fc2da1a161a63f57dc82e425601660",
     "winner": "patch-T.MPQ"
    },
    "spelladdon.dbc": {
     "actualFields": 23,
-    "bytes": 515312,
+    "bytes": 515404,
     "fields": 23,
     "losers": [],
     "record_size": 92,
-    "records": 5601,
-    "sha256": "c8e908a433d01927a3bb811c4f22e0ccc765ec0ffcb37c8daae1cbfdb0550dc6",
+    "records": 5602,
+    "sha256": "5e6d674e7087688cdda34532012e70895bf558974520d5b7aa1a0f2f9ff53815",
     "winner": "patch-S.MPQ"
    },
    "spellalternativecost.dbc": {
@@ -11275,7 +11271,7 @@
    },
    "spellcategory.dbc": {
     "actualFields": 2,
-    "bytes": 41524,
+    "bytes": 41532,
     "fields": 2,
     "losers": [
      "locale-enUS.MPQ",
@@ -11283,8 +11279,8 @@
      "patch-enUS-2.MPQ"
     ],
     "record_size": 8,
-    "records": 5188,
-    "sha256": "58fa98744f63875f552d2c9c7898b76717959ed7e389b908e42558435ad9ba3d",
+    "records": 5189,
+    "sha256": "b1df90f3096fe8d612e6224e0ec43c2d333d0505e78c408dc58e38c72c0b015d",
     "winner": "patch-S.MPQ"
    },
    "spellcharges.dbc": {
@@ -11309,12 +11305,12 @@
    },
    "spellcustomattr.dbc": {
     "actualFields": 11,
-    "bytes": 2568784,
+    "bytes": 2569444,
     "fields": 11,
     "losers": [],
     "record_size": 44,
-    "records": 58381,
-    "sha256": "eff3fa935c44d31341142e86ee5ffe00dc47612b48b7d6a3098179b992feac88",
+    "records": 58396,
+    "sha256": "e63a7e0ed4926fe8aeacf6e36e621c92047e9e68f1d4cf2f833759f3813bf8c2",
     "winner": "patch-S.MPQ"
    },
    "spelldescriptionvariables.dbc": {
@@ -11360,7 +11356,7 @@
    },
    "spellicon.dbc": {
     "actualFields": 2,
-    "bytes": 785315,
+    "bytes": 785441,
     "fields": 2,
     "losers": [
      "locale-enUS.MPQ",
@@ -11369,8 +11365,8 @@
      "patch-enUS-3.MPQ"
     ],
     "record_size": 8,
-    "records": 16359,
-    "sha256": "f1e245b9ebc37450f4699ab1819939fa68be0bbb3c5bafdeb800689e96b74823",
+    "records": 16361,
+    "sha256": "25721140c3b85af3167d0fc5b559feae4d0ce8cf8c9bd9d519afacc1eb970999",
     "winner": "patch-S.MPQ"
    },
    "spellmechanic.dbc": {
@@ -11523,6 +11519,6 @@
    }
   ]
  },
- "generatedUtc": "2026-08-01T16:07:40+00:00",
+ "generatedUtc": "2026-08-05T21:16:23+00:00",
  "headerMismatches": []
 }

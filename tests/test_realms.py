@@ -50,7 +50,7 @@ EXPECTED = {
     "CharacterAdvancement": (7820, 179), "CharacterAdvancementEssence": (5440, 9),
     "Manastorm": (1025, 9), "ManastormMessages": (291, 39),
     "ManastormModifiers": (32768, 15), "ManastormPlayerGroupModifiers": (15, 5),
-    "SkillLineAbility": (38542, 14), "Spell": (238925, 234),
+    "SkillLineAbility": (38542, 14), "Spell": (238939, 234),
     "SpellCharges": (473, 2), "SpellChargesCategory": (108, 3),
     "SpellRank": (19601, 4), "Talent": (2368, 23),
 }
@@ -66,7 +66,7 @@ for table, (recs, fields) in EXPECTED.items():
     assert p.stat().st_size == 20 + r2 * recsize + strsize
 
 saved = json.loads((config.WORK_REALMS_DIR / "extract_provenance.json").read_text(encoding="utf-8"))
-assert saved[REALM]["files"]["Spell.dbc"]["records"] == 238925
+assert saved[REALM]["files"]["Spell.dbc"]["records"] == 238939
 
 # byte-true field count per table (record_size/4) - what dbc.DBCFile.fields actually
 # reports; disagrees with the header's DECLARED field count for CharacterAdvancement
@@ -134,7 +134,7 @@ for table in MAPPED_TABLES:
 # matching field count
 spell_rows = {r["id"]: r for r in dbc.iter_named("Spell", dbc_dir=config.WORK_REALMS_DIR / REALM / "dbc")}
 assert spell_rows[17]["name_enUS"] == "Power Word: Shield", spell_rows[17]
-assert len(spell_rows) == 238925
+assert len(spell_rows) == 238939
 
 # overlay evidence: newSpellCount / spellIdRange
 assert idx["newSpellCount"] > 10000, idx["newSpellCount"]      # brief's loose pin, ~+30k expected

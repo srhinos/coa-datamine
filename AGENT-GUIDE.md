@@ -41,7 +41,7 @@ this repo needs an exemption).
 | `data/quests/index.json` | bucket manifest, same shape as creatures (`bucketSize` 5000, `count` 18561) | small |
 | `data/quests/quests-<id//5000*5000>.jsonl` | `{id, sort: null, info: null, f1..f28}` per `Quest.dbc` row - **this table has no string block at all** (no quest title/objective text anywhere in it, see Honest limits); `sort`/`info` are always `null` (probed and disproven); the 28 remaining columns are raw/unnamed | small-medium per file |
 | `data/quests/_meta.json` | `count`, `provenColumns`, `sortInfoFinding` | small |
-| `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13105) | small |
+| `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13111) | small |
 | `data/trainers/trainers-<id//2000*2000>.json` | `{bucket, count, minId, maxId, entries: [{id, spellId, name, skillLine:{id,name}\|null, f3}]}` - a **flat per-row list**, not grouped by trainer: `NPCTrainer.dbc` has no trainer-NPC identity column at all (see `trainerIdFinding` in `_meta.json`) | small |
 | `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
 | `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {25 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json` | small |
@@ -533,7 +533,7 @@ whenever CoA ships new content:
   per-class entry counts, dungeons 431) so sharding can't silently drop/duplicate
   records; also the repo-wide <=5,000-line gate (empty allowlist today - re-add an
   entry here and in the allowlist if content growth ever forces one)
-- `tests/test_creatures.py`: 127178 creatures / 18561 quests / 13105 trainers
+- `tests/test_creatures.py`: 127178 creatures / 18561 quests / 13111 trainers
   (`Creature.dbc`/`Quest.dbc`/`NPCTrainer.dbc` record counts), trainer spellId
   join-rate >=90% (measured 0.9892)
 - `tests/test_classmeta.py`: 101 specs / 56 archetypes, >=60% of the 32 `ChrClasses`
@@ -559,7 +559,7 @@ whenever CoA ships new content:
   the machine running the suite (currently area-52 only - see that section for why);
   its own module docstring already warns these may drift slightly with a future
   client patch, same re-pin treatment as every other snapshot pin here.
-  `newSpellCount` is gated loosely (>10000, measured 31507) rather than pinned exactly,
+  `newSpellCount` is gated loosely (>10000, measured 31498) rather than pinned exactly,
   since a realm's own content churns independently of the base client's.
 - `tests/test_dataset.py`: 10 `buildStats` keys; `headerMismatches == []` for the base
   77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
