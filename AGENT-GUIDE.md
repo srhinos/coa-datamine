@@ -30,6 +30,7 @@ this repo needs an exemption).
 | `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally; task W4-4 adds `rankAt60` (chain's own first-rank record only, omitted when none of that chain's ranks are CAD-level<=60) and `devDead: true` (7 records, see "Formula closure, level-60 ranks..." below) when applicable | small-medium per file - stream/grep it, do not slurp |
 | `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts), `formulaClosure`/`rankAt60`/`scalingConstants`/`devDead` (task W4-4, see "Formula closure, level-60 ranks..." below) | small |
 | `data/spells/_coverage.json` | task W4-3: per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 total fields, 124 emitted/4 mapped-not-emitted) - see "Spell column completion" below | small |
+| `data/spells/_enum_evidence.json` | per-id provenance for every effect/aura enum label: `{effects, auras}` keyed by numeric id -> `{bucket, confidence, name, goldenSpells, occurrences}`, plus a `summary` block. 224 classified ids (66 effect + 158 aura) - 57 `confidence: verified` names are actually WIRED into `tools/enums335.py`'s `COA_*` maps, 2 more carry an `[INFERRED]` name and are deliberately documentation-only (never wired), and the remaining 167 are left as numeric `EFFECT_<n>`/`AURA_<n>`. Every named entry carries >=1 `goldenSpells` id you can look up in `data/spells/` to check the name yourself - **this is how you audit any enum label in this dataset** | small |
 | `data/spells/_missing_refs.json` | full missing-ref id lists by source (`cad_other`/`cad_reborn`/`talent`/`rank`/`formula` - task W4-4 adds `formula`, report-only, never folded into the `cad_other`/`talent` hard gates), each source's array on ONE line | small (line count, not byte count) |
 | `data/talents/<ChrClass>.json` | DBC talent trees (row/col/ranks/prereqs) - only exists for the 12 classes that have DBC talent tabs; largest is ~3.6k lines, under the gate as-is, not sharded | medium |
 | `data/talents/_pet.json` | pet talent tabs (`petTalentMask` set) - not tied to a single player class | small |
@@ -70,7 +71,7 @@ this repo needs an exemption).
 | `raw/interface/{AddOns,FrameXML,GlueXML,SharedXML,LibraryXML,LCDXML}/**` | every other `.lua`/`.xml`/`.toc`/`.txt`/`.md` file found under the client's `Interface\` tree across every MPQ archive (art/BLPs/sounds/models excluded - this is a code layer, not an art dump); winner per file resolved by the same chain-order rule as the DBCs | large |
 | `raw/dbc/*.csv.gz` | full decoded DBC dumps (every column) | large |
 | `raw/content/*.json` | verbatim client sidecar JSONs | large |
-| `raw/provenance.json` | source hashes, archive resolution, build stats, top-level `headerMismatches` (must be `[]` - see "Manastorm + realm overlays" below) | small |
+| `raw/provenance.json` | source hashes, archive resolution, build stats, top-level `headerMismatches` (must contain only the documented allowlist - today exactly one entry, `spellitemenchantmentcondition.dbc` 31 declared vs 16 actual; any NEW entry fails `tests/test_dataset.py` - see "Manastorm + realm overlays" below) | small |
 | `data/manastorm/manastorm.json` | `Manastorm.dbc` rows (1017, one file - under the 5k-line gate as-is): `{id, mapId, mapName, difficulty, dungeonEncounterId, dungeonEncounterName, raw}` - `mapName` is a 100% join vs `Map.dbc`; `dungeonEncounterId` resolves >=95% (measured 99.51%) via a two-hop chain against `DungeonEncounter.dbc` whose own `mapID`/`difficulty` must agree with this row's (100% match, gated); `raw` is the 5 undecoded columns (f4-f8) | small |
 | `data/manastorm/messages.json` | `ManastormMessages.dbc` rows (291): `{id, iconToken, title, text, raw}` - seasonal unlock-flavor strings (golden: id 1's `text` literally contains the word "Manastorm") | small |
 | `data/manastorm/index.json` + `modifiers-<id//5000*5000>.jsonl` | `ManastormModifiers.dbc` bucket manifest + buckets (32768 rows, `bucketSize` 5000, 7 buckets): `{id, raw}` per row - only `id` is proven, no spellId or other FK column exists anywhere in this table | small-medium per file |
@@ -81,7 +82,7 @@ this repo needs an exemption).
 | `data/realms/<realm>/overlay_diff.json` | task W4-5, `tools/diff_realm_overlay.py` (standalone CLI, `python -m tools.diff_realm_overlay <realm>`) - NOT written by `tools/build_realms.py` (a second, narrower single-writer boundary under the same `data/realms/<realm>/` dir, see "Base-vs-overlay Spell.dbc diff..." below): base-vs-overlay `Spell.dbc` diff over the CoA class spell set - `{realm, coaIdSetSize, sharedCount, differingSharedCount, differingSharedPct, damageNumberDisagreementCount, nameChangeCount, nameChanges: [...], columnDiffs: [...], totalBaseSpellCount, totalOverlaySpellCount, overlayOnlySpellCount, baseOnlySpellCount, docComparison}` | small |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` | mapped realm tables (base `tools/dbc.py` `TABLE_MAPS` column map + layout guard reused as-is - zero new column proofs introduced for realm data) - named-header dump, same shape as `raw/dbc/<Table>.csv.gz` | large |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` + `<Table>.colinfo.json` | unmapped realm tables (no same-named base `TABLE_MAPS` entry, or a field-count mismatch against it) - raw `f0..fN` dump + evidence sidecar, same shape as `dbc.dump_unmapped`'s base-table output | large |
-| `data/gt/combatRatings.json` | `gtCombatRatings.dbc` (3200 rows = 32 RATING slots x 100 levels, rating-major not class-major - see "gt* combat-rating tables" below): `{ratings: [{index, name, curve: [99 floats, levels 1-99]}]}` - 16 of 32 rating slots pinned to a published WotLK name (`WEAPON_SKILL`/`DEFENSE`/`DODGE`/`PARRY`/`BLOCK`/`HIT_MELEE`/`HIT_RANGED`/`HIT_SPELL`/`CRIT_MELEE`/`CRIT_RANGED`/`CRIT_SPELL`/`HASTE_MELEE`/`HASTE_RANGED`/`HASTE_SPELL`/`EXPERTISE`/`ARMOR_PENETRATION`), the other 16 stay `cr<N>` (RESILIENCE explicitly checked and NOT pinned - a level-60-only value coincidence, see below) | small |
+| `data/gt/combatRatings.json` | `gtCombatRatings.dbc` (3200 rows = 32 RATING slots x 100 levels, rating-major not class-major - see "gt* combat-rating tables" below): `{ratings: [{index, name, curve: [99 floats, levels 1-99]}]}` - 17 of 32 rating slots pinned to a published WotLK name (`WEAPON_SKILL`/`DEFENSE`/`DODGE`/`PARRY`/`BLOCK`/`HIT_MELEE`/`HIT_RANGED`/`HIT_SPELL`/`CRIT_MELEE`/`CRIT_RANGED`/`CRIT_SPELL`/`CRIT_TAKEN_MELEE`/`HASTE_MELEE`/`HASTE_RANGED`/`HASTE_SPELL`/`EXPERTISE`/`ARMOR_PENETRATION`), the other 15 stay `cr<N>` (including `cr15`/`cr16`, the CRIT_TAKEN_RANGED/SPELL pair that is bit-identical to itself and so NOT individually pinnable - see below) | small |
 | `data/gt/classChanceCurves.json` | 8 class-major gt tables keyed by `classId` (1-32, `ChrClasses.dbc` id): `meleeCrit`/`spellCrit`/`regenMPPerSpt`/`octRegenMP`/`regenHPPerSpt`/`octRegenHP` (`{classId, className, curve: [99 floats]}`) + `meleeCritBase`/`spellCritBase` (`{classId, className, value}`, no level dimension, 32 rows each) | small |
 | `data/gt/level60.json` | convenience slice: every `combatRatings` rating's + every `classChanceCurves` table's level-60 value only (curve index 59) | small |
 | `data/gt/_meta.json` | `counts` per raw gt table, `ratingNames` (the full cr-index-to-name map), `provenColumns`, `goldensReproduced`, `unresolvedRatingIndices`, and the three `caveats` (`gtOCTClassCombatRatingScalar`, `clientCopyMayDifferFromServer`, `armorPenetrationAnomaly`, `level100SlotTrap`) - see "gt* combat-rating tables" below | small |
@@ -383,20 +384,29 @@ correctly returns exactly one name here, `area-52`.
   table probed so far). That fix is why a lying header no longer hard-crashes the
   reader - but it also removed the base pipeline's old crash canary for a lying
   **base** header. `raw/provenance.json`'s top-level `headerMismatches` list (also at
-  `["extract"]["headerMismatches"]`) restores that visibility: every one of the 77
+  `["extract"]["headerMismatches"]`) restores that visibility: every one of the 111
   base `config.WANTED_DBCS` tables where declared and byte-accurate field counts
-  disagree is recorded there, and `tests/test_dataset.py` gates that list at exactly
-  `[]` - a future base table that starts lying about its own header fails this
-  assertion loudly rather than shipping a silently-mismatched dump. Realm tables are
-  NOT held to that gate - a realm-side mismatch is expected to happen again and is
-  surfaced instead via the per-table `declaredFields` key described above.
+  disagree is recorded there, and `tests/test_dataset.py` gates that list against an
+  explicit, documented **allowlist** - a future base table that starts lying about its
+  own header fails this assertion loudly rather than shipping a silently-mismatched
+  dump. The allowlist is not empty: task W4-10's canary caught a real one, and
+  `raw/provenance.json` ships exactly that single entry today -
+  `spellitemenchantmentcondition.dbc`, `declaredFields` 31 vs `actualFields` 16 (see
+  the "Simulation-adjacent spell support tables" section for why the 16-column dump is
+  the true read). Do NOT widen the allowlist reflexively: a NEW entry means some base
+  table's header started disagreeing with its own record size, and the right response
+  is to work out which and why. Realm tables are NOT held to that gate at all - a
+  realm-side mismatch is expected to happen again and is surfaced instead via the
+  per-table `declaredFields` key described above.
 - **`missingRefResolution` - what it proves and what it doesn't.** For each bucket in
   the BASE client's `data/spells/_missing_refs.json` (spell ids that base CAD/talent/
   rank chains reference but that are absent from the base, account-wide `Spell.dbc`
   snapshot), this field reports how many of those ids exist as a real row in the
   REALM's own `Spell.dbc` - **id-set membership only**, report-only, no pass/fail
-  threshold. Measured on area-52: `cad_other` 181/181 (100%), `cad_reborn` 7119/7119
-  (100%), `rank` 605/2812 (21.5%), `talent` 1/13 (7.7%). **Read this carefully before
+  threshold. Measured on area-52 (re-derived from the shipped
+  `data/realms/area-52/index.json`): `cad_other` 178/178 (100%), `cad_reborn`
+  7119/7119 (100%), `rank` 603/2810 (21.5%), `formula` 13/182 (7.1%, the bucket task
+  W4-4's closure widening added), `talent` 1/13 (7.7%). **Read this carefully before
   treating it as more than it is:** area-52's `Spell.dbc` is a superset that happens
   to resolve 100% of the base client's `cad_other` AND `cad_reborn` missing ids - that
   is real evidence of *where this content lives* (a realm-side snapshot carries rows
@@ -422,7 +432,13 @@ correctly returns exactly one name here, `area-52`.
 
 `data/gt/` (task W4-2, patch-M/patch-S) curates the 9 `gt*` tables whose layout this
 task proved, from a fresh extraction independent of the source spec's own snapshot
-(the live client patches on its own schedule). Every `gt*` DBC is a genuinely
+(the live client patches on its own schedule). It is written by `tools/build_gt.py`,
+which is wired into `tools/build_dataset.py`'s orchestrator right after the essence
+stage - so `python -m tools.build_dataset` regenerates it along with everything else.
+(It was NOT wired for most of v4: W4-2 landed before the stage-wiring commits, so an
+otherwise-full regeneration silently skipped `data/gt/` and left it on an older client
+snapshot. Fixed in the review pass; `raw/provenance.json`'s `buildStats` now carries a
+`gt` key, which is what proves the two are on the same snapshot.) Every `gt*` DBC is a genuinely
 single-column, ALL-FLOAT WDBC (`record_size == 4`) - the layout question was never
 "what does the column mean" but "which row position maps to which class/rating/level":
 
@@ -470,14 +486,23 @@ level-80 combat-rating constants, the 166.67/80.00 spell-crit conversion, the
    Ascension rebalance or a pre-3.3.3 WotLK revision. The row's *identity* (which `cr`
    slot is ARMOR_PENETRATION) is certain; only the *value* is anomalous.
 
-`RESILIENCE` (DATAMINE-REQUEST.md Sec 1.1's level-60 table lists 85.00) was explicitly
-checked and **not** pinned: `cr14`'s level-60 value is exactly 85.0, but `cr14`/`15`/`16`
-form their own 3-slot group structurally consistent with `CRIT_TAKEN_MELEE/RANGED/SPELL`,
-and no independent published level-70/80 anchor exists to tell a single-level coincidence
-apart from a real identity - the same class of false positive this file warns about
-elsewhere (Creature.subname, DungeonEncounterExtra, SpellAddon f20-22). Left unnamed
-`cr14` in `data/gt/combatRatings.json`; the full reasoning is in `_meta.json`'s
-`unresolvedRatingIndices`.
+**`RESILIENCE` is never pinned as that literal string** (DATAMINE-REQUEST.md Sec 1.1's
+level-60 table lists 85.00 under that label), because in WotLK mechanics the Resilience
+gear stat is surfaced through `CR_CRIT_TAKEN_MELEE`/`RANGED`/`SPELL` - `cr14`/`15`/`16`
+in the same TrinityCore enum already trusted for `cr0`-`cr24` - not through a dedicated
+`CR_RESILIENCE` slot. What that 85.00 anchor *does* buy is `cr14`: its level-60 value is
+exactly 85.0 and that value is **unique across all 32 rating slots**, the same
+evidentiary tier already used to pin `cr4` BLOCK from a level-60-only match, so
+`data/gt/combatRatings.json` ships index 14 as **`CRIT_TAKEN_MELEE`** (17 named ratings
+total). `cr15`/`cr16` were held to the same bar and **failed** it: their curves are
+bit-identical to *each other* at every one of the 99 curated levels (they diverge only
+at the excluded level-100 slot), so nothing distinguishes which is `CRIT_TAKEN_RANGED`
+and which is `CRIT_TAKEN_SPELL` - they stay unnamed `cr15`/`cr16` rather than take a
+coin-flip, the same discipline applied to `cr20`/`21`/`22`. Both halves are gated in
+`tools/build_gt.py` (a uniqueness assert for `cr14`, an equality assert for `cr15`==
+`cr16` that fires if a future patch ever splits them) and re-checked fresh in
+`tests/test_gt.py`; the full reasoning is in `data/gt/_meta.json`'s
+`unresolvedRatingIndices` and `goldensReproduced.cr14CritTakenMelee`.
 
 `gtNPCManaCostScaler.dbc` (100x1) is extracted (`config.WANTED_DBCS_V4`) per the source
 spec's "may be worth taking" note, but has no class dimension and no curated output in
@@ -728,7 +753,8 @@ grammar above is finding the intended reference set. Full breakdown in
 `data/spells/_meta.json`'s `formulaClosure` block.
 
 > **⚠ The doc's own resolution-rate figure (2,446/5,317 = 46%) does not reproduce
-> here** (this build measures 4,895/5,077 = 96.4% resolved). Population-independent
+> here** (this build measures 4,893/5,075 = 96.4% resolved, per
+> `data/spells/_meta.json`'s `formulaClosure`). Population-independent
 > in principle (an id either exists in `Spell.dbc` or it doesn't), so this is most
 > likely explained by client content churn between when the doc was authored and
 > this snapshot - CoA's dev/test spell ids (the `500000+`/`800000+`/`900000+`/
@@ -1193,16 +1219,21 @@ join - and this matters.** A literal reading of "payload spellIds vs CAD entries
 (does each node's `spellId` appear in this repo's own captured
 `CharacterAdvancementData.json`, or in `data/spells/`) resolves only **~49-53%** -
 badly short of 95%. Re-measuring the SAME node set against the raw client
-`Spell.dbc` table directly (any row at all, 209,125 total, regardless of whether
-any CAD entry references it) resolves **99.97%** (3,617/3,618; the one exception,
-spellId 301010 "Devourer", is a genuine miss). This is real, measured **content
-drift** between the live published builder and this repo's client snapshot, not a
-parse bug: the payload's spell ids are almost all real, valid spells in this exact
+`Spell.dbc` table directly (any row at all, 209,130 total, regardless of whether
+any CAD entry references it) resolves **100%** (3,618/3,618, `unresolvedSpellIds:
+[]`). This is real, measured **content drift** between the live published builder
+and this repo's client snapshot, not a
+parse bug: the payload's spell ids are real, valid spells in this exact
 client - they are simply not the same spellId *variant* this repo's captured CAD
 JSON happens to reference for the same-looking ability (consistent with the W4-8
 finding above that CoA abilities get authored as multiple duplicate CAD rows per
-realm/game-mode, each potentially carrying a different spellId). The build gates
-hard on the 99.97% raw-Spell.dbc figure and ships `spellResolved: false` on every
+realm/game-mode, each potentially carrying a different spellId). Earlier builds of
+this dataset reported 99.97% (3,617/3,618) with spellId 301010 "Devourer" as the one
+miss; a later client patch added that row (`raw/dbc/Spell.csv.gz` went 209,125 ->
+209,130 rows, see `tests/test_sharding.py`'s re-pin log) and the miss is gone. The
+figures in `data/talents/coa/_meta.json`'s `contentDrift` prose are now interpolated
+from the same computed block they sit beside, so they cannot drift apart again. The
+build gates hard on the raw-Spell.dbc figure and ships `spellResolved: false` on every
 node whose spellId does NOT resolve against the curated `data/spells/` set, so a
 consumer sees the gap per-node instead of it being silently absorbed.
 
@@ -1702,7 +1733,15 @@ def class_specs_and_roles(class_name):
   (distinct-value census, per-bit statistics, candidate-hypothesis scoring, Lua
   findings). No `realmFlags` exists anywhere in this dataset.
 - Enum labels for uncommon effect/aura ids fall back to `EFFECT_<n>`/`AURA_<n>`;
-  the numeric id is always authoritative.
+  the numeric id is always authoritative. To check where any single label came
+  from - or why a given id was left numeric - read
+  `data/spells/_enum_evidence.json`: it carries per-id `{bucket, confidence,
+  name, goldenSpells, occurrences}` for all 224 classified ids, and every named
+  entry names at least one golden spell you can pull from `data/spells/` and
+  verify by hand. Only its 57 `confidence: verified` entries are wired into
+  `tools/enums335.py`; the 2 `[INFERRED]` names are recorded there but
+  deliberately NOT wired, so a numeric fallback in the data never silently
+  becomes a guess.
 - `.loc` localization files (non-enUS) are unparsed; enUS strings come from DBCs.
 - CAD covers *obtainable* abilities; item/proc-granted spells appear only via the
   trigger closure or not at all.
@@ -1831,7 +1870,7 @@ def class_specs_and_roles(class_name):
   `data/spells/`.** See "CoA talent tree geometry" above for the full writeup -
   Rexxar geometry is assumed identical but unverified, and the low curated-spell
   join rate is real measured content drift between the live published builder and
-  this repo's client snapshot (99.97% of the same spellIds DO exist in raw
+  this repo's client snapshot (100% of the same spellIds DO exist in raw
   `Spell.dbc`, just not always as the same variant this repo's CAD closure
   reached), not a join bug. Check `spellResolved` per node before assuming a
   tooltip's numbers are backed by this dataset's own spell enrichment.
@@ -1879,10 +1918,14 @@ whenever CoA ships new content:
 - `tests/test_dungeons.py`: 431 dungeons / 2080 encounters / dungeon-258 has 17
   reward brackets
 - `tests/test_extract.py`: `spell.dbc` resolves from `patch-T.MPQ`
-- `tests/test_sharding.py`: pins the pre-shard record-count baseline (spells 27441,
+- `tests/test_sharding.py`: pins the pre-shard record-count baseline (spells 28951,
   per-class entry counts, dungeons 431) so sharding can't silently drop/duplicate
   records; also the repo-wide <=5,000-line gate (empty allowlist today - re-add an
-  entry here and in the allowlist if content growth ever forces one)
+  entry here and in the allowlist if content growth ever forces one). That spells
+  pin has been re-derived repeatedly as the client patched and as task W4-4's
+  formula closure widened the writer's output (27432 committed -> 27441 -> 27439
+  -> 27470 -> 27475 -> 28951); `test_sharding.py`'s own header carries the dated
+  log of every re-pin and why
 - `tests/test_creatures.py`: 127178 creatures / 18561 quests / 13111 trainers
   (`Creature.dbc`/`Quest.dbc`/`NPCTrainer.dbc` record counts), trainer spellId
   join-rate >=90% (measured 0.9892)
@@ -1893,8 +1936,9 @@ whenever CoA ships new content:
   genuinely unmatched token - see `tests/test_class_plumbing.py` for the exact
   32/32 gate)
 - `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags
-  26281, category 6034, customAttr 7635, descriptionVariables 1302, addon 133,
-  overrideData 6, all of 27441 referenced spells). These enrichment counts drift
+  27516, category 6262, customAttr 8124, descriptionVariables 1349, addon 144,
+  overrideData 6, across all 28951 referenced spells - re-derived from the shipped
+  `data/spells/_meta.json`'s `enrichment` block). These enrichment counts drift
   with client patches like the other snapshot pins above; `test_spells_v2.py`
   itself gates most of them as floors (e.g. `descriptionVariables > 1000`), not
   exact values, so treat the numbers here as a snapshot figure, not a contract.
@@ -1913,7 +1957,7 @@ whenever CoA ships new content:
   the machine running the suite (currently area-52 only - see that section for why);
   its own module docstring already warns these may drift slightly with a future
   client patch, same re-pin treatment as every other snapshot pin here.
-  `newSpellCount` is gated loosely (>10000, measured 31498) rather than pinned exactly,
+  `newSpellCount` is gated loosely (>10000, measured 31497) rather than pinned exactly,
   since a realm's own content churns independently of the base client's.
   `CharacterAdvancementEssence` moved from its `UNMAPPED_TABLES` set to
   `MAPPED_TABLES` in task W4-5 (gained a real `TABLE_MAPS` column proof) - the one
@@ -1939,13 +1983,15 @@ whenever CoA ships new content:
   `WITCHKNIGHT`/`VIZIER` shipped; `HYDROMANCY`/`BULWARK` not), and the
   `isStartingNode` anomaly (2 nonzero, values `{1, 127}` - node 7608's `1` IS
   referenced by siblings 4040/7512, node 30212's `127` is not) are pinned the
-  same way. The spellDbc resolve-rate gate (>=0.95, measured 0.9997) DOES
-  depend on the client's `Spell.dbc`, same as any other snapshot pin.
-- `tests/test_dataset.py`: 12 `buildStats` keys (task W4-9 added `coatalents`);
-  `headerMismatches == []` for the base
-  77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
-  "Header-invariant parity" above. Don't re-pin a nonzero list; investigate which base
-  table's header started lying and why.
+  same way. The spellDbc resolve-rate gate (>=0.95, measured 1.0 against the
+  current 209,130-row `Spell.dbc`) DOES depend on the client's `Spell.dbc`, same
+  as any other snapshot pin.
+- `tests/test_dataset.py`: 14 `buildStats` keys (task W4-9 added `coatalents`;
+  W4-11b added `items`; the review fix pass added `gt`, which had been an orphaned
+  stage). The `headerMismatches` allowlist check over the base 111-table
+  `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
+  "Header-invariant parity" above. Don't widen the allowlist reflexively; investigate
+  which base table's header started lying and why.
 - `tests/test_closure_ranks.py`: task W4-4 - formula-closure delta gated at +/-20%
   of the doc's cited +1,843 (re-derived fresh each run, not a fixed pin - measured
   1,476 as of this task); `rankAt60`/`$scalingbp`/`devDead` goldens re-derived from
@@ -1954,7 +2000,8 @@ whenever CoA ships new content:
 - `tests/test_gt.py`: re-derives the gt* layout proof fresh from `work/dbc/gt*.dbc` at
   test time rather than pinning fixed numbers (mostly STRUCTURAL, not a snapshot pin) -
   the level-80 combat-rating constants, the spell-crit/melee-crit conversion goldens,
-  and the `cr14`/RESILIENCE non-pin all re-check against whatever is on disk. A future
+  the `cr14` CRIT_TAKEN_MELEE uniqueness pin and the `cr15`==`cr16` non-pin all
+  re-check against whatever is on disk. A future
   client patch that changes a `gt*` table's RECORD COUNT (currently 3200/3200/32 per
   table) or moves the ARMOR_PENETRATION anomaly's value closer to the published 15.39
   constant is worth a manual look - see "gt* combat-rating tables" above - not a
@@ -1970,14 +2017,18 @@ only shape/count/hash-integrity gates. A big swing in `archiveSourced` or a drop
 archives carry the Interface tree (or the on-disk client install itself) and is worth
 a manual look, not a reflexive re-pin.
 
-Note: the spells count above (27441) already reflects one round of exactly this kind
-of drift - discovered mid-task when a controlled re-run of the pre-sharding writer
-against the current `work/dbc`/`raw/content` snapshot produced 27441 records, not the
-27432 that had been committed in `data/spells/`. Re-running both the old and new
-writer against identical source data confirmed the delta was pre-existing upstream
-content drift (unrelated to the sharding rewrite itself), not a regression - the same
-class of churn documented in past task reports (e.g. Task 9's spell 61685 rename,
-Task V2-1's raw/ Spell.csv.gz +292 rows).
+Note: the spells count above (28951) is the current pin; its history is the clearest
+worked example of this drift. *Historical, superseded by the current build:* the very
+first sharding baseline was set at 27441 - discovered mid-task when a controlled re-run
+of the pre-sharding writer against that day's `work/dbc`/`raw/content` snapshot produced
+27441 records, not the 27432 that had been committed in `data/spells/`. Re-running both
+the old and new writer against identical source data confirmed the delta was pre-existing
+upstream content drift (unrelated to the sharding rewrite itself), not a regression - the
+same class of churn documented in past task reports (e.g. Task 9's spell 61685 rename,
+Task V2-1's raw/ Spell.csv.gz +292 rows). Subsequent client patches carried it to
+27475, and task W4-4's intentional formula-closure widening added the last 1,476
+records (27,475 + 1,476 = 28,951) - `test_sharding.py`'s header logs each step with
+its date and cause.
 
 After regenerating against a patched client, treat the two failure modes
 differently. A snapshot-pin failure with a small delta (record counts moved by
@@ -1997,9 +2048,19 @@ another process's ~30s rebuild window dies on `FileNotFoundError`
 `.csv.gz`. Two further consequences make this worse than a plain failure: the
 wipe is NOT self-healing (`tests/test_enums_v4.py` reads `charges.json` before it
 regenerates it, so sequential retries keep failing until you
-`git checkout -- data/spells`), and `build_realms.build()` degrades silently -
-it will write `data/realms/<realm>/index.json` with an empty
+`git checkout -- data/spells`), and `build_realms.build()` used to degrade
+**silently** - it would write `data/realms/<realm>/index.json` with an empty
 `missingRefResolution` rather than erroring. Task W4-13 reproduced this 6/6
 concurrently vs 0/10 sequentially; despite past reports of a "segfault", exit
 code is 1 with an ordinary traceback and Windows logs no python fault at all
 (see `.superpowers/sdd/task-w4-13-crash-report.md`).
+
+That second consequence is now fixed in code, not just documented: the
+one-at-a-time rule still stands, but `build_realm()` **raises** when
+`data/spells/_missing_refs.json` is absent instead of publishing an evidence
+file with no evidence. The standalone `python -m tools.build_realms` entry point
+passes `allow_missing_base=True`, which writes `missingRefResolution: null` plus
+a `degraded` key naming the cause - so a zeroed run can never be mistaken for a
+measured one, in the console or in the committed data. The orchestrator never
+passes it (it always runs the spells stage first, so a missing base file there
+means something is genuinely wrong and should be loud).

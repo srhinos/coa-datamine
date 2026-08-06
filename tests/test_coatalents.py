@@ -9,9 +9,11 @@ Per the empirical-mapping rule, this also pins the NEGATIVE/nuanced findings
 documented in tools/build_coatalents.py and data/talents/coa/_meta.json (full
 writeup + a correction note in .superpowers/sdd/task-w4-9-report.md - a review
 pass caught two narrative errors in a first draft of this module, corrected here):
-  - the resolve-rate gate is measured against raw Spell.dbc existence (99.97%),
-    NOT the curated data/spells join (only ~53%) - real content drift between
-    the live published builder and this repo's client snapshot, not a bug;
+  - the resolve-rate gate is measured against raw Spell.dbc existence (100% on
+    the current 209,130-row snapshot; it read 99.97% before a client patch added
+    spellId 301010), NOT the curated data/spells join (only ~53%) - real content
+    drift between the live published builder and this repo's client snapshot,
+    not a bug;
   - isStartingNode is PARTIALLY PROVEN: node 7608 (isStartingNode:1) IS the
     requiredIds target of two siblings - the brief's suggested golden HOLDS for
     that entry - but only node 30212's anomalous isStartingNode:127 is

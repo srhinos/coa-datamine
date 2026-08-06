@@ -4,7 +4,8 @@ import argparse, datetime, hashlib, json
 from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
                    build_spells, build_classes, build_talents, build_dungeons,
                    build_creatures, build_classmeta, build_essence, build_mythic,
-                   build_manastorm, build_realms, build_coatalents, build_items)
+                   build_manastorm, build_realms, build_coatalents, build_items,
+                   build_gt)
 
 
 def run(skip_extract=False, skip_dump=False, skip_interface=False,
@@ -60,6 +61,14 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     # of build_classes/build_classmeta's own data/classes/ output.
     stats["essence"] = build_essence.build()
     print(f"[essence]  {stats['essence']}")
+    # v4 (task W4-2): gt* combat-rating/regen curves. Same dependency shape as the
+    # essence stage above - only needs work/dbc (gt*.dbc + ChrClasses for the class
+    # roster), independent of every data/ producer - so it sits next to it. [Review
+    # fix pass] It was NOT wired here originally (W4-2 predated the stage-wiring
+    # commits), so data/gt/ silently missed the final full regeneration while
+    # AGENT-GUIDE.md promised one command rebuilds everything.
+    stats["gt"] = build_gt.build()
+    print(f"[gt]       {stats['gt']['counts']}")
     stats["mythic"] = build_mythic.build()
     print(f"[mythic]   {stats['mythic']}")
 
@@ -115,8 +124,10 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
         # top-level convenience copy of extract_prov["headerMismatches"] (task
         # V3-3): every base table whose WDBC header's declared FieldCount
         # disagrees with its byte-accurate record_size//4 - see extract_mpq.py.
-        # tests/test_dataset.py gates this at exactly [] for the base pipeline;
-        # a realm table (e.g. area-52's CharacterAdvancement.dbc) legitimately
+        # tests/test_dataset.py gates this against an explicit allowlist (today:
+        # spellitemenchantmentcondition.dbc, 31 declared vs 16 actual - task
+        # W4-10), so any NEW base mismatch still fails loudly; a realm table
+        # (e.g. area-52's CharacterAdvancement.dbc) legitimately
         # disagreeing is a SEPARATE, allowed thing surfaced instead as
         # data/realms/<realm>/index.json's per-table `declaredFields` key.
         "headerMismatches": extract_prov.get("headerMismatches", []),

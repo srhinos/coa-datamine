@@ -601,6 +601,28 @@ def build(slug: str = "voljin") -> dict:
         },
     }
 
+    # [Review fix pass] The raw-Spell.dbc re-measurement now runs BEFORE the
+    # content_drift prose is assembled, so every figure in that prose is
+    # interpolated from these variables instead of hardcoded. The hardcoded
+    # version had already gone stale against its own computed block in the same
+    # file (it claimed 99.97%/3,617-of-3,618 against 209,125 rows next to a
+    # measured rate of 1.0, and named spellId 301010 "Devourer" as a genuine
+    # miss when a later client patch added that row) - exactly the
+    # stated-as-fact-not-re-derived failure this pass exists to remove.
+    spell_dbc_ids = set()
+    with gzip.open(config.RAW_DBC_DIR / "Spell.csv.gz", "rt", encoding="utf-8") as f:
+        r = csv.DictReader(f)
+        for row in r:
+            spell_dbc_ids.add(int(row["id"]))
+    spell_dbc_resolved = sum(1 for e in all_entries if e["spellId"] in spell_dbc_ids)
+    spell_dbc_rate = spell_dbc_resolved / n
+    spell_dbc_unresolved = sorted({e["spellId"] for e in all_entries
+                                   if e["spellId"] not in spell_dbc_ids})
+    _miss = (" The remaining "
+             f"{len(spell_dbc_unresolved)} unresolved spellId(s): "
+             f"{spell_dbc_unresolved}." if spell_dbc_unresolved
+             else " Every payload spellId resolves - no exceptions.")
+
     content_drift = {
         "verdict": (
             "The naive '>=95% resolve against CAD entries' gate, taken literally "
@@ -610,12 +632,13 @@ def build(slug: str = "voljin") -> dict:
             "This is real, measured content drift between the live published "
             "builder and this repo's client snapshot - NOT a parse bug or bad "
             "join. Independent proof: a permissive re-measurement against the "
-            "raw client Spell.dbc table (raw/dbc/Spell.csv.gz, 209,125 rows, "
-            "ANY row regardless of whether any CAD entry references it) "
-            "resolves 99.97% (3,617/3,618) - the payload's spell ids are almost "
-            "all real, valid spells that exist in this exact client snapshot; "
-            "they are simply not the SAME spellId variant this repo's captured "
-            "CAD JSON happens to reference for the same-looking ability. Likely "
+            "raw client Spell.dbc table (raw/dbc/Spell.csv.gz, "
+            f"{len(spell_dbc_ids):,} rows, ANY row regardless of whether any CAD "
+            f"entry references it) resolves {spell_dbc_rate*100:.2f}% "
+            f"({spell_dbc_resolved:,}/{n:,}) - the payload's spell ids are real, "
+            "valid spells that exist in this exact client snapshot; they are "
+            "simply not the SAME spellId variant this repo's captured CAD JSON "
+            f"happens to reference for the same-looking ability.{_miss} Likely "
             "mechanism (consistent with the W4-8 Realms-bitmask finding that CoA "
             "abilities get authored as MULTIPLE duplicate CAD rows per realm/"
             "game-mode, each potentially carrying a DIFFERENT spellId variant): "
@@ -624,28 +647,19 @@ def build(slug: str = "voljin") -> dict:
             "builder picks one specific variant that doesn't always line up "
             "1:1 with the variant this snapshot's closure walk reached."),
         "spellDbcResolveRate": {
-            "resolved": None,  # filled below after computing against raw Spell.dbc
+            "resolved": spell_dbc_resolved, "of": n,
+            "rate": round(spell_dbc_rate, 4),
+            "unresolvedSpellIds": spell_dbc_unresolved,
         },
         "recommendation": (
             "This module gates the HARD pass/fail bar on the raw-Spell.dbc "
-            "existence check (99.97%, i.e. 'is this a real spell in this client "
-            "snapshot at all'), not the curated/CAD-Spells join (46-53%), and "
+            f"existence check ({spell_dbc_rate*100:.2f}%, i.e. 'is this a real "
+            "spell in this client snapshot at all'), not the curated/CAD-Spells "
+            f"join ({resolve_stats['vsCuratedDataSpells']['rate']*100:.1f}%/"
+            f"{resolve_stats['vsRawCadSpellsUnion']['rate']*100:.1f}%), and "
             "ships spellResolved:false on every node whose spellId does not "
             "resolve against data/spells so a consumer can see the gap per-node "
             "instead of it being silently absorbed."),
-    }
-
-    spell_dbc_ids = set()
-    with gzip.open(config.RAW_DBC_DIR / "Spell.csv.gz", "rt", encoding="utf-8") as f:
-        r = csv.DictReader(f)
-        for row in r:
-            spell_dbc_ids.add(int(row["id"]))
-    spell_dbc_resolved = sum(1 for e in all_entries if e["spellId"] in spell_dbc_ids)
-    content_drift["spellDbcResolveRate"] = {
-        "resolved": spell_dbc_resolved, "of": n,
-        "rate": round(spell_dbc_resolved / n, 4),
-        "unresolvedSpellIds": sorted({e["spellId"] for e in all_entries
-                                      if e["spellId"] not in spell_dbc_ids}),
     }
 
     choice_group_finding = {

@@ -20,6 +20,13 @@ unresolved" spell ids exist as an id in the REALM's own Spell.dbc - id-set membe
 only, report-only, no threshold), spellIdRange, and newSpellCount (realm Spell.dbc
 ids absent from the base client's Spell.dbc).
 
+[Review fix pass] missingRefResolution needs data/spells/_missing_refs.json. If that
+file is absent, build_realm RAISES by default rather than shipping an empty dict that
+reads as a measured zero (the silent degrade task W4-13 observed under a concurrent
+run). allow_missing_base=True instead writes missingRefResolution: null plus a
+`degraded` key naming the cause - the standalone-run escape hatch, used by this
+module's __main__ but never by build_dataset.py's orchestrator.
+
 [Task V3-2 finding] CharacterAdvancement.dbc's WDBC header declares FieldCount 179,
 but its record_size only fits 173 int32 fields (692/4) - the byte-accurate value
 tools/dbc.py's DBCFile now derives .fields from (see its docstring). Surfaced here as
@@ -77,16 +84,30 @@ def _base_record_count(table: str):
     return dbc.DBCFile(p).records
 
 
-def _missing_ref_resolution(realm_spell_ids: set) -> dict:
+def _missing_ref_resolution(realm_spell_ids: set):
     """Report-only evidence (no threshold, honest number either way): for each
     bucket in the base client's data/spells/_missing_refs.json (ids referenced by
     CAD/talent/rank chains but absent from the base Spell.dbc snapshot), how many
     of those ids exist as a real id in THIS realm's own Spell.dbc - id-set
     membership only, cheap, and the direct evidence for "the missing spells live
-    in a realm overlay". Returns {} if the base file doesn't exist on disk yet."""
+    in a realm overlay".
+
+    [Review fix pass] Returns (None, reason) instead of {} when the base file is
+    absent. It USED to return a bare {}, which build_realm then shipped as an
+    empty `missingRefResolution` in a published index.json - an evidence file
+    with no evidence, indistinguishable from a measured zero. Task W4-13 saw
+    exactly that happen for real (a concurrent build_spells rmtree of
+    data/spells/ removed _missing_refs.json mid-run) and the response was
+    documentation only. The degrade is now recorded in the output itself: a
+    consumer sees `missingRefResolution: null` plus a `degraded` key naming the
+    cause, and can never mistake it for a real measurement.
+    """
     p = config.DATA_DIR / "spells" / "_missing_refs.json"
     if not p.is_file():
-        return {}
+        return None, (f"data/spells/_missing_refs.json is absent ({p}) - the spells "
+                      "stage has not run, or its output was removed mid-run (see "
+                      "AGENT-GUIDE.md's one-at-a-time rule). missingRefResolution "
+                      "was NOT measured on this build; it is null, not zero.")
     missing_by_source = json.loads(p.read_text(encoding="utf-8"))
     return {
         source: {
@@ -94,10 +115,10 @@ def _missing_ref_resolution(realm_spell_ids: set) -> dict:
             "resolvedInRealm": sum(1 for i in ids if i in realm_spell_ids),
         }
         for source, ids in missing_by_source.items()
-    }
+    }, None
 
 
-def build_realm(realm: str) -> dict:
+def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     dbc_dir = config.WORK_REALMS_DIR / realm / "dbc"
     raw_dir = config.RAW_REALMS_DIR / realm / "dbc"
     if raw_dir.exists():
@@ -145,13 +166,25 @@ def build_realm(realm: str) -> dict:
         f"realm {realm}: newSpellCount {new_spell_count} <= {MIN_NEW_SPELL_COUNT} - "
         "overlay evidence weaker than the pinned expectation, re-verify before trusting")
 
+    # [Review fix pass] Fail loudly by default rather than publishing an evidence
+    # file with no evidence. allow_missing_base=True is the standalone-run escape
+    # hatch (`python -m tools.build_realms` against a repo whose spells stage has
+    # not run yet) and stamps the degrade INTO index.json so it is visible in the
+    # committed data, not just in a console line nobody kept.
+    missing_ref_resolution, degraded = _missing_ref_resolution(realm_spell_ids)
+    if degraded and not allow_missing_base:
+        raise RuntimeError(f"realm {realm}: {degraded} Pass allow_missing_base=True "
+                           "to publish an explicitly-degraded index.json instead.")
+
     index = {
         "realm": realm,
         "tables": table_info,
         "spellIdRange": [min(realm_spell_ids), max(realm_spell_ids)],
         "newSpellCount": new_spell_count,
-        "missingRefResolution": _missing_ref_resolution(realm_spell_ids),
+        "missingRefResolution": missing_ref_resolution,
     }
+    if degraded:
+        index["degraded"] = degraded
 
     # [Task W4-5 fix] Used to shutil.rmtree() the whole realm dir here before
     # rewriting - harmless while this module was the ONLY writer under
@@ -186,23 +219,32 @@ def build_realm(realm: str) -> dict:
     return index
 
 
-def build(skip_extract: bool = False) -> dict:
+def build(skip_extract: bool = False, allow_missing_base: bool = False) -> dict:
     """skip_extract mirrors the base pipeline's --skip-extract convention (task
     V3-3 orchestrator wiring): reuse an already-populated work/realms/<realm>/dbc/
     for every discovered realm instead of re-reading MPQ archives. Falls back to a
     real extract if any discovered realm has no cached dbc dir yet (first run,
-    or a newly-appeared realm directory)."""
+    or a newly-appeared realm directory).
+
+    allow_missing_base [review fix pass]: publish an explicitly-degraded
+    index.json (missingRefResolution: null + a `degraded` reason) when
+    data/spells/_missing_refs.json is absent, instead of raising. Off in the
+    orchestrator - build_dataset.py always runs the spells stage first, so a
+    missing base file there means something went wrong and should be loud."""
     config.ensure_dirs()
     realms = config.discover_realms()
     already_cached = realms and all(
         (config.WORK_REALMS_DIR / r / "dbc").is_dir() for r in realms)
     if not (skip_extract and already_cached):
         extract_realms.extract_all()
-    return {realm: build_realm(realm) for realm in realms}
+    return {realm: build_realm(realm, allow_missing_base=allow_missing_base)
+            for realm in realms}
 
 
 if __name__ == "__main__":
-    for realm, idx in build().items():
+    # standalone convenience run - tolerate a not-yet-built data/spells/, but stamp
+    # the degrade into the output so a zeroed run can't pass as a measured one
+    for realm, idx in build(allow_missing_base=True).items():
         print(f"realm {realm}: newSpellCount={idx['newSpellCount']} "
               f"spellIdRange={idx['spellIdRange']} "
               f"missingRefResolution={idx['missingRefResolution']}")
