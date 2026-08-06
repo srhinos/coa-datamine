@@ -24,9 +24,9 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config
-from tools.extract_mpq import chain_rank, extract_all
-from tools.probe_unlistable import probe_paths, discover_unlistable, probe_all
+from tools import config, probe_unlistable as probe_unlistable_mod
+from tools.extract_mpq import chain_rank, extract_all, _list_archives
+from tools.probe_unlistable import probe_paths, discover_unlistable, probe_all, try_list
 
 D = config.CLIENT_DIR / "Data"
 
@@ -72,6 +72,27 @@ assert discovered == KNOWN_UNLISTABLE, discovered
 t_rank = chain_rank(D / "patch-T.MPQ")
 for name in ("patch-W.MPQ", "patch-WB.MPQ", "patch-WC.MPQ"):
     assert chain_rank(D / name) > t_rank, name
+
+# ============== 2.5 predicate equivalence (review fix pass) ==============
+
+# [Task W4-7 review fix] extract_mpq.extract_all()'s chain-walk skip decision
+# and probe_unlistable.discover_unlistable() must use the IDENTICAL predicate -
+# a review caught them diverging (extract_all() only caught the exception
+# shape; discover_unlistable() also caught a successful-open-but-empty
+# .files). Both now derive from tools.probe_unlistable.try_list(); this
+# re-derives that structurally, WITHOUT running the slow full extract_all()
+# (no DBC read/write/hash) - just the archive-open scan, the cheap part.
+all_archives = _list_archives()
+extract_style_skip = {p.name for p in all_archives
+                       if probe_unlistable_mod.try_list(p)[0] is None}
+discover_style_skip = {p.name for p in discover_unlistable(all_archives)}
+assert extract_style_skip == discover_style_skip, (extract_style_skip, discover_style_skip)
+assert extract_style_skip == KNOWN_UNLISTABLE, extract_style_skip
+# try_list() itself: (files, reason) is mutually exclusive - never both set,
+# never both empty - on every real archive in the chain.
+for p in all_archives:
+    files, reason = try_list(p)
+    assert (files is None) != (reason is None), (p.name, files, reason)
 
 # ================= 3. probe_all() against the real 8 =================
 

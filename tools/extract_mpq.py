@@ -11,7 +11,7 @@ from pathlib import Path
 
 from mpyq import MPQArchive
 
-from tools import config
+from tools import config, probe_unlistable
 
 
 def chain_rank(path: Path) -> tuple:
@@ -53,11 +53,16 @@ def extract_all() -> dict:
                                   # archive's listfile, wanted or not - this loop
                                   # already walks every listfile, so the census is free.
     for p in _list_archives():
-        try:
-            a = MPQArchive(str(p), listfile=True)
-            files = a.files or []
-        except Exception as e:
-            skipped.append({"archive": p.name, "reason": f"{type(e).__name__}: {e}"})
+        # [Task W4-7 review fix] shared predicate with probe_unlistable.discover_
+        # unlistable() (tools/probe_unlistable.py's try_list()) - previously this
+        # loop only caught the exception shape (no readable listfile at all) while
+        # discover_unlistable() ALSO caught a successful-open-but-empty .files, so
+        # an archive of that second shape would have silently skipped provenance,
+        # census AND the hash-table probe. Both call sites now derive from the
+        # same function, so they cannot drift apart again.
+        files, reason = probe_unlistable.try_list(p)
+        if files is None:
+            skipped.append({"archive": p.name, "reason": reason})
             skipped_paths.append(p)
             continue
         archive_dbc_count = 0
@@ -141,7 +146,6 @@ def extract_all() -> dict:
     # built on the wrong Spell.dbc (or any other wanted table).
     prov["unlistableProbes"] = {}
     if skipped_paths:
-        from tools import probe_unlistable
         probes = probe_unlistable.probe_all(archives=skipped_paths)
         path_by_name = {p.name: p for p in skipped_paths}
         for archive_name, frag in probes.items():

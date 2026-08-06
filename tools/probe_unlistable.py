@@ -29,6 +29,28 @@ from mpyq import MPQArchive, MPQ_FILE_EXISTS
 from tools import config
 
 
+def try_list(archive_path):
+    """The single unlistable-archive predicate: attempt MPQArchive(archive_path,
+    listfile=True). Returns (files, reason) - files is the archive's non-empty
+    listfile on success, reason is None; on ANY failure files is None and
+    reason is a short string. Two failure shapes are both "unlistable" and
+    MUST be treated identically by every caller (tools/extract_mpq.py's chain
+    walk and discover_unlistable() below alike - a review of task W4-7 caught
+    the walk checking only the first): the open/read raising (no readable
+    '(listfile)' member, or an encrypted one - mpyq's own read_file returns
+    None or raises, and either way the constructor's `.splitlines()` blows
+    up), OR a successful open whose .files comes back empty/None (a present
+    but empty (listfile) member - no exception, but nothing to enumerate)."""
+    try:
+        a = MPQArchive(str(archive_path), listfile=True)
+        files = a.files
+    except Exception as e:
+        return None, f"{type(e).__name__}: {e}"
+    if not files:
+        return None, "empty listfile"
+    return files, None
+
+
 def probe_paths(archive_path, paths) -> dict:
     """Test existence of each of `paths` (DBFilesClient\\Name.dbc style,
     any case - mpyq's _hash uppercases internally) inside `archive_path`,
@@ -54,28 +76,17 @@ def probe_paths(archive_path, paths) -> dict:
 
 
 def discover_unlistable(archives=None) -> list:
-    """Archives tools/extract_mpq.py's chain walk cannot enumerate: opening
-    with listfile=True either raises (no readable '(listfile)' member -
-    mpyq's own read_file returns None for a missing member, or raises
-    NotImplementedError for an encrypted one, either way the constructor's
-    `.splitlines()` call blows up) or succeeds with an empty/None .files.
-    Independent of tools/extract_mpq.py's own skipped_archives bookkeeping
-    so this module works standalone; `archives` lets a caller (e.g.
-    extract_mpq.extract_all(), which already did this exact scan) pass the
-    list it already has instead of re-opening every archive a second time."""
+    """Archives tools/extract_mpq.py's chain walk cannot enumerate - built on
+    try_list() above, the SAME predicate extract_mpq.extract_all() now uses
+    for its own skip decision, so the two never drift apart again. Independent
+    of tools/extract_mpq.py's own skipped_archives bookkeeping so this module
+    works standalone; `archives` lets a caller (e.g. extract_mpq.extract_all(),
+    which already did this exact scan) pass the list it already has instead of
+    re-opening every archive a second time."""
     if archives is None:
         from tools.extract_mpq import _list_archives
         archives = _list_archives()
-    out = []
-    for p in archives:
-        try:
-            a = MPQArchive(str(p), listfile=True)
-            files = a.files
-        except Exception:
-            files = None
-        if not files:
-            out.append(p)
-    return out
+    return [p for p in archives if try_list(p)[0] is None]
 
 
 def probe_all(archives=None, extra_paths=()) -> dict:
