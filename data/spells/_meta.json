@@ -5,6 +5,14 @@
   "talent": 5526,
   "trigger": 3224
  },
+ "columnCoverage": {
+  "emittedColumns": 124,
+  "file": "_coverage.json",
+  "mappedColumns": 128,
+  "mappedNotEmittedColumns": 4,
+  "totalFields": 234,
+  "unmappedColumns": 106
+ },
  "count": 27475,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
  "enrichment": {

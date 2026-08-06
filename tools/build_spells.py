@@ -198,7 +198,7 @@ def _record(r, aux, tags, v2):
         if not eff:
             continue
         radius = a["rad"].get(r[f"effectRadiusIndex{slot}"])
-        effects.append({
+        e = {
             "slot": slot,
             "effect": {"id": eff, "name": enums335.effect_name(eff)},
             "aura": {"id": r[f"effectAura{slot}"],
@@ -218,7 +218,39 @@ def _record(r, aux, tags, v2):
                         "name": enums335.target_name(r[f"effectImplicitTargetB{slot}"])},
             "mechanic": {"id": r[f"effectMechanic{slot}"],
                          "name": a["mech"].get(r[f"effectMechanic{slot}"], "None")},
-        })
+        }
+        # [Task W4-3] 5 new per-effect columns (DATAMINE-REQUEST.md Sec 1.2/1.4),
+        # all omitted from this slot's dict when their raw DBC value is the
+        # literal zero word - consistent with the v2 enrichment convention
+        # (_enrich_v2 below: "no null-noise", absent key not null) rather than
+        # the older always-present convention basePoints/dieSides/etc. use above.
+        # This matters most for damageMultiplier/bonusMultiplierStock, whose
+        # in-DBC "no data here" sentinel really is a literal 0 float bit pattern
+        # (0x00000000), distinct from their in-game default of 1.0 (0x3F800000,
+        # which - when actually authored - is kept and emitted, not treated as
+        # absent). See tools/dbc.py's TABLE_MAPS comments for the golden proofs.
+        rppl = r[f"effectRealPointsPerLevel{slot}"]
+        if rppl:
+            e["realPointsPerLevel"] = rppl
+        ppc = r[f"effectPointsPerComboPoint{slot}"]
+        if ppc:
+            e["pointsPerComboPoint"] = ppc
+        mask = [r[f"effectSpellClassMaskA{slot}"], r[f"effectSpellClassMaskB{slot}"],
+                r[f"effectSpellClassMaskC{slot}"]]
+        if any(mask):
+            e["spellClassMask"] = mask
+        dmul = r[f"effectDamageMultiplier{slot}"]
+        if dmul:
+            e["damageMultiplier"] = dmul
+        # bonusMultiplierStock: correct for stock/Reborn content, CONTRADICTS
+        # CoA's own tooltip-authored coefficient on the same slot far more often
+        # than it agrees (Sec 2: stock 0/37, CoA re-derived below) - deliberately
+        # named to flag the caveat rather than implying it's a trustworthy CoA
+        # coefficient. Never unioned with the tooltip/description text.
+        bmul = r[f"effectBonusMultiplier{slot}"]
+        if bmul:
+            e["bonusMultiplierStock"] = bmul
+        effects.append(e)
     cast = a["cast"].get(r["castingTimeIndex"])
     dur = a["dur"].get(r["durationIndex"])
     rng = a["rng"].get(r["rangeIndex"])
@@ -260,10 +292,29 @@ def _record(r, aux, tags, v2):
         "auraInterruptFlags": r["auraInterruptFlags"],
         "channelInterruptFlags": r["channelInterruptFlags"],
         "family": {"id": r["spellFamilyName"], "flags1": r["spellFamilyFlags1"],
-                   "flags2": r["spellFamilyFlags2"]},
+                   "flags2": r["spellFamilyFlags2"], "flags3": r["spellFamilyFlags3"]},
         "runeCost": ({"blood": rune["blood"], "unholy": rune["unholy"],
                       "frost": rune["frost"], "runicPower": rune["runicPower"]}
                      if rune else None),
+        # [Task W4-3] spell-level columns from DATAMINE-REQUEST.md Sec 1.3 (8
+        # already-mapped-but-dropped columns - zero new column proofs, re-
+        # verified fill rates against work/dbc anyway) + Sec 1.4 (equipped-item
+        # sub-masks + spellMissileID). Always present, matching this record's
+        # existing top-level convention (manaCost/procChance/etc. are never
+        # omitted even when 0) - unlike the per-effect fields above, these are
+        # single scalars per spell, not 3x-duplicated per slot, so there's no
+        # null-noise concern from keeping them unconditional.
+        "speed": r["speed"],
+        "equippedItem": {"itemClass": r["equippedItemClass"],
+                          "subClassMask": r["equippedItemSubClassMask"],
+                          "inventoryTypeMask": r["equippedItemInventoryTypeMask"]},
+        "maxAffectedTargets": r["maxAffectedTargets"],
+        "casterAuraSpell": r["casterAuraSpell"], "targetAuraSpell": r["targetAuraSpell"],
+        "manaPerSecond": r["manaPerSecond"],
+        "targetCreatureType": r["targetCreatureType"],
+        "casterAuraState": r["casterAuraState"], "targetAuraState": r["targetAuraState"],
+        "stancesNot": r["stancesNot"],
+        "missileId": r["spellMissileID"],
         "effects": effects,
         "rankChain": ({"first": rank["firstSpellId"], "rank": rank["rank"],
                        "level": rank["level"]} if rank else None),
@@ -354,6 +405,206 @@ def _build_charges(out_dir):
         "recordCount": len(rows), "categoryRecordCount": len(cat_ids),
         "spellIdJoinRate": spell_rate, "categoryLinkJoinRate": cat_rate,
     }
+
+
+def _coa_class_spell_ids():
+    """[Task W4-3] The "CoA class set" DATAMINE-REQUEST.md's per-column fill-rate
+    figures are measured against: every spell id (incl. every rank-chain id)
+    referenced by any of the 21 coa-custom-tagged classes in data/classes/,
+    intersected with live Spell.dbc ids. Re-derivation reproduces the doc's own
+    counts EXACTLY (6,436 total ids / 6,038 resolved in base Spell.dbc, matching
+    Sec 3's "base resolves 6,038/6,436" verbatim) - see
+    .superpowers/sdd/task-w4-3-report.md for the full per-column re-verification
+    log. Used by tests/test_spells_columns.py to re-verify every new column's
+    fill rate against the doc's cited figures; NOT used by build() itself, since
+    data/classes/ must already exist on disk (build_dataset.py's stage order
+    runs spells before classes) - this can only run after build_classes has
+    populated data/classes/ at least once."""
+    classes_dir = config.DATA_DIR / "classes"
+    idx = json.loads((classes_dir / "index.json").read_text(encoding="utf-8"))
+    ids = set()
+    for c in idx["classes"]:
+        if c.get("tag") != "coa-custom":
+            continue
+        cidx = json.loads((classes_dir / c["index"]).read_text(encoding="utf-8"))
+        for fentry in cidx["files"]:
+            tab = json.loads((classes_dir / c["dir"] / fentry["file"]).read_text(encoding="utf-8"))
+            for e in tab.get("entries", []):
+                for s in e.get("spells", []) or []:
+                    if s.get("id"):
+                        ids.add(s["id"])
+                    for rk in s.get("ranks") or []:
+                        if rk.get("spellId"):
+                            ids.add(rk["spellId"])
+    return ids
+
+
+# [Task W4-3] Per-column {mapped, emitted, where} classification for
+# data/spells/_coverage.json (DATAMINE-REQUEST.md item 4's coverage-manifest ask).
+# "mapped" is implicitly True for every key here (all come from TABLE_MAPS["Spell"]);
+# "emitted" False means the column IS named/decoded but its value never reaches any
+# spells.jsonl record - either because it's on the doc's Sec 1.4 zero-fill skip list
+# (re-verified 0/6038 on the CoA class set, see _coa_class_spell_ids) or because no
+# consumer has claimed it yet. A KeyError here on a future TABLE_MAPS["Spell"]
+# addition is intentional - _build_coverage fails loudly rather than silently
+# reporting a stale manifest.
+_SPELL_COLUMN_COVERAGE = {
+    "id": (True, "id"),
+    "category": (True, "category (present only if value resolves against SpellCategory ids)"),
+    "dispel": (True, "dispel.id / dispel.name"),
+    "mechanic": (True, "mechanic.id / mechanic.name"),
+    "attributes": (True, "attributes[0]"),
+    "attributesEx": (True, "attributes[1]"),
+    "attributesEx2": (True, "attributes[2]"),
+    "attributesEx3": (True, "attributes[3]"),
+    "attributesEx4": (True, "attributes[4]"),
+    "attributesEx5": (True, "attributes[5]"),
+    "attributesEx6": (True, "attributes[6]"),
+    "attributesEx7": (True, "attributes[7]"),
+    "stances": (True, "stances"),
+    "stancesNot": (True, "stancesNot"),
+    "targets": (True, "targets"),
+    "targetCreatureType": (True, "targetCreatureType"),
+    "casterAuraState": (True, "casterAuraState"),
+    "targetAuraState": (True, "targetAuraState"),
+    "casterAuraSpell": (True, "casterAuraSpell"),
+    "targetAuraSpell": (True, "targetAuraSpell"),
+    "castingTimeIndex": (True, "castTimeMs (resolved via SpellCastTimes.base; raw index not carried)"),
+    "recoveryTime": (True, "cooldownMs"),
+    "categoryRecoveryTime": (True, "categoryCooldownMs"),
+    "interruptFlags": (True, "interruptFlags"),
+    "auraInterruptFlags": (True, "auraInterruptFlags"),
+    "channelInterruptFlags": (True, "channelInterruptFlags"),
+    "procFlags": (True, "procFlags"),
+    "procChance": (True, "procChance (sentinel 101 = unset, not a percentage - see AGENT-GUIDE.md)"),
+    "procCharges": (True, "procCharges"),
+    "maxLevel": (True, "levels.max"),
+    "baseLevel": (True, "levels.base"),
+    "spellLevel": (True, "levels.spell"),
+    "durationIndex": (True, "durationMs.base / durationMs.max (resolved via SpellDuration; raw index not carried)"),
+    "powerType": (True, "powerType.id / powerType.name"),
+    "manaCost": (True, "manaCost"),
+    "manaCostPerLevel": (False, "confirmed zero-fill on the CoA class set (skip list, "
+                                 "DATAMINE-REQUEST.md Sec 1.4) - re-verified 0/6038 nonzero, not emitted"),
+    "manaPerSecond": (True, "manaPerSecond"),
+    "rangeIndex": (True, "rangeYd.* (resolved via SpellRange; raw index not carried)"),
+    "speed": (True, "speed"),
+    "stackAmount": (True, "stackAmount"),
+    "equippedItemClass": (True, "equippedItem.itemClass"),
+    "equippedItemSubClassMask": (True, "equippedItem.subClassMask"),
+    "equippedItemInventoryTypeMask": (True, "equippedItem.inventoryTypeMask"),
+    "spellIconID": (True, "iconPath (resolved via SpellIcon; raw id not carried)"),
+    "activeIconID": (False, "no consumer yet - not part of this task's requested set, "
+                            "candidate for a future task"),
+    "name_enUS": (True, "name"),
+    "rank_enUS": (True, "rank"),
+    "description_enUS": (True, "description"),
+    "tooltip_enUS": (True, "tooltip"),
+    "manaCostPercentage": (True, "manaCostPct"),
+    "startRecoveryCategory": (True, "gcdCategory"),
+    "startRecoveryTime": (True, "gcdMs"),
+    "maxTargetLevel": (False, "confirmed zero-fill on the CoA class set (skip list, "
+                              "DATAMINE-REQUEST.md Sec 1.4) - re-verified 0/6038 nonzero, not emitted"),
+    "spellFamilyName": (True, "family.id"),
+    "spellFamilyFlags1": (True, "family.flags1"),
+    "spellFamilyFlags2": (True, "family.flags2"),
+    "spellFamilyFlags3": (True, "family.flags3"),
+    "maxAffectedTargets": (True, "maxAffectedTargets"),
+    "dmgClass": (True, "dmgClass"),
+    "preventionType": (True, "preventionType"),
+    "schoolMask": (True, "schoolMask / schools"),
+    "runeCostID": (True, "runeCost.* (resolved via SpellRuneCost; raw id not carried, null when no rune cost)"),
+    "spellMissileID": (True, "missileId"),
+    "spellDescriptionVariableID": (True, "descriptionVariables (present only if resolves via SpellDescriptionVariables)"),
+    "spellDifficultyID": (False, "confirmed zero-fill on the CoA class set (skip list, "
+                                 "DATAMINE-REQUEST.md Sec 1.4) - re-verified 0/6038 nonzero, not emitted"),
+}
+
+# per-effect-slot columns (3 slots each, suffix 1/2/3 stripped before lookup)
+_EFFECT_SLOT_COLUMN_COVERAGE = {
+    "effect": "effects[].effect.id / effects[].effect.name",
+    "effectDieSides": "effects[].dieSides",
+    "effectRealPointsPerLevel": "effects[].realPointsPerLevel (omitted when raw==0)",
+    "effectBasePoints": "effects[].basePoints",
+    "effectMechanic": "effects[].mechanic.id / effects[].mechanic.name",
+    "effectImplicitTargetA": "effects[].targetA.id / effects[].targetA.name",
+    "effectImplicitTargetB": "effects[].targetB.id / effects[].targetB.name",
+    "effectRadiusIndex": "effects[].radiusYd (resolved via SpellRadius; raw index not carried)",
+    "effectAura": "effects[].aura.id / effects[].aura.name",
+    "effectAmplitude": "effects[].amplitudeMs",
+    "effectMultipleValue": "effects[].multipleValue",
+    "effectChainTarget": "effects[].chainTargets",
+    "effectMiscValue": "effects[].miscValue",
+    "effectMiscValueB": "effects[].miscValueB",
+    "effectTriggerSpell": "effects[].triggerSpell",
+    "effectPointsPerComboPoint": "effects[].pointsPerComboPoint (omitted when raw==0)",
+    "effectDamageMultiplier": "effects[].damageMultiplier (omitted when raw==0)",
+    "effectBonusMultiplier": ("effects[].bonusMultiplierStock (omitted when raw==0; "
+                               "stock/Reborn-valid, CoA-contradicted - see AGENT-GUIDE.md)"),
+}
+_CLASS_MASK_WHERE = "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+
+
+def _classify_spell_column(name):
+    if name in _SPELL_COLUMN_COVERAGE:
+        return _SPELL_COLUMN_COVERAGE[name]
+    if name.startswith("effectSpellClassMask"):
+        return True, _CLASS_MASK_WHERE
+    if name[-1] in "123" and name[:-1] in _EFFECT_SLOT_COLUMN_COVERAGE:
+        return True, _EFFECT_SLOT_COLUMN_COVERAGE[name[:-1]]
+    raise KeyError(f"_classify_spell_column: no coverage classification for {name!r} - "
+                   "a TABLE_MAPS['Spell'] column was added without updating this map")
+
+
+def _build_coverage(out_dir):
+    """Writes data/spells/_coverage.json (task W4-3 item 4: single-writer rule -
+    build_spells owns data/spells/). Per DATAMINE-REQUEST.md's ask: for every
+    TABLE_MAPS["Spell"] column, {mapped: true, emitted, where}, plus the
+    unmapped-column count against the table's full 234-field width."""
+    spec = dbc.TABLE_MAPS["Spell"]
+    total_fields = spec["expected_fields"]
+    columns = {}
+    for name, idx, kind in spec["columns"]:
+        emitted, where = _classify_spell_column(name)
+        columns[name] = {"index": idx, "kind": kind, "mapped": True,
+                          "emitted": emitted, "where": where}
+    mapped = len(columns)
+    emitted_count = sum(1 for c in columns.values() if c["emitted"])
+    doc = {
+        "totalFields": total_fields,
+        "mappedColumns": mapped,
+        "unmappedColumns": total_fields - mapped,
+        "emittedColumns": emitted_count,
+        "mappedNotEmittedColumns": mapped - emitted_count,
+        "columns": columns,
+        "_note": (
+            f"{mapped} of {total_fields} Spell.dbc fields are named in "
+            f"tools.dbc.TABLE_MAPS['Spell']; {total_fields - mapped} remain raw f<N> "
+            "(never investigated or investigated and disproven - see raw/dbc/Spell.csv.gz "
+            f"for the full byte-accurate dump). Of the {mapped} mapped, {emitted_count} "
+            f"reach a spells.jsonl record in some form (direct passthrough or a resolved "
+            f"join) and {mapped - emitted_count} are named but not emitted: "
+            "manaCostPerLevel/maxTargetLevel/spellDifficultyID are the doc's confirmed "
+            "zero-fill skip list (Sec 1.4 - re-verified 0/6038 on the CoA class set before "
+            "skipping, per this task's binding rule), activeIconID has no consumer yet. "
+            "Task W4-3 (coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.2-1.4) added the 25 "
+            "columns needed for damage-scaling modeling: effectRealPointsPerLevel "
+            "(f77-79), effectPointsPerComboPoint (f119-121), effectSpellClassMask "
+            "(f122-130, 3x flag96), spellFamilyFlags3 (f211), equippedItemSubClassMask/"
+            "equippedItemInventoryTypeMask (f69-70), effectDamageMultiplier (f216-218), "
+            "spellMissileID (f227), effectBonusMultiplier (f229-231, emitted as "
+            "bonusMultiplierStock - correct for stock/Reborn only, contradicts CoA's own "
+            "tooltip formula, see AGENT-GUIDE.md); plus re-verified emission of the 8 "
+            "already-mapped-but-dropped columns from Sec 1.3 (speed, equippedItemClass, "
+            "maxAffectedTargets, casterAuraSpell/targetAuraSpell, manaPerSecond, "
+            "targetCreatureType, casterAuraState/targetAuraState, stancesNot)."
+        ),
+    }
+    (out_dir / "_coverage.json").write_text(
+        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    return {"totalFields": total_fields, "mappedColumns": mapped,
+            "unmappedColumns": total_fields - mapped, "emittedColumns": emitted_count,
+            "mappedNotEmittedColumns": mapped - emitted_count}
 
 
 AURA_APPLYING_EFFECTS = {6, 27, 35, 65, 119, 128, 129, 143}
@@ -567,6 +818,7 @@ def build() -> dict:
 
     charges_finding = _build_charges(out_dir)
     enum_evidence_summary = _build_enum_evidence(out_dir, records)
+    coverage_summary = _build_coverage(out_dir)
     v2 = _v2_aux(set(records))
 
     by_source = {}
@@ -626,6 +878,10 @@ def build() -> dict:
             "file": "_enum_evidence.json",
             **enum_evidence_summary,
         },
+        "columnCoverage": {
+            "file": "_coverage.json",
+            **coverage_summary,
+        },
         "dataNotes": (
             "CharacterAdvancementData.json is account-wide across four realms served by "
             "this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - "
@@ -645,7 +901,8 @@ def build() -> dict:
         json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8")
     return {"written": len(records), "missing_by_source": missing_by_source,
             "ref_counts": ref_counts, "by_source": by_source,
-            "enum_evidence": enum_evidence_summary}
+            "enum_evidence": enum_evidence_summary,
+            "column_coverage": coverage_summary}
 
 
 if __name__ == "__main__":

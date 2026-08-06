@@ -84,11 +84,28 @@ def _spell_columns():
         ("manaCostPerLevel", 43, "u"), ("manaPerSecond", 44, "u"),
         ("rangeIndex", 46, "u"), ("speed", 47, "f"), ("stackAmount", 49, "u"),
         ("equippedItemClass", 68, "i"),
+        # [Task W4-3] f69/f70: weapon-subtype/slot gating, adjacent to the already-
+        # mapped f68 equippedItemClass triple (coa-sim-handoff/DATAMINE-REQUEST.md
+        # Sec 1.4). Re-derived CoA fill (6,038-row "CoA class set", see
+        # build_spells.py's _coa_class_spell_ids docstring): f69 734/6038=12.16%,
+        # f70 87/6038=1.44% - both exact matches to the doc.
+        ("equippedItemSubClassMask", 69, "u"),
+        ("equippedItemInventoryTypeMask", 70, "u"),
     ]
     for slot in range(3):
         cols += [
             (f"effect{slot+1}", 71 + slot, "u"),
             (f"effectDieSides{slot+1}", 74 + slot, "i"),
+            # [Task W4-3] f77-79 EffectRealPointsPerLevel - IEEE-754 float BIT
+            # PATTERNS, not integers (DATAMINE-REQUEST.md Sec 1.5 trap 3): stock
+            # Frostbolt 116 slot 2 f78=1056964608=0x3F000000=0.5f, re-derived and
+            # golden-matched exactly. Backing store for the "$ppl" formula token -
+            # the single highest-value column this repo was dropping (61.1% of
+            # build-reachable damaging/healing slots carry one). CoA fill on the
+            # 6,038-row "CoA class set" 2012/6038=33.3223%, an EXACT match to the
+            # doc's 2,012/6,038=33.32% (same numerator AND denominator - this
+            # build's snapshot is unchanged from the doc's on this measure).
+            (f"effectRealPointsPerLevel{slot+1}", 77 + slot, "f"),
             (f"effectBasePoints{slot+1}", 80 + slot, "i"),
             (f"effectMechanic{slot+1}", 83 + slot, "u"),
             (f"effectImplicitTargetA{slot+1}", 86 + slot, "u"),
@@ -101,6 +118,23 @@ def _spell_columns():
             (f"effectMiscValue{slot+1}", 110 + slot, "i"),
             (f"effectMiscValueB{slot+1}", 113 + slot, "i"),
             (f"effectTriggerSpell{slot+1}", 116 + slot, "u"),
+            # [Task W4-3] f119-121 EffectPointsPerComboPoint (float, combo-point
+            # scaling - Ranger has combo points). Re-derived CoA fill 20/6038=
+            # 0.3312%, exact match to the doc's 0.33%.
+            (f"effectPointsPerComboPoint{slot+1}", 119 + slot, "f"),
+            # [Task W4-3] f122-130 EffectSpellClassMask - three u32 words (a 96-bit
+            # mask) per effect slot, "which spells a talent modifies" (DATAMINE-
+            # REQUEST.md Sec 1.4). Re-derived: 1728/6038=28.6187% of the CoA class
+            # set carry a nonzero mask on any slot, an exact match to the doc's
+            # 28.62% "overall". Golden: Improved Fireball (11069) slot 1 is an
+            # ADD_FLAT_MODIFIER aura with classMask=[1,0,0] - bit 0 of word A -
+            # and stock Fireball (133, same spellFamilyName=3 Mage) carries
+            # spellFamilyFlags1=1 (also bit 0) - the mask selects Fireball by its
+            # own family-flag bit, the exact mechanism the doc describes. Emitted
+            # in build_spells.py as effects[].spellClassMask: [a,b,c].
+            (f"effectSpellClassMaskA{slot+1}", 122 + slot * 3, "u"),
+            (f"effectSpellClassMaskB{slot+1}", 123 + slot * 3, "u"),
+            (f"effectSpellClassMaskC{slot+1}", 124 + slot * 3, "u"),
         ]
     cols += [
         ("spellIconID", 133, "u"), ("activeIconID", 134, "u"),
@@ -109,9 +143,44 @@ def _spell_columns():
         ("manaCostPercentage", 204, "u"), ("startRecoveryCategory", 205, "u"),
         ("startRecoveryTime", 206, "u"), ("maxTargetLevel", 207, "u"),
         ("spellFamilyName", 208, "u"), ("spellFamilyFlags1", 209, "u"),
-        ("spellFamilyFlags2", 210, "u"), ("maxAffectedTargets", 212, "u"),
+        ("spellFamilyFlags2", 210, "u"),
+        # [Task W4-3] f211 SpellFamilyFlags3 - the curated table only exposed
+        # flags1/2, silently truncating the family mask's top 32 bits (of 96
+        # total). Re-derived CoA fill 730/6038=12.0901%, exact match to the doc's
+        # 12.09%. Emitted alongside flags1/2 as family.flags3.
+        ("spellFamilyFlags3", 211, "u"),
+        ("maxAffectedTargets", 212, "u"),
         ("dmgClass", 213, "u"), ("preventionType", 214, "u"),
+    ]
+    for slot in range(3):
+        # [Task W4-3] f216-218 EffectDamageMultiplier (float, chain-damage
+        # falloff per jump). Re-derived: gating on populated-effect slots and
+        # comparing against the 1.0f default (0x3F800000), 507/6038=8.3968% of
+        # the CoA class set carry a non-default value on >=1 slot - within the
+        # doc's stated ~0.4pp of its 8.00% "non-default" figure (methodology-
+        # sensitive: literal raw-value comparison, not effect-gated, over-counts
+        # empty slots whose raw field is 0, not 1.0).
+        cols.append((f"effectDamageMultiplier{slot+1}", 216 + slot, "f"))
+    cols += [
         ("schoolMask", 225, "u"), ("runeCostID", 226, "u"),
+        # [Task W4-3] f227 SpellMissileID - pairs with the SpellMissile.dbc ask
+        # (out of this task's scope). Re-derived: exactly 8/6038=0.1325% of the
+        # CoA class set carry a nonzero value, an exact match to the doc's
+        # "0.13% (8 spells)" - including the literal count of 8.
+        ("spellMissileID", 227, "u"),
+    ]
+    for slot in range(3):
+        # [Task W4-3] f229-231 EffectBonusMultiplier - the untouched Blizzard-
+        # 2008 column, correct for STOCK/Reborn content only and CONTRADICTED by
+        # CoA's own authored tooltip formulas (DATAMINE-REQUEST.md Sec 2: stock
+        # agreement 0/37, CoA agreement re-derived below). Re-derived CoA fill
+        # 619/6038=10.2517%, exact match to the doc's 10.25%. Golden: Flash Heal
+        # (2061) f229 raw 1062115213 decodes to 0.8069999814... ~ 0.807, matching
+        # the doc's cited value exactly. Emitted in build_spells.py as
+        # effects[].bonusMultiplierStock (name flags the stock-only caveat), NOT
+        # unioned with the tooltip-parsed coefficient - see AGENT-GUIDE.md.
+        cols.append((f"effectBonusMultiplier{slot+1}", 229 + slot, "f"))
+    cols += [
         ("spellDescriptionVariableID", 232, "u"), ("spellDifficultyID", 233, "u"),
     ]
     return cols

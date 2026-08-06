@@ -26,8 +26,9 @@ this repo needs an exemption).
 | `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs) - see "Class tab sharding" below | small |
 | `data/classes/<Class>/_general.json` | entries with no `Tab` (none exist in the current snapshot; the file only appears if some do) | small |
 | `data/spells/index.json` | bucket manifest: `bucketSize` (10000), total `count`, `buckets: [{bucket, file, count, minId, maxId}]` | small |
-| `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted | small-medium per file - stream/grep it, do not slurp |
-| `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer | small |
+| `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally | small-medium per file - stream/grep it, do not slurp |
+| `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts) | small |
+| `data/spells/_coverage.json` | task W4-3: per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 total fields, 124 emitted/4 mapped-not-emitted) - see "Spell column completion" below | small |
 | `data/spells/_missing_refs.json` | full missing-ref id lists by source (`cad_other`/`cad_reborn`/`talent`/`rank`), each source's array on ONE line | small (line count, not byte count) |
 | `data/talents/<ChrClass>.json` | DBC talent trees (row/col/ranks/prereqs) - only exists for the 12 classes that have DBC talent tabs; largest is ~3.6k lines, under the gate as-is, not sharded | medium |
 | `data/talents/_pet.json` | pet talent tabs (`petTalentMask` set) - not tied to a single player class | small |
@@ -397,6 +398,146 @@ spec's "may be worth taking" note, but has no class dimension and no curated out
 `data/gt/` - this task only extracted it for a future task to pick up (left UNMAPPED,
 raw + colinfo, same as `gtOCTClassCombatRatingScalar`).
 
+### Spell column completion (task W4-3) - damage-modeling columns
+
+`coa-sim-handoff/DATAMINE-REQUEST.md` Sec 1.2-1.4 identified the single biggest
+blocker to a DPS simulator built on this dataset: columns this pipeline already
+extracts from `Spell.dbc` but drops before `build_spells._record` writes a row.
+Every fill-rate/golden claim below was **independently re-derived** against
+`work/dbc/Spell.dbc` (not copied from the source doc) over the **"CoA class set"**
+(`build_spells._coa_class_spell_ids()`): every spell id, including every rank-chain
+id, referenced by the 21 `coa-custom`-tagged classes in `data/classes/`, intersected
+with live `Spell.dbc` ids. This set reproduces the doc's own headline counts
+**exactly** - 6,436 total ids / 6,038 resolved in base `Spell.dbc` (matches Sec 3's
+"base resolves 6,038/6,436" verbatim) - which is why the per-column percentages below
+also land on or within ~0.4pp of the doc's cited figures; see
+`.superpowers/sdd/task-w4-3-report.md` for the full per-column log.
+
+**`EffectRealPointsPerLevel` (f77-79, `effects[].realPointsPerLevel`) - the highest-
+value single addition.** Backing store for the `$ppl` formula token, present on the
+majority of build-reachable damaging/healing effect slots. Re-derived CoA-set fill:
+**2,012/6,038 = 33.3223%**, an exact match (same numerator and denominator) to the
+doc's own 2,012/6,038 = 33.32%. **IEEE-754 float bit patterns, not integers** (Sec
+1.5 trap 3) - decode via `struct.unpack('<f', struct.pack('<i', v))`, same as
+f216-218/f229-231. Golden: stock Frostbolt (116) slot 2 `f78 = 1056964608 =
+0x3F000000 = 0.5f`.
+
+> **The `maxLevel` clamp - per-level is a *value* channel, not a gear-scaling
+> channel.** `realPointsPerLevel` determines the base number at a given level; it
+> never varies with gear, and **85.2% of the 2,012 CoA spells with a nonzero rppl
+> are capped below level 80** (`maxLevel` < 80) - so at CoA's level-60 cap, most of
+> these terms are either fully live, partially live, or entirely frozen, never
+> "ramping past the cap." The applicable formula:
+>
+> ```
+> value = basePoints + dieSides + (clamp(60, baseLevel, maxLevel) - spellLevel) * realPointsPerLevel
+> ```
+>
+> `maxLevel` is already emitted as `levels.max`, `baseLevel` as `levels.base`,
+> `spellLevel` as `levels.spell` - nothing in this dataset applies the clamp for you;
+> a naive consumer that lets `realPointsPerLevel` scale past a spell's own `maxLevel`
+> silently inflates its value. Frozen-rppl examples re-verified directly against
+> `work/dbc/Spell.dbc` and pinned as goldens in `tests/test_spells_columns.py`:
+> Chronomancer *Decomposition* (800856, bp 12, rppl 0.11, maxLevel 12) and
+> Necromancer *Ray of Rot* (804535, bp 11, rppl 0.47, maxLevel 26).
+
+**`EffectSpellClassMask` (f122-130, `effects[].spellClassMask: [a,b,c]`) - which
+spells a talent modifies.** Three u32 words (a 96-bit mask) per effect slot, omitted
+entirely when all three are zero. Re-derived CoA-set fill (any slot nonzero):
+**1,728/6,038 = 28.6187%**, matching the doc's "28.62% overall" exactly. Golden:
+stock talent Improved Fireball (11069) slot 1's `ADD_FLAT_MODIFIER` aura carries
+`spellClassMask: [1, 0, 0]`; stock Fireball (133, same `spellFamilyName` 3 = Mage)
+carries `spellFamilyFlags1 = 1` - bit 0 set on both, the exact selection mechanism
+the doc describes.
+
+**`SpellFamilyFlags3` (f211, `family.flags3`)** - the curated table previously
+exposed only `flags1`/`flags2`, silently truncating the 96-bit family mask's top 32
+bits. Re-derived fill 730/6,038 = 12.0901%, matching the doc's 12.09%.
+
+**`EquippedItemSubClassMask`/`EquippedItemInventoryTypeMask` (f69/f70,
+`equippedItem.subClassMask`/`.inventoryTypeMask`)** - adjacent to the already-mapped
+`equippedItemClass` (f68, now also emitted as `equippedItem.itemClass`; its `-1`
+"any weapon" sentinel histogram re-derived exactly: `-1` x5547, `2` x461, `4` x30 on
+the CoA class set). Re-derived fill: f69 734/6,038 = 12.1563% (doc 12.16%), f70
+87/6,038 = 1.4409% (doc 1.44%).
+
+**`EffectPointsPerComboPoint` (f119-121, `effects[].pointsPerComboPoint`)** - combo-
+point scaling (Ranger has combo points). Re-derived fill 20/6,038 = 0.3312%, matching
+the doc's 0.33%. Golden: Rage of Bethekk (501229) slot 1, a real `SCHOOL_DAMAGE`
+effect, carries `pointsPerComboPoint: 8.0`. **Trap encountered while picking this
+golden:** Serrated Shot (500073) slot 2 carries a nonzero raw `f120` word too, but
+that slot's `effect` field is 0 (no real effect there) - a dead-slot artifact, same
+class as the aura-byte trap documented in `tools/enums335.py`'s evidence sidecar.
+This repo's pre-existing per-slot convention (`if not eff: continue` in
+`build_spells._record`, unchanged by this task) already drops that slot's data
+entirely, so the dead value never reaches the output.
+
+**`EffectDamageMultiplier` (f216-218, `effects[].damageMultiplier`)** - chain-damage
+falloff per jump. Re-derived (gated on populated-effect slots, `!= 1.0f` default):
+507/6,038 = 8.3968%, within 0.4pp of the doc's "8.00% non-default" (methodology-
+sensitive - a literal `!= 0` raw-value test over-counts empty slots, whose raw field
+is `0`, not the in-game default `1.0`).
+
+**`spellMissileID` (f227, `missileId`)** - pairs with the (out-of-scope)
+`SpellMissile.dbc` ask. Re-derived: exactly 8/6,038 = 0.1325% nonzero, matching the
+doc's "0.13% (8 spells)" down to the literal count - all 8 are Invigorating Surge
+ranks sharing missile 9429.
+
+> ### ⚠ `EffectBonusMultiplier` (f229-231, `effects[].bonusMultiplierStock`) -
+> **do NOT treat as a CoA coefficient source**
+>
+> Extracted and emitted (correct for **stock and Reborn content only**), but it is
+> the **untouched Blizzard-2008 column** and **contradicts** CoA's own tooltip-
+> authored formulas on the same effect slot far more often than it agrees. Re-
+> derived CoA-set fill: 619/6,038 = 10.2517% (doc 10.25%). Golden: Flash Heal (2061)
+> `f229 = 1062115213 = 0.8069999814... ~ 0.807` (the genuine WotLK value), while its
+> `description` reads `${$m1+$BH*0.158964+$AP*0.072}` - an AP-on-heal hybrid term
+> that does not exist in stock 3.3.5a.
+>
+> **Agreement, re-derived this task** (rough regex-based coefficient extraction from
+> `description`/`tooltip` text, 5% tolerance, effect slots carrying both a nonzero
+> `f229-231` and a parsed stat coefficient): **stock 0/65 agree (0.0%)**, **CoA
+> 7/113 = 6.2% agree** - both land on the doc's own conclusion (stock 0/37 = 0.0%,
+> CoA 4/63 = 6.3%) even though the exact counts differ (different snapshot, cruder
+> parser): **near-zero agreement either way.** A consumer that unions
+> `bonusMultiplierStock` with the tooltip-parsed coefficient will silently produce
+> plausible-looking wrong numbers instead of a visible gap - the tooltip formula
+> (`description`/`tooltip`, preserved verbatim, never normalized) is CoA's *only*
+> real coefficient channel; see Sec 2's classless-vs-CoA `bonus_data` schema finding
+> for why (CoA ships zero rows in TrinityCore's `spell_bonus_data` schema; its i18n
+> table still carries the "Spell coefficient" labels from a system it never wired up).
+
+**Sec 1.3's 8 already-mapped-but-dropped columns** (`speed`, `equippedItem.itemClass`,
+`maxAffectedTargets`, `casterAuraSpell`/`targetAuraSpell`, `manaPerSecond`,
+`targetCreatureType`, `casterAuraState`/`targetAuraState`, `stancesNot`) needed zero
+new column proofs - they were already named in `TABLE_MAPS["Spell"]`, just never
+read by `_record`. Re-derived fill rates (all within the doc's cited figures, see
+`.superpowers/sdd/task-w4-3-report.md`): speed 10.90%, maxAffectedTargets 11.97%,
+casterAuraSpell/targetAuraSpell 10.33%, manaPerSecond 0.33%. Golden: Divine Storm
+(53385) `maxAffectedTargets = 4`, the real WotLK 4-target cap.
+
+**Confirmed zero-fill skip list re-verified before skipping** (Sec 1.4): f207
+`maxTargetLevel`, f43 `manaCostPerLevel`, f18 `RequiresSpellFocus`, f228
+`PowerDisplayId`, f224 `AreaGroupId`, f233 `spellDifficultyID` - all **0/6,038**
+nonzero on the CoA class set, re-verified directly against `work/dbc/Spell.dbc`
+before being left unmapped (f18/f224/f228) or mapped-but-unemitted (f207/f43/f233,
+already-named columns kept in `TABLE_MAPS` for `raw/dbc/Spell.csv.gz`'s full dump but
+excluded from `spells.jsonl` and flagged as such in `_coverage.json`).
+
+**Omit-when-zero convention for the 5 new per-effect fields** (`realPointsPerLevel`/
+`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock`):
+each is added to an effect's dict **only when its raw DBC word is nonzero**, unlike
+`basePoints`/`dieSides`/etc. above them (always present once a slot's `effect` is
+nonzero, since 0 is itself a meaningful value there). This matters most for
+`damageMultiplier`/`bonusMultiplierStock`, whose true "no data here" DBC sentinel is
+a literal `0.0` float bit pattern - distinct from their in-game default of `1.0`
+(`0x3F800000`), which - when actually authored - is kept and emitted, not treated as
+absent. The 11 spell-level columns (`speed` through `missileId` above) stay
+unconditional, matching this record's pre-existing top-level convention
+(`manaCost`/`procChance`/etc. are never omitted at 0 either) - they're single
+scalars per spell, not 3x-duplicated per effect slot, so there's no null-noise
+concern from keeping them always-present.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -543,6 +684,16 @@ def class_specs_and_roles(class_name):
   only `id` plus 28 raw numeric columns. If you need quest text, it lives in the
   server's own quest-template data, which this pipeline (client-side DBCs + Content
   JSONs only) cannot see.
+- **`effects[].bonusMultiplierStock` is a trap for CoA damage modeling** - correct
+  for stock/Reborn content only, near-zero agreement with CoA's own tooltip-authored
+  coefficient on the same slot (re-derived this task: stock 0/65, CoA 7/113 = 6.2% -
+  see "Spell column completion" above). Never union it with the tooltip-parsed
+  coefficient; the `description`/`tooltip` formula text is CoA's only real
+  coefficient channel.
+- **`effects[].realPointsPerLevel` needs the `maxLevel` clamp applied by the
+  consumer** - it is a per-level *value* term, not a gear-scaling coefficient, and
+  85.2% of the CoA spells that carry it are capped below level 80. See "Spell column
+  completion" above for the clamp formula and frozen-value goldens.
 - **Disproven mappings ship as documented `null`/raw, never a guessed value** - each
   was probed against the empirical-mapping rule's bar and failed it; the
   `_meta.json`/`TABLE_MAPS` comment pointer is listed so you can re-run the same
