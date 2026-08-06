@@ -3,7 +3,7 @@ Sec 13 items 14/15/16/20/21). Split into sections per sub-task letter, each
 independently re-derived against a fresh 2026-08-06 extraction (not copied from the
 source doc) - see .superpowers/sdd/task-w4-11-report.md for the full log.
 """
-import gzip, json, sys
+import csv, gzip, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -377,5 +377,45 @@ assert not any(c.get("classId") == 10 for c in cidx["classes"])
 assert classmeta_stats["specs"]["tabStatusCounts"] == counts
 
 print("(e) specs.json vs CAD tabs reconciliation: PASS")
+
+# =========================================================================
+# (f) SpellCharges 0.885 join-gap investigation - Sec 11, Sec 13 item 21
+# =========================================================================
+spells_stats = build_spells.build()
+charges_meta = json.loads((config.DATA_DIR / "spells" / "_meta.json")
+                          .read_text(encoding="utf-8"))["enrichment"]["charges"]
+charges_doc = json.loads((config.DATA_DIR / "spells" / "charges.json").read_text(encoding="utf-8"))
+
+# re-derive independently: build the area-52 realm's own Spell id set straight from
+# the committed raw dump (not via build_spells' internals) and cross-check every
+# base-non-joining ref by hand
+spell_names = {r["id"]: r["name_enUS"] for r in dbc.iter_named("Spell")}
+spell_ids = set(spell_names)
+non_joining_refs = {c["ref"] for c in charges_doc["charges"] if c["ref"] not in spell_ids}
+assert non_joining_refs == {c["ref"] for c in charges_doc["charges"]
+                            if c["resolvedSpellName"] is None}
+
+realm_spell_csv = config.RAW_REALMS_DIR / "area-52" / "dbc" / "Spell.csv.gz"
+assert realm_spell_csv.is_file()
+realm_ids = set()
+with gzip.open(realm_spell_csv, "rt", encoding="utf-8", newline="") as fh:
+    for row in csv.DictReader(fh):
+        realm_ids.add(int(row["id"]))
+
+resolved = {r for r in non_joining_refs if r in realm_ids}
+dead = non_joining_refs - resolved
+assert charges_meta["realmGapFinding"]["nonJoiningCount"] == len(non_joining_refs)
+assert charges_meta["realmGapFinding"]["resolvedByAnyRealm"] == len(resolved)
+assert charges_meta["realmGapFinding"]["provenDeadCount"] == len(dead)
+
+# today's live-client finding: every non-joining ref is realm-overlay content, zero
+# proven dead - attach stays False, join rate cannot legitimately clear 0.90
+assert len(dead) == 0
+assert len(resolved) == len(non_joining_refs)
+assert charges_meta["attached"] is False
+assert charges_meta["spellIdJoinRate"] < 0.90
+assert charges_meta["realmGapFinding"]["adjustedJoinRate"] < 0.90
+
+print("(f) SpellCharges join-gap investigation: PASS")
 
 print("ALL PASS")

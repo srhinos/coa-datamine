@@ -52,7 +52,7 @@ this repo needs an exemption).
 | `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, tabStatus\|null, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {32 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}, tabStatusSummary}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json`. `perClass`/matched-classId coverage is **32/32 as of task W4-5** (was 25/32 - the `classToken` join now falls back to `ChrClasses.filename` when the display-name join misses, see "ChrClasses filename join..." below); `classId`/`className` can still ship `null` in principle if a future client patch reintroduces a token neither join resolves. **Task W4-11e** adds `tabStatus` (`{status: "live"\|"shippedExternal"\|"unreleased"\|"noTabLayer", cadTab, coaBuilderTab}` per spec, `null` only when `classId`/`tabToken` themselves are missing) + `tabStatusSummary` - see "specs.json vs CAD tabs reconciliation" below | small |
 | `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
 | `data/classes/essence.json` | task W4-5: `{levels: [1..80], classes: [32 rows: classId, className, curveGroup ("classlessBase"\|"hero"\|"coaCustom"), abilityEssence: [80 ints], talentEssence: [80 ints]]}` (`CharacterAdvancementEssence.dbc`, 5,600 rows = 80 levels x 32 classes x 8 flag-variant rows, canonical curve = the flags-all-zero row per (classId,level) pair) - owned solely by `tools/build_essence.py`, a **new module deliberately separate from `build_classmeta.py`** (Amendment D: classmeta owns specs.json/archetypes.json only); see "Per-class Ability/Talent Essence curves..." below | small |
-| `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
+| `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null, realmResolvedIn?}], realmGapFinding}` - task W4-11f adds `realmGapFinding` (per-realm resolution of the non-joining refs) + per-row `realmResolvedIn` (only present when unresolved in base), see Honest limits | small |
 | `data/spells/statSuggestions.json` | task W4-10: standalone `SpellStatSuggestions.dbc` curation (1121 rows) - **NOT attached** to any `spells.jsonl` record (its `spellId` key is proven at 99.91% join, but its payload is not - see Honest limits); `{spellIdJoinRate, suggestions: [{spellId, resolvedSpellName\|null, statCategoryRaw, f3}]}`, one-compact-record-per-line (`sharding.dump_manifest`) | small |
 | `data/mythic/challenges/index.json` | one compact record per Mythic+ Challenge: `{id, name, file, difficultyToken, modeToken, featured}` (297 challenges) | small |
 | `data/mythic/challenges/<id>-<slug>.json` | one challenge incl. `groups`/`levels`/`rules`/`modifiers`/`conditions`/`requirements`/`rewards`/`spells` (one-record-per-line `sharding.dump_manifest` format - the default "Adventure Mode" challenge alone aggregates ~2,000 rows across those lists) | small-medium |
@@ -1729,7 +1729,21 @@ def class_specs_and_roles(class_name):
   text (strong circumstantial support that the mapping itself is right, just short
   of the stated bar). The 400 rows are still fully usable at `data/spells/charges.json`, keyed by
   their own `ref` (not called `spellId`, since the link wasn't proven to that bar) -
-  see the file map above.
+  see the file map above. **Task W4-11f investigated the gap and closed the
+  question, though not the join itself**: every one of the 46 base-non-joining refs
+  resolves as a real, live id in the area-52 realm-overlay's own `Spell.dbc`
+  (`raw/realms/area-52/dbc/Spell.csv.gz`, 46/46 = 100%, re-derived fresh each build
+  via `tools/build_spells.py`'s `_charges_realm_check()`) - **zero are dead**. This
+  is real content-availability (the four-realm/account-wide-CAD split, same shape
+  as the `missingRefResolution` finding elsewhere in this file), not orphaned
+  garbage - but per the brief's own rule, only PROVEN-DEAD refs are a legitimate
+  exclusion for the attach bar, and a realm-overlay id is real content in a
+  different id space by design, not evidence the base ref is wrong. With 0 refs
+  provably dead, the adjusted join rate is identical to the base measurement
+  (0.885) - still below 0.90, so `charges.json` stays standalone. The full
+  per-realm breakdown lives in `charges.json`'s own `realmGapFinding` key (also
+  summarized in `_meta.json`'s `enrichment.charges.realmGapFinding`), and each
+  non-joining row now carries `realmResolvedIn: [realm names]` inline.
 - **`data/talents/coa/` is Vol'Jin-only, and only ~53% of its nodes join
   `data/spells/`.** See "CoA talent tree geometry" above for the full writeup -
   Rexxar geometry is assumed identical but unverified, and the low curated-spell

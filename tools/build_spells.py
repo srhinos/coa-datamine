@@ -21,7 +21,7 @@ brief's >=90% attach bar, so they ship curated STANDALONE (own file, not
 per-spell fields) instead of report-only. Task W4-10 adds the same standalone-file
 shape for SpellStatSuggestions -> data/spells/statSuggestions.json (proven spellId
 key, unproven payload category kept raw and clearly flagged)."""
-import json, re, shutil
+import csv, gzip, json, re, shutil
 from collections import defaultdict
 
 from tools import config, dbc, enums335, sharding
@@ -557,6 +557,33 @@ def _enrich_v2(rec, r, sid, v2):
         rec["overrideData"] = override
 
 
+def _charges_realm_check(non_joining_refs: set) -> dict:
+    """[Task W4-11f] DATAMINE-REQUEST.md Sec 11's own open question about the
+    SpellCharges join gap: "a path to closing the join would be valuable" - are the
+    base-non-joining refs realm-overlay ids, or dead? For each realm whose own
+    Spell.dbc dump is already committed (raw/realms/<realm>/dbc/Spell.csv.gz -
+    written by a prior tools/build_realms.py run; this reads that static sibling
+    artifact directly, no live re-extraction and no dependency on build_realms
+    running first in THIS session/pipeline order), checks how many of the
+    non-joining refs exist as a real id there. Returns {} if no realm dump is on
+    disk at all (e.g. a checkout with raw/realms/ absent)."""
+    if not non_joining_refs or not config.RAW_REALMS_DIR.is_dir():
+        return {}
+    out = {}
+    for realm_dir in sorted(config.RAW_REALMS_DIR.iterdir()):
+        p = realm_dir / "dbc" / "Spell.csv.gz"
+        if not p.is_file():
+            continue
+        realm_ids = set()
+        with gzip.open(p, "rt", encoding="utf-8", newline="") as fh:
+            for row in csv.DictReader(fh):
+                realm_ids.add(int(row["id"]))
+        hits = sorted(r for r in non_joining_refs if r in realm_ids)
+        out[realm_dir.name] = {"realmSpellCount": len(realm_ids),
+                               "resolvedRefs": hits}
+    return out
+
+
 def _build_charges(out_dir):
     """SpellCharges/SpellChargesCategory (Task V2-4 review fix): the brief's fallback
     for a sub-90%-proven link is to ship the tables curated STANDALONE, not just
@@ -568,7 +595,14 @@ def _build_charges(out_dir):
     noncommittal name, not "spellId" - with resolvedSpellName null where it doesn't
     resolve. categoryId (f1) is proven at 100% against SpellChargesCategory.id.
     Full evidence (incl. the tooltip-text semantic corroboration among
-    resolved rows) is in dbc.py's TABLE_MAPS comment."""
+    resolved rows) is in dbc.py's TABLE_MAPS comment.
+
+    [Task W4-11f] Characterizes the non-joining refs against realm-overlay Spell
+    data (see _charges_realm_check above) and only flips "attached"/re-derives the
+    join rate if PROVEN-dead refs (resolving in NEITHER the base client NOR any
+    committed realm overlay) can be excluded to legitimately clear the 0.90 bar -
+    re-derived fresh each build, not a one-time hardcoded verdict, so this stays
+    correct across future client patches."""
     spell_names = {r["id"]: r["name_enUS"] for r in dbc.iter_named("Spell")}
 
     categories = {}
@@ -590,18 +624,63 @@ def _build_charges(out_dir):
     spell_rate = round(spell_hits / len(rows), 4) if rows else 0.0
     cat_rate = round(cat_hits / len(rows), 4) if rows else 0.0
 
+    non_joining = {c["ref"] for c in rows if c["resolvedSpellName"] is None}
+    realm_check = _charges_realm_check(non_joining)
+    realm_resolved = set()
+    for info in realm_check.values():
+        realm_resolved.update(info["resolvedRefs"])
+    proven_dead = sorted(non_joining - realm_resolved)
+    n_denom = len(rows) - len(proven_dead)
+    adjusted_rate = round(spell_hits / n_denom, 4) if n_denom else spell_rate
+    attach = len(proven_dead) > 0 and adjusted_rate >= 0.90
+
+    for c in rows:
+        if c["ref"] in non_joining:
+            c["realmResolvedIn"] = sorted(
+                realm for realm, info in realm_check.items()
+                if c["ref"] in info["resolvedRefs"])
+
+    realm_gap_finding = {
+        "nonJoiningCount": len(non_joining),
+        "byRealm": {realm: {"realmSpellCount": info["realmSpellCount"],
+                            "resolvedCount": len(info["resolvedRefs"])}
+                   for realm, info in realm_check.items()},
+        "resolvedByAnyRealm": len(realm_resolved),
+        "provenDeadCount": len(proven_dead),
+        "provenDeadRefs": proven_dead,
+        "adjustedJoinRate": adjusted_rate,
+        "verdict": (
+            f"{len(realm_resolved)}/{len(non_joining)} of the base-non-joining refs "
+            "resolve as real, live ids in a committed realm-overlay Spell.dbc "
+            f"({sorted(realm_check)}) - realm-overlay content, not dead ids. "
+            f"{len(proven_dead)} are proven dead (resolve nowhere). Since a "
+            "realm-overlay id is real content in a DIFFERENT id space by design "
+            "(the four-realm/account-wide-CAD split, see AGENT-GUIDE.md), resolving "
+            "in a realm does NOT count as a legitimate exclusion for the base "
+            "spells.jsonl attach bar - only proven-dead refs would. "
+            + (f"With {len(proven_dead)} proven-dead ref(s) excluded, the adjusted "
+               f"join rate is {adjusted_rate:.2%}."
+               if proven_dead else
+               "No refs are proven dead, so the join rate cannot legitimately be "
+               "raised above the base measurement through exclusion.")
+        ) if non_joining else "no non-joining refs to characterize",
+    }
+
     doc = {
         "_note": (f"SpellCharges 'ref' resolves to a Spell.dbc id for {spell_rate:.2%} "
                   "of rows in this snapshot (below the 90% attach bar); carried "
-                  "standalone, not attached to spell records."),
+                  "standalone, not attached to spell records. See "
+                  "'realmGapFinding' below (task W4-11f) for the full "
+                  "characterization of the non-joining refs."),
         "categories": categories,
         "charges": rows,
+        "realmGapFinding": realm_gap_finding,
     }
     (out_dir / "charges.json").write_text(
         json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
 
     return {
-        "attached": False,
+        "attached": attach,
         "file": "charges.json",
         "reason": ("SpellCharges.ref join-rate vs live Spell.dbc ids is below the "
                    "brief's 0.90 bar for attaching a 'charges' field to spells.jsonl "
@@ -609,9 +688,18 @@ def _build_charges(out_dir):
                    "being proven at 100% and 95.45% of the ref hits mentioning "
                    "'charge' in their tooltip/description text - shipped standalone "
                    "in data/spells/charges.json instead of report-only; see dbc.py "
-                   "TABLE_MAPS comment for the full writeup."),
+                   "TABLE_MAPS comment for the full writeup. Task W4-11f "
+                   "investigated the gap: the non-joining refs are realm-overlay "
+                   "content (not dead), which doesn't legitimately raise the base "
+                   "attach rate - see charges.json's realmGapFinding."),
         "recordCount": len(rows), "categoryRecordCount": len(cat_ids),
         "spellIdJoinRate": spell_rate, "categoryLinkJoinRate": cat_rate,
+        "realmGapFinding": {
+            "nonJoiningCount": realm_gap_finding["nonJoiningCount"],
+            "resolvedByAnyRealm": realm_gap_finding["resolvedByAnyRealm"],
+            "provenDeadCount": realm_gap_finding["provenDeadCount"],
+            "adjustedJoinRate": realm_gap_finding["adjustedJoinRate"],
+        },
     }
 
 
