@@ -100,11 +100,15 @@ def _spell_columns():
             # PATTERNS, not integers (DATAMINE-REQUEST.md Sec 1.5 trap 3): stock
             # Frostbolt 116 slot 2 f78=1056964608=0x3F000000=0.5f, re-derived and
             # golden-matched exactly. Backing store for the "$ppl" formula token -
-            # the single highest-value column this repo was dropping (61.1% of
-            # build-reachable damaging/healing slots carry one). CoA fill on the
-            # 6,038-row "CoA class set" 2012/6038=33.3223%, an EXACT match to the
+            # the single highest-value column this repo was dropping. Re-derived
+            # CoA fill on the 6,038-row "CoA class set" (build_spells.
+            # _coa_class_spell_ids()) is 2012/6038=33.3223%, an EXACT match to the
             # doc's 2,012/6,038=33.32% (same numerator AND denominator - this
-            # build's snapshot is unchanged from the doc's on this measure).
+            # build's snapshot is unchanged from the doc's on this measure). The
+            # doc's separate "61.1% of build-reachable slots" figure uses a
+            # different, narrower population (level-60-reachable damaging/healing
+            # slots only, via rank selection - see DATAMINE-REQUEST.md Sec 1.2) that
+            # this task did not re-derive; not repeated here unverified.
             (f"effectRealPointsPerLevel{slot+1}", 77 + slot, "f"),
             (f"effectBasePoints{slot+1}", 80 + slot, "i"),
             (f"effectMechanic{slot+1}", 83 + slot, "u"),

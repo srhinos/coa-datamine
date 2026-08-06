@@ -414,13 +414,14 @@ also land on or within ~0.4pp of the doc's cited figures; see
 `.superpowers/sdd/task-w4-3-report.md` for the full per-column log.
 
 **`EffectRealPointsPerLevel` (f77-79, `effects[].realPointsPerLevel`) - the highest-
-value single addition.** Backing store for the `$ppl` formula token, present on the
-majority of build-reachable damaging/healing effect slots. Re-derived CoA-set fill:
-**2,012/6,038 = 33.3223%**, an exact match (same numerator and denominator) to the
-doc's own 2,012/6,038 = 33.32%. **IEEE-754 float bit patterns, not integers** (Sec
-1.5 trap 3) - decode via `struct.unpack('<f', struct.pack('<i', v))`, same as
-f216-218/f229-231. Golden: stock Frostbolt (116) slot 2 `f78 = 1056964608 =
-0x3F000000 = 0.5f`.
+value single addition.** Backing store for the `$ppl` formula token. Re-derived
+CoA-set fill: **2,012/6,038 = 33.3223%**, an exact match (same numerator and
+denominator) to the doc's own 2,012/6,038 = 33.32%. (The doc separately claims this
+is present on 61.1% of *build-reachable, level-60-rank-selected* damaging/healing
+slots - a narrower population this task did not re-derive; not repeated here as a
+re-derived fact.) **IEEE-754 float bit patterns, not integers** (Sec 1.5 trap 3) -
+decode via `struct.unpack('<f', struct.pack('<i', v))`, same as f216-218/f229-231.
+Golden: stock Frostbolt (116) slot 2 `f78 = 1056964608 = 0x3F000000 = 0.5f`.
 
 > **The `maxLevel` clamp - per-level is a *value* channel, not a gear-scaling
 > channel.** `realPointsPerLevel` determines the base number at a given level; it
@@ -433,13 +434,27 @@ f216-218/f229-231. Golden: stock Frostbolt (116) slot 2 `f78 = 1056964608 =
 > value = basePoints + dieSides + (clamp(60, baseLevel, maxLevel) - spellLevel) * realPointsPerLevel
 > ```
 >
+> **`maxLevel == 0` is the DBC "uncapped" sentinel, not a literal level-0 clamp
+> target.** Re-derived directly against `work/dbc/Spell.dbc`: **138 of the 2,012
+> nonzero-rppl CoA spells (6.86%) carry `maxLevel == 0`** (e.g. Hellish Rebuke
+> 300391, Slagforged Armor 300931, Conductive 500005). A literal reading of
+> `clamp(60, baseLevel, maxLevel)` with `maxLevel = 0` clamps toward 0, which is
+> wrong - these spells are uncapped, not capped at level 0. **The correct rule:
+> when `maxLevel == 0`, treat it as "no cap" and use `min(60, ...)` against 60
+> directly (i.e. drop the upper bound from the clamp, not set it to 0)** - these 138
+> spells are already correctly excluded from the 85.2%-capped-below-80 figure above
+> (that figure only counts spells where `0 < maxLevel < 80`), so no other number in
+> this section needs revising; this is a documentation-only correction for anyone
+> implementing the clamp formula themselves.
+>
 > `maxLevel` is already emitted as `levels.max`, `baseLevel` as `levels.base`,
 > `spellLevel` as `levels.spell` - nothing in this dataset applies the clamp for you;
 > a naive consumer that lets `realPointsPerLevel` scale past a spell's own `maxLevel`
-> silently inflates its value. Frozen-rppl examples re-verified directly against
-> `work/dbc/Spell.dbc` and pinned as goldens in `tests/test_spells_columns.py`:
-> Chronomancer *Decomposition* (800856, bp 12, rppl 0.11, maxLevel 12) and
-> Necromancer *Ray of Rot* (804535, bp 11, rppl 0.47, maxLevel 26).
+> (or mishandles the `maxLevel == 0` sentinel above) silently inflates or deflates its
+> value. Frozen-rppl examples re-verified directly against `work/dbc/Spell.dbc` and
+> pinned as goldens in `tests/test_spells_columns.py`: Chronomancer *Decomposition*
+> (800856, bp 12, rppl 0.11, maxLevel 12) and Necromancer *Ray of Rot* (804535, bp
+> 11, rppl 0.47, maxLevel 26).
 
 **`EffectSpellClassMask` (f122-130, `effects[].spellClassMask: [a,b,c]`) - which
 spells a talent modifies.** Three u32 words (a 96-bit mask) per effect slot, omitted
@@ -499,7 +514,10 @@ ranks sharing missile 9429.
 > `f229-231` and a parsed stat coefficient): **stock 0/65 agree (0.0%)**, **CoA
 > 7/113 = 6.2% agree** - both land on the doc's own conclusion (stock 0/37 = 0.0%,
 > CoA 4/63 = 6.3%) even though the exact counts differ (different snapshot, cruder
-> parser): **near-zero agreement either way.** A consumer that unions
+> parser): **near-zero agreement either way.** Re-runnable:
+> `python -m analysis.w4_3_bonus_multiplier_agreement` (`analysis/`, repo root) -
+> not hardcoded here, prints these same two lines fresh against `work/dbc/Spell.dbc`.
+> A consumer that unions
 > `bonusMultiplierStock` with the tooltip-parsed coefficient will silently produce
 > plausible-looking wrong numbers instead of a visible gap - the tooltip formula
 > (`description`/`tooltip`, preserved verbatim, never normalized) is CoA's *only*
