@@ -72,12 +72,12 @@ assert stats["manifestSha256"] == hashlib.sha256(manifest_path.read_bytes()).hex
 assert stats["diskSourced"] == len(api_entries)
 assert stats["archiveSourced"] + stats["diskSourced"] == stats["count"]
 
-# ---- orchestrator smoke: 12 buildStats keys, interface stage wired ----
+# ---- orchestrator smoke: 13 buildStats keys, interface stage wired ----
 prov = run(skip_extract=True, skip_dump=True)
 assert set(prov["buildStats"]) == {
     "spells", "classes", "talents", "dungeons",
     "creatures", "classmeta", "mythic", "interface",
-    "manastorm", "realms", "essence", "coatalents",
+    "manastorm", "realms", "essence", "coatalents", "items",
 }, set(prov["buildStats"])
 assert prov["buildStats"]["interface"]["count"] >= 1500
 
