@@ -230,8 +230,9 @@ unaudited retail API parity is a recurring source of live-client crashes).
   tiers) that neither of the other two views has - `data/classes/<Class>/*.json`'s
   CAD entries tell you an ability EXISTS and its flat cost; only `data/talents/coa/`
   tells you WHERE it sits in the tree and what unlocks it. See "CoA talent tree
-  geometry" below before trusting any single field at face value - several of its
-  fields (`isStartingNode` especially) look more reliable than they are.
+  geometry" below before trusting any single field at face value - `isStartingNode`
+  in particular is real but extremely sparse (only 2 of 3,618 nodes), so its
+  absence on a given node says nothing about whether that node is a tree root.
 - **Creatures/quests/trainers are id-keyed facts, not a quest/trainer content
   browser.** `data/creatures/` gives `id`/`name` only (`subname` is always `null`,
   disproven - see Honest limits). `data/quests/` gives `id` plus 28 raw numeric columns
@@ -1144,30 +1145,61 @@ have grown a 5th or 6th tab slot since the local capture), which collapses to 72
 distinct ids purely because of numeric-id REUSE - `tabId 87` ("Class") is
 literally the same id on all 21 classes' Class trees (21 assignments -> 1 id,
 -20), and `tabId 1` ("None", a placeholder)/`tabId 71` ("Blessings") each get
-reused once more (-3/-1); 96 - 24 = 72 exactly. Separately, 5 of those 96 pairs
-are EMPTY placeholders (0 entries: WitchHunter/Guardian/Pyromancer/SunCleric's
-"None" slot, Chronomancer's borrowed-but-unauthored "Blessings" slot) - the
-live-payload analogue of Sec 11's "7 of 70 specs have no CAD tab," but not the
-same measurement re-derived (that one compared `specs.json` against the LOCAL CAD
-tab layer). Cross-checking by name: 2 of Sec 11's 7 named unreleased specs
-(SunCleric/VALKYR -> "Valkyrie", WitchHunter/WITCHKNIGHT -> "Black Knight") now
-show up as real, non-empty tabs in the live payload - concrete, dated evidence
-that content shipped between that audit and this fetch, exactly the "external
-source that drifts" behavior the task brief warned to expect.
+reused once more (-3/-1); 96 - 24 = 72 exactly. Of those 96 pairs, only **5** are
+EMPTY placeholders (0 entries: WitchHunter/Guardian/Pyromancer/SunCleric's "None"
+slot, Chronomancer's borrowed-but-unauthored "Blessings" slot); the other **5** of
+the 10 grown classes (SonOfArugal, Primalist, Venomancer, Starcaller, Cultist)
+gained a genuine 5th tab with real, non-empty content (38-44 nodes apiece), not a
+placeholder. Cross-checking **all 7** of Sec 11's named "unreleased" specs by
+name against the payload (not just 2 of them): **5 have shipped** -
+SonOfArugal/FLESHWEAVER -> "Fleshweaver" (44 nodes), SunCleric/VALKYR ->
+"Valkyrie" (42 nodes), Primalist/MOUNTAINKING -> "Mountain King" (40 nodes),
+WitchHunter/WITCHKNIGHT -> "Black Knight" (38 nodes), Venomancer/VIZIER ->
+"Vizier" (41 nodes) all now exist as real, non-empty tabs. Only **2** of the 7
+(Starcaller/HYDROMANCY, Cultist/BULWARK) don't appear by a matching tabName -
+though those two classes still each picked up a *different*, unnamed-by-Sec-11
+extra tab of their own (Starcaller "Warden" 40 nodes, Cultist "Dreadnought" 38
+nodes). This is concrete, dated evidence that content shipped between Sec 11's
+audit and this fetch, exactly the "external source that drifts" behavior the
+task brief warned to expect - see `data/talents/coa/_meta.json`'s
+`tabLayerReconciliation.sec11UnreleasedSpecsShipped` for the full per-token
+table (a review pass caught a first draft of this section under-checking only 2
+of the 7 tokens and wrongly concluding the other 5 classes hadn't grown at all).
 
-**`isStartingNode` looks like a "tree root" flag and isn't one - don't use it as
-one.** Only 2 of 3,618 nodes carry it nonzero, and one of those two carries the
-value `127` (not a 0/1 boolean - a data anomaly). Meanwhile 96.5% of nodes
-(3,493/3,618) have an EMPTY `requiredIds` (i.e. no prerequisite node at all) -
-CoA's trees are gated primarily by `reqTabAE`/`reqTabTE` per-row investment
-thresholds (`CATalentFrameGatesMixin`/`CAGateInfoMixin`,
-`raw/interface/AddOns/Ascension_CharacterAdvancement/Templates/CAGate.lua`), not a
-classic Blizzard prerequisite chain rooted at one flagged starting node -
-`requiredIds` only gates a small minority (171 nonzero refs) of nodes at all.
-Confirmed semantically against the client Lua: within the shared "Class" tab
-(tabId 87), the max `reqTabAE` per row steps 0 -> 9 -> 24 as row `y` increases, for
-both classes checked (Barbarian, Necromancer) - a real, working gate tier, just not
-one keyed off `isStartingNode`.
+**`isStartingNode` is PARTIALLY proven - not simply unreliable.** Only 2 of
+3,618 nodes carry it nonzero, but the two are NOT equally trustworthy. Node 7608
+(Cultist "Abyssal Ward", `isStartingNode: 1`, empty `requiredIds`) **is** a real
+tree root exactly as the brief's suggested golden expects: two sibling nodes -
+4040 "Obliteration" and 7512 "Dreadnought" - directly list `7608` in their own
+`requiredIds`. The golden HOLDS for this entry (verified by re-parsing the raw
+payload independently, not just trusting a prior claim about it). The other
+nonzero entry, node 30212 (SunCleric "Hope", `isStartingNode: 127` - not a 0/1
+boolean, a genuine data anomaly), is unreferenced by anything - that specific
+value is the actual anomaly, not the flag's whole concept. Separately, and not a
+contradiction: 96.5% of nodes (3,493/3,618) have an EMPTY `requiredIds` (far more
+than the 2 flagged nodes) - CoA's trees are gated primarily by `reqTabAE`/
+`reqTabTE` per-row investment thresholds (see the gate-split paragraph below),
+not a classic Blizzard prerequisite chain rooted at one flagged starting node -
+`requiredIds` only gates a small minority (171 nonzero refs) of nodes at all, and
+`isStartingNode` marks only 1 of them. Net: real and correctly wired where
+present, just far too sparse to be the general "is this a tree root" signal on
+its own - `requiredIds == []` is the broader structural proxy for that.
+
+**`reqTabAE` gates the Class tree; `reqTabTE` gates every spec tree - a clean
+split, confirmed against the client's own XML wiring, not an inferred pattern.**
+`reqTabAE` is nonzero ONLY on `tabId 87` ("Class", shared by all 21 classes) -
+tiers step 0 -> 9 -> 24 by row there. `reqTabTE` is nonzero on **every spec tab**
+(tiers step 0 -> 8 -> 23 by row, confirmed on every spec tab checked) and sits
+flat at 0 on the Class tab - the *opposite* pattern, not "AE/TE both only live on
+the Class tree." `raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml`
+proves this by construction: the `$parentClassTree` frame (`parentKey="ClassTree"`)
+wires `getEntryGateRequirement` to `CoACharacterAdvancementUtil.
+GetEntryAEGateRequirement` and `gateCurrencyCount` to `C_CharacterAdvancement.
+GetPendingTabAEInvestment`; the sibling `$parentSpecTree` frame
+(`parentKey="SpecTree"`) wires the TE equivalents
+(`GetEntryTEGateRequirement`/`GetPendingTabTEInvestment`) instead - the client
+assigns AE to the Class tree and TE to the Spec tree in the XML itself, not just
+in this dataset's numbers.
 
 **Choice groups are a real, clean structure.** Every nonzero `group` value pairs
 EXACTLY 2 entries (0 exceptions across 292 groups), always sharing identical
@@ -1528,10 +1560,13 @@ whenever CoA ships new content:
   these will only drift if that capture is refreshed via
   `tools/fetch_coatalents.py` (a deliberate, separate step, not part of
   `build_dataset`'s pipeline), not on an ordinary client-patch re-run. The
-  84/96/72/24 tab-layer reconciliation numbers and the `isStartingNode`
-  anomaly (2 nonzero, values `{1, 127}`) are pinned the same way. The
-  spellDbc resolve-rate gate (>=0.95, measured 0.9997) DOES depend on the
-  client's `Spell.dbc`, same as any other snapshot pin.
+  84/96/72/24 tab-layer reconciliation numbers, the 5-of-7 Sec 11
+  "unreleased spec" shipped count (`FLESHWEAVER`/`VALKYR`/`MOUNTAINKING`/
+  `WITCHKNIGHT`/`VIZIER` shipped; `HYDROMANCY`/`BULWARK` not), and the
+  `isStartingNode` anomaly (2 nonzero, values `{1, 127}` - node 7608's `1` IS
+  referenced by siblings 4040/7512, node 30212's `127` is not) are pinned the
+  same way. The spellDbc resolve-rate gate (>=0.95, measured 0.9997) DOES
+  depend on the client's `Spell.dbc`, same as any other snapshot pin.
 - `tests/test_dataset.py`: 12 `buildStats` keys (task W4-9 added `coatalents`);
   `headerMismatches == []` for the base
   77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see

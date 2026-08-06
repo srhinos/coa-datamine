@@ -7,15 +7,24 @@ trees, build_talents.py) is a sibling, untouched directory one level up.
 
 Per the empirical-mapping rule, this also pins the NEGATIVE/nuanced findings
 documented in tools/build_coatalents.py and data/talents/coa/_meta.json (full
-writeup in .superpowers/sdd/task-w4-9-report.md):
+writeup + a correction note in .superpowers/sdd/task-w4-9-report.md - a review
+pass caught two narrative errors in a first draft of this module, corrected here):
   - the resolve-rate gate is measured against raw Spell.dbc existence (99.97%),
     NOT the curated data/spells join (only ~53%) - real content drift between
     the live published builder and this repo's client snapshot, not a bug;
-  - isStartingNode is UNRELIABLE (2/3618 nonzero, one value is 127 - not 0/1) and
-    is NOT used as a "prerequisite chain root" golden, contra the brief's own
-    suggested example - documented as a disproven hypothesis instead;
+  - isStartingNode is PARTIALLY PROVEN: node 7608 (isStartingNode:1) IS the
+    requiredIds target of two siblings - the brief's suggested golden HOLDS for
+    that entry - but only node 30212's anomalous isStartingNode:127 is
+    unreferenced/unexplained. (A first draft wrongly claimed NEITHER entry was
+    referenced - not actually computed, just asserted - caught by review.)
   - the "84 vs 72" tab-layer tension is real drift (10 classes have grown a 5th/
-    6th tab slot in the live builder since Sec 11's audit), not a counting error.
+    6th tab slot in the live builder since Sec 11's audit): 5 of Sec 11's 7 named
+    "unreleased" specs have shipped (FLESHWEAVER/VALKYR/MOUNTAINKING/WITCHKNIGHT/
+    VIZIER), not 2 - a first draft only checked 2 of the 7 tokens by hand and
+    wrongly concluded the other 5 classes were still unreleased.
+  - reqTabAE gates the Class tree (tabId 87 only); reqTabTE gates every SPEC
+    tree, not "only the Class tab" as a first draft claimed - confirmed against
+    CoATalentFrame.xml's ClassTree/SpecTree frame wiring.
 """
 import json, sys
 from pathlib import Path
@@ -84,6 +93,28 @@ assert recon["payloadTabLayer"]["extraAssignmentsAbsorbedBySharing"] == 24
 empty_classes = {e["className"] for e in recon["payloadTabLayer"]["emptyPlaceholderTabPairs"]}
 assert empty_classes == {"WitchHunter", "Guardian", "Chronomancer", "Pyromancer", "SunCleric"}
 
+# Sec 11's 7 named "unreleased" specs, cross-checked by name against the live
+# payload: 5 have shipped (real, non-empty tabs), 2 have not (see module
+# docstring - this replaces a first draft that only checked 2 of the 7 and
+# wrongly concluded the other 5 classes were unchanged at 4 tabs).
+sec11 = recon["sec11UnreleasedSpecsShipped"]
+assert sec11["shippedCount"] == 5, sec11["shippedCount"]
+shipped_tokens = {t["token"] for t in sec11["tokens"] if t["shipped"]}
+assert shipped_tokens == {"FLESHWEAVER", "VALKYR", "MOUNTAINKING", "WITCHKNIGHT", "VIZIER"}
+unshipped_tokens = {t["token"] for t in sec11["tokens"] if not t["shipped"]}
+assert unshipped_tokens == {"HYDROMANCY", "BULWARK"}
+for t in sec11["tokens"]:
+    if t["shipped"]:
+        assert t["nodeCount"] > 0, t
+    else:
+        assert t["nodeCount"] == 0 and t["tabId"] is None, t
+assert {u["className"] for u in sec11["unmatchedExtraTabs"]} == {"Starcaller", "Cultist"}
+
+# all 5 of these classes (the FLESHWEAVER/VALKYR/MOUNTAINKING/WITCHKNIGHT/VIZIER
+# classes, minus SunCleric/WitchHunter already counted in empty_classes above)
+# must actually sit at 5 tabs in the per-class files, not the local 4
+grown_not_empty_classes = {"SonOfArugal", "Primalist", "Venomancer", "Starcaller", "Cultist"}
+
 by_class = {}
 for c in index["classes"]:
     payload = json.loads((tdir / c["file"]).read_text(encoding="utf-8"))
@@ -99,8 +130,13 @@ for c in index["classes"]:
         assert tab_count in (5, 6), (c["class"], tab_count)
         empty_tabs_here = [t for t in payload["tabs"] if t["isEmpty"]]
         assert len(empty_tabs_here) == 1, (c["class"], empty_tabs_here)
+    elif c["class"] in grown_not_empty_classes:
+        # gained a genuine 5th tab (real, non-empty spec content), no placeholder
+        assert tab_count == 5, (c["class"], tab_count)
+        assert all(not t["isEmpty"] for t in payload["tabs"]), c["class"]
     else:
-        assert tab_count in (4, 5, 6), (c["class"], tab_count)  # some grew a real 5th/6th spec
+        # still the clean local baseline: 1 Class + 3 spec, no growth, no placeholder
+        assert tab_count == 4, (c["class"], tab_count)
         assert all(not t["isEmpty"] for t in payload["tabs"]), c["class"]
 
 assert len(by_class) == 21
@@ -175,23 +211,48 @@ assert flesh_to_worms["requiredIds"] == [] and flesh_to_worms["reqTabAE"] == 0 \
 
 
 # ---------------------------------------------------------------------------
-# isStartingNode: documented as UNRELIABLE, pinned as a known anomaly rather
-# than trusted as a "tree root" signal (see module docstring + _meta.json)
+# isStartingNode: PARTIALLY PROVEN - the brief's suggested golden ("a node
+# whose requiredIds parent is the tree's isStartingNode") HOLDS for the real
+# isStartingNode:1 entry (node 7608, referenced by two siblings' requiredIds);
+# only the anomalous isStartingNode:127 entry (node 30212) is unreferenced.
 # ---------------------------------------------------------------------------
 sf = meta["isStartingNodeFinding"]
-assert sf["verdict"].startswith("UNRELIABLE")
+assert sf["verdict"] == "PARTIALLY PROVEN"
 assert {e["isStartingNode"] for e in sf["specialEntries"]} == {1, 127}
 assert len(sf["specialEntries"]) == 2
 assert sf["entriesWithNoRequiredIds"] == 3493
 
+node_7608 = next(e for e in sf["specialEntries"] if e["id"] == 7608)
+assert node_7608["isStartingNode"] == 1 and node_7608["name"] == "Abyssal Ward"
+assert node_7608["requiredIds"] == []
+referencing_ids = {r["id"] for r in node_7608["referencedByRequiredIds"]}
+assert referencing_ids == {4040, 7512}, referencing_ids  # Obliteration, Dreadnought
+
+node_30212 = next(e for e in sf["specialEntries"] if e["id"] == 30212)
+assert node_30212["isStartingNode"] == 127 and node_30212["name"] == "Hope"
+assert node_30212["referencedByRequiredIds"] == []  # the anomalous value is unreferenced
+
+# same golden, re-derived directly from the shipped per-class node data (not
+# just re-reading _meta.json's own claim about itself)
+cultist = by_class["Cultist"]
+abyssal_ward = next(n for n in cultist["nodes"] if n["id"] == 7608)
+assert abyssal_ward["isStartingNode"] == 1 and abyssal_ward["requiredIds"] == []
+children_ids = {n["id"] for n in cultist["nodes"] if 7608 in n["requiredIds"]}
+assert children_ids == {4040, 7512}
+
 
 # ---------------------------------------------------------------------------
-# reqTabAE/reqTabTE gate-tier golden: within the shared "Class" tab (tabId 87)
-# for 2 different classes, the max gate threshold per row is monotonically
-# non-decreasing with row `y` (CATalentFrameGatesMixin gates whole ROWS behind
-# tab-investment tiers - raw/interface/AddOns/Ascension_CharacterAdvancement/
-# Templates/CAGate.lua) - semantic cross-check against client Lua gate behavior,
-# not just a payload-internal self-consistency check.
+# reqTabAE/reqTabTE gate-tier golden: AE gates the Class tree (tabId 87 only,
+# tiers step 0 -> 9 -> 24 by row); TE gates every SPEC tree instead (tiers step
+# 0 -> 8 -> 23 by row) and sits flat at 0 on the Class tab - the opposite split,
+# not "AE/TE both only live on Class" (a first draft's wrong claim, caught by
+# review). Confirmed against the client's own frame wiring, not just an
+# inferred pattern: raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml
+# wires the "$parentClassTree" frame's getEntryGateRequirement to
+# CoACharacterAdvancementUtil.GetEntryAEGateRequirement (gateCurrencyCount =
+# GetPendingTabAEInvestment), and the sibling "$parentSpecTree" frame to the TE
+# equivalents (GetEntryTEGateRequirement / GetPendingTabTEInvestment) - the
+# client XML itself assigns AE to the Class tree and TE to the Spec tree.
 # ---------------------------------------------------------------------------
 def _max_gate_by_row(nodes, tab_id, field):
     by_y = {}
@@ -207,10 +268,27 @@ for cname in ("Barbarian", "Necromancer"):
     te_seq = _max_gate_by_row(nodes, 87, "reqTabTE")
     assert ae_seq == sorted(ae_seq), (cname, "reqTabAE", ae_seq)
     assert te_seq == sorted(te_seq), (cname, "reqTabTE", te_seq)
-    # both classes share tabId 87 (the "Class" tree, see tabIdReuse finding) and
-    # its AE gate tiers step 0 -> 9 -> 24 as row increases on both - a real,
-    # semantically meaningful gate (not just "flat zero everywhere")
+    # tabId 87 (the shared "Class" tree, see tabIdReuse finding): AE gate tiers
+    # step 0 -> 9 -> 24 as row increases; TE sits flat at 0 there (AE's tree)
     assert max(ae_seq) == 24 and ae_seq[0] == 0, (cname, ae_seq)
+    assert max(te_seq) == 0, (cname, "reqTabTE should be flat 0 on the Class tab", te_seq)
+
+# the TE-side of the golden: pick one spec tab per class (Barbarian/Brutality,
+# Necromancer/Death) and confirm TE - not AE - gates it, with the same
+# monotonic step pattern (0 -> 8 -> 23), the mirror image of the Class-tab case
+SPEC_TAB_BY_CLASS = {"Barbarian": 31, "Necromancer": 59}  # Brutality, Death
+for cname, tab_id in SPEC_TAB_BY_CLASS.items():
+    nodes = by_class[cname]["nodes"]
+    ae_seq = _max_gate_by_row(nodes, tab_id, "reqTabAE")
+    te_seq = _max_gate_by_row(nodes, tab_id, "reqTabTE")
+    assert te_seq == sorted(te_seq), (cname, tab_id, "reqTabTE", te_seq)
+    assert max(te_seq) == 23 and te_seq[0] == 0, (cname, tab_id, te_seq)
+    assert max(ae_seq) == 0, (cname, tab_id, "reqTabAE should be flat 0 on a spec tab", ae_seq)
+
+req_tab_finding = meta["reqTabAeTeGateFinding"]
+assert req_tab_finding["aeGatedTabIds"] == [87]
+assert 31 in req_tab_finding["teGatedTabIds"] and 59 in req_tab_finding["teGatedTabIds"]
+assert 87 not in req_tab_finding["teGatedTabIds"]
 
 
 # ---------------------------------------------------------------------------

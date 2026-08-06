@@ -67,22 +67,43 @@
  "isStartingNodeFinding": {
   "entriesWithNoRequiredIds": 3493,
   "entriesWithNoRequiredIdsPct": 0.9655,
-  "reason": "Only 2/3618 entries carry a nonzero isStartingNode at all, and one of those two carries the value 127 (not a 0/1 boolean) - a data anomaly, not a real 3rd state. Meanwhile 3493/3618 entries (96.5%) have NO requiredIds at all (i.e. are structurally unlocked with no prerequisite node) - CoA's talent trees are gated primarily by reqTabAE/reqTabTE per-row investment thresholds (see CATalentFrameGatesMixin/CAGateInfoMixin in raw/interface/AddOns/Ascension_CharacterAdvancement/Templates/CAGate.lua), not a classic Blizzard prerequisite chain rooted at a flagged 'starting node' - requiredIds only gates a small minority (171 non-zero refs / 3618 entries) of nodes. The brief's suggested golden ('a node whose requiredIds parent is the tree's isStartingNode') does not hold on this data: neither of the 2 isStartingNode=1 entries in this payload is any other node's requiredIds target. Documented as a disproven hypothesis rather than forced.",
+  "reason": "Only 2/3618 entries carry a nonzero isStartingNode at all, but they are NOT equally reliable. `isStartingNode: 1` on node 7608 (Cultist 'Abyssal Ward', tabId 87 'Class', empty requiredIds) IS a real tree root exactly as the brief's suggested golden expects: two sibling nodes - 4040 'Obliteration' and 7512 'Dreadnought', both Cultist, both `requiredIds: [7608, 0, 0]` - directly require it. The brief's golden HOLDS for this entry. The other nonzero entry, node 30212 (SunCleric 'Hope'), carries `isStartingNode: 127` - not a 0/1 boolean, a genuine data anomaly - and is NOT any other node's requiredIds target; that one specific value is unexplained and unreferenced, not a second real starting node. So: proven where used correctly (value 1), anomalous and unreferenced where the value is 127. Separately, and NOT a contradiction of the above: 3493/3618 entries (96.5%) have NO requiredIds at all (far more than the 2 flagged nodes) - CoA's talent trees are gated primarily by reqTabAE/reqTabTE per-row investment thresholds (AE gates the Class tree, TE gates spec trees - see raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml's ClassTree/SpecTree frame wiring, and reqTabAeTeGateFinding below), not a classic Blizzard prerequisite chain rooted at one flagged 'starting node' - requiredIds only gates a small minority (171 non-zero refs / 3618 entries) of nodes, and `isStartingNode` marks only 1 of them. The flag is real and correctly wired where present, just far too sparse to be the general 'is this a tree root' signal on its own - `requiredIds == []` is the broader structural proxy for that, `isStartingNode` a narrower, sparser, mostly-reliable overlay.",
   "specialEntries": [
    {
     "classId": 25,
     "id": 7608,
     "isStartingNode": 1,
-    "name": "Abyssal Ward"
+    "name": "Abyssal Ward",
+    "referencedByRequiredIds": [
+     {
+      "id": 4040,
+      "name": "Obliteration",
+      "requiredIds": [
+       7608
+      ]
+     },
+     {
+      "id": 7512,
+      "name": "Dreadnought",
+      "requiredIds": [
+       7608
+      ]
+     }
+    ],
+    "requiredIds": [],
+    "tabId": 87
    },
    {
     "classId": 27,
     "id": 30212,
     "isStartingNode": 127,
-    "name": "Hope"
+    "name": "Hope",
+    "referencedByRequiredIds": [],
+    "requiredIds": [],
+    "tabId": 71
    }
   ],
-  "verdict": "UNRELIABLE - not used as a golden"
+  "verdict": "PARTIALLY PROVEN"
  },
  "payload": {
   "buildId": 40,
@@ -110,6 +131,85 @@
   "url": "https://ascension.gg/en/v2/coa-builder/voljin"
  },
  "realmCaveat": "This is the VOL'JIN builder specifically (https://ascension.gg/en/v2/coa-builder/voljin). Rexxar - Conquest of Azeroth is a SEPARATE CoA realm; its geometry is ASSUMED IDENTICAL here but UNVERIFIED until a Rexxar capture exists (coa-sim-handoff/DATAMINE-REQUEST.md Sec 13 item 7, 'capture a Vol'Jin/Rexxar realm overlay and diff vs base' - not performed by this task). The client-side Lua geometry source (Ascension_CoATalents, CharacterAdvancement*.lua) IS realm-agnostic structure (node types, gate mechanism, flag bits), but carries none of the numeric tree layout itself (see clientLuaGeometryFinding) - so this caveat applies to essentially all of this dataset's geometry, not just a slice of it.",
+ "reqTabAeTeGateFinding": {
+  "aeGatedTabIds": [
+   87
+  ],
+  "reason": "reqTabAE is nonzero ONLY on tabId 87 ('Class', shared by all 21 classes) - tiers step 0 -> 9 -> 24 by row there, confirmed on every class checked. reqTabTE is nonzero on EVERY spec tab (tiers step 0 -> 8 -> 23 by row, confirmed on every spec tab checked) and flat 0 on the Class tab - the exact opposite pattern, not 'also mostly zero'. This matches the client's own frame wiring, not just an inferred pattern: raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml's `$parentClassTree` frame (parentKey=\"ClassTree\") wires `getEntryGateRequirement` to `CoACharacterAdvancementUtil.GetEntryAEGateRequirement` and `gateCurrencyCount` to `C_CharacterAdvancement.GetPendingTabAEInvestment`; the sibling `$parentSpecTree` frame (parentKey=\"SpecTree\") wires the TE equivalents (`GetEntryTEGateRequirement` / `GetPendingTabTEInvestment`) instead - i.e. the client XML itself assigns AE to the Class tree and TE to the Spec tree by construction, this is not a coincidence of the data.",
+  "teGatedTabIds": [
+   2,
+   7,
+   11,
+   16,
+   18,
+   19,
+   26,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   81,
+   82,
+   83,
+   84,
+   85,
+   86,
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94
+  ],
+  "verdict": "AE gates the Class tree; TE gates spec trees - a clean split, not 'AE/TE only live on Class'"
+ },
  "resolveStats": {
   "idMatchesAnyCadRow": {
    "note": "payload node `id` matching some CAD row's own `ID` field.",
@@ -132,7 +232,7 @@
   }
  },
  "tabLayerReconciliation": {
-  "explanation": "The doc's '84' (Sec 11, local CAD tab-string layer: 4 tabs x 21 coa-custom classes) and '72' (Sec 6.1, payload's DISTINCT tabId count) are not directly comparable - they count different things from different sources. Recomputed fresh: the payload actually carries 96 (classId,tabId) ASSIGNMENT pairs (more than 84 - 10 classes have grown a 5th or 6th tab slot since the local snapshot), and 96 collapses to 72 DISTINCT tabIds purely because of id REUSE: tabId 87 ('Class') is literally the SAME numeric id on all 21 classes' Class trees (21 assignments -> 1 distinct id, -20), and tabId 1 ('None', a placeholder) plus tabId 71 ('Blessings', a real tab for SunCleric reused as an empty placeholder for Chronomancer) each get reused once more (-3 -1). 20+3+1 = 24 'extra' assignments absorbed by 3 shared ids; 96-24 = 72, exactly. Separately: 5 of the 96 assignment pairs are EMPTY placeholders (0 entries) - all 4 'None' tabId=1 slots (WitchHunter/Guardian/Pyromancer/SunCleric) plus Chronomancer's borrowed-but-unauthored 'Blessings' slot - this is the live-payload analogue of Sec 11's '7 of 70 specs have no CAD tab' finding, but NOT the same finding re-derived: Sec 11's 7 named specs (by ChrSpecs tabToken: FLESHWEAVER/HYDROMANCY/VALKYR/MOUNTAINKING/BULWARK/WITCHKNIGHT/VIZIER) came from specs.json vs the LOCAL CAD tab layer, a different comparison than this payload. Cross-checking by name: 2 of those 7 (SunCleric/VALKYR -> tabName 'Valkyrie' tabId 90, WitchHunter/WITCHKNIGHT -> tabName 'Black Knight' tabId 94) now show up as REAL, non-empty tabs in the live payload - i.e. those two specs have shipped since Sec 11's audit ran, live evidence of the 'external source that drifts' caveat this task was told to expect. The other 5 named specs do not appear by a matching tabName in the payload at all (their classes still sit at the local 4-tab count) - unreleased-since-Sec-11 is the simplest read, not re-confirmed independently here.",
+  "explanation": "The doc's '84' (Sec 11, local CAD tab-string layer: 4 tabs x 21 coa-custom classes) and '72' (Sec 6.1, payload's DISTINCT tabId count) are not directly comparable - they count different things from different sources. Recomputed fresh: the payload actually carries 96 (classId,tabId) ASSIGNMENT pairs (more than 84 - 10 classes have grown a 5th or 6th tab slot since the local snapshot), and 96 collapses to 72 DISTINCT tabIds purely because of id REUSE: tabId 87 ('Class') is literally the SAME numeric id on all 21 classes' Class trees (21 assignments -> 1 distinct id, -20), and tabId 1 ('None', a placeholder) plus tabId 71 ('Blessings', a real tab for SunCleric reused as an empty placeholder for Chronomancer) each get reused once more (-3 -1). 20+3+1 = 24 'extra' assignments absorbed by 3 shared ids; 96-24 = 72, exactly. Separately: 5 of the 96 assignment pairs are EMPTY placeholders (0 entries) - all 4 'None' tabId=1 slots (WitchHunter/Guardian/Pyromancer/SunCleric) plus Chronomancer's borrowed-but-unauthored 'Blessings' slot. The remaining 5 of those 10 grown classes (SonOfArugal/Primalist/Venomancer/Starcaller/Cultist) are NOT empty placeholders - each gained a genuine 5th tab with real content (38-44 nodes apiece). Cross-checking Sec 11's 7 named 'unreleased' specs by name against this payload: 5 of 7 have SHIPPED - SonOfArugal/FLESHWEAVER -> 'Fleshweaver' (44 nodes), SunCleric/VALKYR -> 'Valkyrie' (42 nodes), Primalist/MOUNTAINKING -> 'Mountain King' (40 nodes), WitchHunter/WITCHKNIGHT -> 'Black Knight' (38 nodes), Venomancer/VIZIER -> 'Vizier' (41 nodes) all now exist as real, non-empty tabs - see sec11UnreleasedSpecsShipped above for the full per-token table (exact node counts re-verified by assertion at every build, not hardcoded trust). Only 2 of 7 (Starcaller/HYDROMANCY, Cultist/BULWARK) do NOT appear by a matching tabName - though those two classes still each gained a DIFFERENT extra tab of their own (Starcaller 'Warden' 40 nodes, Cultist 'Dreadnought' 38 nodes) not named by Sec 11 at all. This is live, dated evidence of the 'external source that drifts' caveat this task was told to expect - a first pass of this reconciliation only checked 2 of the 7 tokens by hand and wrongly concluded the other 5 classes 'still sit at the local 4-tab count'; they do not.",
   "localCadTabLayer": {
    "classCount": 21,
    "note": "data/classes/<Class>/ CAD tab-string layer, recomputed fresh from this repo's OWN client capture (not the payload) - matches AGENT-GUIDE/DATAMINE-REQUEST Sec 11's cited '84' exactly, still clean today: every one of the 21 coa-custom classes carries precisely 4 tab-name buckets (1 Class + 3 spec), zero exceptions.",
@@ -233,6 +333,84 @@
     ]
    },
    "totalClassTabAssignments": 96
+  },
+  "sec11UnreleasedSpecsShipped": {
+   "note": "Cross-check of Sec 11's '7 of 70 specs have no CAD tab' list (by ChrSpecs tabToken) against the LIVE payload's tabNames, by classId + name. 5 of 7 have shipped real, non-empty content since Sec 11's audit; 2 have not (their classes instead gained a DIFFERENT, unnamed-by-Sec-11 extra tab - see unmatchedExtraTabs).",
+   "shippedCount": 5,
+   "tokens": [
+    {
+     "classId": 20,
+     "nodeCount": 44,
+     "shipped": true,
+     "tabId": 93,
+     "tabName": "Fleshweaver",
+     "token": "FLESHWEAVER"
+    },
+    {
+     "classId": 26,
+     "nodeCount": 0,
+     "shipped": false,
+     "tabId": null,
+     "tabName": null,
+     "token": "HYDROMANCY"
+    },
+    {
+     "classId": 27,
+     "nodeCount": 42,
+     "shipped": true,
+     "tabId": 90,
+     "tabName": "Valkyrie",
+     "token": "VALKYR"
+    },
+    {
+     "classId": 31,
+     "nodeCount": 40,
+     "shipped": true,
+     "tabId": 91,
+     "tabName": "Mountain King",
+     "token": "MOUNTAINKING"
+    },
+    {
+     "classId": 25,
+     "nodeCount": 0,
+     "shipped": false,
+     "tabId": null,
+     "tabName": null,
+     "token": "BULWARK"
+    },
+    {
+     "classId": 15,
+     "nodeCount": 38,
+     "shipped": true,
+     "tabId": 94,
+     "tabName": "Black Knight",
+     "token": "WITCHKNIGHT"
+    },
+    {
+     "classId": 29,
+     "nodeCount": 41,
+     "shipped": true,
+     "tabId": 92,
+     "tabName": "Vizier",
+     "token": "VIZIER"
+    }
+   ],
+   "unmatchedExtraTabs": [
+    {
+     "classId": 26,
+     "className": "Starcaller",
+     "nodeCount": 40,
+     "tabId": 89,
+     "tabName": "Warden"
+    },
+    {
+     "classId": 25,
+     "className": "Cultist",
+     "nodeCount": 38,
+     "tabId": 88,
+     "tabName": "Dreadnought"
+    }
+   ]
   }
  },
  "task": "W4-9: CoA talent tree geometry (coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)"

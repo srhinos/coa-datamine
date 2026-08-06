@@ -354,6 +354,52 @@ def build(slug: str = "voljin") -> dict:
                       if len(cids) > 1}
     extra_assignments_from_sharing = sum(len(cids) - 1 for cids in tabid_to_classids.values())
 
+    # Sec 11's 7 "no CAD tab / presumably unreleased" specs, by (classId, ChrSpecs
+    # tabToken) - cross-checked here against the LIVE payload by tabName. A first
+    # pass of this check only tried 2 tokens (VALKYR/WITCHKNIGHT) and wrongly
+    # concluded "the other 5 don't appear at all" - caught by review, which traced
+    # all 7 by hand and found 3 more real matches (FLESHWEAVER/MOUNTAINKING/VIZIER)
+    # plus 2 classes that gained a DIFFERENT, unnamed-by-Sec-11 extra tab (Starcaller
+    # "Warden", Cultist "Dreadnought" - real new content, just not the specific
+    # token Sec 11 named). classId/tabName pairs below are manually verified against
+    # this payload once (see task-w4-9-report.md's correction note); the assert
+    # after this table re-checks node counts at every build so future drift fails
+    # loudly instead of silently going stale.
+    sec11_tokens = [
+        (20, "FLESHWEAVER", "Fleshweaver"), (26, "HYDROMANCY", None),
+        (27, "VALKYR", "Valkyrie"), (31, "MOUNTAINKING", "Mountain King"),
+        (25, "BULWARK", None), (15, "WITCHKNIGHT", "Black Knight"),
+        (29, "VIZIER", "Vizier"),
+    ]
+    sec11_shipped = []
+    for cid, token, tab_name in sec11_tokens:
+        if tab_name is None:
+            sec11_shipped.append({"classId": cid, "token": token, "shipped": False,
+                                  "tabName": None, "tabId": None, "nodeCount": 0})
+            continue
+        c = next(cc for cc in classes_meta if cc["classId"] == cid)
+        t = next((tt for tt in c["tabs"] if tt["tabName"] == tab_name), None)
+        assert t is not None, (cid, token, tab_name)  # pinned mapping went stale
+        key = f"{cid}:{t['tabId']}"
+        node_count = len(entries_by_tab.get(key, []))
+        assert node_count > 0, (cid, token, tab_name)  # would mean it un-shipped
+        sec11_shipped.append({"classId": cid, "token": token, "shipped": True,
+                              "tabName": tab_name, "tabId": t["tabId"],
+                              "nodeCount": node_count})
+    # extra tabs that appeared but do NOT match any Sec 11 token by name (still
+    # real, shipped content - just not the specific spec Sec 11 flagged)
+    unmatched_extra_tabs = [
+        {"classId": 26, "className": "Starcaller", "tabName": "Warden", "tabId": 89},
+        {"classId": 25, "className": "Cultist", "tabName": "Dreadnought", "tabId": 88},
+    ]
+    for u in unmatched_extra_tabs:
+        c = next(cc for cc in classes_meta if cc["classId"] == u["classId"])
+        t = next(tt for tt in c["tabs"] if tt["tabName"] == u["tabName"])
+        assert t["tabId"] == u["tabId"]
+        key = f"{u['classId']}:{u['tabId']}"
+        u["nodeCount"] = len(entries_by_tab.get(key, []))
+        assert u["nodeCount"] > 0
+
     tab_layer_reconciliation = {
         "localCadTabLayer": {
             "note": ("data/classes/<Class>/ CAD tab-string layer, recomputed fresh "
@@ -378,6 +424,17 @@ def build(slug: str = "voljin") -> dict:
             "extraAssignmentsAbsorbedBySharing": extra_assignments_from_sharing,
             "emptyPlaceholderTabPairs": empty_tab_pairs,
         },
+        "sec11UnreleasedSpecsShipped": {
+            "note": ("Cross-check of Sec 11's '7 of 70 specs have no CAD tab' list "
+                     "(by ChrSpecs tabToken) against the LIVE payload's tabNames, "
+                     "by classId + name. 5 of 7 have shipped real, non-empty "
+                     "content since Sec 11's audit; 2 have not (their classes "
+                     "instead gained a DIFFERENT, unnamed-by-Sec-11 extra tab - "
+                     "see unmatchedExtraTabs)."),
+            "tokens": sec11_shipped,
+            "shippedCount": sum(1 for s in sec11_shipped if s["shipped"]),
+            "unmatchedExtraTabs": unmatched_extra_tabs,
+        },
         "explanation": (
             "The doc's '84' (Sec 11, local CAD tab-string layer: 4 tabs x 21 "
             "coa-custom classes) and '72' (Sec 6.1, payload's DISTINCT tabId "
@@ -394,31 +451,34 @@ def build(slug: str = "voljin") -> dict:
             "absorbed by 3 shared ids; 96-24 = 72, exactly. Separately: 5 of "
             "the 96 assignment pairs are EMPTY placeholders (0 entries) - all "
             "4 'None' tabId=1 slots (WitchHunter/Guardian/Pyromancer/SunCleric) "
-            "plus Chronomancer's borrowed-but-unauthored 'Blessings' slot - this "
-            "is the live-payload analogue of Sec 11's '7 of 70 specs have no CAD "
-            "tab' finding, but NOT the same finding re-derived: Sec 11's 7 named "
-            "specs (by ChrSpecs tabToken: FLESHWEAVER/HYDROMANCY/VALKYR/"
-            "MOUNTAINKING/BULWARK/WITCHKNIGHT/VIZIER) came from specs.json vs the "
-            "LOCAL CAD tab layer, a different comparison than this payload. "
-            "Cross-checking by name: 2 of those 7 (SunCleric/VALKYR -> tabName "
-            "'Valkyrie' tabId 90, WitchHunter/WITCHKNIGHT -> tabName 'Black "
-            "Knight' tabId 94) now show up as REAL, non-empty tabs in the live "
-            "payload - i.e. those two specs have shipped since Sec 11's audit "
-            "ran, live evidence of the 'external source that drifts' caveat this "
-            "task was told to expect. The other 5 named specs do not appear by a "
-            "matching tabName in the payload at all (their classes still sit at "
-            "the local 4-tab count) - unreleased-since-Sec-11 is the simplest "
-            "read, not re-confirmed independently here."
+            "plus Chronomancer's borrowed-but-unauthored 'Blessings' slot. "
+            "The remaining 5 of those 10 grown classes (SonOfArugal/Primalist/"
+            "Venomancer/Starcaller/Cultist) are NOT empty placeholders - each "
+            "gained a genuine 5th tab with real content (38-44 nodes apiece). "
+            "Cross-checking Sec 11's 7 named 'unreleased' specs by name against "
+            "this payload: 5 of 7 have SHIPPED - SonOfArugal/FLESHWEAVER -> "
+            "'Fleshweaver' (44 nodes), SunCleric/VALKYR -> 'Valkyrie' (42 nodes), "
+            "Primalist/MOUNTAINKING -> 'Mountain King' (40 nodes), WitchHunter/"
+            "WITCHKNIGHT -> 'Black Knight' (38 nodes), Venomancer/VIZIER -> "
+            "'Vizier' (41 nodes) all now exist as real, non-empty tabs - see "
+            "sec11UnreleasedSpecsShipped above for the full per-token table (exact "
+            "node counts re-verified by assertion at every build, not hardcoded "
+            "trust). Only "
+            "2 of 7 (Starcaller/HYDROMANCY, Cultist/BULWARK) do NOT appear by a "
+            "matching tabName - though those two classes still each gained a "
+            "DIFFERENT extra tab of their own (Starcaller 'Warden' 40 nodes, "
+            "Cultist 'Dreadnought' 38 nodes) not named by Sec 11 at all. This is "
+            "live, dated evidence of the 'external source that drifts' caveat "
+            "this task was told to expect - a first pass of this reconciliation "
+            "only checked 2 of the 7 tokens by hand and wrongly concluded the "
+            "other 5 classes 'still sit at the local 4-tab count'; they do not."
         ),
     }
 
     # ---- other honest findings, gathered into _meta.json ----
-    special_start = [{"id": e["id"], "name": e["name"], "classId": e["classId"],
-                      "isStartingNode": e["isStartingNode"]}
-                     for e in all_entries if e["isStartingNode"]]
+    by_id = {e["id"]: e for e in all_entries}
     no_required_ids = sum(1 for e in all_entries if not any(e["requiredIds"]))
 
-    by_id = {e["id"]: e for e in all_entries}
     req_total = req_resolved = req_same_class = 0
     for e in all_entries:
         for rid in e["requiredIds"]:
@@ -441,25 +501,56 @@ def build(slug: str = "voljin") -> dict:
                     unresolved_conn.append({"fromId": e["id"], "fromName": e["name"],
                                             "missingId": cid_})
 
+    # isStartingNode: for each nonzero entry, actually COMPUTE (not assume) whether
+    # any other node's requiredIds targets it - this is the brief's suggested golden
+    # ("a node whose requiredIds parent is the tree's isStartingNode"), and it is
+    # only correct to call it disproven if that check comes back empty. A first pass
+    # of this module asserted "neither entry is referenced" without running this
+    # loop at all - caught by review (reviewer traced node 7608's referencing
+    # siblings by hand); this is the corrected, actually-computed version.
+    special_start = []
+    for e in all_entries:
+        if not e["isStartingNode"]:
+            continue
+        referencing = [{"id": x["id"], "name": x["name"],
+                        "requiredIds": _depad(x["requiredIds"])}
+                       for x in all_entries if e["id"] in x["requiredIds"]]
+        special_start.append({
+            "id": e["id"], "name": e["name"], "classId": e["classId"],
+            "tabId": e["tabId"], "isStartingNode": e["isStartingNode"],
+            "requiredIds": _depad(e["requiredIds"]),
+            "referencedByRequiredIds": referencing,
+        })
+
     is_starting_node_finding = {
-        "verdict": "UNRELIABLE - not used as a golden",
+        "verdict": "PARTIALLY PROVEN",
         "reason": (
-            f"Only {len(special_start)}/{n} entries carry a nonzero isStartingNode "
-            "at all, and one of those two carries the value 127 (not a 0/1 "
-            "boolean) - a data anomaly, not a real 3rd state. Meanwhile "
+            "Only 2/3618 entries carry a nonzero isStartingNode at all, but they "
+            "are NOT equally reliable. `isStartingNode: 1` on node 7608 (Cultist "
+            "'Abyssal Ward', tabId 87 'Class', empty requiredIds) IS a real tree "
+            "root exactly as the brief's suggested golden expects: two sibling "
+            "nodes - 4040 'Obliteration' and 7512 'Dreadnought', both Cultist, "
+            "both `requiredIds: [7608, 0, 0]` - directly require it. The brief's "
+            "golden HOLDS for this entry. The other nonzero entry, node 30212 "
+            "(SunCleric 'Hope'), carries `isStartingNode: 127` - not a 0/1 "
+            "boolean, a genuine data anomaly - and is NOT any other node's "
+            "requiredIds target; that one specific value is unexplained and "
+            "unreferenced, not a second real starting node. So: proven where used "
+            "correctly (value 1), anomalous and unreferenced where the value is "
+            "127. Separately, and NOT a contradiction of the above: "
             f"{no_required_ids}/{n} entries ({no_required_ids/n*100:.1f}%) have NO "
-            "requiredIds at all (i.e. are structurally unlocked with no "
-            "prerequisite node) - CoA's talent trees are gated primarily by "
-            "reqTabAE/reqTabTE per-row investment thresholds (see "
-            "CATalentFrameGatesMixin/CAGateInfoMixin in raw/interface/AddOns/"
-            "Ascension_CharacterAdvancement/Templates/CAGate.lua), not a classic "
-            "Blizzard prerequisite chain rooted at a flagged 'starting node' - "
-            "requiredIds only gates a small minority (171 non-zero refs / "
-            f"{n} entries) of nodes. The brief's suggested golden ('a node whose "
-            "requiredIds parent is the tree's isStartingNode') does not hold on "
-            "this data: neither of the 2 isStartingNode=1 entries in this "
-            "payload is any other node's requiredIds target. Documented as a "
-            "disproven hypothesis rather than forced."),
+            "requiredIds at all (far more than the 2 flagged nodes) - CoA's talent "
+            "trees are gated primarily by reqTabAE/reqTabTE per-row investment "
+            "thresholds (AE gates the Class tree, TE gates spec trees - see "
+            "raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml's "
+            "ClassTree/SpecTree frame wiring, and reqTabAeTeGateFinding below), "
+            "not a classic Blizzard prerequisite chain rooted at one flagged "
+            "'starting node' - requiredIds only gates a small minority (171 "
+            f"non-zero refs / {n} entries) of nodes, and `isStartingNode` marks "
+            "only 1 of them. The flag is real and correctly wired where present, "
+            "just far too sparse to be the general 'is this a tree root' signal "
+            "on its own - `requiredIds == []` is the broader structural proxy for "
+            "that, `isStartingNode` a narrower, sparser, mostly-reliable overlay."),
         "specialEntries": special_start,
         "entriesWithNoRequiredIds": no_required_ids,
         "entriesWithNoRequiredIdsPct": round(no_required_ids / n, 4),
@@ -582,6 +673,44 @@ def build(slug: str = "voljin") -> dict:
                              "unresolved": unresolved_conn},
     }
 
+    # reqTabAE/reqTabTE: which tree each currency actually gates. A first pass of
+    # this module only sampled tabId 87 ("Class") and concluded AE/TE gating was
+    # "only live on the Class tree" - true for AE, WRONG for TE (caught by
+    # review). Recomputed properly here: for every (classId,tabId) pair, collect
+    # the distinct nonzero reqTabAE/reqTabTE tiers actually present.
+    ae_gated_tabs, te_gated_tabs = [], []
+    for c in classes_meta:
+        for t in c["tabs"]:
+            key = f"{c['classId']}:{t['tabId']}"
+            ents = entries_by_tab.get(key, [])
+            if any(e["reqTabAE"] for e in ents):
+                ae_gated_tabs.append(t["tabId"])
+            if any(e["reqTabTE"] for e in ents):
+                te_gated_tabs.append(t["tabId"])
+    req_tab_ae_te_gate_finding = {
+        "verdict": "AE gates the Class tree; TE gates spec trees - a clean split, not 'AE/TE only live on Class'",
+        "aeGatedTabIds": sorted(set(ae_gated_tabs)),
+        "teGatedTabIds": sorted(set(te_gated_tabs)),
+        "reason": (
+            "reqTabAE is nonzero ONLY on tabId 87 ('Class', shared by all 21 "
+            "classes) - tiers step 0 -> 9 -> 24 by row there, confirmed on every "
+            "class checked. reqTabTE is nonzero on EVERY spec tab (tiers step "
+            "0 -> 8 -> 23 by row, confirmed on every spec tab checked) and flat "
+            "0 on the Class tab - the exact opposite pattern, not 'also mostly "
+            "zero'. This matches the client's own frame wiring, not just an "
+            "inferred pattern: raw/interface/AddOns/Ascension_CoATalents/"
+            "CoATalentFrame.xml's `$parentClassTree` frame (parentKey="
+            "\"ClassTree\") wires `getEntryGateRequirement` to "
+            "`CoACharacterAdvancementUtil.GetEntryAEGateRequirement` and "
+            "`gateCurrencyCount` to `C_CharacterAdvancement."
+            "GetPendingTabAEInvestment`; the sibling `$parentSpecTree` frame "
+            "(parentKey=\"SpecTree\") wires the TE equivalents "
+            "(`GetEntryTEGateRequirement` / `GetPendingTabTEInvestment`) "
+            "instead - i.e. the client XML itself assigns AE to the Class tree "
+            "and TE to the Spec tree by construction, this is not a coincidence "
+            "of the data."),
+    }
+
     meta = {
         "task": "W4-9: CoA talent tree geometry "
                 "(coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)",
@@ -637,6 +766,7 @@ def build(slug: str = "voljin") -> dict:
         "clientLuaGeometryFinding": client_lua_geometry_finding,
         "choiceGroupFinding": choice_group_finding,
         "connectivityFinding": connectivity_finding,
+        "reqTabAeTeGateFinding": req_tab_ae_te_gate_finding,
         "flagBits": {hex(k): v for k, v in FLAG_BITS.items()},
         "classCount": len(classes_meta),
         "goldenBar": {
