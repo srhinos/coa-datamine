@@ -1987,3 +1987,19 @@ sanity, then re-pin the constants to match. A structural-check failure (layout
 guard fires, a golden spell's fixed fields changed, a ratio gate blows past
 5%, a huge/negative count swing) means the pipeline itself broke - investigate
 the extractor/builder, don't just paper over it by re-pinning.
+
+Run builders and tests ONE AT A TIME - never two concurrently (two agents, two
+shells) against this repo. The builders are single-writer by design but take no
+cross-process lock, and `build_spells.build()` opens with `shutil.rmtree` on
+`data/spells/` (`tools/build_spells.py`), so anything reading that tree during
+another process's ~30s rebuild window dies on `FileNotFoundError`
+(`charges.json`, `_missing_refs.json`) or `EOFError` on a half-written
+`.csv.gz`. Two further consequences make this worse than a plain failure: the
+wipe is NOT self-healing (`tests/test_enums_v4.py` reads `charges.json` before it
+regenerates it, so sequential retries keep failing until you
+`git checkout -- data/spells`), and `build_realms.build()` degrades silently -
+it will write `data/realms/<realm>/index.json` with an empty
+`missingRefResolution` rather than erroring. Task W4-13 reproduced this 6/6
+concurrently vs 0/10 sequentially; despite past reports of a "segfault", exit
+code is 1 with an ordinary traceback and Windows logs no python fault at all
+(see `.superpowers/sdd/task-w4-13-crash-report.md`).
