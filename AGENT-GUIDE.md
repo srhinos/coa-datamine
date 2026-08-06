@@ -1426,6 +1426,27 @@ lowest-index candidate and looks id-shaped. Re-derived fresh:
 Shipped **raw + colinfo only**, no `TABLE_MAPS` entry - this letter's explicit
 scope is documenting the trap and verifying the claims, not curation.
 
+**`ItemVariationData.json` join design (task W4-11d) - a design doc, not an
+implementation.** `analysis/itemvariation-join-design.md` documents the mapping-
+rule evidence behind Sec 8.3's ask (joining a scraped aowow variant item id back to
+its base item), re-derived fresh against the already-shipped
+`raw/content/ItemVariationData.json` (10,830 rows, `{Normal, Heroic, Mythic[40],
+Bloodforged}`, no item names - a pure id-to-id table). Headline finding:
+**`Bloodforged` has a clean, dominant `+6,000,000` offset from `Normal` (95.5% of
+matched rows) - safe to treat as a rule; `Heroic`/`Mythic` do NOT** (their dominant
+`+300,000`/`+200,000` clusters cover only ~23% each, the rest scatters across dozens
+of smaller non-round clusters - ordinary content-patch history, not a decode
+failure, meaning a real implementation needs `ItemVariationData.json` as a literal
+lookup table, not an arithmetic formula). The doc also reports an honest gap: the
+source doc's cited "+1,600,000 for Prestigious" offset was searched for
+exhaustively (every `Normal`-vs-variant delta, all 10,495 matched rows) and **not
+found** - flagged as unverified-by-this-task rather than silently dropped, since
+this file carries no item names to confirm or deny an aowow-side label against.
+Cross-referenced against this task's own new `Item.dbc`/`ItemStat` tables:
+`Normal`/`Heroic`/`Bloodforged`/`Mythic[0]` resolve 98-100% against live `Item.dbc`
+ids, but only 13.3% of `Normal` ids have `ItemStat` coverage - consistent with Sec
+8.2's "not a primary CoA source" verdict.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):

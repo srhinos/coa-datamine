@@ -256,4 +256,59 @@ assert isp_header == [f"f{i}" for i in range(37)]   # fully raw - trap-9 documen
 
 print("(c) ItemSpells keying evidence: PASS")
 
+# =========================================================================
+# (d) ItemVariationData join design doc - Sec 8.3, Sec 13 item 16
+# =========================================================================
+doc_path = config.REPO_ROOT / "analysis" / "itemvariation-join-design.md"
+assert doc_path.is_file()
+doc_text = doc_path.read_text(encoding="utf-8")
+for marker in ("6,000,000", "95.5%", "23.3%", "1,600,000", "100.0%", "13.3%"):
+    assert marker in doc_text, f"design doc missing cited evidence: {marker}"
+
+ivd = json.loads((config.RAW_CONTENT_DIR / "ItemVariationData.json")
+                  .read_text(encoding="utf-8-sig"))
+assert len(ivd) == 10830
+assert set(ivd[0]) == {"Normal", "Heroic", "Mythic", "Bloodforged"}
+assert all(len(r["Mythic"]) == 40 for r in ivd)
+
+both_h = [(r["Normal"], r["Heroic"]) for r in ivd if r["Normal"] and r["Heroic"]]
+both_bf = [(r["Normal"], r["Bloodforged"]) for r in ivd if r["Normal"] and r["Bloodforged"]]
+both_m0 = [(r["Normal"], r["Mythic"][0]) for r in ivd if r["Normal"] and r["Mythic"][0]]
+assert len(both_h) == len(both_bf) == len(both_m0) == 10495
+
+from collections import Counter
+h_deltas = Counter(v - n for n, v in both_h)
+bf_deltas = Counter(v - n for n, v in both_bf)
+m0_deltas = Counter(v - n for n, v in both_m0)
+assert h_deltas.most_common(1) == [(300000, 2443)]
+assert bf_deltas.most_common(1) == [(6000000, 10022)]
+assert m0_deltas.most_common(1) == [(200000, 2451)]
+assert abs(10022 / len(both_bf) - 0.955) < 0.001         # Bloodforged: clean, dominant
+assert abs(2443 / len(both_h) - 0.233) < 0.001            # Heroic: minority only
+
+# "+1,600,000 Prestigious" claim: exhaustively absent from this repo's own data
+near_1_6m = 0
+for r in ivd:
+    n = r["Normal"]
+    if not n:
+        continue
+    candidates = [r["Heroic"], r["Bloodforged"]] + r["Mythic"]
+    near_1_6m += sum(1 for v in candidates if v and abs((v - n) - 1600000) < 50)
+assert near_1_6m == 0
+
+# cross-reference against Item.dbc (this task's own W4-11a addition)
+item_ids = {row[0] for row in dbc.DBCFile(config.WORK_DBC_DIR / "Item.dbc").iter_rows()}
+normal_ids = [r["Normal"] for r in ivd if r["Normal"]]
+normal_hits = sum(1 for i in normal_ids if i in item_ids)
+assert abs(normal_hits / len(normal_ids) - 1.0) < 0.001   # 100.0%
+
+sbi_all_normal = set()
+for b in sbi_idx["buckets"]:
+    for line in open(sbi_dir / b["file"], encoding="utf-8"):
+        sbi_all_normal.add(json.loads(line)["itemId"])
+normal_with_stats = sum(1 for i in normal_ids if i in sbi_all_normal)
+assert abs(normal_with_stats / len(normal_ids) - 0.133) < 0.002
+
+print("(d) ItemVariationData join design doc: PASS")
+
 print("ALL PASS")
