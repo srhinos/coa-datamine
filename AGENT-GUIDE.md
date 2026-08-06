@@ -168,8 +168,9 @@ unaudited retail API parity is a recurring source of live-client crashes).
   "Area 52 - Free-Pick" (classless), "Bronzebeard - Warcraft Reborn" (the Reborn*
   classes), "Rexxar - Conquest of Azeroth", and "Vol'jin - Conquest of Azeroth".
   `CharacterAdvancementData.json` - the source of everything in `data/classes/` - is
-  **account-wide across all four realms**, not scoped to one. Each realm ships its
-  own DBC overrides separately (e.g. `Data\area-52\patch-D.MPQ` for Area 52), and
+  **account-wide across all four realms**, not scoped to one. Exactly ONE realm ships
+  a client-side DBC overlay - Free-Pick's `Data\area-52\patch-D.MPQ` (task W4-13; the
+  CoA realms have none and never will, see "Realm overlays" below) - and
   **Bronzebeard/Reborn's spell data is not part of this client snapshot's
   `Spell.dbc`**. Consequence: Reborn-class spell references resolve as `null` in
   class files far more often than other classes (~51% of Reborn* refs) - this is a
@@ -292,27 +293,77 @@ candidates tested - see `tools/dbc.py`'s `TABLE_MAPS` comments). This is a
 game-content system, distinct from the realm-overlay layer below.
 
 **Realm overlays** (`data/realms/<realm>/`, `raw/realms/<realm>/dbc/`) are a
-*separate* concept: this client serves four realms (see the "Four realms, one
-account-wide CAD file" note above), and each realm ships its **own** small DBC
-archive set under `Data\<realm>\` on top of the shared base chain - e.g. area-52's
-`Data\area-52\patch-D.MPQ`. `tools/config.discover_realms()` finds any `Data\<dir>\`
-that carries its own `listarchive` file (excluding the base client's `enUS`/`Content`
-dirs); **only realms actually present on THIS machine's client install are
-extracted - a realm this install doesn't carry on disk is out of scope, by user
-decision (2026-08-01), not a gap to fill later.** On this install that means exactly
-one realm, `area-52` ("Area 52 - Free-Pick") - the other three realms named in the
-four-realm note (Bronzebeard/Rexxar/Vol'jin) have no `listarchive` directory here and
-so contribute nothing to `data/realms/`.
+*separate* concept - and a narrower one than this section used to claim.
+`Data\area-52\patch-D.MPQ` + its `listarchive` are **Free-Pick's overlay, not "the
+realm overlay"**: it is the ONLY realm-scoped data set the client has, for any realm.
+`tools/config.discover_realms()` finds any `Data\<dir>\` carrying its own
+`listarchive` file (excluding the base `enUS`/`Content` dirs) - a generic finder that
+correctly returns exactly one name here, `area-52`.
+
+> **Task W4-13: this is settled, not pending.** DATAMINE-REQUEST.md Sec 3 asked us to
+> log into Rexxar/Vol'jin so the launcher would "materialize `Data\rexxar\`", then
+> diff base vs the CoA overlay. **There is no CoA overlay to capture and no login will
+> create one.** Evidence (full write-up:
+> `.superpowers/sdd/task-w4-13-realm-report.md`):
+> - The launcher's own patcher logs
+>   (`%LOCALAPPDATA%\ProjectAscension\Logs\Agent\*.log`) show `Data/area-52/listarchive`
+>   and `Data/area-52/patch-D.MPQ` written by `patcher::patch::executor::write_plans`
+>   as part of the ordinary product update plan, alongside the base MPQs, on **10
+>   separate patch passes**. Across every agent log on this machine the patcher wrote
+>   **181 distinct `Data/` paths and exactly 2 realm-scoped ones** - both area-52.
+>   The first write is 2026-07-01; the account's first Area 52 *character* dir is
+>   2026-07-14. The directory is a **download**, ~2 weeks older than any Area 52
+>   login. Login does not create these dirs - the patcher does.
+> - The user has played **seven** realms (`WTF\Account\<acct>\`: Area 52 - Free-Pick,
+>   Bronzebeard - Warcraft Reborn, Darkmoon - Season 10 Wildcard, Elune - Season 9,
+>   **Rexxar - Conquest of Azeroth**, **Vol'jin - Conquest of Azeroth**, Vol'jin -
+>   Stress Test), with a Rexxar session on 2026-08-06 proven by
+>   `Cache\WDB\enUS\Rexxar - Conquest of Azeroth\*.wdb` (10 files rewritten 11:34:24)
+>   and `Logs\connection.log` (`COP_LOGIN_CHARACTER ... result=TRUE`). Six of those
+>   seven realms have no `Data\` directory. A whole-install search finds exactly one
+>   `listarchive` file, ever.
+> - Sec 3's claim that `CustomFunctionChecks.lua`'s realm table supplies the
+>   `Data\<dir>` **slug is disproven**: `GlueXML/RealmList/RealmList.lua:161` unpacks
+>   that same tuple as `name, expansionID, gamemodeID, **image**, unlocked, page,
+>   index, descriptionSpell`, and `GlueXML/RealmMerge.lua:55` uses it as
+>   `SetTexture("Interface\\Glues\\RealmList\\"..image)` - it is a background picture
+>   (`"Area52"`, which isn't even equal to `area-52`). That table is also dead code on
+>   the live client: it sits inside `if not C_RealmSelect then`, a dev fallback, and
+>   `Extensions.dll` supplies the real `C_RealmSelect`. So the
+>   `"Rexxar - CoA Alpha - Development"` vs `"Rexxar - Conquest of Azeroth"` key
+>   mismatch Sec 3 flagged is a non-issue, not a live risk.
+> - The engine *does* have a realm data-swap path (`Extensions.dll` is the only binary
+>   containing `listarchive`, adjacent to `SetDataPath`, `realmdata`, and an inlined
+>   Lua `AscensionRealmHotSwapOverlay` captioned `Switching realm data`) - but the
+>   client's guard on it is Area-52-specific by name:
+>   `GlueXML/CharacterSelect.lua:1792` is
+>   `if HasVisitedArea52ThisSession() and GetRealmId() ~= 11 then` -> *"You must
+>   restart your client before entering another realm."* One realm gets a named
+>   one-way data latch, and it is Free-Pick.
+>
+> **Conclusion: CoA realms read the BASE chain, which is what this dataset is already
+> built on.** Consequently **the 1,178-row base-vs-area-52 dispute is not a CoA
+> authority question at all** - it measures Free-Pick's revision diverging from base,
+> so "the overlay disagrees" is not evidence that base is wrong for a CoA character
+> (see the overlay-diff subsection below; its numbers are unchanged and still valid,
+> only their meaning is corrected).
+>
+> **Honest limit, unchanged:** client files cannot observe SMSG traffic. If Ascension
+> pushes CoA-specific overrides **server-side over the wire**, nothing on disk would
+> reveal it, and only an in-game `/dump` on a CoA character can settle that half. This
+> task closes the client-file half of Sec 3's question and leaves the wire half open.
 
 - **Chain semantics.** A realm's `listarchive` file lists that realm's own archives
   in load order; the LAST line wins on a filename collision - the identical
   later-wins rule `tools/extract_mpq.py` uses for the base chain, just scoped to one
-  realm's small archive set (`tools/extract_realms.py`). A realm's DBCs are a
-  server-side OVERRIDE layer that sits above the base chain by definition, but this
-  pipeline never merges the two: `work/realms/<realm>/dbc/` and `work/dbc/` (and
-  their `raw/` dumps) stay two fully independent layers, one archive set apiece -
-  "sits above" describes the game server's own resolution order, not something this
-  extractor performs.
+  realm's small archive set (`tools/extract_realms.py`). area-52's DBCs are an
+  OVERRIDE layer the engine can point its data path at **when you play that realm**
+  (`Extensions.dll`'s `SetDataPath` + `Switching realm data` hot-swap, task W4-13),
+  but this pipeline never merges the two: `work/realms/<realm>/dbc/` and `work/dbc/`
+  (and their `raw/` dumps) stay two fully independent layers, one archive set apiece -
+  "sits above" describes the client's own resolution order while on Free-Pick, not
+  something this extractor performs, and **not** something that applies to a CoA
+  session at all (see the W4-13 box above).
 - **Mapped vs. unmapped realm tables.** `tools/build_realms.py` dumps a realm table
   through the **same base `tools/dbc.py` `TABLE_MAPS` column map and field-count
   layout guard** as the base client's own dump, when a base map of that name exists
@@ -855,6 +906,11 @@ is untouched - this is a verification pass, documented as a golden set in
 (CLI: `python -m tools.diff_realm_overlay <realm>`) reproduces Sec 3's dispute
 measurement - the finding that area-52's realm overlay and the base client chain
 disagree on a real fraction of the shared CoA spell set, not just cosmetically.
+**Read the result as Free-Pick-vs-base, not as a CoA authority question** (task
+W4-13): the numbers below are unchanged and still valid measurements, but since CoA
+realms have no client-side overlay at all and read base, "area-52 disagrees with
+base on 1,176 rows" says Free-Pick's revision differs - it is not evidence that base
+is wrong for a CoA character. See the W4-13 box under "Realm overlays" above.
 Scope: "shared CoA rows" = `build_spells._coa_class_spell_ids()` (the same
 6,436-id CoA class-spell universe task W4-3 defined) present in BOTH the base
 client's `Spell.dbc` and the realm's own `Spell.dbc`. Run against area-52 (today's
@@ -877,7 +933,10 @@ spell id space (not scoped to the CoA set), matching Sec 3's own
 > `index.json`/`_meta.json` - deliberately a standalone CLI tool, not folded into
 > `build_realms.py`'s `build()`, since which realm to diff and when is an on-demand
 > decision (Sec 13 item 7 proper - capturing Vol'jin/Rexxar and deciding which side
-> is authoritative for the disputed rows - stays out of this task's scope). Wiring
+> is authoritative for the disputed rows - stayed out of W4-5's scope, and task
+> W4-13 has since **closed** it: there is nothing to capture, the disputed rows are
+> Free-Pick's, and base is authoritative for CoA. See "Realm overlays" above).
+> Wiring
 > this up surfaced a real bug: `tools/build_realms.py`'s `build_realm()` used to
 > `shutil.rmtree()` the WHOLE `data/realms/<realm>/` directory before rewriting its
 > own 2 files - harmless while it was the sole writer there, but it would have
@@ -893,13 +952,16 @@ a hypothetical new realm directory: a temp `Data\` tree with 2 fixture realm dir
 (each carrying its own `listarchive` file) plus an `enUS\` dir (even given its own
 `listarchive`, still excluded - base locale dir) and a no-`listarchive` dir (not a
 realm), `config.CLIENT_DIR` monkeypatched to the temp root for the duration of the
-call. Also a live-client caveat this task didn't chase further: `Config.wtf`'s
-literal realm name (`"Rexxar - Conquest of Azeroth"`) does not match
-`CustomFunctionChecks.lua`'s realm-table key
-(`"Rexxar - CoA Alpha - Development"`) - if that mismatch means the launcher never
-materializes a `Data\rexxar\` directory on login, `discover_realms()` would
-correctly find nothing to extract even after logging into Rexxar; worth checking
-directly against the live client when Sec 13 item 7 is picked up.
+call. W4-5 also flagged a live-client caveat it didn't chase - that `Config.wtf`'s
+`"Rexxar - Conquest of Azeroth"` doesn't match `CustomFunctionChecks.lua`'s
+`"Rexxar - CoA Alpha - Development"` key. **Task W4-13 chased it and the caveat
+dissolves in both directions:** that Lua table is a dev-only fallback
+(`if not C_RealmSelect then`) whose 4th field is a glue background texture name, not
+a `Data\` slug, so the mismatch was never the mechanism; and the real mechanism is
+the launcher's patcher, which ships `Data/area-52/` to every install and has never
+written any other realm directory. `discover_realms()` finding only `area-52` after
+weeks of CoA play is the **correct** answer, permanently - not a gap. The fixture
+test above still earns its keep as a pure unit test of the finder's shape.
 
 ## Traps (task W4-6)
 
@@ -1235,8 +1297,11 @@ tree geometry despite the matching field names.
 
 **Realm caveat.** This is the Vol'Jin builder specifically. Rexxar - Conquest of
 Azeroth is a separate CoA realm; its geometry is **assumed identical but
-unverified** until a Rexxar capture exists (Sec 13 item 7, not performed by this
-task). Full evidence, goldens, and re-derivation log:
+unverified** until a Rexxar capture exists. NB: the capture meant here is a fetch of
+the Rexxar **web builder payload** (`ascension.gg/v2/builder/coa/...`) - it is a
+different, still-open thing from Sec 13 item 7's client-side `Data\rexxar\` capture,
+which task W4-13 closed as impossible (no CoA realm has a client data directory - see
+"Realm overlays"). Full evidence, goldens, and re-derivation log:
 `.superpowers/sdd/task-w4-9-report.md`.
 
 ### Simulation-adjacent spell support tables (task W4-10)

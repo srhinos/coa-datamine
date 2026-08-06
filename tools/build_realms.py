@@ -42,6 +42,28 @@ from tools import config, dbc, extract_realms
 
 MIN_NEW_SPELL_COUNT = 10000     # brief's loose pin: realm spells measured ~= +30k vs base
 
+# [Task W4-13] Stamped onto every data/realms/<realm>/_meta.json so a consumer reading
+# only the dataset cannot mistake this layer for "the realm overlay" or for CoA data.
+# Evidence: .superpowers/sdd/task-w4-13-realm-report.md; summary in AGENT-GUIDE.md's
+# "Realm overlays" section.
+DELIVERY_MECHANISM = (
+    "area-52 is Free-Pick's overlay, NOT 'the realm overlay' - it is the only "
+    "realm-scoped data set the client has, for any realm. Data\\area-52\\ is written "
+    "by the LAUNCHER's patcher as part of the ordinary ascension-live product update "
+    "plan (proven in %LOCALAPPDATA%\\ProjectAscension\\Logs\\Agent\\*.log: 181 "
+    "distinct Data/ paths ever written, exactly 2 of them realm-scoped, both "
+    "area-52; first written 2026-07-01, ~2 weeks BEFORE the account's first Area 52 "
+    "character existed). Logging into a realm does NOT materialize a Data\\<realm>\\ "
+    "directory: this account has played 7 realms including both CoA realms (Rexxar "
+    "session proven 2026-08-06 via Cache\\WDB and Logs\\connection.log) and still has "
+    "exactly one. CONSEQUENCE: CoA realms read the BASE chain, base is what this "
+    "dataset is built on, and the base-vs-area-52 Spell.dbc dispute measured in "
+    "overlay_diff.json is a Free-Pick-vs-base divergence, NOT a CoA authority "
+    "question. HONEST LIMIT: client files cannot observe SMSG traffic - if CoA "
+    "overrides are served server-side over the wire, nothing on disk would show it, "
+    "and only an in-game /dump on a CoA character can settle that half."
+)
+
 
 def _base_record_count(table: str):
     """None if `table` has no same-named entry in base config.WANTED_DBCS (a
@@ -148,6 +170,7 @@ def build_realm(realm: str) -> dict:
         "realm": realm,
         "mappedTables": sorted(t for t, v in table_info.items() if v["mapped"]),
         "unmappedTables": sorted(t for t, v in table_info.items() if not v["mapped"]),
+        "deliveryMechanism": DELIVERY_MECHANISM,
         "futureMilestone": (
             "Full realm spell/class curation (per-record enrichment of realm-only "
             "spells, mapping realm CharacterAdvancement/SpellRank data onto classes "

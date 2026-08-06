@@ -181,4 +181,15 @@ assert set(meta["mappedTables"]) == MAPPED_TABLES
 assert set(meta["unmappedTables"]) == UNMAPPED_TABLES
 assert "futureMilestone" in meta and "curation" in meta["futureMilestone"].lower()
 
+# [Task W4-13] The dataset must state the delivery mechanism itself, so a consumer
+# reading only data/realms/ cannot mistake Free-Pick's overlay for "the realm overlay"
+# or for CoA data - and must keep the SMSG limit honest. Discovery finding only exactly
+# one realm after weeks of CoA play is the CORRECT answer, not a pending capture.
+assert config.discover_realms() == [REALM], config.discover_realms()
+dm = meta["deliveryMechanism"]
+assert "Free-Pick's overlay" in dm and "NOT 'the realm overlay'" in dm, dm
+assert "LAUNCHER" in dm and "does NOT materialize" in dm, dm
+assert "CoA realms read the BASE chain" in dm, dm
+assert "SMSG" in dm and "/dump" in dm, dm
+
 print("ALL PASS")
