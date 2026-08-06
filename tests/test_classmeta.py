@@ -17,9 +17,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools import config
-from tools import build_classes, build_classmeta
+from tools import build_classes, build_classmeta, build_coatalents, build_spells
 
+# [Task W4-11e] build_classmeta now reads data/talents/coa/_meta.json (the W4-9
+# sec11UnreleasedSpecsShipped finding, for specs.json's tabStatus reconciliation) -
+# matches build_dataset.py's real stage order (spells -> classes -> coatalents ->
+# ... -> classmeta), not the old classes-then-classmeta-only shape this test used.
+build_spells.build()
 build_classes.build()
+build_coatalents.build()
 stats = build_classmeta.build()
 
 cdir = config.DATA_DIR / "classes"

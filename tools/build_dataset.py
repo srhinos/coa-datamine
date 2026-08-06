@@ -27,6 +27,20 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
           f"missing_by_source={missing_counts} ref_counts={stats['spells']['ref_counts']}")
     stats["classes"] = build_classes.build()
     print(f"[classes]  {stats['classes']}")
+
+    # v4 (task W4-9): CoA talent tree geometry. Reads the FROZEN external payload
+    # capture (raw/talents/coa-builder-<slug>.html, written by the separate,
+    # occasional tools/fetch_coatalents.py network step - never fetched live
+    # here) plus data/classes/ (build_classes, above) and data/spells/ (build_spells,
+    # above) for its classId join and resolve-rate cross-validation, so it must
+    # run after both. [Task W4-11e] MOVED here (was after mythic/items) - it has
+    # no dependency on talents/dungeons/creatures/classmeta/essence/mythic, and
+    # build_classmeta now reads its data/talents/coa/_meta.json output (the W4-9
+    # sec11UnreleasedSpecsShipped finding) for specs.json's tabStatus
+    # reconciliation, so it must run BEFORE classmeta.
+    stats["coatalents"] = build_coatalents.build()
+    print(f"[coatalents] {stats['coatalents']}")
+
     stats["talents"] = build_talents.build()
     print(f"[talents]  {stats['talents']}")
     stats["dungeons"] = build_dungeons.build()
@@ -35,7 +49,9 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     print(f"[creatures] {stats['creatures']}")
     # Amendment D / stage order: classmeta reads spells + writes INTO data/classes/ -
     # it must run after build_classes (which owns + rebuilds that directory) or its
-    # specs.json/archetypes.json get wiped by a later classes rebuild.
+    # specs.json/archetypes.json get wiped by a later classes rebuild. [Task W4-11e]
+    # also now reads data/talents/coa/_meta.json (build_coatalents, above) for the
+    # tabToken-vs-CAD-tab-layer reconciliation - must run after that too.
     stats["classmeta"] = build_classmeta.build()
     print(f"[classmeta] {stats['classmeta']}")
     # v4 (task W4-5): per-class AE/TE curves, class-adjacent but deliberately NOT
@@ -54,15 +70,6 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     # get written.
     stats["items"] = build_items.build()
     print(f"[items]    {stats['items']}")
-
-    # v4 (task W4-9): CoA talent tree geometry. Reads the FROZEN external payload
-    # capture (raw/talents/coa-builder-<slug>.html, written by the separate,
-    # occasional tools/fetch_coatalents.py network step - never fetched live
-    # here) plus data/classes/ (build_classes, above) and data/spells/ (build_spells,
-    # above) for its classId join and resolve-rate cross-validation, so it must
-    # run after both.
-    stats["coatalents"] = build_coatalents.build()
-    print(f"[coatalents] {stats['coatalents']}")
 
     # v3: Manastorm (patch-M seasonal-modifier tables, task V3-1) reads only
     # config.WORK_DBC_DIR (already populated above) - no extraction step of its

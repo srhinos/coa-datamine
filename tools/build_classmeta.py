@@ -37,9 +37,34 @@ top of the raw named columns:
   "MAX_ITEM_SUBCLASS_*" enum-terminator sentinels (not real values). Each archetype's
   supported races are derived from CharacterCreationArchetypeDetails' proven
   archetypeId/raceId join, resolved to names via ChrRaces.dbc.
+
+Task W4-11e (DATAMINE-REQUEST.md Sec 11 / Sec 13 item 20): each spec row now also
+carries `tabStatus`, reconciling `ChrSpecs.tabToken` against the CAD tab-string
+layer (`data/classes/<dir>/index.json`'s own tab-name set for that spec's class,
+normalized-matched - not `name`, which Sec 11 already documented as unreliable,
+e.g. Chronomancer spec 31 is NAMED "Time" but its `tabToken` is "DISPLACEMENT" and
+correctly cross-references that class's real "Displacement" tab). Re-derived fresh
+against THIS repo's own data (not copied from Sec 11's cited figures): 93/101 specs'
+`tabToken` matches a real CAD tab today ("live"). Of the 8 that don't, 1 (Hero,
+classId 10) has no CAD tab layer at all - Hero isn't one of the 21 `coa-custom`
+directories, so this is structural, not a content gap ("noTabLayer"). The other 7
+are EXACTLY Sec 11's own "7 of 70 specs have no CAD tab" list - and task W4-9's CoA
+talent-builder payload capture already cross-checked those 7 against a SECOND,
+external tab layer (the live `ascension.gg` builder, `data/talents/coa/_meta.json`'s
+`tabLayerReconciliation.sec11UnreleasedSpecsShipped`) and found **5 of 7 have
+shipped there** since Sec 11's audit (real, non-empty tabs: Fleshweaver/Valkyrie/
+Mountain King/Black Knight/Vizier). This module folds that finding in rather than
+duplicating the cross-check: a spec whose `tabToken` doesn't match the CAD layer but
+DOES match that file's `shipped: true` token list is `"shippedExternal"`; the
+remaining 2 (Starcaller/HYDROMANCY, Cultist/BULWARK) are `"unreleased"` - Sec 11's
+originally-cited "7 unreleased" figure is corrected to **2** by this reconciliation.
+Depends on `data/talents/coa/_meta.json` already existing - `build_dataset.py`
+therefore runs `build_coatalents.build()` BEFORE `build_classmeta.build()` now (task
+W4-11e reordering; `build_coatalents` itself has no dependency on classmeta's own
+output, so this is safe - see build_dataset.py's stage-order comments).
 """
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 from tools import config, dbc
 
@@ -79,8 +104,68 @@ def _class_roles_and_abilities() -> tuple[dict, dict]:
     return roles, special
 
 
+def _class_tab_layer(cdir) -> dict:
+    """classId -> sorted CAD tab-name list (data/classes/<dir>/index.json's own
+    `files[].tab` set), for the 21 coa-custom classes that have a directory at all.
+    A class with no data/classes/ entry (e.g. Hero, classId 10 - not one of the 21
+    coa-custom directories) is simply absent from this map."""
+    idx = json.loads((cdir / "index.json").read_text(encoding="utf-8"))
+    out = {}
+    for c in idx["classes"]:
+        cid = c.get("classId")
+        if cid is None:
+            continue
+        cidx_path = cdir / c["dir"] / "index.json"
+        if not cidx_path.is_file():
+            continue
+        cidx = json.loads(cidx_path.read_text(encoding="utf-8"))
+        out[cid] = sorted({f["tab"] for f in cidx["files"] if f["tab"]})
+    return out
+
+
+def _sec11_shipped_tokens() -> dict:
+    """(classId, token) -> {shipped, tabName, nodeCount} from task W4-9's already-
+    computed, already-asserted cross-check (data/talents/coa/_meta.json's
+    tabLayerReconciliation.sec11UnreleasedSpecsShipped) - read, not recomputed, so
+    this module never drifts from that finding's own re-verification-at-every-build
+    discipline. Returns {} if data/talents/coa/_meta.json doesn't exist yet (caller
+    must run build_coatalents.build() first - see build_dataset.py's stage order)."""
+    p = config.DATA_DIR / "talents" / "coa" / "_meta.json"
+    if not p.is_file():
+        return {}
+    meta = json.loads(p.read_text(encoding="utf-8"))
+    tokens = meta["tabLayerReconciliation"]["sec11UnreleasedSpecsShipped"]["tokens"]
+    return {(t["classId"], t["token"]): t for t in tokens}
+
+
+def _tab_status(class_id, token, tab_layer: dict, sec11: dict) -> dict:
+    tabs = tab_layer.get(class_id)
+    if tabs is None:
+        return {"status": "noTabLayer", "cadTab": None, "coaBuilderTab": None}
+    tok = _norm(token)
+    cad_hit = next((t for t in tabs if _norm(t) == tok), None)
+    if cad_hit is not None:
+        return {"status": "live", "cadTab": cad_hit, "coaBuilderTab": None}
+    sec11_hit = sec11.get((class_id, token))
+    if sec11_hit is not None and sec11_hit["shipped"]:
+        return {"status": "shippedExternal", "cadTab": None,
+                "coaBuilderTab": sec11_hit["tabName"]}
+    if sec11_hit is not None:
+        return {"status": "unreleased", "cadTab": None, "coaBuilderTab": None}
+    # A spec whose tabToken matches neither the CAD tab layer nor any known Sec-11
+    # token is new/uncharacterized - fail loudly rather than silently mis-tagging it
+    # "unreleased" (which W4-9's own re-verified finding does NOT support for any
+    # token outside its own 7-entry table).
+    raise AssertionError(
+        f"classId={class_id} token={token!r} matches no CAD tab and is not one of "
+        "Sec 11's 7 known unreleased tokens - new drift, needs investigation "
+        "before this can be classified")
+
+
 def build_specs() -> dict:
     cdir = config.DATA_DIR / "classes"
+    tab_layer = _class_tab_layer(cdir)
+    sec11 = _sec11_shipped_tokens()
     chr_classes = list(dbc.iter_named("ChrClasses"))
     by_norm = {_norm(c["name_enUS"]): c for c in chr_classes}
     # [Task W4-5] filename fallback join (see tools/dbc.py's ChrClasses TABLE_MAPS
@@ -113,13 +198,18 @@ def build_specs() -> dict:
             matched_class_ids.add(class_id)
             per_class[class_name].append(r["id"])
 
+        tab_token = r["tabToken"] or None
+        tab_status = (_tab_status(class_id, tab_token, tab_layer, sec11)
+                      if class_id is not None and tab_token else None)
+
         specs.append({
             "id": r["id"],
             "name": r["name_enUS"],
             "classId": class_id,
             "className": class_name,
             "classToken": token,
-            "tabToken": r["tabToken"] or None,
+            "tabToken": tab_token,
+            "tabStatus": tab_status,
             "description": r["description_enUS"] or None,
             "armorType": _armor_type(r),
             "primaryStat": r["primaryStat"] or None,
@@ -142,10 +232,32 @@ def build_specs() -> dict:
         f"(need >={MIN_CLASS_COVERAGE:.0%}) - mapping is wrong, stopping")
 
     roles, special_abilities = _class_roles_and_abilities()
+
+    # [Task W4-11e] tabStatus summary - folds in W4-9's "5/7 shipped" finding and
+    # corrects Sec 11's originally-cited "7 unreleased" down to the 2 that remain
+    # unmatched against BOTH tab layers (see module docstring + _tab_status()).
+    status_counts = Counter(s["tabStatus"]["status"] for s in specs if s["tabStatus"])
+    unreleased = sorted(
+        (s["id"], s["className"], s["name"], s["tabToken"])
+        for s in specs if s["tabStatus"] and s["tabStatus"]["status"] == "unreleased")
+    tab_status_summary = {
+        "counts": dict(status_counts),
+        "unreleased": unreleased,
+        "sec11Correction": (
+            f"DATAMINE-REQUEST.md Sec 11 originally cited '7 of 70 specs have no "
+            f"CAD tab' (presumably unreleased). Task W4-9's talent-builder payload "
+            f"capture found 5 of those 7 have since shipped externally "
+            f"(status='shippedExternal' here); this reconciliation folds that "
+            f"finding into specs.json directly - only {len(unreleased)} specs "
+            f"remain 'unreleased' by this repo's own re-derivation."
+        ),
+    }
+
     payload = {
         "specs": specs, "perClass": dict(sorted(per_class.items())),
         "roles": dict(sorted(roles.items())),
         "specialAbilities": dict(sorted(special_abilities.items())),
+        "tabStatusSummary": tab_status_summary,
     }
     (cdir / "specs.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
@@ -155,6 +267,7 @@ def build_specs() -> dict:
         "coverage": round(coverage, 4),
         "byClassId": {cid: sorted(s["id"] for s in specs if s["classId"] == cid)
                       for cid in matched_class_ids},
+        "tabStatusCounts": dict(status_counts),
     }
 
 
@@ -206,12 +319,18 @@ def build() -> dict:
     cdir = config.DATA_DIR / "classes"
     assert cdir.is_dir(), (
         "data/classes missing - run build_classes.build() before build_classmeta.build()")
+    assert (config.DATA_DIR / "talents" / "coa" / "_meta.json").is_file(), (
+        "data/talents/coa/_meta.json missing - run build_coatalents.build() before "
+        "build_classmeta.build() (task W4-11e: specs.json's tabStatus reconciliation "
+        "reads the W4-9 sec11UnreleasedSpecsShipped finding from that file)")
     spec_stats = build_specs()
     arch_stats = build_archetypes()
     return {"specs": spec_stats, "archetypes": arch_stats}
 
 
 if __name__ == "__main__":
-    from tools import build_classes
+    from tools import build_classes, build_coatalents, build_spells
+    build_spells.build()
     build_classes.build()
+    build_coatalents.build()
     print(build())

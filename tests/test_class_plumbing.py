@@ -22,7 +22,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools import config, dbc, sharding
-from tools import build_classes, build_classmeta, build_essence, build_realms, diff_realm_overlay
+from tools import (build_classes, build_classmeta, build_coatalents, build_essence,
+                   build_realms, diff_realm_overlay)
 
 MAX_LINES = 5000
 
@@ -155,6 +156,10 @@ assert demon_meta["classId"] == 14 and demon_meta["aliases"] == []
 
 # =============== (b continued) specs.json perClass classId fix ===============
 
+# [Task W4-11e] build_classmeta now reads data/talents/coa/_meta.json (specs.json's
+# tabStatus reconciliation) - must run build_coatalents first, matching the real
+# build_dataset.py stage order.
+build_coatalents.build()
 meta_stats = build_classmeta.build()
 specs_doc = json.loads((edir / "specs.json").read_text(encoding="utf-8"))
 specs = specs_doc["specs"]

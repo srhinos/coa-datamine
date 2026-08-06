@@ -7,7 +7,8 @@ import gzip, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, dbc, extract_mpq, build_items, wdb_item
+from tools import (config, dbc, extract_mpq, build_items, wdb_item, build_classes,
+                   build_classmeta, build_coatalents, build_spells)
 
 # =========================================================================
 # (a) Item DBCs config-add - Sec 8.1, Sec 13 item 14
@@ -310,5 +311,71 @@ normal_with_stats = sum(1 for i in normal_ids if i in sbi_all_normal)
 assert abs(normal_with_stats / len(normal_ids) - 0.133) < 0.002
 
 print("(d) ItemVariationData join design doc: PASS")
+
+# =========================================================================
+# (e) specs.json vs CAD tabs reconciliation - Sec 11, Sec 13 item 20
+# =========================================================================
+build_spells.build()
+build_classes.build()
+build_coatalents.build()
+classmeta_stats = build_classmeta.build()
+
+specs_doc = json.loads((config.DATA_DIR / "classes" / "specs.json").read_text(encoding="utf-8"))
+specs = specs_doc["specs"]
+by_id = {s["id"]: s for s in specs}
+assert "tabStatusSummary" in specs_doc
+
+# every spec with a resolved classId+tabToken carries a tabStatus; the rest (none,
+# currently - W4-5 already fixed classId coverage to 32/32) carry null
+for s in specs:
+    if s["classId"] is not None and s["tabToken"]:
+        assert s["tabStatus"] is not None and s["tabStatus"]["status"] in (
+            "live", "shippedExternal", "unreleased", "noTabLayer")
+    else:
+        assert s["tabStatus"] is None
+
+counts = specs_doc["tabStatusSummary"]["counts"]
+assert counts == {"live": 93, "shippedExternal": 5, "unreleased": 2, "noTabLayer": 1}
+assert sum(counts.values()) == 101
+
+# tabToken (not `name`) is the reliable cross-reference - Sec 11's own Chronomancer
+# example, re-derived: spec 31 is NAMED "Time" but its tabToken is "DISPLACEMENT",
+# which correctly cross-references that class's real "Displacement" CAD tab.
+assert by_id[31]["name"] == "Time" and by_id[31]["tabToken"] == "DISPLACEMENT"
+assert by_id[31]["tabStatus"] == {"status": "live", "cadTab": "Displacement",
+                                  "coaBuilderTab": None}
+
+# W4-9's "5/7 shipped" finding folded in - exact per-spec status, not just the count
+SHIPPED_EXTERNAL = {
+    25: ("Fleshweaver", "FLESHWEAVER"), 47: ("Valkyrie", "VALKYR"),
+    60: ("Mountain King", "MOUNTAINKING"), 97: ("Black Knight", "WITCHKNIGHT"),
+    101: ("Vizier", "VIZIER"),
+}
+for sid, (name, token) in SHIPPED_EXTERNAL.items():
+    assert by_id[sid]["name"] == name and by_id[sid]["tabToken"] == token
+    assert by_id[sid]["tabStatus"]["status"] == "shippedExternal"
+    assert by_id[sid]["tabStatus"]["cadTab"] is None
+    assert by_id[sid]["tabStatus"]["coaBuilderTab"] is not None
+
+# 7-unreleased -> 2-unreleased correction: only Starcaller/HYDROMANCY and
+# Cultist/BULWARK remain, matching W4-9's own "2 of 7 do NOT appear" finding
+UNRELEASED = {45: ("Warden", "HYDROMANCY"), 96: ("Dreadnought", "BULWARK")}
+for sid, (name, token) in UNRELEASED.items():
+    assert by_id[sid]["name"] == name and by_id[sid]["tabToken"] == token
+    assert by_id[sid]["tabStatus"] == {"status": "unreleased", "cadTab": None,
+                                       "coaBuilderTab": None}
+unreleased_ids = {row[0] for row in specs_doc["tabStatusSummary"]["unreleased"]}
+assert unreleased_ids == set(UNRELEASED)
+
+# Hero (classId 10) has no CAD tab directory at all - structural, not content drift
+assert by_id[94]["className"] == "Hero" and by_id[94]["tabToken"] == "HERO"
+assert by_id[94]["tabStatus"] == {"status": "noTabLayer", "cadTab": None,
+                                  "coaBuilderTab": None}
+cidx = json.loads((config.DATA_DIR / "classes" / "index.json").read_text(encoding="utf-8"))
+assert not any(c.get("classId") == 10 for c in cidx["classes"])
+
+assert classmeta_stats["specs"]["tabStatusCounts"] == counts
+
+print("(e) specs.json vs CAD tabs reconciliation: PASS")
 
 print("ALL PASS")

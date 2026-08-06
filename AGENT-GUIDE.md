@@ -49,7 +49,7 @@ this repo needs an exemption).
 | `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13111) | small |
 | `data/trainers/trainers-<id//2000*2000>.json` | `{bucket, count, minId, maxId, entries: [{id, spellId, name, skillLine:{id,name}\|null, f3}]}` - a **flat per-row list**, not grouped by trainer: `NPCTrainer.dbc` has no trainer-NPC identity column at all (see `trainerIdFinding` in `_meta.json`) | small |
 | `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
-| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {32 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json`. `perClass`/matched-classId coverage is **32/32 as of task W4-5** (was 25/32 - the `classToken` join now falls back to `ChrClasses.filename` when the display-name join misses, see "ChrClasses filename join..." below); `classId`/`className` can still ship `null` in principle if a future client patch reintroduces a token neither join resolves | small |
+| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, tabStatus\|null, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {32 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}, tabStatusSummary}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json`. `perClass`/matched-classId coverage is **32/32 as of task W4-5** (was 25/32 - the `classToken` join now falls back to `ChrClasses.filename` when the display-name join misses, see "ChrClasses filename join..." below); `classId`/`className` can still ship `null` in principle if a future client patch reintroduces a token neither join resolves. **Task W4-11e** adds `tabStatus` (`{status: "live"\|"shippedExternal"\|"unreleased"\|"noTabLayer", cadTab, coaBuilderTab}` per spec, `null` only when `classId`/`tabToken` themselves are missing) + `tabStatusSummary` - see "specs.json vs CAD tabs reconciliation" below | small |
 | `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
 | `data/classes/essence.json` | task W4-5: `{levels: [1..80], classes: [32 rows: classId, className, curveGroup ("classlessBase"\|"hero"\|"coaCustom"), abilityEssence: [80 ints], talentEssence: [80 ints]]}` (`CharacterAdvancementEssence.dbc`, 5,600 rows = 80 levels x 32 classes x 8 flag-variant rows, canonical curve = the flags-all-zero row per (classId,level) pair) - owned solely by `tools/build_essence.py`, a **new module deliberately separate from `build_classmeta.py`** (Amendment D: classmeta owns specs.json/archetypes.json only); see "Per-class Ability/Talent Essence curves..." below | small |
 | `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
@@ -837,8 +837,9 @@ is inconsistent... no classId-linked rows for Knight of Xoroth/Venomancer/
 Primalist/Runemaster/DemonHunter/Monk/SonOfArugal" finding - the deeper
 spec-NAMING disagreement that section also describes (specs.json's own spec names
 disagreeing with the CAD tab layer, e.g. Chronomancer Time/Infinite/Artificer vs.
-tabs Time/Displacement/Duality) is Sec 13 item 20, explicitly out of this task's
-scope and deliberately untouched.
+tabs Time/Displacement/Duality) was Sec 13 item 20 and stayed explicitly out of
+scope and untouched until task W4-11e closed it - see "specs.json vs CAD tabs
+reconciliation" below.
 
 **(c) `ChrClassesRoles` roster cross-check (Sec 7).** This task re-derived the
 doc's own published role roster (Pure DPS / Tank+DPS / Healer+DPS /
@@ -1446,6 +1447,46 @@ Cross-referenced against this task's own new `Item.dbc`/`ItemStat` tables:
 `Normal`/`Heroic`/`Bloodforged`/`Mythic[0]` resolve 98-100% against live `Item.dbc`
 ids, but only 13.3% of `Normal` ids have `ItemStat` coverage - consistent with Sec
 8.2's "not a primary CoA source" verdict.
+
+**specs.json vs CAD tabs reconciliation (task W4-11e) - Sec 11 / Sec 13 item 20,
+closed.** Every `data/classes/specs.json` spec row now carries `tabStatus`,
+cross-referencing `ChrSpecs.tabToken` (NOT `name`, which Sec 11 already flagged as
+unreliable) against `data/classes/<dir>/index.json`'s own CAD tab-name set for that
+spec's class. Re-derived fresh, not copied: **93/101 specs' `tabToken` matches a
+real CAD tab today** (`status: "live"`). Chronomancer spec 31 is the concrete
+example Sec 11 itself cites: it is DISPLAY-NAMED "Time" but its `tabToken` is
+`"DISPLACEMENT"`, which correctly cross-references that class's real "Displacement"
+tab - `name` is the unreliable field, `tabToken` is not.
+
+Of the 8 non-matching specs, 1 (Hero, classId 10) has **no CAD tab layer at all** -
+Hero isn't one of the 21 `coa-custom` directories (`status: "noTabLayer"`,
+structural, not a content gap). The other 7 are EXACTLY Sec 11's own "7 of 70 specs
+have no CAD tab" list. **Task W4-9's CoA talent-builder payload capture already
+cross-checked those 7 against a SECOND, external tab layer** (the live
+`ascension.gg` builder, `data/talents/coa/_meta.json`'s
+`tabLayerReconciliation.sec11UnreleasedSpecsShipped`, computed and asserted at
+every `build_coatalents.build()` run) and found **5 of 7 have shipped there**:
+Bloodmage/FLESHWEAVER -> "Fleshweaver", SunCleric/VALKYR -> "Valkyrie",
+Primalist/MOUNTAINKING -> "Mountain King", WitchHunter/WITCHKNIGHT -> "Black
+Knight", Venomancer/VIZIER -> "Vizier" (all real, non-empty tabs, 38-44 nodes
+apiece). `build_classmeta.py` reads that already-computed finding rather than
+re-deriving it (`_sec11_shipped_tokens()`), marking those 5 `status:
+"shippedExternal"` with `coaBuilderTab` set. **The remaining 2 - Starcaller/
+HYDROMANCY, Cultist/BULWARK - stay `status: "unreleased"`: Sec 11's originally-cited
+"7 unreleased" figure is corrected to 2** by this reconciliation
+(`specs.json`'s own `tabStatusSummary.sec11Correction` states this explicitly, and
+`.unreleased` lists the 2 surviving rows by id/class/name/token).
+
+**Pipeline ordering changed to make this possible**: `build_classmeta.build()` now
+requires `data/talents/coa/_meta.json` to already exist (hard `assert`, matching
+this file's `build()` gate on `data/classes` existing), so `build_dataset.py` moved
+`build_coatalents.build()` to run right after `build_classes` - BEFORE `build_talents`/
+`build_dungeons`/`build_creatures`/`build_classmeta` (previously it ran near the
+end, after `mythic`). This reorder is content-neutral for `build_coatalents` itself
+(its only real dependencies, `data/classes/` and `data/spells/`, are unaffected by
+where `talents`/`dungeons`/`creatures`/`classmeta`/`essence`/`mythic` fall in the
+stage list) - re-verified by a full `build_dataset.run()` pass producing identical
+`coatalents` stats before and after the move.
 
 ## Recipes (PowerShell / Python)
 
