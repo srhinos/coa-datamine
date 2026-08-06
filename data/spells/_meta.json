@@ -1,11 +1,11 @@
 {
  "by_source": {
   "cad": 13766,
-  "rank": 10496,
+  "rank": 10497,
   "talent": 5526,
   "trigger": 3224
  },
- "count": 27474,
+ "count": 27475,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
  "enrichment": {
   "addon": 135,
@@ -30,16 +30,29 @@
    "recordCount": 400,
    "spellIdJoinRate": 0.885
   },
-  "customAttr": 7661,
+  "customAttr": 7737,
   "descriptionVariables": 1310,
   "overrideData": 6,
-  "tags": 26307
+  "tags": 26308
+ },
+ "enumEvidence": {
+  "auraIds": 158,
+  "byBucket": {
+   "A": 173,
+   "B": 46,
+   "C": 4,
+   "unknown": 1
+  },
+  "effectIds": 66,
+  "file": "_enum_evidence.json",
+  "namedIds": 58,
+  "numericFallbackIds": 166
  },
  "missingRefsFile": "_missing_refs.json",
  "missing_ref_counts_by_source": {
   "cad_other": 178,
   "cad_reborn": 7119,
-  "rank": 2811,
+  "rank": 2810,
   "talent": 13
  },
  "ref_counts": {

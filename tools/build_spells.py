@@ -356,6 +356,121 @@ def _build_charges(out_dir):
     }
 
 
+AURA_APPLYING_EFFECTS = {6, 27, 35, 65, 119, 128, 129, 143}
+
+
+def _enum_evidence_occurrences(records):
+    """Task W4-1: per-(namespace, id) occurrence counts over THIS build's
+    CoA-referenced closure (`records`), disciplined by the two counting traps from
+    coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5:
+
+    trap 1 - effectAura is only meaningful when that slot's effect is aura-applying
+    (6/27/35/65/119/128/129/143); dead slots carry stale aura bytes left over from
+    template reuse (e.g. stock Meditation 14777 slot2 has effect=0, aura=87, bp=8 -
+    counting that aura would be noise). Aura occurrences below are gated on this.
+
+    trap 2 - Ascension appends INERT template slots to stock spells: basePoints=-1,
+    dieSides=1 AND EffectRealPointsPerLevel=0 together mean the slot always
+    evaluates to value 0, a no-op stamped onto hundreds of stock spells (aura 271 on
+    Corruption/Hand of Protection/Serpent Sting is the worst offender - see the
+    source doc). f77-79 (rppl) are NOT in tools/dbc.py's TABLE_MAPS - mapping them
+    is a separate task (item 1.2 in the source doc), out of scope here - so they're
+    read directly off the raw DBC row by position, not through dbc.iter_named.
+    Per trap 3 (same doc), f77-79 are IEEE-754 float bit patterns, but testing
+    equality to integer 0 is valid without decoding: a float 0.0 bit pattern is the
+    all-zero word, same as int 0.
+
+    Returns (effect_occ, aura_occ), each {id: {"raw": n, "filtered": m}} - "raw" is
+    every slot carrying that id, "filtered" is trap-2-disciplined (inert slots
+    excluded). Both are reported so a consumer can see the inert-slot noise rather
+    than have it silently subtracted."""
+    raw_rows = {}
+    f = dbc.DBCFile(config.WORK_DBC_DIR / "Spell.dbc")
+    for row in f.iter_rows():
+        raw_rows[dbc.u32(row[0])] = row
+
+    effect_occ, aura_occ = {}, {}
+
+    def bump(d, key, inert):
+        e = d.setdefault(key, {"raw": 0, "filtered": 0})
+        e["raw"] += 1
+        if not inert:
+            e["filtered"] += 1
+
+    for sid, r in records.items():
+        row = raw_rows.get(sid)
+        if row is None:
+            continue
+        for slot in (1, 2, 3):
+            eff = r[f"effect{slot}"]
+            aura = r[f"effectAura{slot}"]
+            bp = r[f"effectBasePoints{slot}"]
+            ds = r[f"effectDieSides{slot}"]
+            rppl_raw = row[76 + slot]           # f77/f78/f79 for slot 1/2/3
+            inert = (bp == -1 and ds == 1 and rppl_raw == 0)
+            if eff:
+                bump(effect_occ, eff, inert)
+            if aura and eff in AURA_APPLYING_EFFECTS:   # trap 1
+                bump(aura_occ, aura, inert)
+    return effect_occ, aura_occ
+
+
+def _build_enum_evidence(out_dir, records):
+    """Writes data/spells/_enum_evidence.json (task W4-1: single-writer rule -
+    build_spells owns data/spells/). Bucket/name/goldenSpells/confidence per id is
+    fixed research knowledge (enums335.ENUM_EVIDENCE) re-derived against
+    work/dbc/Spell.dbc BASE by this task - see
+    .superpowers/sdd/task-w4-1-report.md for the full per-golden verification log.
+    Occurrence counts are computed fresh here, live, over THIS build's referenced-
+    spell closure (see _enum_evidence_occurrences for the trap-1/trap-2 discipline).
+
+    'name' is non-null only where this task's own re-derivation (confidence
+    "verified") or an individually-cited golden already transcribed from
+    enum-triage.md survived independent decode; those ids are the ones wired into
+    enums335.EFFECT_NAMES/AURA_NAMES/COA_EFFECT_NAMES/COA_AURA_NAMES. Every other
+    bucket-A/B id here is classified (which bucket it belongs to) but left
+    name=null and stays numeric (EFFECT_<n>/AURA_<n>) in enums335.py - no golden
+    survived re-derivation for it, so it is not asserted as decoded."""
+    effect_occ, aura_occ = _enum_evidence_occurrences(records)
+    doc = {"effects": {}, "auras": {}}
+    for eid, ev in enums335.ENUM_EVIDENCE["effects"].items():
+        occ = effect_occ.get(eid, {"raw": 0, "filtered": 0})
+        doc["effects"][str(eid)] = {**ev, "occurrences": occ}
+    for aid, ev in enums335.ENUM_EVIDENCE["auras"].items():
+        occ = aura_occ.get(aid, {"raw": 0, "filtered": 0})
+        doc["auras"][str(aid)] = {**ev, "occurrences": occ}
+
+    named = sum(1 for e in doc["effects"].values() if e["name"]) + \
+            sum(1 for a in doc["auras"].values() if a["name"])
+    numeric = (len(doc["effects"]) + len(doc["auras"])) - named
+    summary = {
+        "effectIds": len(doc["effects"]), "auraIds": len(doc["auras"]),
+        "namedIds": named, "numericFallbackIds": numeric,
+        "byBucket": {
+            b: sum(1 for e in list(doc["effects"].values()) + list(doc["auras"].values())
+                   if e["bucket"] == b)
+            for b in ("A", "B", "C", "unknown")
+        },
+    }
+    doc["_note"] = (
+        f"{named} of {named + numeric} unnamed-at-repo-start effect/aura ids "
+        f"(4 W4-1 bug fixes not counted here) carry a golden-verified name wired "
+        f"into enums335.py; the remaining {numeric} are bucket-classified per "
+        "enum-triage.md's aggregate analysis but have no individually-cited golden "
+        "that survived independent re-derivation, so they stay numeric "
+        "(EFFECT_<n>/AURA_<n>) rather than being asserted. 'occurrences.raw' counts "
+        "every slot carrying that id across this build's CoA-referenced closure; "
+        "'occurrences.filtered' additionally excludes inert template slots "
+        "(basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and "
+        "aura occurrences are gated on the carrying effect being aura-applying per "
+        "trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5."
+    )
+    doc["summary"] = summary
+    (out_dir / "_enum_evidence.json").write_text(
+        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    return summary
+
+
 def _alt_power_type_findings():
     """SpellAlternativePowerType (Task V2-4): the table itself is trivially proven
     (id/name) but no per-spell link is provable - see dbc.py TABLE_MAPS comment."""
@@ -427,6 +542,7 @@ def build() -> dict:
     by_id_dir.mkdir(parents=True)
 
     charges_finding = _build_charges(out_dir)
+    enum_evidence_summary = _build_enum_evidence(out_dir, records)
     v2 = _v2_aux(set(records))
 
     by_source = {}
@@ -482,6 +598,10 @@ def build() -> dict:
             "charges": charges_finding,
             "alternativePowerType": _alt_power_type_findings(),
         },
+        "enumEvidence": {
+            "file": "_enum_evidence.json",
+            **enum_evidence_summary,
+        },
         "dataNotes": (
             "CharacterAdvancementData.json is account-wide across four realms served by "
             "this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - "
@@ -500,7 +620,8 @@ def build() -> dict:
     (out_dir / "_meta.json").write_text(
         json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8")
     return {"written": len(records), "missing_by_source": missing_by_source,
-            "ref_counts": ref_counts, "by_source": by_source}
+            "ref_counts": ref_counts, "by_source": by_source,
+            "enum_evidence": enum_evidence_summary}
 
 
 if __name__ == "__main__":

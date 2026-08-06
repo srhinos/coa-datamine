@@ -31,7 +31,13 @@ ALLOWLIST = {
 # "Regenerating after a client patch" contract (small delta = content churn).
 # 2026-08-01 rebuild after a further client patch: writer now produces 27470 against
 # the patched work/dbc snapshot (+31 vs. 27439) - re-pinned per the same contract.
-PRE_SPELL_COUNT = 27474
+# 2026-08-06 (task W4-1, incidental): a live client patch landed mid-task -
+# work/dbc/Spell.dbc went 209,125 -> 209,130 BASE rows (confirmed via file mtime,
+# unrelated to this task's enum-table changes, which touch only names/lookups, never
+# the referenced-id closure) - writer now produces 27475 (+1 vs. 27474). Re-pinned
+# per the same contract; every other invariant in this file (class entry counts,
+# dungeon count) was checked and is unchanged by the same patch.
+PRE_SPELL_COUNT = 27475
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,
