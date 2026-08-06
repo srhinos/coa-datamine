@@ -1,5 +1,5 @@
 {
- "_note": "SpellCharges 'ref' resolves to a Spell.dbc id for 88.50% of rows in this snapshot (below the 90% attach bar); carried standalone, not attached to spell records. See 'realmGapFinding' below (task W4-11f) for the full characterization of the non-joining refs.",
+ "_note": "SpellCharges 'ref' resolves to a Spell.dbc id for 88.50% of rows in this snapshot (below the 90% attach bar); carried standalone, not attached to spell records. See 'realmGapFinding' below (task W4-11f) for the full characterization of the non-joining refs. NOTE: '_meta.json's enrichment.charges.attached' is a reporting-only verdict on whether the join clears 0.90 after proven-dead exclusions - it does not itself merge a 'charges' field onto any spells.jsonl record; that would need a separate build_spells.py merge path.",
  "categories": {
   "1": {
    "id": 1,

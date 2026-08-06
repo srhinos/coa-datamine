@@ -981,23 +981,27 @@ pointer here instead of a second, driftable copy.
    `difficultyToken` and map its enum constants to a display string yourself
    (`DUNGEON_DIFFICULTY_5PLAYER_HEROIC` -> "Heroic", etc.) - nothing in this
    dataset does that mapping for you.
-8. **`ItemStat.dbc`'s `f2` join = 1.000 is a dense-id false positive.** Not
-   currently extracted by this pipeline (`ItemStat`/`Item`/`ItemSpells` are
-   all absent from `config.WANTED_DBCS` - Sec 13 items 14-15, out of every W4
-   task's scope). Carried forward as-cited, unverifiable from this repo's own
-   data since the table isn't on disk here - but it's the textbook instance
-   of this repo's own "dense-id join-rate lies" pattern (see the `f<N>`
-   convention section above): `f2`'s values are 1..105 and item ids 1..105
-   exist, so a naive join looks perfect purely by coincidence. If a future
-   task extracts `ItemStat`, re-derive this from scratch rather than trusting
-   the cited join rate.
-9. **`ItemSpells.dbc`'s `f1` is not the item link.** Same not-yet-extracted
-   caveat as trap 8. Per the source doc: `f1` is unique per row (so it can't
-   be a many-spells-per-item foreign key) and only 55% resolves against
-   `Item.dbc`; `f2 -> spellId` is the well-supported column (99.81% against a
-   sparse spell-id space). Whoever extracts this table should apply the same
-   "a high join rate against a dense id space proves nothing" skepticism as
-   trap 8.
+8. **`ItemStat.dbc`'s `f2` join = 1.000 (against a naive column guess) is a
+   dense-id false positive.** **Task W4-11b extracted this table and re-derived
+   the trap from scratch** (`ItemStat`/`Item`/`ItemSpells` are no longer absent
+   from `config.WANTED_DBCS` - see "Item support tables" below) - the trap's
+   SHAPE holds exactly as warned (a naive column, historically misread as the
+   item id, produces a suspiciously-perfect join purely because the candidate
+   values are low and dense item ids like 1..105 also exist), but the REAL keying
+   is now proven, not guessed: `f1` (not `f2`) is `itemId`, golden-verified
+   against item 100248 vs `itemcache.wdb`, and `f2` is `ownItemLevel` (the
+   75-row-block structure), both now named in `TABLE_MAPS["ItemStat"]`. See
+   "Item support tables" below for the full re-derivation - don't trust a bare
+   join rate against this table's dense id space for anything beyond these two
+   proven columns.
+9. **`ItemSpells.dbc`'s `f1` is not the item link.** **Task W4-11c extracted
+   this table and confirmed the trap exactly**: `f1` is unique per row
+   (131,722/131,722 - structurally cannot be a many-spells-per-item foreign
+   key) and only 55.45% resolves against `Item.dbc`; `f2 -> spellId` is the
+   well-supported column (99.81% against a 1.50%-dense spell-id space, a real
+   join since the target space is sparse, not the dense-id false-positive
+   shape trap 8 warns about). Shipped raw + colinfo only, no `TABLE_MAPS`
+   entry - see "Item support tables" below.
 10. **aowow's 1,000-row list cap is silent data loss.** Not exercised by this
     pipeline - no aowow scraping happens in `coa-datamine` itself, that's a
     `coa-sim-handoff`-side concern (`parsers/aowow.py` there). Documented
@@ -1345,6 +1349,20 @@ inventoryType, sheath`) - `f5` (displayid) is the only other high-cardinality co
 index." None of these 8 columns are named in `TABLE_MAPS` yet (out of this
 sub-commit's scope) - a future task can pick this up with the same golden-proof bar
 as everything else in this file.
+
+**`ScalingStatDistribution`/`ScalingStatValues` are extracted for completeness,
+NOT because they are load-bearing for CoA.** Re-measured fresh against
+`itemcache.wdb` via `tools/wdb_item.py` (same parse as the ItemStat golden below):
+of 15,822 equippable items (`inventoryType != 0`), only **126 have
+`scalingStatDistribution != 0` (0.8%)** - an exact reproduction of Sec 8.1's own
+cited 126/15,822 figure - while 11,962 (75.6%, also an exact reproduction) carry
+explicit `statsCount > 0` instead. **This contradicts an earlier research claim**
+that "Ascension ships level-scaling gear whose stats are not fixed on the item row;
+a sim must resolve scaling items at the character's level" - level-scaling gear is
+a real but marginal mechanic here, not the norm. Per Sec 8.1, this disagreement is
+still only measured, not fully reconciled - **one confirming check remains open**
+(why the earlier claim was made at all, e.g. a different content patch or a
+misread of a different scaling system).
 
 `ItemStat.dbc` and `ItemSpells.dbc` are deliberately **excluded** from
 `WANTED_DBCS_V6` - both need real investigation (keying traps, in `ItemStat`'s case a

@@ -632,6 +632,11 @@ def _build_charges(out_dir):
     proven_dead = sorted(non_joining - realm_resolved)
     n_denom = len(rows) - len(proven_dead)
     adjusted_rate = round(spell_hits / n_denom, 4) if n_denom else spell_rate
+    # NOTE: "attach" is a reporting-only verdict (would the join clear the 0.90 bar
+    # after proven-dead exclusions) - it does NOT itself merge a `charges` field
+    # onto any spells.jsonl record. Flipping this True is necessary but not
+    # sufficient for real attachment; a future task would still need to add the
+    # actual merge path in _record()/the per-spell write loop below, keyed by ref.
     attach = len(proven_dead) > 0 and adjusted_rate >= 0.90
 
     for c in rows:
@@ -671,7 +676,11 @@ def _build_charges(out_dir):
                   "of rows in this snapshot (below the 90% attach bar); carried "
                   "standalone, not attached to spell records. See "
                   "'realmGapFinding' below (task W4-11f) for the full "
-                  "characterization of the non-joining refs."),
+                  "characterization of the non-joining refs. NOTE: '_meta.json's "
+                  "enrichment.charges.attached' is a reporting-only verdict on "
+                  "whether the join clears 0.90 after proven-dead exclusions - it "
+                  "does not itself merge a 'charges' field onto any spells.jsonl "
+                  "record; that would need a separate build_spells.py merge path."),
         "categories": categories,
         "charges": rows,
         "realmGapFinding": realm_gap_finding,
