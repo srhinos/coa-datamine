@@ -416,10 +416,10 @@
       "records": 108
      },
      "SpellRank": {
-      "baseRecords": null,
-      "delta": null,
+      "baseRecords": 23182,
+      "delta": -3581,
       "fields": 4,
-      "mapped": false,
+      "mapped": true,
       "records": 19601
      },
      "Talent": {
@@ -10888,7 +10888,7 @@
  "extract": {
   "census": {
    "distinctDbcNamesInChain": 368,
-   "extractedCount": 88,
+   "extractedCount": 100,
    "perArchiveDbcCounts": {
     "locale-enUS.MPQ": 224,
     "patch-M.MPQ": 288,
@@ -11264,6 +11264,19 @@
     "sha256": "aecf0a81fb2deed5d6a946efc6e79153a71245b0ad96699fa373fe86b961ba71",
     "winner": "patch-M.MPQ"
    },
+   "creaturespelldata.dbc": {
+    "actualFields": 9,
+    "bytes": 28928,
+    "fields": 9,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ"
+    ],
+    "record_size": 36,
+    "records": 803,
+    "sha256": "cb2f19fb988766668aa2dcff3532b5e166b5c0f5be549a278e2f3327e3486aa9",
+    "winner": "patch-S.MPQ"
+   },
    "dungeonencounter.dbc": {
     "actualFields": 23,
     "bytes": 200727,
@@ -11285,6 +11298,32 @@
     "record_size": 16,
     "records": 2080,
     "sha256": "52fcd045014b68c58b57414262a3099b501cdb69d359047da591f7c6fc62519d",
+    "winner": "patch-M.MPQ"
+   },
+   "glyphproperties.dbc": {
+    "actualFields": 4,
+    "bytes": 5812,
+    "fields": 4,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ"
+    ],
+    "record_size": 16,
+    "records": 362,
+    "sha256": "f1bcd26ffb13499a58409b833cec171f38c01aab85258d59895696f0ea45bf28",
+    "winner": "patch-M.MPQ"
+   },
+   "glyphslot.dbc": {
+    "actualFields": 3,
+    "bytes": 140,
+    "fields": 3,
+    "losers": [
+     "locale-enUS.MPQ"
+    ],
+    "record_size": 12,
+    "records": 10,
+    "sha256": "4e431c96868c205d24d79d413febbeb02030664e654932732f0e09ce11c16a8d",
     "winner": "patch-M.MPQ"
    },
    "gtchancetomeleecrit.dbc": {
@@ -11670,6 +11709,16 @@
     "sha256": "5e6d674e7087688cdda34532012e70895bf558974520d5b7aa1a0f2f9ff53815",
     "winner": "patch-S.MPQ"
    },
+   "spellaffect.dbc": {
+    "actualFields": 3,
+    "bytes": 441368,
+    "fields": 3,
+    "losers": [],
+    "record_size": 12,
+    "records": 36779,
+    "sha256": "f66132aeac4b83cf8e606c05e2d49afbdd986ae8ffdcdf29363050e3e4c6e492",
+    "winner": "patch-S.MPQ"
+   },
    "spellalternativecost.dbc": {
     "actualFields": 3,
     "bytes": 20,
@@ -11762,6 +11811,19 @@
     "sha256": "c0576e466ef6a3473ca79c0ee16f2dff2254aacaed62ccf138e7ecd343f039b5",
     "winner": "patch-S.MPQ"
    },
+   "spelldifficulty.dbc": {
+    "actualFields": 5,
+    "bytes": 76220,
+    "fields": 5,
+    "losers": [
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 20,
+    "records": 3810,
+    "sha256": "a50853964a740e4cc60a2e9480abf08a2b9573be4c6bc23a45350de3cb4f117d",
+    "winner": "patch-S.MPQ"
+   },
    "spelldispeltype.dbc": {
     "actualFields": 21,
     "bytes": 1146,
@@ -11789,6 +11851,21 @@
     "sha256": "eeae44ef0185924f3d6ec57ab2701c66566db86e51ab0bae017a9449126eb3a0",
     "winner": "patch-S.MPQ"
    },
+   "spellfocusobject.dbc": {
+    "actualFields": 18,
+    "bytes": 40647,
+    "fields": 18,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 72,
+    "records": 435,
+    "sha256": "0d9bfd4665e85e53d9b218c21ea12e6d90b062eb6ed57c1864737188fcd2ac2b",
+    "winner": "patch-S.MPQ"
+   },
    "spellicon.dbc": {
     "actualFields": 2,
     "bytes": 785441,
@@ -11804,6 +11881,19 @@
     "sha256": "25721140c3b85af3167d0fc5b559feae4d0ce8cf8c9bd9d519afacc1eb970999",
     "winner": "patch-S.MPQ"
    },
+   "spellitemenchantmentcondition.dbc": {
+    "actualFields": 16,
+    "bytes": 3156,
+    "fields": 31,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ"
+    ],
+    "record_size": 64,
+    "records": 49,
+    "sha256": "07eda4eff9b99f8de7cb77f17cfac283878263beb28339138b052baf6c7c3f43",
+    "winner": "patch-S.MPQ"
+   },
    "spellmechanic.dbc": {
     "actualFields": 18,
     "bytes": 2521,
@@ -11815,6 +11905,21 @@
     "record_size": 72,
     "records": 31,
     "sha256": "ede893f538999689101eacc073013a3e0311ea0c46d82019a3bf95be58fa1757",
+    "winner": "patch-S.MPQ"
+   },
+   "spellmissile.dbc": {
+    "actualFields": 15,
+    "bytes": 10220,
+    "fields": 15,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 60,
+    "records": 170,
+    "sha256": "3b4416007e74b0641db2a317dcecf154894da16c95205badc388a636b5992b7b",
     "winner": "patch-S.MPQ"
    },
    "spellradius.dbc": {
@@ -11845,6 +11950,16 @@
     "sha256": "bb899631818942a7a7100abfb7a970612a79ac99637b1b459561e2b108125ddd",
     "winner": "patch-S.MPQ"
    },
+   "spellrank.dbc": {
+    "actualFields": 4,
+    "bytes": 370932,
+    "fields": 4,
+    "losers": [],
+    "record_size": 16,
+    "records": 23182,
+    "sha256": "45ddcd99b3f21006ec419dc04bdc72fede39c18a39153f031bef64ef892efd6d",
+    "winner": "patch-S.MPQ"
+   },
    "spellrunecost.dbc": {
     "actualFields": 5,
     "bytes": 9540,
@@ -11858,6 +11973,31 @@
     "record_size": 20,
     "records": 476,
     "sha256": "18406c2b532d9751319ed4db16b6e158403de0cd1695abb0216163852a340f06",
+    "winner": "patch-S.MPQ"
+   },
+   "spellshapeshiftform.dbc": {
+    "actualFields": 35,
+    "bytes": 9394,
+    "fields": 35,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 140,
+    "records": 61,
+    "sha256": "be842b8f14fce179cb658296ab3ca505f784c1b8830651ad720c150a255f2fd4",
+    "winner": "patch-S.MPQ"
+   },
+   "spellstatsuggestions.dbc": {
+    "actualFields": 4,
+    "bytes": 17956,
+    "fields": 4,
+    "losers": [],
+    "record_size": 16,
+    "records": 1121,
+    "sha256": "43dfbd9edb63291fd59ee436fb4c7db094c731c0723d99a754125b088cf57265",
     "winner": "patch-S.MPQ"
    },
    "spelltags.dbc": {
@@ -11879,6 +12019,21 @@
     "records": 200,
     "sha256": "4b92069b284f7cc9929b7f8338fe4b09902013205e37952c79fb611ff9a9df7c",
     "winner": "patch-S.MPQ"
+   },
+   "summonproperties.dbc": {
+    "actualFields": 6,
+    "bytes": 5228,
+    "fields": 6,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 24,
+    "records": 217,
+    "sha256": "7a18e515cd0416aa1407aede0086bbd81ad58c57bab4901e4c72ce195bcf25dd",
+    "winner": "patch-M.MPQ"
    },
    "talent.dbc": {
     "actualFields": 23,
@@ -11918,7 +12073,13 @@
     "winner": "patch-M.MPQ"
    }
   },
-  "headerMismatches": [],
+  "headerMismatches": [
+   {
+    "actualFields": 16,
+    "declaredFields": 31,
+    "table": "spellitemenchantmentcondition.dbc"
+   }
+  ],
   "skipped_archives": [
    {
     "archive": "patch-4.MPQ",
@@ -11956,38 +12117,44 @@
   "unlistableProbes": {
    "patch-4.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-5.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-C.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-CZZ.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-P.mpq": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-W.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-WB.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    },
    "patch-WC.MPQ": {
     "hits": [],
-    "probedCount": 88
+    "probedCount": 100
    }
   }
  },
- "generatedUtc": "2026-08-06T11:03:43+00:00",
- "headerMismatches": []
+ "generatedUtc": "2026-08-06T12:35:59+00:00",
+ "headerMismatches": [
+  {
+   "actualFields": 16,
+   "declaredFields": 31,
+   "table": "spellitemenchantmentcondition.dbc"
+  }
+ ]
 }

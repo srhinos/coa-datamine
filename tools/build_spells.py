@@ -18,7 +18,9 @@ SpellAlternativePowerType (no provable per-spell link), and a "charges" block
 pointing at data/spells/charges.json - SpellCharges/SpellChargesCategory are
 proven internally but SpellCharges' link to live Spell.dbc rows misses the
 brief's >=90% attach bar, so they ship curated STANDALONE (own file, not
-per-spell fields) instead of report-only."""
+per-spell fields) instead of report-only. Task W4-10 adds the same standalone-file
+shape for SpellStatSuggestions -> data/spells/statSuggestions.json (proven spellId
+key, unproven payload category kept raw and clearly flagged)."""
 import json, re, shutil
 from collections import defaultdict
 
@@ -613,6 +615,65 @@ def _build_charges(out_dir):
     }
 
 
+def _build_stat_suggestions(out_dir):
+    """[Task W4-10] SpellStatSuggestions.dbc (coa-sim-handoff/DATAMINE-REQUEST.md
+    Sec 5.2's "cheap win"): 1121 rows, f1 golden-proven spellId (99.91% join vs live
+    Spell.dbc ids; row id=1 decodes to (1, 10, 3, 1), an exact match to the doc's own
+    cited sample "spell 10 is Blizzard"). Shipped standalone at
+    data/spells/statSuggestions.json - same "proven key, curate standalone" shape as
+    _build_charges above - keyed by the proven spellId, NOT attached to spells.jsonl
+    records (this table's own value proposition, a per-spell stat weight, is exactly
+    the part that ISN'T proven).
+
+    f2/f3 are carried raw, deliberately NOT asserted as fact: f3 is a constant 1 on
+    every row (zero information). f2 takes only 4 values (0/1/3/4) and CORRELATES
+    (73.5% agreement on the SpellToStatSuggestionData.json overlap, best-fit
+    permutation 0=STR/1=AGI/3=INT/4=SPI - see dbc.py's TABLE_MAPS comment for the
+    full cross-validation) with a primary-stat category, but that agreement rate is
+    well short of this repo's naming bar - so it ships as "statCategoryRaw", not
+    "statCategory", with the caveat inline in _note rather than in a name a consumer
+    might trust at face value."""
+    spell_names = {r["id"]: r["name_enUS"] for r in dbc.iter_named("Spell")}
+    spell_ids = set(spell_names)
+
+    rows = []
+    for row in dbc.DBCFile(config.WORK_DBC_DIR / "SpellStatSuggestions.dbc").iter_rows():
+        sid = dbc.u32(row[1])
+        rows.append({
+            "spellId": sid, "resolvedSpellName": spell_names.get(sid),
+            "statCategoryRaw": dbc.u32(row[2]), "f3": dbc.u32(row[3]),
+        })
+    rows.sort(key=lambda r: r["spellId"])
+
+    hits = sum(1 for r in rows if r["spellId"] in spell_ids)
+    join_rate = round(hits / len(rows), 4) if rows else 0.0
+
+    doc = {
+        "_note": (f"SpellStatSuggestions.dbc's spellId (f1) joins live Spell.dbc ids "
+                  f"at {join_rate:.2%} (golden: id 1 -> spell 10 'Blizzard', matching "
+                  "DATAMINE-REQUEST.md Sec 5.2's own cited sample). 'statCategoryRaw' "
+                  "(f2) is UNPROVEN: it takes exactly 4 values (0/1/3/4) that correlate "
+                  "73.5% with a primary-stat category (0=Strength/1=Agility/3=Intellect/"
+                  "4=Spirit) when cross-validated against raw/content/"
+                  "SpellToStatSuggestionData.json's per-spell dominant stat score over "
+                  "their 1,078-spell overlap - well above the 25% random-4-way baseline "
+                  "but short of a naming-grade bar, so the raw value ships without an "
+                  "asserted meaning. 'f3' is always 1 across all rows - no information, "
+                  "carried for completeness only. See tools/dbc.py's SpellStatSuggestions "
+                  "TABLE_MAPS comment for the full re-derivation."),
+        "spellIdJoinRate": join_rate,
+        "suggestions": rows,
+    }
+    # sharding.dump_manifest, not indent=1: 1121 records at indent=1 runs ~6,700
+    # lines (one field per line), over Amendment C's 5,000-line gate; one-compact-
+    # record-per-line keeps this file small AND still diffable per row.
+    (out_dir / "statSuggestions.json").write_text(
+        sharding.dump_manifest(doc), encoding="utf-8")
+
+    return {"file": "statSuggestions.json", "recordCount": len(rows),
+            "spellIdJoinRate": join_rate}
+
+
 def _coa_class_spell_ids():
     """[Task W4-3] The "CoA class set" DATAMINE-REQUEST.md's per-column fill-rate
     figures are measured against: every spell id (incl. every rank-chain id)
@@ -1062,6 +1123,7 @@ def build() -> dict:
     by_id_dir.mkdir(parents=True)
 
     charges_finding = _build_charges(out_dir)
+    stat_suggestions_finding = _build_stat_suggestions(out_dir)
     enum_evidence_summary = _build_enum_evidence(out_dir, records)
     coverage_summary = _build_coverage(out_dir)
     v2 = _v2_aux(set(records))
@@ -1123,6 +1185,7 @@ def build() -> dict:
         "enrichment": {
             **enrichment_counts,
             "charges": charges_finding,
+            "statSuggestions": stat_suggestions_finding,
             "alternativePowerType": _alt_power_type_findings(),
         },
         "enumEvidence": {

@@ -97,6 +97,19 @@ WANTED_DBCS_V4 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V4
 
+# v5 (task W4-10): simulation-adjacent spell support tables (coa-sim-handoff/
+# DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17). All 12 confirmed present in
+# the MPQ chain by extract_mpq.extract_all() itself - it raises SystemExit on
+# any wanted name missing from every archive, which is this task's "verify
+# each actually exists" gate; see .superpowers/sdd/task-w4-10-report.md.
+WANTED_DBCS_V5 = [
+    "SpellAffect.dbc", "SpellDifficulty.dbc", "SummonProperties.dbc",
+    "SpellMissile.dbc", "SpellShapeshiftForm.dbc", "SpellFocusObject.dbc",
+    "SpellRank.dbc", "CreatureSpellData.dbc", "GlyphProperties.dbc",
+    "GlyphSlot.dbc", "SpellStatSuggestions.dbc", "SpellItemEnchantmentCondition.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V5
+
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)

@@ -53,6 +53,7 @@ this repo needs an exemption).
 | `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
 | `data/classes/essence.json` | task W4-5: `{levels: [1..80], classes: [32 rows: classId, className, curveGroup ("classlessBase"\|"hero"\|"coaCustom"), abilityEssence: [80 ints], talentEssence: [80 ints]]}` (`CharacterAdvancementEssence.dbc`, 5,600 rows = 80 levels x 32 classes x 8 flag-variant rows, canonical curve = the flags-all-zero row per (classId,level) pair) - owned solely by `tools/build_essence.py`, a **new module deliberately separate from `build_classmeta.py`** (Amendment D: classmeta owns specs.json/archetypes.json only); see "Per-class Ability/Talent Essence curves..." below | small |
 | `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
+| `data/spells/statSuggestions.json` | task W4-10: standalone `SpellStatSuggestions.dbc` curation (1121 rows) - **NOT attached** to any `spells.jsonl` record (its `spellId` key is proven at 99.91% join, but its payload is not - see Honest limits); `{spellIdJoinRate, suggestions: [{spellId, resolvedSpellName\|null, statCategoryRaw, f3}]}`, one-compact-record-per-line (`sharding.dump_manifest`) | small |
 | `data/mythic/challenges/index.json` | one compact record per Mythic+ Challenge: `{id, name, file, difficultyToken, modeToken, featured}` (297 challenges) | small |
 | `data/mythic/challenges/<id>-<slug>.json` | one challenge incl. `groups`/`levels`/`rules`/`modifiers`/`conditions`/`requirements`/`rewards`/`spells` (one-record-per-line `sharding.dump_manifest` format - the default "Adventure Mode" challenge alone aggregates ~2,000 rows across those lists) | small-medium |
 | `data/mythic/challenges/_lookups.json` | `ChallengeRuleTypes`/`ModifierTypes`/`ConditionTypes`/`RequirementTypes` lookup tables (127/8/18/22 rows) | small |
@@ -1230,6 +1231,90 @@ unverified** until a Rexxar capture exists (Sec 13 item 7, not performed by this
 task). Full evidence, goldens, and re-derivation log:
 `.superpowers/sdd/task-w4-9-report.md`.
 
+### Simulation-adjacent spell support tables (task W4-10)
+
+`WANTED_DBCS_V5` adds 12 tables from DATAMINE-REQUEST.md Sec 9 + Sec 13 items
+13/17: `SpellAffect`, `SpellDifficulty`, `SummonProperties`, `SpellMissile`,
+`SpellShapeshiftForm`, `SpellFocusObject`, `SpellRank`, `CreatureSpellData`,
+`GlyphProperties`, `GlyphSlot`, `SpellStatSuggestions`,
+`SpellItemEnchantmentCondition` - all 12 confirmed present in the live MPQ chain
+(`extract_mpq.extract_all()` raises `SystemExit` on any wanted name missing from
+every archive; it didn't). All 12 get `raw/dbc/<Table>.csv.gz` +
+`<Table>.colinfo.json` evidence; only three got curation attention, per the
+task's explicit scope:
+
+**`SpellAffect` - Sec 9's provenance question is now RESOLVED: CONFIRMED.** Sec
+9's own text carries the adversarial verifier's explicit refusal to confirm it
+("I did not re-extract [SpellAffect.dbc]... treat its unverified assertions as
+unconfirmed"). This task re-extracted fresh (2026-08-06) and independently
+re-ran every numeric claim in that subsection - every one reproduced, with two
+honest caveats (see `tools/dbc.py`'s `SpellAffect` TABLE_MAPS comment for the
+full log):
+- f1→Spell.dbc join 100.0000%, |f2| join 99.9973% (one row's abs value doesn't
+  resolve - the doc's own "100.0%" was a rounding, not literal), raw unsigned f2
+  join 93.4528%, negative f2 rows 2,407/36,779 exactly.
+- All 3 goldens reproduce (324→978816, 2565→47294-6); the third (12043→Blizzard/
+  Hailstorm) reproduces the SEMANTIC finding but the doc's quoted id range
+  (81328-81332) is narrower than what's actually on disk (81328-81336 plus a
+  second 281800-281808 block the doc never mentions) - a transcription gap in
+  the source doc, not a re-derivation failure.
+- CoA-coverage-is-low: f1 hits = 5, |f2| hits = 10 - EXACT match, though the
+  denominator (CoA spells carrying the modifier aura) measured 1,269 fresh vs
+  the doc's 1,295 (ordinary content drift, same class as this build's own
+  Spell.dbc row-count drift).
+- Id-band overlap (f1 ∩ vanilla-tagged=209, ∩ reborn-tagged=277,
+  ∩ coa-custom-tagged=5) and the 158/10,684 CoA-band |f2| count both reproduce
+  EXACTLY. **Verdict unchanged from Sec 9's own framing: it is genuinely
+  Bronzebeard/Area-52 legacy content, not a CoA table** -
+  `EffectSpellClassMask` (task W4-3) remains the primary CoA talent-targeting
+  channel. `id`/`spellId`/`affectedSpellId` are now named in TABLE_MAPS.
+
+**`SpellStatSuggestions` - the Sec 5.2 "cheap win" partially pans out.** f1
+(spellId) is proven: 99.91% join vs live Spell.dbc ids, and row id=1 decodes to
+`(1, 10, 3, 1)` - an exact match to Sec 5.2's own cited sample ("spell 10 is
+Blizzard"). f2 (4 values: 0/1/3/4) CORRELATES 73.5% with a primary-stat category
+(0=STR/1=AGI/3=INT/4=SPI, found by testing all 24 permutations against
+`raw/content/SpellToStatSuggestionData.json`'s per-spell dominant stat score
+over their 1,078-spell overlap) - real signal, well above the 25% random
+baseline, but short of this repo's naming bar. f3 is a constant 1 on every row
+- zero information. Shipped standalone at `data/spells/statSuggestions.json`
+(spellId proven, so the file exists; payload category kept as raw
+`statCategoryRaw`, explicitly flagged unconfirmed in the file's own `_note` -
+see `tools/build_spells.py`'s `_build_stat_suggestions()`), NOT attached to
+`spells.jsonl` records.
+
+**`SpellRank` vs the already-integrated `raw/content/SpellRankData.json` - NOT
+identical, and the DBC is the more complete of the two.** `SpellRankData.json`
+(13,311 rows: `firstSpellId`/`level`/`rank`/`spellId`) is what
+`build_spells.py`'s closure/`rankChain`/`rankAt60` logic already reads - this
+task did not change that. `SpellRank.dbc` (23,182 rows, columns proven:
+`firstSpellId` 100% join, `spellId` 99.98% join, `rank` range 1-25 matching the
+JSON's own field) overlaps the JSON on 9,945 spellIds (`firstSpellId` agrees
+99.56%, `rank` agrees only 94.32% with an unexplained recurring off-by-one
+pattern in the mismatches) but additionally carries **13,237 spellId rows the
+JSON does not have at all**, 99.96% of which are real, live Spell.dbc ids - i.e.
+meaningfully more rank-chain coverage than what the pipeline currently uses.
+The JSON in turn carries 3,366 rows absent from the DBC (the already-documented
+"stale orphan rank chains"). Columns are named in TABLE_MAPS for raw-dump
+clarity only (same precedent as `SpellCharges`/`SpellChargesCategory`) -
+**deliberately NOT wired into `build_spells.py`'s pipeline by this task**;
+`SpellRankData.json` remains the single source of truth for rank chains until a
+dedicated task re-derives every downstream pinned count against the richer DBC
+source. See the Honest limits entry below and
+`.superpowers/sdd/task-w4-10-report.md` for the full re-derivation log.
+
+The other 9 tables (`SpellDifficulty`, `SummonProperties`, `SpellMissile`,
+`SpellShapeshiftForm`, `SpellFocusObject`, `CreatureSpellData`,
+`GlyphProperties`, `GlyphSlot`, `SpellItemEnchantmentCondition`) ship raw +
+colinfo only - explicitly out of this task's curation scope. One flag found in
+passing: `SpellItemEnchantmentCondition`'s WDBC header **declares 31 fields**
+(the real stock-WotLK 1+5×6 operand-condition shape) but its `record_size` only
+supports **16** - `extract_mpq.py`'s `headerMismatches` caught this on a BASE
+table for the first time (previously only ever seen on realm-overlay tables,
+see `DBCFile`'s docstring); `DBCFile.fields` (record_size//4) is what this
+pipeline trusts for row layout, so the 16-column raw dump is a true read, not a
+mistake - left unmapped rather than guessing which 16 of the stock 31 survived.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -1480,6 +1565,23 @@ def class_specs_and_roles(class_name):
   `Spell.dbc`, just not always as the same variant this repo's CAD closure
   reached), not a join bug. Check `spellResolved` per node before assuming a
   tooltip's numbers are backed by this dataset's own spell enrichment.
+- **`SpellRank.dbc` is NOT wired into the rank-chain pipeline, and it has MORE
+  coverage than `SpellRankData.json`, which is.** Task W4-10 found this table has
+  13,237 spellId rows (99.96% real, live ids) that `raw/content/SpellRankData.json`
+  - the file `build_spells.py`'s closure/`rankChain`/`rankAt60` logic actually reads
+  - does not carry at all, plus a recurring, unexplained off-by-one disagreement on
+  `rank` for 5.68% of the 9,945 spellIds the two sources share. Re-deriving the
+  pipeline against the richer DBC source would change downstream pinned counts
+  dataset-wide and was out of this CONFIG-EDIT task's scope - see "Simulation-
+  adjacent spell support tables" above for the full comparison.
+- **`data/spells/statSuggestions.json` ships with an unproven payload column.**
+  `SpellStatSuggestions.dbc`'s `spellId` key is proven (99.91% join + an exact
+  golden match), which is why the file exists at all, but its `statCategoryRaw`
+  value is NOT: it correlates 73.5% with a primary-stat category when
+  cross-validated against `SpellToStatSuggestionData.json`, short of this repo's
+  naming bar - carried raw, flagged unconfirmed in the file's own `_note`, not
+  attached to any `spells.jsonl` record. See "Simulation-adjacent spell support
+  tables" above.
 - **`data/gt/` cannot prove the server uses these values.** `gt*` tables are the
   CLIENT's copy (tooltips, character sheet); a TrinityCore-family server loads its own
   set and this pipeline has no way to see server-side data. `gtOCTClassCombatRatingScalar`

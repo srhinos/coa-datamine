@@ -25,6 +25,15 @@ proof (id/level/classId/abilityEssence/talentEssence, see tools/dbc.py) - it mov
 from UNMAPPED_TABLES to MAPPED_TABLES below. This is the one *intended* change to
 this file's expectations from that task; everything else here is unchanged.
 
+[Task W4-10 UPDATE] SpellRank ALSO gained a real TABLE_MAPS column proof
+(id/firstSpellId/spellId/rank, raw-dump-clarity naming only, NOT wired into
+build_spells.py's rank-chain pipeline - see tools/dbc.py) - same move,
+UNMAPPED_TABLES -> MAPPED_TABLES, and unlike CharacterAdvancementEssence's own
+move, SpellRank ALSO gained a base config.WANTED_DBCS entry in the same task
+(WANTED_DBCS_V5), so it now carries baseRecords/delta like every other mapped
+table - CharacterAdvancement is the only table left with neither a TABLE_MAPS
+entry nor a base WANTED_DBCS entry at all.
+
 [Finding, discovered running this test] CharacterAdvancement.dbc's WDBC header
 DECLARES FieldCount 179, but its record_size (692 bytes) only fits 173 int32
 fields, and 692 is what reconciles exactly with the file's real total size - the
@@ -88,8 +97,8 @@ idx = results[REALM]
 MAPPED_TABLES = {"Spell", "SkillLineAbility", "Talent", "SpellCharges",
                   "SpellChargesCategory", "Manastorm", "ManastormMessages",
                   "ManastormModifiers", "ManastormPlayerGroupModifiers",
-                  "CharacterAdvancementEssence"}
-UNMAPPED_TABLES = {"CharacterAdvancement", "SpellRank"}
+                  "CharacterAdvancementEssence", "SpellRank"}
+UNMAPPED_TABLES = {"CharacterAdvancement"}
 assert set(idx["tables"]) == MAPPED_TABLES | UNMAPPED_TABLES, set(idx["tables"])
 
 raw_dir = config.RAW_REALMS_DIR / REALM / "dbc"
@@ -97,7 +106,7 @@ for table in MAPPED_TABLES:
     info = idx["tables"][table]
     assert info["mapped"] is True, (table, info)
     assert info["records"] == EXPECTED[table][0] and info["fields"] == TRUE_FIELDS[table]
-    assert "declaredFields" not in info, (table, info)     # all 10 mapped tables self-consistent
+    assert "declaredFields" not in info, (table, info)     # all 11 mapped tables self-consistent
     assert (raw_dir / f"{table}.csv.gz").is_file()
     assert not (raw_dir / f"{table}.colinfo.json").exists()
     # baseRecords/delta populated: every mapped table here also has a base
@@ -112,14 +121,18 @@ for table in UNMAPPED_TABLES:
     assert (raw_dir / f"{table}.colinfo.json").is_file()
 
 # "mapped" (has a base TABLE_MAPS column proof) and "has a base WANTED_DBCS entry to
-# diff against" are independent axes - CharacterAdvancement/SpellRank have no base
-# DBC of this name AT ALL (realm-only tables), so both are null/null for real, not
-# just unmapped. [Task W4-5] Before that task, CharacterAdvancementEssence.dbc was
-# the axis-independence example (base entry present, mapped false) - it moved to
-# MAPPED_TABLES above once tools/dbc.py gained its column proof; the axis is still
-# real, just no longer illustrated by this particular table.
+# diff against" are independent axes - CharacterAdvancement has no base DBC of this
+# name AT ALL (realm-only table), so both are null/null for real, not just unmapped.
+# [Task W4-5] Before that task, CharacterAdvancementEssence.dbc was the
+# axis-independence example (base entry present, mapped false) - it moved to
+# MAPPED_TABLES above once tools/dbc.py gained its column proof. [Task W4-10]
+# SpellRank made the SAME move AND gained a base WANTED_DBCS entry in the same
+# task (WANTED_DBCS_V5) - it now carries real baseRecords/delta like the other 10
+# originally-mapped tables, leaving CharacterAdvancement as the sole table on
+# neither axis.
 assert "CharacterAdvancementEssence.dbc" in config.WANTED_DBCS
-for table in ("CharacterAdvancement", "SpellRank"):
+assert "SpellRank.dbc" in config.WANTED_DBCS
+for table in ("CharacterAdvancement",):
     info = idx["tables"][table]
     assert info["baseRecords"] is None and info["delta"] is None, (table, info)
     assert f"{table}.dbc" not in config.WANTED_DBCS

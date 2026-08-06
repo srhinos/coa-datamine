@@ -1139,6 +1139,146 @@ TABLE_MAPS = {
     # mana-cost scaling, not player-facing) were never asked for in this task's brief
     # and are out of scope for build_gt.py's curated output. Left UNMAPPED (raw + colinfo)
     # so no semantic claim is made beyond "extracted, available for a future task."
+
+    # v5 (task W4-10): simulation-adjacent spell support tables (coa-sim-handoff/
+    # DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17). Full re-derivation log in
+    # .superpowers/sdd/task-w4-10-report.md. Of the 12 WANTED_DBCS_V5 tables, only
+    # SpellAffect and SpellStatSuggestions get proven column names below - the other
+    # 9 (SpellDifficulty, SummonProperties, SpellMissile, SpellShapeshiftForm,
+    # SpellFocusObject, CreatureSpellData, GlyphProperties, GlyphSlot,
+    # SpellItemEnchantmentCondition) were explicitly out of this task's curation scope
+    # (brief: "CURATION ONLY WHERE PROVEN: SpellAffect... SpellStatSuggestions...") -
+    # they ship raw f0..fN + colinfo.json evidence only, no TABLE_MAPS entry, so a
+    # future task has the evidence trail without an unverified semantic claim. One
+    # honest flag found in passing: SpellItemEnchantmentCondition's WDBC header
+    # DECLARES 31 fields (the real stock-WotLK 1+5*6 operand-condition shape) but its
+    # record_size only supports 16 (extract_mpq.py's headerMismatches caught this on
+    # base-table extraction - previously only ever seen on realm-overlay tables, see
+    # DBCFile's docstring) - DBCFile.fields (record_size//4) is what this pipeline
+    # trusts for row layout, so the raw dump is a true 16-column read, not a mistake;
+    # left unmapped rather than guessing which 16 of the stock 31 survived. Also
+    # observed in passing, not acted on (out of scope): SpellShapeshiftForm's own f2
+    # is bijective (61/61) and 100% string-likely ("Cat Form"/"Tree of Life"/"Travel
+    # Form" samples) - an obvious future id/name lookup pair, not named here because
+    # this task's curation scope was explicitly SpellAffect + SpellStatSuggestions
+    # + the SpellRank/SpellRankData.json comparison only.
+    #
+    # SpellAffect (36779x3, no strings) - DATAMINE-REQUEST.md Sec 9's own text carries
+    # the adversarial verifier's explicit refusal to confirm it ("I did not re-extract
+    # [it]... treat its unverified assertions as unconfirmed rather than established").
+    # This task re-extracted fresh (2026-08-06, not the coa-sim-handoff snapshot) and
+    # independently re-ran EVERY numeric claim in that subsection against this build's
+    # own work/dbc/Spell.dbc + work/dbc/SpellAffect.dbc + data/classes/ (the same
+    # class-tag machinery build_spells._coa_class_spell_ids() uses, generalized here to
+    # all 4 tags: vanilla/reborn/coa-custom/meta) - full log in the task report. Every
+    # claim reproduced, with two honest caveats noted below. VERDICT: Sec 9's account of
+    # this table is CONFIRMED, and it is NOT a CoA table (Bronzebeard/Area-52 legacy
+    # content) - EffectSpellClassMask (already mapped, task W4-3) remains the primary
+    # CoA talent-targeting channel.
+    #   - f1 join vs live Spell.dbc ids: 36779/36779 = 100.0000% exact (doc: "100.0%").
+    #   - raw UNSIGNED f2 join: 34371/36779 = 93.4528% (doc: "93.5%" - matches at the
+    #     doc's own precision). Negative f2 rows: 2407/36779 = 6.5445% (doc: "2,407 rows
+    #     = 6.5%" - EXACT count match).
+    #   - abs(SIGNED f2) join: 36778/36779 = 99.9973%, ONE ROW SHORT of the doc's flat
+    #     "100.0%" - row f0=354941 carries f2=83998 (abs), which does not resolve
+    #     against ANY live Spell.dbc id (a single removed/renumbered id, the same class
+    #     of historical churn this file already documents elsewhere - e.g. SpellTags'
+    #     86.26% raw rate). Named anyway: 99.9973% clears every bar this file uses
+    #     elsewhere, and the doc's "100.0%" was evidently rounded/approximate, not
+    #     literally exact - correcting that rounding here rather than repeating it.
+    #   - Golden 324 "Lightning Shield r1" -> f2=978816 "Assault and Battery": EXACT
+    #     match to the doc.
+    #   - Golden 2565 "Shield Block" -> f2 in {47294,47295,47296} "Critical Block r1-3":
+    #     EXACT match to the doc.
+    #   - Golden 12043 "Presence of Mind" -> the doc quotes "81328-81332 'Blizzard
+    #     (Hailstorm) r1-5'"; this build's f1=12043 rows actually span f2=81328..81336
+    #     (9 ids, all "Blizzard (Hailstorm)") PLUS a second, entirely separate block
+    #     f2=281800..281808 (9 ids, "Hailstorm") the doc's text never mentions at all -
+    #     the SEMANTIC finding holds (Presence of Mind's row set is real and thematically
+    #     coherent) but the doc's quoted id range is narrower than what is actually on
+    #     this row set; not a re-derivation failure, a transcription gap in the source
+    #     doc, corrected here rather than propagated.
+    #   - CoA-coverage-is-low finding: doc says "[o]f the 1,295 CoA spells carrying an
+    #     ADD_FLAT/PCT_MODIFIER aura, only 5 appear as f1 and 10 as |f2|." This build's
+    #     own CoA-custom-tag spell set carries the modifier aura (107/108, both proven
+    #     names in this file's AURA_NAMES) on 1269 spells (not 1295 - ordinary content
+    #     drift between snapshots, the same class of drift already seen throughout this
+    #     file, e.g. Spell.dbc's own 209125->209130 row-count drift) - but the two
+    #     headline counts reproduce EXACTLY: f1 hits = 5 (ids 92123, 92131, 300357,
+    #     800274, 805378), |f2| hits = 10 (502582-502590, 801708).
+    #   - Id-band overlap, re-derived against ALL FOUR data/classes/ tags, not just
+    #     coa-custom: f1 ∩ vanilla-tagged spell ids = 209, f1 ∩ reborn-tagged = 277,
+    #     f1 ∩ coa-custom-tagged = 5 - EXACT match to the doc's "f1 ∩ stock = 209, f1 ∩
+    #     Reborn = 277" (id band sizes: vanilla 4454, reborn 14107, coa-custom 6436 -
+    #     the 6,436 figure is itself an exact match to the doc's own headline CoA-set
+    #     size, corroborating the tag machinery is sound).
+    #   - Distinct |f2| values: 10684, of which 158 land in the 500k-600k CoA custom-
+    #     class id band - EXACT match to the doc's "158 of 10,684."
+    # f2 kept SIGNED ("i" kind, not abs'd) per this file's existing convention
+    # (NPCTrainer.spellId) of preserving a sentinel/exclusion sign rather than erasing
+    # it - the doc's own reading is that negative f2 carries "apparently exclusion
+    # semantics," unconfirmed beyond the sign's mere presence.
+    "SpellAffect": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"), ("affectedSpellId", 2, "i"),
+    ]},
+    # SpellStatSuggestions (1121x4, no strings) - DATAMINE-REQUEST.md Sec 5.2's "cheap
+    # win": f0 ascending-unique 1..1121 (own row id). f1 golden-proven spellId: join
+    # vs live Spell.dbc ids 1120/1121 = 99.9108% (comfortably clears this file's 90%
+    # bar), and row id=1 decodes to (1, 10, 3, 1) - an EXACT match to the doc's own
+    # cited sample "(1, 10, 3, 1)... spell 10 is Blizzard", re-derived fresh (not
+    # copied) against this build's own work/dbc/SpellStatSuggestions.dbc.
+    # f2/f3 CHARACTERIZED, NOT proven, left unmapped/raw per the empirical-mapping
+    # rule: f3 is a constant 1 on every one of the 1121 rows - zero information, not a
+    # real column. f2 takes exactly 4 values (0/1/3/4, skipping 2) with counts
+    # {0:249, 1:298, 3:384, 4:190} - suggestive of a primary-stat CATEGORY (a golden
+    # spot check lines up thematically: Heroic Strike/Warrior->0, Sinister Strike/
+    # Rogue->1, Fireball/Frostbolt/Shadow Bolt/Lightning Bolt (all caster direct-
+    # damage)->3, Rejuvenation (heal)->4). Cross-validated against the ALREADY-SHIPPED
+    # raw/content/SpellToStatSuggestionData.json (2447 rows of per-spell Strength/
+    # Agility/Intellect/SpiritScore weights - a DIFFERENT, larger table, not this DBC
+    # in JSON form) over their 1078-spell overlap: trying all 24 permutations of
+    # {0,1,3,4} -> {STR,AGI,INT,SPI}, the best-fit mapping (0=STR, 1=AGI, 3=INT,
+    # 4=SPI - the same one the golden spot check suggests) agrees with that JSON's
+    # per-spell DOMINANT score on only 792/1078 = 73.5% of rows - well above the 25%
+    # random-4-way baseline (real signal) but short of this file's naming bar, so f2
+    # stays unnamed/raw ("statCategoryRaw" in data/spells/statSuggestions.json's
+    # per-row output, explicitly flagged unconfirmed there - see build_spells.py's
+    # _build_stat_suggestions()).
+    "SpellStatSuggestions": {"expected_fields": 4, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"),
+    ]},
+    # SpellRank (23182x4, no strings) - compared against the ALREADY-INTEGRATED
+    # raw/content/SpellRankData.json (13311 rows of {firstSpellId, level, rank,
+    # spellId}, the sole rank-chain source build_spells.py's closure/rankChain/
+    # rankAt60 logic reads today - see _initial_refs/_rank_at_60_map/_record there).
+    # NOT identical coverage - re-derived directly, this table is neither a strict
+    # superset nor subset of the JSON: f0 ascending-unique 1..23182 (own row id). f1
+    # golden-proven firstSpellId: 100.0000% (23182/23182) join vs live Spell.dbc ids,
+    # and on rows where f3(rank)==1 (a chain's own first rank), f1==f2 on 3504/3507 =
+    # 99.9% of rows - the expected self-referential-root shape for a real firstSpellId
+    # column. f2 golden-proven spellId: 99.9784% (23177/23182) join vs live Spell.dbc
+    # ids. f3 golden-proven rank: range 1-25, matching SpellRankData.json's own "rank"
+    # field range exactly.
+    #   Coverage diff vs SpellRankData.json (9945-row overlap by spellId): firstSpellId
+    #   agrees on 9901/9945 = 99.56% of overlapping rows; rank agrees on only 9380/9945
+    #   = 94.32% - a recurring off-by-one pattern in the mismatches (e.g. spellId 8492:
+    #   this table's rank=3 vs JSON's rank=2; 10159/10160/10161/27087 all the same
+    #   +1 shape), unexplained, left as an open finding rather than guessed at. This
+    #   table carries 13237 spellId rows ABSENT from SpellRankData.json entirely, 99.96%
+    #   of which (13232/13237) are real, live Spell.dbc ids - i.e. this DBC has
+    #   meaningfully MORE real rank-chain coverage than the JSON currently wired into
+    #   the pipeline. SpellRankData.json in turn carries 3366 spellId rows absent from
+    #   this table (the "stale orphan rank chains" already documented in
+    #   build_spells.py's dataNotes).
+    # Named here for raw-dump clarity only (same precedent as SpellCharges/
+    # SpellChargesCategory above) - deliberately NOT wired into build_spells.py's
+    # closure/rankChain/rankAt60 logic by this task: SpellRankData.json remains the
+    # pipeline's single source of truth for rank chains, changing that is a
+    # dedicated REAL-WORK task (re-deriving every downstream pinned count), not a
+    # config-add. See AGENT-GUIDE.md's Honest limits for the pointer.
+    "SpellRank": {"expected_fields": 4, "columns": [
+        ("id", 0, "u"), ("firstSpellId", 1, "u"), ("spellId", 2, "u"), ("rank", 3, "u"),
+    ]},
 }
 
 
