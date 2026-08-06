@@ -894,6 +894,117 @@ TABLE_MAPS = {
     "ManastormPlayerGroupModifiers": {"expected_fields": 5, "columns": [
         ("id", 0, "u"),
     ]},
+    # v4 (task W4-2): gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+    # Sec 1.1 + Sec 13 item 1) - full re-derivation log in
+    # .superpowers/sdd/task-w4-2-report.md. Every table below is a genuinely
+    # single-column, ALL-FLOAT WDBC (record_size==4, one f32 per row - "value" is the
+    # only column and needs no per-column proof, same bar every other "f"-kind column
+    # in this file already clears). What actually needed proving is which ROW POSITION
+    # maps to which class/rating/level - a function of row index, not field index, so
+    # it lives here as a block comment rather than in a single column's tuple.
+    #
+    # PROVEN layout (independently re-derived against a FRESH 2026-08-06 extraction -
+    # not trusted from coa-sim-handoff's 2026-08-05 snapshot, since the live client
+    # patches independently of that capture):
+    #   idx = (classId - 1) * 100 + (level - 1)   gtChanceToMeleeCrit / gtChanceToSpellCrit /
+    #                                              gtRegenMPPerSpt / gtOCTRegenMP /
+    #                                              gtRegenHPPerSpt / gtOCTRegenHP (3200 rows =
+    #                                              32 classes x 100 levels; classId is the real
+    #                                              ChrClasses.dbc id, 1-32, Ascension's 21-custom
+    #                                              expansion of the stock 11-class table)
+    #   idx = classId - 1                          gtChanceToMeleeCritBase / gtChanceToSpellCritBase
+    #                                              (32 rows, one flat value per class, no level dim -
+    #                                              the brief's "*Base = 32 rows" golden, reproduced:
+    #                                              both tables' f.records == 32 on this extraction)
+    #   idx = cr * 100 + (level - 1)               gtCombatRatings (3200 rows = 32 RATING slots x
+    #                                              100 levels - the "class" position holds a RATING
+    #                                              index, not a ChrClasses id; matches TrinityCore's
+    #                                              sGtCombatRatingsStore.LookupEntry(cr*GT_MAX_LEVEL+
+    #                                              level-1) convention)
+    #   Every 100-level block's slot 99 ("level 100") holds the START of the block's NEXT
+    #   rating/class curve, not a real level-100 value - reverified at 3 fresh block boundaries
+    #   (gtCombatRatings blocks 0->1, 1->2, 15->16: slot 99 of block N == slot 0 of block N+1,
+    #   exact float equality, not just close). build_gt.py only ever curates levels 1-99
+    #   (indices 0-98) for this reason - the "level-100-slot trap."
+    #
+    # Goldens reproduced fresh on THIS task's extraction (sample; full log in the report):
+    #   - gtCombatRatings, level 80, 13/14 exact vs published WotLK constants: DEFENSE(cr1)
+    #     4.9185, DODGE(cr2)=PARRY(cr3) 45.2502, HIT_MELEE(cr5)=HIT_RANGED(cr6) 32.79,
+    #     HIT_SPELL(cr7) 26.232, CRIT_MELEE/RANGED/SPELL(cr8-10) 45.906, HASTE_MELEE/RANGED/
+    #     SPELL(cr17-19) 32.79, EXPERTISE(cr23) 8.1975 - all exact to 4dp. The 14th checked,
+    #     ARMOR_PENETRATION(cr24), is the one miss: 11.55 vs published 15.39 at level 80 (4.20
+    #     at level 60) - not a layout artifact (every neighboring rating matches exactly), an
+    #     [INFERRED] Ascension rebalance or pre-3.3.3 revision; see build_gt.py's _meta.json
+    #     "armorPenetrationAnomaly" caveat.
+    #   - gtChanceToMeleeCrit, agi-per-1%-crit @60/@80: Warrior/DeathKnight/KnightOfXoroth/
+    #     Guardian/Reaper 19.88/62.5; Paladin/Cultist/SunCleric 19.65/52.08; Mage/Pyromancer/
+    #     Stormbringer 22.62/51.02; Priest/Chronomancer 21.93/52.08; Warlock/Necromancer
+    #     21.01/50.51 (bit-identical raw floats between the two classes at every level - the
+    #     brief's CoA archetype-clone spot check); Hunter/WitchHunter/Tinker 33.22/83.33;
+    #     Barbarian 26.83 (original, not a clone); Primalist 18.71 (original) - the published
+    #     83.33/62.50/52.08 @80 trio lands on Hunter/Warrior/Paladin respectively.
+    #   - gtChanceToSpellCrit: Warrior/Rogue/DeathKnight/Barbarian/Guardian (pure-physical) =
+    #     0 at every level; Paladin/Hunter/Priest/Shaman/Mage/Warlock/Hero converge to the
+    #     canonical WotLK constants 80.00 int/1% @70 and 166.67 int/1% @80 exactly.
+    #
+    # cr-index identity for gtCombatRatings' 32 rating slots (0-31): 16 pinned to a published
+    # name (see the goldens above), 16 stay unnamed "cr<N>" per the empirical rule - a value
+    # coincidence is not proof (this file's own repeated trap). Two evidence tiers among the
+    # 16 named:
+    #   - 13 have an independent PUBLISHED level-80 anchor (cr1,2,3,5,6,7,8,9,10,17,18,19,23 -
+    #     DEFENSE/DODGE/PARRY/HIT_MELEE/HIT_RANGED/HIT_SPELL/CRIT_MELEE/CRIT_RANGED/CRIT_SPELL/
+    #     HASTE_MELEE/HASTE_RANGED/HASTE_SPELL/EXPERTISE) plus cr24 ARMOR_PENETRATION (named
+    #     despite failing the value match - its ROW IDENTITY is certain, only its number is
+    #     anomalous, see above).
+    #   - 2 (cr4 BLOCK 5.0/7.8846/16.395, cr0 WEAPON_SKILL 2.5/3.9423/8.1975) match only the
+    #     level-60 value DATAMINE-REQUEST.md Sec 1.1 quotes - no independent lvl70/80 anchor
+    #     was published for either. BLOCK's curve is UNIQUE among all 32 slots (safe to pin on
+    #     a unique exact match). WEAPON_SKILL's curve is NOT unique - cr0/20/21/22/23 are
+    #     bit-identical (a real structural group: WEAPON_SKILL + WEAPON_SKILL_MAINHAND/OFFHAND/
+    #     RANGED + EXPERTISE all share one curve in stock WotLK). cr0 is named WEAPON_SKILL on
+    #     the well-established convention that combat rating index 0 is always weapon skill
+    #     (TrinityCore/MaNGOS-era `CR_WEAPON_SKILL = 0`) and cr23 is named EXPERTISE because it
+    #     sits immediately before the independently-identified cr24 ARMOR_PENETRATION, matching
+    #     that same well-known enum's tail order - cr20/21/22 (presumably the MAINHAND/OFFHAND/
+    #     RANGED weapon-skill sub-ratings) have no independent value to tell them apart from
+    #     each other and stay unnamed cr20/cr21/cr22.
+    #   - RESILIENCE (Sec 1.1's level-60 table lists 85.00) was explicitly CHECKED and NOT
+    #     pinned: cr14's level-60 value is exactly 85.0, but cr14/15/16 form their own
+    #     3-slot group (85.0/89.125/89.125 at level 60, converging identically by level 70)
+    #     structurally consistent with CRIT_TAKEN_MELEE/RANGED/SPELL, not resilience, and no
+    #     independent lvl70/80 anchor exists to disambiguate a single-level coincidence from a
+    #     real identity - the exact class of false positive this file warns about repeatedly
+    #     (Creature.subname, DungeonEncounterExtra, SpellAddon f20-22). Left unnamed cr14.
+    #   - cr11/12/13 (10.0/10.0/8.0 @60, identical to HIT_MELEE/RANGED/SPELL) are structurally
+    #     HIT_TAKEN_MELEE/RANGED/SPELL and cr25-31 are nonzero-but-unpublished/all-zero curves -
+    #     none independently named, all raw signed-int-derived floats in curated output.
+    "gtCombatRatings": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToMeleeCrit": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToMeleeCritBase": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToSpellCrit": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToSpellCritBase": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtRegenMPPerSpt": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtOCTRegenMP": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtRegenHPPerSpt": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtOCTRegenHP": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    # gtOCTClassCombatRatingScalar (1024x2) - Sec 1.1 warning 1: NOT covered by the
+    # class-major proof above, a different shape (1024 records x 2 fields). f0 decodes as
+    # an ASCENDING-UNIQUE row id 1-1024 (verified: row i's f0 == i+1 for every row on this
+    # extraction), not a (class,cr) composite - so the brief's inferred TrinityCore
+    # convention `(class-1)*32 + cr + 1` is only a hypothesis about what f0's VALUE would
+    # be if the table were laid out that way, and it is NOT independently distinguishable
+    # from "f0 is just this table's own positional PK" with the evidence available (both
+    # produce an ascending-unique 1..1024 sequence - indistinguishable from row order
+    # alone). f1 is the real scalar (float, e.g. row 0 decodes to 1.0). Left UNMAPPED
+    # (dump_unmapped raw f0/f1 + colinfo.json) per the brief's explicit instruction -
+    # no named curve output, only raw + evidence sidecar; see build_gt.py's _meta.json
+    # "octClassCombatRatingScalar" note for the same finding in the curated layer.
+    #
+    # gtNPCManaCostScaler (100x1) - extracted per Sec 1.1's own "may be worth taking"
+    # note, but its semantics (single 100-level curve, no class dimension at all - NPC
+    # mana-cost scaling, not player-facing) were never asked for in this task's brief
+    # and are out of scope for build_gt.py's curated output. Left UNMAPPED (raw + colinfo)
+    # so no semantic claim is made beyond "extracted, available for a future task."
 }
 
 

@@ -1,0 +1,69 @@
+{
+ "caveats": {
+  "armorPenetrationAnomaly": "gtCombatRatings rating index 24 (ARMOR_PENETRATION) gives 11.55 at level 80 where the published WotLK constant is 15.39 (4.2 at level 60). Every other pinned rating in this table matches its published constant to 4dp, so this is not a layout artifact - the row's identity (which cr slot is ARMOR_PENETRATION) is certain, only the number differs. [INFERRED] either an intentional Ascension rebalance or a pre-3.3.3 WotLK revision CoA's client build predates; unresolved, real behavioral difference if it holds at level 60.",
+  "clientCopyMayDifferFromServer": "These are the CLIENT's gt* values (used for tooltips and the character sheet). A TrinityCore-family server loads its OWN gt* DBC set - if CoA's server ships different files, the client could display 14.0%/point crit while the server computes something else. This pipeline cannot see server-side data (client DBCs only, see AGENT-GUIDE.md Honest limits); mitigation is an in-game check: read a level-60 character's actual crit% at a known crit-rating value and compare against gtCombatRatings' CRIT_MELEE/CRIT_RANGED/CRIT_SPELL prediction (14.0 rating per 1% at level 60 on this snapshot).",
+  "gtOCTClassCombatRatingScalar": "1,024 records x 2 fields - a DIFFERENT shape from every other gt* table here, NOT covered by this task's class-major/rating-major proof. f0 decodes as an ascending-unique row id 1-1024 (row i's f0 == i+1), indistinguishable from either 'this table's own positional PK' or the brief's inferred TrinityCore (class-1)*32+cr+1 convention with the evidence available - both produce the identical 1..1024 sequence. Left UNMAPPED in tools/dbc.py (raw f0/f1 + colinfo.json evidence sidecar via dbc.dump_unmapped) - NO named curve output from this module. Needs its own golden (DATAMINE-REQUEST.md Sec 1.1 warning 1) before any future task curates it.",
+  "level100SlotTrap": "Every 100-level block in gtCombatRatings/gtChanceToMeleeCrit/gtChanceToSpellCrit/gtRegenMPPerSpt/gtOCTRegenMP/gtRegenHPPerSpt/gtOCTRegenHP's slot index 99 (displayed 'level 100') holds the START of the NEXT block's curve, not a real level-100 value - reverified at 3 fresh block boundaries in build_combat_ratings() (exact float equality, not approximate). Every curve this module emits therefore covers levels 1-99 only (99 values), never a level-100 slot."
+ },
+ "counts": {
+  "gtChanceToMeleeCrit": 3200,
+  "gtChanceToMeleeCritBase": 32,
+  "gtChanceToSpellCrit": 3200,
+  "gtChanceToSpellCritBase": 32,
+  "gtCombatRatings": 3200,
+  "gtNPCManaCostScaler": 100,
+  "gtOCTClassCombatRatingScalar": 1024,
+  "gtOCTRegenHP": 3200,
+  "gtOCTRegenMP": 3200,
+  "gtRegenHPPerSpt": 3200,
+  "gtRegenMPPerSpt": 3200
+ },
+ "goldensReproduced": {
+  "baseTablesRowCount": "gtChanceToMeleeCritBase and gtChanceToSpellCritBase both have exactly 32 records (one per ChrClasses.dbc class)",
+  "level80CombatRatingConstants": "13/14 exact to 4dp on a fresh 2026-08-06 extraction (matches DATAMINE-REQUEST.md Sec 1.1); the 14th is the documented ARMOR_PENETRATION anomaly, not a match failure",
+  "meleeCritConversion": "83.33/62.50/52.08 agi/1%@80 (Hunter/Warrior/Paladin archetype families) + the full CoA archetype-clone table (KnightOfXoroth/Guardian/Reaper=Warrior, Cultist/SunCleric=Paladin, Pyromancer/Stormbringer=Mage, Chronomancer=Priest, Necromancer=Warlock, WitchHunter/Tinker=Hunter) reproduced exactly",
+  "necromancerWarlockSpotCheck": "gtChanceToMeleeCrit raw float curves are bit-identical between classId 9 (Warlock) and classId 23 (Necromancer) at every one of the 99 curated levels",
+  "spellCritConversion": "166.67 int/1%@80 + 80.00 int/1%@70 on Paladin/Hunter/Priest/Shaman/Mage/Warlock/Hero; Warrior/Rogue/DeathKnight/Barbarian/Guardian read exactly 0 at every level"
+ },
+ "provenColumns": "gtCombatRatings idx=cr*100+(level-1) (rating-major, 32 rating slots x 100 levels); gtChanceToMeleeCrit/gtChanceToSpellCrit/gtRegenMPPerSpt/gtOCTRegenMP/gtRegenHPPerSpt/gtOCTRegenHP idx=(classId-1)*100+(level-1) (class-major, classId 1-32 = ChrClasses.dbc id); gtChanceToMeleeCritBase/gtChanceToSpellCritBase idx=classId-1 (32 rows, no level dimension) - full evidence in tools/dbc.py's TABLE_MAPS comment and .superpowers/sdd/task-w4-2-report.md",
+ "ratingNames": {
+  "0": "WEAPON_SKILL",
+  "1": "DEFENSE",
+  "10": "CRIT_SPELL",
+  "11": "cr11",
+  "12": "cr12",
+  "13": "cr13",
+  "14": "cr14",
+  "15": "cr15",
+  "16": "cr16",
+  "17": "HASTE_MELEE",
+  "18": "HASTE_RANGED",
+  "19": "HASTE_SPELL",
+  "2": "DODGE",
+  "20": "cr20",
+  "21": "cr21",
+  "22": "cr22",
+  "23": "EXPERTISE",
+  "24": "ARMOR_PENETRATION",
+  "25": "cr25",
+  "26": "cr26",
+  "27": "cr27",
+  "28": "cr28",
+  "29": "cr29",
+  "3": "PARRY",
+  "30": "cr30",
+  "31": "cr31",
+  "4": "BLOCK",
+  "5": "HIT_MELEE",
+  "6": "HIT_RANGED",
+  "7": "HIT_SPELL",
+  "8": "CRIT_MELEE",
+  "9": "CRIT_RANGED"
+ },
+ "unresolvedRatingIndices": {
+  "cr11_12_13_hitTaken": "10.0/10.0/8.0 @60, identical to HIT_MELEE/RANGED/SPELL - structurally HIT_TAKEN_MELEE/RANGED/SPELL but not independently named (no published anchor for the 'taken' ratings).",
+  "cr14_resilience_check": "DATAMINE-REQUEST.md Sec 1.1's level-60 table lists RESILIENCE=85.00, and cr14's level-60 value is exactly 85.0 - but cr14/15/16 form their own 3-slot group (85.0/89.125/89.125 at level 60, converging identically by level 70) structurally consistent with CRIT_TAKEN_MELEE/RANGED/SPELL, not resilience, and no independent published level-70/80 anchor exists for RESILIENCE to disambiguate a single-level coincidence from a real identity - the same class of false positive this repo's own AGENT-GUIDE.md warns about repeatedly. Checked and explicitly NOT pinned; cr14 stays unnamed in ratingNames.",
+  "cr20_21_22_weaponSkillSub": "bit-identical to cr0 WEAPON_SKILL and cr23 EXPERTISE - presumably WEAPON_SKILL_MAINHAND/OFFHAND/RANGED but no value distinguishes them from each other, left unnamed.",
+  "cr25_31": "nonzero-but-unpublished (cr25) or all-zero (cr26-31) curves, no independent evidence of any kind - left unnamed."
+ }
+}

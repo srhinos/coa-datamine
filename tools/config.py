@@ -76,6 +76,20 @@ WANTED_DBCS_V3 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V3
 
+# v4 (task W4-2): gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+# Sec 1.1 + Sec 13 item 1). All confirmed extracting there 2026-08-05; re-extracted
+# fresh by this task since the client patches independently of that snapshot. The 10
+# Sec 1.1 tables plus gtNPCManaCostScaler (attached "in case it helps" per Sec 1.1's
+# own note - extracted for completeness, not curated by this task's build_gt.py; see
+# .superpowers/sdd/task-w4-2-report.md).
+WANTED_DBCS_V4 = [
+    "gtCombatRatings.dbc", "gtChanceToMeleeCrit.dbc", "gtChanceToMeleeCritBase.dbc",
+    "gtChanceToSpellCrit.dbc", "gtChanceToSpellCritBase.dbc",
+    "gtOCTClassCombatRatingScalar.dbc", "gtRegenMPPerSpt.dbc", "gtOCTRegenMP.dbc",
+    "gtRegenHPPerSpt.dbc", "gtOCTRegenHP.dbc", "gtNPCManaCostScaler.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V4
+
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)

@@ -9,9 +9,10 @@ assert (config.CLIENT_DIR / "Data").is_dir()
 assert config.CONTENT_DIR.is_dir()
 assert len(config.MPQ_DIRS) == 2 and all(d.is_dir() for d in config.MPQ_DIRS)
 assert "Spell.dbc" in config.WANTED_DBCS and len(config.WANTED_DBCS) == (
-    20 + len(config.WANTED_DBCS_V2) + len(config.WANTED_DBCS_V3))
+    20 + len(config.WANTED_DBCS_V2) + len(config.WANTED_DBCS_V3) + len(config.WANTED_DBCS_V4))
 assert len(config.WANTED_DBCS_V2) == 53
 assert len(config.WANTED_DBCS_V3) == 4
+assert len(config.WANTED_DBCS_V4) == 11
 config.ensure_dirs()
 for d in (config.WORK_DBC_DIR, config.RAW_DBC_DIR, config.RAW_CONTENT_DIR, config.DATA_DIR):
     assert d.is_dir(), d

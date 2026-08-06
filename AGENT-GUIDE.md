@@ -70,6 +70,10 @@ this repo needs an exemption).
 | `data/realms/<realm>/_meta.json` | `mappedTables`/`unmappedTables` + `futureMilestone` (full realm spell/class curation - out of v3's scope, see below) | small |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` | mapped realm tables (base `tools/dbc.py` `TABLE_MAPS` column map + layout guard reused as-is - zero new column proofs introduced for realm data) - named-header dump, same shape as `raw/dbc/<Table>.csv.gz` | large |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` + `<Table>.colinfo.json` | unmapped realm tables (no same-named base `TABLE_MAPS` entry, or a field-count mismatch against it) - raw `f0..fN` dump + evidence sidecar, same shape as `dbc.dump_unmapped`'s base-table output | large |
+| `data/gt/combatRatings.json` | `gtCombatRatings.dbc` (3200 rows = 32 RATING slots x 100 levels, rating-major not class-major - see "gt* combat-rating tables" below): `{ratings: [{index, name, curve: [99 floats, levels 1-99]}]}` - 16 of 32 rating slots pinned to a published WotLK name (`WEAPON_SKILL`/`DEFENSE`/`DODGE`/`PARRY`/`BLOCK`/`HIT_MELEE`/`HIT_RANGED`/`HIT_SPELL`/`CRIT_MELEE`/`CRIT_RANGED`/`CRIT_SPELL`/`HASTE_MELEE`/`HASTE_RANGED`/`HASTE_SPELL`/`EXPERTISE`/`ARMOR_PENETRATION`), the other 16 stay `cr<N>` (RESILIENCE explicitly checked and NOT pinned - a level-60-only value coincidence, see below) | small |
+| `data/gt/classChanceCurves.json` | 8 class-major gt tables keyed by `classId` (1-32, `ChrClasses.dbc` id): `meleeCrit`/`spellCrit`/`regenMPPerSpt`/`octRegenMP`/`regenHPPerSpt`/`octRegenHP` (`{classId, className, curve: [99 floats]}`) + `meleeCritBase`/`spellCritBase` (`{classId, className, value}`, no level dimension, 32 rows each) | small |
+| `data/gt/level60.json` | convenience slice: every `combatRatings` rating's + every `classChanceCurves` table's level-60 value only (curve index 59) | small |
+| `data/gt/_meta.json` | `counts` per raw gt table, `ratingNames` (the full cr-index-to-name map), `provenColumns`, `goldensReproduced`, `unresolvedRatingIndices`, and the three `caveats` (`gtOCTClassCombatRatingScalar`, `clientCopyMayDifferFromServer`, `armorPenetrationAnomaly`, `level100SlotTrap`) - see "gt* combat-rating tables" below | small |
 
 ### Class tab sharding (why three levels, not one)
 
@@ -327,6 +331,72 @@ so contribute nothing to `data/realms/`.
   `data/realms/<realm>/_meta.json`'s `futureMilestone` field, which points back to
   this section.
 
+### gt* combat-rating tables
+
+`data/gt/` (task W4-2, patch-M/patch-S) curates the 9 `gt*` tables whose layout this
+task proved, from a fresh extraction independent of the source spec's own snapshot
+(the live client patches on its own schedule). Every `gt*` DBC is a genuinely
+single-column, ALL-FLOAT WDBC (`record_size == 4`) - the layout question was never
+"what does the column mean" but "which row position maps to which class/rating/level":
+
+```
+idx = (classId - 1) * 100 + (level - 1)   # gtChanceToMeleeCrit / gtChanceToSpellCrit /
+                                           # gtRegenMPPerSpt / gtOCTRegenMP /
+                                           # gtRegenHPPerSpt / gtOCTRegenHP (class-major,
+                                           # classId 1-32 is the real ChrClasses.dbc id)
+idx = classId - 1                         # gtChanceToMeleeCritBase / gtChanceToSpellCritBase
+                                           # (32 rows, no level dimension)
+idx = cr * 100 + (level - 1)              # gtCombatRatings (RATING-major - the "class"
+                                           # slot holds a rating index, not a ChrClasses id)
+```
+
+Every 100-level block's slot 99 ("level 100") holds the START of the next block's curve,
+not a real level-100 value (reverified at 3 block boundaries, exact float equality) - the
+**level-100-slot trap**. `data/gt/`'s curated curves are therefore levels 1-99 only (99
+values), never 100. Full per-golden re-derivation evidence (13/14 exact published
+level-80 combat-rating constants, the 166.67/80.00 spell-crit conversion, the
+83.33/62.50/52.08 melee-crit conversion, the CoA archetype-clone table, why 16 of
+`gtCombatRatings`' 32 rating slots stay unnamed `cr<N>`) lives in `tools/dbc.py`'s
+`TABLE_MAPS` comment for these tables and `.superpowers/sdd/task-w4-2-report.md`.
+
+**Three caveats, load-bearing for any consumer** (also in `data/gt/_meta.json`'s
+`caveats` key, verbatim-in-spirit from DATAMINE-REQUEST.md Sec 1.1's own warnings):
+
+1. **`gtOCTClassCombatRatingScalar` (1,024 x 2) is a different shape and NOT covered by
+   this proof.** `f0` decodes as an ascending-unique row id 1-1024, indistinguishable
+   from either "this table's own positional PK" or the brief's inferred TrinityCore
+   `(class-1)*32 + cr + 1` convention - both produce the same 1..1024 sequence with the
+   evidence available. Left **UNMAPPED** in `tools/dbc.py` (raw `f0`/`f1` +
+   `colinfo.json`, same as any other unproven table) - `data/gt/` ships **no** curated
+   curve for it. Needs its own golden before a future task curates it.
+2. **The server may not use these values.** These are the CLIENT's copy (tooltips,
+   character sheet). A TrinityCore-family server loads its own `gt*` DBC set - if CoA's
+   server ships different files, the client could display one number while the server
+   computes another. This pipeline cannot see server-side data (client DBCs only).
+   Mitigation, not performed here: read a level-60 character's actual crit% at a known
+   crit-rating value in-game and compare against `CRIT_MELEE`/`CRIT_RANGED`/
+   `CRIT_SPELL`'s prediction (14.0 rating per 1% at level 60 on this snapshot).
+3. **`ARMOR_PENETRATION` (gtCombatRatings rating index 24) does not match published
+   WotLK.** This table gives 11.55 at level 80 where the canonical constant is 15.39
+   (4.20 at level 60). Every other pinned rating matches its published constant to 4dp,
+   so this is a real behavioral difference, not a layout artifact - `[INFERRED]` an
+   Ascension rebalance or a pre-3.3.3 WotLK revision. The row's *identity* (which `cr`
+   slot is ARMOR_PENETRATION) is certain; only the *value* is anomalous.
+
+`RESILIENCE` (DATAMINE-REQUEST.md Sec 1.1's level-60 table lists 85.00) was explicitly
+checked and **not** pinned: `cr14`'s level-60 value is exactly 85.0, but `cr14`/`15`/`16`
+form their own 3-slot group structurally consistent with `CRIT_TAKEN_MELEE/RANGED/SPELL`,
+and no independent published level-70/80 anchor exists to tell a single-level coincidence
+apart from a real identity - the same class of false positive this file warns about
+elsewhere (Creature.subname, DungeonEncounterExtra, SpellAddon f20-22). Left unnamed
+`cr14` in `data/gt/combatRatings.json`; the full reasoning is in `_meta.json`'s
+`unresolvedRatingIndices`.
+
+`gtNPCManaCostScaler.dbc` (100x1) is extracted (`config.WANTED_DBCS_V4`) per the source
+spec's "may be worth taking" note, but has no class dimension and no curated output in
+`data/gt/` - this task only extracted it for a future task to pick up (left UNMAPPED,
+raw + colinfo, same as `gtOCTClassCombatRatingScalar`).
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -511,6 +581,13 @@ def class_specs_and_roles(class_name):
   of the stated bar). The 400 rows are still fully usable at `data/spells/charges.json`, keyed by
   their own `ref` (not called `spellId`, since the link wasn't proven to that bar) -
   see the file map above.
+- **`data/gt/` cannot prove the server uses these values.** `gt*` tables are the
+  CLIENT's copy (tooltips, character sheet); a TrinityCore-family server loads its own
+  set and this pipeline has no way to see server-side data. `gtOCTClassCombatRatingScalar`
+  ships raw + colinfo only (different shape, layout unproven - see "gt* combat-rating
+  tables" above), and `gtCombatRatings`' ARMOR_PENETRATION rating reads 11.55 at level 80
+  against a published 15.39 - a real, unresolved behavioral difference, not a bug in this
+  pipeline's decode.
 
 ## Regenerating after a client patch
 
@@ -565,6 +642,15 @@ whenever CoA ships new content:
   77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
   "Header-invariant parity" above. Don't re-pin a nonzero list; investigate which base
   table's header started lying and why.
+- `tests/test_gt.py`: re-derives the gt* layout proof fresh from `work/dbc/gt*.dbc` at
+  test time rather than pinning fixed numbers (mostly STRUCTURAL, not a snapshot pin) -
+  the level-80 combat-rating constants, the spell-crit/melee-crit conversion goldens,
+  and the `cr14`/RESILIENCE non-pin all re-check against whatever is on disk. A future
+  client patch that changes a `gt*` table's RECORD COUNT (currently 3200/3200/32 per
+  table) or moves the ARMOR_PENETRATION anomaly's value closer to the published 15.39
+  constant is worth a manual look - see "gt* combat-rating tables" above - not a
+  reflexive re-pin, since the whole point of this file is to catch exactly that kind of
+  silent layout drift.
 
 Interface extraction counts are also snapshot pins in the sense above, but of a
 different flavor: they drift with the CLIENT install (which archive wins a given
