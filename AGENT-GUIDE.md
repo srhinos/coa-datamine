@@ -40,6 +40,7 @@ this repo needs an exemption).
 | `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally; task W4-4 adds `rankAt60` (chain's own first-rank record only, omitted when none of that chain's ranks are CAD-level<=60) and `devDead: true` (7 records, see "Formula closure, level-60 ranks..." below) when applicable | small-medium per file - stream/grep it, do not slurp |
 | `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts), `formulaClosure`/`rankAt60`/`scalingConstants`/`devDead` (task W4-4, see "Formula closure, level-60 ranks..." below) | small |
 | `data/spells/_coverage.json` | task W4-3: per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 total fields, 124 emitted/4 mapped-not-emitted) - see "Spell column completion" below | small |
+| `data/spells/_coverage_live.json` | **damage-model** coverage (unrelated to `_coverage.json`, which is COLUMN coverage): how many damaging/healing effect slots a simulator can model, measured over CASTABLE content and, for history, over the whole CAD catalog - `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the actual probe list, with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks` (20 reproduction gates against the published audit), method notes. Written by `analysis/coverage_live.py` (NOT part of `build_dataset`); see "Damage-model coverage" below | small |
 | `data/spells/_enum_evidence.json` | per-id provenance for every effect/aura enum label: `{effects, auras}` keyed by numeric id -> `{bucket, confidence, name, goldenSpells, occurrences}`, plus a `summary` block. 224 classified ids (66 effect + 158 aura) - 57 `confidence: verified` names are actually WIRED into `tools/enums335.py`'s `COA_*` maps, 2 more carry an `[INFERRED]` name and are deliberately documentation-only (never wired), and the remaining 167 are left as numeric `EFFECT_<n>`/`AURA_<n>`. Every named entry carries >=1 `goldenSpells` id you can look up in `data/spells/` to check the name yourself - **this is how you audit any enum label in this dataset** | small |
 | `data/spells/_missing_refs.json` | full missing-ref id lists by source (`cad_other`/`cad_reborn`/`talent`/`rank`/`formula` - task W4-4 adds `formula`, report-only, never folded into the `cad_other`/`talent` hard gates), each source's array on ONE line | small (line count, not byte count) |
 | `data/talents/<ChrClass>.json` | DBC talent trees (row/col/ranks/prereqs) - only exists for the 12 classes that have DBC talent tabs; largest is ~3.6k lines, under the gate as-is, not sharded | medium |
@@ -1715,6 +1716,59 @@ Content-neutral for `build_coatalents` itself (its only real dependencies,
 `creatures`/`classmeta`/`essence`/`mythic` fall in the stage list) - re-verified by a
 full `build_dataset.run()` pass producing identical `coatalents` stats before and
 after the move.
+
+### Damage-model coverage: measure it over castable content, not the catalog
+
+**Headline: 89.3% of the damaging/healing effect slots a level-60 character can
+actually CAST are modelable (493 of 552); 59 are holes = 20 distinct
+`(spellId, slot)` pairs.** That is the number a simulator should plan against.
+Regenerate with `python analysis/coverage_live.py`; output lands in
+`data/spells/_coverage_live.json`.
+
+**The historical figure is 80.5% (1,151 of 1,429 slots, 278 holes, 101 distinct
+pairs).** It is not wrong arithmetic - it is the same pipeline over the wrong
+denominator, the CAD catalog, and this script reproduces it exactly (20/20
+`goldenChecks`, including the published triage's 92 level-curve-only pairs / 87
+spells and the 496-pair / 402-spell denominator). It **overstates the problem**
+because it counts effect slots on entries no player can cast: **65 of its 101
+distinct hole pairs (64%) exist only in `deadCatalog` content**, and of the 92
+level-curve-only pairs the published triage worked, **74 (80%) are not proven live**
+(59 dead, 15 indeterminate). Probe work on that population is 18 units, not 92.
+
+| denominator | slots | modelable | % | holes | distinct hole pairs |
+|---|---:|---:|---:|---:|---:|
+| CAD catalog (historical) | 1,429 | 1,151 | 80.5% | 278 | 101 |
+| **live only (`live == true`)** | **552** | **493** | **89.3%** | **59** | **20** |
+| live + indeterminate (`live != false`) | 993 | 892 | 89.8% | 101 | 36 |
+
+The live figure is a **lower** bound and the live+indeterminate figure an **upper**
+bound, because `live: null` is a genuine unknown (see "Live vs catalog" above);
+liveness is **consumed** from each entry's `live`/`liveEvidence` flag, never
+re-derived here. Same Vol'jin scope caveat applies. **10 of the 21 CoA classes have
+zero live holes** (DemonHunter, Guardian, Monk, Necromancer, Ranger, Reaper,
+Runemaster, Starcaller, Stormbringer, SunCleric) - every hole the catalog attributed
+to them is uncastable content.
+
+Two consequences worth carrying:
+
+- **SunCleric `Sunflare` (502394 slot 1) - the one spell the published triage
+  nominated as THE probe that settles the coefficient-source question - is
+  `indeterminate`, not proven live.** Its CAD entries match no live builder node.
+  Confirm a character can learn it before spending the probe, or pick from
+  `liveHoles`.
+- Starcaller `Silvercurrent` (503051) was a tier-A hole in that triage and is
+  reached only through the `deadCatalog` entry `Douse` - i.e. exactly the content
+  the level-60 Starcaller player reported does not exist. The liveness join and the
+  player report agree, independently.
+
+Method is documented in the script's module docstring and mirrored into the JSON's
+`method` block: BASE `raw/dbc/Spell.csv.gz` only (never a realm overlay - the
+retired 1,152 predecessor was an area-52 artifact), the 21 `coa-custom` classes,
+`Ability`/`Talent`/`TalentAbility` entries, highest rank with CAD `rank.level <= 60`,
+damaging/healing slot sets (aura 118 is `MOD_HEALING_PCT`, **not** a heal; aura 227
+`PERIODIC_TRIGGER_SPELL_WITH_VALUE` is deliberately outside the denominator and is
+the largest boundary uncertainty), and W/P/T scaling channels where only W and T are
+gear channels. Coverage says a channel EXISTS to model - not that the number is right.
 
 ## Recipes (PowerShell / Python)
 

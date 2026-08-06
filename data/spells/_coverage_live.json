@@ -1,0 +1,2709 @@
+{
+ "_generatedBy": "analysis/coverage_live.py",
+ "_note": "Unrelated to data/spells/_coverage.json, which measures Spell.dbc COLUMN coverage. This file measures how much of a CoA class's damaging/healing effect output a simulator can model.",
+ "_task": "Recompute the damage-model coverage figure over castable (live) content.",
+ "cadFigureOverstates": "The CAD-denominator figure (80.5% modelable, 278 holes, 101 distinct pairs) OVERSTATES the size of the problem for a simulator, because it counts effect slots on catalog entries no player can cast. 65 of its 101 distinct hole pairs (64%) sit on entries with no live builder node and no evidence of any other acquisition path - dead content. Use the live figure; the CAD figure is historical.",
+ "caveats": [
+  "The live denominator is a lower bound: indeterminate entries (live: null) are excluded from it and included in liveOrIndeterminate.",
+  "Coverage measures whether a scaling channel EXISTS to model, not whether the resulting number is correct.",
+  "Spell ids referenced by CoA classes that have no BASE Spell.dbc row at all (they exist only in a realm overlay) are dropped from every denominator identically - see method.chainSpellIdsAbsentFromBaseSpellDbc.",
+  "valueAtCap on the hole rows is descriptive metadata, not part of any verdict; it uses the guide's canonical clamp formula (basePoints + dieSides + ...), so it reads higher than the published triage table, which quoted basePoints + 1 and did not clamp on maxLevel."
+ ],
+ "delta": {
+  "holeDistinctPairsCad": 101,
+  "holeDistinctPairsLive": 20,
+  "holeDistinctPairsLiveOrIndeterminate": 36,
+  "holePairsNotProvenLive": 81,
+  "holePairsOnlyInDeadContent": 65,
+  "modelablePctCad": 80.5,
+  "modelablePctLive": 89.3,
+  "modelablePctPointChange": 8.8,
+  "note": "Hole pairs are counted distinct on (spellId, slot). The CAD denominator carries ~3x duplication because the same ability is reachable through several realm-variant catalog entries.",
+  "slotsRemovedAsNonLive": 877,
+  "slotsRemovedPct": 61.4
+ },
+ "figures": {
+  "cad": {
+   "buckets": {
+    "FLAT": 58,
+    "PERLEVEL_SCALED": 795,
+    "TOOLTIP_SCALED": 139,
+    "UNRESOLVED": 9,
+    "WEAPON_SCALED": 428
+   },
+   "byBucket": {
+    "FLAT": {
+     "distinctSpellSlotPairs": 22,
+     "distinctSpells": 22,
+     "instances": 58
+    },
+    "PERLEVEL_SCALED": {
+     "distinctSpellSlotPairs": 276,
+     "distinctSpells": 261,
+     "instances": 795
+    },
+    "TOOLTIP_SCALED": {
+     "distinctSpellSlotPairs": 47,
+     "distinctSpells": 47,
+     "instances": 139
+    },
+    "UNRESOLVED": {
+     "distinctSpellSlotPairs": 4,
+     "distinctSpells": 4,
+     "instances": 9
+    },
+    "WEAPON_SCALED": {
+     "distinctSpellSlotPairs": 147,
+     "distinctSpells": 91,
+     "instances": 428
+    }
+   },
+   "byKind": {
+    "direct_damage": {
+     "distinctSpellSlotPairs": 209,
+     "distinctSpells": 207,
+     "instances": 597
+    },
+    "direct_heal": {
+     "distinctSpellSlotPairs": 59,
+     "distinctSpells": 57,
+     "instances": 170
+    },
+    "periodic_damage": {
+     "distinctSpellSlotPairs": 60,
+     "distinctSpells": 60,
+     "instances": 172
+    },
+    "periodic_heal": {
+     "distinctSpellSlotPairs": 21,
+     "distinctSpells": 21,
+     "instances": 62
+    },
+    "weapon": {
+     "distinctSpellSlotPairs": 147,
+     "distinctSpells": 91,
+     "instances": 428
+    }
+   },
+   "byVerdict": {
+    "HOLE:dev-dead content": {
+     "distinctSpellSlotPairs": 1,
+     "distinctSpells": 1,
+     "instances": 3
+    },
+    "HOLE:level-curve only, no gear term": {
+     "distinctSpellSlotPairs": 92,
+     "distinctSpells": 87,
+     "instances": 255
+    },
+    "HOLE:no scaling channel at all": {
+     "distinctSpellSlotPairs": 8,
+     "distinctSpells": 8,
+     "instances": 20
+    },
+    "MODELABLE:1-point tag (no damage to model)": {
+     "distinctSpellSlotPairs": 8,
+     "distinctSpells": 8,
+     "instances": 17
+    },
+    "MODELABLE:gear-coefficient": {
+     "distinctSpellSlotPairs": 378,
+     "distinctSpells": 299,
+     "instances": 1107
+    },
+    "MODELABLE:percent-of-max (no coefficient exists)": {
+     "distinctSpellSlotPairs": 9,
+     "distinctSpells": 9,
+     "instances": 27
+    }
+   },
+   "denominator": "every build-reachable entry in the 21 coa-custom classes (the published/historical measurement)",
+   "distinctSpellSlotPairs": 496,
+   "distinctSpells": 402,
+   "entryRows": 1156,
+   "holeDistinctSpellSlotPairs": 101,
+   "holeDistinctSpells": 95,
+   "holePct": 19.5,
+   "holes": 278,
+   "modelable": 1151,
+   "modelablePct": 80.5,
+   "slots": 1429,
+   "verdicts": {
+    "HOLE:dev-dead content": 3,
+    "HOLE:level-curve only, no gear term": 255,
+    "HOLE:no scaling channel at all": 20,
+    "MODELABLE:1-point tag (no damage to model)": 17,
+    "MODELABLE:gear-coefficient": 1107,
+    "MODELABLE:percent-of-max (no coefficient exists)": 27
+   }
+  },
+  "live": {
+   "buckets": {
+    "FLAT": 22,
+    "PERLEVEL_SCALED": 326,
+    "TOOLTIP_SCALED": 56,
+    "UNRESOLVED": 4,
+    "WEAPON_SCALED": 144
+   },
+   "byBucket": {
+    "FLAT": {
+     "distinctSpellSlotPairs": 8,
+     "distinctSpells": 8,
+     "instances": 22
+    },
+    "PERLEVEL_SCALED": {
+     "distinctSpellSlotPairs": 111,
+     "distinctSpells": 105,
+     "instances": 326
+    },
+    "TOOLTIP_SCALED": {
+     "distinctSpellSlotPairs": 19,
+     "distinctSpells": 19,
+     "instances": 56
+    },
+    "UNRESOLVED": {
+     "distinctSpellSlotPairs": 2,
+     "distinctSpells": 2,
+     "instances": 4
+    },
+    "WEAPON_SCALED": {
+     "distinctSpellSlotPairs": 50,
+     "distinctSpells": 30,
+     "instances": 144
+    }
+   },
+   "byKind": {
+    "direct_damage": {
+     "distinctSpellSlotPairs": 86,
+     "distinctSpells": 84,
+     "instances": 251
+    },
+    "direct_heal": {
+     "distinctSpellSlotPairs": 20,
+     "distinctSpells": 19,
+     "instances": 60
+    },
+    "periodic_damage": {
+     "distinctSpellSlotPairs": 25,
+     "distinctSpells": 25,
+     "instances": 70
+    },
+    "periodic_heal": {
+     "distinctSpellSlotPairs": 9,
+     "distinctSpells": 9,
+     "instances": 27
+    },
+    "weapon": {
+     "distinctSpellSlotPairs": 50,
+     "distinctSpells": 30,
+     "instances": 144
+    }
+   },
+   "byVerdict": {
+    "HOLE:level-curve only, no gear term": {
+     "distinctSpellSlotPairs": 18,
+     "distinctSpells": 18,
+     "instances": 53
+    },
+    "HOLE:no scaling channel at all": {
+     "distinctSpellSlotPairs": 2,
+     "distinctSpells": 2,
+     "instances": 6
+    },
+    "MODELABLE:1-point tag (no damage to model)": {
+     "distinctSpellSlotPairs": 3,
+     "distinctSpells": 3,
+     "instances": 5
+    },
+    "MODELABLE:gear-coefficient": {
+     "distinctSpellSlotPairs": 162,
+     "distinctSpells": 127,
+     "instances": 473
+    },
+    "MODELABLE:percent-of-max (no coefficient exists)": {
+     "distinctSpellSlotPairs": 5,
+     "distinctSpells": 5,
+     "instances": 15
+    }
+   },
+   "denominator": "entries with live == true - proven present in the Vol'jin live talent-builder capture (LOWER bound on live coverage)",
+   "distinctSpellSlotPairs": 190,
+   "distinctSpells": 153,
+   "entryRows": 444,
+   "holeDistinctSpellSlotPairs": 20,
+   "holeDistinctSpells": 20,
+   "holePct": 10.7,
+   "holes": 59,
+   "modelable": 493,
+   "modelablePct": 89.3,
+   "slots": 552,
+   "verdicts": {
+    "HOLE:level-curve only, no gear term": 53,
+    "HOLE:no scaling channel at all": 6,
+    "MODELABLE:1-point tag (no damage to model)": 5,
+    "MODELABLE:gear-coefficient": 473,
+    "MODELABLE:percent-of-max (no coefficient exists)": 15
+   }
+  },
+  "liveOrIndeterminate": {
+   "buckets": {
+    "FLAT": 34,
+    "PERLEVEL_SCALED": 558,
+    "TOOLTIP_SCALED": 114,
+    "UNRESOLVED": 4,
+    "WEAPON_SCALED": 283
+   },
+   "byBucket": {
+    "FLAT": {
+     "distinctSpellSlotPairs": 12,
+     "distinctSpells": 12,
+     "instances": 34
+    },
+    "PERLEVEL_SCALED": {
+     "distinctSpellSlotPairs": 191,
+     "distinctSpells": 181,
+     "instances": 558
+    },
+    "TOOLTIP_SCALED": {
+     "distinctSpellSlotPairs": 39,
+     "distinctSpells": 39,
+     "instances": 114
+    },
+    "UNRESOLVED": {
+     "distinctSpellSlotPairs": 2,
+     "distinctSpells": 2,
+     "instances": 4
+    },
+    "WEAPON_SCALED": {
+     "distinctSpellSlotPairs": 96,
+     "distinctSpells": 55,
+     "instances": 283
+    }
+   },
+   "byKind": {
+    "direct_damage": {
+     "distinctSpellSlotPairs": 143,
+     "distinctSpells": 141,
+     "instances": 417
+    },
+    "direct_heal": {
+     "distinctSpellSlotPairs": 48,
+     "distinctSpells": 46,
+     "instances": 140
+    },
+    "periodic_damage": {
+     "distinctSpellSlotPairs": 40,
+     "distinctSpells": 40,
+     "instances": 115
+    },
+    "periodic_heal": {
+     "distinctSpellSlotPairs": 13,
+     "distinctSpells": 13,
+     "instances": 38
+    },
+    "weapon": {
+     "distinctSpellSlotPairs": 96,
+     "distinctSpells": 55,
+     "instances": 283
+    }
+   },
+   "byVerdict": {
+    "HOLE:level-curve only, no gear term": {
+     "distinctSpellSlotPairs": 33,
+     "distinctSpells": 33,
+     "instances": 92
+    },
+    "HOLE:no scaling channel at all": {
+     "distinctSpellSlotPairs": 3,
+     "distinctSpells": 3,
+     "instances": 9
+    },
+    "MODELABLE:1-point tag (no damage to model)": {
+     "distinctSpellSlotPairs": 4,
+     "distinctSpells": 4,
+     "instances": 8
+    },
+    "MODELABLE:gear-coefficient": {
+     "distinctSpellSlotPairs": 293,
+     "distinctSpells": 233,
+     "instances": 863
+    },
+    "MODELABLE:percent-of-max (no coefficient exists)": {
+     "distinctSpellSlotPairs": 7,
+     "distinctSpells": 7,
+     "instances": 21
+    }
+   },
+   "denominator": "entries with live != false - live plus indeterminate (carries evidence of a non-tree acquisition path); UPPER bound on live coverage",
+   "distinctSpellSlotPairs": 340,
+   "distinctSpells": 275,
+   "entryRows": 805,
+   "holeDistinctSpellSlotPairs": 36,
+   "holeDistinctSpells": 36,
+   "holePct": 10.2,
+   "holes": 101,
+   "modelable": 892,
+   "modelablePct": 89.8,
+   "slots": 993,
+   "verdicts": {
+    "HOLE:level-curve only, no gear term": 92,
+    "HOLE:no scaling channel at all": 9,
+    "MODELABLE:1-point tag (no damage to model)": 8,
+    "MODELABLE:gear-coefficient": 863,
+    "MODELABLE:percent-of-max (no coefficient exists)": 21
+   }
+  }
+ },
+ "goldenChecks": {
+  "_what": "Reproduction gates against the published audit (coa-sim-handoff/analysis/coverage-remeasure.md and hole-triage.md). All must pass or the pipeline has drifted.",
+  "allPass": true,
+  "checks": [
+   {
+    "actual": 1429,
+    "check": "CAD damaging/healing slots",
+    "expected": 1429,
+    "ok": true
+   },
+   {
+    "actual": 1151,
+    "check": "CAD modelable",
+    "expected": 1151,
+    "ok": true
+   },
+   {
+    "actual": 278,
+    "check": "CAD holes",
+    "expected": 278,
+    "ok": true
+   },
+   {
+    "actual": 496,
+    "check": "CAD distinct (spellId, slot) pairs",
+    "expected": 496,
+    "ok": true
+   },
+   {
+    "actual": 402,
+    "check": "CAD distinct spells",
+    "expected": 402,
+    "ok": true
+   },
+   {
+    "actual": 1156,
+    "check": "CAD ability rows",
+    "expected": 1156,
+    "ok": true
+   },
+   {
+    "actual": 255,
+    "check": "level-curve-only hole instances",
+    "expected": 255,
+    "ok": true
+   },
+   {
+    "actual": 92,
+    "check": "level-curve-only hole distinct pairs",
+    "expected": 92,
+    "ok": true
+   },
+   {
+    "actual": 87,
+    "check": "level-curve-only hole distinct spells",
+    "expected": 87,
+    "ok": true
+   },
+   {
+    "actual": 20,
+    "check": "no-channel hole instances",
+    "expected": 20,
+    "ok": true
+   },
+   {
+    "actual": 8,
+    "check": "no-channel hole distinct pairs",
+    "expected": 8,
+    "ok": true
+   },
+   {
+    "actual": 3,
+    "check": "dev-dead hole instances",
+    "expected": 3,
+    "ok": true
+   },
+   {
+    "actual": 428,
+    "check": "WEAPON_SCALED slots",
+    "expected": 428,
+    "ok": true
+   },
+   {
+    "actual": 147,
+    "check": "WEAPON_SCALED distinct pairs",
+    "expected": 147,
+    "ok": true
+   },
+   {
+    "actual": 795,
+    "check": "PERLEVEL_SCALED slots",
+    "expected": 795,
+    "ok": true
+   },
+   {
+    "actual": 139,
+    "check": "TOOLTIP_SCALED slots",
+    "expected": 139,
+    "ok": true
+   },
+   {
+    "actual": 58,
+    "check": "FLAT slots",
+    "expected": 58,
+    "ok": true
+   },
+   {
+    "actual": 9,
+    "check": "UNRESOLVED slots",
+    "expected": 9,
+    "ok": true
+   },
+   {
+    "actual": 8331,
+    "check": "entries walked",
+    "expected": 8331,
+    "ok": true
+   },
+   {
+    "actual": 8706,
+    "check": "chains walked",
+    "expected": 8706,
+    "ok": true
+   }
+  ]
+ },
+ "headline": "89.3% of the damaging/healing effect slots a level-60 character can actually CAST are modelable (493 of 552); 59 are holes, 20 distinct (spellId, slot) pairs.",
+ "indeterminateHoles": [
+  {
+   "aura": 3,
+   "baseLevel": 38,
+   "basePoints": 58,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 6538,
+     "entry": "Timerend",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18717,
+     "entry": "Timerend",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29677,
+     "entry": "Timerend",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "Chronomancer",
+   "liveness": "indeterminate",
+   "maxLevel": 44,
+   "name": "Timerend",
+   "rank": "Rank 5",
+   "realPointsPerLevel": 1.6467,
+   "slot": 1,
+   "spellId": 501834,
+   "spellLevel": 38,
+   "valueAtCap": 68.9,
+   "valueAtCapMinRoll": 68.9,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 2,
+   "basePoints": 12,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 31842,
+     "entry": "Decomposition",
+     "liveReason": "indeterminate",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6426,
+     "entry": "Decomposition",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18604,
+     "entry": "Decomposition",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "$o1",
+   "kind": "periodic_damage",
+   "klass": "Chronomancer",
+   "liveness": "indeterminate",
+   "maxLevel": 12,
+   "name": "Decomposition",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.1111,
+   "slot": 1,
+   "spellId": 800856,
+   "spellLevel": 2,
+   "valueAtCap": 14.1,
+   "valueAtCapMinRoll": 14.1,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 0,
+   "basePoints": 18,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 7970,
+     "entry": "Gift of the Timeways",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 20009,
+     "entry": "Gift of the Timeways",
+     "liveReason": "indeterminate",
+     "tab": "Duality",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 2,
+   "channels": "P",
+   "dieSides": 7,
+   "effect": 10,
+   "formula": "$s1",
+   "kind": "direct_heal",
+   "klass": "Chronomancer",
+   "liveness": "indeterminate",
+   "maxLevel": 0,
+   "name": "Gift of the Timeways",
+   "rank": null,
+   "realPointsPerLevel": 1.85,
+   "slot": 1,
+   "spellId": 806332,
+   "spellLevel": 0,
+   "valueAtCap": 136.0,
+   "valueAtCapMinRoll": 130.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 8,
+   "baseLevel": 54,
+   "basePoints": 92,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 7021,
+     "entry": "Protection From Light",
+     "liveReason": "indeterminate",
+     "tab": "Influence",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19211,
+     "entry": "Protection From Light",
+     "liveReason": "indeterminate",
+     "tab": "Influence",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 2,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w2}",
+   "kind": "periodic_heal",
+   "klass": "Cultist",
+   "liveness": "indeterminate",
+   "maxLevel": 62,
+   "name": "Protection From Light",
+   "rank": "Rank 7",
+   "realPointsPerLevel": 1.1612,
+   "slot": 2,
+   "spellId": 503437,
+   "spellLevel": 54,
+   "valueAtCap": 100.0,
+   "valueAtCapMinRoll": 100.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 34,
+   "basePoints": 147,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 7067,
+     "entry": "Twilight Shieldtoss",
+     "liveReason": "indeterminate",
+     "tab": "Godblade",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19256,
+     "entry": "Twilight Shieldtoss",
+     "liveReason": "indeterminate",
+     "tab": "Godblade",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30199,
+     "entry": "Twilight Shieldtoss",
+     "liveReason": "indeterminate",
+     "tab": "Godblade",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 27,
+   "effect": 2,
+   "formula": "${$m1+0}",
+   "kind": "direct_damage",
+   "klass": "Cultist",
+   "liveness": "indeterminate",
+   "maxLevel": 40,
+   "name": "Twilight Shieldtoss",
+   "rank": "Rank 4",
+   "realPointsPerLevel": 1.75,
+   "slot": 1,
+   "spellId": 503488,
+   "spellLevel": 34,
+   "valueAtCap": 184.5,
+   "valueAtCapMinRoll": 158.5,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 10,
+   "basePoints": 1,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 29616,
+     "entry": "Brimstone Bludgeon",
+     "liveReason": "indeterminate",
+     "tab": "War",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 1,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 2,
+   "formula": "$s2",
+   "kind": "direct_damage",
+   "klass": "KnightOfXoroth",
+   "liveness": "indeterminate",
+   "maxLevel": 60,
+   "name": "Brimstone Bludgeon",
+   "rank": "DISABLED",
+   "realPointsPerLevel": 1.0,
+   "slot": 2,
+   "spellId": 801040,
+   "spellLevel": 10,
+   "valueAtCap": 52.0,
+   "valueAtCapMinRoll": 52.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 30,
+   "basePoints": 265,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 19777,
+     "entry": "Calamity",
+     "liveReason": "indeterminate",
+     "tab": "Defiance",
+     "type": "Ability"
+    },
+    {
+     "cadId": 7594,
+     "entry": "Calamity",
+     "liveReason": "indeterminate",
+     "tab": "Hellfire",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30696,
+     "entry": "Calamity",
+     "liveReason": "indeterminate",
+     "tab": "Hellfire",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 48,
+   "effect": 2,
+   "formula": "$s1",
+   "kind": "direct_damage",
+   "klass": "KnightOfXoroth",
+   "liveness": "indeterminate",
+   "maxLevel": 0,
+   "name": "Calamity",
+   "rank": null,
+   "realPointsPerLevel": 2.0,
+   "slot": 1,
+   "spellId": 805670,
+   "spellLevel": 30,
+   "valueAtCap": 373.0,
+   "valueAtCapMinRoll": 326.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 22,
+   "basePoints": 101,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 34401,
+     "entry": "Temple Guardian",
+     "liveReason": "indeterminate",
+     "tab": "Discipline",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 1,
+   "channels": "P",
+   "dieSides": 7,
+   "effect": 10,
+   "formula": null,
+   "kind": "direct_heal",
+   "klass": "Monk",
+   "liveness": "indeterminate",
+   "maxLevel": 30,
+   "name": "Temple Guardian",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 1.085,
+   "slot": 3,
+   "spellId": 801165,
+   "spellLevel": 22,
+   "valueAtCap": 116.7,
+   "valueAtCapMinRoll": 110.7,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 51,
+   "basePoints": 418,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 6206,
+     "entry": "Protective Roar",
+     "liveReason": "indeterminate",
+     "tab": "Primal",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18379,
+     "entry": "Protective Roar",
+     "liveReason": "indeterminate",
+     "tab": "Primal",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29358,
+     "entry": "Protective Roar",
+     "liveReason": "indeterminate",
+     "tab": "Primal",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 63,
+   "effect": 10,
+   "formula": "${$m1+0}",
+   "kind": "direct_heal",
+   "klass": "Primalist",
+   "liveness": "indeterminate",
+   "maxLevel": 60,
+   "name": "Protective Roar",
+   "rank": "Rank 6",
+   "realPointsPerLevel": 7.108,
+   "slot": 1,
+   "spellId": 502745,
+   "spellLevel": 51,
+   "valueAtCap": 545.0,
+   "valueAtCapMinRoll": 483.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 6,
+   "basePoints": 3,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 7532,
+     "entry": "Slagbind",
+     "liveReason": "indeterminate",
+     "tab": "Destruction",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19715,
+     "entry": "Slagbind",
+     "liveReason": "indeterminate",
+     "tab": "Destruction",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30638,
+     "entry": "Slagbind",
+     "liveReason": "indeterminate",
+     "tab": "Destruction",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$m2+0}",
+   "kind": "periodic_damage",
+   "klass": "Pyromancer",
+   "liveness": "indeterminate",
+   "maxLevel": 20,
+   "name": "Cindergrip",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.3,
+   "slot": 2,
+   "spellId": 805476,
+   "spellLevel": 6,
+   "valueAtCap": 8.2,
+   "valueAtCapMinRoll": 8.2,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 2,
+   "basePoints": 11,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 6396,
+     "entry": "Taldaram's Torment",
+     "liveReason": "indeterminate",
+     "tab": "Blood",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18574,
+     "entry": "Taldaram's Torment",
+     "liveReason": "indeterminate",
+     "tab": "Blood",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29538,
+     "entry": "Taldaram's Torment",
+     "liveReason": "indeterminate",
+     "tab": "Class",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$m1+$ppl1}",
+   "kind": "periodic_damage",
+   "klass": "SonOfArugal",
+   "liveness": "indeterminate",
+   "maxLevel": 8,
+   "name": "Taldaram's Torment",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.6,
+   "slot": 1,
+   "spellId": 800772,
+   "spellLevel": 2,
+   "valueAtCap": 15.6,
+   "valueAtCapMinRoll": 15.6,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 50,
+   "basePoints": 402,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 31685,
+     "entry": "Sunflare",
+     "liveReason": "indeterminate",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6258,
+     "entry": "Sunflare",
+     "liveReason": "indeterminate",
+     "tab": "Piety",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18433,
+     "entry": "Sunflare",
+     "liveReason": "indeterminate",
+     "tab": "Seraphim",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 2,
+   "formula": "${$m1+0}",
+   "kind": "direct_damage",
+   "klass": "SunCleric",
+   "liveness": "indeterminate",
+   "maxLevel": 52,
+   "name": "Sunflare",
+   "rank": "Rank 10",
+   "realPointsPerLevel": 18.6,
+   "slot": 1,
+   "spellId": 502394,
+   "spellLevel": 50,
+   "valueAtCap": 440.2,
+   "valueAtCapMinRoll": 440.2,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 51,
+   "basePoints": 208,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 6261,
+     "entry": "Divine Vision",
+     "liveReason": "indeterminate",
+     "tab": "Blessings",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18436,
+     "entry": "Divine Vision",
+     "liveReason": "indeterminate",
+     "tab": "Blessings",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29414,
+     "entry": "Divine Vision",
+     "liveReason": "indeterminate",
+     "tab": "Blessings",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 50,
+   "effect": 10,
+   "formula": "${$w1}",
+   "kind": "direct_heal",
+   "klass": "SunCleric",
+   "liveness": "indeterminate",
+   "maxLevel": 60,
+   "name": "Divine Vision",
+   "rank": "Rank 6",
+   "realPointsPerLevel": 4.9,
+   "slot": 1,
+   "spellId": 502446,
+   "spellLevel": 51,
+   "valueAtCap": 302.1,
+   "valueAtCapMinRoll": 253.1,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 54,
+   "basePoints": 278,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 6454,
+     "entry": "Unity",
+     "liveReason": "indeterminate",
+     "tab": "Venom",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18633,
+     "entry": "Unity",
+     "liveReason": "indeterminate",
+     "tab": "Venom",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29596,
+     "entry": "Unity",
+     "liveReason": "indeterminate",
+     "tab": "Venom",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 51,
+   "effect": 10,
+   "formula": "${$m1+0}",
+   "kind": "direct_heal",
+   "klass": "Venomancer",
+   "liveness": "indeterminate",
+   "maxLevel": 62,
+   "name": "Unity",
+   "rank": "Rank 7",
+   "realPointsPerLevel": 4.4592,
+   "slot": 1,
+   "spellId": 502986,
+   "spellLevel": 54,
+   "valueAtCap": 355.8,
+   "valueAtCapMinRoll": 305.8,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 62,
+   "basePoints": 205,
+   "bucket": "FLAT",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 32356,
+     "entry": "Scorpid Claw",
+     "liveReason": "indeterminate",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6942,
+     "entry": "Scorpid Claw",
+     "liveReason": "indeterminate",
+     "tab": "Fortitude",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19132,
+     "entry": "Scorpid Claw",
+     "liveReason": "indeterminate",
+     "tab": "Fortitude",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "-",
+   "dieSides": 27,
+   "effect": 2,
+   "formula": "${$m1+0}",
+   "kind": "direct_damage",
+   "klass": "Venomancer",
+   "liveness": "indeterminate",
+   "maxLevel": 66,
+   "name": "Claw Strike",
+   "rank": "Rank 10",
+   "realPointsPerLevel": 0.0,
+   "slot": 1,
+   "spellId": 503173,
+   "spellLevel": 62,
+   "valueAtCap": 232.0,
+   "valueAtCapMinRoll": 206.0,
+   "verdict": "HOLE:no scaling channel at all"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 42,
+   "basePoints": 86,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": null,
+   "builderTabs": [],
+   "builderTiers": [],
+   "cadEntries": [
+    {
+     "cadId": 32030,
+     "entry": "Hex of Death",
+     "liveReason": "indeterminate",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6619,
+     "entry": "Hex of Death",
+     "liveReason": "indeterminate",
+     "tab": "Voodoo",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18798,
+     "entry": "Hex of Death",
+     "liveReason": "indeterminate",
+     "tab": "Voodoo",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "WitchDoctor",
+   "liveness": "indeterminate",
+   "maxLevel": 48,
+   "name": "Hex of Malice",
+   "rank": "Rank 6",
+   "realPointsPerLevel": 1.3267,
+   "slot": 1,
+   "spellId": 501157,
+   "spellLevel": 42,
+   "valueAtCap": 95.0,
+   "valueAtCapMinRoll": 95.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  }
+ ],
+ "liveHoles": [
+  {
+   "aura": 0,
+   "baseLevel": 58,
+   "basePoints": 358,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    8
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6214,
+     "entry": "Ymiron's Battlecry",
+     "liveReason": "liveDirect",
+     "tab": "Ancestry",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18387,
+     "entry": "Ymiron's Battlecry",
+     "liveReason": "liveDirect",
+     "tab": "Ancestry",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29366,
+     "entry": "Ymiron's Battlecry",
+     "liveReason": "liveDirect",
+     "tab": "Ancestry",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 13,
+   "effect": 2,
+   "formula": null,
+   "kind": "direct_damage",
+   "klass": "Barbarian",
+   "liveness": "proven-live",
+   "maxLevel": 69,
+   "name": "Hodir's Wrath",
+   "rank": "Rank 6",
+   "realPointsPerLevel": 10.45,
+   "slot": 3,
+   "spellId": 503317,
+   "spellLevel": 58,
+   "valueAtCap": 391.9,
+   "valueAtCapMinRoll": 379.9,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 27,
+   "basePoints": 106,
+   "bucket": "FLAT",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Ancestry"
+   ],
+   "builderTiers": [
+    4
+   ],
+   "cadEntries": [
+    {
+     "cadId": 7666,
+     "entry": "Tankard Toss",
+     "liveReason": "liveDirect",
+     "tab": "Ancestry",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19848,
+     "entry": "Tankard Toss",
+     "liveReason": "liveDirect",
+     "tab": "Ancestry",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30765,
+     "entry": "Tankard Toss",
+     "liveReason": "liveDirect",
+     "tab": "Ancestry",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "-",
+   "dieSides": 7,
+   "effect": 2,
+   "formula": "${$m2+0}",
+   "kind": "direct_damage",
+   "klass": "Barbarian",
+   "liveness": "proven-live",
+   "maxLevel": 34,
+   "name": "Frozen Tankard",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.0,
+   "slot": 2,
+   "spellId": 805815,
+   "spellLevel": 27,
+   "valueAtCap": 113.0,
+   "valueAtCapMinRoll": 107.0,
+   "verdict": "HOLE:no scaling channel at all"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 15,
+   "basePoints": 14,
+   "bucket": "FLAT",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Headhunting"
+   ],
+   "builderTiers": [
+    2
+   ],
+   "cadEntries": [
+    {
+     "cadId": 7672,
+     "entry": "Gutspiller",
+     "liveReason": "liveDirect",
+     "tab": "Tactics",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19855,
+     "entry": "Gutspiller",
+     "liveReason": "liveDirect",
+     "tab": "Tactics",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30771,
+     "entry": "Gutspiller",
+     "liveReason": "liveDirect",
+     "tab": "Tactics",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "-",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "Barbarian",
+   "liveness": "proven-live",
+   "maxLevel": 22,
+   "name": "Gutspiller",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.0,
+   "slot": 1,
+   "spellId": 805832,
+   "spellLevel": 15,
+   "valueAtCap": 15.0,
+   "valueAtCapMinRoll": 15.0,
+   "verdict": "HOLE:no scaling channel at all"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 54,
+   "basePoints": 294,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    8
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6534,
+     "entry": "Gravity Bomb",
+     "liveReason": "liveDirect",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18713,
+     "entry": "Gravity Bomb",
+     "liveReason": "liveDirect",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29674,
+     "entry": "Gravity Bomb",
+     "liveReason": "liveDirect",
+     "tab": "Duality",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 23,
+   "effect": 6,
+   "formula": "${$w3}",
+   "kind": "periodic_damage",
+   "klass": "Chronomancer",
+   "liveness": "proven-live",
+   "maxLevel": 67,
+   "name": "Gravity Bomb",
+   "rank": "Rank 5",
+   "realPointsPerLevel": 7.2,
+   "slot": 3,
+   "spellId": 501823,
+   "spellLevel": 54,
+   "valueAtCap": 360.2,
+   "valueAtCapMinRoll": 338.2,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 49,
+   "basePoints": 198,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6531,
+     "entry": "Sands of Time",
+     "liveReason": "liveDirect",
+     "tab": "Displacement",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18710,
+     "entry": "Sands of Time",
+     "liveReason": "liveDirect",
+     "tab": "Displacement",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29671,
+     "entry": "Sands of Time",
+     "liveReason": "liveDirect",
+     "tab": "Displacement",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 57,
+   "effect": 2,
+   "formula": "$s1",
+   "kind": "direct_damage",
+   "klass": "Chronomancer",
+   "liveness": "proven-live",
+   "maxLevel": 64,
+   "name": "Sands of Time",
+   "rank": "Rank 4",
+   "realPointsPerLevel": 5.169,
+   "slot": 1,
+   "spellId": 501845,
+   "spellLevel": 49,
+   "valueAtCap": 311.9,
+   "valueAtCapMinRoll": 255.9,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 13,
+   "basePoints": 180,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Infinite"
+   ],
+   "builderTiers": [
+    1
+   ],
+   "cadEntries": [
+    {
+     "cadId": 7971,
+     "entry": "Timeway Blast",
+     "liveReason": "liveDirect",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 20010,
+     "entry": "Timeway Blast",
+     "liveReason": "liveDirect",
+     "tab": "Duality",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30920,
+     "entry": "Timeway Blast",
+     "liveReason": "liveDirect",
+     "tab": "Duality",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "Chronomancer",
+   "liveness": "proven-live",
+   "maxLevel": 18,
+   "name": "Melt Reality",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 1.7838,
+   "slot": 1,
+   "spellId": 806335,
+   "spellLevel": 13,
+   "valueAtCap": 189.9,
+   "valueAtCapMinRoll": 189.9,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 72,
+   "basePoints": 1070,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Corruption"
+   ],
+   "builderTiers": [
+    9
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6110,
+     "entry": "Ancient Curse",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18281,
+     "entry": "Ancient Curse",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29266,
+     "entry": "Ancient Curse",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 39,
+   "effect": 2,
+   "formula": "${$m1+($pl*5.4-49*5.4)}",
+   "kind": "direct_damage",
+   "klass": "Cultist",
+   "liveness": "proven-live",
+   "maxLevel": 80,
+   "name": "Ancient Curse",
+   "rank": "Rank 4",
+   "realPointsPerLevel": 6.125,
+   "slot": 1,
+   "spellId": 502154,
+   "spellLevel": 72,
+   "valueAtCap": 1109.0,
+   "valueAtCapMinRoll": 1071.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 56,
+   "basePoints": 254,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    5
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6329,
+     "entry": "Shatter Void Rune",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18504,
+     "entry": "Shatter Void Rune",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29475,
+     "entry": "Shatter Void Rune",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 43,
+   "effect": 2,
+   "formula": "${$m1+0}",
+   "kind": "direct_damage",
+   "klass": "Cultist",
+   "liveness": "proven-live",
+   "maxLevel": 62,
+   "name": "Shatter Void Rune",
+   "rank": "Rank 10",
+   "realPointsPerLevel": 3.0018,
+   "slot": 1,
+   "spellId": 502201,
+   "spellLevel": 56,
+   "valueAtCap": 309.0,
+   "valueAtCapMinRoll": 267.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 48,
+   "basePoints": 138,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Corruption"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6333,
+     "entry": "Darkwither",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18508,
+     "entry": "Darkwither",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29479,
+     "entry": "Darkwither",
+     "liveReason": "liveDirect",
+     "tab": "Corruption",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "Cultist",
+   "liveness": "proven-live",
+   "maxLevel": 52,
+   "name": "Darkwither",
+   "rank": "Rank 7",
+   "realPointsPerLevel": 2.0862,
+   "slot": 1,
+   "spellId": 502218,
+   "spellLevel": 48,
+   "valueAtCap": 147.3,
+   "valueAtCapMinRoll": 147.3,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 51,
+   "basePoints": 21,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 30076,
+     "entry": "Hellhaul",
+     "liveReason": "liveDirect",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19126,
+     "entry": "Hellhaul",
+     "liveReason": "liveDirect",
+     "tab": "Defiance",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6936,
+     "entry": "Hellhaul",
+     "liveReason": "liveDirect",
+     "tab": "War",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "KnightOfXoroth",
+   "liveness": "proven-live",
+   "maxLevel": 60,
+   "name": "Hellhaul",
+   "rank": "Rank 6",
+   "realPointsPerLevel": 0.7108,
+   "slot": 1,
+   "spellId": 503146,
+   "spellLevel": 51,
+   "valueAtCap": 28.4,
+   "valueAtCapMinRoll": 28.4,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 49,
+   "basePoints": 29,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Defiance"
+   ],
+   "builderTiers": [
+    8
+   ],
+   "cadEntries": [
+    {
+     "cadId": 7044,
+     "entry": "Hellgate Ritual",
+     "liveReason": "liveDirect",
+     "tab": "Defiance",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19233,
+     "entry": "Hellgate Ritual",
+     "liveReason": "liveDirect",
+     "tab": "Defiance",
+     "type": "Ability"
+    },
+    {
+     "cadId": 30177,
+     "entry": "Hellgate Ritual",
+     "liveReason": "liveDirect",
+     "tab": "Defiance",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "KnightOfXoroth",
+   "liveness": "proven-live",
+   "maxLevel": 64,
+   "name": "Curse of Xoroth",
+   "rank": "Rank 4",
+   "realPointsPerLevel": 0.848,
+   "slot": 1,
+   "spellId": 503474,
+   "spellLevel": 49,
+   "valueAtCap": 39.3,
+   "valueAtCapMinRoll": 39.3,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 58,
+   "basePoints": 613,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 31534,
+     "entry": "Primal Charge",
+     "liveReason": "liveDirect",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18275,
+     "entry": "Primal Charge",
+     "liveReason": "liveDirect",
+     "tab": "Geomancy",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6104,
+     "entry": "Primal Charge",
+     "liveReason": "liveDirect",
+     "tab": "Primal",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 17,
+   "effect": 2,
+   "formula": "${$m3+0}",
+   "kind": "direct_damage",
+   "klass": "Primalist",
+   "liveness": "proven-live",
+   "maxLevel": 64,
+   "name": "Primal Rush",
+   "rank": "Rank 7",
+   "realPointsPerLevel": 10.2167,
+   "slot": 3,
+   "spellId": 502724,
+   "spellLevel": 58,
+   "valueAtCap": 650.4,
+   "valueAtCapMinRoll": 634.4,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 41,
+   "basePoints": 2758,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Life"
+   ],
+   "builderTiers": [
+    5
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6231,
+     "entry": "Sacred Grove",
+     "liveReason": "liveDirect",
+     "tab": "Life",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18405,
+     "entry": "Sacred Grove",
+     "liveReason": "liveDirect",
+     "tab": "Life",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29383,
+     "entry": "Sacred Grove",
+     "liveReason": "liveDirect",
+     "tab": "Life",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 25,
+   "effect": 10,
+   "formula": "${$m1+0}",
+   "kind": "direct_heal",
+   "klass": "Primalist",
+   "liveness": "proven-live",
+   "maxLevel": 60,
+   "name": "Sacred Grove",
+   "rank": "Rank 3",
+   "realPointsPerLevel": 4.736,
+   "slot": 1,
+   "spellId": 502821,
+   "spellLevel": 41,
+   "valueAtCap": 2873.0,
+   "valueAtCapMinRoll": 2849.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 25,
+   "basePoints": 147,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Incineration"
+   ],
+   "builderTiers": [
+    6
+   ],
+   "cadEntries": [
+    {
+     "cadId": 29557,
+     "entry": "Volcanic Burst",
+     "liveReason": "liveDirect",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18593,
+     "entry": "Volcanic Burst",
+     "liveReason": "liveDirect",
+     "tab": "Draconic",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6415,
+     "entry": "Volcanic Burst",
+     "liveReason": "liveDirect",
+     "tab": "Incineration",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 2,
+   "formula": "${$m1+0}",
+   "kind": "direct_damage",
+   "klass": "Pyromancer",
+   "liveness": "proven-live",
+   "maxLevel": 32,
+   "name": "Pillar of Flame",
+   "rank": "Rank 3",
+   "realPointsPerLevel": 3.0,
+   "slot": 1,
+   "spellId": 502054,
+   "spellLevel": 25,
+   "valueAtCap": 169.0,
+   "valueAtCapMinRoll": 169.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 54,
+   "basePoints": 564,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Sanguine"
+   ],
+   "builderTiers": [
+    9
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6403,
+     "entry": "Shadowfang Ritual",
+     "liveReason": "liveDirect",
+     "tab": "Blood",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18581,
+     "entry": "Shadowfang Ritual",
+     "liveReason": "liveDirect",
+     "tab": "Blood",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29545,
+     "entry": "Shadowfang Ritual",
+     "liveReason": "liveDirect",
+     "tab": "Class",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 113,
+   "effect": 10,
+   "formula": "$s2",
+   "kind": "direct_heal",
+   "klass": "SonOfArugal",
+   "liveness": "proven-live",
+   "maxLevel": 67,
+   "name": "Shadowfang Ritual",
+   "rank": "Rank 5",
+   "realPointsPerLevel": 13.1832,
+   "slot": 2,
+   "spellId": 501628,
+   "spellLevel": 54,
+   "valueAtCap": 756.1,
+   "valueAtCapMinRoll": 644.1,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 8,
+   "baseLevel": 56,
+   "basePoints": 89,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 29816,
+     "entry": "Nanobot Reconstruction",
+     "liveReason": "liveDirect",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6680,
+     "entry": "Nanobot Reconstruction",
+     "liveReason": "liveDirect",
+     "tab": "Invention",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18859,
+     "entry": "Nanobot Reconstruction",
+     "liveReason": "liveDirect",
+     "tab": "Mechanics",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_heal",
+   "klass": "Tinker",
+   "liveness": "proven-live",
+   "maxLevel": 58,
+   "name": "Nanobot Reconstruction",
+   "rank": "Rank 10",
+   "realPointsPerLevel": 1.04,
+   "slot": 1,
+   "spellId": 502560,
+   "spellLevel": 56,
+   "valueAtCap": 92.1,
+   "valueAtCapMinRoll": 92.1,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 8,
+   "baseLevel": 40,
+   "basePoints": 27,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Class"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6453,
+     "entry": "Dark Barrier of Shadra",
+     "liveReason": "liveDirect",
+     "tab": "Venom",
+     "type": "Ability"
+    },
+    {
+     "cadId": 18632,
+     "entry": "Dark Barrier of Shadra",
+     "liveReason": "liveDirect",
+     "tab": "Venom",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29595,
+     "entry": "Dark Barrier of Shadra",
+     "liveReason": "liveDirect",
+     "tab": "Venom",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 3,
+   "effect": 6,
+   "formula": "${$m1+$ppl1}",
+   "kind": "periodic_heal",
+   "klass": "Venomancer",
+   "liveness": "proven-live",
+   "maxLevel": 44,
+   "name": "Green Salve",
+   "rank": "Rank 6",
+   "realPointsPerLevel": 0.54,
+   "slot": 1,
+   "spellId": 502978,
+   "spellLevel": 40,
+   "valueAtCap": 32.2,
+   "valueAtCapMinRoll": 30.2,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 3,
+   "baseLevel": 11,
+   "basePoints": 22,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Venom"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 30478,
+     "entry": "Wilt",
+     "liveReason": "liveDirect",
+     "tab": "Class",
+     "type": "Ability"
+    },
+    {
+     "cadId": 7359,
+     "entry": "Wilt",
+     "liveReason": "liveDirect",
+     "tab": "Venom",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19548,
+     "entry": "Wilt",
+     "liveReason": "liveDirect",
+     "tab": "Venom",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 1,
+   "effect": 6,
+   "formula": "${$w1}",
+   "kind": "periodic_damage",
+   "klass": "Venomancer",
+   "liveness": "proven-live",
+   "maxLevel": 18,
+   "name": "Wilt",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.7143,
+   "slot": 1,
+   "spellId": 804982,
+   "spellLevel": 11,
+   "valueAtCap": 28.0,
+   "valueAtCapMinRoll": 28.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 59,
+   "basePoints": 251,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Voodoo"
+   ],
+   "builderTiers": [
+    9
+   ],
+   "cadEntries": [
+    {
+     "cadId": 18977,
+     "entry": "Voodoo Bolt",
+     "liveReason": "liveDirect",
+     "tab": "Shadowhunting",
+     "type": "Ability"
+    },
+    {
+     "cadId": 6797,
+     "entry": "Voodoo Bolt",
+     "liveReason": "liveDirect",
+     "tab": "Voodoo",
+     "type": "Ability"
+    }
+   ],
+   "cadEntryCount": 2,
+   "channels": "P",
+   "dieSides": 30,
+   "effect": 2,
+   "formula": "$s1",
+   "kind": "direct_damage",
+   "klass": "WitchDoctor",
+   "liveness": "proven-live",
+   "maxLevel": 65,
+   "name": "Voodoo Bolt",
+   "rank": "Rank 9",
+   "realPointsPerLevel": 2.9895,
+   "slot": 1,
+   "spellId": 501195,
+   "spellLevel": 59,
+   "valueAtCap": 284.0,
+   "valueAtCapMinRoll": 255.0,
+   "verdict": "HOLE:level-curve only, no gear term"
+  },
+  {
+   "aura": 0,
+   "baseLevel": 15,
+   "basePoints": 25,
+   "bucket": "PERLEVEL_SCALED",
+   "builderRequiredLevel": 0,
+   "builderTabs": [
+    "Black Knight"
+   ],
+   "builderTiers": [
+    0
+   ],
+   "cadEntries": [
+    {
+     "cadId": 6845,
+     "entry": "En Garde!",
+     "liveReason": "liveDirect",
+     "tab": "Inquisition",
+     "type": "Ability"
+    },
+    {
+     "cadId": 19039,
+     "entry": "En Garde!",
+     "liveReason": "liveDirect",
+     "tab": "Inquisition",
+     "type": "Ability"
+    },
+    {
+     "cadId": 29990,
+     "entry": "En Garde!",
+     "liveReason": "liveDirect",
+     "tab": "Inquisition",
+     "type": "Talent"
+    }
+   ],
+   "cadEntryCount": 3,
+   "channels": "P",
+   "dieSides": 3,
+   "effect": 2,
+   "formula": "${$m1+0}",
+   "kind": "direct_damage",
+   "klass": "WitchHunter",
+   "liveness": "proven-live",
+   "maxLevel": 24,
+   "name": "Noctis Blade",
+   "rank": "Rank 1",
+   "realPointsPerLevel": 0.95,
+   "slot": 1,
+   "spellId": 802280,
+   "spellLevel": 15,
+   "valueAtCap": 36.5,
+   "valueAtCapMinRoll": 34.5,
+   "verdict": "HOLE:level-curve only, no gear term"
+  }
+ ],
+ "livenessSource": {
+  "capture": "data/talents/coa/** from raw/talents/coa-builder-voljin.html (sha256-pinned)",
+  "caveat": "Every live/dead verdict is a VOL'JIN verdict. Rexxar is a separate CoA realm whose tree geometry is assumed identical but unverified. data/classes entries are account-wide across four realms, so a Rexxar-only ability is indistinguishable from dead content here.",
+  "consumedNotDerived": true,
+  "entryReasonCounts": {
+   "deadCatalog": 3678,
+   "indeterminate": 1398,
+   "liveDirect": 3624,
+   "liveViaRank": 6
+  },
+  "flags": "data/classes/**/<tab>.json entry.live + entry.liveEvidence",
+  "summary": "data/classes/_live_summary.json",
+  "writer": "tools/coa_live.py (task W4-14)"
+ },
+ "method": {
+  "chainSpellIdsAbsentFromBaseSpellDbc": 203,
+  "chainsWalked": 8706,
+  "channels": "W = weapon effect; P = effectRealPointsPerLevel or a bound $ppl/$PL; T = a stat*number coefficient term in description + tooltip + SpellDescriptionVariables",
+  "classes": 21,
+  "damagingSlotDefinition": {
+   "auraCarrierEffects": [
+    6,
+    27,
+    35,
+    65,
+    119,
+    128,
+    129,
+    143
+   ],
+   "damageAuras": [
+    3,
+    53,
+    89
+   ],
+   "directDamageEffects": [
+    2,
+    9,
+    62
+   ],
+   "excluded": "aura 118 is MOD_HEALING_PCT, not a heal; aura 227 PERIODIC_TRIGGER_SPELL_WITH_VALUE is out of the denominator - the largest boundary uncertainty",
+   "healAuras": [
+    8,
+    20
+   ],
+   "healEffects": [
+    10,
+    67,
+    75,
+    136
+   ],
+   "weaponEffects": [
+    17,
+    31,
+    58,
+    121
+   ]
+  },
+  "entriesWalked": 8331,
+  "entryTypes": [
+   "Ability",
+   "Talent",
+   "TalentAbility"
+  ],
+  "levelCap": 60,
+  "portedFrom": "coa-sim-handoff/parsers/coverage/{bload,denom,clsfy,measure,headline}.py - reimplemented here so the figure is reproducible inside this repo",
+  "rankPick": "highest rank with CAD rank.level <= 60; fallback = lowest-level rank",
+  "spellRowsLoaded": 209130,
+  "spellRowsSkippedMalformed": 0,
+  "spellSource": "raw/dbc/Spell.csv.gz (BASE only - never a realm overlay)",
+  "verdictRule": "gear-scaling (W or T) = modelable; percent-of-max effects and 1-point tag damage = modelable (nothing to model); otherwise a hole, split dev-dead / level-curve-only / no-channel"
+ },
+ "perClass": {
+  "cad": {
+   "Barbarian": {
+    "holeDistinctSpellSlotPairs": 4,
+    "holePct": 14.3,
+    "holes": 12,
+    "modelable": 72,
+    "slots": 84
+   },
+   "Chronomancer": {
+    "holeDistinctSpellSlotPairs": 13,
+    "holePct": 41.2,
+    "holes": 33,
+    "modelable": 47,
+    "slots": 80
+   },
+   "Cultist": {
+    "holeDistinctSpellSlotPairs": 9,
+    "holePct": 36.6,
+    "holes": 26,
+    "modelable": 45,
+    "slots": 71
+   },
+   "DemonHunter": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 3.0,
+    "holes": 1,
+    "modelable": 32,
+    "slots": 33
+   },
+   "Guardian": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 5.7,
+    "holes": 3,
+    "modelable": 50,
+    "slots": 53
+   },
+   "KnightOfXoroth": {
+    "holeDistinctSpellSlotPairs": 6,
+    "holePct": 20.0,
+    "holes": 18,
+    "modelable": 72,
+    "slots": 90
+   },
+   "Monk": {
+    "holeDistinctSpellSlotPairs": 6,
+    "holePct": 14.3,
+    "holes": 11,
+    "modelable": 66,
+    "slots": 77
+   },
+   "Necromancer": {
+    "holeDistinctSpellSlotPairs": 2,
+    "holePct": 15.6,
+    "holes": 5,
+    "modelable": 27,
+    "slots": 32
+   },
+   "Primalist": {
+    "holeDistinctSpellSlotPairs": 5,
+    "holePct": 22.4,
+    "holes": 15,
+    "modelable": 52,
+    "slots": 67
+   },
+   "Pyromancer": {
+    "holeDistinctSpellSlotPairs": 6,
+    "holePct": 29.0,
+    "holes": 18,
+    "modelable": 44,
+    "slots": 62
+   },
+   "Ranger": {
+    "holeDistinctSpellSlotPairs": 6,
+    "holePct": 19.6,
+    "holes": 18,
+    "modelable": 74,
+    "slots": 92
+   },
+   "Reaper": {
+    "holeDistinctSpellSlotPairs": 3,
+    "holePct": 11.8,
+    "holes": 8,
+    "modelable": 60,
+    "slots": 68
+   },
+   "Runemaster": {
+    "holeDistinctSpellSlotPairs": 5,
+    "holePct": 30.6,
+    "holes": 15,
+    "modelable": 34,
+    "slots": 49
+   },
+   "SonOfArugal": {
+    "holeDistinctSpellSlotPairs": 2,
+    "holePct": 10.5,
+    "holes": 6,
+    "modelable": 51,
+    "slots": 57
+   },
+   "Starcaller": {
+    "holeDistinctSpellSlotPairs": 9,
+    "holePct": 23.6,
+    "holes": 25,
+    "modelable": 81,
+    "slots": 106
+   },
+   "Stormbringer": {
+    "holeDistinctSpellSlotPairs": 4,
+    "holePct": 14.3,
+    "holes": 8,
+    "modelable": 48,
+    "slots": 56
+   },
+   "SunCleric": {
+    "holeDistinctSpellSlotPairs": 3,
+    "holePct": 13.6,
+    "holes": 9,
+    "modelable": 57,
+    "slots": 66
+   },
+   "Tinker": {
+    "holeDistinctSpellSlotPairs": 4,
+    "holePct": 30.0,
+    "holes": 12,
+    "modelable": 28,
+    "slots": 40
+   },
+   "Venomancer": {
+    "holeDistinctSpellSlotPairs": 6,
+    "holePct": 20.0,
+    "holes": 18,
+    "modelable": 72,
+    "slots": 90
+   },
+   "WitchDoctor": {
+    "holeDistinctSpellSlotPairs": 4,
+    "holePct": 18.3,
+    "holes": 11,
+    "modelable": 49,
+    "slots": 60
+   },
+   "WitchHunter": {
+    "holeDistinctSpellSlotPairs": 2,
+    "holePct": 6.2,
+    "holes": 6,
+    "modelable": 90,
+    "slots": 96
+   }
+  },
+  "live": {
+   "Barbarian": {
+    "holeDistinctSpellSlotPairs": 3,
+    "holePct": 22.0,
+    "holes": 9,
+    "modelable": 32,
+    "slots": 41
+   },
+   "Chronomancer": {
+    "holeDistinctSpellSlotPairs": 3,
+    "holePct": 34.6,
+    "holes": 9,
+    "modelable": 17,
+    "slots": 26
+   },
+   "Cultist": {
+    "holeDistinctSpellSlotPairs": 3,
+    "holePct": 42.9,
+    "holes": 9,
+    "modelable": 12,
+    "slots": 21
+   },
+   "DemonHunter": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 20,
+    "slots": 20
+   },
+   "Guardian": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 15,
+    "slots": 15
+   },
+   "KnightOfXoroth": {
+    "holeDistinctSpellSlotPairs": 2,
+    "holePct": 25.0,
+    "holes": 6,
+    "modelable": 18,
+    "slots": 24
+   },
+   "Monk": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 21,
+    "slots": 21
+   },
+   "Necromancer": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 6,
+    "slots": 6
+   },
+   "Primalist": {
+    "holeDistinctSpellSlotPairs": 2,
+    "holePct": 15.0,
+    "holes": 6,
+    "modelable": 34,
+    "slots": 40
+   },
+   "Pyromancer": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 12.5,
+    "holes": 3,
+    "modelable": 21,
+    "slots": 24
+   },
+   "Ranger": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 33,
+    "slots": 33
+   },
+   "Reaper": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 36,
+    "slots": 36
+   },
+   "Runemaster": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 20,
+    "slots": 20
+   },
+   "SonOfArugal": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 10.0,
+    "holes": 3,
+    "modelable": 27,
+    "slots": 30
+   },
+   "Starcaller": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 30,
+    "slots": 30
+   },
+   "Stormbringer": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 18,
+    "slots": 18
+   },
+   "SunCleric": {
+    "holeDistinctSpellSlotPairs": 0,
+    "holePct": 0.0,
+    "holes": 0,
+    "modelable": 24,
+    "slots": 24
+   },
+   "Tinker": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 25.0,
+    "holes": 3,
+    "modelable": 9,
+    "slots": 12
+   },
+   "Venomancer": {
+    "holeDistinctSpellSlotPairs": 2,
+    "holePct": 13.3,
+    "holes": 6,
+    "modelable": 39,
+    "slots": 45
+   },
+   "WitchDoctor": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 8.3,
+    "holes": 2,
+    "modelable": 22,
+    "slots": 24
+   },
+   "WitchHunter": {
+    "holeDistinctSpellSlotPairs": 1,
+    "holePct": 7.1,
+    "holes": 3,
+    "modelable": 39,
+    "slots": 42
+   }
+  }
+ },
+ "probeTargets": {
+  "_what": "What a damage probe would actually have to target, and in what order. liveHoles are proven castable. indeterminateHoles are the additional pairs whose entries carry evidence of a non-tree acquisition path but appear in no live builder node - confirm the character can learn the spell BEFORE spending a probe on it.",
+  "deadNotWorthProbing": 65,
+  "indeterminate": 16,
+  "provenLive": 20,
+  "starcallerCheck": "Starcaller Silvercurrent (503051 slots 2 and 3) was a tier-A hole in the published triage. It is reached only through the CAD entry 'Douse', flagged deadCatalog - i.e. exactly the content the level-60 Starcaller player reported does not exist. The liveness join and the player report agree.",
+  "sunflareCaveat": "SunCleric Sunflare (502394 slot 1) - the single spell the published triage nominated as THE probe that resolves the coefficient-source question - is `indeterminate`, not proven live: its CAD entries (cadId 6258 / 18433 / 31685) match no live builder node. It is in indeterminateHoles, not liveHoles. Verify obtainability first, or pick a proven-live target."
+ },
+ "publishedTriagePopulation": {
+  "_what": "The published hole triage worked the 'level-curve only, no gear term' population - the 92 distinct (spellId, slot) pairs that a damage probe would have to target. This is that population split by liveness.",
+  "distinctPairsCad": 92,
+  "distinctPairsDeadOnly": 59,
+  "distinctPairsIndeterminateOnly": 15,
+  "distinctPairsLiveOrIndeterminate": 33,
+  "distinctPairsNotProvenLive": 74,
+  "distinctPairsProvenLive": 18,
+  "finding": "74 of the 92 published level-curve-only hole pairs are not proven live (80%): 59 sit only on entries with no live node and no other acquisition path (dead), 15 only on indeterminate entries. Probe work on this population is 18 units, not 92."
+ }
+}
