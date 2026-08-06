@@ -1,5 +1,5 @@
 {
- "_note": "58 of 224 unnamed-at-repo-start effect/aura ids (4 W4-1 bug fixes not counted here) carry a golden-verified name wired into enums335.py; the remaining 166 are bucket-classified per enum-triage.md's aggregate analysis but have no individually-cited golden that survived independent re-derivation, so they stay numeric (EFFECT_<n>/AURA_<n>) rather than being asserted. 'occurrences.raw' counts every slot carrying that id across this build's CoA-referenced closure; 'occurrences.filtered' additionally excludes inert template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and aura occurrences are gated on the carrying effect being aura-applying per trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5.",
+ "_note": "57 of 224 unnamed-at-repo-start effect/aura ids (4 W4-1 bug fixes not counted here) carry a golden-verified name wired into enums335.py; the remaining 167 are bucket-classified per enum-triage.md's aggregate analysis but have no individually-cited golden that survived independent re-derivation, so they stay numeric (EFFECT_<n>/AURA_<n>) rather than being asserted. 'sidecarNamedIds' (59) is slightly higher than 'wiredIds' (57): a few bucket-C [INFERRED] auras carry a documentation-only name here without being wired into enums335.py, since bucket C is explicitly uncertain. 'occurrences.raw' counts every slot carrying that id across this build's CoA-referenced closure; 'occurrences.filtered' additionally excludes inert template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and aura occurrences are gated on the carrying effect being aura-applying per trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5.",
  "auras": {
   "1": {
    "bucket": "A",
@@ -1586,9 +1586,11 @@
   },
   "71": {
    "bucket": "A",
-   "confidence": "undocumented",
-   "goldenSpells": [],
-   "name": null,
+   "confidence": "verified",
+   "goldenSpells": [
+    300240
+   ],
+   "name": "MOD_SPELL_CRIT_CHANCE_SCHOOL",
    "occurrences": {
     "filtered": 101,
     "raw": 102
@@ -2395,8 +2397,10 @@
    "C": 4,
    "unknown": 1
   },
+  "classifiedIds": 224,
   "effectIds": 66,
-  "namedIds": 58,
-  "numericFallbackIds": 166
+  "numericFallbackIds": 167,
+  "sidecarNamedIds": 59,
+  "wiredIds": 57
  }
 }

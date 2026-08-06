@@ -65,7 +65,11 @@ assert not (set(enums335.AURA_NAMES) & set(enums335.COA_AURA_NAMES))
 # ---- every id actually wired into a name table must have a documented golden in
 # ENUM_EVIDENCE - no name reaches enums335.py without a transcribed, checkable golden
 W4_1_EFFECT_ADDITIONS = {108, 114, 128, 129, 140, 141, 148, 149, 164}
-W4_1_AURA_ADDITIONS = {112, 118, 149, 163, 166, 174, 175, 192, 212, 216, 220, 227,
+# [W4-1 review fix] aura 71 MOD_SPELL_CRIT_CHANCE_SCHOOL: golden 300240 Curse of the
+# Lich was hiding in enum-triage.md's bucket-B prose (the EFF190 discussion), not its
+# own table - this task's Part-3 verification pass had already decoded aura=71
+# misc=16 on that spell but missed wiring the name itself. Caught on review.
+W4_1_AURA_ADDITIONS = {71, 112, 118, 149, 163, 166, 174, 175, 192, 212, 216, 220, 227,
                        232, 240, 268, 271, 280, 285, 286, 290, 303, 308}
 for eid in W4_1_EFFECT_ADDITIONS:
     ev = enums335.ENUM_EVIDENCE["effects"].get(eid)
@@ -124,6 +128,12 @@ assert bloodlust["effectAura3"] == 192 and bloodlust["effectBasePoints3"] + 1 ==
 sword_spec = SPELLS[12814]
 assert sword_spec["effectAura2"] == 333 and sword_spec["effectBasePoints2"] + 1 == 4
 
+# [W4-1 review fix] aura 71 MOD_SPELL_CRIT_CHANCE_SCHOOL - golden 300240 Curse of the
+# Lich, aura=71 on slots 2 and 3, misc=16 (Frost school mask)
+curse_of_lich = SPELLS[300240]
+assert curse_of_lich["effectAura2"] == 71 and curse_of_lich["effectMiscValue2"] == 16
+assert curse_of_lich["effectAura3"] == 71 and curse_of_lich["effectMiscValue3"] == 16
+
 # ---- the two statistical claims from DATAMINE-REQUEST.md Sec 1.5, re-derived
 # client-wide over all 209,125 BASE rows (not CoA-scoped) - pinned exactly ----
 charges_doc = json.loads((config.DATA_DIR / "spells" / "charges.json").read_text(encoding="utf-8"))
@@ -142,9 +152,13 @@ assert sum(1 for v in vals187 if v in cat_ids) == 110
 
 # ---- rebuilt data/spells layer surfaces the renamed auras/effects (brief's gate:
 # "a rebuilt spells layer shows the renamed auras") ----
+# INTENTIONAL, NON-HERMETIC: this call rewrites the committed data/spells/ on disk
+# (same pattern test_spells_v2.py/test_sharding.py already use) - required to prove
+# the rebuilt-layer gate itself, not a side effect to avoid. Running this file
+# leaves data/spells/ freshly regenerated from current work/dbc + enums335.py.
 build_spells.build()
 by_id = {}
-want = {36936, 1160, 17364}
+want = {36936, 1160, 17364, 300240}
 for r in build_spells.iter_all():
     if r["id"] in want:
         by_id[r["id"]] = r
@@ -152,6 +166,8 @@ assert set(by_id) == want
 assert by_id[36936]["effects"][0]["effect"]["name"] == "DESTROY_ALL_TOTEMS"
 assert by_id[1160]["effects"][0]["aura"]["name"] == "COA_MOD_ATTACK_POWER_FLAT"
 assert by_id[17364]["effects"][-1]["aura"]["name"] == "MOD_DAMAGE_FROM_CASTER"
+lich_auras = {e["slot"]: e["aura"]["name"] for e in by_id[300240]["effects"]}
+assert lich_auras[2] == "MOD_SPELL_CRIT_CHANCE_SCHOOL" and lich_auras[3] == "MOD_SPELL_CRIT_CHANCE_SCHOOL"
 
 # ---- _enum_evidence.json sidecar: schema, counts, trap-1/trap-2 discipline ----
 sdir = config.DATA_DIR / "spells"
@@ -159,11 +175,21 @@ evidence = json.loads((sdir / "_enum_evidence.json").read_text(encoding="utf-8")
 assert set(evidence) == {"effects", "auras", "_note", "summary"}
 assert evidence["summary"]["effectIds"] == 66
 assert evidence["summary"]["auraIds"] == 158
-assert evidence["summary"]["namedIds"] == 58
-assert evidence["summary"]["numericFallbackIds"] == 166
+# [W4-1 review fix] "classified" (has a sidecar entry) vs "wired" (actually resolves
+# via effect_name()/aura_name()) are distinct counts - see build_spells.py's comment
+assert evidence["summary"]["classifiedIds"] == 224 == \
+    evidence["summary"]["effectIds"] + evidence["summary"]["auraIds"]
+assert evidence["summary"]["wiredIds"] == 57          # 31 bucket-A + 25 bucket-B + aura 71
+assert evidence["summary"]["sidecarNamedIds"] == 59    # wiredIds + 2 bucket-C [INFERRED]-only
+assert evidence["summary"]["numericFallbackIds"] == 167
+assert evidence["summary"]["classifiedIds"] - evidence["summary"]["wiredIds"] == \
+    evidence["summary"]["numericFallbackIds"]
 assert evidence["summary"]["byBucket"] == {"A": 173, "B": 46, "C": 4, "unknown": 1}
 assert evidence["effects"]["165"]["name"] == "COA_MODIFY_COOLDOWN"
 assert evidence["effects"]["165"]["confidence"] == "verified"
+assert evidence["auras"]["71"]["name"] == "MOD_SPELL_CRIT_CHANCE_SCHOOL"
+assert evidence["auras"]["71"]["confidence"] == "verified"
+assert evidence["auras"]["71"]["goldenSpells"] == [300240]
 # trap 2: filtered occurrences must never exceed raw (inert slots only ever subtract)
 for e in list(evidence["effects"].values()) + list(evidence["auras"].values()):
     assert e["occurrences"]["filtered"] <= e["occurrences"]["raw"]

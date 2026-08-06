@@ -440,12 +440,33 @@ def _build_enum_evidence(out_dir, records):
         occ = aura_occ.get(aid, {"raw": 0, "filtered": 0})
         doc["auras"][str(aid)] = {**ev, "occurrences": occ}
 
-    named = sum(1 for e in doc["effects"].values() if e["name"]) + \
-            sum(1 for a in doc["auras"].values() if a["name"])
-    numeric = (len(doc["effects"]) + len(doc["auras"])) - named
+    # [W4-1 review fix] "classified" (this sidecar has a bucket/occurrence entry for
+    # the id) and "wired" (the id actually resolves via effect_name()/aura_name(),
+    # i.e. sits in one of enums335.py's 4 lookup tables) are DIFFERENT counts and
+    # were previously conflated under one ambiguous "namedIds" field - e.g. EFFECT_168
+    # and the 20 unlisted bucket-B ids are classified (bucket B) but never wired, and
+    # 2 bucket-C [INFERRED] auras (214, 312) carry a documentation-only "name" in the
+    # sidecar without being wired into any enums335.py table. Both are now explicit.
+    classified = len(doc["effects"]) + len(doc["auras"])
+    wired_effect_ids = set(enums335.EFFECT_NAMES) | set(enums335.COA_EFFECT_NAMES)
+    wired_aura_ids = set(enums335.AURA_NAMES) | set(enums335.COA_AURA_NAMES)
+    wired = sum(1 for eid in enums335.ENUM_EVIDENCE["effects"] if eid in wired_effect_ids) + \
+            sum(1 for aid in enums335.ENUM_EVIDENCE["auras"] if aid in wired_aura_ids)
+    sidecar_named = sum(1 for e in doc["effects"].values() if e["name"]) + \
+                     sum(1 for a in doc["auras"].values() if a["name"])
+    numeric = classified - wired
     summary = {
         "effectIds": len(doc["effects"]), "auraIds": len(doc["auras"]),
-        "namedIds": named, "numericFallbackIds": numeric,
+        "classifiedIds": classified,      # every id this sidecar has a bucket/occurrence entry for
+        "wiredIds": wired,                # of those, ids resolvable via effect_name()/aura_name()
+                                           # (present in EFFECT_NAMES/AURA_NAMES/COA_EFFECT_NAMES/
+                                           # COA_AURA_NAMES)
+        "sidecarNamedIds": sidecar_named, # sidecar entries carrying a non-null "name" - equals
+                                           # wiredIds plus a few bucket-C [INFERRED] reads kept for
+                                           # documentation only, deliberately NOT wired into any
+                                           # enums335.py table (see byBucket.C below)
+        "numericFallbackIds": numeric,    # classifiedIds - wiredIds: still fall through to
+                                           # EFFECT_<n>/AURA_<n> in enums335.py
         "byBucket": {
             b: sum(1 for e in list(doc["effects"].values()) + list(doc["auras"].values())
                    if e["bucket"] == b)
@@ -453,17 +474,20 @@ def _build_enum_evidence(out_dir, records):
         },
     }
     doc["_note"] = (
-        f"{named} of {named + numeric} unnamed-at-repo-start effect/aura ids "
-        f"(4 W4-1 bug fixes not counted here) carry a golden-verified name wired "
-        f"into enums335.py; the remaining {numeric} are bucket-classified per "
+        f"{wired} of {classified} unnamed-at-repo-start effect/aura ids (4 W4-1 bug "
+        f"fixes not counted here) carry a golden-verified name wired into "
+        f"enums335.py; the remaining {numeric} are bucket-classified per "
         "enum-triage.md's aggregate analysis but have no individually-cited golden "
         "that survived independent re-derivation, so they stay numeric "
-        "(EFFECT_<n>/AURA_<n>) rather than being asserted. 'occurrences.raw' counts "
-        "every slot carrying that id across this build's CoA-referenced closure; "
-        "'occurrences.filtered' additionally excludes inert template slots "
-        "(basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and "
-        "aura occurrences are gated on the carrying effect being aura-applying per "
-        "trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5."
+        "(EFFECT_<n>/AURA_<n>) rather than being asserted. 'sidecarNamedIds' "
+        f"({sidecar_named}) is slightly higher than 'wiredIds' ({wired}): a few "
+        "bucket-C [INFERRED] auras carry a documentation-only name here without "
+        "being wired into enums335.py, since bucket C is explicitly uncertain. "
+        "'occurrences.raw' counts every slot carrying that id across this build's "
+        "CoA-referenced closure; 'occurrences.filtered' additionally excludes inert "
+        "template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per "
+        "trap 2, and aura occurrences are gated on the carrying effect being "
+        "aura-applying per trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5."
     )
     doc["summary"] = summary
     (out_dir / "_enum_evidence.json").write_text(

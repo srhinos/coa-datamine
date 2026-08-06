@@ -123,8 +123,13 @@ AURA_NAMES = {
     # --- W4-1: verified bucket-A additions (standard 3.3.5a, repo just missing the
     # name). Each id below was independently decoded from a golden spell against
     # work/dbc/Spell.dbc BASE; see .superpowers/sdd/task-w4-1-report.md. The other
-    # 107 of the 129 bucket-A aura ids in enum-triage.md have no individually-cited
+    # 106 of the 129 bucket-A aura ids in enum-triage.md have no individually-cited
     # golden and are left numeric (AURA_<n>) per this task's binding rule.
+    # [W4-1 review fix] found hiding in enum-triage.md's bucket-B prose (the EFF190
+    # discussion), not its own table - golden 300240 Curse of the Lich slot2/3,
+    # aura=71 misc=16=Frost, tooltip "increases the Frost critical strike chance of
+    # you and your summons".
+    71: "MOD_SPELL_CRIT_CHANCE_SCHOOL",
     112: "OVERRIDE_CLASS_SCRIPTS",       # golden 11170 Shatter, misc=913
     118: "MOD_HEALING_PCT",              # golden 12294 Mortal Strike slot1, val -50%
     149: "REDUCE_PUSHBACK",              # golden 11083 Burning Soul, val=35 (exact)
@@ -316,7 +321,7 @@ ENUM_EVIDENCE = {
         58: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
         59: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
         68: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
-        71: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
+        71: {"bucket": "A", "name": "MOD_SPELL_CRIT_CHANCE_SCHOOL", "goldenSpells": [300240], "confidence": "verified"},
         75: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
         83: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
         86: {"bucket": "A", "name": None, "goldenSpells": [], "confidence": "undocumented"},
