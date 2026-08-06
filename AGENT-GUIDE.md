@@ -895,16 +895,21 @@ table in `.superpowers/sdd/task-w4-6-report.md`); several traps are already
 documented at length elsewhere in this file, and those get a one-line
 pointer here instead of a second, driftable copy.
 
-1. **`procChance` sentinel is 101, not a percentage.** Re-measured against
-   the full current `work/dbc/Spell.dbc` (209,130 rows): 163,006 carry the
-   unset sentinel, 46,124 carry a real value (2,319 of the 6,038 base-
-   resolved CoA-class-set ids). The doc's own cited "6,452 spells carry a
-   real value" doesn't reproduce against either population and its
-   denominator isn't stated in the source - flagged, not chased further. The
-   field is already emitted unconditionally; `build_spells.py`'s
+1. **`procChance` sentinel is 101, not a percentage - and 0 also means
+   "unset," not "never procs."** Re-measured over the curated dataset with
+   `procChance NOT IN (0, 101)`: **6,453** real values on the pre-formula-
+   closure population (27,475 records, this task's own earlier snapshot) -
+   confirms the doc's cited 6,452 to within 1 (expected snapshot drift, not a
+   discrepancy - my first pass wrongly used `!= 101` alone and a wrong
+   population, see the report's correction note). On the **current**
+   28,951-record dataset (post task W4-4 formula closure) that's **6,822 =
+   23.56%** - diluted, not contradicted, by the 1,476 formula-closure adds
+   (most of which are non-proc reference targets). The field is already
+   emitted unconditionally; `build_spells.py`'s
    `_SPELL_COLUMN_COVERAGE["procChance"]` comment ("sentinel 101 = unset, not
    a percentage - see AGENT-GUIDE.md") has pointed here since task W4-3 - this
-   entry is what makes that pointer resolve to something.
+   entry is what makes that pointer resolve to something. Treat **both** 0
+   and 101 as "no proc-chance data," never as a literal 0%/101% chance.
 2. **`maxLevel` clamps 85.2% of level-scaled CoA spells below level 80.**
    Already fully documented, with the clamp formula, the `maxLevel == 0`
    "uncapped" sentinel correction, and frozen-value goldens - see "Spell
@@ -938,20 +943,27 @@ pointer here instead of a second, driftable copy.
    filename join..." above for the fix. Kept here only so the old advice
    ("code keyed on classId silently drops 3 of 21 classes") isn't
    rediscovered as if still true.
-7. **No difficulty-display-name field exists anywhere in this dataset - the
-   doc's specific "blank for 2 of 3 tiers" pattern does not reproduce here.**
-   Checked both difficulty-adjacent tables this pipeline extracts:
-   `data/dungeons/*.json`'s own `difficulty` is a bare 0-3 int (431 dungeons:
-   212x0, 99x1, 101x2, 19x3) with no name column at all, and
-   `data/mythic/mapDifficulty.json`'s `lockoutMessage`/`difficultyToken`
-   fields are blank for a large, roughly-even share of rows at *every*
-   `difficultyIndex` (0: 87% blank, 1: 64%, 2: 63%, 3: 74% - no index is
-   cleanly "always populated"), not the clean populated/blank split the doc
-   describes - most likely an aowow page-scrape artifact rather than a client
-   DBC field this pipeline touches. **The actionable trap survives regardless
-   of its origin:** never assume a difficulty label exists in `data/` - a
-   consumer must map `(mapId, difficulty)` / `(mapId, difficultyIndex)` to a
-   display string itself; nothing here does it for you.
+7. **No pretty difficulty-display-name field exists - but `difficultyToken`
+   is a usable engine-constant field, and it's `lockoutMessage` that's mostly
+   blank.** The doc's specific "Normal blank / Heroic populated with '5
+   Player (Heroic)' / Mythic blank" pattern doesn't reproduce against either
+   field this pipeline extracts, but the two fields split cleanly once
+   measured separately: `data/mythic/mapDifficulty.json`'s
+   **`lockoutMessage`** is blank 86.8%/64.2%/63.2%/73.7% at
+   `difficultyIndex` 0-3 (unreliable at every tier, matching my first pass -
+   that number was for this field only). **`difficultyToken`** is blank only
+   **58.6%/2.5%/0.6%/2.6%** at 0-3 - i.e. cleanly *populated* at indices 1-3
+   with raw engine constants (`DUNGEON_DIFFICULTY_5PLAYER_HEROIC`,
+   `DUNGEON_DIFFICULTY_5PLAYER_EPIC`, `RAID_DIFFICULTY_10PLAYER_HEROIC`,
+   `RAID_DIFFICULTY_25PLAYER_HEROIC`, ...), sparse only at index 0 (the
+   common "no separate difficulty" case). `data/dungeons/*.json`'s own
+   `difficulty` is a bare 0-3 int with no name column at all (431 dungeons:
+   212x0, 99x1, 101x2, 19x3) - a separate, unrelated field from either of the
+   two above. **Actionable fix:** don't reach for `lockoutMessage` as a
+   display label (it's a rare in-fiction lockout string, not a name); use
+   `difficultyToken` and map its enum constants to a display string yourself
+   (`DUNGEON_DIFFICULTY_5PLAYER_HEROIC` -> "Heroic", etc.) - nothing in this
+   dataset does that mapping for you.
 8. **`ItemStat.dbc`'s `f2` join = 1.000 is a dense-id false positive.** Not
    currently extracted by this pipeline (`ItemStat`/`Item`/`ItemSpells` are
    all absent from `config.WANTED_DBCS` - Sec 13 items 14-15, out of every W4
