@@ -183,7 +183,13 @@
     },
     "classesCovered": 32,
     "count": 101,
-    "coverage": 1.0
+    "coverage": 1.0,
+    "tabStatusCounts": {
+     "live": 93,
+     "noTabLayer": 1,
+     "shippedExternal": 5,
+     "unreleased": 2
+    }
    }
   },
   "coatalents": {
@@ -192,7 +198,7 @@
    "curatedResolveRate": 0.5299,
    "distinctTabIds": 72,
    "emptyTabPairs": 5,
-   "spellDbcResolveRate": 0.9997,
+   "spellDbcResolveRate": 1.0,
    "totalNodes": 3618,
    "totalTabAssignments": 96
   },
@@ -227,6 +233,14 @@
    "manifestSha256": "d0ea736ffe36dea0bcb6b1a2079d7262c7c8748914e553f60cd6cf6d0579082a",
    "multiArchiveCollisions": 411,
    "skippedArchives": 8
+  },
+  "items": {
+   "itemstatRows": 1513931,
+   "itemstatShards": 29,
+   "statsByItem": {
+    "itemIdJoinRate": 0.9696057630631075,
+    "written": 20267
+   }
   },
   "manastorm": {
    "manastorm": {
@@ -10888,7 +10902,7 @@
  "extract": {
   "census": {
    "distinctDbcNamesInChain": 368,
-   "extractedCount": 100,
+   "extractedCount": 111,
    "perArchiveDbcCounts": {
     "locale-enUS.MPQ": 224,
     "patch-M.MPQ": 288,
@@ -11300,6 +11314,19 @@
     "sha256": "52fcd045014b68c58b57414262a3099b501cdb69d359047da591f7c6fc62519d",
     "winner": "patch-M.MPQ"
    },
+   "gemproperties.dbc": {
+    "actualFields": 5,
+    "bytes": 13380,
+    "fields": 5,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ"
+    ],
+    "record_size": 20,
+    "records": 668,
+    "sha256": "c4449a08fe3d77af1b79a25d79aae200d9ac224d5b7736fb224c8bc79eec032a",
+    "winner": "patch-M.MPQ"
+   },
    "glyphproperties.dbc": {
     "actualFields": 4,
     "bytes": 5812,
@@ -11464,6 +11491,82 @@
     "record_size": 4,
     "records": 3200,
     "sha256": "958ab5fdb41669620edcddc5d0d750a6dc2d462d31066b6067f4b351fc898c00",
+    "winner": "patch-M.MPQ"
+   },
+   "item.dbc": {
+    "actualFields": 8,
+    "bytes": 18026740,
+    "fields": 8,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 32,
+    "records": 563335,
+    "sha256": "7fa31b341a9e1d27df3d08eae54c27c3863ecb3b260df21fa1c28a3681534b48",
+    "winner": "patch-M.MPQ"
+   },
+   "itemrandomproperties.dbc": {
+    "actualFields": 24,
+    "bytes": 972299,
+    "fields": 24,
+    "losers": [
+     "locale-enUS.MPQ"
+    ],
+    "record_size": 96,
+    "records": 10087,
+    "sha256": "56c46a3de975cdcc3e5790c7d3d8c193792c4f2b011aa5d6cc4657f5becb2578",
+    "winner": "patch-M.MPQ"
+   },
+   "itemrandomsuffix.dbc": {
+    "actualFields": 29,
+    "bytes": 37735,
+    "fields": 29,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 116,
+    "records": 275,
+    "sha256": "7f6d762abdab76b57a1084b7e0df4fb9f83c56ee6dee7f20e8f7def8aa783ac1",
+    "winner": "patch-M.MPQ"
+   },
+   "itemset.dbc": {
+    "actualFields": 53,
+    "bytes": 539046,
+    "fields": 53,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 212,
+    "records": 2347,
+    "sha256": "ce6e2b3036e85a95b1591e632ce0135467e550a5879dac3801f6a74489ac34da",
+    "winner": "patch-M.MPQ"
+   },
+   "itemspells.dbc": {
+    "actualFields": 37,
+    "bytes": 19494876,
+    "fields": 37,
+    "losers": [],
+    "record_size": 148,
+    "records": 131722,
+    "sha256": "3aa714952955037ee2be2d29aef39e06c7d6357212fa89b29084f592b4552c8c",
+    "winner": "patch-S.MPQ"
+   },
+   "itemstat.dbc": {
+    "actualFields": 39,
+    "bytes": 236173256,
+    "fields": 39,
+    "losers": [],
+    "record_size": 156,
+    "records": 1513931,
+    "sha256": "c09b91e67d97db5624f68a3de3cc0a3aa76e8672647cbf9bd924e343f918b237",
     "winner": "patch-M.MPQ"
    },
    "lfgdungeons.dbc": {
@@ -11639,6 +11742,48 @@
     "record_size": 72,
     "records": 144,
     "sha256": "0297d2b5294766960e31f3facb599dc9395f2e8d0bdbbc1749d25982d278d4f9",
+    "winner": "patch-M.MPQ"
+   },
+   "randproppoints.dbc": {
+    "actualFields": 16,
+    "bytes": 19220,
+    "fields": 16,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ"
+    ],
+    "record_size": 64,
+    "records": 300,
+    "sha256": "13b7aa3abd731297f98a6faba8ec78b1aeeb153204d8caa706204151773f8e26",
+    "winner": "patch-M.MPQ"
+   },
+   "scalingstatdistribution.dbc": {
+    "actualFields": 22,
+    "bytes": 14364,
+    "fields": 22,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 88,
+    "records": 163,
+    "sha256": "20b327c50074dee4858ec32fb73a4aa4022599e3ceb27b6f893e7bd9dc414d71",
+    "winner": "patch-M.MPQ"
+   },
+   "scalingstatvalues.dbc": {
+    "actualFields": 24,
+    "bytes": 7700,
+    "fields": 24,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ"
+    ],
+    "record_size": 96,
+    "records": 80,
+    "sha256": "b512a82bdd05c6bba83f53a34b22200260eaa79ff82014b8199804933d0d91fb",
     "winner": "patch-M.MPQ"
    },
    "skillline.dbc": {
@@ -11881,6 +12026,21 @@
     "sha256": "25721140c3b85af3167d0fc5b559feae4d0ce8cf8c9bd9d519afacc1eb970999",
     "winner": "patch-S.MPQ"
    },
+   "spellitemenchantment.dbc": {
+    "actualFields": 38,
+    "bytes": 3056336,
+    "fields": 38,
+    "losers": [
+     "locale-enUS.MPQ",
+     "patch-enUS.MPQ",
+     "patch-enUS-2.MPQ",
+     "patch-enUS-3.MPQ"
+    ],
+    "record_size": 152,
+    "records": 18035,
+    "sha256": "6b1e550191ca718c71638f78cb0b934aa93cd2a7b7f4007d73fc88e8a36a7cad",
+    "winner": "patch-S.MPQ"
+   },
    "spellitemenchantmentcondition.dbc": {
     "actualFields": 16,
     "bytes": 3156,
@@ -12117,39 +12277,39 @@
   "unlistableProbes": {
    "patch-4.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-5.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-C.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-CZZ.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-P.mpq": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-W.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-WB.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    },
    "patch-WC.MPQ": {
     "hits": [],
-    "probedCount": 100
+    "probedCount": 111
    }
   }
  },
- "generatedUtc": "2026-08-06T12:35:59+00:00",
+ "generatedUtc": "2026-08-06T16:34:04+00:00",
  "headerMismatches": [
   {
    "actualFields": 16,
