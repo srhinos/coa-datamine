@@ -1318,6 +1318,36 @@ see `DBCFile`'s docstring); `DBCFile.fields` (record_size//4) is what this
 pipeline trusts for row layout, so the 16-column raw dump is a true read, not a
 mistake - left unmapped rather than guessing which 16 of the stock 31 survived.
 
+### Item support tables (task W4-11)
+
+`WANTED_DBCS_V6` adds 9 tables from DATAMINE-REQUEST.md Sec 8.1 + Sec 13 item 14:
+`Item`, `ItemSet`, `SpellItemEnchantment`, `GemProperties`,
+`ScalingStatDistribution`, `ScalingStatValues`, `RandPropPoints`,
+`ItemRandomSuffix`, `ItemRandomProperties` - all confirmed present in the live MPQ
+chain (2026-08-06 extraction). **No curation this task's first sub-commit** - every
+one ships `raw/dbc/<Table>.csv.gz` + `<Table>.colinfo.json` only, same as any other
+unmapped table. Per the brief, the sim's **primary** item source stays an external
+`db.ascension.gg` (aowow) scrape validated against `itemcache.wdb` - this pipeline's
+job is completeness/evidence, not owning item acquisition (Sec 8's own framing).
+
+**`Item.dbc` is an INDEX, not a stat source** - re-derived directly from its own
+colinfo, not just asserted from the doc: 563,335 rows × 8 fields, **zero-length
+string block** (`string_block_size: 0`), every column's `samples` empty (nothing
+string-like at all). `f0` (the id) is unique per row and its max (9,200,842)
+reproduces Sec 8.2's own cross-reference ceiling exactly. Shape matches the doc's
+named ordering (`id, class, subclass, soundOverrideSubclass, material, displayid,
+inventoryType, sheath`) - `f5` (displayid) is the only other high-cardinality column
+(90,622 distinct), consistent with "the authoritative equippable-id and displayid
+index." None of these 8 columns are named in `TABLE_MAPS` yet (out of this
+sub-commit's scope) - a future task can pick this up with the same golden-proof bar
+as everything else in this file.
+
+`ItemStat.dbc` and `ItemSpells.dbc` are deliberately **excluded** from
+`WANTED_DBCS_V6` - both need real investigation (keying traps, in `ItemStat`'s case a
+236MB raw body too large for a single `raw/dbc/` file) before any column gets named;
+see the sub-sections below (added incrementally as this task's remaining
+sub-commits land).
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):

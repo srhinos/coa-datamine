@@ -110,6 +110,22 @@ WANTED_DBCS_V5 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V5
 
+# v6 (task W4-11): item support tables (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8.1 +
+# Sec 13 item 14). Item.dbc is an INDEX not a stat source (id/class/subclass/
+# soundOverrideSubclass/material/displayid/inventoryType/sheath, zero stats/ilvl/
+# quality) - the sim's primary item source stays an external aowow scrape per Sec 8;
+# this pipeline extracts these for completeness, no curation this task beyond
+# raw+colinfo (see tools/build_items.py). ItemStat.dbc/ItemSpells.dbc are
+# DELIBERATELY excluded from this list - both need bespoke handling (ItemStat's
+# 236MB raw body cannot land in raw/dbc/ as one file; see WANTED_DBCS_V7 below and
+# dbc.CUSTOM_RAW_DUMP_TABLES).
+WANTED_DBCS_V6 = [
+    "Item.dbc", "ItemSet.dbc", "SpellItemEnchantment.dbc", "GemProperties.dbc",
+    "ScalingStatDistribution.dbc", "ScalingStatValues.dbc", "RandPropPoints.dbc",
+    "ItemRandomSuffix.dbc", "ItemRandomProperties.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V6
+
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)
