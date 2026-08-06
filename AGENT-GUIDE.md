@@ -1290,8 +1290,11 @@ identical, and the DBC is the more complete of the two.** `SpellRankData.json`
 task did not change that. `SpellRank.dbc` (23,182 rows, columns proven:
 `firstSpellId` 100% join, `spellId` 99.98% join, `rank` range 1-25 matching the
 JSON's own field) overlaps the JSON on 9,945 spellIds (`firstSpellId` agrees
-99.56%, `rank` agrees only 94.32% with an unexplained recurring off-by-one
-pattern in the mismatches) but additionally carries **13,237 spellId rows the
+99.56%, `rank` agrees only 94.32% - of the 565 mismatches, `+1` is the largest
+single bucket but only 47.1% (266/565); `+2`..`+8` account for another 49% and a
+handful of negatives (`-1`/`-2`/`-5`, 16 rows) and a `+9`..`+14` tail (6 rows) make
+up the remainder, so this is NOT a clean off-by-one - unexplained, left as an open
+finding) but additionally carries **13,237 spellId rows the
 JSON does not have at all**, 99.96% of which are real, live Spell.dbc ids - i.e.
 meaningfully more rank-chain coverage than what the pipeline currently uses.
 The JSON in turn carries 3,366 rows absent from the DBC (the already-documented
@@ -1569,8 +1572,10 @@ def class_specs_and_roles(class_name):
   coverage than `SpellRankData.json`, which is.** Task W4-10 found this table has
   13,237 spellId rows (99.96% real, live ids) that `raw/content/SpellRankData.json`
   - the file `build_spells.py`'s closure/`rankChain`/`rankAt60` logic actually reads
-  - does not carry at all, plus a recurring, unexplained off-by-one disagreement on
-  `rank` for 5.68% of the 9,945 spellIds the two sources share. Re-deriving the
+  - does not carry at all, plus an unexplained `rank` disagreement on 5.68% (565)
+  of the 9,945 spellIds the two sources share - NOT a clean off-by-one (`+1` is
+  only 47.1% of the 565 mismatches; `+2`..`+8` plus a few negatives make up the
+  rest). Re-deriving the
   pipeline against the richer DBC source would change downstream pinned counts
   dataset-wide and was out of this CONFIG-EDIT task's scope - see "Simulation-
   adjacent spell support tables" above for the full comparison.

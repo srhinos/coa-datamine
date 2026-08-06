@@ -237,4 +237,27 @@ agree_first = sum(1 for r in sr_named if r["spellId"] in json_by_spell
                    and r["firstSpellId"] == json_by_spell[r["spellId"]]["firstSpellId"])
 assert agree_first == 9901, agree_first                                       # 99.56% of overlap
 
+# rank agreement - NOT a clean off-by-one (pinned per-diff, not just the aggregate):
+# +1 is the largest single bucket but under half of the 565 mismatches (266/565 =
+# 47.08%); +2..+8 plus a handful of negatives make up the rest.
+from collections import Counter
+rank_diffs = Counter()
+agree_rank = 0
+for r in sr_named:
+    j = json_by_spell.get(r["spellId"])
+    if j is None:
+        continue
+    d = r["rank"] - j["rank"]
+    if d == 0:
+        agree_rank += 1
+    else:
+        rank_diffs[d] += 1
+assert agree_rank == 9380, agree_rank                                         # 94.32% of overlap
+assert sum(rank_diffs.values()) == 565, sum(rank_diffs.values())
+assert rank_diffs[1] == 266, rank_diffs[1]                                    # 47.08% of mismatches
+assert dict(rank_diffs) == {
+    -5: 5, -2: 1, -1: 10, 1: 266, 2: 109, 3: 61, 4: 37, 5: 41, 6: 20, 7: 4,
+    8: 5, 9: 1, 10: 1, 11: 1, 12: 1, 13: 1, 14: 1,
+}, dict(rank_diffs)
+
 print("ALL PASS")

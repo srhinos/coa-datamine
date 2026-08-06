@@ -1261,9 +1261,12 @@ TABLE_MAPS = {
     # field range exactly.
     #   Coverage diff vs SpellRankData.json (9945-row overlap by spellId): firstSpellId
     #   agrees on 9901/9945 = 99.56% of overlapping rows; rank agrees on only 9380/9945
-    #   = 94.32% - a recurring off-by-one pattern in the mismatches (e.g. spellId 8492:
-    #   this table's rank=3 vs JSON's rank=2; 10159/10160/10161/27087 all the same
-    #   +1 shape), unexplained, left as an open finding rather than guessed at. This
+    #   = 94.32%, 565 mismatches - NOT a clean off-by-one: the diff histogram is +1 x266
+    #   (47.08% of the 565, the largest single bucket but under half), +2 x109, +3 x61,
+    #   +4 x37, +5 x41, +6 x20, +7 x4, +8 x5, +9..+14 x6 total, and a handful of
+    #   negatives (-1 x10, -2 x1, -5 x5) - e.g. spellId 8492: this table's rank=3 vs
+    #   JSON's rank=2 (+1), but plenty of others land at +2 or higher. Unexplained, left
+    #   as an open finding rather than guessed at. This
     #   table carries 13237 spellId rows ABSENT from SpellRankData.json entirely, 99.96%
     #   of which (13232/13237) are real, live Spell.dbc ids - i.e. this DBC has
     #   meaningfully MORE real rank-chain coverage than the JSON currently wired into
