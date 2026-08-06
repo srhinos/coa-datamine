@@ -10875,6 +10875,19 @@
   }
  },
  "extract": {
+  "census": {
+   "distinctDbcNamesInChain": 368,
+   "extractedCount": 88,
+   "perArchiveDbcCounts": {
+    "locale-enUS.MPQ": 224,
+    "patch-M.MPQ": 288,
+    "patch-S.MPQ": 48,
+    "patch-T.MPQ": 1,
+    "patch-enUS-2.MPQ": 139,
+    "patch-enUS-3.MPQ": 111,
+    "patch-enUS.MPQ": 168
+   }
+  },
   "files": {
    "areatable.dbc": {
     "actualFields": 36,
@@ -11928,8 +11941,42 @@
     "archive": "patch-WC.MPQ",
     "reason": "AttributeError: 'NoneType' object has no attribute 'splitlines'"
    }
-  ]
+  ],
+  "unlistableProbes": {
+   "patch-4.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-5.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-C.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-CZZ.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-P.mpq": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-W.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-WB.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   },
+   "patch-WC.MPQ": {
+    "hits": [],
+    "probedCount": 88
+   }
+  }
  },
- "generatedUtc": "2026-08-06T08:24:04+00:00",
+ "generatedUtc": "2026-08-06T09:15:36+00:00",
  "headerMismatches": []
 }
