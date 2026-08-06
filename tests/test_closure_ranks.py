@@ -6,11 +6,20 @@ Every figure below is independently re-derived in this test (not copied from
 build_spells.py's own report), per this repo's binding "re-derive, don't trust"
 rule: the closure delta is checked against the doc's own cited +1,843 within this
 task's +/-20% gate (doc's own population differs from this build's full-dataset
-scan - see build_spells.py's FORMULA_XREF_RE comment); the Spellsling rankAt60
-golden is verified by RE-COMPUTING the maxLevel-clamp formula from AGENT-GUIDE.md
-against the built record's own emitted fields, not by asserting a hardcoded 509;
-the devDead count is independently re-scanned against work/dbc/Spell.dbc with the
-test's own marker check, not read-and-trusted from _meta.json.
+scan - see build_spells.py's FORMULA_XREF_STRICT_RE/FORMULA_XREF_WIDE_RE comment);
+the Spellsling rankAt60 golden is verified by RE-COMPUTING the maxLevel-clamp
+formula from AGENT-GUIDE.md against the built record's own emitted fields, not by
+asserting a hardcoded 509; the devDead count is independently re-scanned against
+work/dbc/Spell.dbc with the test's own marker check, not read-and-trusted from
+_meta.json.
+
+[Review fix] Also a CANARY against the $1s-style transposition-typo trap (a
+same-spell "$s1" token typo'd to "$1s" misreads as a reference to a small id -
+confirmed on 28 spells, e.g. Rejuvenation's "$1s mana restored." reads as spell
+id 1): asserts no id < 1000 appears among formula-only-tagged records, since
+every legitimate cross-ref actually used by this widened grammar is a 3+ digit
+id (the guard in FORMULA_XREF_WIDE_RE) or reachable via the unrestricted STRICT
+form regardless (2-digit Vindication 67's own "$67s1" trailing-digit occurrence).
 """
 import json, sys
 from pathlib import Path
@@ -57,6 +66,7 @@ assert len(stats["missing_by_source"]["formula"]) == fc["unresolvedIds"]
 golden_ids = {300513, 573020, 802202, 502835, 502838, 17}
 by_id = {}
 formula_tagged = 0
+formula_only_ids = []
 rank_at_60_seen = 0
 dev_dead_seen = []
 for b in index["buckets"]:
@@ -67,6 +77,7 @@ for b in index["buckets"]:
                 by_id[r["id"]] = r
             if r["referencedBy"] == ["formula"]:
                 formula_tagged += 1
+                formula_only_ids.append(r["id"])
             if "rankAt60" in r:
                 rank_at_60_seen += 1
             if r.get("devDead"):
@@ -74,6 +85,18 @@ for b in index["buckets"]:
 assert len(by_id) == len(golden_ids), sorted(golden_ids - set(by_id))
 assert formula_tagged == total_new, (formula_tagged, total_new)
 assert rank_at_60_seen == meta["rankAt60"]["chainsWithRankAt60"] == stats["rank_at_60_count"]
+
+# =====================================================================
+# CANARY (review fix): no id < 1000 may enter the closure through the formula
+# channel - guards against the $1s-style transposition-typo class (a same-spell
+# "$s1" token typo'd to "$1s" misreads as "a reference to spell id 1"; confirmed
+# on 28 real spells). A future client patch reintroducing this collision against
+# a NOT-already-reachable low id must fail this test, not slip through silently.
+# =====================================================================
+low_id_formula_records = sorted(i for i in formula_only_ids if i < 1000)
+assert not low_id_formula_records, (
+    f"formula closure pulled in suspiciously low id(s) {low_id_formula_records} - "
+    "likely the $1s-style transposition-typo false positive, not a real cross-ref")
 
 # =====================================================================
 # (a) formula-ref golden: Crusader's Brand (300513)'s own formula text reads
@@ -95,10 +118,10 @@ assert by_id[573020]["name"] == "Crusader's Brand"          # the m1-value holde
 # re-verified structurally: the closure regexes never match a bare "@s:" token).
 # =====================================================================
 at_s_text = "some ability @s:120093:0@ more text"
-# "@s:120093" contains digits, but none of the three followed forms match the
-# "@s:" directive shape (FORMULA_XREF_RE/FORMULA_QS_RE both require a literal
-# "$", FORMULA_IFKNOWN_RE requires "@ifknown:") - the null result is structural,
-# not just "we didn't happen to find one in this snapshot"
+# "@s:120093" contains digits, but none of the followed forms match the "@s:"
+# directive shape (FORMULA_XREF_STRICT_RE/FORMULA_XREF_WIDE_RE/FORMULA_QS_RE all
+# require a literal "$", FORMULA_IFKNOWN_RE requires "@ifknown:") - the null
+# result is structural, not just "we didn't happen to find one in this snapshot"
 assert 120093 not in build_spells._formula_ref_ids(at_s_text)
 
 # =====================================================================

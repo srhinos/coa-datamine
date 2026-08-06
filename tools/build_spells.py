@@ -54,7 +54,38 @@ BUCKET_SIZE = 10000
 # real content (id 1-3 exist), so a size-based heuristic to tell them apart would
 # be exactly the "dense-id join-rate lies" trap this repo's memory warns about -
 # left unfollowed rather than guessed.
-FORMULA_XREF_RE = re.compile(r"\$(\d+)(?:/\d+;)?[A-Za-z]+(\d*)")
+#
+# [Review fix] The widened no-trailing-digit shape collides with a DIFFERENT real
+# authoring artifact: a same-spell "$s1"/"$m1"/etc. self-value token, TRANSPOSED
+# by a tooltip typo into "$1s"/"$1m" (digit-then-letter instead of letter-then-
+# digit) - e.g. Rejuvenation (28722) reads "Restores $s1 mana.\n$1s mana
+# restored." twice in the same tooltip, once correctly and once transposed.
+# Confirmed on 28 spells sharing this exact "$1s" template (Nature's Bounty,
+# Adrenaline Rush, Healing Touch, Lesser Healing Wave, Consume Essence/Life,
+# Elune's Touch, Revitalize, Infusion, Efficiency, Soul of the Dead, and every
+# rank of Rejuvenation/Surging Mana) - each one misreads as "a reference to spell
+# id 1" (the "UPDATE YOUR CLIENT!" placeholder row). Harmless in THIS snapshot
+# only because id 1 (and the similar self-ref cases "$10d"/"$66d" - Blizzard and
+# Invisibility referencing their own id instead of the bare "$d" token) were
+# already closure-reachable before this task ran, by luck, not by design - a
+# future client patch could easily produce the same transposition typo against
+# an id that ISN'T already reachable, silently pulling in an unrelated spell.
+#
+# Fix: split into a STRICT form (the doc's literal cited shape - single letter,
+# MANDATORY trailing digit, e.g. $573020m1, $67s1) which stays completely
+# unrestricted - it cannot arise from this transposition (a transposed "$s1" has
+# no trailing digit at all) and is proven safe down to 2-digit ids (Vindication
+# 67, a genuine external cross-ref) - and a WIDE form (multi-letter tokens,
+# no-trailing-digit tokens, the /N; infix) which additionally requires the
+# candidate id to have >=3 DIGITS before it can enter the closure. Legitimate
+# cross-refs actually used by this widened grammar are 3+ digit ids throughout
+# this dataset (67 is the sole 2-digit case, and it is captured by the STRICT
+# form regardless via its own "$67s1" trailing-digit occurrence, so nothing is
+# lost); the transposition-typo class is always a 1-2 digit id (the same digit(s)
+# that were meant to be the token's OWN rank/effect number, e.g. "1" in "$s1").
+FORMULA_XREF_STRICT_RE = re.compile(r"\$(\d+)[A-Za-z](\d+)")
+FORMULA_XREF_WIDE_RE = re.compile(r"\$(\d+)(?:/\d+;)?[A-Za-z]+(\d*)")
+FORMULA_XREF_WIDE_MIN_DIGITS = 3
 
 # "$?s<id>" per the doc; re-derivation found the same conditional-reference
 # construct also spelled with other single letters ($?a<id> 258x, $?S<id> 3x,
@@ -76,11 +107,18 @@ FORMULA_CLOSURE_MAX_DEPTH = 2
 
 
 def _formula_ref_ids(text):
-    """Extract every cross-spell id referenced by the three followed forms above.
-    Returns a set of ints; empty for falsy/None text (never raises)."""
+    """Extract every cross-spell id referenced by the followed forms above.
+    Returns a set of ints; empty for falsy/None text (never raises).
+
+    [Review fix] FORMULA_XREF_WIDE_RE is guarded to >=3-digit ids only - see its
+    definition above for why (the $1s-style transposition-typo trap). The STRICT
+    form, $?<letters><id>, and @ifknown:<id> are unguarded (all proven safe, or in
+    $?/@ifknown's case not implicated by the reviewed false-positive class)."""
     if not text:
         return set()
-    ids = {int(m.group(1)) for m in FORMULA_XREF_RE.finditer(text)}
+    ids = {int(m.group(1)) for m in FORMULA_XREF_STRICT_RE.finditer(text)}
+    ids.update(int(m.group(1)) for m in FORMULA_XREF_WIDE_RE.finditer(text)
+               if len(m.group(1)) >= FORMULA_XREF_WIDE_MIN_DIGITS)
     ids.update(int(m.group(1)) for m in FORMULA_QS_RE.finditer(text))
     ids.update(int(m.group(1)) for m in FORMULA_IFKNOWN_RE.finditer(text))
     return ids

@@ -586,11 +586,41 @@ its damage scaling there (Sec 2), heavily cross-referencing other spells
   by roughly a third) **multi-letter tokens** like `$80313ppl1`/`$202137PPL1`
   (a cross-spell `EffectRealPointsPerLevel` reference) and **no-trailing-digit**
   tokens like `$6788d` (another spell's duration) or `$49188h` (another spell's
-  proc chance). `tools/build_spells.py`'s `FORMULA_XREF_RE` docstring has the full
-  grammar-widening writeup, including the false-positive traps that were
-  deliberately **not** chased (`$1%`/`$2%` are literal percentages, not spell ids -
-  a size-based heuristic to tell them apart from real refs would be exactly this
-  repo's own "dense-id join-rate lies" trap).
+  proc chance). `tools/build_spells.py`'s `FORMULA_XREF_STRICT_RE`/
+  `FORMULA_XREF_WIDE_RE` docstrings have the full grammar-widening writeup,
+  including the false-positive traps that were deliberately **not** chased
+  (`$1%`/`$2%` are literal percentages, not spell ids - a size-based heuristic to
+  tell them apart from real refs would be exactly this repo's own "dense-id
+  join-rate lies" trap) and one that WAS caught by review and fixed:
+
+  > **⚠ The `$1s` transposition-typo trap.** The no-trailing-digit widened shape
+  > collides with a different real authoring artifact - a same-spell `$s1`/`$m1`
+  > self-value token, TRANSPOSED by a tooltip typo into `$1s`/`$1m` (digit-then-
+  > letter instead of letter-then-digit). Rejuvenation (28722) reads `"Restores
+  > $s1 mana.\n$1s mana restored."` twice in the same tooltip - once correct,
+  > once transposed - and misparses as "a reference to spell id 1" (the "UPDATE
+  > YOUR CLIENT!" placeholder row). **Confirmed on 28 spells** sharing this exact
+  > template (Rejuvenation/Surging Mana/Nature's Bounty/Adrenaline Rush/Healing
+  > Touch/Lesser Healing Wave/Consume Essence/Consume Life/Elune's Touch/
+  > Revitalize/Infusion/Efficiency/Soul of the Dead, across their rank chains).
+  > Harmless in the current snapshot only because id 1 (and the similar
+  > self-referencing `$10d`/`$66d` cases - Blizzard and Invisibility citing their
+  > own id instead of the bare `$d` token) were already closure-reachable before
+  > this widening ran - luck, not design. **Fixed by splitting the grammar**: the
+  > doc's literal single-letter-mandatory-trailing-digit shape (`FORMULA_XREF_
+  > STRICT_RE`) stays completely unrestricted - a transposed `$s1` can never
+  > produce a trailing digit, so this shape structurally cannot collide, and it's
+  > proven safe down to 2-digit ids (Vindication 67's `$67s1`, a genuine external
+  > cross-ref). The remaining widened forms (`FORMULA_XREF_WIDE_RE`: multi-letter
+  > tokens, no-trailing-digit tokens, the `/N;` infix) additionally require the
+  > candidate id to have **>=3 digits** - every legitimate cross-ref this widened
+  > grammar actually resolves in this dataset is 3+ digits; the transposition-typo
+  > class is always the same 1-2 digit number that was meant to be the token's own
+  > rank/effect suffix. Re-measured after the fix: closure delta unchanged (1,476
+  > new records - the filtered ids were all either already-reachable self-refs or
+  > unresolvable garbage, never a genuinely new record). Canaried in
+  > `tests/test_closure_ranks.py`: no id < 1000 may appear among formula-only-
+  > tagged records.
 - `$?<letter(s)><id>` - the doc cites `$?s<id>`; re-derivation found the same
   conditional-reference construct also spelled `$?a<id>`/`$?S<id>`/`$?j<id>`, so
   the letter is generalized rather than hardcoded to `s`.
