@@ -136,6 +136,14 @@ WANTED_DBCS += WANTED_DBCS_V6
 WANTED_DBCS_V7 = ["ItemStat.dbc"]
 WANTED_DBCS += WANTED_DBCS_V7
 
+# v8 (task W4-11c): ItemSpells.dbc - 131,722 rows x 37 fields. Sec 4 trap 9: f1 is
+# NOT the item link (unique per row, only 55% resolves against Item.dbc); only
+# f2->spellId is well-supported (99.81% against Spell.dbc's 1.50%-dense id space).
+# No item-link column exists in this table at all - same "no grouping identity"
+# shape as NPCTrainer (see tools/build_creatures.py's trainerIdFinding).
+WANTED_DBCS_V8 = ["ItemSpells.dbc"]
+WANTED_DBCS += WANTED_DBCS_V8
+
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)

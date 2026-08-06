@@ -206,4 +206,54 @@ assert abs(sbi_meta["itemIdJoinRate"] - 0.9696) < 0.0005
 
 print("(b) ItemStat golden + sharded dump + statsByItem index: PASS")
 
+# =========================================================================
+# (c) ItemSpells - Sec 4 trap 9, Sec 8.2 closing note, Sec 13 item 15
+# =========================================================================
+assert config.WANTED_DBCS_V8 == ["ItemSpells.dbc"]
+assert set(config.WANTED_DBCS_V8) <= set(config.WANTED_DBCS)
+assert "itemspells.dbc" in prov["files"], "missing from chain: ItemSpells.dbc"
+
+isp = dbc.DBCFile(config.WORK_DBC_DIR / "ItemSpells.dbc")
+assert isp.records == 131722 and isp.fields == 37 and isp.declared_fields == 37
+assert len(isp._strings) == 0
+assert "ItemSpells" not in dbc.TABLE_MAPS, "trap-9 table stays raw+colinfo only"
+
+item_dbc_ids = {row[0] for row in
+                dbc.DBCFile(config.WORK_DBC_DIR / "Item.dbc").iter_rows()}
+spell_dbc_ids = {row[0] & 0xFFFFFFFF for row in
+                 dbc.DBCFile(config.WORK_DBC_DIR / "Spell.dbc").iter_rows()}
+isp_rows = list(isp.iter_rows())
+f1_vals = [r[1] for r in isp_rows]
+f2_vals = [r[2] for r in isp_rows]
+
+# trap-9 claim 1: f1 is unique PER ROW (not an item link) - 131,722/131,722
+assert len(set(f1_vals)) == len(isp_rows) == 131722
+
+# trap-9 claim 2: f1 vs Item.dbc join is weak (~55%, doc's own headline number)
+f1_item_hits = sum(1 for v in f1_vals if v in item_dbc_ids)
+f1_item_rate = f1_item_hits / len(isp_rows)
+assert abs(f1_item_rate - 0.5545) < 0.001, f1_item_rate
+
+# trap-9 claim 3: f2 -> spellId IS well-supported, 99.81% against a 1.50%-dense
+# spell id space (209,130 live ids / a max id well past 10x that)
+f2_spell_hits = sum(1 for v in f2_vals if v in spell_dbc_ids)
+f2_spell_rate = f2_spell_hits / len(isp_rows)
+assert abs(f2_spell_rate - 0.9981) < 0.0005, f2_spell_rate
+spell_id_density = len(spell_dbc_ids) / max(spell_dbc_ids)
+assert spell_id_density < 0.02, spell_id_density   # "1.50%-dense" - re-derived, not copied
+
+# raw+colinfo evidence exists (no curation this letter, per the brief's own wording)
+isp_colinfo_p = config.RAW_DBC_DIR / "ItemSpells.colinfo.json"
+assert isp_colinfo_p.is_file()
+isp_colinfo = json.loads(isp_colinfo_p.read_text(encoding="utf-8"))
+assert isp_colinfo["table"] == "ItemSpells"
+assert isp_colinfo["records"] == 131722 and isp_colinfo["fields"] == 37
+isp_dump_p = config.RAW_DBC_DIR / "ItemSpells.csv.gz"
+assert isp_dump_p.is_file()
+with gzip.open(isp_dump_p, "rt", encoding="utf-8", newline="") as fh:
+    isp_header = fh.readline().strip().split(",")
+assert isp_header == [f"f{i}" for i in range(37)]   # fully raw - trap-9 documented, not named
+
+print("(c) ItemSpells keying evidence: PASS")
+
 print("ALL PASS")

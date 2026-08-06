@@ -1405,6 +1405,27 @@ originally PROVED the keying stays a test-time-only dependency
 external-ground-truth golden in this pipeline is used once to establish a
 `TABLE_MAPS` entry and then trusted, not re-fetched on every build.
 
+**`ItemSpells.dbc` (task W4-11c) - Sec 4 trap 9 CONFIRMED, re-derived, raw+colinfo
+only.** `WANTED_DBCS_V8` adds this table (131,722 rows x 37 fields, no strings).
+The trap: a naive reader could mistake `f1` for the item-link column, since it's the
+lowest-index candidate and looks id-shaped. Re-derived fresh:
+
+- **`f1` is unique PER ROW** (131,722/131,722 distinct) - structurally it CANNOT be
+  a many-spells-per-item link column (an item with several attached spells would
+  need `f1` to repeat), and its join against live `Item.dbc` ids is weak: 55.45%
+  (doc: "only 55%"; matches at doc precision). **Not the item link.**
+- **`f2` -> spellId IS well-supported**: 99.81% (131,467/131,722, exact match to the
+  doc's cited figure) against a spell id space measured at 1.50%-dense (209,130 live
+  ids over a much larger id ceiling) - a join rate this high against a SPARSE space
+  is real signal, not the dense-id false-positive shape Sec 4 trap 8 warns about
+  elsewhere in this same section.
+- No column in this table represents the item the spell is attached to (same "no
+  identity-grouping column" shape as `NPCTrainer`, see `build_creatures.py`'s
+  `trainerIdFinding`) - it is presently unusable for an item-level spell lookup.
+
+Shipped **raw + colinfo only**, no `TABLE_MAPS` entry - this letter's explicit
+scope is documenting the trap and verifying the claims, not curation.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
