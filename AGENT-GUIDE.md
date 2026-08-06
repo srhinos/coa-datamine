@@ -21,6 +21,7 @@ this repo needs an exemption).
 | Path | What | Size class |
 |---|---|---|
 | `data/classes/index.json` | class roster + tags + classId map + `dir`/`index` pointers into each class's subdirectory + `chrClasses` (ChrClasses.dbc table, 32 rows, ids 1-32, each carrying `filename` - task W4-5) + `unmatchedChrClasses` (ChrClasses rows with no CAD data: **Hero only**, task W4-5 - was Bloodmage/Felsworn/Hero/Templar before the `filename`-join fix, see "ChrClasses filename join..." below) | small |
+| `data/classes/_realms_evidence.json` | task W4-8: the `Realms`-bitmask decode attempt (DATAMINE-REQUEST.md Sec 6.2) - distinct-value census (28 values/23,709 entries), per-tag/per-bit statistics, a live duplication example, candidate-hypothesis scoring, Lua findings, and the verdict. **HONEST FAILURE, not a decode** - see "Realms bitmask decode attempt..." below; no `realmFlags` exists anywhere, raw `realms` on class entries is unchanged | small |
 | `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`aliases`/`entryCount`/`unresolvedCount` + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class - `aliases` (task W4-5) is `[]` for 40 of 43 classes, `[<ClassRemap token>]` for the 4 CoA-custom classes whose internal filename token isn't a trivial uppercase of their own CAD name (Runemaster/Primalist/Venomancer/KnightOfXoroth) | small |
 | `data/classes/<Class>/<Tab>.json` | one spec tab's obtainable abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`); each resolved spell's `ranks[]` already carries `{spellId, rank, level}` per rank (unchanged V1 design, verified still current by task W4-4) - for level-60 rank selection, look up that chain's first-rank id in `data/spells/` instead and read its `rankAt60` field (task W4-4) rather than re-deriving the CAD-level cutoff here | small-medium |
 | `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs) - see "Class tab sharding" below | small |
@@ -1007,10 +1008,22 @@ pointer here instead of a second, driftable copy.
     documented - see "Formula closure..." above: this repo's closure
     deliberately does not follow it, and structurally cannot conflate it with
     the regexes that ARE followed (pinned in `tests/test_closure_ranks.py`).
-15. **The `realms` bitmask is undecoded.** Already documented - see "Honest
-    limits" below: `"Realms bitmask on class entries: semantics unknown,
-    carried raw."` Still true; decoding it (Sec 6.2, Sec 13 item 10) is out
-    of scope for every W4 task including this one.
+15. **The `realms` bitmask is undecoded - and task W4-8 tried and failed.**
+    Every distinct value (28 across 23,709 CAD entries), every bit's
+    presence-fraction across the reborn/coa-custom/vanilla/meta tags, and 5
+    candidate hypotheses (plain per-realm bit, `1 << realmId`,
+    `Enum.RealmGameMode` index, sentinel values, grouped/mode bits) were
+    tested against the golden bar (">=3 independent known groups correctly
+    classified") - none passed. Best lead: bit 16 is 100% present on reborn
+    and 0.8% on coa-custom, and `Util.lua:337-340`'s own comment names
+    numeric realm id 16 as Bronzebeard - but that satisfies only 1 of the 3
+    required groups, and the `1<<realmId` mechanism itself is inferred, not
+    observed. No bit reaches even half of coa-custom - the best coa-custom
+    signal (a 6-way tie at 45.95%) turns out to track the CAD `Type` field
+    almost tautologically, not realm membership. Full writeup: `data/classes/
+    _realms_evidence.json` + `.superpowers/sdd/task-w4-8-report.md`. Still
+    true; further decoding (Sec 6.2, Sec 13 item 10) needs an in-game `/dump`
+    - offline analysis is exhausted.
 16. **`TalentAbility` entries grant no damaging abilities.** Re-derived from
     scratch over every `coa-custom`-tagged class's `TalentAbility` CAD
     entries: **266** distinct rank-chains (exact match to the doc), and
@@ -1030,6 +1043,45 @@ pointer here instead of a second, driftable copy.
     doc's "three such slots" (a narrower, damaging-slot-only unit) to **7
     records** at the per-record level - see "Formula closure..." above, part
     (d), and the `devDead` flag.
+
+### Realms bitmask decode attempt (task W4-8)
+
+DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10 asked for the CAD `Realms` bitmask to
+be decoded against the 6-realm roster (Vol'jin, Rexxar, Darkmoon, Dawnrise,
+Bronzebeard, Area 52). Built known-population groups from `data/classes`' existing
+`reborn`/`vanilla`/`coa-custom`/`meta` tags, enumerated all 28 distinct `Realms`
+values across the 23,709 CAD entries, and scored 5 candidate bit-semantics (plain
+per-realm bit position, `1 << realmId`, `Enum.RealmGameMode` index, sentinel
+values, grouped/mode bits) against the golden bar - **a bit assignment must
+correctly classify >=3 independent known groups**. None did.
+
+**Best lead, still unproven:** bit 16 is 100% present on reborn and only 0.8% on
+coa-custom, and `raw/interface/SharedXML/Util/Util.lua:337-340`'s own comment
+independently names numeric realm id 16 as Bronzebeard (`"10/04/2025 change
+malfurion realmID to bronzebeard"`). That satisfies only 1 of the 3 required
+groups - no numeric realm id for Vol'jin, Rexxar, Darkmoon, Dawnrise, or Area 52
+exists anywhere in `raw/interface`, and the `1<<realmId` MECHANISM applying to
+this specific field is inferred, never observed directly. **No bit reaches even
+half of coa-custom** - the strongest coa-custom signal is a 6-way tie (bits 1, 2,
+6, 14, 25, 26, perfectly co-set on the same 3,828 rows) at 45.95%, and that tie
+turns out to track the CAD `Type` field almost tautologically (nearly every
+Talent/TalentAbility row, plus a slice of Ability rows) rather than realm
+membership - it is a content-shape/UI-context flag wearing a realm-shaped
+disguise. A concrete duplication example (Barbarian *Polearms*, spell 200, CAD ids
+7704/20078/33260 - realms `"0"`/`"6144"`/`"100679750"` on the SAME ability) shows
+why: `Realms` varies WITHIN one ability's duplicate CAD rows, not BETWEEN classes
+with different (but by-definition-identical) realm availability.
+
+**Deliverable:** `data/classes/_realms_evidence.json` (`tools/build_classes.py`'s
+`_realms_evidence()`, single-writer, regenerates on every `build_classes.build()`
+run) ships the full census/crosstabs/per-bit-statistics/hypothesis-scoring/verdict,
+plus every Lua citation checked. Full narrative:
+`.superpowers/sdd/task-w4-8-report.md`. Per the binding rule ("emit only proven
+bits"), **no `realmFlags` is emitted anywhere** - raw `realms` on every
+`data/classes/<Class>/*.json` entry is byte-identical to before this task.
+Follow-up: an in-game `/dump` of a known CoA-only ability's CAD entry on both
+Vol'jin and Rexxar (or a server-side query) is the only avenue left - offline
+analysis is exhausted.
 
 ## Recipes (PowerShell / Python)
 
@@ -1156,7 +1208,11 @@ def class_specs_and_roles(class_name):
   `dataNotes`). `cad_reborn` misses and `rank` orphans (stale `SpellRankData`
   chains with no filterable realm/class field) are report-only, not gated -
   expect both to be nonzero on every build.
-- `Realms` bitmask on class entries: semantics unknown, carried raw.
+- `Realms` bitmask on class entries: semantics unknown, carried raw. Task W4-8
+  tried to decode it against the 6-realm roster and failed the golden bar - see
+  trap 15 above and `data/classes/_realms_evidence.json` for the full attempt
+  (distinct-value census, per-bit statistics, candidate-hypothesis scoring, Lua
+  findings). No `realmFlags` exists anywhere in this dataset.
 - Enum labels for uncommon effect/aura ids fall back to `EFFECT_<n>`/`AURA_<n>`;
   the numeric id is always authoritative.
 - `.loc` localization files (non-enUS) are unparsed; enUS strings come from DBCs.

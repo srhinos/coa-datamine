@@ -1,0 +1,937 @@
+{
+ "_generatedBy": "tools/build_classes.py:_realms_evidence (task W4-8)",
+ "bitStatsByTag": {
+  "0": {
+   "coa-custom": 0.0079,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "1": {
+   "coa-custom": 0.4595,
+   "meta": 0.1774,
+   "reborn": 1.0,
+   "vanilla": 0.4867
+  },
+  "10": {
+   "coa-custom": 0.0079,
+   "meta": 0.0968,
+   "reborn": 0.0,
+   "vanilla": 0.7063
+  },
+  "11": {
+   "coa-custom": 0.2954,
+   "meta": 0.1774,
+   "reborn": 1.0,
+   "vanilla": 0.4811
+  },
+  "12": {
+   "coa-custom": 0.2954,
+   "meta": 0.1774,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "13": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 1.0,
+   "vanilla": 0.4814
+  },
+  "14": {
+   "coa-custom": 0.4595,
+   "meta": 0.1774,
+   "reborn": 1.0,
+   "vanilla": 0.4867
+  },
+  "15": {
+   "coa-custom": 0.0078,
+   "meta": 0.7419,
+   "reborn": 1.0,
+   "vanilla": 0.474
+  },
+  "16": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 1.0,
+   "vanilla": 0.514
+  },
+  "17": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "18": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "19": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "2": {
+   "coa-custom": 0.4595,
+   "meta": 0.1774,
+   "reborn": 1.0,
+   "vanilla": 0.4867
+  },
+  "20": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "21": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "22": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "23": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "24": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "25": {
+   "coa-custom": 0.4595,
+   "meta": 0.1774,
+   "reborn": 1.0,
+   "vanilla": 0.4867
+  },
+  "26": {
+   "coa-custom": 0.4595,
+   "meta": 0.0806,
+   "reborn": 0.0,
+   "vanilla": 0.0
+  },
+  "27": {
+   "coa-custom": 0.0079,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.7345
+  },
+  "28": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "29": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "3": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0,
+   "vanilla": 0.4814
+  },
+  "30": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "31": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "4": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "5": {
+   "coa-custom": 0.0076,
+   "meta": 0.0968,
+   "reborn": 0.0,
+   "vanilla": 0.6614
+  },
+  "6": {
+   "coa-custom": 0.4595,
+   "meta": 0.1774,
+   "reborn": 1.0,
+   "vanilla": 0.4867
+  },
+  "7": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  },
+  "8": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 1.0,
+   "vanilla": 0.4867
+  },
+  "9": {
+   "coa-custom": 0.0078,
+   "meta": 0.0968,
+   "reborn": 0.0001,
+   "vanilla": 0.474
+  }
+ },
+ "candidateHypotheses": [
+  {
+   "name": "plain per-realm bit position (bit N = one of the 6 roster realms)",
+   "reason": "No bit reaches even 90% presence on coa-custom (max observed 46.0% at bit 1) despite every coa-custom entry being, by class-tag definition, available on Vol'jin+Rexxar. A true per-realm bit should sit near 100% for the whole group it names, not under half of it.",
+   "verdict": "REJECTED"
+  },
+  {
+   "name": "1 << realmId (numeric server realm id, e.g. GetRealmId())",
+   "reason": "raw/interface/SharedXML/Util/Util.lua:337-340 comment says realmId 5 or 8 remap to 16 for Bronzebeard text lookups ('10/04/2025 change malfurion realmID to bronzebeard'; '8 = bronzebeard ptr'), i.e. Bronzebeard's CURRENT numeric realm id is 16. Bit 16 is 100.0% present on reborn and only 0.8% on coa-custom - a clean separation for that ONE group. But this satisfies only 1 of the required >=3 independent groups: no numeric realm id for Vol'jin, Rexxar, Darkmoon, Dawnrise or Area 52 was found anywhere in raw/interface, and the 1<<realmId MECHANISM is inferred, not shown directly acting on this field anywhere in client code. Bits 8 and 13 agree with bit 16 on only 23568/23647 (99.67%) and 23553/23647 (99.60%) of entries respectively - close but not exact, so which (if any) is 'the' Bronzebeard bit vs. a coupled PTR/legacy-realm-id sibling is itself unresolved.",
+   "verdict": "UNPROVEN - best lead found, does not clear the golden bar"
+  },
+  {
+   "name": "Enum.RealmGameMode index as bit position (SharedXML/Enum.lua:778-792)",
+   "reason": "ConquestOfAzeroth=11 and WarcraftReborn=12 are defined, but bit 11 is set on 100% of REBORN entries (should be ~0% under this hypothesis if it named CoA) and bit 12 is 0% on reborn but only 29.5% on coa-custom (should be ~100% if it named Reborn/CoA respectively). Both directions contradict the hypothesis; the gameMode enum index is not the bit position.",
+   "verdict": "REJECTED"
+  },
+  {
+   "name": "0 / 0xFFFFFFFF as 'unrestricted' sentinels, other values as an exception list",
+   "reason": "Both sentinels appear across every tag (0: reborn/coa-custom/vanilla/meta all carry it; 4294967295: coa-custom/vanilla/meta do too), consistent with 'no gating applied' semantics, but this says nothing about what an individual bit means and so cannot itself satisfy the golden bar.",
+   "verdict": "STRUCTURAL OBSERVATION ONLY - names no realm"
+  },
+  {
+   "name": "grouped/mode bits: duplicate CAD rows per ability encode authoring/UI context, not realm availability",
+   "reason": "Every coa-custom class shows the SAME proportional split across the same handful of values (see duplicationExample) regardless of which class - i.e. `Realms` varies WITHIN a single ability's duplicate CAD rows, not BETWEEN classes with different realm availability. Bit 1 (the best coa-custom signal) tracks the CAD `Type` field almost tautologically (nearly all Talent + TalentAbility rows carry it, plus a partial slice of Ability rows) - it reads as a content-shape/UI-context flag, not a per-realm-availability flag.",
+   "verdict": "SUPPORTED as the likely true semantics - and explains why the realm decode fails"
+  }
+ ],
+ "distinctValueCount": 28,
+ "distinctValues": [
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    8,
+    11,
+    13,
+    14,
+    15,
+    16,
+    25
+   ],
+   "count": 12486,
+   "popcount": 10,
+   "value": "33679686"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    14,
+    25,
+    26
+   ],
+   "count": 3766,
+   "popcount": 6,
+   "value": "100679750"
+  },
+  {
+   "bits": [
+    11,
+    12
+   ],
+   "count": 2399,
+   "popcount": 2,
+   "value": "6144"
+  },
+  {
+   "bits": [],
+   "count": 2118,
+   "popcount": 0,
+   "value": "0"
+  },
+  {
+   "bits": [
+    5,
+    10,
+    27
+   ],
+   "count": 1150,
+   "popcount": 3,
+   "value": "134218784"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 718,
+   "popcount": 31,
+   "value": "4227858431"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 435,
+   "popcount": 28,
+   "value": "4093639647"
+  },
+  {
+   "bits": [
+    3,
+    10
+   ],
+   "count": 134,
+   "popcount": 2,
+   "value": "1032"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 112,
+   "popcount": 28,
+   "value": "4227857367"
+  },
+  {
+   "bits": [
+    3
+   ],
+   "count": 77,
+   "popcount": 1,
+   "value": "8"
+  },
+  {
+   "bits": [
+    0,
+    4,
+    7,
+    9,
+    12,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 76,
+   "popcount": 20,
+   "value": "4194275985"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    8,
+    11,
+    13,
+    14,
+    16,
+    25
+   ],
+   "count": 76,
+   "popcount": 9,
+   "value": "33646918"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 63,
+   "popcount": 32,
+   "value": "4294967295"
+  },
+  {
+   "bits": [
+    15
+   ],
+   "count": 40,
+   "popcount": 1,
+   "value": "32768"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    8,
+    11,
+    13,
+    14,
+    16,
+    25,
+    27
+   ],
+   "count": 20,
+   "popcount": 10,
+   "value": "167864646"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    8,
+    14,
+    16,
+    25
+   ],
+   "count": 15,
+   "popcount": 7,
+   "value": "33636678"
+  },
+  {
+   "bits": [
+    5
+   ],
+   "count": 4,
+   "popcount": 1,
+   "value": "32"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 3,
+   "popcount": 29,
+   "value": "4227857399"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 2,
+   "popcount": 29,
+   "value": "4227857375"
+  },
+  {
+   "bits": [
+    0,
+    4,
+    7,
+    9,
+    10,
+    12,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 2,
+   "popcount": 21,
+   "value": "4194277009"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    3,
+    6,
+    8,
+    11,
+    13,
+    14,
+    16,
+    25
+   ],
+   "count": 2,
+   "popcount": 10,
+   "value": "33646926"
+  },
+  {
+   "bits": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    28,
+    29,
+    30,
+    31
+   ],
+   "count": 2,
+   "popcount": 29,
+   "value": "4160748511"
+  },
+  {
+   "bits": [
+    5,
+    27
+   ],
+   "count": 2,
+   "popcount": 2,
+   "value": "134217760"
+  },
+  {
+   "bits": [
+    10
+   ],
+   "count": 2,
+   "popcount": 1,
+   "value": "1024"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    11,
+    12,
+    14,
+    25,
+    26,
+    27
+   ],
+   "count": 2,
+   "popcount": 9,
+   "value": "234903622"
+  },
+  {
+   "bits": [
+    10,
+    27
+   ],
+   "count": 1,
+   "popcount": 2,
+   "value": "134218752"
+  },
+  {
+   "bits": [
+    0
+   ],
+   "count": 1,
+   "popcount": 1,
+   "value": "1"
+  },
+  {
+   "bits": [
+    1,
+    2,
+    6,
+    8,
+    13,
+    14,
+    25
+   ],
+   "count": 1,
+   "popcount": 7,
+   "value": "33579334"
+  }
+ ],
+ "duplicationExample": {
+  "class": "Barbarian",
+  "rows": [
+   {
+    "cadId": 7704,
+    "name": "Polearms",
+    "realms": "0"
+   },
+   {
+    "cadId": 20078,
+    "name": "Polearms",
+    "realms": "6144"
+   },
+   {
+    "cadId": 33260,
+    "name": "Polearms",
+    "realms": "100679750"
+   }
+  ],
+  "spellIds": [
+   200
+  ]
+ },
+ "luaFindings": [
+  {
+   "file": "raw/interface/SharedXML/Enum.lua",
+   "finding": "Enum.RealmGameMode: Freepick=0, Random=1, Ironman=2, Survivalist=3, Draft=4, Resolute=5, WildCard=6, Felforged=7, Nightmare=8, CharacterAdvancementQualities=9, BuildDraft=10, ConquestOfAzeroth=11, WarcraftReborn=12. CharacterAdvancementQualities=9 explains why the CAD JSON's own Quality/Quality_Random fields exist - a genuine, useful, non-realms finding surfaced by this task.",
+   "lines": "778-792"
+  },
+  {
+   "file": "raw/interface/SharedXML/Util/CustomFunctionChecks.lua",
+   "finding": "C_RealmSelect.RealmInfo maps realm NAME -> {realmType, gameMode, slug, unlocked, page, index, id} for 17 dev/QA/live realms - none named Vol'jin, Darkmoon, Dawnrise, or the current-roster Bronzebeard/Area52/Rexxar by their LIVE names ('Rexxar - CoA Alpha - Development', not 'Rexxar - Conquest of Azeroth' from Config.wtf). This table is stale relative to the task's 6-realm roster and does not double as a Realms-bitmask decode key. Rexxar's row: {0, 11, \"Rexxar\", true, 2, 2, 13977864} (gameMode=11=ConquestOfAzeroth).",
+   "lines": "31-66"
+  },
+  {
+   "file": "raw/interface/SharedXML/Util/Util.lua",
+   "finding": "realmId 5 or 8 remapped to 16 for '_REALM_<id>' text-key lookups, comment: '10/04/2025 change malfurion realmID to bronzebeard' / '8 = bronzebeard ptr' - i.e. Bronzebeard's CURRENT numeric realm id is 16, and realm ids get reassigned/renamed over Ascension's history (a moving target for any static from-code decode).",
+   "lines": "336-342"
+  },
+  {
+   "file": "raw/interface/GlueXML/CharacterSelect.lua",
+   "finding": "GetRealmId() compared against literal 11 (Area52-session restart guard) and 8 (PTR realm check) - numeric realm ids exist and are read at runtime, but no Lua file anywhere under raw/interface reads the CAD `Realms` field itself (grepped 'Realms' across raw/interface/AddOns: zero hits) - it is not client-side gated, consistent with server-side filtering before the JSON ever reaches this snapshot.",
+   "lines": "1792, 1798"
+  },
+  {
+   "file": "raw/interface/FrameXML/Util/C_PVP.lua",
+   "finding": "IsLegacyWarmode(): realmID == 11 or realmID == 4 - a second, unrelated pairing of numeric realm ids with no name attached anywhere in the client code available here.",
+   "lines": "66-70"
+  }
+ ],
+ "realmRoster": [
+  "Vol'jin",
+  "Rexxar",
+  "Darkmoon",
+  "Dawnrise",
+  "Bronzebeard",
+  "Area 52"
+ ],
+ "tagCounts": {
+  "coa-custom": 8331,
+  "meta": 62,
+  "reborn": 12487,
+  "vanilla": 2829
+ },
+ "tagTopValues": {
+  "coa-custom": [
+   {
+    "count": 3761,
+    "value": "100679750"
+   },
+   {
+    "count": 2394,
+    "value": "6144"
+   },
+   {
+    "count": 2105,
+    "value": "0"
+   },
+   {
+    "count": 63,
+    "value": "4294967295"
+   },
+   {
+    "count": 2,
+    "value": "4160748511"
+   },
+   {
+    "count": 2,
+    "value": "1024"
+   },
+   {
+    "count": 2,
+    "value": "234903622"
+   },
+   {
+    "count": 1,
+    "value": "134218752"
+   }
+  ],
+  "meta": [
+   {
+    "count": 40,
+    "value": "32768"
+   },
+   {
+    "count": 6,
+    "value": "4227858431"
+   },
+   {
+    "count": 6,
+    "value": "0"
+   },
+   {
+    "count": 5,
+    "value": "6144"
+   },
+   {
+    "count": 5,
+    "value": "100679750"
+   }
+  ],
+  "reborn": [
+   {
+    "count": 12486,
+    "value": "33679686"
+   },
+   {
+    "count": 1,
+    "value": "4227857367"
+   }
+  ],
+  "vanilla": [
+   {
+    "count": 1150,
+    "value": "134218784"
+   },
+   {
+    "count": 712,
+    "value": "4227858431"
+   },
+   {
+    "count": 435,
+    "value": "4093639647"
+   },
+   {
+    "count": 134,
+    "value": "1032"
+   },
+   {
+    "count": 111,
+    "value": "4227857367"
+   },
+   {
+    "count": 77,
+    "value": "8"
+   },
+   {
+    "count": 76,
+    "value": "4194275985"
+   },
+   {
+    "count": 76,
+    "value": "33646918"
+   }
+  ]
+ },
+ "task": "W4-8: decode the CAD `Realms` bitmask (DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10)",
+ "totalEntries": 23709,
+ "verdict": {
+  "goldenBarMet": false,
+  "goldenBarText": "a bit assignment must correctly classify >=3 independent known groups (reborn/Bronzebeard, coa-custom/Vol'jin+Rexxar, vanilla/Area 52)",
+  "groupsCircumstantial": [
+   "reborn (bit 16 tracks the client-code Bronzebeard realm-id citation, but is not proven - see hypotheses)"
+  ],
+  "groupsSatisfied": [],
+  "groupsUnresolved": [
+   "coa-custom (Vol'jin/Rexxar)",
+   "vanilla (Area 52)",
+   "Darkmoon",
+   "Dawnrise"
+  ],
+  "realmFlagsEmitted": false,
+  "recommendedFollowUp": "An in-game /dump of a known CoA-only ability's CAD entry on both Vol'jin and Rexxar (or a server-side query) is the only way left to confirm any bit's identity - offline analysis is exhausted."
+ }
+}
