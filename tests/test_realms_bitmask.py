@@ -29,7 +29,8 @@ evidence = json.loads((cdir / "_realms_evidence.json").read_text(encoding="utf-8
 EXPECTED_KEYS = {
     "_generatedBy", "task", "realmRoster", "totalEntries", "distinctValueCount",
     "distinctValues", "tagCounts", "tagTopValues", "bitStatsByTag",
-    "duplicationExample", "candidateHypotheses", "luaFindings", "verdict",
+    "duplicationExample", "broaderFieldSweep", "knownAnomalies",
+    "candidateHypotheses", "luaFindings", "verdict",
 }
 assert set(evidence) == EXPECTED_KEYS, set(evidence)
 assert evidence["realmRoster"] == [
@@ -85,6 +86,36 @@ dup_values = {r["realms"] for r in dup["rows"]}
 assert len(dup_values) >= 3
 assert len({r["cadId"] for r in dup["rows"]}) == len(dup["rows"])   # distinct CAD rows
 assert len({r["name"] for r in dup["rows"]}) == 1                   # same ability name
+# [review follow-up] rows carry Tab/Flags/Icon too - the row-level proof that this
+# is authoring/UI context, not realm availability: same spell, different Tab/Flags
+for r in dup["rows"]:
+    assert set(r) == {"cadId", "realms", "name", "tab", "flags", "icon"}, r
+assert len({r["tab"] for r in dup["rows"]}) >= 2, "expected differing Tab across rows"
+assert len({r["flags"] for r in dup["rows"]}) >= 1
+
+# ---- broaderFieldSweep: reviewer-run correlations, re-verified live ----
+sweep = evidence["broaderFieldSweep"]
+assert set(sweep) == {"note", "qualityPoor", "requiredLevel10", "perTabBitFraction"}
+assert sweep["qualityPoor"]["count"] > 0
+assert sweep["qualityPoor"]["fracRealms100679750"] >= 0.9    # ~90%+ per review
+assert sweep["requiredLevel10"]["count"] > 0
+assert 0.0 <= sweep["requiredLevel10"]["fracRealms100679750"] <= 1.0
+pt = sweep["perTabBitFraction"]
+assert set(pt) == {"bit", "classTab", "otherTabsRange", "otherTabsCount"}
+assert pt["classTab"] is not None and pt["classTab"] > 0.9    # Class tab standout ~99.5%
+assert pt["otherTabsRange"][1] < pt["classTab"]                # every other tab well below it
+assert pt["otherTabsCount"] > 0
+
+# ---- knownAnomalies: DeathKnight's vanilla-class outlier distribution ----
+anomalies = evidence["knownAnomalies"]
+assert isinstance(anomalies, list) and len(anomalies) >= 1
+dk = next(a for a in anomalies if a["class"] == "DeathKnight")
+assert set(dk) == {"class", "finding", "deathKnightCount", "deathKnightTop3Values",
+                    "has134218784ByOtherVanillaClass"}
+assert dk["deathKnightCount"] > 0
+assert "134218784" not in dk["deathKnightTop3Values"]
+assert dk["has134218784ByOtherVanillaClass"]                   # non-empty dict
+assert all(dk["has134218784ByOtherVanillaClass"].values()), dk["has134218784ByOtherVanillaClass"]
 
 # ---- every candidate hypothesis the brief asked us to test is present ----
 names = " | ".join(h["name"] for h in evidence["candidateHypotheses"])
@@ -113,6 +144,7 @@ assert len(v["groupsCircumstantial"]) == 1 and "reborn" in v["groupsCircumstanti
 assert set(v["groupsUnresolved"]) == {
     "coa-custom (Vol'jin/Rexxar)", "vanilla (Area 52)", "Darkmoon", "Dawnrise"}
 assert v["recommendedFollowUp"]
+assert "Tab" in v["authoringContextEvidence"] and "Flags" in v["authoringContextEvidence"]
 
 # ---- binding rule: raw `realms` untouched, no `realmFlags` leaked into curated
 # class entries anywhere under data/classes/ ----

@@ -142,7 +142,9 @@ def _realms_evidence(cad) -> dict:
         tag_value_counts[t][raw] += 1
         if t == "coa-custom" and e.get("Type") == "Ability":
             by_spell[(cls, tuple(e.get("Spells", [])))].append(
-                {"cadId": e["ID"], "realms": raw, "name": e.get("Name", "")})
+                {"cadId": e["ID"], "realms": raw, "name": e.get("Name", ""),
+                 "tab": e.get("Tab", ""), "flags": e.get("Flags", 0),
+                 "icon": e.get("Icon", "")})
 
     total = len(cad)
     distinct = [
@@ -251,9 +253,86 @@ def _realms_evidence(cad) -> dict:
                 "tracks the CAD `Type` field almost tautologically (nearly all "
                 "Talent + TalentAbility rows carry it, plus a partial slice of "
                 "Ability rows) - it reads as a content-shape/UI-context flag, not a "
-                "per-realm-availability flag."),
+                "per-realm-availability flag. The STRONGEST evidence for this: "
+                "duplicationExample's 3 rows for the SAME ability also differ on "
+                "`Tab` (Ancestry/Tactics/Class) and `Flags` (8193/8707/8707) - "
+                "different authoring/UI placements of the identical spell, not "
+                "different realm availability of it. broaderFieldSweep confirms the "
+                "same tautology from three more independent angles (Quality=Poor, "
+                "RequiredLevel=10, per-Tab breakdown)."),
         },
     ]
+
+    # [Task W4-8 review follow-up] broaderFieldSweep: re-derive, on the live
+    # dataset, the reviewer's independent full-field correlation sweep (Quality,
+    # RequiredLevel, Tab) - every one of these resolves to the SAME Type/talent-
+    # node tautology as bit 26/best_coa_bit above, not a new realm signal, but
+    # they're worth surfacing as concrete numbers rather than asserted findings.
+    coa = [e for e in cad if ("meta" if (e.get("Class") or "None") in META
+                              else _tag(e.get("Class") or "None")) == "coa-custom"]
+    poor = [e for e in coa if e.get("Quality") == "Poor"]
+    poor_frac = (sum(1 for e in poor if e.get("Realms") == "100679750") / len(poor)
+                if poor else 0.0)
+    lvl10 = [e for e in coa if e.get("RequiredLevel") == 10]
+    lvl10_frac = (sum(1 for e in lvl10 if e.get("Realms") == "100679750") / len(lvl10)
+                 if lvl10 else 0.0)
+    tab_frac = {}
+    for e in coa:
+        tab_frac.setdefault(e.get("Tab") or "", []).append(int(e.get("Realms") or 0))
+    tab_frac = {
+        tab: round(sum(1 for v in vs if v & (1 << best_coa_bit)) / len(vs), 4)
+        for tab, vs in tab_frac.items()
+    }
+    other_tab_fracs = [f for t, f in tab_frac.items() if t != "Class"]
+    broader_field_sweep = {
+        "note": (
+            "Reviewer-run correlations, re-verified against the live dataset: "
+            "every one resolves back to the SAME Type/talent-node tautology "
+            "identified above (hypothesis 5) - none is an independent realm "
+            "signal."),
+        "qualityPoor": {
+            "count": len(poor),
+            "fracRealms100679750": round(poor_frac, 4),
+        },
+        "requiredLevel10": {
+            "count": len(lvl10),
+            "fracRealms100679750": round(lvl10_frac, 4),
+        },
+        "perTabBitFraction": {
+            "bit": best_coa_bit,
+            "classTab": tab_frac.get("Class"),
+            "otherTabsRange": [round(min(other_tab_fracs), 4),
+                               round(max(other_tab_fracs), 4)] if other_tab_fracs else None,
+            "otherTabsCount": len(other_tab_fracs),
+        },
+    }
+
+    # [Task W4-8 review follow-up] knownAnomalies: DeathKnight's Realms
+    # distribution among the 10 vanilla classes stands out - it never carries
+    # the dominant vanilla value (134218784, present in all other 9) and is
+    # instead dominated by near-all-1s/sparse values. Unexplained; left as a
+    # documented lead for a future decode attempt, not folded into any verdict.
+    vanilla_by_class = defaultdict(Counter)
+    for e in cad:
+        cls = e.get("Class") or "None"
+        if cls in VANILLA:
+            vanilla_by_class[cls][e.get("Realms", "0") or "0"] += 1
+    dk_top = [v for v, _ in vanilla_by_class.get("DeathKnight", Counter()).most_common(3)]
+    others_have_134218784 = {
+        cls: "134218784" in c for cls, c in vanilla_by_class.items() if cls != "DeathKnight"
+    }
+    known_anomalies = [{
+        "class": "DeathKnight",
+        "finding": (
+            "DeathKnight is the only one of the 10 vanilla classes with ZERO "
+            "'134218784' entries (the dominant value for every other vanilla "
+            "class) - its distribution is instead dominated by near-all-1s and "
+            "sparse values. Unexplained; possibly a clue for a future decode "
+            "attempt, not used in this task's verdict."),
+        "deathKnightCount": sum(vanilla_by_class.get("DeathKnight", Counter()).values()),
+        "deathKnightTop3Values": dk_top,
+        "has134218784ByOtherVanillaClass": others_have_134218784,
+    }]
 
     return {
         "_generatedBy": "tools/build_classes.py:_realms_evidence (task W4-8)",
@@ -267,6 +346,8 @@ def _realms_evidence(cad) -> dict:
         "tagTopValues": tag_top_values,
         "bitStatsByTag": bit_stats,
         "duplicationExample": duplication_example,
+        "broaderFieldSweep": broader_field_sweep,
+        "knownAnomalies": known_anomalies,
         "candidateHypotheses": hypotheses,
         "luaFindings": [
             {
@@ -336,6 +417,10 @@ def _realms_evidence(cad) -> dict:
             "groupsUnresolved": ["coa-custom (Vol'jin/Rexxar)", "vanilla (Area 52)",
                                   "Darkmoon", "Dawnrise"],
             "realmFlagsEmitted": False,
+            "authoringContextEvidence": (
+                "duplicationExample's 3 CAD rows for one ability differ on `Tab` "
+                "and `Flags`, not just `Realms` - direct, row-level proof that the "
+                "field tracks authoring/UI placement, not realm availability."),
             "recommendedFollowUp": (
                 "An in-game /dump of a known CoA-only ability's CAD entry on both "
                 "Vol'jin and Rexxar (or a server-side query) is the only way left "

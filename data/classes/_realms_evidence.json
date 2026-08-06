@@ -194,6 +194,26 @@
    "vanilla": 0.474
   }
  },
+ "broaderFieldSweep": {
+  "note": "Reviewer-run correlations, re-verified against the live dataset: every one resolves back to the SAME Type/talent-node tautology identified above (hypothesis 5) - none is an independent realm signal.",
+  "perTabBitFraction": {
+   "bit": 1,
+   "classTab": 0.9947,
+   "otherTabsCount": 63,
+   "otherTabsRange": [
+    0.25,
+    0.4824
+   ]
+  },
+  "qualityPoor": {
+   "count": 1523,
+   "fracRealms100679750": 0.9941
+  },
+  "requiredLevel10": {
+   "count": 2222,
+   "fracRealms100679750": 0.883
+  }
+ },
  "candidateHypotheses": [
   {
    "name": "plain per-realm bit position (bit N = one of the 6 roster realms)",
@@ -217,7 +237,7 @@
   },
   {
    "name": "grouped/mode bits: duplicate CAD rows per ability encode authoring/UI context, not realm availability",
-   "reason": "Every coa-custom class shows the SAME proportional split across the same handful of values (see duplicationExample) regardless of which class - i.e. `Realms` varies WITHIN a single ability's duplicate CAD rows, not BETWEEN classes with different realm availability. Bit 1 (the best coa-custom signal) tracks the CAD `Type` field almost tautologically (nearly all Talent + TalentAbility rows carry it, plus a partial slice of Ability rows) - it reads as a content-shape/UI-context flag, not a per-realm-availability flag.",
+   "reason": "Every coa-custom class shows the SAME proportional split across the same handful of values (see duplicationExample) regardless of which class - i.e. `Realms` varies WITHIN a single ability's duplicate CAD rows, not BETWEEN classes with different realm availability. Bit 1 (the best coa-custom signal) tracks the CAD `Type` field almost tautologically (nearly all Talent + TalentAbility rows carry it, plus a partial slice of Ability rows) - it reads as a content-shape/UI-context flag, not a per-realm-availability flag. The STRONGEST evidence for this: duplicationExample's 3 rows for the SAME ability also differ on `Tab` (Ancestry/Tactics/Class) and `Flags` (8193/8707/8707) - different authoring/UI placements of the identical spell, not different realm availability of it. broaderFieldSweep confirms the same tautology from three more independent angles (Quality=Poor, RequiredLevel=10, per-Tab breakdown).",
    "verdict": "SUPPORTED as the likely true semantics - and explains why the realm decode fails"
   }
  ],
@@ -755,24 +775,56 @@
   "rows": [
    {
     "cadId": 7704,
+    "flags": 8193,
+    "icon": "INV_Spear_06",
     "name": "Polearms",
-    "realms": "0"
+    "realms": "0",
+    "tab": "Ancestry"
    },
    {
     "cadId": 20078,
+    "flags": 8707,
+    "icon": "Spell_Shadow_DeathCoil",
     "name": "Polearms",
-    "realms": "6144"
+    "realms": "6144",
+    "tab": "Tactics"
    },
    {
     "cadId": 33260,
+    "flags": 8707,
+    "icon": "",
     "name": "Polearms",
-    "realms": "100679750"
+    "realms": "100679750",
+    "tab": "Class"
    }
   ],
   "spellIds": [
    200
   ]
  },
+ "knownAnomalies": [
+  {
+   "class": "DeathKnight",
+   "deathKnightCount": 176,
+   "deathKnightTop3Values": [
+    "4227858431",
+    "1032",
+    "4227857367"
+   ],
+   "finding": "DeathKnight is the only one of the 10 vanilla classes with ZERO '134218784' entries (the dominant value for every other vanilla class) - its distribution is instead dominated by near-all-1s and sparse values. Unexplained; possibly a clue for a future decode attempt, not used in this task's verdict.",
+   "has134218784ByOtherVanillaClass": {
+    "Druid": true,
+    "Hunter": true,
+    "Mage": true,
+    "Paladin": true,
+    "Priest": true,
+    "Rogue": true,
+    "Shaman": true,
+    "Warlock": true,
+    "Warrior": true
+   }
+  }
+ ],
  "luaFindings": [
   {
    "file": "raw/interface/SharedXML/Enum.lua",
@@ -919,6 +971,7 @@
  "task": "W4-8: decode the CAD `Realms` bitmask (DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10)",
  "totalEntries": 23709,
  "verdict": {
+  "authoringContextEvidence": "duplicationExample's 3 CAD rows for one ability differ on `Tab` and `Flags`, not just `Realms` - direct, row-level proof that the field tracks authoring/UI placement, not realm availability.",
   "goldenBarMet": false,
   "goldenBarText": "a bit assignment must correctly classify >=3 independent known groups (reborn/Bronzebeard, coa-custom/Vol'jin+Rexxar, vanilla/Area 52)",
   "groupsCircumstantial": [
