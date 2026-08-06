@@ -22,14 +22,14 @@ this repo needs an exemption).
 |---|---|---|
 | `data/classes/index.json` | class roster + tags + classId map + `dir`/`index` pointers into each class's subdirectory + `chrClasses` (ChrClasses.dbc table, 32 rows, ids 1-32) + `unmatchedChrClasses` (ChrClasses rows with no CAD data: Bloodmage, Felsworn, Hero, Templar) | small |
 | `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`entryCount`/`unresolvedCount` + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class | small |
-| `data/classes/<Class>/<Tab>.json` | one spec tab's obtainable abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`) | small-medium |
+| `data/classes/<Class>/<Tab>.json` | one spec tab's obtainable abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`); each resolved spell's `ranks[]` already carries `{spellId, rank, level}` per rank (unchanged V1 design, verified still current by task W4-4) - for level-60 rank selection, look up that chain's first-rank id in `data/spells/` instead and read its `rankAt60` field (task W4-4) rather than re-deriving the CAD-level cutoff here | small-medium |
 | `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs) - see "Class tab sharding" below | small |
 | `data/classes/<Class>/_general.json` | entries with no `Tab` (none exist in the current snapshot; the file only appears if some do) | small |
 | `data/spells/index.json` | bucket manifest: `bucketSize` (10000), total `count`, `buckets: [{bucket, file, count, minId, maxId}]` | small |
-| `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally | small-medium per file - stream/grep it, do not slurp |
-| `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts) | small |
+| `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally; task W4-4 adds `rankAt60` (chain's own first-rank record only, omitted when none of that chain's ranks are CAD-level<=60) and `devDead: true` (7 records, see "Formula closure, level-60 ranks..." below) when applicable | small-medium per file - stream/grep it, do not slurp |
+| `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts), `formulaClosure`/`rankAt60`/`scalingConstants`/`devDead` (task W4-4, see "Formula closure, level-60 ranks..." below) | small |
 | `data/spells/_coverage.json` | task W4-3: per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 total fields, 124 emitted/4 mapped-not-emitted) - see "Spell column completion" below | small |
-| `data/spells/_missing_refs.json` | full missing-ref id lists by source (`cad_other`/`cad_reborn`/`talent`/`rank`), each source's array on ONE line | small (line count, not byte count) |
+| `data/spells/_missing_refs.json` | full missing-ref id lists by source (`cad_other`/`cad_reborn`/`talent`/`rank`/`formula` - task W4-4 adds `formula`, report-only, never folded into the `cad_other`/`talent` hard gates), each source's array on ONE line | small (line count, not byte count) |
 | `data/talents/<ChrClass>.json` | DBC talent trees (row/col/ranks/prereqs) - only exists for the 12 classes that have DBC talent tabs; largest is ~3.6k lines, under the gate as-is, not sharded | medium |
 | `data/talents/_pet.json` | pet talent tabs (`petTalentMask` set) - not tied to a single player class | small |
 | `data/talents/_unassigned.json` | talent tabs matching no classMask/petTalentMask | small |
@@ -182,13 +182,22 @@ unaudited retail API parity is a recurring source of live-client crashes).
   `data/classes/<Class>/<Tab>.json`, each entry's `spells[].dispel` is a plain string
   (or `null` when unresolved) - the summary view drops the numeric id.
 - **Ranks**: `rankChain` groups spell ranks (`first` = rank-1 spell id). Class entries
-  list the first-rank spell with the full chain inline.
+  list the first-rank spell with the full chain inline. **Task W4-4**: the
+  first-rank record also carries `rankAt60: {spellId, rank, cadLevel}` - the top
+  rank obtainable at CoA's level-60 cap, NOT `ranks[-1]`/the chain's last entry (see
+  "Formula closure, level-60 ranks..." below - `ranks[-1]` requires level > 60 on
+  most multi-rank chains and inflates values badly through the maxLevel-clamp
+  formula).
 - **Tooltips**: `$` tokens (e.g. `$s1`, `$d`) are raw - server formulas are not
   evaluated. `effects[].basePoints` is the DBC convention: displayed value is
-  usually `basePoints + dieSides` for fixed values.
+  usually `basePoints + dieSides` for fixed values. **Task W4-4**: cross-spell
+  references embedded in this text (`$<id>m1`, `$?s<id>`, `@ifknown:<id>`) are now
+  followed into the dataset (depth-capped at 2) - see "Formula closure..." below;
+  `@s:<id>` is a spellbook cross-link, deliberately NOT followed.
 - **referencedBy**: how a spell entered the set - `cad` (obtainable), `rank`,
   `talent`, `trigger` (reached via EffectTriggerSpell closure; often the actual
-  buff aura behind a cast).
+  buff aura behind a cast), `formula` (task W4-4: reached via a description/tooltip
+  cross-spell reference, depth-capped at 2 - see "Formula closure..." below).
 - **Blank name vs. null name.** A spell can be present with `name: ""` (blank but
   non-null) - this is a WIP-content signature straight from the client (e.g. 222
   Talent-rank spells ship with an empty `name_enUS` in this snapshot). That is
@@ -556,6 +565,149 @@ unconditional, matching this record's pre-existing top-level convention
 scalars per spell, not 3x-duplicated per effect slot, so there's no null-noise
 concern from keeping them always-present.
 
+### Formula closure, level-60 ranks, $scalingbp, devDead (task W4-4)
+
+`coa-sim-handoff/DATAMINE-REQUEST.md` Sec 1.6-1.8 + Sec 4 trap 17. Closes the
+curation graph over description/tooltip cross-spell references, adds a level-60
+rank-selection convenience field, surfaces CoA's global level-normalising constant,
+and flags dev-dead content. See `.superpowers/sdd/task-w4-4-report.md` for the full
+re-derivation log.
+
+**(a) Formula-reference closure.** The pre-existing closure (`cad`/`rank`/`talent`
+sources, then a transitive `trigger` closure over `EffectTriggerSpell`) never
+followed spell ids embedded in `description`/`tooltip` **text** - and CoA authors
+its damage scaling there (Sec 2), heavily cross-referencing other spells
+(`${$573020m1*$<scalingbp>+...}` on Crusader's Brand). This task adds a third,
+**depth-capped-at-2** closure pass over three followed forms:
+
+- `$<id><letter(s)><n>` - e.g. `$573020m1`, `$7376S1`, and (found while
+  re-deriving the doc's own grammar against `work/dbc/Spell.dbc` - the doc states
+  a single-letter shape, but that undercounted the doc's own depth-1/depth-2 yield
+  by roughly a third) **multi-letter tokens** like `$80313ppl1`/`$202137PPL1`
+  (a cross-spell `EffectRealPointsPerLevel` reference) and **no-trailing-digit**
+  tokens like `$6788d` (another spell's duration) or `$49188h` (another spell's
+  proc chance). `tools/build_spells.py`'s `FORMULA_XREF_RE` docstring has the full
+  grammar-widening writeup, including the false-positive traps that were
+  deliberately **not** chased (`$1%`/`$2%` are literal percentages, not spell ids -
+  a size-based heuristic to tell them apart from real refs would be exactly this
+  repo's own "dense-id join-rate lies" trap).
+- `$?<letter(s)><id>` - the doc cites `$?s<id>`; re-derivation found the same
+  conditional-reference construct also spelled `$?a<id>`/`$?S<id>`/`$?j<id>`, so
+  the letter is generalized rather than hardcoded to `s`.
+- `@ifknown:<id>`.
+
+**`@s:<id>` is deliberately NOT followed** - the doc proved it is a spellbook
+cross-link, not a formula channel (following it changed zero coverage buckets in
+the source audit). Structurally re-verified here too: none of the three followed
+regexes above can ever match an `@s:` token (they require a literal `$` or
+`@ifknown:`, never a bare `@s:`) - pinned in `tests/test_closure_ranks.py`.
+
+New records are tagged `referencedBy: ["formula"]`; an id already reachable by
+another path (e.g. `573020` above is also reachable via `trigger`) does **not**
+get a retroactive `formula` tag - the tag reflects how a record was **first**
+reached, unchanged from the pre-existing `cad`/`rank`/`talent`/`trigger` convention.
+
+**Re-derived closure delta**: depth 1 +1,433 / depth 2 +43 = **1,476 new records**
+(27,475 -> 28,951), within this task's own **+/-20% gate** of the doc's cited
++1,843 (depth1 1,753 + depth2 87 + depth3 3, capped at depth 2). The remaining gap
+is expected, not a bug: this closure runs over the **full current dataset** (stock
+3.3.5a + CoA + rank + talent + trigger, ~27,475 records), a superset of the doc's
+own narrower "CoA set" measurement population - the same "our closure is a
+superset, exact reproduction isn't the goal" pattern seen throughout this project
+(see task W4-3's fill-rate re-derivations for the earlier instances). A would-be
+depth 3 was measured (not applied): **+3 new records** - an exact match to the
+doc's own cited depth-3 marginal yield, a reassuring cross-check that the widened
+grammar above is finding the intended reference set. Full breakdown in
+`data/spells/_meta.json`'s `formulaClosure` block.
+
+> **⚠ The doc's own resolution-rate figure (2,446/5,317 = 46%) does not reproduce
+> here** (this build measures 4,895/5,077 = 96.4% resolved). Population-independent
+> in principle (an id either exists in `Spell.dbc` or it doesn't), so this is most
+> likely explained by client content churn between when the doc was authored and
+> this snapshot - CoA's dev/test spell ids (the `500000+`/`800000+`/`900000+`/
+> `1000000+`+ series that dominate these references) have been observed growing
+> steadily across this repo's rebuild history (see "Regenerating after a client
+> patch" below). Flagged rather than chased further - re-deriving a stale doc
+> figure against a newer live snapshot is expected to diverge.
+
+> **⚠ The binder must follow `$mN`/`$sN`-style tokens into ANY effect slot, not
+> only damaging ones** (Sec 1.6) - this closure widens which SPELLS are in the
+> dataset, but a future consumer building a coefficient binder (matching a
+> formula's `$mN`/`$sN` tokens to the effect slot that actually carries the
+> matching `basePoints`) must not assume the match sits on a damaging slot. CoA
+> frequently binds a coefficient to a non-damaging slot used purely as a scaling
+> handle - Barbarian *Gutspiller* (805832) carries `$RAP*0.4` on slot 2 (aura 227,
+> a modifier), while slot 1 holds the actual bleed; *Dawnfall* carries `$SP*0.12`
+> on slot 2 (aura 23, `PERIODIC_TRIGGER_SPELL`). A naive per-slot binder that only
+> checks damaging slots reports these as unscaled holes when the coefficient is
+> right there on an adjacent slot. This dataset does not build that binder (out of
+> scope - "the sim writes the evaluator," Sec 2); it is documented here so nobody
+> re-discovers it the hard way.
+
+**(b) `rankAt60` - level-60 rank selection.** `ranks[].level`/`.spellId` are
+already exposed per rank inside `data/classes/<Class>/*.json` (`chains` in
+`build_classes.py`, unchanged by this task). This task adds a **convenience field
+on the `spells.jsonl` side**: `rankAt60: {spellId, rank, cadLevel}` on the chain's
+own first-rank record (`rankChain.first == id`) - the highest rank whose CAD level
+(`SpellRankData.json`'s own `level` field) is `<= 60`. Omitted entirely (no
+null-noise) for the 47 chains (of 2,130 total) where even rank 1 requires CAD
+level > 60 - stock 61-80 content with no level-60-reachable rank at all.
+
+**Why this matters**: `ranks[-1]` (global top) requires level > 60 on the large
+majority of multi-rank CoA chains and, applied through the `maxLevel`-clamp
+formula above, inflates a spell's value by a **median 1.54x, max 6.61x** (Sec
+1.7). Worst-case golden, re-derived: Runemaster *Spellsling* chain (head id
+802202) - global top is rank 12 (spellId 502838, `levels: {base:80, spell:80,
+max:80}`) which clamps to **value 3,365**; `rankAt60` correctly selects rank 9
+(spellId 502835, `levels: {base:68, spell:68, max:72}`, `cadLevel: 54`) which
+clamps to **value 509** - the doc's own cited 3,365-vs-509 pair, re-derived here
+independently via the maxLevel-clamp formula from this record's own emitted
+fields, not copied. Pinned in `tests/test_closure_ranks.py`.
+
+> **⚠ [INFERRED] gating field - UNRESOLVED, needs an in-game `/dump`.** CAD
+> `ranks[].level` and DBC `spellLevel` agree on only **32.0%** of rank rows and
+> pick a **different** level-60 rank on **512 of 920** CoA chains (Sec 1.7). This
+> field follows **CAD level**, on the doc's own reasoning that CAD is what grants
+> a rank on Ascension - not independently verified by this task, and DBC
+> `spellLevel` runs systematically higher (mean +3.03), which would pick an even
+> lower rank on the disagreeing chains. **A consumer needs the actual in-game
+> gating behavior confirmed (does the character's obtainable rank follow the CAD
+> entry's level or `Spell.dbc`'s own `spellLevel`?) before trusting `rankAt60` for
+> anything beyond the "roughly which rank" level** - this is a real, load-bearing
+> unresolved question for absolute damage values on ~55% of multi-rank chains, not
+> a hedge. Track this the same way as the §14 in-game probe items already noted
+> elsewhere in this guide.
+
+**(c) `$scalingbp` - named constant.** `data/spells/_meta.json`'s
+`scalingConstants.scalingbp` block (`SpellDescriptionVariables.dbc` row id 182,
+referenced by **550** spells via the literal `$<scalingbp>` token - both figures
+re-derived fresh against `work/dbc`, matching the doc's cited 550 exactly).
+Coefficients are **parsed out of the live SDV row text** at build time (not
+hardcoded), so a client patch that changes them fails the build's own `assert`
+instead of silently drifting. Re-derived value table matches the doc's cited
+breakpoints exactly: `0.0318@1, 0.1982@20, 0.5184@40, 0.8562@55, 0.9874@60,
+1.0148@61, 1.2777@70, 1.6052@80`.
+
+> **Framing: a level normaliser, NOT a stat coefficient.** It crosses 1.0 at
+> `$PL ~= 60.46` and sits at **0.9874 at CoA's level-60 cap** - independent
+> quantitative confirmation the content is authored at a 60 cap. A consumer
+> multiplies a spell's `basePoints` by this value when that spell's formula text
+> references `$<scalingbp>`; it carries no gear/stat scaling of its own and should
+> never be described as "the CoA scaling curve."
+
+**(d) `devDead` flag.** Set on any record whose `description`/`tooltip` carries
+the literal marker text `"DOES NOT WORK, YOU SHOULD NOT HAVE IT"` (Sec 4 trap 17).
+**Not** a loose `"does not work"` substring match - that false-positives on
+ordinary tooltip caveats (Pyromancer *Pyrolate*'s "Does not work with Elemental
+Destr[uction]" is real game text, not dev-dead content; found while deriving this
+flag). Re-derived by scanning every `Spell.dbc` row (not just the build-reachable
+set): **exactly 7 records**, all one rank chain - Pyromancer *Flame Swell*,
+spellIds 502065-502071. The doc's own cited count ("Three such slots") measures a
+different, narrower unit (build-reachable, level-60-rank-selected **damaging
+effect slots**, not spell records) and is not directly comparable to this
+per-record flag - this task's count is independently re-derived and re-verified in
+`tests/test_closure_ranks.py`, not copied from the doc.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -712,6 +864,15 @@ def class_specs_and_roles(class_name):
   consumer** - it is a per-level *value* term, not a gear-scaling coefficient, and
   85.2% of the CoA spells that carry it are capped below level 80. See "Spell column
   completion" above for the clamp formula and frozen-value goldens.
+- **`rankAt60`'s gating field is [INFERRED]-CAD, UNRESOLVED** - CAD `ranks[].level`
+  and DBC `spellLevel` pick a different level-60 rank on 512 of 920 CoA chains; this
+  field follows CAD level on the doc's own reasoning (not independently verified),
+  needs an in-game `/dump` to confirm. See "Formula closure, level-60 ranks..."
+  above - this is a real open question for absolute damage values, not a hedge.
+- **The formula-reference closure is depth-capped at 2, not exhaustive** - a
+  reference embedded only in a depth-2-added record's own text (i.e. a would-be
+  depth 3) is not followed. Measured but not applied: +3 records - see "Formula
+  closure..." above.
 - **Disproven mappings ship as documented `null`/raw, never a guessed value** - each
   was probed against the empirical-mapping rule's bar and failed it; the
   `_meta.json`/`TABLE_MAPS` comment pointer is listed so you can re-run the same
@@ -811,6 +972,11 @@ whenever CoA ships new content:
   77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
   "Header-invariant parity" above. Don't re-pin a nonzero list; investigate which base
   table's header started lying and why.
+- `tests/test_closure_ranks.py`: task W4-4 - formula-closure delta gated at +/-20%
+  of the doc's cited +1,843 (re-derived fresh each run, not a fixed pin - measured
+  1,476 as of this task); `rankAt60`/`$scalingbp`/`devDead` goldens re-derived from
+  `work/dbc` at test time, not hardcoded (see "Formula closure, level-60 ranks..."
+  above)
 - `tests/test_gt.py`: re-derives the gt* layout proof fresh from `work/dbc/gt*.dbc` at
   test time rather than pinning fixed numbers (mostly STRUCTURAL, not a snapshot pin) -
   the level-80 combat-rating constants, the spell-crit/melee-crit conversion goldens,

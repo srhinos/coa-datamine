@@ -1,6 +1,7 @@
 {
  "by_source": {
   "cad": 13766,
+  "formula": 1476,
   "rank": 10497,
   "talent": 5526,
   "trigger": 3224
@@ -13,10 +14,23 @@
   "totalFields": 234,
   "unmappedColumns": 106
  },
- "count": 27475,
+ "count": 28951,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
+ "devDead": {
+  "count": 7,
+  "ids": [
+   502065,
+   502066,
+   502067,
+   502068,
+   502069,
+   502070,
+   502071
+  ],
+  "marker": "DOES NOT WORK, YOU SHOULD NOT HAVE IT"
+ },
  "enrichment": {
-  "addon": 135,
+  "addon": 144,
   "alternativePowerType": {
    "attached": false,
    "names": [
@@ -28,7 +42,7 @@
    "reason": "Hypothesized link (Spell.dbc's signed powerType going negative indexes this table) is disproven: the only negative powerType value anywhere in Spell.dbc is -2, already decoded by enums335.POWER_TYPES as the pre-existing 'Health' resource-cost sentinel (518 spells: Life Tap, Health Funnel, Bloodrage, ...), unrelated to alternate power bars. No other Spell.dbc column was found to reference this table's ids.",
    "recordCount": 4
   },
-  "category": 6056,
+  "category": 6262,
   "charges": {
    "attached": false,
    "categoryLinkJoinRate": 1.0,
@@ -38,10 +52,10 @@
    "recordCount": 400,
    "spellIdJoinRate": 0.885
   },
-  "customAttr": 7737,
-  "descriptionVariables": 1310,
+  "customAttr": 8124,
+  "descriptionVariables": 1349,
   "overrideData": 6,
-  "tags": 26308
+  "tags": 27516
  },
  "enumEvidence": {
   "auraIds": 158,
@@ -58,18 +72,135 @@
   "sidecarNamedIds": 59,
   "wiredIds": 57
  },
+ "formulaClosure": {
+  "depthNewRecordCounts": [
+   1433,
+   43
+  ],
+  "distinctIdsSeen": 5077,
+  "maxDepth": 2,
+  "resolvedIds": 4895,
+  "totalNewRecords": 1476,
+  "unresolvedIds": 182
+ },
  "missingRefsFile": "_missing_refs.json",
  "missing_ref_counts_by_source": {
   "cad_other": 178,
   "cad_reborn": 7119,
+  "formula": 182,
   "rank": 2810,
   "talent": 13
+ },
+ "rankAt60": {
+  "chainsWithRankAt60": 1686
  },
  "ref_counts": {
   "cad_other": 7162,
   "cad_reborn": 13901,
+  "formula": 5077,
   "rank": 12661,
   "talent": 647
+ },
+ "scalingConstants": {
+  "scalingbp": {
+   "citedBreakpoints": {
+    "1": 0.0318,
+    "20": 0.1982,
+    "40": 0.5184,
+    "55": 0.8562,
+    "60": 0.9874,
+    "61": 1.0148,
+    "70": 1.2777,
+    "80": 1.6052
+   },
+   "formula": "0.0267291844060354 + 0.0048541098014737 * $PL + 0.0001859597762293 * $PL * $PL",
+   "framing": "Level normaliser, NOT a stat coefficient: crosses 1.0 at PL ~= 60.46 and sits at 0.9874 at CoA's level-60 cap - independent confirmation CoA content is authored at a 60 cap. Consumers multiply a spell's basePoints by this value when the spell's formula text references \"$<scalingbp>\"; it carries no gear/stat scaling of its own.",
+   "rawText": "$scalingbp=${(0.0267291844060354+0.0048541098014737*$PL+0.0001859597762293*$PL*$PL)}",
+   "referencedBySpellCount": 550,
+   "sdvId": 182,
+   "valueTable": {
+    "1": 0.0318,
+    "10": 0.0939,
+    "11": 0.1026,
+    "12": 0.1118,
+    "13": 0.1213,
+    "14": 0.1311,
+    "15": 0.1414,
+    "16": 0.152,
+    "17": 0.163,
+    "18": 0.1744,
+    "19": 0.1861,
+    "2": 0.0372,
+    "20": 0.1982,
+    "21": 0.2107,
+    "22": 0.2235,
+    "23": 0.2367,
+    "24": 0.2503,
+    "25": 0.2643,
+    "26": 0.2786,
+    "27": 0.2934,
+    "28": 0.3084,
+    "29": 0.3239,
+    "3": 0.043,
+    "30": 0.3397,
+    "31": 0.3559,
+    "32": 0.3725,
+    "33": 0.3894,
+    "34": 0.4067,
+    "35": 0.4244,
+    "36": 0.4425,
+    "37": 0.4609,
+    "38": 0.4797,
+    "39": 0.4989,
+    "4": 0.0491,
+    "40": 0.5184,
+    "41": 0.5383,
+    "42": 0.5586,
+    "43": 0.5793,
+    "44": 0.6003,
+    "45": 0.6217,
+    "46": 0.6435,
+    "47": 0.6657,
+    "48": 0.6882,
+    "49": 0.7111,
+    "5": 0.0556,
+    "50": 0.7343,
+    "51": 0.758,
+    "52": 0.782,
+    "53": 0.8064,
+    "54": 0.8311,
+    "55": 0.8562,
+    "56": 0.8817,
+    "57": 0.9076,
+    "58": 0.9338,
+    "59": 0.9604,
+    "6": 0.0625,
+    "60": 0.9874,
+    "61": 1.0148,
+    "62": 1.0425,
+    "63": 1.0706,
+    "64": 1.0991,
+    "65": 1.1279,
+    "66": 1.1571,
+    "67": 1.1867,
+    "68": 1.2167,
+    "69": 1.247,
+    "7": 0.0698,
+    "70": 1.2777,
+    "71": 1.3088,
+    "72": 1.3402,
+    "73": 1.3721,
+    "74": 1.4042,
+    "75": 1.4368,
+    "76": 1.4697,
+    "77": 1.5031,
+    "78": 1.5367,
+    "79": 1.5708,
+    "8": 0.0775,
+    "80": 1.6052,
+    "9": 0.0855
+   }
+  }
  },
  "schemaVersion": 2,
  "schema_note": "sharded by id//10000*10000 into by-id/spells-<bucket>.jsonl (one spell per line, ascending id within a bucket); see index.json and AGENT-GUIDE.md"

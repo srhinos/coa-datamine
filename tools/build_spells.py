@@ -19,12 +19,84 @@ pointing at data/spells/charges.json - SpellCharges/SpellChargesCategory are
 proven internally but SpellCharges' link to live Spell.dbc rows misses the
 brief's >=90% attach bar, so they ship curated STANDALONE (own file, not
 per-spell fields) instead of report-only."""
-import json, shutil
+import json, re, shutil
 from collections import defaultdict
 
 from tools import config, dbc, enums335, sharding
 
 BUCKET_SIZE = 10000
+
+# [Task W4-4] Formula-reference closure (DATAMINE-REQUEST.md Sec 1.6): CoA authors
+# damage scaling in description/tooltip text, and 622/1,694 CoA damaging spells
+# cross-reference ANOTHER spell id from their own formula (e.g. Crusader's Brand
+# 300513's tooltip reads "${$573020m1*$<scalingbp>+...}" - it needs 573020's own m1
+# value). The curation closure (cad/rank/talent/trigger, above) never followed these.
+#
+# Grammar, re-derived from work/dbc/Spell.dbc (not copied from the doc - binding
+# rule): the doc states the base shape as "$<id><letter><n>" (e.g. $573020m1,
+# $7376S1), but a direct regex on that shape undercounted the doc's own measured
+# depth-1/depth-2 yield by ~1/3. Widening it to what's actually on disk closed most
+# of the gap:
+#   - the "letter" segment is often MULTI-character, not always one letter -
+#     "$80313ppl1" / "$202137PPL1" (a cross-spell EffectRealPointsPerLevel reference,
+#     the same "ppl" token used bare for a spell's own effect) are real and common.
+#   - a large family has NO trailing rank/effect digit at all - "$6788d" (another
+#     spell's duration), "$49188h" (another spell's proc chance) - these are
+#     "$<id><letter-word>" with nothing after. Some of these have garbled trailing
+#     text from what looks like a authoring/templating artifact (e.g. "$10475donds"
+#     is "$10475d" + a mangled "seconds" with no separator) - the id capture is
+#     still correct regardless, so these are kept, not filtered.
+#   - an optional "/<n>;" tick-rate infix shows up before the letter in "per N
+#     seconds" tooltip macros - "$25695/5;s1" (Restores $25695/5;s1 health).
+# Deliberately NOT widened to a bare "$<id>%" or "$<id>," form (27 + a handful of
+# occurrences): those collide with genuinely bare small numbers used as literal
+# percentages ("$1%", "$2%" - not spell ids), and Spell.dbc's own low-id range is
+# real content (id 1-3 exist), so a size-based heuristic to tell them apart would
+# be exactly the "dense-id join-rate lies" trap this repo's memory warns about -
+# left unfollowed rather than guessed.
+FORMULA_XREF_RE = re.compile(r"\$(\d+)(?:/\d+;)?[A-Za-z]+(\d*)")
+
+# "$?s<id>" per the doc; re-derivation found the same conditional-reference
+# construct also spelled with other single letters ($?a<id> 258x, $?S<id> 3x,
+# $?j<id> 3x) - same directive family (a conditional cross-spell value pick), so
+# the letter is generalized rather than hardcoded to "s" alone.
+FORMULA_QS_RE = re.compile(r"\$\?[a-zA-Z]+(\d+)")
+
+FORMULA_IFKNOWN_RE = re.compile(r"@ifknown:(\d+)")
+
+# NOTE: "@s:<id>" is deliberately NOT a followed form here - DATAMINE-REQUEST.md
+# Sec 1.6 proved it is a spellbook cross-link, not a formula reference (following
+# it changed zero coverage buckets in the source audit). Re-verified informally
+# during this task: @s: targets are overwhelmingly already-closed ids (spellbook
+# entries point at abilities a player already has), so it would add near-zero
+# records anyway even where it does resolve - the null result is a documented
+# finding, not an oversight.
+
+FORMULA_CLOSURE_MAX_DEPTH = 2
+
+
+def _formula_ref_ids(text):
+    """Extract every cross-spell id referenced by the three followed forms above.
+    Returns a set of ints; empty for falsy/None text (never raises)."""
+    if not text:
+        return set()
+    ids = {int(m.group(1)) for m in FORMULA_XREF_RE.finditer(text)}
+    ids.update(int(m.group(1)) for m in FORMULA_QS_RE.finditer(text))
+    ids.update(int(m.group(1)) for m in FORMULA_IFKNOWN_RE.finditer(text))
+    return ids
+
+
+# [Task W4-4] DATAMINE-REQUEST.md Sec 4 trap 17: dev-dead content ships in the data
+# with an unmistakable authored marker. Verified by scanning every Spell.dbc
+# description/tooltip for the literal phrase (not a loose "does not work" substring
+# - that also matches ordinary tooltip caveats like Pyrolate's "Does not work with
+# Elemental Destr[uction]", a false-positive trap found while deriving this) -
+# exactly 7 rows carry it, all one rank chain (Pyromancer Flame Swell, ranks
+# 502065-502071). The doc's own count ("Three such slots") is over a narrower,
+# differently-shaped population (damaging EFFECT SLOTS within the level-60-reachable
+# set, not spell records) - not directly comparable to a per-record flag; this task
+# flags every RECORD carrying the marker, independently re-derived, not copied.
+DEV_DEAD_MARKER = "DOES NOT WORK, YOU SHOULD NOT HAVE IT"
 
 
 def iter_all():
@@ -97,6 +169,86 @@ def _bucket(tags, cad_other_ids, cad_reborn_ids, sid):
     return "rank"
 
 
+def _rank_at_60_map():
+    """[Task W4-4] Per rank chain (grouped by SpellRankData's firstSpellId), the top
+    rank whose CAD level (SpellRankData.json's own "level" field) is <= 60 -
+    DATAMINE-REQUEST.md Sec 1.7: a consumer taking ranks[-1] (global top) gets an
+    ability the player cannot have at the level-60 cap on 92.2% of multi-rank CoA
+    chains (re-derived here over ALL rank chains incl. stock: 1,445/2,130 = 67.8%
+    have a different top-at-60 pick - narrower than the doc's CoA-only figure, same
+    "our closure is a superset" pattern seen throughout this task).
+
+    Gating field is [INFERRED]-CAD per the doc: CAD ranks[].level and DBC spellLevel
+    agree on only 32.0% of rows and pick a different level-60 rank on 512/920 CoA
+    chains - UNRESOLVED, needs an in-game /dump to confirm which field the Ascension
+    server actually gates on. This function follows CAD level (the doc's own
+    reasoning: CAD is what grants the rank on Ascension), NOT DBC spellLevel - see
+    AGENT-GUIDE.md for the caveat, repeated here since it is load-bearing for every
+    consumer of this field.
+
+    Returns {firstSpellId: {"spellId", "rank", "cadLevel"}}. A chain where even rank
+    1 requires CAD level > 60 (47 of 2,130 in this snapshot - stock 61-80 content
+    with no level-60-reachable rank at all) gets no entry - per this repo's no-null-
+    noise convention, the caller omits the key entirely rather than emitting a
+    misleading rankAt60 for an ability the character can never have any rank of."""
+    chains = defaultdict(list)
+    for e in _content("SpellRankData.json"):
+        chains[e["firstSpellId"]].append(
+            {"spellId": e["spellId"], "rank": e["rank"], "cadLevel": e["level"]})
+    out = {}
+    for first_id, ranks in chains.items():
+        ranks.sort(key=lambda x: x["rank"])
+        eligible = [r for r in ranks if r["cadLevel"] <= 60]
+        if eligible:
+            out[first_id] = eligible[-1]              # highest rank among those <=60
+    return out
+
+
+def _scalingbp_constant():
+    """[Task W4-4] DATAMINE-REQUEST.md Sec 1.8: CoA's one global base-point level
+    curve, SpellDescriptionVariables.dbc row id 182, referenced by 550 spells via the
+    literal token "$<scalingbp>" in their formula text (both figures re-derived
+    fresh against work/dbc, not copied - see task report). Coefficients are parsed
+    out of the live SDV row text (not hardcoded) so a client patch that changes them
+    fails loudly (assert) instead of silently going stale.
+
+    Framing (binding rule): this is a LEVEL NORMALISER, not a stat coefficient - it
+    crosses 1.0 at PL ~= 60.46 and sits at 0.9874 at CoA's level-60 cap, independent
+    confirmation the content is authored at a 60 cap. A consumer applies it as a
+    multiplier on basePoints for spells whose formula references it; it is not
+    itself a source of gear/stat scaling."""
+    sdv = {r["id"]: r["text_enUS"] for r in dbc.iter_named("SpellDescriptionVariables")}
+    text = sdv.get(182, "")
+    m = re.search(
+        r"\$scalingbp\s*=\s*\$\{\(([-\d.]+)\+([-\d.]+)\*\$PL\+([-\d.]+)\*\$PL\*\$PL\)\}",
+        text)
+    assert m, f"$scalingbp SDV row 182 shape changed - re-derive: {text!r}"
+    c0, c1, c2 = (float(m.group(i)) for i in (1, 2, 3))
+
+    def value_at(pl):
+        return c0 + c1 * pl + c2 * pl * pl
+
+    ref_count = sum(
+        1 for r in dbc.iter_named("Spell")
+        if re.search(r"\$<\s*scalingbp\s*>", (r["description_enUS"] or "")
+                     + (r["tooltip_enUS"] or ""), re.IGNORECASE))
+    return {
+        "sdvId": 182,
+        "rawText": text,
+        "formula": f"{c0} + {c1} * $PL + {c2} * $PL * $PL",
+        "referencedBySpellCount": ref_count,
+        "framing": ("Level normaliser, NOT a stat coefficient: crosses 1.0 at "
+                    "PL ~= 60.46 and sits at 0.9874 at CoA's level-60 cap - "
+                    "independent confirmation CoA content is authored at a 60 cap. "
+                    "Consumers multiply a spell's basePoints by this value when the "
+                    "spell's formula text references \"$<scalingbp>\"; it carries no "
+                    "gear/stat scaling of its own."),
+        "valueTable": {str(pl): round(value_at(pl), 4) for pl in range(1, 81)},
+        "citedBreakpoints": {str(pl): round(value_at(pl), 4)
+                              for pl in (1, 20, 40, 55, 60, 61, 70, 80)},
+    }
+
+
 def _aux():
     return {
         "cast": {r["id"]: r for r in dbc.iter_named("SpellCastTimes")},
@@ -109,6 +261,7 @@ def _aux():
         "rune": {r["id"]: r for r in dbc.iter_named("SpellRuneCost")},
         "roles": {e["Spell"]: e for e in _content("SpellToRoleSuggestionData.json")},
         "rank": {e["spellId"]: e for e in _content("SpellRankData.json")},
+        "rankAt60": _rank_at_60_map(),
     }
 
 
@@ -322,6 +475,21 @@ def _record(r, aux, tags, v2):
                    "damage": role["DamageScore"]} if role else None),
         "referencedBy": sorted(tags),
     }
+    # [Task W4-4] rankAt60 (Sec 1.7): emitted only on the chain's OWN first-rank
+    # record (rankChain.first == this record's id, i.e. sid == rank["firstSpellId"])
+    # - a per-chain convenience field belongs on one record, not duplicated across
+    # every rank. Omitted (no null-noise) when the chain has no rank <= CAD level 60
+    # at all (see _rank_at_60_map).
+    if rank and sid == rank["firstSpellId"]:
+        r60 = a["rankAt60"].get(sid)
+        if r60:
+            rec["rankAt60"] = r60
+    # [Task W4-4] devDead (Sec 4 trap 17): literal marker text, re-verified by scan
+    # (see DEV_DEAD_MARKER's docstring) - not a loose "does not work" substring,
+    # which false-positives on ordinary tooltip caveats.
+    dead_text = (r["description_enUS"] or "") + (r["tooltip_enUS"] or "")
+    if DEV_DEAD_MARKER in dead_text.upper():
+        rec["devDead"] = True
     _enrich_v2(rec, r, sid, v2)
     return rec
 
@@ -771,11 +939,15 @@ def build() -> dict:
     initial_ids = set(refs)                                       # pre-closure snapshot
     aux = _aux()
 
-    # pass 1: full records for initially-referenced ids + trigger map for ALL ids
-    records, triggers = {}, {}
+    # pass 1: full records for initially-referenced ids + trigger map for ALL ids +
+    # [Task W4-4] formula_text: description+tooltip text for EVERY Spell.dbc id (not
+    # just referenced ones), so the formula closure below can look up a candidate's
+    # text without a second full-table scan per depth.
+    records, triggers, formula_text = {}, {}, {}
     for r in dbc.iter_named("Spell"):
         triggers[r["id"]] = (r["effectTriggerSpell1"], r["effectTriggerSpell2"],
                              r["effectTriggerSpell3"])
+        formula_text[r["id"]] = (r["description_enUS"] or "") + "\n" + (r["tooltip_enUS"] or "")
         if r["id"] in refs:
             records[r["id"]] = r
 
@@ -790,7 +962,35 @@ def build() -> dict:
                     new.add(t)
         frontier = new
 
-    # pass 2: fetch full records for closure-added ids
+    # [Task W4-4] formula-reference closure (DATAMINE-REQUEST.md Sec 1.6), capped at
+    # depth 2 per the doc's own cost/benefit measurement (depth 3's marginal yield is
+    # negligible - re-derived below, not copied). Frontier starts as EVERY id
+    # referenced so far (initial cad/rank/talent + trigger closure); each depth scans
+    # only the ids newly added at the previous depth, matching the doc's own
+    # depth-1/depth-2/depth-3 framing. Only ids that resolve to a live Spell.dbc row
+    # (`rid in triggers`) get added to refs/records - unresolved ones are tracked in
+    # formula_seen_ids/formula's missing_by_source bucket below, report-only, exactly
+    # so they can't leak into the cad_other/talent hard-gate ratios above.
+    formula_seen_ids = set()
+    formula_depth_new_counts = []
+    frontier = set(refs)
+    for _depth in range(1, FORMULA_CLOSURE_MAX_DEPTH + 1):
+        new_resolved = set()
+        for sid in frontier:
+            for rid in _formula_ref_ids(formula_text.get(sid, "")):
+                formula_seen_ids.add(rid)
+                if rid in refs:
+                    continue
+                if rid in triggers:
+                    refs.setdefault(rid, set()).add("formula")
+                    new_resolved.add(rid)
+        formula_depth_new_counts.append(len(new_resolved))
+        frontier = new_resolved
+        if not frontier:
+            break
+    formula_missing_ids = sorted(i for i in formula_seen_ids if i not in triggers)
+
+    # pass 2: fetch full records for closure-added ids (trigger + formula)
     todo = set(refs) - set(records)
     todo &= set(triggers)                       # only ids that exist in Spell.dbc
     if todo:
@@ -801,14 +1001,21 @@ def build() -> dict:
     # Amendment A: bucket every pre-closure referenced id (cad_other > cad_reborn >
     # talent > rank) and report per-bucket miss ratios instead of one flat ratio -
     # CAD is account-wide across four realms and Reborn's spells aren't on disk here.
-    ref_counts = {"cad_other": 0, "cad_reborn": 0, "talent": 0, "rank": 0}
-    missing_by_source = {"cad_other": [], "cad_reborn": [], "talent": [], "rank": []}
+    ref_counts = {"cad_other": 0, "cad_reborn": 0, "talent": 0, "rank": 0, "formula": 0}
+    missing_by_source = {"cad_other": [], "cad_reborn": [], "talent": [], "rank": [],
+                          "formula": []}
     for sid in initial_ids:
         b = _bucket(refs[sid], cad_other_ids, cad_reborn_ids, sid)
         ref_counts[b] += 1
         if sid not in triggers:
             missing_by_source[b].append(sid)
     missing_by_source = {k: sorted(v) for k, v in missing_by_source.items()}
+    # [Task W4-4] formula bucket is populated separately from the initial_ids loop
+    # above (formula refs are discovered DURING closure, not part of the pre-closure
+    # snapshot) - deliberately kept out of that loop/the cad_other/talent hard gates
+    # so an unresolved formula reference can never distort them. Report-only.
+    ref_counts["formula"] = len(formula_seen_ids)
+    missing_by_source["formula"] = formula_missing_ids
 
     out_dir = config.DATA_DIR / "spells"
     if out_dir.exists():
@@ -825,6 +1032,8 @@ def build() -> dict:
     enrichment_counts = {"tags": 0, "customAttr": 0, "descriptionVariables": 0,
                           "category": 0, "addon": 0, "overrideData": 0}
     bucketed = defaultdict(list)
+    rank_at_60_count = 0
+    dev_dead_ids = []
     for sid in sorted(records):
         rec = _record(records[sid], aux, refs[sid], v2)
         for t in rec["referencedBy"]:
@@ -832,6 +1041,10 @@ def build() -> dict:
         for k in enrichment_counts:
             if k in rec:
                 enrichment_counts[k] += 1
+        if "rankAt60" in rec:
+            rank_at_60_count += 1
+        if rec.get("devDead"):
+            dev_dead_ids.append(sid)
         bucketed[sharding.bucket_id(sid, BUCKET_SIZE)].append(rec)
 
     bucket_index = []
@@ -882,6 +1095,33 @@ def build() -> dict:
             "file": "_coverage.json",
             **coverage_summary,
         },
+        # [Task W4-4] DATAMINE-REQUEST.md Sec 1.6: depth-capped BFS over description/
+        # tooltip cross-spell references. "totalNewRecords" is this build's own
+        # re-derivation of the doc's "+1,843" (doc's own depth1/2/3 = 1753/87/3,
+        # capped at depth 2) - re-derived, not copied, and expected to differ
+        # somewhat since this closure runs over the FULL current dataset (stock +
+        # CoA + rank + talent + trigger), a superset of the doc's own measurement
+        # population; see AGENT-GUIDE.md for the full writeup and the ±20% gate.
+        "formulaClosure": {
+            "maxDepth": FORMULA_CLOSURE_MAX_DEPTH,
+            "depthNewRecordCounts": formula_depth_new_counts,
+            "totalNewRecords": sum(formula_depth_new_counts),
+            "distinctIdsSeen": len(formula_seen_ids),
+            "resolvedIds": len(formula_seen_ids) - len(formula_missing_ids),
+            "unresolvedIds": len(formula_missing_ids),
+        },
+        # [Task W4-4] DATAMINE-REQUEST.md Sec 1.7: per rank chain, the top rank at
+        # CAD level <= 60 - see rankAt60 field + _rank_at_60_map's docstring for the
+        # [INFERRED]-CAD gating-field caveat (needs an in-game /dump to confirm).
+        "rankAt60": {"chainsWithRankAt60": rank_at_60_count},
+        # [Task W4-4] DATAMINE-REQUEST.md Sec 1.8: $scalingbp named constant.
+        "scalingConstants": {"scalingbp": _scalingbp_constant()},
+        # [Task W4-4] DATAMINE-REQUEST.md Sec 4 trap 17: dev-dead content flag.
+        "devDead": {
+            "marker": DEV_DEAD_MARKER,
+            "count": len(dev_dead_ids),
+            "ids": sorted(dev_dead_ids),
+        },
         "dataNotes": (
             "CharacterAdvancementData.json is account-wide across four realms served by "
             "this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - "
@@ -902,7 +1142,15 @@ def build() -> dict:
     return {"written": len(records), "missing_by_source": missing_by_source,
             "ref_counts": ref_counts, "by_source": by_source,
             "enum_evidence": enum_evidence_summary,
-            "column_coverage": coverage_summary}
+            "column_coverage": coverage_summary,
+            "formula_closure": {
+                "depthNewRecordCounts": formula_depth_new_counts,
+                "totalNewRecords": sum(formula_depth_new_counts),
+                "distinctIdsSeen": len(formula_seen_ids),
+                "unresolvedIds": len(formula_missing_ids),
+            },
+            "rank_at_60_count": rank_at_60_count,
+            "dev_dead_ids": sorted(dev_dead_ids)}
 
 
 if __name__ == "__main__":

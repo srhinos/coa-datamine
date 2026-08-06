@@ -37,7 +37,14 @@ ALLOWLIST = {
 # the referenced-id closure) - writer now produces 27475 (+1 vs. 27474). Re-pinned
 # per the same contract; every other invariant in this file (class entry counts,
 # dungeon count) was checked and is unchanged by the same patch.
-PRE_SPELL_COUNT = 27475
+# 2026-08-06 (task W4-4, intentional): the writer now also closes over formula/
+# directive spell-id references embedded in description/tooltip text (depth-capped
+# at 2 - DATAMINE-REQUEST.md Sec 1.6), adding 1,476 new "formula"-tagged records on
+# top of the prior 27,475 (re-derived fresh, within this task's own +/-20% gate of
+# the doc's cited +1,843 - see AGENT-GUIDE.md and data/spells/_meta.json's
+# formulaClosure block for the full count breakdown). This is a real, intentional
+# widening of the writer's output, not client drift - re-pinned accordingly.
+PRE_SPELL_COUNT = 28951
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,
@@ -94,13 +101,15 @@ meta = json.loads((sdir / "_meta.json").read_text(encoding="utf-8"))
 assert meta["count"] == PRE_SPELL_COUNT
 assert "missing_refs_by_source" not in meta, "full missing-ref lists must move out of _meta.json"
 missing = json.loads((sdir / "_missing_refs.json").read_text(encoding="utf-8"))
-assert set(missing) == {"cad_other", "cad_reborn", "talent", "rank"}
+# [Task W4-4] "formula" joins the source set - report-only bucket for formula-
+# referenced ids that don't resolve to a live Spell.dbc row (see build_spells.py).
+assert set(missing) == {"cad_other", "cad_reborn", "talent", "rank", "formula"}
 for k, v in meta["missing_ref_counts_by_source"].items():
     assert len(missing[k]) == v
 # each source's array really is on one line (the amendment's compactness requirement)
 raw_lines = (sdir / "_missing_refs.json").read_text(encoding="utf-8").splitlines()
 array_lines = [ln for ln in raw_lines if ln.strip().startswith('"') and "[" in ln]
-assert len(array_lines) == 4
+assert len(array_lines) == 5
 
 # ---- classes: per-class index completeness + count invariance ----
 cdir = config.DATA_DIR / "classes"
