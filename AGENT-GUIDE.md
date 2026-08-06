@@ -171,7 +171,8 @@ unaudited retail API parity is a recurring source of live-client crashes).
   `CharacterAdvancementData.json` - the source of everything in `data/classes/` - is
   **account-wide across all four realms**, not scoped to one. Exactly ONE realm ships
   a client-side DBC overlay - Free-Pick's `Data\area-52\patch-D.MPQ` (task W4-13; the
-  CoA realms have none and never will, see "Realm overlays" below) - and
+  CoA realms have none in the current `ascension-live` product, and none has ever
+  appeared on this install, see "Realm overlays" below) - and
   **Bronzebeard/Reborn's spell data is not part of this client snapshot's
   `Spell.dbc`**. Consequence: Reborn-class spell references resolve as `null` in
   class files far more often than other classes (~51% of Reborn* refs) - this is a
@@ -296,7 +297,16 @@ game-content system, distinct from the realm-overlay layer below.
 **Realm overlays** (`data/realms/<realm>/`, `raw/realms/<realm>/dbc/`) are a
 *separate* concept - and a narrower one than this section used to claim.
 `Data\area-52\patch-D.MPQ` + its `listarchive` are **Free-Pick's overlay, not "the
-realm overlay"**: it is the ONLY realm-scoped data set the client has, for any realm.
+realm overlay"**: it is the only realm-scoped data set this product ships *right now*.
+The product carries **exactly one realm overlay at a time, and which realm it is has
+changed**: the legacy launcher's own installed-file manifest
+(`%LOCALAPPDATA%\ProjectAscension\Config\AscensionLauncherSettings-legacy.json`,
+written 2026-07-01) lists `\Data\Bronzebeard\listarchive` + `\Data\Bronzebeard\patch-D.MPQ`
+and **no area-52 entry at all**; twenty-one seconds after the new patcher logged
+`Directory Data/Bronzebeard is on disk but it's not in the database`, it queued the
+area-52 pair. So "no CoA overlay" is a fact about this product revision, not a
+permanent property of the client - a future revision could ship one, which is why
+`discover_realms()` stays generic rather than hard-coding `area-52`.
 `tools/config.discover_realms()` finds any `Data\<dir>\` carrying its own
 `listarchive` file (excluding the base `enUS`/`Content` dirs) - a generic finder that
 correctly returns exactly one name here, `area-52`.
