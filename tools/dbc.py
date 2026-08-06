@@ -947,10 +947,10 @@ TABLE_MAPS = {
     #     0 at every level; Paladin/Hunter/Priest/Shaman/Mage/Warlock/Hero converge to the
     #     canonical WotLK constants 80.00 int/1% @70 and 166.67 int/1% @80 exactly.
     #
-    # cr-index identity for gtCombatRatings' 32 rating slots (0-31): 16 pinned to a published
-    # name (see the goldens above), 16 stay unnamed "cr<N>" per the empirical rule - a value
-    # coincidence is not proof (this file's own repeated trap). Two evidence tiers among the
-    # 16 named:
+    # cr-index identity for gtCombatRatings' 32 rating slots (0-31): 17 pinned to a published
+    # name (see the goldens above), 15 stay unnamed "cr<N>" per the empirical rule - a value
+    # coincidence is not proof (this file's own repeated trap). Three evidence tiers among the
+    # 17 named:
     #   - 13 have an independent PUBLISHED level-80 anchor (cr1,2,3,5,6,7,8,9,10,17,18,19,23 -
     #     DEFENSE/DODGE/PARRY/HIT_MELEE/HIT_RANGED/HIT_SPELL/CRIT_MELEE/CRIT_RANGED/CRIT_SPELL/
     #     HASTE_MELEE/HASTE_RANGED/HASTE_SPELL/EXPERTISE) plus cr24 ARMOR_PENETRATION (named
@@ -968,13 +968,21 @@ TABLE_MAPS = {
     #     that same well-known enum's tail order - cr20/21/22 (presumably the MAINHAND/OFFHAND/
     #     RANGED weapon-skill sub-ratings) have no independent value to tell them apart from
     #     each other and stay unnamed cr20/cr21/cr22.
-    #   - RESILIENCE (Sec 1.1's level-60 table lists 85.00) was explicitly CHECKED and NOT
-    #     pinned: cr14's level-60 value is exactly 85.0, but cr14/15/16 form their own
-    #     3-slot group (85.0/89.125/89.125 at level 60, converging identically by level 70)
-    #     structurally consistent with CRIT_TAKEN_MELEE/RANGED/SPELL, not resilience, and no
-    #     independent lvl70/80 anchor exists to disambiguate a single-level coincidence from a
-    #     real identity - the exact class of false positive this file warns about repeatedly
-    #     (Creature.subname, DungeonEncounterExtra, SpellAddon f20-22). Left unnamed cr14.
+    #   - 1: cr14 CRIT_TAKEN_MELEE ("Resilience" in-game). [Review fix pass, 2026-08-06]
+    #     DATAMINE-REQUEST.md Sec 1.1's level-60 table lists RESILIENCE=85.00, and cr14's
+    #     level-60 value is exactly 85.0. This was FIRST left unpinned (a single-level match
+    #     alone is the exact false-positive shape this file warns about elsewhere - Creature.
+    #     subname, DungeonEncounterExtra, SpellAddon f20-22) until a second, independent check
+    #     was run: cr14's level-60 value is UNIQUE across all 32 slots - the SAME evidentiary
+    #     tier already used to pin cr4 BLOCK from a level-60-only match, above. And in WotLK
+    #     mechanics the Resilience gear stat is not surfaced through a dedicated CR_RESILIENCE
+    #     slot at all - it drives CR_CRIT_TAKEN_MELEE/RANGED/SPELL (cr14/15/16 in the same
+    #     TrinityCore CombatRating enum already trusted for cr0-24), so cr14 is pinned with the
+    #     canonical enum name CRIT_TAKEN_MELEE rather than RESILIENCE. cr15/cr16 were checked
+    #     for the SAME individual-distinguishability bar and FAILED it: bit-identical to each
+    #     other at every one of the 99 curated levels (diverge only at the excluded level-100
+    #     slot) - no evidence says which is RANGED vs SPELL, so both stay unnamed cr15/cr16
+    #     rather than an arbitrary guess (the same discipline already applied to cr20/21/22).
     #   - cr11/12/13 (10.0/10.0/8.0 @60, identical to HIT_MELEE/RANGED/SPELL) are structurally
     #     HIT_TAKEN_MELEE/RANGED/SPELL and cr25-31 are nonzero-but-unpublished/all-zero curves -
     #     none independently named, all raw signed-int-derived floats in curated output.

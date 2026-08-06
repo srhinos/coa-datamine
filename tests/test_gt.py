@@ -9,7 +9,13 @@ trap at 3 boundaries): level-80 combat-rating constants (13/14 exact), spell-cri
 166.67@80/80.00@70 + Warrior/Rogue/DeathKnight=0, melee-crit 83.33/62.50/52.08@80, and the
 *Base tables' exact 32-row count. Also pins the ARMOR_PENETRATION anomaly (11.55 vs
 published 15.39) and asserts every curated curve is exactly 99 values long (levels 1-99
-only - the level-100-slot trap)."""
+only - the level-100-slot trap).
+
+[Review fix pass, 2026-08-06] Also re-derives the cr14 CRIT_TAKEN_MELEE ("Resilience" in
+WotLK mechanics) finding: cr14's level-60 value (85.0) is UNIQUE across all 32 rating
+slots (the same evidentiary tier as the BLOCK pin), while cr15/cr16 are bit-identical to
+EACH OTHER at every curated level and therefore stay unnamed rather than an arbitrary
+RANGED-vs-SPELL guess."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -90,6 +96,16 @@ assert scb_n == 32, scb_n
 for a, b in ((0, 1), (1, 2), (15, 16)):
     assert _cr_block(cr_vals, a)[99] == _cr_block(cr_vals, b)[0]
 
+# ---- bonus [review fix pass]: cr14 CRIT_TAKEN_MELEE (Resilience) uniqueness + cr15/16
+# indistinguishability, re-derived directly off the raw DBC (not trusting build_gt.py) ----
+cr14_l60 = _cr_block(cr_vals, 14)[59]
+assert abs(cr14_l60 - 85.00) < 1e-3
+assert sum(1 for cr in range(32) if _cr_block(cr_vals, cr)[59] == cr14_l60) == 1, (
+    "cr14 level-60 value is no longer unique across all 32 slots")
+assert _cr_block(cr_vals, 15)[:99] == _cr_block(cr_vals, 16)[:99], (
+    "cr15/cr16 are no longer identical - may now be individually pinnable")
+assert _cr_block(cr_vals, 15)[:99] != _cr_block(cr_vals, 14)[:99]
+
 # ---- bonus: CoA archetype-clone spot check - Necromancer/Warlock bit-identical raw floats ----
 assert _class_block(mc_vals, 9) == _class_block(mc_vals, 23)   # Warlock == Necromancer
 
@@ -109,6 +125,7 @@ NAMED_CR = {
     0: "WEAPON_SKILL", 1: "DEFENSE", 2: "DODGE", 3: "PARRY", 4: "BLOCK",
     5: "HIT_MELEE", 6: "HIT_RANGED", 7: "HIT_SPELL",
     8: "CRIT_MELEE", 9: "CRIT_RANGED", 10: "CRIT_SPELL",
+    14: "CRIT_TAKEN_MELEE",
     17: "HASTE_MELEE", 18: "HASTE_RANGED", 19: "HASTE_SPELL",
     23: "EXPERTISE", 24: "ARMOR_PENETRATION",
 }
@@ -117,13 +134,26 @@ for idx, name in NAMED_CR.items():
 UNNAMED_CR = set(range(32)) - set(NAMED_CR)
 for idx in UNNAMED_CR:
     assert by_index[idx]["name"] == f"cr{idx}", (idx, by_index[idx]["name"])
-# RESILIENCE explicitly must NOT be pinned anywhere (see module docstring / dbc.py comment)
+# RESILIENCE, specifically that literal string, must NOT be pinned anywhere - it
+# surfaces in-game via CRIT_TAKEN_MELEE/RANGED/SPELL (cr14/15/16), not a dedicated
+# CR_RESILIENCE slot (see module docstring / dbc.py comment / the cr14 gate below)
 assert "RESILIENCE" not in {r["name"] for r in cr_doc["ratings"]}
 # curve values match the level-60/70/80 goldens exactly (index 59/69/79 = level 60/70/80)
 assert abs(by_index[1]["curve"][59] - 1.50) < 1e-3      # DEFENSE
 assert abs(by_index[2]["curve"][79] - 45.2502) < 1e-3   # DODGE
 assert abs(by_index[8]["curve"][79] - 45.906) < 1e-3    # CRIT_MELEE
 assert abs(by_index[24]["curve"][79] - 11.55) < 1e-3    # ARMOR_PENETRATION (the anomaly)
+
+# ---- cr14 CRIT_TAKEN_MELEE / cr15,16 indistinguishability [review fix pass] ----
+assert abs(by_index[14]["curve"][59] - 85.00) < 1e-3
+# cr14's level-60 value must be unique across all 32 slots - the evidentiary basis for
+# pinning it from a level-60-only match (same tier as BLOCK)
+l60_values = [r["curve"][59] for r in cr_doc["ratings"]]
+assert l60_values.count(by_index[14]["curve"][59]) == 1, "cr14 level-60 value not unique"
+# cr15/cr16 must be bit-identical to EACH OTHER at every curated level (why neither is
+# individually pinned RANGED vs SPELL) and different from cr14 (why cr14 is its own curve)
+assert by_index[15]["curve"] == by_index[16]["curve"]
+assert by_index[15]["curve"] != by_index[14]["curve"]
 
 # ---- classChanceCurves.json ----
 cc_doc = json.loads((gdir / "classChanceCurves.json").read_text(encoding="utf-8"))
@@ -202,7 +232,9 @@ assert "1024" in meta["caveats"]["gtOCTClassCombatRatingScalar"] or \
 assert "level-100" in meta["caveats"]["level100SlotTrap"] or \
        "level 100" in meta["caveats"]["level100SlotTrap"]
 assert meta["ratingNames"]["8"] == "CRIT_MELEE"
-assert meta["ratingNames"]["14"] == "cr14"   # RESILIENCE checked, not pinned
+assert meta["ratingNames"]["14"] == "CRIT_TAKEN_MELEE"   # Resilience, pinned on uniqueness
+assert meta["ratingNames"]["15"] == "cr15"   # indistinguishable from cr16, not pinned
+assert meta["ratingNames"]["16"] == "cr16"
 
 # ---- config: WANTED_DBCS_V4 (11 names, the 10 Sec 1.1 tables + gtNPCManaCostScaler) ----
 assert len(config.WANTED_DBCS_V4) == 11

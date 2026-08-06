@@ -43,15 +43,30 @@ from tools import config, dbc, sharding
 
 LEVELS = 99  # curated curve length - levels 1-99 only, level-100-slot trap (see module docstring)
 
-# ---- gtCombatRatings: rating-major (idx = cr*100 + level-1). 16 of 32 rating slots
+# ---- gtCombatRatings: rating-major (idx = cr*100 + level-1). 17 of 32 rating slots
 # pinned to a published name; see tools/dbc.py's TABLE_MAPS comment for the full
 # per-index evidence (which slots share identical curves, why WEAPON_SKILL/EXPERTISE/
 # BLOCK are named despite a thinner evidence tier than the 13 level-80-anchored ones,
-# and why RESILIENCE was checked and explicitly NOT pinned).
+# and the cr14 CRIT_TAKEN_MELEE / Resilience finding below).
+#
+# [Review fix pass, 2026-08-06] cr14 was originally left unnamed pending a second
+# anchor beyond its level-60 coincidence with DATAMINE-REQUEST.md Sec 1.1's published
+# RESILIENCE=85.00. Re-review confirmed cr14's level-60 value (85.0) is UNIQUE across
+# all 32 slots - the SAME evidentiary shape already used to pin cr4 BLOCK from a
+# level-60-only match - and that in WotLK mechanics the Resilience stat is surfaced
+# through CR_CRIT_TAKEN_MELEE/RANGED/SPELL (cr14/15/16 in the same TrinityCore enum
+# already trusted for cr0-24), not a dedicated CR_RESILIENCE slot. cr14 is pinned
+# CRIT_TAKEN_MELEE (the canonical enum name - see build_combat_ratings()'s uniqueness
+# gate). cr15/cr16 were checked for the same individual-distinguishability bar cr14
+# cleared and FAILED it: their curves are bit-identical to each other at every one of
+# the 99 curated levels (diverge only at the excluded level-100 slot) - there is no
+# evidence to say which of the two is RANGED vs SPELL, so per the same empirical rule
+# that left cr20/21/22 unnamed, they stay unnamed cr15/cr16.
 CR_NAMES = {
     0: "WEAPON_SKILL", 1: "DEFENSE", 2: "DODGE", 3: "PARRY", 4: "BLOCK",
     5: "HIT_MELEE", 6: "HIT_RANGED", 7: "HIT_SPELL",
     8: "CRIT_MELEE", 9: "CRIT_RANGED", 10: "CRIT_SPELL",
+    14: "CRIT_TAKEN_MELEE",
     17: "HASTE_MELEE", 18: "HASTE_RANGED", 19: "HASTE_SPELL",
     23: "EXPERTISE", 24: "ARMOR_PENETRATION",
 }
@@ -73,6 +88,10 @@ ARMOR_PENETRATION_L60_MEASURED = 4.20
 # see tools/dbc.py's comment for the evidence-tier distinction)
 BLOCK_CR, BLOCK_L60_GOLDEN = 4, 5.00
 WEAPON_SKILL_CR, WEAPON_SKILL_L60_GOLDEN = 0, 2.50
+# cr14 CRIT_TAKEN_MELEE / Resilience: same level-60-only-anchor + uniqueness evidence
+# tier as BLOCK above (see the CR_NAMES comment block)
+CRIT_TAKEN_MELEE_CR, CRIT_TAKEN_MELEE_L60_GOLDEN = 14, 85.00
+CRIT_TAKEN_RANGED_CR, CRIT_TAKEN_SPELL_CR = 15, 16   # checked, NOT individually pinned
 
 # ---- class-major tables: idx = (classId-1)*100 + level-1 (curves) or classId-1 (*Base) ----
 CURVE_TABLES = {
@@ -171,6 +190,22 @@ def build_combat_ratings() -> dict:
     # BLOCK's curve must be unique (the evidentiary basis for naming it from a
     # level-60-only match) - no other slot may share it
     assert sum(1 for c in blocks if c[59] == blocks[BLOCK_CR][59]) == 1, "BLOCK curve not unique"
+
+    # ---- cr14 CRIT_TAKEN_MELEE (Resilience) gate [review fix pass, 2026-08-06] ----
+    # same level-60-only-anchor + table-wide-uniqueness evidence tier as BLOCK above
+    assert abs(round(blocks[CRIT_TAKEN_MELEE_CR][59], 4) - CRIT_TAKEN_MELEE_L60_GOLDEN) < 1e-3
+    assert sum(1 for c in blocks if c[59] == blocks[CRIT_TAKEN_MELEE_CR][59]) == 1, (
+        "cr14 CRIT_TAKEN_MELEE's level-60 value is no longer unique across all 32 slots")
+    # cr15/cr16 must stay indistinguishable from EACH OTHER at every curated level
+    # (indices 0-98) - that non-identifiability is exactly why neither is individually
+    # pinned RANGED vs SPELL. If a future client patch splits them apart, this assert
+    # fires and the naming decision needs revisiting, not a silent re-pin.
+    assert (blocks[CRIT_TAKEN_RANGED_CR][:LEVELS] == blocks[CRIT_TAKEN_SPELL_CR][:LEVELS]), (
+        "cr15/cr16 are no longer identical - they may now be individually distinguishable "
+        "and pinnable as CRIT_TAKEN_RANGED/CRIT_TAKEN_SPELL")
+    # and cr15/16 must differ from cr14 (confirming cr14 really is its own curve, not
+    # just a rounding coincidence at level 60 alone)
+    assert blocks[CRIT_TAKEN_RANGED_CR][:LEVELS] != blocks[CRIT_TAKEN_MELEE_CR][:LEVELS]
 
     ratings = []
     for cr in range(CR_SLOTS):
@@ -320,6 +355,15 @@ def build() -> dict:
             "necromancerWarlockSpotCheck": "gtChanceToMeleeCrit raw float curves are "
                 "bit-identical between classId 9 (Warlock) and classId 23 (Necromancer) "
                 "at every one of the 99 curated levels",
+            "cr14CritTakenMelee": "[Review fix pass, 2026-08-06] cr14's level-60 value "
+                "(85.0) is unique across all 32 gtCombatRatings slots - same evidentiary "
+                "tier as the cr4 BLOCK pin. In WotLK mechanics the Resilience gear stat "
+                "is surfaced through CR_CRIT_TAKEN_MELEE/RANGED/SPELL, not a dedicated "
+                "CR_RESILIENCE slot, so cr14 is pinned CRIT_TAKEN_MELEE (the canonical "
+                "TrinityCore enum name for the same rating already trusted for cr0-24). "
+                "cr15/cr16 were checked for the same bar and are bit-identical to EACH "
+                "OTHER at every curated level - not individually distinguishable as "
+                "RANGED vs SPELL - so they stay unnamed; see unresolvedRatingIndices.",
         },
         "caveats": {
             "gtOCTClassCombatRatingScalar": (
@@ -367,16 +411,16 @@ def build() -> dict:
             ),
         },
         "unresolvedRatingIndices": {
-            "cr14_resilience_check": (
-                "DATAMINE-REQUEST.md Sec 1.1's level-60 table lists RESILIENCE=85.00, and "
-                "cr14's level-60 value is exactly 85.0 - but cr14/15/16 form their own "
-                "3-slot group (85.0/89.125/89.125 at level 60, converging identically by "
-                "level 70) structurally consistent with CRIT_TAKEN_MELEE/RANGED/SPELL, not "
-                "resilience, and no independent published level-70/80 anchor exists for "
-                "RESILIENCE to disambiguate a single-level coincidence from a real "
-                "identity - the same class of false positive this repo's own AGENT-GUIDE.md "
-                "warns about repeatedly. Checked and explicitly NOT pinned; cr14 stays "
-                "unnamed in ratingNames."
+            "cr15_cr16_critTakenRangedSpell": (
+                "[Review fix pass, 2026-08-06] cr14 is now pinned CRIT_TAKEN_MELEE (see "
+                "goldensReproduced.cr14CritTakenMelee below) - its level-60 value (85.0) is "
+                "unique across all 32 rating slots, the same evidentiary tier already used "
+                "to pin cr4 BLOCK. cr15/cr16 were checked for the same bar and FAILED it: "
+                "their curves are bit-identical to EACH OTHER at every one of the 99 "
+                "curated levels (they diverge only at the excluded level-100 slot), so "
+                "there is no evidence distinguishing which is CRIT_TAKEN_RANGED and which "
+                "is CRIT_TAKEN_SPELL. Left unnamed cr15/cr16 rather than guess an "
+                "arbitrary assignment - the same discipline already applied to cr20/21/22."
             ),
             "cr11_12_13_hitTaken": "10.0/10.0/8.0 @60, identical to HIT_MELEE/RANGED/SPELL "
                 "- structurally HIT_TAKEN_MELEE/RANGED/SPELL but not independently named "
