@@ -15,6 +15,13 @@ RAW_CONTENT_DIR = RAW_DIR / "content"
 RAW_INTERFACE_DIR = RAW_DIR / "interface"
 DATA_DIR = REPO_ROOT / "data"
 
+# v4 (task W4-9): frozen capture of the external ascension.gg CoA talent-builder
+# payload (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
+# (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py (network step,
+# run manually/occasionally - NOT part of the offline build_dataset pipeline);
+# tools/build_coatalents.py only ever reads the already-committed capture.
+RAW_TALENTS_DIR = RAW_DIR / "talents"
+
 # v3 (task V3-2): realm-overlay layer. work/realms owned by tools/extract_realms.py;
 # raw/realms + data/realms owned by tools/build_realms.py (Amendment D single-writer).
 WORK_REALMS_DIR = WORK_DIR / "realms"

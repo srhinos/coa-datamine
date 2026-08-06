@@ -35,6 +35,9 @@ this repo needs an exemption).
 | `data/talents/_pet.json` | pet talent tabs (`petTalentMask` set) - not tied to a single player class | small |
 | `data/talents/_unassigned.json` | talent tabs matching no classMask/petTalentMask | small |
 | `data/talents/_meta.json` | tab/talent counts, per-class tab counts, unresolved rank-spell count | small |
+| `data/talents/coa/<Class>.json` | task W4-9: CoA talent-tree GEOMETRY for all 21 `coa-custom` classes (153-208 nodes each) - `{class, classId, essence, tabs: [{tabId, tabName, sortOrder, entryCount, isEmpty, aeGateTiers, teGateTiers, maxReqTabAE, maxReqTabTE}], choiceGroups: [{groupId, tabId, x, y, entries: [{id,name,spellId}, ...]}], nodeCount, nodes: [{id, name, x, y, classId, tabId, sortOrder, group, flags, aeCost, teCost, spellId, spellIds, iconPath, nodeType, entryType, isPassive, maxPoints, requiredIds, requiredLevel, isStartingNode, connectedNodeIds, reqTabAE, reqTabTE, description, rankDescriptions, spellResolved}]}` - sourced from the published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (frozen by `tools/fetch_coatalents.py` into `raw/talents/`), a SEPARATE dataset from the `<ChrClass>.json` DBC trees one directory up (never collides - e.g. Barbarian has both). `spellResolved` flags whether `spellId` joins `data/spells/` - only ~53% do (real content drift vs. this repo's client snapshot, NOT a join bug - see "CoA talent tree geometry" below and `data/talents/coa/_meta.json`'s `contentDrift`). `requiredIds`/`connectedNodeIds` are de-padded (source arrays are zero-padded fixed width; `0` is never a real node id here) | small per file |
+| `data/talents/coa/index.json` | class -> file, tab/node/choice-group counts per class | small |
+| `data/talents/coa/_meta.json` | payload fetch provenance (url/sha256/capture time), realm caveat (Vol'Jin captured, Rexxar assumed identical/unverified), full resolve-rate cross-validation, the 84-vs-72 tab-layer reconciliation, `isStartingNode`/choice-group/connectivity findings - see "CoA talent tree geometry" below | small |
 | `data/dungeons/index.json` | one compact record per dungeon: `{id, name, file, mapId, isRaid, levels}` | small |
 | `data/dungeons/<id>-<slug>.json` | one dungeon incl. its encounters (ordered, each carrying a `creature: {id, name}\|null` boss link - see Honest limits) + reward brackets; `<slug>` = lowercase name, non-alnum runs -> `-`, collapsed, max 40 chars | small |
 | `data/creatures/index.json` | bucket manifest: `bucketSize` (5000), `count` (127178), `buckets: [{bucket, file, count, minId, maxId}]` - **355 buckets**, not 26: `id` is `Creature.dbc` f1 (a sparse space up to ~11M), not the old f0 row-position (see Honest limits) | small |
@@ -212,16 +215,23 @@ unaudited retail API parity is a recurring source of live-client crashes).
   different from `name: null`, which means the id was referenced somewhere but has
   no row at all in this snapshot's `Spell.dbc` (see the four-realm note above).
   Don't treat `""` as missing data - it's a real, if unfinished, spell row.
-- **Talent coverage has two views - check both.** Only 12 classes have DBC
-  `Talent.dbc` talent tabs (`data/talents/<ChrClass>.json`): the 10 vanilla classes
-  plus Barbarian and WitchDoctor. Every other CoA custom/reborn class drives its
-  talents through `CharacterAdvancementData` entries instead - iterate every file
-  listed in `data/classes/<Class>/index.json`'s `files` array and look for entries
-  with `type == "Talent"` or `"TalentAbility"` (or use the index's `entryCounts`
-  to see the type breakdown without opening every shard). If you're asked "what
-  talents does class X have" and X isn't one of the 12, `data/talents/` will have
-  no file for it - that's expected; the answer lives in the class's CAD entry
-  shards, not the DBC talent tree.
+- **Talent coverage has three views now - check the right one(s).** Only 12
+  classes have DBC `Talent.dbc` talent tabs (`data/talents/<ChrClass>.json`): the
+  10 vanilla classes plus Barbarian and WitchDoctor. Every CoA/reborn class drives
+  its talents through `CharacterAdvancementData` entries instead - iterate every
+  file listed in `data/classes/<Class>/index.json`'s `files` array and look for
+  entries with `type == "Talent"` or `"TalentAbility"` (or use the index's
+  `entryCounts` to see the type breakdown without opening every shard). If you're
+  asked "what talents does class X have" and X isn't one of the 12, `data/talents/`
+  (the DBC-tree directory) will have no file for it - that's expected. **Task
+  W4-9 adds a third view for the 21 `coa-custom` classes specifically**:
+  `data/talents/coa/<Class>.json` carries the actual TREE GEOMETRY (positions,
+  prerequisite edges, connectivity, choice-group pairings, per-tab AE/TE gate
+  tiers) that neither of the other two views has - `data/classes/<Class>/*.json`'s
+  CAD entries tell you an ability EXISTS and its flat cost; only `data/talents/coa/`
+  tells you WHERE it sits in the tree and what unlocks it. See "CoA talent tree
+  geometry" below before trusting any single field at face value - several of its
+  fields (`isStartingNode` especially) look more reliable than they are.
 - **Creatures/quests/trainers are id-keyed facts, not a quest/trainer content
   browser.** `data/creatures/` gives `id`/`name` only (`subname` is always `null`,
   disproven - see Honest limits). `data/quests/` gives `id` plus 28 raw numeric columns
@@ -1083,6 +1093,111 @@ Follow-up: an in-game `/dump` of a known CoA-only ability's CAD entry on both
 Vol'jin and Rexxar (or a server-side query) is the only avenue left - offline
 analysis is exhausted.
 
+### CoA talent tree geometry (task W4-9)
+
+DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11: the CAD entries tell you an ability
+*exists*, but not where it sits in a tree, what unlocks it, or what it competes
+against. `data/talents/coa/<Class>.json` (21 files, `tools/build_coatalents.py`,
+single-writer) closes that gap for all 21 `coa-custom` classes, built from the
+published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (frozen
+by `tools/fetch_coatalents.py` into `raw/talents/coa-builder-voljin.html` +
+`_fetch.json` - a deliberate, occasional, NETWORK step kept separate from the
+offline `build_dataset` pipeline, same relationship as `AddOns/APIDocumentation`
+being a verbatim external capture rather than something re-derived). The page is a
+Next.js "flight" payload; extraction is a from-scratch analogue of the
+`coa-sim-handoff/parsers/aowow.py` Listview trick (locate an anchor, `raw_decode`
+past trailing garbage) adapted to `self.__next_f.push([id,"..."])` chunks - see
+`tools/build_coatalents.py`'s module docstring for the exact technique.
+
+**The page embeds TWO near-identical copies** of the full node set side by side
+(`slug` "voljin-alpha" id 39 and "voljin" id 40 - same 3,618 nodes/ids/geometry,
+differing only in tooltip description text). This is why every field name greps to
+exactly **7,236** raw occurrences in the fetched HTML, matching the source doc's
+own cited count precisely - it is 2 x 3,618, not 7,236 real distinct nodes. This
+module uses only the `slug="voljin"` copy.
+
+**Resolve-rate gate: measured against raw `Spell.dbc`, not the curated CAD/spells
+join - and this matters.** A literal reading of "payload spellIds vs CAD entries"
+(does each node's `spellId` appear in this repo's own captured
+`CharacterAdvancementData.json`, or in `data/spells/`) resolves only **~49-53%** -
+badly short of 95%. Re-measuring the SAME node set against the raw client
+`Spell.dbc` table directly (any row at all, 209,125 total, regardless of whether
+any CAD entry references it) resolves **99.97%** (3,617/3,618; the one exception,
+spellId 301010 "Devourer", is a genuine miss). This is real, measured **content
+drift** between the live published builder and this repo's client snapshot, not a
+parse bug: the payload's spell ids are almost all real, valid spells in this exact
+client - they are simply not the same spellId *variant* this repo's captured CAD
+JSON happens to reference for the same-looking ability (consistent with the W4-8
+finding above that CoA abilities get authored as multiple duplicate CAD rows per
+realm/game-mode, each potentially carrying a different spellId). The build gates
+hard on the 99.97% raw-Spell.dbc figure and ships `spellResolved: false` on every
+node whose spellId does NOT resolve against the curated `data/spells/` set, so a
+consumer sees the gap per-node instead of it being silently absorbed.
+
+**The 84-vs-72 tab-count tension (recomputed fresh, not taken on faith).** Sec 11's
+"84" (4 tabs x 21 coa-custom classes) still holds EXACTLY when recomputed today
+from `data/classes/` - zero exceptions, every class still has precisely 1 Class +
+3 spec tab-name buckets in this repo's own snapshot. The payload's "72" is a count
+of DISTINCT `tabId`s, a different thing entirely: the live builder actually
+carries **96** (classId,tabId) assignment pairs (MORE than 84 - 10 of 21 classes
+have grown a 5th or 6th tab slot since the local capture), which collapses to 72
+distinct ids purely because of numeric-id REUSE - `tabId 87` ("Class") is
+literally the same id on all 21 classes' Class trees (21 assignments -> 1 id,
+-20), and `tabId 1` ("None", a placeholder)/`tabId 71` ("Blessings") each get
+reused once more (-3/-1); 96 - 24 = 72 exactly. Separately, 5 of those 96 pairs
+are EMPTY placeholders (0 entries: WitchHunter/Guardian/Pyromancer/SunCleric's
+"None" slot, Chronomancer's borrowed-but-unauthored "Blessings" slot) - the
+live-payload analogue of Sec 11's "7 of 70 specs have no CAD tab," but not the
+same measurement re-derived (that one compared `specs.json` against the LOCAL CAD
+tab layer). Cross-checking by name: 2 of Sec 11's 7 named unreleased specs
+(SunCleric/VALKYR -> "Valkyrie", WitchHunter/WITCHKNIGHT -> "Black Knight") now
+show up as real, non-empty tabs in the live payload - concrete, dated evidence
+that content shipped between that audit and this fetch, exactly the "external
+source that drifts" behavior the task brief warned to expect.
+
+**`isStartingNode` looks like a "tree root" flag and isn't one - don't use it as
+one.** Only 2 of 3,618 nodes carry it nonzero, and one of those two carries the
+value `127` (not a 0/1 boolean - a data anomaly). Meanwhile 96.5% of nodes
+(3,493/3,618) have an EMPTY `requiredIds` (i.e. no prerequisite node at all) -
+CoA's trees are gated primarily by `reqTabAE`/`reqTabTE` per-row investment
+thresholds (`CATalentFrameGatesMixin`/`CAGateInfoMixin`,
+`raw/interface/AddOns/Ascension_CharacterAdvancement/Templates/CAGate.lua`), not a
+classic Blizzard prerequisite chain rooted at one flagged starting node -
+`requiredIds` only gates a small minority (171 nonzero refs) of nodes at all.
+Confirmed semantically against the client Lua: within the shared "Class" tab
+(tabId 87), the max `reqTabAE` per row steps 0 -> 9 -> 24 as row `y` increases, for
+both classes checked (Barbarian, Necromancer) - a real, working gate tier, just not
+one keyed off `isStartingNode`.
+
+**Choice groups are a real, clean structure.** Every nonzero `group` value pairs
+EXACTLY 2 entries (0 exceptions across 292 groups), always sharing identical
+`(classId, tabId, x, y)` and differing only in `spellId`/`name` - the client's
+choice-node concept (`CoACharacterAdvancementUtil.GetDisplayTemplateForEntryChoice`
+/ `CoATalentChoiceButtonTemplate`; `node:IsChoiceNode()` in
+`GetGateLeftAttachmentPoint`/`GetGateRightAttachmentPoint` bundles alternatives at
+one shared visual anchor). `data/talents/coa/<Class>.json`'s `choiceGroups` array
+surfaces this directly so a consumer doesn't have to re-derive it from raw
+`group` values.
+
+**The base CAD JSON's own geometry-shaped columns are a false friend, not a
+fallback.** `CharacterAdvancementData.json` also carries `PositionX`/`PositionY`/
+`ConnectedNodes`/`RequiredIDs`/`RequiredAEInvestment`/`RequiredTEInvestment`
+columns (13-15% row coverage, no numeric tabId at all - `Tab` is a bare string).
+Investigated as a possible client-Lua-only fallback source (per the task's binding
+rule for a failed fetch) and rejected: for the 2,851/3,618 payload nodes whose `id`
+DOES match a CAD row, agreement is near-zero (exact PositionX/Y match on only a
+small minority; ConnectedNodes average Jaccard similarity ~0.02) - these raw CAD
+columns serve the client's narrower "ConnectingNode" decorative-line UI
+(`raw/interface/FrameXML/Data/CharacterAdvancement.lua`'s
+`CHARACTER_ADVANCEMENT_NODES` population rule), a different thing from gameplay
+tree geometry despite the matching field names.
+
+**Realm caveat.** This is the Vol'Jin builder specifically. Rexxar - Conquest of
+Azeroth is a separate CoA realm; its geometry is **assumed identical but
+unverified** until a Rexxar capture exists (Sec 13 item 7, not performed by this
+task). Full evidence, goldens, and re-derivation log:
+`.superpowers/sdd/task-w4-9-report.md`.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -1325,6 +1440,14 @@ def class_specs_and_roles(class_name):
   of the stated bar). The 400 rows are still fully usable at `data/spells/charges.json`, keyed by
   their own `ref` (not called `spellId`, since the link wasn't proven to that bar) -
   see the file map above.
+- **`data/talents/coa/` is Vol'Jin-only, and only ~53% of its nodes join
+  `data/spells/`.** See "CoA talent tree geometry" above for the full writeup -
+  Rexxar geometry is assumed identical but unverified, and the low curated-spell
+  join rate is real measured content drift between the live published builder and
+  this repo's client snapshot (99.97% of the same spellIds DO exist in raw
+  `Spell.dbc`, just not always as the same variant this repo's CAD closure
+  reached), not a join bug. Check `spellResolved` per node before assuming a
+  tooltip's numbers are backed by this dataset's own spell enrichment.
 - **`data/gt/` cannot prove the server uses these values.** `gt*` tables are the
   CLIENT's copy (tooltips, character sheet); a TrinityCore-family server loads its own
   set and this pipeline has no way to see server-side data. `gtOCTClassCombatRatingScalar`
@@ -1400,7 +1523,16 @@ whenever CoA ships new content:
   gate); the `overlay_diff.json`-survives-a-`build_realms`-rerun regression test
   for the bug this task found+fixed; a true fixture-dir unit test for
   `config.discover_realms()` (temp `Data\` tree, not the real client install).
-- `tests/test_dataset.py`: 11 `buildStats` keys (task W4-5 added `essence`);
+- `tests/test_coatalents.py` (task W4-9): 21 classes / 3,618 nodes / 292 choice
+  groups pinned against the frozen `raw/talents/coa-builder-voljin.html` capture -
+  these will only drift if that capture is refreshed via
+  `tools/fetch_coatalents.py` (a deliberate, separate step, not part of
+  `build_dataset`'s pipeline), not on an ordinary client-patch re-run. The
+  84/96/72/24 tab-layer reconciliation numbers and the `isStartingNode`
+  anomaly (2 nonzero, values `{1, 127}`) are pinned the same way. The
+  spellDbc resolve-rate gate (>=0.95, measured 0.9997) DOES depend on the
+  client's `Spell.dbc`, same as any other snapshot pin.
+- `tests/test_dataset.py`: 12 `buildStats` keys (task W4-9 added `coatalents`);
   `headerMismatches == []` for the base
   77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
   "Header-invariant parity" above. Don't re-pin a nonzero list; investigate which base

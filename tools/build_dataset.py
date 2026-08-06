@@ -4,7 +4,7 @@ import argparse, datetime, hashlib, json
 from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
                    build_spells, build_classes, build_talents, build_dungeons,
                    build_creatures, build_classmeta, build_essence, build_mythic,
-                   build_manastorm, build_realms)
+                   build_manastorm, build_realms, build_coatalents)
 
 
 def run(skip_extract=False, skip_dump=False, skip_interface=False,
@@ -46,6 +46,15 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     print(f"[essence]  {stats['essence']}")
     stats["mythic"] = build_mythic.build()
     print(f"[mythic]   {stats['mythic']}")
+
+    # v4 (task W4-9): CoA talent tree geometry. Reads the FROZEN external payload
+    # capture (raw/talents/coa-builder-<slug>.html, written by the separate,
+    # occasional tools/fetch_coatalents.py network step - never fetched live
+    # here) plus data/classes/ (build_classes, above) and data/spells/ (build_spells,
+    # above) for its classId join and resolve-rate cross-validation, so it must
+    # run after both.
+    stats["coatalents"] = build_coatalents.build()
+    print(f"[coatalents] {stats['coatalents']}")
 
     # v3: Manastorm (patch-M seasonal-modifier tables, task V3-1) reads only
     # config.WORK_DBC_DIR (already populated above) - no extraction step of its
