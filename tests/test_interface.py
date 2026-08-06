@@ -72,12 +72,17 @@ assert stats["manifestSha256"] == hashlib.sha256(manifest_path.read_bytes()).hex
 assert stats["diskSourced"] == len(api_entries)
 assert stats["archiveSourced"] + stats["diskSourced"] == stats["count"]
 
-# ---- orchestrator smoke: 13 buildStats keys, interface stage wired ----
+# ---- orchestrator smoke: 14 buildStats keys, interface stage wired ----
+# [Pre-existing failure fixed in passing, task W4-14] the `gt` stage was wired into
+# build_dataset.run() by W4-2's review-fix pass but never added here, so this gate
+# had been failing on every run since - it is a stage-roster check, and the roster
+# grew. Unrelated to W4-14's own change (which adds KEYS INSIDE the classes stage's
+# stats, not a new stage).
 prov = run(skip_extract=True, skip_dump=True)
 assert set(prov["buildStats"]) == {
     "spells", "classes", "talents", "dungeons",
     "creatures", "classmeta", "mythic", "interface",
-    "manastorm", "realms", "essence", "coatalents", "items",
+    "manastorm", "realms", "essence", "coatalents", "items", "gt",
 }, set(prov["buildStats"])
 assert prov["buildStats"]["interface"]["count"] >= 1500
 

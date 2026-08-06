@@ -7,6 +7,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIcons\\_BearAttack_BrownFire",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bear's Maw",
    "quality": "Normal",
    "qualityCost": 1,
@@ -73,6 +79,15 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "Ability_Defend",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Block",
    "quality": "Normal",
    "qualityCost": 1,
@@ -98,6 +113,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Block",
    "quality": "Normal",
    "qualityCost": 1,
@@ -123,6 +147,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_icerevenant",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Body of Stone",
    "quality": "Normal",
    "qualityCost": 1,
@@ -148,6 +178,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_icerevenant",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Body of Stone",
    "quality": "Normal",
    "qualityCost": 1,
@@ -173,6 +209,15 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsINV_Relics_IdolofFerocity",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Boon of the Bear",
    "quality": "Normal",
    "qualityCost": 1,
@@ -198,6 +243,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "shaman_talent_elementalblast",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Boon of the Elements",
    "quality": "Normal",
    "qualityCost": 1,
@@ -223,6 +274,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "shaman_talent_elementalblast",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Boon of the Elements",
    "quality": "Normal",
    "qualityCost": 1,
@@ -248,6 +305,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsAbility_Hunter_EagleEye",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Boon of the Hawk",
    "quality": "Normal",
    "qualityCost": 1,
@@ -273,6 +339,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_jewelry_frostwolftrinket_04",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Boon of the Wolf",
    "quality": "Normal",
    "qualityCost": 1,
@@ -298,6 +373,13 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Elemental_Mote_Earth01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29252,
+    "builderTab": "Class",
+    "matchedSpellId": 500692,
+    "reason": "liveDirect"
+   },
    "name": "Boulder Dash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -324,6 +406,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "INV_Elemental_Mote_Earth01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29252,
+    "builderTab": "Class",
+    "matchedSpellId": 500692,
+    "reason": "liveDirect"
+   },
    "name": "Boulder Dash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -345,37 +434,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 29258,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Boulder Dash",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 500692,
-     "name": "Boulder Dash",
-     "ranks": null,
-     "schools": [
-      "Physical",
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 8000,
    "expansion": 0,
    "flags": 1,
    "icon": "inv_eng_bombroot",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29299,
+    "builderTab": "Class",
+    "matchedSpellId": 806415,
+    "reason": "liveDirect"
+   },
    "name": "Bramblepatch",
    "quality": "Normal",
    "qualityCost": 1,
@@ -401,6 +471,15 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "ability_deepwinddunk_dunk",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Cave In",
    "quality": "Normal",
    "qualityCost": 1,
@@ -426,6 +505,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_deepwinddunk_dunk",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Cave In",
    "quality": "Normal",
    "qualityCost": 1,
@@ -451,6 +539,12 @@
    "expansion": 0,
    "flags": 40961,
    "icon": "Spell_Nature_ElementalPrecision_1",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Circle of Elements",
    "quality": "Normal",
    "qualityCost": 1,
@@ -476,6 +570,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsSpell_Nature_ElementalPrecision_1",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Circle of Elements",
    "quality": "Normal",
    "qualityCost": 1,
@@ -501,6 +601,12 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "Spell_Nature_ElementalPrecision_1",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Circle of Elements Groundshaker Passive",
    "quality": "Normal",
    "qualityCost": 1,
@@ -526,6 +632,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "InterfaceIconsSpell_Nature_ElementalPrecision_1",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Circle of Elements Groundshaker Passive",
    "quality": "Normal",
    "qualityCost": 1,
@@ -551,6 +663,12 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "achievement_dungeon_throne of the tides",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Circle of Elements Hidden",
    "quality": "Normal",
    "qualityCost": 1,
@@ -576,6 +694,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "InterfaceIconsachievement_dungeon_throne of the tides",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Circle of Elements Hidden",
    "quality": "Normal",
    "qualityCost": 1,
@@ -601,6 +725,13 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "Trade_Engineering",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4059,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 92149,
+    "reason": "liveDirect"
+   },
    "name": "Conquest of Azeroth Specialization - Wildwalker (Geomancy)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -626,6 +757,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsachievement_boss_valithradreamwalker",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dreamway: Bough Shadow",
    "quality": "Normal",
    "qualityCost": 1,
@@ -651,6 +788,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsachievement_boss_valithradreamwalker",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dreamway: Dream Bough",
    "quality": "Normal",
    "qualityCost": 1,
@@ -676,6 +819,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsachievement_boss_valithradreamwalker",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dreamway: Seradane",
    "quality": "Normal",
    "qualityCost": 1,
@@ -701,6 +850,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsachievement_boss_valithradreamwalker",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dreamway: The Twilight Grove",
    "quality": "Normal",
    "qualityCost": 1,
@@ -721,45 +876,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 35271,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Earth Skin",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300727,
-     "name": "Elemental Armor",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    },
-    {
-     "dispel": "None",
-     "id": 300728,
-     "name": "Primal Guardian",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 7879,
    "expansion": 0,
    "flags": 1,
    "icon": "_D3earthquake",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31309,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 806143,
+    "reason": "liveDirect"
+   },
    "name": "Earth's Embrace",
    "quality": "Normal",
    "qualityCost": 1,
@@ -785,6 +913,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIcons\\_D3earthquake",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31309,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 806143,
+    "reason": "liveDirect"
+   },
    "name": "Earth's Embrace",
    "quality": "Normal",
    "qualityCost": 1,
@@ -810,6 +945,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_shield_draenorraid_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Earthen Aegis",
    "quality": "Normal",
    "qualityCost": 1,
@@ -835,6 +976,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_shield_draenorraid_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Earthen Aegis",
    "quality": "Normal",
    "qualityCost": 1,
@@ -855,61 +1002,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 35330,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Earthen Aegis",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706173,
-     "name": "Terrasmash",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35211,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Earthen Blessing",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300697,
-     "name": "Crushing the Earth",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6968,
    "expansion": 0,
    "flags": 1,
    "icon": "inv_misc_trinket6oog_stonefist2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30105,
+    "builderTab": "Class",
+    "matchedSpellId": 803980,
+    "reason": "liveDirect"
+   },
    "name": "Earthen Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -935,6 +1039,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_misc_trinket6oog_stonefist2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30105,
+    "builderTab": "Class",
+    "matchedSpellId": 803980,
+    "reason": "liveDirect"
+   },
    "name": "Earthen Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -960,6 +1071,13 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_elementalearth2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7358,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 800185,
+    "reason": "liveDirect"
+   },
    "name": "Earthshaping",
    "quality": "Normal",
    "qualityCost": 1,
@@ -985,6 +1103,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_elementalearth2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7358,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 800185,
+    "reason": "liveDirect"
+   },
    "name": "Earthshaping",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1006,35 +1131,19 @@
   },
   {
    "aeCost": 0,
-   "cadId": 29386,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Earthshaping",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 800185,
-     "name": "Primal Shaman's Mask",
-     "ranks": null,
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 19318,
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_butcher_heavyhanded",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Earthspine",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1060,6 +1169,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsSpell_Nature_Sleep",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30633,
+    "builderTab": "Class",
+    "matchedSpellId": 800145,
+    "reason": "liveDirect"
+   },
    "name": "Emerald Slumber",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1080,45 +1196,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 35322,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Endurance of Earth",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706161,
-     "name": "Unyielding Form",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    },
-    {
-     "dispel": "None",
-     "id": 706162,
-     "name": "Stoneskin",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6072,
    "expansion": 0,
    "flags": 1,
    "icon": "Spell_Shaman_EarthlivingWeapon",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9843,
+    "builderTab": "Class",
+    "matchedSpellId": 500302,
+    "reason": "liveDirect"
+   },
    "name": "Entangle Weapon",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1144,6 +1233,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Spell_Shaman_EarthlivingWeapon",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9843,
+    "builderTab": "Class",
+    "matchedSpellId": 500302,
+    "reason": "liveDirect"
+   },
    "name": "Entangle Weapon",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1165,44 +1261,20 @@
   },
   {
    "aeCost": 0,
-   "cadId": 35272,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Environmentalist",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300725,
-     "name": "Environmentalist",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    },
-    {
-     "dispel": "None",
-     "id": 300729,
-     "name": "Environmentalist",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 8582,
    "expansion": 0,
    "flags": 8193,
    "icon": "INV_Gauntlets_04",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Fist Weapons",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1228,6 +1300,16 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Fist Weapons",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1253,6 +1335,12 @@
    "expansion": 0,
    "flags": 40961,
    "icon": "Ability_Warlock_Backdraft",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Fist of Ragnaros",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1278,6 +1366,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsAbility_Warlock_Backdraft",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Fist of Ragnaros",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1303,6 +1397,15 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Spell_Nature_EarthBindTotem",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Fist of Therazane",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1328,6 +1431,15 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Spell_Nature_EarthBindTotem",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Fist of Therazane",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1353,6 +1465,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_deathknight_deathsiphon2",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Fists of Stone",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1378,6 +1496,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsspell_druid_massentanglement",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 11163,
+    "builderTab": "Life",
+    "matchedSpellId": 805442,
+    "reason": "liveDirect"
+   },
    "name": "Flourishing Growth",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1403,6 +1528,15 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "Achievement_Boss_PrincessTheradras",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Gaze of Theradras",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1428,6 +1562,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsAchievement_Boss_PrincessTheradras",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Gaze of Theradras",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1448,36 +1591,20 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 30790,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Gaze of Theradras",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 805919,
-     "name": "Gaze of Theradras",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6096,
    "expansion": 0,
    "flags": 1,
    "icon": "Ability_Rogue_ThrowingSpecialization",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Geode Barrage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1554,6 +1681,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsAbility_Rogue_ThrowingSpecialization",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Geode Barrage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1626,60 +1762,16 @@
   },
   {
    "aeCost": 0,
-   "cadId": 35270,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Geode Born",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300726,
-     "name": "Geode Born",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35369,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Geode Chain",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706214,
-     "name": "Geode Chain",
-     "ranks": null,
-     "schools": [
-      "Fire"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 28354,
    "expansion": 0,
    "flags": 8706,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Geomancy Primalist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1700,61 +1792,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 31208,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Geomancy Primalist",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 500295,
-     "name": "Earthen Rage",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35267,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Geothermal",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300722,
-     "name": "Geothermal",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 28966,
    "expansion": 0,
    "flags": 0,
    "icon": "achievement_boss_highmaul_earthenfury",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ground Tremors",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1776,35 +1824,19 @@
   },
   {
    "aeCost": 0,
-   "cadId": 31277,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Ground Tremors",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 704285,
-     "name": "Ground Tremors",
-     "ranks": null,
-     "schools": [
-      "Fire"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 18372,
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsSpell_Shaman_SpiritLink",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Hand of the Earthmother",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1867,35 +1899,16 @@
   },
   {
    "aeCost": 0,
-   "cadId": 30104,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Heart of Azeroth",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803980,
-     "name": "Wildheart",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 8583,
    "expansion": 0,
    "flags": 8193,
    "icon": "_D3spiketrap",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hit Rating (Alpha)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1922,6 +1935,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hit Rating (Alpha)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1943,70 +1962,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 35321,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Improved Heart of Azeroth",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706160,
-     "name": "Heavy Earth",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35268,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Improved Totemic Hammer",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300723,
-     "name": "Struck by the Sun",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    },
-    {
-     "dispel": "None",
-     "id": 300724,
-     "name": "Empowered Stoneslam Hidden 2",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 29003,
    "expansion": 0,
    "flags": 0,
    "icon": "inv_mace_1h_artifactdoomhammer_d_04",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Lavamancy",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2032,6 +1998,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Life Primalist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2057,6 +2029,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_relics_runestone",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Magma Shell",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2078,35 +2056,20 @@
   },
   {
    "aeCost": 0,
-   "cadId": 35323,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Magmafury",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706163,
-     "name": "Magmafury",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 8580,
    "expansion": 0,
    "flags": 8193,
    "icon": "INV_Chest_Chain_05",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Mail",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2132,6 +2095,16 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Mail",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2157,6 +2130,13 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_mace_1h_artifactdoomhammer_d_04",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7488,
+    "builderTab": "Mountain King",
+    "matchedSpellId": 803974,
+    "reason": "liveDirect"
+   },
    "name": "Mountain Hammer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2198,6 +2178,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_mace_1h_artifactdoomhammer_d_04",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7488,
+    "builderTab": "Mountain King",
+    "matchedSpellId": 803974,
+    "reason": "liveDirect"
+   },
    "name": "Mountain Hammer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2234,52 +2221,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 30102,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Mountain Hammer",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803974,
-     "name": "Quake",
-     "ranks": [
-      {
-       "level": 0,
-       "rank": 1,
-       "spellId": 803974
-      },
-      {
-       "level": 28,
-       "rank": 2,
-       "spellId": 503267
-      },
-      {
-       "level": 54,
-       "rank": 3,
-       "spellId": 503268
-      }
-     ],
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 7585,
    "expansion": 0,
    "flags": 1,
    "icon": "achievement_boss_highmaul_earthenfury",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7503,
+    "builderTab": "Mountain King",
+    "matchedSpellId": 805643,
+    "reason": "liveDirect"
+   },
    "name": "Mountain Mover",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2305,6 +2258,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "achievement_boss_highmaul_earthenfury",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7503,
+    "builderTab": "Mountain King",
+    "matchedSpellId": 805643,
+    "reason": "liveDirect"
+   },
    "name": "Mountain Mover",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2326,60 +2286,17 @@
   },
   {
    "aeCost": 0,
-   "cadId": 30688,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Mountain Mover",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 805643,
-     "name": "Mountain Mover",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35319,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Plate Cracker",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706158,
-     "name": "Plate Cracker",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 18275,
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsAbility_Druid_Berserk",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30254,
+    "builderTab": "Class",
+    "matchedSpellId": 500696,
+    "reason": "liveDirect"
+   },
    "name": "Primal Charge",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2417,35 +2334,19 @@
   },
   {
    "aeCost": 0,
-   "cadId": 35210,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Primal Fury",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300695,
-     "name": "Blessed by the Earth",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 18414,
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsspell_druid_mightofursoc",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Primal Senses",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2471,6 +2372,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_druid_freshwound",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6205,
+    "builderTab": "Primal",
+    "matchedSpellId": 500940,
+    "reason": "liveDirect"
+   },
    "name": "Primal Shred",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2547,6 +2455,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_monk_souldance",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29230,
+    "builderTab": "Life",
+    "matchedSpellId": 805462,
+    "reason": "liveDirect"
+   },
    "name": "Primal Wave",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2572,6 +2487,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_mace_1h_draenorraid_d_04green",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Primal Weapon: Life",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2597,6 +2518,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_mace_1h_draenorraid_d_04red",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Primal Weapon: Magma",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2622,6 +2549,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_mace_1h_draenorraid_d_04red",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Primal Weapon: Magma",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2642,36 +2575,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 29698,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Primal Weapon: Magma",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 801352,
-     "name": "Body of Magma",
-     "ranks": null,
-     "schools": [
-      "Fire"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6559,
    "expansion": 0,
    "flags": 1,
    "icon": "inv_mace_1h_draenorraid_d_04yellow",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Primal Weapon: Stone",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2697,6 +2611,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_mace_1h_draenorraid_d_04yellow",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Primal Weapon: Stone",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2718,35 +2638,16 @@
   },
   {
    "aeCost": 0,
-   "cadId": 29697,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Primal Weapon: Stone",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 801351,
-     "name": "Primal Weapon: Stone",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 18705,
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_hand_1h_bwdraid_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Primal Weapon: Tooth & Claw",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2772,6 +2673,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsAbility_Druid_NaturalPerfection",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Return to Life",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2797,6 +2707,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "shaman_pvp_rockshield",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rock Shower",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2868,6 +2784,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "shaman_pvp_rockshield",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rock Shower",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2934,82 +2856,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 29233,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Rock Shower",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 500305,
-     "name": "Rock Shower",
-     "ranks": [
-      {
-       "level": 0,
-       "rank": 1,
-       "spellId": 500305
-      },
-      {
-       "level": 10,
-       "rank": 2,
-       "spellId": 502761
-      },
-      {
-       "level": 19,
-       "rank": 3,
-       "spellId": 502762
-      },
-      {
-       "level": 28,
-       "rank": 4,
-       "spellId": 502763
-      },
-      {
-       "level": 37,
-       "rank": 5,
-       "spellId": 502764
-      },
-      {
-       "level": 45,
-       "rank": 6,
-       "spellId": 502765
-      },
-      {
-       "level": 54,
-       "rank": 7,
-       "spellId": 502766
-      },
-      {
-       "level": 63,
-       "rank": 8,
-       "spellId": 502767
-      },
-      {
-       "level": 72,
-       "rank": 9,
-       "spellId": 502768
-      }
-     ],
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 7681,
    "expansion": 0,
    "flags": 1,
    "icon": "inv_glowingazeritegeode",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rockhide",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3035,6 +2892,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_glowingazeritegeode",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rockhide",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3055,61 +2918,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 30791,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Rockhide",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 805920,
-     "name": "Bronzeheart",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35320,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Rumbler",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706159,
-     "name": "Lithic Lance",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 7669,
    "expansion": 0,
    "flags": 1,
    "icon": "inv_relics_runestone",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Runestone Body",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3135,6 +2954,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_relics_runestone",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Runestone Body",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3160,6 +2985,12 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "ability_earthen_pillar",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ruptured Earth",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3221,6 +3052,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_earthen_pillar",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ruptured Earth",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3282,6 +3119,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "spell_shaman_earthquake",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Seismic Destruction",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3343,6 +3186,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "spell_shaman_earthquake",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Seismic Destruction",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3399,72 +3248,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 29359,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Seismic Destruction",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 800143,
-     "name": "Earthquake",
-     "ranks": [
-      {
-       "level": 0,
-       "rank": 1,
-       "spellId": 800143
-      },
-      {
-       "level": 12,
-       "rank": 2,
-       "spellId": 502778
-      },
-      {
-       "level": 24,
-       "rank": 3,
-       "spellId": 502779
-      },
-      {
-       "level": 35,
-       "rank": 4,
-       "spellId": 502780
-      },
-      {
-       "level": 47,
-       "rank": 5,
-       "spellId": 502781
-      },
-      {
-       "level": 58,
-       "rank": 6,
-       "spellId": 502782
-      },
-      {
-       "level": 70,
-       "rank": 7,
-       "spellId": 502783
-      }
-     ],
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6950,
    "expansion": 0,
    "flags": 1,
    "icon": "ability_earthenfury_giftofearth",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shattering Slam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3488,6 +3282,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_earthenfury_giftofearth",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shattering Slam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3507,33 +3307,19 @@
   },
   {
    "aeCost": 0,
-   "cadId": 30089,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Shattering Slam",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": null,
-     "id": 803944,
-     "name": null,
-     "ranks": null,
-     "schools": []
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 8581,
    "expansion": 0,
    "flags": 8193,
    "icon": "INV_Shield_04",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Shield",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3559,6 +3345,15 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Shield",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3584,6 +3379,13 @@
    "expansion": 0,
    "flags": 1,
    "icon": "spell_quicksand",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7519,
+    "builderTab": "Mountain King",
+    "matchedSpellId": 806185,
+    "reason": "liveDirect"
+   },
    "name": "Sinkhole",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3609,6 +3411,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "spell_quicksand",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7519,
+    "builderTab": "Mountain King",
+    "matchedSpellId": 806185,
+    "reason": "liveDirect"
+   },
    "name": "Sinkhole",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3629,36 +3438,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 30850,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Sinkhole",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 806185,
-     "name": "Mountain Fury",
-     "ranks": null,
-     "schools": [
-      "Holy"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6965,
    "expansion": 0,
    "flags": 1,
    "icon": "item_earthenmight",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31209,
+    "builderTab": "Life",
+    "matchedSpellId": 803973,
+    "reason": "liveDirect"
+   },
    "name": "Stonebreaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3684,6 +3475,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "item_earthenmight",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31209,
+    "builderTab": "Life",
+    "matchedSpellId": 803973,
+    "reason": "liveDirect"
+   },
    "name": "Stonebreaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3705,35 +3503,19 @@
   },
   {
    "aeCost": 0,
-   "cadId": 30101,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Stonebreaker",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803973,
-     "name": "Hammer of Life",
-     "ranks": null,
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 6969,
    "expansion": 0,
    "flags": 8193,
    "icon": "ability_thunderking_rockfallhigh",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Stonefall",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3810,6 +3592,15 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_thunderking_rockfallhigh",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Stonefall",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3886,6 +3677,12 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_holiday_hearthstonemidsummerfirefestival",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Stoneguard",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3911,6 +3708,12 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_holiday_hearthstonemidsummerfirefestival",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Stoneguard",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3932,35 +3735,16 @@
   },
   {
    "aeCost": 0,
-   "cadId": 29976,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Stoneguard",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "Magic",
-     "id": 802205,
-     "name": "Stoneguard",
-     "ranks": null,
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
    "cadId": 6185,
    "expansion": 0,
    "flags": 40961,
    "icon": "misc_drogbartotem02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Stoneslam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3986,6 +3770,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsmisc_drogbartotem02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Stoneslam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4006,61 +3796,18 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 35209,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Sturdiness",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300694,
-     "name": "Sturdiness",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30687,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Tectonic Shield",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 805634,
-     "name": "Tectonic Shield",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 7478,
    "expansion": 0,
    "flags": 1,
    "icon": "inv_misc_volatileearth",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6594,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 805336,
+    "reason": "liveDirect"
+   },
    "name": "Therazane's Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4086,6 +3833,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_misc_volatileearth",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6594,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 805336,
+    "reason": "liveDirect"
+   },
    "name": "Therazane's Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4106,111 +3860,20 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 30592,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Therazane's Might",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 805336,
-     "name": "Therazane's Might",
-     "ranks": null,
-     "schools": [
-      "Fire"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35331,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Therazane's Might",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 706174,
-     "name": "Magmatism",
-     "ranks": null,
-     "schools": [
-      "Fire"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30090,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Totemic Hammer",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803946,
-     "name": "Earthmother's Hammer",
-     "ranks": null,
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 35208,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Totemic Rage",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 300693,
-     "name": "Seismic Smash",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 6951,
    "expansion": 0,
    "flags": 1,
    "icon": "spell_shaman_unleashweapon_life",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Totemic Smash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4236,6 +3899,15 @@
    "expansion": 0,
    "flags": 0,
    "icon": "spell_shaman_unleashweapon_life",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Totemic Smash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4261,6 +3933,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "item_earthenmight",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7357,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 704402,
+    "reason": "liveDirect"
+   },
    "name": "Tremor Sense",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4281,36 +3960,17 @@
    "type": "Ability"
   },
   {
-   "aeCost": 0,
-   "cadId": 31309,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "name": "Tremor Sense",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 704402,
-     "name": "One With The Earth",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Geomancy",
-   "type": "Talent"
-  },
-  {
    "aeCost": 3,
    "cadId": 7586,
    "expansion": 0,
    "flags": 1,
    "icon": "Spell_Shaman_ImprovedEarthShield",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Volcanic Skin",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4334,6 +3994,12 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsSpell_Shaman_ImprovedEarthShield",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Volcanic Skin",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4357,6 +4023,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsability_monk_pathofmists",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29363,
+    "builderTab": "Life",
+    "matchedSpellId": 800144,
+    "reason": "liveDirect"
+   },
    "name": "Wild Walk",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4403,6 +4076,12 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "InterfaceIconsAbility_Druid_Swipe",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Wildclaw",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4428,6 +4107,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsspell_druid_incarnation",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7538,
+    "builderTab": "Geomancy",
+    "matchedSpellId": 805335,
+    "reason": "liveDirect"
+   },
    "name": "Wildshape",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4453,6 +4139,13 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6149,
+    "builderTab": "Primal",
+    "matchedSpellId": 500294,
+    "reason": "liveDirect"
+   },
    "name": "Wildwalker Primalist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -4474,5 +4167,5 @@
   }
  ],
  "tab": "Geomancy",
- "type": null
+ "type": "Ability"
 }

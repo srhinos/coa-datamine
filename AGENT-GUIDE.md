@@ -1,8 +1,17 @@
-# Agent Guide - querying coa-datamine
+﻿# Agent Guide - querying coa-datamine
 
 Dataset of Ascension CoA (WoW 3.3.5a custom server) game data for porting work
 (dispel logic, class buffs, raid tooling). Everything below is generated - do not
 hand-edit; rerun `python -m tools.build_dataset` after a client patch instead.
+
+> **Read this before using `data/classes/`.** It is the CAD **catalog** - what the
+> client's character-advancement tables LIST - and a large part of it is not in the
+> game. Of the 8,331 entries belonging to a class whose live talent trees were
+> captured, **4,908 (58.9%) appear in no live tree**, including whole trees that no
+> longer exist (a real level-60 Starcaller has Moon Guard / Sentinel / Moon Priest /
+> Warden / Class; the catalog still lists a `Tides` tree whose abilities they cannot
+> learn). Branch on each entry's **`live` / `liveEvidence`** (task W4-14) - never on
+> mere presence - and read "Live vs catalog" below for what `false` vs `null` mean.
 
 ## File map
 
@@ -22,9 +31,10 @@ this repo needs an exemption).
 |---|---|---|
 | `data/classes/index.json` | class roster + tags + classId map + `dir`/`index` pointers into each class's subdirectory + `chrClasses` (ChrClasses.dbc table, 32 rows, ids 1-32, each carrying `filename` - task W4-5) + `unmatchedChrClasses` (ChrClasses rows with no CAD data: **Hero only**, task W4-5 - was Bloodmage/Felsworn/Hero/Templar before the `filename`-join fix, see "ChrClasses filename join..." below) | small |
 | `data/classes/_realms_evidence.json` | task W4-8: the `Realms`-bitmask decode attempt (DATAMINE-REQUEST.md Sec 6.2) - distinct-value census (28 values/23,709 entries), per-tag/per-bit statistics, a live duplication example, candidate-hypothesis scoring, Lua findings, and the verdict. **HONEST FAILURE, not a decode** - see "Realms bitmask decode attempt..." below; no `realmFlags` exists anywhere, raw `realms` on class entries is unchanged | small |
-| `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`aliases`/`entryCount`/`unresolvedCount` + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class - `aliases` (task W4-5) is `[]` for 40 of 43 classes, `[<ClassRemap token>]` for the 4 CoA-custom classes whose internal filename token isn't a trivial uppercase of their own CAD name (Runemaster/Primalist/Venomancer/KnightOfXoroth) | small |
-| `data/classes/<Class>/<Tab>.json` | one spec tab's obtainable abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`); each resolved spell's `ranks[]` already carries `{spellId, rank, level}` per rank (unchanged V1 design, verified still current by task W4-4) - for level-60 rank selection, look up that chain's first-rank id in `data/spells/` instead and read its `rankAt60` field (task W4-4) rather than re-deriving the CAD-level cutoff here | small-medium |
-| `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs) - see "Class tab sharding" below | small |
+| `data/classes/_live_summary.json` | task W4-14: the live-vs-catalog join's own evidence file - repo-wide + per-class `liveCounts`, the payload provenance (capture date + sha256) and Vol'jin/Rexxar caveat every `live` verdict is scoped by, the measured **false-negative** analysis (which non-tree acquisition paths were tested, which separated and which did not), and the CAD-tab -> live-tab mapping with per-pair method + node-overlap evidence. Written by `build_classes.py`; `build_classmeta.py` READS its `tabMapping` rather than re-deriving it | small |
+| `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`aliases`/`entryCount`/`unresolvedCount`/**`hasLiveGeometry`**/**`liveCounts`** (`{live, deadCatalog, liveViaRank, unknown}`, sums to `entryCount`) / **`liveCountsByReason`** (task W4-14, see "Live vs catalog" below) + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class - `aliases` (task W4-5) is `[]` for 40 of 43 classes, `[<ClassRemap token>]` for the 4 CoA-custom classes whose internal filename token isn't a trivial uppercase of their own CAD name (Runemaster/Primalist/Venomancer/KnightOfXoroth) | small |
+| `data/classes/<Class>/<Tab>.json` | one spec tab's CATALOGUED abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`) - **catalogued, not necessarily in the game: read each entry's `live`/`liveEvidence` (task W4-14) before treating it as real content**; each resolved spell's `ranks[]` already carries `{spellId, rank, level}` per rank (unchanged V1 design, verified still current by task W4-4) - for level-60 rank selection, look up that chain's first-rank id in `data/spells/` instead and read its `rankAt60` field (task W4-4) rather than re-deriving the CAD-level cutoff here | small-medium |
+| `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs, plus 10 more since task W4-14) - see "Class tab sharding" below | small |
 | `data/classes/<Class>/_general.json` | entries with no `Tab` (none exist in the current snapshot; the file only appears if some do) | small |
 | `data/spells/index.json` | bucket manifest: `bucketSize` (10000), total `count`, `buckets: [{bucket, file, count, minId, maxId}]` | small |
 | `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally; task W4-4 adds `rankAt60` (chain's own first-rank record only, omitted when none of that chain's ranks are CAD-level<=60) and `devDead: true` (7 records, see "Formula closure, level-60 ranks..." below) when applicable | small-medium per file - stream/grep it, do not slurp |
@@ -50,7 +60,7 @@ this repo needs an exemption).
 | `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13111) | small |
 | `data/trainers/trainers-<id//2000*2000>.json` | `{bucket, count, minId, maxId, entries: [{id, spellId, name, skillLine:{id,name}\|null, f3}]}` - a **flat per-row list**, not grouped by trainer: `NPCTrainer.dbc` has no trainer-NPC identity column at all (see `trainerIdFinding` in `_meta.json`) | small |
 | `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
-| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, tabStatus\|null, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {32 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}, tabStatusSummary}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json`. `perClass`/matched-classId coverage is **32/32 as of task W4-5** (was 25/32 - the `classToken` join now falls back to `ChrClasses.filename` when the display-name join misses, see "ChrClasses filename join..." below); `classId`/`className` can still ship `null` in principle if a future client patch reintroduces a token neither join resolves. **Task W4-11e** adds `tabStatus` (`{status: "live"\|"shippedExternal"\|"unreleased"\|"noTabLayer", cadTab, coaBuilderTab}` per spec, `null` only when `classId`/`tabToken` themselves are missing) + `tabStatusSummary` - see "specs.json vs CAD tabs reconciliation" below | small |
+| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, tabStatus\|null, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {32 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}, tabStatusSummary}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json`. `perClass`/matched-classId coverage is **32/32 as of task W4-5** (was 25/32 - the `classToken` join now falls back to `ChrClasses.filename` when the display-name join misses, see "ChrClasses filename join..." below); `classId`/`className` can still ship `null` in principle if a future client patch reintroduces a token neither join resolves. **Task W4-14** re-derives `tabStatus` against the LIVE talent builder and RENAMES its states (`{status: "inLiveBuilder"\|"cadOnly"\|"unreleased"\|"noLiveGeometry"\|"noCadClass", cadTab, liveTab, match, renamed}` per spec, `null` only when `classId`/`tabToken` themselves are missing) + `tabStatusSummary` - W4-11e's `"live"` meant only "a CAD tab with this token exists" and was routinely misread as "this tree is in the game"; see "Live vs catalog" below | small |
 | `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
 | `data/classes/essence.json` | task W4-5: `{levels: [1..80], classes: [32 rows: classId, className, curveGroup ("classlessBase"\|"hero"\|"coaCustom"), abilityEssence: [80 ints], talentEssence: [80 ints]]}` (`CharacterAdvancementEssence.dbc`, 5,600 rows = 80 levels x 32 classes x 8 flag-variant rows, canonical curve = the flags-all-zero row per (classId,level) pair) - owned solely by `tools/build_essence.py`, a **new module deliberately separate from `build_classmeta.py`** (Amendment D: classmeta owns specs.json/archetypes.json only); see "Per-class Ability/Talent Essence curves..." below | small |
 | `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null, realmResolvedIn?}], realmGapFinding}` - task W4-11f adds `realmGapFinding` (per-realm resolution of the non-joining refs) + per-row `realmResolvedIn` (only present when unresolved in base), see Honest limits | small |
@@ -91,7 +101,13 @@ this repo needs an exemption).
 
 Most class tabs fit in one file: `data/classes/<Class>/<Tab>.json`. A handful of
 Reborn* classes' biggest tabs (e.g. RebornWarlock/Destruction, 728 entries) don't -
-even though Tab is the natural semantic key, one file would run 15k-18k lines. The
+even though Tab is the natural semantic key, one file would run 15k-18k lines. (Task
+W4-14's per-entry `live`/`liveEvidence` fields added ~5 lines per entry, which pushed
+ten more borderline tabs over the gate too - Chronomancer/Duality, Monk/Fighting,
+Primalist/Geomancy, Pyromancer/Draconic, Runemaster/Runic, SonOfArugal/Blood,
+Stormbringer/Gifts, SunCleric/Seraphim, WitchDoctor/Shadowhunting and Warrior/Fury -
+so level 2 is no longer Reborn-only. The cascade handled it with no change; `index.json`'s `files` array is
+still the only thing you should enumerate shards from.) The
 writer (`tools/build_classes.py:_shard_tab`) cascades three levels, each only used
 if the previous one still overflows 5,000 lines:
 
@@ -619,7 +635,7 @@ is `0`, not the in-game default `1.0`).
 doc's "0.13% (8 spells)" down to the literal count - all 8 are Invigorating Surge
 ranks sharing missile 9429.
 
-> ### ⚠ `EffectBonusMultiplier` (f229-231, `effects[].bonusMultiplierStock`) -
+> ### âš  `EffectBonusMultiplier` (f229-231, `effects[].bonusMultiplierStock`) -
 > **do NOT treat as a CoA coefficient source**
 >
 > Extracted and emitted (correct for **stock and Reborn content only**), but it is
@@ -705,7 +721,7 @@ its damage scaling there (Sec 2), heavily cross-referencing other spells
   tell them apart from real refs would be exactly this repo's own "dense-id
   join-rate lies" trap) and one that WAS caught by review and fixed:
 
-  > **⚠ The `$1s` transposition-typo trap.** The no-trailing-digit widened shape
+  > **âš  The `$1s` transposition-typo trap.** The no-trailing-digit widened shape
   > collides with a different real authoring artifact - a same-spell `$s1`/`$m1`
   > self-value token, TRANSPOSED by a tooltip typo into `$1s`/`$1m` (digit-then-
   > letter instead of letter-then-digit). Rejuvenation (28722) reads `"Restores
@@ -762,7 +778,7 @@ doc's own cited depth-3 marginal yield, a reassuring cross-check that the widene
 grammar above is finding the intended reference set. Full breakdown in
 `data/spells/_meta.json`'s `formulaClosure` block.
 
-> **⚠ The doc's own resolution-rate figure (2,446/5,317 = 46%) does not reproduce
+> **âš  The doc's own resolution-rate figure (2,446/5,317 = 46%) does not reproduce
 > here** (this build measures 4,893/5,075 = 96.4% resolved, per
 > `data/spells/_meta.json`'s `formulaClosure`). Population-independent
 > in principle (an id either exists in `Spell.dbc` or it doesn't), so this is most
@@ -773,7 +789,7 @@ grammar above is finding the intended reference set. Full breakdown in
 > patch" below). Flagged rather than chased further - re-deriving a stale doc
 > figure against a newer live snapshot is expected to diverge.
 
-> **⚠ The binder must follow `$mN`/`$sN`-style tokens into ANY effect slot, not
+> **âš  The binder must follow `$mN`/`$sN`-style tokens into ANY effect slot, not
 > only damaging ones** (Sec 1.6) - this closure widens which SPELLS are in the
 > dataset, but a future consumer building a coefficient binder (matching a
 > formula's `$mN`/`$sN` tokens to the effect slot that actually carries the
@@ -807,7 +823,7 @@ clamps to **value 509** - the doc's own cited 3,365-vs-509 pair, re-derived here
 independently via the maxLevel-clamp formula from this record's own emitted
 fields, not copied. Pinned in `tests/test_closure_ranks.py`.
 
-> **⚠ [INFERRED] gating field - UNRESOLVED, needs an in-game `/dump`.** CAD
+> **âš  [INFERRED] gating field - UNRESOLVED, needs an in-game `/dump`.** CAD
 > `ranks[].level` and DBC `spellLevel` agree on only **32.0%** of rank rows and
 > pick a **different** level-60 rank on **512 of 920** CoA chains (Sec 1.7). This
 > field follows **CAD level**, on the doc's own reasoning that CAD is what grants
@@ -818,7 +834,7 @@ fields, not copied. Pinned in `tests/test_closure_ranks.py`.
 > entry's level or `Spell.dbc`'s own `spellLevel`?) before trusting `rankAt60` for
 > anything beyond the "roughly which rank" level** - this is a real, load-bearing
 > unresolved question for absolute damage values on ~55% of multi-rank chains, not
-> a hedge. Track this the same way as the §14 in-game probe items already noted
+> a hedge. Track this the same way as the Â§14 in-game probe items already noted
 > elsewhere in this guide.
 
 **(c) `$scalingbp` - named constant.** `data/spells/_meta.json`'s
@@ -1364,10 +1380,10 @@ unconfirmed"). This task re-extracted fresh (2026-08-06) and independently
 re-ran every numeric claim in that subsection - every one reproduced, with two
 honest caveats (see `tools/dbc.py`'s `SpellAffect` TABLE_MAPS comment for the
 full log):
-- f1→Spell.dbc join 100.0000%, |f2| join 99.9973% (one row's abs value doesn't
+- f1â†’Spell.dbc join 100.0000%, |f2| join 99.9973% (one row's abs value doesn't
   resolve - the doc's own "100.0%" was a rounding, not literal), raw unsigned f2
   join 93.4528%, negative f2 rows 2,407/36,779 exactly.
-- All 3 goldens reproduce (324→978816, 2565→47294-6); the third (12043→Blizzard/
+- All 3 goldens reproduce (324â†’978816, 2565â†’47294-6); the third (12043â†’Blizzard/
   Hailstorm) reproduces the SEMANTIC finding but the doc's quoted id range
   (81328-81332) is narrower than what's actually on disk (81328-81336 plus a
   second 281800-281808 block the doc never mentions) - a transcription gap in
@@ -1376,8 +1392,8 @@ full log):
   denominator (CoA spells carrying the modifier aura) measured 1,269 fresh vs
   the doc's 1,295 (ordinary content drift, same class as this build's own
   Spell.dbc row-count drift).
-- Id-band overlap (f1 ∩ vanilla-tagged=209, ∩ reborn-tagged=277,
-  ∩ coa-custom-tagged=5) and the 158/10,684 CoA-band |f2| count both reproduce
+- Id-band overlap (f1 âˆ© vanilla-tagged=209, âˆ© reborn-tagged=277,
+  âˆ© coa-custom-tagged=5) and the 158/10,684 CoA-band |f2| count both reproduce
   EXACTLY. **Verdict unchanged from Sec 9's own framing: it is genuinely
   Bronzebeard/Area-52 legacy content, not a CoA table** -
   `EffectSpellClassMask` (task W4-3) remains the primary CoA talent-targeting
@@ -1425,7 +1441,7 @@ The other 9 tables (`SpellDifficulty`, `SummonProperties`, `SpellMissile`,
 `GlyphProperties`, `GlyphSlot`, `SpellItemEnchantmentCondition`) ship raw +
 colinfo only - explicitly out of this task's curation scope. One flag found in
 passing: `SpellItemEnchantmentCondition`'s WDBC header **declares 31 fields**
-(the real stock-WotLK 1+5×6 operand-condition shape) but its `record_size` only
+(the real stock-WotLK 1+5Ã—6 operand-condition shape) but its `record_size` only
 supports **16** - `extract_mpq.py`'s `headerMismatches` caught this on a BASE
 table for the first time (previously only ever seen on realm-overlay tables,
 see `DBCFile`'s docstring); `DBCFile.fields` (record_size//4) is what this
@@ -1445,7 +1461,7 @@ unmapped table. Per the brief, the sim's **primary** item source stays an extern
 job is completeness/evidence, not owning item acquisition (Sec 8's own framing).
 
 **`Item.dbc` is an INDEX, not a stat source** - re-derived directly from its own
-colinfo, not just asserted from the doc: 563,335 rows × 8 fields, **zero-length
+colinfo, not just asserted from the doc: 563,335 rows Ã— 8 fields, **zero-length
 string block** (`string_block_size: 0`), every column's `samples` empty (nothing
 string-like at all). `f0` (the id) is unique per row and its max (9,200,842)
 reproduces Sec 8.2's own cross-reference ceiling exactly. Shape matches the doc's
@@ -1572,45 +1588,133 @@ Cross-referenced against this task's own new `Item.dbc`/`ItemStat` tables:
 ids, but only 13.3% of `Normal` ids have `ItemStat` coverage - consistent with Sec
 8.2's "not a primary CoA source" verdict.
 
-**specs.json vs CAD tabs reconciliation (task W4-11e) - Sec 11 / Sec 13 item 20,
-closed.** Every `data/classes/specs.json` spec row now carries `tabStatus`,
-cross-referencing `ChrSpecs.tabToken` (NOT `name`, which Sec 11 already flagged as
-unreliable) against `data/classes/<dir>/index.json`'s own CAD tab-name set for that
-spec's class. Re-derived fresh, not copied: **93/101 specs' `tabToken` matches a
-real CAD tab today** (`status: "live"`). Chronomancer spec 31 is the concrete
-example Sec 11 itself cites: it is DISPLAY-NAMED "Time" but its `tabToken` is
-`"DISPLACEMENT"`, which correctly cross-references that class's real "Displacement"
-tab - `name` is the unreliable field, `tabToken` is not.
+**Live vs catalog: `live` / `liveEvidence` on every CAD entry (task W4-14).**
+`data/classes/` is the CAD **catalog** - what the client's character-advancement
+tables LIST for a class. It is not the game, and reading it as if it were is the
+single most expensive mistake a consumer of this dataset can make. A real level-60
+Starcaller proved the gap: the catalog ships a whole `Tides` tree (Tide Lash,
+Silvercurrent, Pond, Deluge, Geyser) that **does not exist in game**; that
+character's real trees are Moon Guard / Sentinel / Moon Priest / Warden / Class -
+exactly what the live talent-builder capture (`data/talents/coa/`, task W4-9) says.
 
-Of the 8 non-matching specs, 1 (Hero, classId 10) has **no CAD tab layer at all** -
-Hero isn't one of the 21 `coa-custom` directories (`status: "noTabLayer"`,
-structural, not a content gap). The other 7 are EXACTLY Sec 11's own "7 of 70 specs
-have no CAD tab" list. **Task W4-9's CoA talent-builder payload capture already
-cross-checked those 7 against a SECOND, external tab layer** (the live
-`ascension.gg` builder, `data/talents/coa/_meta.json`'s
-`tabLayerReconciliation.sec11UnreleasedSpecsShipped`, computed and asserted at
-every `build_coatalents.build()` run) and found **5 of 7 have shipped there**:
-Bloodmage/FLESHWEAVER -> "Fleshweaver", SunCleric/VALKYR -> "Valkyrie",
-Primalist/MOUNTAINKING -> "Mountain King", WitchHunter/WITCHKNIGHT -> "Black
-Knight", Venomancer/VIZIER -> "Vizier" (all real, non-empty tabs, 38-44 nodes
-apiece). `build_classmeta.py` reads that already-computed finding rather than
-re-deriving it (`_sec11_shipped_tokens()`), marking those 5 `status:
-"shippedExternal"` with `coaBuilderTab` set. **The remaining 2 - Starcaller/
-HYDROMANCY, Cultist/BULWARK - stay `status: "unreleased"`: Sec 11's originally-cited
-"7 unreleased" figure is corrected to 2** by this reconciliation
-(`specs.json`'s own `tabStatusSummary.sec11Correction` states this explicitly, and
-`.unreleased` lists the 2 surviving rows by id/class/name/token).
+Every entry now carries the verdict:
 
-**Pipeline ordering changed to make this possible**: `build_classmeta.build()` now
-requires `data/talents/coa/_meta.json` to already exist (hard `assert`, matching
-this file's `build()` gate on `data/classes` existing), so `build_dataset.py` moved
-`build_coatalents.build()` to run right after `build_classes` - BEFORE `build_talents`/
-`build_dungeons`/`build_creatures`/`build_classmeta` (previously it ran near the
-end, after `mythic`). This reorder is content-neutral for `build_coatalents` itself
-(its only real dependencies, `data/classes/` and `data/spells/`, are unaffected by
-where `talents`/`dungeons`/`creatures`/`classmeta`/`essence`/`mythic` fall in the
-stage list) - re-verified by a full `build_dataset.run()` pass producing identical
-`coatalents` stats before and after the move.
+| field | meaning |
+|---|---|
+| `live: true` + `liveEvidence.reason: "liveDirect"` | one of the entry's own spell ids IS a live builder node's spell (`matchedSpellId`, `builderTab`, `builderNodeId` name the hit) |
+| `live: true` + `"liveViaRank"` | no own id matched, but another rank of the same `SpellRankData` chain did |
+| `live: false` + `"deadCatalog"` | not in the live trees by any rank, and **no evidence of any other acquisition path** - treat as cut/legacy content |
+| `live: null` + `"indeterminate"` | not in the trees, but carries a non-tree acquisition signal (`liveEvidence.signals`) - see the false-negative measurement below |
+| `live: null` + `"unknownNoGeometry"` | the class has no builder capture at all (the 10 vanilla + Reborn/meta dirs) - nothing is claimed either way |
+
+Repo-wide (re-derived at every build, mirrored into `data/classes/_live_summary.json`
+and each class's `index.json` as `liveCounts`): **3,417 liveDirect + 6 liveViaRank,
+3,518 deadCatalog, 1,390 indeterminate, 15,378 unknownNoGeometry** of 23,709 entries.
+Restricted to the 21 classes that HAVE a builder capture: 8,331 entries, of which
+**4,908 (58.9%) are not in the live trees at all**. Starcaller alone: 53.1% of its
+distinct CAD spell ids appear in no live node.
+
+Matching is **spell-id equality only** - no name matching enters the verdict itself.
+`live` counts only direct hits; entries with `live == true` are `live + liveViaRank`;
+`unknown` merges the two `live: null` reasons so the four `liveCounts` keys sum to
+`entryCount`. The rule lives in `tools/coa_live.py` and is imported by both writers
+(`build_classes` owns `data/classes/**`, `build_coatalents` owns
+`data/talents/coa/**`) so neither can drift from the other.
+
+**Scope, and it is a real one:** the capture is the **Vol'jin** builder. Rexxar -
+Conquest of Azeroth is a separate CoA realm assumed identical but UNVERIFIED, and
+`data/classes/` entries are account-wide across four realms - so a Rexxar-only
+ability is indistinguishable from dead content by this method. Provenance (capture
+date + sha256) travels in `_live_summary.json.payload`; re-run
+`tools/fetch_coatalents.py` and diff the sha256 to check for drift, because a stale
+capture makes `live` stale too.
+
+**The false-negative risk was MEASURED, not hand-waved.** The builder payload shows
+the TREES; anything CoA grants outside a tree would look dead while being live. Three
+probes were run over the 4,908 not-in-trees entries and every one is written up in
+`_live_summary.json.falseNegativeMeasurement`:
+
+- **`skillLineAutoGrant`** - 183 entries (3.7%). `SkillLineAbility.acquireMethod != 0`,
+  i.e. automatically granted. **Separable and trustworthy**: `acquireMethod` is stock
+  3.3.5 semantics, generation-independent, and perfectly disjoint from the live node
+  set (0 of the live builder's spell ids carry it). The population is overwhelmingly
+  weapon/armour proficiencies (Fist Weapons, Polearms, Plate Mail, Dual Wield, Auto
+  Shot, Block, Staves, Wands) - exactly the "baseline, not via a tree node" class.
+- **`npcTrainerRow`** - 1,022 entries (20.8%). **Real but NOT separable offline**, said
+  plainly rather than guessed: `NPCTrainer.dbc` in this snapshot is provably
+  CONTEMPORARY with the live generation (it carries rows under skill lines that exist
+  ONLY in the live builder and nowhere in the CAD tab layer - "Moon Guard", "Moon
+  Priest", "Warden", "Headhunting" - teaching rank variants of abilities whose base
+  rank IS a live node, e.g. Starcall). So a trainer row is evidence of a non-tree
+  path, but the CAD row hanging off it can equally be a retired duplicate.
+- **`liveNodeNameTwin`** - 324 entries (6.6%). The entry's NAME matches a live node in
+  the same class while none of its spell ids do: the spellId-variant drift already
+  measured in `data/talents/coa/_meta.json`'s `contentDrift`. The ability is live;
+  whether THIS row is the live variant is unknowable offline.
+
+Union: **1,390 entries (28.3% of not-in-trees) ship `live: null` / `"indeterminate"`
+with their firing signals listed, rather than being guessed `false`.** The remaining
+3,518 carry no acquisition evidence of any kind and are the honest `live: false`.
+The task's first suggested heuristic - "low `requiredLevel` + `type == Ability`" - was
+tested and **REJECTED by measurement**: it fires on 28.4% of not-in-trees entries but
+also on 16.9% of PROVEN-live ones, so it has no specificity and is used in no verdict.
+
+**CAD tab names and live tab names are DIFFERENT GENERATIONS** of the same tree slots
+(Starcaller CAD `Tides` is live `Moon Priest`; Barbarian `Tactics` is `Headhunting`;
+Chronomancer `Time` is `Artificer`). All 84 CAD (class, tab) pairs map onto a live tab
+in `_live_summary.json.tabMapping`, each pair carrying its method and its evidence:
+**58 by `chrSpecsSpecName`** (a `ChrSpecs` row whose `tabToken` IS the CAD tab and
+whose `name` IS the live tab - the client's own row linking the two generations) and
+**26 by `sameName`**; `nodeOverlap` (where a CAD tab's live-matched entries actually
+land) is available as a third method and is run on every pair anyway as an independent
+cross-check - **80/84 agree (95.2%)**, and the 4 that do not are recorded with their
+counts, not resolved away. 9 live tabs have no CAD ancestor at all: the genuinely new
+trees (Warden, Fleshweaver, Valkyrie, Mountain King, Vizier, Black Knight, Dreadnought)
+plus the empty `None`/`Blessings` placeholders.
+
+**specs.json `tabStatus` re-derived and RENAMED (task W4-14) - Sec 11 / Sec 13 item
+20, closed properly.** W4-11e's states were misleading in exactly the way described
+above: `"live"` meant only "a CAD tab with this token exists" - a claim about the
+catalog, not the game - and 93/101 specs carried it, **including Starcaller/TIDES**.
+The states now name what they assert:
+
+| status | meaning | count |
+|---|---|---|
+| `inLiveBuilder` | the spec's tree IS in the live builder; `liveTab` names it and `renamed: true` flags a live name differing from the CAD one | 70 |
+| `cadOnly` | the tree exists ONLY in the catalog - no live tab maps to it (the state the old `"live"` was hiding) | 0 today |
+| `unreleased` | named by neither layer | 0 today |
+| `noLiveGeometry` | class has a CAD tab layer but no builder capture - liveness NOT claimed | 30 |
+| `noCadClass` | class has no `data/classes/` directory at all (Hero, classId 10) - structural | 1 |
+
+**25 of the 70 `inLiveBuilder` specs are `renamed: true`** - a consumer browsing
+`data/classes/` would have found a different tree name than the player sees. The
+match ladder tries `ChrSpecs.name` BEFORE `tabToken`, because `name` is the
+live-generation label and `tabToken` is the catalog-generation one: spec 33 is named
+"Artificer" with `tabToken: "TIME"`, while the live tab literally named "Time" is a
+DIFFERENT tree (spec 31, `tabToken: "DISPLACEMENT"`) - token-first silently swaps
+them. That same mechanism retires Sec 11's "7 of 70 specs have no CAD tab" list
+entirely: all 7 resolve by spec name, including VALKYR -> "Valkyrie" and WITCHKNIGHT
+-> "Black Knight" (which no normalized token match reaches) and the 2 that task W4-9
+recorded as `unmatchedExtraTabs` but could not attribute - HYDROMANCY is Starcaller's
+live "Warden" (spec 45's own name) and BULWARK is Cultist's "Dreadnought" (spec 96's).
+W4-11e's pinned 5-token table is gone; this is a mechanism, not a list.
+
+`build_classmeta.py` READS the mapping from `_live_summary.json` rather than
+re-deriving it (Amendment D single-writer), so `build_classes.build()` must run
+before it - both are asserted at build time. Gated by `tests/test_live_flags.py`
+(schema, count consistency, the Starcaller ground-truth pins, the false-negative
+measurement, tab-mapping injectivity, and the `tabStatus` states).
+
+**Pipeline ordering (task W4-11e, still current)**: `build_classmeta.build()`
+requires `data/talents/coa/_meta.json` and `data/classes/_live_summary.json` to
+already exist (hard `assert`s), so `build_dataset.py` runs `build_coatalents.build()`
+right after `build_classes` - BEFORE `build_talents`/`build_dungeons`/
+`build_creatures`/`build_classmeta` (it previously ran near the end, after `mythic`).
+Content-neutral for `build_coatalents` itself (its only real dependencies,
+`data/classes/` and `data/spells/`, are unaffected by where `talents`/`dungeons`/
+`creatures`/`classmeta`/`essence`/`mythic` fall in the stage list) - re-verified by a
+full `build_dataset.run()` pass producing identical `coatalents` stats before and
+after the move.
 
 ## Recipes (PowerShell / Python)
 

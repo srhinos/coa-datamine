@@ -1,4 +1,4 @@
-"""CoA talent tree geometry -> data/talents/coa/<Class>.json (task W4-9,
+﻿"""CoA talent tree geometry -> data/talents/coa/<Class>.json (task W4-9,
 coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11).
 
 Two geometry sources exist and this module reconciles them:
@@ -42,108 +42,20 @@ data/talents/<ChrClass>.json (the OLDER, unrelated Talent.dbc-derived trees owne
 by build_talents.py) is untouched and lives one directory up, deliberately kept
 separate so a class with BOTH a legacy DBC tree and CAD-driven CoA nodes (e.g.
 Barbarian) never collides on one filename."""
-import csv, gzip, json, re
+import csv, gzip, json
 from collections import defaultdict
 
-from tools import config, build_spells, sharding
+from tools import config, build_spells, coa_live, sharding
 
 MAX_LINES = 5000
 
 
-# ---------------------------------------------------------------------------
-# Payload extraction: locate + parse the embedded Next.js flight JSON.
-# ---------------------------------------------------------------------------
-
-_PUSH_MARKER = 'self.__next_f.push(['
-
-
-def _iter_next_f_string_literals(html_text: str):
-    """Yield each `self.__next_f.push([id,"<JS string literal>"])` call's raw
-    string-literal text (including the surrounding quotes), scanning by hand
-    rather than with a backtracking regex - some of these literals run to
-    several megabytes, which a naive `"(?:[^"\\\\]|\\\\.)*"` regex chokes on."""
-    i = 0
-    n = len(html_text)
-    while True:
-        i = html_text.find(_PUSH_MARKER, i)
-        if i < 0:
-            return
-        q = html_text.find('"', i)
-        if q < 0:
-            return
-        j = q + 1
-        while j < n:
-            c = html_text[j]
-            if c == "\\":
-                j += 2
-                continue
-            if c == '"':
-                break
-            j += 1
-        yield html_text[q:j + 1]
-        i = j + 1
-
-
-_ROW_PREFIX_RE = re.compile(r"^[0-9a-f]+:")
-
-
-def _find_talent_builds(node):
-    """Recursively walk a decoded flight-row JSON tree, yielding every dict that
-    has the unmistakable shape of one builder "build" record: a sibling
-    {id, slug, name, max_level, talents: {classes, entriesByTab, ...}}. Structural
-    (keyed off the shape, not a hardcoded array index) so a future page layout
-    change doesn't silently start reading the wrong node."""
-    if isinstance(node, dict):
-        t = node.get("talents")
-        if isinstance(t, dict) and "entriesByTab" in t and "classes" in t:
-            yield node
-        for v in node.values():
-            yield from _find_talent_builds(v)
-    elif isinstance(node, list):
-        for v in node:
-            yield from _find_talent_builds(v)
-
-
-def extract_payload(html_text: str, slug: str) -> dict:
-    """Locate and parse the embedded talent-builder JSON for `slug` out of the
-    raw page text. Raises RuntimeError with a specific, actionable message on
-    any failure mode (no chunk found / none decode / none match the slug) -
-    "parse defensively" per the task's binding rule, not a bare KeyError."""
-    dec = json.JSONDecoder()
-    candidates = []
-    for lit in _iter_next_f_string_literals(html_text):
-        try:
-            inner = json.loads(lit)
-        except json.JSONDecodeError:
-            continue
-        if "entriesByTab" not in inner:
-            continue
-        body = _ROW_PREFIX_RE.sub("", inner, count=1)
-        try:
-            data, _ = dec.raw_decode(body)
-        except json.JSONDecodeError:
-            continue
-        candidates.extend(_find_talent_builds(data))
-
-    if not candidates:
-        raise RuntimeError(
-            "build_coatalents: no self.__next_f.push(...) chunk decoded into a "
-            "{classes, entriesByTab} build record - the page structure has "
-            "changed since this parser was written and needs re-investigation "
-            "(see this module's docstring for the extraction technique).")
-
-    by_slug = [b for b in candidates if b.get("slug") == slug]
-    if not by_slug:
-        found = sorted({b.get("slug") for b in candidates})
-        raise RuntimeError(
-            f"build_coatalents: found {len(candidates)} build record(s) but none "
-            f"with slug={slug!r} - available slugs: {found}")
-    if len(by_slug) > 1:
-        raise RuntimeError(
-            f"build_coatalents: {len(by_slug)} build records share slug={slug!r} - "
-            "ambiguous, needs re-investigation")
-    return by_slug[0]
-
+# Payload extraction (locate + parse the embedded Next.js flight JSON) moved to
+# tools/coa_live.py in task W4-14 so build_classes can read the SAME frozen
+# capture for its live/dead join without importing a builder or re-parsing the
+# 11.8 MB page a second time. Re-exported here because this module's docstring
+# (and tests/test_coatalents.py) document it as this module's technique.
+extract_payload = coa_live.extract_payload
 
 # ---------------------------------------------------------------------------
 # Build

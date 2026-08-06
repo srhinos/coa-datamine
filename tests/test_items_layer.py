@@ -1,4 +1,4 @@
-"""TDD gate for task W4-11: items layer (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8 +
+﻿"""TDD gate for task W4-11: items layer (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8 +
 Sec 13 items 14/15/16/20/21). Split into sections per sub-task letter, each
 independently re-derived against a fresh 2026-08-06 extraction (not copied from the
 source doc) - see .superpowers/sdd/task-w4-11-report.md for the full log.
@@ -325,52 +325,57 @@ specs = specs_doc["specs"]
 by_id = {s["id"]: s for s in specs}
 assert "tabStatusSummary" in specs_doc
 
-# every spec with a resolved classId+tabToken carries a tabStatus; the rest (none,
-# currently - W4-5 already fixed classId coverage to 32/32) carry null
+# [Task W4-14] re-derived against the LIVE builder and renamed - the old states
+# (live/shippedExternal/unreleased/noTabLayer) are gone because "live" there meant
+# only "a CAD tab with this token exists", a claim about the catalog rather than the
+# game. tests/test_live_flags.py is the full gate for the new derivation; what stays
+# here is Sec 11's own reconciliation question, re-asked in the new vocabulary.
+STATES = {"inLiveBuilder", "cadOnly", "unreleased", "noLiveGeometry", "noCadClass"}
 for s in specs:
     if s["classId"] is not None and s["tabToken"]:
-        assert s["tabStatus"] is not None and s["tabStatus"]["status"] in (
-            "live", "shippedExternal", "unreleased", "noTabLayer")
+        assert s["tabStatus"] is not None and s["tabStatus"]["status"] in STATES
     else:
         assert s["tabStatus"] is None
 
 counts = specs_doc["tabStatusSummary"]["counts"]
-assert counts == {"live": 93, "shippedExternal": 5, "unreleased": 2, "noTabLayer": 1}
+assert counts == {"inLiveBuilder": 70, "noLiveGeometry": 30, "noCadClass": 1}
 assert sum(counts.values()) == 101
 
-# tabToken (not `name`) is the reliable cross-reference - Sec 11's own Chronomancer
-# example, re-derived: spec 31 is NAMED "Time" but its tabToken is "DISPLACEMENT",
-# which correctly cross-references that class's real "Displacement" CAD tab.
+# Sec 11's own Chronomancer example, re-derived: spec 31 is NAMED "Time" with
+# tabToken "DISPLACEMENT", which does cross-reference that class's real
+# "Displacement" CAD tab - and that CAD tab is the live builder's "Time" tree, which
+# is why the token alone was never enough to say what a player actually has.
 assert by_id[31]["name"] == "Time" and by_id[31]["tabToken"] == "DISPLACEMENT"
-assert by_id[31]["tabStatus"] == {"status": "live", "cadTab": "Displacement",
-                                  "coaBuilderTab": None}
+assert by_id[31]["tabStatus"] == {"status": "inLiveBuilder", "cadTab": "Displacement",
+                                  "liveTab": "Time", "match": "specName",
+                                  "renamed": True}
 
-# W4-9's "5/7 shipped" finding folded in - exact per-spec status, not just the count
-SHIPPED_EXTERNAL = {
+# W4-9's "5 of Sec 11's 7 tokens shipped" finding: all 5 still resolve, now by
+# mechanism (the spec's own name is the live-generation label) rather than the
+# pinned token table W4-11e read out of data/talents/coa/_meta.json
+SHIPPED = {
     25: ("Fleshweaver", "FLESHWEAVER"), 47: ("Valkyrie", "VALKYR"),
     60: ("Mountain King", "MOUNTAINKING"), 97: ("Black Knight", "WITCHKNIGHT"),
     101: ("Vizier", "VIZIER"),
 }
-for sid, (name, token) in SHIPPED_EXTERNAL.items():
+for sid, (name, token) in SHIPPED.items():
     assert by_id[sid]["name"] == name and by_id[sid]["tabToken"] == token
-    assert by_id[sid]["tabStatus"]["status"] == "shippedExternal"
-    assert by_id[sid]["tabStatus"]["cadTab"] is None
-    assert by_id[sid]["tabStatus"]["coaBuilderTab"] is not None
+    assert by_id[sid]["tabStatus"]["status"] == "inLiveBuilder"
+    assert by_id[sid]["tabStatus"]["liveTab"] == name
 
-# 7-unreleased -> 2-unreleased correction: only Starcaller/HYDROMANCY and
-# Cultist/BULWARK remain, matching W4-9's own "2 of 7 do NOT appear" finding
-UNRELEASED = {45: ("Warden", "HYDROMANCY"), 96: ("Dreadnought", "BULWARK")}
-for sid, (name, token) in UNRELEASED.items():
+# ...and the 2 W4-9 could NOT place (its "unmatchedExtraTabs") are now attributed by
+# the same mechanism, so Sec 11's unreleased list is empty rather than 7 or 2
+FORMERLY_UNRELEASED = {45: ("Warden", "HYDROMANCY"), 96: ("Dreadnought", "BULWARK")}
+for sid, (name, token) in FORMERLY_UNRELEASED.items():
     assert by_id[sid]["name"] == name and by_id[sid]["tabToken"] == token
-    assert by_id[sid]["tabStatus"] == {"status": "unreleased", "cadTab": None,
-                                       "coaBuilderTab": None}
-unreleased_ids = {row[0] for row in specs_doc["tabStatusSummary"]["unreleased"]}
-assert unreleased_ids == set(UNRELEASED)
+    assert by_id[sid]["tabStatus"]["status"] == "inLiveBuilder"
+    assert by_id[sid]["tabStatus"]["liveTab"] == name
+assert specs_doc["tabStatusSummary"]["unreleased"] == []
 
-# Hero (classId 10) has no CAD tab directory at all - structural, not content drift
+# Hero (classId 10) has no CAD class directory at all - structural, not content drift
 assert by_id[94]["className"] == "Hero" and by_id[94]["tabToken"] == "HERO"
-assert by_id[94]["tabStatus"] == {"status": "noTabLayer", "cadTab": None,
-                                  "coaBuilderTab": None}
+assert by_id[94]["tabStatus"] == {"status": "noCadClass", "cadTab": None,
+                                  "liveTab": None, "match": None, "renamed": None}
 cidx = json.loads((config.DATA_DIR / "classes" / "index.json").read_text(encoding="utf-8"))
 assert not any(c.get("classId") == 10 for c in cidx["classes"])
 

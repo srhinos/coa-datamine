@@ -1,4 +1,4 @@
-"""Class/spec metadata pack (task V2-3): ChrSpecs -> data/classes/specs.json,
+﻿"""Class/spec metadata pack (task V2-3): ChrSpecs -> data/classes/specs.json,
 CharacterCreationArchetypes(+ArchetypeDetails) -> data/classes/archetypes.json.
 
 Amendment D (single-writer ownership): this module owns specs.json/archetypes.json
@@ -38,30 +38,48 @@ top of the raw named columns:
   supported races are derived from CharacterCreationArchetypeDetails' proven
   archetypeId/raceId join, resolved to names via ChrRaces.dbc.
 
-Task W4-11e (DATAMINE-REQUEST.md Sec 11 / Sec 13 item 20): each spec row now also
-carries `tabStatus`, reconciling `ChrSpecs.tabToken` against the CAD tab-string
-layer (`data/classes/<dir>/index.json`'s own tab-name set for that spec's class,
-normalized-matched - not `name`, which Sec 11 already documented as unreliable,
-e.g. Chronomancer spec 31 is NAMED "Time" but its `tabToken` is "DISPLACEMENT" and
-correctly cross-references that class's real "Displacement" tab). Re-derived fresh
-against THIS repo's own data (not copied from Sec 11's cited figures): 93/101 specs'
-`tabToken` matches a real CAD tab today ("live"). Of the 8 that don't, 1 (Hero,
-classId 10) has no CAD tab layer at all - Hero isn't one of the 21 `coa-custom`
-directories, so this is structural, not a content gap ("noTabLayer"). The other 7
-are EXACTLY Sec 11's own "7 of 70 specs have no CAD tab" list - and task W4-9's CoA
-talent-builder payload capture already cross-checked those 7 against a SECOND,
-external tab layer (the live `ascension.gg` builder, `data/talents/coa/_meta.json`'s
-`tabLayerReconciliation.sec11UnreleasedSpecsShipped`) and found **5 of 7 have
-shipped there** since Sec 11's audit (real, non-empty tabs: Fleshweaver/Valkyrie/
-Mountain King/Black Knight/Vizier). This module folds that finding in rather than
-duplicating the cross-check: a spec whose `tabToken` doesn't match the CAD layer but
-DOES match that file's `shipped: true` token list is `"shippedExternal"`; the
-remaining 2 (Starcaller/HYDROMANCY, Cultist/BULWARK) are `"unreleased"` - Sec 11's
-originally-cited "7 unreleased" figure is corrected to **2** by this reconciliation.
-Depends on `data/talents/coa/_meta.json` already existing - `build_dataset.py`
-therefore runs `build_coatalents.build()` BEFORE `build_classmeta.build()` now (task
-W4-11e reordering; `build_coatalents` itself has no dependency on classmeta's own
-output, so this is safe - see build_dataset.py's stage-order comments).
+Task W4-11e (DATAMINE-REQUEST.md Sec 11 / Sec 13 item 20) added `tabStatus` to each
+spec row. **Task W4-14 re-derived it against the LIVE talent builder and renamed
+every state, because the old ones were misleading in exactly the way this dataset's
+central bug is misleading**: the old `"live"` meant only "a CAD tab with this token
+exists" - a statement about the CATALOG - and 93/101 specs carried it, including
+Starcaller/TIDES, whose tree does not exist in game. The states are now named for
+what they actually assert:
+
+  inLiveBuilder  - this spec's tree IS in the live builder payload. `liveTab` names
+                   it and `renamed` says whether the live name differs from the CAD
+                   one, because CAD tab names and live tab names are DIFFERENT
+                   GENERATIONS (Starcaller CAD "Tides" is live "Moon Priest").
+  cadOnly        - the spec's tree exists ONLY in the CAD catalog; no live builder
+                   tab maps to it. This is the state the old "live" was hiding.
+  unreleased     - named by neither layer.
+  noLiveGeometry - the class has a CAD tab layer but no builder capture at all (the
+                   10 vanilla + Reborn classes) - liveness is NOT claimed.
+  noCadClass     - the class has no data/classes/ directory at all (Hero, classId
+                   10) - structural, not a content gap. (Was "noTabLayer".)
+
+The CAD-tab -> live-tab mapping is NOT re-derived here: it is read from
+`data/classes/_live_summary.json`'s `tabMapping` (written by build_classes.py, which
+owns data/classes/ - Amendment D), where each pair carries its method and its
+node-overlap evidence. The match ladder below deliberately tries ChrSpecs' `name`
+BEFORE its `tabToken`, because `name` is the live-generation label and `tabToken` is
+the catalog-generation one: Chronomancer spec 33 is named "Artificer" with tabToken
+"TIME", and the live tab literally named "Time" is a DIFFERENT tree (spec 31,
+tabToken "DISPLACEMENT") - token-first would have swapped them.
+
+Consequence for Sec 11's "7 of 70 specs have no CAD tab": all 7 resolve now, and by
+a MECHANISM rather than the pinned 5-token table W4-11e used - a spec's own `name`
+matching a live builder tab covers VALKYR->Valkyrie and WITCHKNIGHT->Black Knight
+(which no normalized token match reaches) and also closes the 2 W4-9 could not place
+(Starcaller/HYDROMANCY is live tab "Warden", spec 45's own name; Cultist/BULWARK is
+"Dreadnought", spec 96's) - the two "unmatchedExtraTabs" W4-9 recorded but could not
+attribute. `unreleased` is consequently empty today; it stays a defined state so a
+genuinely unshipped spec still lands somewhere honest.
+
+Depends on `data/classes/_live_summary.json` + `data/talents/coa/_meta.json` already
+existing - `build_dataset.py` runs `build_classes.build()` and
+`build_coatalents.build()` BEFORE `build_classmeta.build()` (task W4-11e ordering,
+still valid; see build_dataset.py's stage-order comments).
 """
 import json
 from collections import Counter, defaultdict
@@ -106,11 +124,14 @@ def _class_roles_and_abilities() -> tuple[dict, dict]:
 
 def _class_tab_layer(cdir) -> dict:
     """classId -> sorted CAD tab-name list (data/classes/<dir>/index.json's own
-    `files[].tab` set), for the 21 coa-custom classes that have a directory at all.
-    A class with no data/classes/ entry (e.g. Hero, classId 10 - not one of the 21
-    coa-custom directories) is simply absent from this map."""
+    `files[].tab` set), for every class that has a directory at all. A class with
+    no data/classes/ entry (e.g. Hero, classId 10) is simply absent from this map.
+    Vanilla and Reborn dirs share a classId (Druid/RebornDruid both resolve to 11),
+    so the tab names are UNIONED rather than last-writer-wins - today the two agree
+    exactly on every such pair, but a union cannot silently drop a tab if they ever
+    diverge."""
     idx = json.loads((cdir / "index.json").read_text(encoding="utf-8"))
-    out = {}
+    out = defaultdict(set)
     for c in idx["classes"]:
         cid = c.get("classId")
         if cid is None:
@@ -119,53 +140,71 @@ def _class_tab_layer(cdir) -> dict:
         if not cidx_path.is_file():
             continue
         cidx = json.loads(cidx_path.read_text(encoding="utf-8"))
-        out[cid] = sorted({f["tab"] for f in cidx["files"] if f["tab"]})
-    return out
+        out[cid].update(f["tab"] for f in cidx["files"] if f["tab"])
+    return {cid: sorted(tabs) for cid, tabs in out.items()}
 
 
-def _sec11_shipped_tokens() -> dict:
-    """(classId, token) -> {shipped, tabName, nodeCount} from task W4-9's already-
-    computed, already-asserted cross-check (data/talents/coa/_meta.json's
-    tabLayerReconciliation.sec11UnreleasedSpecsShipped) - read, not recomputed, so
-    this module never drifts from that finding's own re-verification-at-every-build
-    discipline. Returns {} if data/talents/coa/_meta.json doesn't exist yet (caller
-    must run build_coatalents.build() first - see build_dataset.py's stage order)."""
-    p = config.DATA_DIR / "talents" / "coa" / "_meta.json"
+def _live_tab_layer() -> dict:
+    """[Task W4-14] classId -> {"liveTabs": [names], "mapped": {cadTab: record}}
+    read from data/classes/_live_summary.json's tabMapping (build_classes owns it;
+    this module does not re-derive the mapping - see the module docstring). Absent
+    for every class with no builder capture."""
+    p = config.DATA_DIR / "classes" / "_live_summary.json"
     if not p.is_file():
-        return {}
-    meta = json.loads(p.read_text(encoding="utf-8"))
-    tokens = meta["tabLayerReconciliation"]["sec11UnreleasedSpecsShipped"]["tokens"]
-    return {(t["classId"], t["token"]): t for t in tokens}
+        raise AssertionError(
+            "data/classes/_live_summary.json missing - run build_classes.build() "
+            "before build_classmeta.build() (task W4-14: specs.json's tabStatus is "
+            "derived against the live builder mapping written there)")
+    tm = json.loads(p.read_text(encoding="utf-8"))["tabMapping"]["byClass"]
+    return {m["classId"]: {"liveTabs": m["liveTabs"],
+                           "mapped": {r["cadTab"]: r for r in m["mapped"]}}
+            for m in tm.values()}
 
 
-def _tab_status(class_id, token, tab_layer: dict, sec11: dict) -> dict:
+def _tab_status(class_id, token, spec_name, tab_layer: dict, live_layer: dict) -> dict:
+    """See the module docstring for the state names and why the ladder tries the
+    spec's own `name` before its `tabToken`."""
     tabs = tab_layer.get(class_id)
     if tabs is None:
-        return {"status": "noTabLayer", "cadTab": None, "coaBuilderTab": None}
-    tok = _norm(token)
-    cad_hit = next((t for t in tabs if _norm(t) == tok), None)
-    if cad_hit is not None:
-        return {"status": "live", "cadTab": cad_hit, "coaBuilderTab": None}
-    sec11_hit = sec11.get((class_id, token))
-    if sec11_hit is not None and sec11_hit["shipped"]:
-        return {"status": "shippedExternal", "cadTab": None,
-                "coaBuilderTab": sec11_hit["tabName"]}
-    if sec11_hit is not None:
-        return {"status": "unreleased", "cadTab": None, "coaBuilderTab": None}
-    # A spec whose tabToken matches neither the CAD tab layer nor any known Sec-11
-    # token is new/uncharacterized - fail loudly rather than silently mis-tagging it
-    # "unreleased" (which W4-9's own re-verified finding does NOT support for any
-    # token outside its own 7-entry table).
-    raise AssertionError(
-        f"classId={class_id} token={token!r} matches no CAD tab and is not one of "
-        "Sec 11's 7 known unreleased tokens - new drift, needs investigation "
-        "before this can be classified")
+        return {"status": "noCadClass", "cadTab": None, "liveTab": None,
+                "match": None, "renamed": None}
+    cad_tab = next((t for t in tabs if _norm(t) == _norm(token)), None)
+
+    live = live_layer.get(class_id)
+    if live is None:
+        if cad_tab is None:
+            raise AssertionError(
+                f"classId={class_id} token={token!r} matches no CAD tab and the class "
+                "has no live builder capture either - new drift, needs investigation "
+                "before this can be classified")
+        return {"status": "noLiveGeometry", "cadTab": cad_tab, "liveTab": None,
+                "match": "tabToken", "renamed": None}
+
+    by_norm = {_norm(t): t for t in live["liveTabs"]}
+    mapped = live["mapped"].get(cad_tab) if cad_tab else None
+
+    live_tab = match = None
+    if _norm(spec_name) in by_norm:              # live-generation label
+        live_tab, match = by_norm[_norm(spec_name)], "specName"
+    elif mapped is not None and mapped["liveTab"]:
+        live_tab, match = mapped["liveTab"], "cadTabMapping:" + mapped["method"]
+    elif _norm(token) in by_norm:                # catalog token that survived
+        live_tab, match = by_norm[_norm(token)], "tabToken"
+
+    if live_tab is not None:
+        return {"status": "inLiveBuilder", "cadTab": cad_tab, "liveTab": live_tab,
+                "match": match, "renamed": cad_tab is not None and cad_tab != live_tab}
+    if cad_tab is not None:
+        return {"status": "cadOnly", "cadTab": cad_tab, "liveTab": None,
+                "match": "tabToken", "renamed": None}
+    return {"status": "unreleased", "cadTab": None, "liveTab": None,
+            "match": None, "renamed": None}
 
 
 def build_specs() -> dict:
     cdir = config.DATA_DIR / "classes"
     tab_layer = _class_tab_layer(cdir)
-    sec11 = _sec11_shipped_tokens()
+    live_layer = _live_tab_layer()
     chr_classes = list(dbc.iter_named("ChrClasses"))
     by_norm = {_norm(c["name_enUS"]): c for c in chr_classes}
     # [Task W4-5] filename fallback join (see tools/dbc.py's ChrClasses TABLE_MAPS
@@ -199,7 +238,8 @@ def build_specs() -> dict:
             per_class[class_name].append(r["id"])
 
         tab_token = r["tabToken"] or None
-        tab_status = (_tab_status(class_id, tab_token, tab_layer, sec11)
+        tab_status = (_tab_status(class_id, tab_token, r["name_enUS"],
+                                  tab_layer, live_layer)
                       if class_id is not None and tab_token else None)
 
         specs.append({
@@ -233,24 +273,58 @@ def build_specs() -> dict:
 
     roles, special_abilities = _class_roles_and_abilities()
 
-    # [Task W4-11e] tabStatus summary - folds in W4-9's "5/7 shipped" finding and
-    # corrects Sec 11's originally-cited "7 unreleased" down to the 2 that remain
-    # unmatched against BOTH tab layers (see module docstring + _tab_status()).
+    # [Task W4-14] tabStatus summary. `renamed` is broken out on purpose: it is the
+    # count of specs whose live tree carries a DIFFERENT name from the CAD tab a
+    # consumer would have found by browsing data/classes/ - the exact place the old
+    # status="live" misled.
     status_counts = Counter(s["tabStatus"]["status"] for s in specs if s["tabStatus"])
     unreleased = sorted(
         (s["id"], s["className"], s["name"], s["tabToken"])
         for s in specs if s["tabStatus"] and s["tabStatus"]["status"] == "unreleased")
+    renamed = sorted(
+        (s["id"], s["className"], s["tabStatus"]["cadTab"], s["tabStatus"]["liveTab"])
+        for s in specs if s["tabStatus"] and s["tabStatus"]["renamed"])
+    cad_only = sorted(
+        (s["id"], s["className"], s["tabStatus"]["cadTab"])
+        for s in specs if s["tabStatus"] and s["tabStatus"]["status"] == "cadOnly")
     tab_status_summary = {
         "counts": dict(status_counts),
         "unreleased": unreleased,
+        "cadOnly": cad_only,
+        "renamedInLiveBuilder": renamed,
+        "statusMeanings": {
+            "inLiveBuilder": "this spec's tree is in the live builder payload "
+                             "(liveTab names it; renamed=true means the CAD tab is "
+                             "called something else)",
+            "cadOnly": "the tree exists only in the CAD catalog - no live tab maps "
+                       "to it",
+            "unreleased": "named by neither layer",
+            "noLiveGeometry": "class has a CAD tab layer but no builder capture - "
+                              "liveness NOT claimed",
+            "noCadClass": "class has no data/classes/ directory at all (structural)",
+        },
+        "renameNote": (
+            f"{len(renamed)} of the {status_counts['inLiveBuilder']} inLiveBuilder "
+            "specs have a live tree name DIFFERENT from their CAD tab name - CAD tab "
+            "names and live tab names are different generations of the same tree "
+            "slots (Starcaller CAD 'Tides' is live 'Moon Priest'). The mapping and "
+            "its per-pair evidence live in data/classes/_live_summary.json's "
+            "tabMapping."),
         "sec11Correction": (
-            f"DATAMINE-REQUEST.md Sec 11 originally cited '7 of 70 specs have no "
-            f"CAD tab' (presumably unreleased). Task W4-9's talent-builder payload "
-            f"capture found 5 of those 7 have since shipped externally "
-            f"(status='shippedExternal' here); this reconciliation folds that "
-            f"finding into specs.json directly - only {len(unreleased)} specs "
-            f"remain 'unreleased' by this repo's own re-derivation."
+            f"DATAMINE-REQUEST.md Sec 11 cited '7 of 70 specs have no CAD tab' "
+            f"(presumably unreleased); task W4-9 found 5 of the 7 had shipped in the "
+            f"live builder. Task W4-14 resolves all 7 by MECHANISM rather than a "
+            f"pinned token table: a spec's own `name` is the live-generation label, "
+            f"so VALKYR->Valkyrie, WITCHKNIGHT->Black Knight, HYDROMANCY->Warden and "
+            f"BULWARK->Dreadnought all resolve by name against the live tab list "
+            f"(the last two being W4-9's 'unmatchedExtraTabs', now attributed). "
+            f"{len(unreleased)} specs remain unreleased by this re-derivation."
         ),
+        "supersedes": (
+            "task W4-11e's states (live/shippedExternal/unreleased/noTabLayer). "
+            "'live' there meant only 'a CAD tab with this token exists' - a claim "
+            "about the catalog, not the game - and covered 93/101 specs including "
+            "Starcaller/TIDES, whose tree does not exist in game."),
     }
 
     payload = {
@@ -321,8 +395,11 @@ def build() -> dict:
         "data/classes missing - run build_classes.build() before build_classmeta.build()")
     assert (config.DATA_DIR / "talents" / "coa" / "_meta.json").is_file(), (
         "data/talents/coa/_meta.json missing - run build_coatalents.build() before "
-        "build_classmeta.build() (task W4-11e: specs.json's tabStatus reconciliation "
-        "reads the W4-9 sec11UnreleasedSpecsShipped finding from that file)")
+        "build_classmeta.build() (the CoA talent layer specs.json reconciles against)")
+    assert (cdir / "_live_summary.json").is_file(), (
+        "data/classes/_live_summary.json missing - run build_classes.build() before "
+        "build_classmeta.build() (task W4-14: specs.json's tabStatus is derived "
+        "against the live builder tab mapping written there)")
     spec_stats = build_specs()
     arch_stats = build_archetypes()
     return {"specs": spec_stats, "archetypes": arch_stats}

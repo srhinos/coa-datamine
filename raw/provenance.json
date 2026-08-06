@@ -3,6 +3,19 @@
   "classes": {
    "classes": 43,
    "entries": 23709,
+   "liveCounts": {
+    "deadCatalog": 3518,
+    "live": 3417,
+    "liveViaRank": 6,
+    "unknown": 16768
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 3518,
+    "indeterminate": 1390,
+    "liveDirect": 3417,
+    "liveViaRank": 6,
+    "unknownNoGeometry": 15378
+   },
    "realmsBitmaskGoldenBarMet": false,
    "refs_other": 14298,
    "refs_reborn": 13901,
@@ -185,10 +198,9 @@
     "count": 101,
     "coverage": 1.0,
     "tabStatusCounts": {
-     "live": 93,
-     "noTabLayer": 1,
-     "shippedExternal": 5,
-     "unreleased": 2
+     "inLiveBuilder": 70,
+     "noCadClass": 1,
+     "noLiveGeometry": 30
     }
    }
   },
@@ -12335,7 +12347,7 @@
    }
   }
  },
- "generatedUtc": "2026-08-06T17:16:10+00:00",
+ "generatedUtc": "2026-08-06T23:08:27+00:00",
  "headerMismatches": [
   {
    "actualFields": 16,

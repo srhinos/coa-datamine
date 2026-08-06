@@ -1,0 +1,3229 @@
+{
+ "_generatedBy": "tools/build_classes.py:_live_summary (task W4-14)",
+ "falseNegativeMeasurement": {
+  "conclusion": "The risk is real and it IS partly separable: the automatic-grant population (SkillLineAbility acquireMethod != 0) is isolated exactly and cleanly. The other two paths are real but indistinguishable from retired content with offline data alone, so every entry carrying any of the three signals ships live:null with reason 'indeterminate' and the firing signals listed, rather than being guessed false. Entries with live:false are the ones with NO evidence of any acquisition path at all.",
+  "deadCatalogEntries": 3518,
+  "entriesInTrees": 3423,
+  "entriesNotInTrees": 4908,
+  "indeterminateEntries": 1390,
+  "indeterminateRateOfNotInTrees": 0.2832,
+  "question": "Of the CAD entries this method finds NOT in the live trees, how many are false negatives - abilities CoA grants outside a tree (baseline/automatic or trainer-taught), which would look dead while being live?",
+  "rejectedHeuristic": {
+   "rateOnNotInTrees": 0.2844,
+   "rateOnProvenLiveEntries": 0.1691,
+   "test": "CAD requiredLevel <= 10 AND type == 'Ability'",
+   "verdict": "REJECTED as a baseline-grant discriminator - measured, not assumed. It fires on a large minority of entries that are PROVEN live (they are in the trees), so it has no specificity: 'low level + Ability' describes early tree nodes just as well as baseline grants. Not used in any shipped verdict."
+  },
+  "signals": {
+   "liveNodeNameTwin": {
+    "distinctSpellIds": 154,
+    "entries": 324,
+    "examples": [
+     {
+      "cadId": 18845,
+      "class": "Barbarian",
+      "name": "Ancestor's Fury",
+      "requiredLevel": 1,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 6648,
+      "class": "Barbarian",
+      "name": "Ancestral Wisdom",
+      "requiredLevel": 51,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 18827,
+      "class": "Barbarian",
+      "name": "Ancestral Wisdom",
+      "requiredLevel": 39,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 29784,
+      "class": "Barbarian",
+      "name": "Ancestral Wisdom",
+      "requiredLevel": 10,
+      "tab": "Ancestry",
+      "type": "Talent"
+     },
+     {
+      "cadId": 7032,
+      "class": "Barbarian",
+      "name": "Berserker",
+      "requiredLevel": 51,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 19221,
+      "class": "Barbarian",
+      "name": "Berserker",
+      "requiredLevel": 10,
+      "tab": "Tactics",
+      "type": "Ability"
+     }
+    ],
+    "rateOfNotInTrees": 0.066,
+    "separable": false,
+    "test": "the entry's NAME matches a live node's name in the same class while none of its spell ids do",
+    "verdict": "NOT SEPARABLE - the spellId-variant drift already measured in data/talents/coa/_meta.json's `contentDrift` (duplicate CAD rows per ability, each carrying a different spellId variant; the builder picks one). The ABILITY is live; whether THIS row is the live variant is unknowable offline, so the row is live:null/indeterminate rather than a name-matched live:true (names collide across a class's talents and abilities)."
+   },
+   "npcTrainerRow": {
+    "distinctSpellIds": 334,
+    "entries": 1022,
+    "examples": [
+     {
+      "cadId": 7262,
+      "class": "Barbarian",
+      "name": "A Grisly Meal",
+      "requiredLevel": 16,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 19452,
+      "class": "Barbarian",
+      "name": "A Grisly Meal",
+      "requiredLevel": 17,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 30384,
+      "class": "Barbarian",
+      "name": "A Grisly Meal",
+      "requiredLevel": 15,
+      "tab": "Class",
+      "type": "Ability"
+     },
+     {
+      "cadId": 6658,
+      "class": "Barbarian",
+      "name": "Barbaric Rage",
+      "requiredLevel": 45,
+      "tab": "Brutality",
+      "type": "Ability"
+     },
+     {
+      "cadId": 18837,
+      "class": "Barbarian",
+      "name": "Barbaric Rage",
+      "requiredLevel": 30,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 29794,
+      "class": "Barbarian",
+      "name": "Barbaric Rage",
+      "requiredLevel": 10,
+      "tab": "Class",
+      "type": "Ability"
+     }
+    ],
+    "rateOfNotInTrees": 0.2082,
+    "separable": false,
+    "test": "some rank of the entry's spell chain has an NPCTrainer row",
+    "verdict": "REAL but NOT SEPARABLE offline - said plainly rather than guessed. NPCTrainer.dbc in this client snapshot is provably CONTEMPORARY with the live generation, not a leftover of the catalog's: it carries rows under skill lines that exist ONLY in the live builder and nowhere in the CAD tab layer ('Moon Guard', 'Moon Priest', 'Warden', 'Headhunting'), teaching rank variants of abilities whose base rank IS a live node (e.g. Starcall - live node spellId 800497, trainer rows 302568/302569/502316/502317). So a trainer row IS evidence of a non-tree acquisition path - but the CAD row hanging off it can equally be a retired duplicate, and no offline table distinguishes those two. Shipped as live:null/indeterminate."
+   },
+   "skillLineAutoGrant": {
+    "distinctSpellIds": 21,
+    "entries": 183,
+    "examples": [
+     {
+      "cadId": 7707,
+      "class": "Barbarian",
+      "name": "Fist Weapons",
+      "requiredLevel": 1,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 20081,
+      "class": "Barbarian",
+      "name": "Fist Weapons",
+      "requiredLevel": 1,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 33263,
+      "class": "Barbarian",
+      "name": "Fist Weapons",
+      "requiredLevel": 1,
+      "tab": "Class",
+      "type": "Ability"
+     },
+     {
+      "cadId": 7704,
+      "class": "Barbarian",
+      "name": "Polearms",
+      "requiredLevel": 1,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 20078,
+      "class": "Barbarian",
+      "name": "Polearms",
+      "requiredLevel": 1,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 33260,
+      "class": "Barbarian",
+      "name": "Polearms",
+      "requiredLevel": 1,
+      "tab": "Class",
+      "type": "Ability"
+     }
+    ],
+    "rateOfNotInTrees": 0.0373,
+    "separable": true,
+    "test": "the entry's spell chain has a SkillLineAbility row with acquireMethod != 0 (automatically granted)",
+    "verdict": "SEPARABLE and trustworthy on its own. acquireMethod is stock 3.3.5 semantics, generation-independent, and perfectly disjoint from the live node set (0 of the live builder's spell ids carry acquireMethod != 0 anywhere in SkillLineAbility.dbc). The population is overwhelmingly weapon/armour proficiency grants (Fist Weapons, Polearms, Plate Mail, Dual Wield, Auto Shot, Block, Staves, Wands...) - exactly the 'baseline, not via a tree node' class the task asked to quantify. Shipped as live:null/indeterminate, NOT live:false."
+   }
+  }
+ },
+ "groundTruth": {
+  "note": "cadSpellIdDeadRate is the brief's cited ~53% - the share of Starcaller's DISTINCT CAD spell ids that appear in no live builder node. The entry-level split is in perClass.Starcaller.",
+  "source": "level-60 Starcaller player report (task W4-14 brief)",
+  "starcallerCadSpellIdDeadRate": 0.5305,
+  "starcallerCadTabs": [
+   "AstralWarfare",
+   "Class",
+   "Moonbow",
+   "Tides"
+  ],
+  "starcallerLiveTabs": [
+   "Moon Guard",
+   "Sentinel",
+   "Moon Priest",
+   "Warden",
+   "Class"
+  ],
+  "starcallerLiveTabsExpected": [
+   "Class",
+   "Moon Guard",
+   "Moon Priest",
+   "Sentinel",
+   "Warden"
+  ]
+ },
+ "method": {
+  "liveCountsKeys": "live = liveDirect; liveViaRank counted separately; unknown = indeterminate + unknownNoGeometry. Entries with live==true are live + liveViaRank. The four keys sum to entryCount.",
+  "matching": "spell id equality only - no name matching enters the live/dead verdict itself (names are used only as a false-negative PROBE, and only to downgrade dead -> indeterminate)",
+  "owner": "tools/coa_live.py holds the rule; tools/build_classes.py writes data/classes/**, tools/build_coatalents.py writes data/talents/coa/** (Amendment D single-writer)",
+  "rule": "An entry is live if any of its own CAD spell ids is a live builder node's spellId/spellIds member (reason liveDirect); failing that, if any OTHER rank of its SpellRankData chain is (reason liveViaRank). Otherwise it is not in the trees, and is split by whether it carries evidence of a non-tree acquisition path (reason indeterminate, live:null) or none at all (reason deadCatalog, live:false). Classes with no builder file get reason unknownNoGeometry, live:null - nothing is claimed about them either way."
+ },
+ "payload": {
+  "buildId": 40,
+  "buildName": "Vol'Jin",
+  "capturedUtc": "2026-08-06T10:49:00+00:00",
+  "note": "EXTERNAL SOURCE THAT DRIFTS - the live builder reflects current game balance/content, independent of this repo's client snapshot. Re-run tools/fetch_coatalents.py and diff sha256 to check for drift; a stale capture makes `live` stale too.",
+  "sha256": "467fd444b349ad531539c80e18b836cd069d33d2c3fe71fc4ed488e017640da3",
+  "sha256Source": "raw/talents/_fetch.json",
+  "slug": "voljin",
+  "url": "https://ascension.gg/en/v2/coa-builder/voljin"
+ },
+ "perClass": {
+  "Barbarian": {
+   "cadSpellIdDeadRate": 0.5728,
+   "cadSpellIds": 206,
+   "cadSpellIdsNotLive": 118,
+   "classId": 12,
+   "entryCount": 387,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 161,
+    "live": 171,
+    "liveViaRank": 0,
+    "unknown": 55
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 161,
+    "indeterminate": 55,
+    "liveDirect": 171
+   },
+   "liveNodeCount": 162,
+   "liveTabs": [
+    "Brutality",
+    "Headhunting",
+    "Ancestry",
+    "Class"
+   ]
+  },
+  "Chronomancer": {
+   "cadSpellIdDeadRate": 0.6638,
+   "cadSpellIds": 229,
+   "cadSpellIdsNotLive": 152,
+   "classId": 22,
+   "entryCount": 434,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 200,
+    "live": 163,
+    "liveViaRank": 0,
+    "unknown": 71
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 200,
+    "indeterminate": 71,
+    "liveDirect": 163
+   },
+   "liveNodeCount": 157,
+   "liveTabs": [
+    "Infinite",
+    "Artificer",
+    "Class",
+    "Time",
+    "Blessings"
+   ]
+  },
+  "Cultist": {
+   "cadSpellIdDeadRate": 0.5833,
+   "cadSpellIds": 216,
+   "cadSpellIdsNotLive": 126,
+   "classId": 25,
+   "entryCount": 415,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 159,
+    "live": 164,
+    "liveViaRank": 0,
+    "unknown": 92
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 159,
+    "indeterminate": 92,
+    "liveDirect": 164
+   },
+   "liveNodeCount": 198,
+   "liveTabs": [
+    "Corruption",
+    "Godblade",
+    "Heretic",
+    "Dreadnought",
+    "Class"
+   ]
+  },
+  "DeathKnight": {
+   "classId": 6,
+   "entryCount": 176,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 176
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 176
+   }
+  },
+  "DemonHunter": {
+   "cadSpellIdDeadRate": 0.5,
+   "cadSpellIds": 190,
+   "cadSpellIdsNotLive": 95,
+   "classId": 14,
+   "entryCount": 369,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 130,
+    "live": 197,
+    "liveViaRank": 0,
+    "unknown": 42
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 130,
+    "indeterminate": 42,
+    "liveDirect": 197
+   },
+   "liveNodeCount": 158,
+   "liveTabs": [
+    "Slayer",
+    "Infernal",
+    "Tyrant",
+    "Class"
+   ]
+  },
+  "Druid": {
+   "classId": 11,
+   "entryCount": 308,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 308
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 308
+   }
+  },
+  "Guardian": {
+   "cadSpellIdDeadRate": 0.5104,
+   "cadSpellIds": 192,
+   "cadSpellIdsNotLive": 98,
+   "classId": 18,
+   "entryCount": 374,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 123,
+    "live": 179,
+    "liveViaRank": 0,
+    "unknown": 72
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 123,
+    "indeterminate": 72,
+    "liveDirect": 179
+   },
+   "liveNodeCount": 161,
+   "liveTabs": [
+    "Vanguard",
+    "Inspiration",
+    "Gladiator",
+    "Class",
+    "None"
+   ]
+  },
+  "Hunter": {
+   "classId": 3,
+   "entryCount": 296,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 296
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 296
+   }
+  },
+  "KnightOfXoroth": {
+   "cadSpellIdDeadRate": 0.5556,
+   "cadSpellIds": 198,
+   "cadSpellIdsNotLive": 110,
+   "classId": 17,
+   "entryCount": 379,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 122,
+    "live": 158,
+    "liveViaRank": 0,
+    "unknown": 99
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 122,
+    "indeterminate": 99,
+    "liveDirect": 158
+   },
+   "liveNodeCount": 156,
+   "liveTabs": [
+    "Hellfire",
+    "War",
+    "Defiance",
+    "Class"
+   ]
+  },
+  "Mage": {
+   "classId": 8,
+   "entryCount": 288,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 288
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 288
+   }
+  },
+  "Monk": {
+   "cadSpellIdDeadRate": 0.5659,
+   "cadSpellIds": 205,
+   "cadSpellIdsNotLive": 116,
+   "classId": 19,
+   "entryCount": 377,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 165,
+    "live": 158,
+    "liveViaRank": 3,
+    "unknown": 51
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 165,
+    "indeterminate": 51,
+    "liveDirect": 158,
+    "liveViaRank": 3
+   },
+   "liveNodeCount": 157,
+   "liveTabs": [
+    "Zealot",
+    "Oathkeeper",
+    "Crusader",
+    "Class"
+   ]
+  },
+  "Necromancer": {
+   "cadSpellIdDeadRate": 0.6394,
+   "cadSpellIds": 208,
+   "cadSpellIdsNotLive": 133,
+   "classId": 23,
+   "entryCount": 427,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 205,
+    "live": 149,
+    "liveViaRank": 0,
+    "unknown": 73
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 205,
+    "indeterminate": 73,
+    "liveDirect": 149
+   },
+   "liveNodeCount": 160,
+   "liveTabs": [
+    "Animation",
+    "Class",
+    "Death",
+    "Rime"
+   ]
+  },
+  "Paladin": {
+   "classId": 2,
+   "entryCount": 305,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 305
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 305
+   }
+  },
+  "Priest": {
+   "classId": 5,
+   "entryCount": 252,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 252
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 252
+   }
+  },
+  "Primalist": {
+   "cadSpellIdDeadRate": 0.6215,
+   "cadSpellIds": 214,
+   "cadSpellIdsNotLive": 133,
+   "classId": 31,
+   "entryCount": 402,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 178,
+    "live": 159,
+    "liveViaRank": 0,
+    "unknown": 65
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 178,
+    "indeterminate": 65,
+    "liveDirect": 159
+   },
+   "liveNodeCount": 203,
+   "liveTabs": [
+    "Life",
+    "Geomancy",
+    "Primal",
+    "Mountain King",
+    "Class"
+   ]
+  },
+  "Pyromancer": {
+   "cadSpellIdDeadRate": 0.6166,
+   "cadSpellIds": 193,
+   "cadSpellIdsNotLive": 119,
+   "classId": 24,
+   "entryCount": 389,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 192,
+    "live": 136,
+    "liveViaRank": 0,
+    "unknown": 61
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 192,
+    "indeterminate": 61,
+    "liveDirect": 136
+   },
+   "liveNodeCount": 159,
+   "liveTabs": [
+    "Draconic",
+    "Flameweaving",
+    "Incineration",
+    "Class",
+    "None"
+   ]
+  },
+  "Ranger": {
+   "cadSpellIdDeadRate": 0.6522,
+   "cadSpellIds": 207,
+   "cadSpellIdsNotLive": 135,
+   "classId": 21,
+   "entryCount": 393,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 178,
+    "live": 137,
+    "liveViaRank": 0,
+    "unknown": 78
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 178,
+    "indeterminate": 78,
+    "liveDirect": 137
+   },
+   "liveNodeCount": 165,
+   "liveTabs": [
+    "Brigand",
+    "Class",
+    "Farstrider",
+    "Archery"
+   ]
+  },
+  "Reaper": {
+   "cadSpellIdDeadRate": 0.5936,
+   "cadSpellIds": 187,
+   "cadSpellIdsNotLive": 111,
+   "classId": 30,
+   "entryCount": 364,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 150,
+    "live": 162,
+    "liveViaRank": 0,
+    "unknown": 52
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 150,
+    "indeterminate": 52,
+    "liveDirect": 162
+   },
+   "liveNodeCount": 153,
+   "liveTabs": [
+    "Harvest",
+    "Soul",
+    "Domination",
+    "Class"
+   ]
+  },
+  "RebornDeathKnight": {
+   "classId": 6,
+   "entryCount": 319,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 319
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 319
+   }
+  },
+  "RebornDruid": {
+   "classId": 11,
+   "entryCount": 1559,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1559
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1559
+   }
+  },
+  "RebornGeneral": {
+   "classId": null,
+   "entryCount": 65,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 65
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 65
+   }
+  },
+  "RebornHunter": {
+   "classId": 3,
+   "entryCount": 1275,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1275
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1275
+   }
+  },
+  "RebornMage": {
+   "classId": 8,
+   "entryCount": 1517,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1517
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1517
+   }
+  },
+  "RebornPaladin": {
+   "classId": 2,
+   "entryCount": 1310,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1310
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1310
+   }
+  },
+  "RebornPriest": {
+   "classId": 5,
+   "entryCount": 1302,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1302
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1302
+   }
+  },
+  "RebornRogue": {
+   "classId": 4,
+   "entryCount": 1050,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1050
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1050
+   }
+  },
+  "RebornShaman": {
+   "classId": 7,
+   "entryCount": 1198,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1198
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1198
+   }
+  },
+  "RebornWarlock": {
+   "classId": 9,
+   "entryCount": 1719,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1719
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1719
+   }
+  },
+  "RebornWarrior": {
+   "classId": 1,
+   "entryCount": 1173,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 1173
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 1173
+   }
+  },
+  "Rogue": {
+   "classId": 4,
+   "entryCount": 263,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 263
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 263
+   }
+  },
+  "Runemaster": {
+   "cadSpellIdDeadRate": 0.6313,
+   "cadSpellIds": 217,
+   "cadSpellIdsNotLive": 137,
+   "classId": 32,
+   "entryCount": 424,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 249,
+    "live": 142,
+    "liveViaRank": 0,
+    "unknown": 33
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 249,
+    "indeterminate": 33,
+    "liveDirect": 142
+   },
+   "liveNodeCount": 160,
+   "liveTabs": [
+    "Runic",
+    "Arcane",
+    "Riftblade",
+    "Class"
+   ]
+  },
+  "Shaman": {
+   "classId": 7,
+   "entryCount": 345,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 345
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 345
+   }
+  },
+  "SonOfArugal": {
+   "cadSpellIdDeadRate": 0.5354,
+   "cadSpellIds": 198,
+   "cadSpellIdsNotLive": 106,
+   "classId": 20,
+   "entryCount": 388,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 131,
+    "live": 184,
+    "liveViaRank": 0,
+    "unknown": 73
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 131,
+    "indeterminate": 73,
+    "liveDirect": 184
+   },
+   "liveNodeCount": 208,
+   "liveTabs": [
+    "Sanguine",
+    "Accursed",
+    "Eternal",
+    "Fleshweaver",
+    "Class"
+   ]
+  },
+  "Starcaller": {
+   "cadSpellIdDeadRate": 0.5305,
+   "cadSpellIds": 213,
+   "cadSpellIdsNotLive": 113,
+   "classId": 26,
+   "entryCount": 416,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 158,
+    "live": 174,
+    "liveViaRank": 0,
+    "unknown": 84
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 158,
+    "indeterminate": 84,
+    "liveDirect": 174
+   },
+   "liveNodeCount": 192,
+   "liveTabs": [
+    "Moon Guard",
+    "Sentinel",
+    "Moon Priest",
+    "Warden",
+    "Class"
+   ]
+  },
+  "Stormbringer": {
+   "cadSpellIdDeadRate": 0.534,
+   "cadSpellIds": 206,
+   "cadSpellIdsNotLive": 110,
+   "classId": 16,
+   "entryCount": 368,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 141,
+    "live": 167,
+    "liveViaRank": 0,
+    "unknown": 60
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 141,
+    "indeterminate": 60,
+    "liveDirect": 167
+   },
+   "liveNodeCount": 156,
+   "liveTabs": [
+    "Lightning",
+    "Wind",
+    "Maelstrom",
+    "Class"
+   ]
+  },
+  "SunCleric": {
+   "cadSpellIdDeadRate": 0.481,
+   "cadSpellIds": 210,
+   "cadSpellIdsNotLive": 101,
+   "classId": 27,
+   "entryCount": 414,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 126,
+    "live": 209,
+    "liveViaRank": 0,
+    "unknown": 79
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 126,
+    "indeterminate": 79,
+    "liveDirect": 209
+   },
+   "liveNodeCount": 202,
+   "liveTabs": [
+    "Seraphim",
+    "Piety",
+    "Valkyrie",
+    "Blessings",
+    "Class",
+    "None"
+   ]
+  },
+  "Tinker": {
+   "cadSpellIdDeadRate": 0.7511,
+   "cadSpellIds": 221,
+   "cadSpellIdsNotLive": 166,
+   "classId": 28,
+   "entryCount": 412,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 262,
+    "live": 105,
+    "liveViaRank": 0,
+    "unknown": 45
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 262,
+    "indeterminate": 45,
+    "liveDirect": 105
+   },
+   "liveNodeCount": 158,
+   "liveTabs": [
+    "Class",
+    "Mechanics",
+    "Invention",
+    "Demolition"
+   ]
+  },
+  "Venomancer": {
+   "cadSpellIdDeadRate": 0.5516,
+   "cadSpellIds": 223,
+   "cadSpellIdsNotLive": 123,
+   "classId": 29,
+   "entryCount": 404,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 118,
+    "live": 191,
+    "liveViaRank": 0,
+    "unknown": 95
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 118,
+    "indeterminate": 95,
+    "liveDirect": 191
+   },
+   "liveNodeCount": 202,
+   "liveTabs": [
+    "Vizier",
+    "Venom",
+    "Stalking",
+    "Fortitude",
+    "Class"
+   ]
+  },
+  "Warlock": {
+   "classId": 9,
+   "entryCount": 302,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 302
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 302
+   }
+  },
+  "Warrior": {
+   "classId": 1,
+   "entryCount": 294,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 294
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 294
+   }
+  },
+  "WitchDoctor": {
+   "cadSpellIdDeadRate": 0.6318,
+   "cadSpellIds": 220,
+   "cadSpellIdsNotLive": 139,
+   "classId": 13,
+   "entryCount": 403,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 205,
+    "live": 143,
+    "liveViaRank": 3,
+    "unknown": 52
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 205,
+    "indeterminate": 52,
+    "liveDirect": 143,
+    "liveViaRank": 3
+   },
+   "liveNodeCount": 159,
+   "liveTabs": [
+    "Shadowhunting",
+    "Voodoo",
+    "Brewing",
+    "Class"
+   ]
+  },
+  "WitchHunter": {
+   "cadSpellIdDeadRate": 0.592,
+   "cadSpellIds": 201,
+   "cadSpellIdsNotLive": 119,
+   "classId": 15,
+   "entryCount": 392,
+   "hasLiveGeometry": true,
+   "liveCounts": {
+    "deadCatalog": 165,
+    "live": 169,
+    "liveViaRank": 0,
+    "unknown": 58
+   },
+   "liveCountsByReason": {
+    "deadCatalog": 165,
+    "indeterminate": 58,
+    "liveDirect": 169
+   },
+   "liveNodeCount": 192,
+   "liveTabs": [
+    "Boltslinger",
+    "Houndmaster",
+    "Inquisition",
+    "Black Knight",
+    "Class",
+    "None"
+   ]
+  },
+  "_other": {
+   "classId": null,
+   "entryCount": 62,
+   "hasLiveGeometry": false,
+   "liveCounts": {
+    "deadCatalog": 0,
+    "live": 0,
+    "liveViaRank": 0,
+    "unknown": 62
+   },
+   "liveCountsByReason": {
+    "unknownNoGeometry": 62
+   }
+  }
+ },
+ "realmCaveat": "This is the VOL'JIN builder (https://ascension.gg/en/v2/coa-builder/voljin). Rexxar - Conquest of Azeroth is a SEPARATE CoA realm whose geometry is ASSUMED IDENTICAL here but UNVERIFIED until a Rexxar capture exists - so every `live` / `liveEvidence` verdict in this dataset is a VOL'JIN verdict. data/classes/ entries are account-wide (four realms), so a Rexxar-only ability would be indistinguishable from dead content by this method.",
+ "tabMapping": {
+  "byClass": {
+   "Barbarian": {
+    "cadTabs": [
+     "Ancestry",
+     "Brutality",
+     "Class",
+     "Tactics"
+    ],
+    "classId": 12,
+    "liveTabs": [
+     "Brutality",
+     "Headhunting",
+     "Ancestry",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Ancestry",
+      "chrSpecs": {
+       "specId": 3,
+       "specName": "Ancestry",
+       "tabToken": "ANCESTRY"
+      },
+      "liveTab": "Ancestry",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 58,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 7,
+       "topLiveTab": "Ancestry",
+       "topMatches": 49,
+       "topShare": 0.8448
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Brutality",
+      "chrSpecs": {
+       "specId": 2,
+       "specName": "Brutality",
+       "tabToken": "BRUTALITY"
+      },
+      "liveTab": "Brutality",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 47,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 15,
+       "topLiveTab": "Brutality",
+       "topMatches": 32,
+       "topShare": 0.6809
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 22,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Ancestry",
+       "runnerUpMatches": 4,
+       "topLiveTab": "Class",
+       "topMatches": 11,
+       "topShare": 0.5
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Tactics",
+      "chrSpecs": {
+       "specId": 1,
+       "specName": "Headhunting",
+       "tabToken": "TACTICS"
+      },
+      "liveTab": "Headhunting",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 44,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 12,
+       "topLiveTab": "Headhunting",
+       "topMatches": 23,
+       "topShare": 0.5227
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Chronomancer": {
+    "cadTabs": [
+     "Class",
+     "Displacement",
+     "Duality",
+     "Time"
+    ],
+    "classId": 22,
+    "liveTabs": [
+     "Infinite",
+     "Artificer",
+     "Class",
+     "Time",
+     "Blessings"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": false,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 20,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Artificer",
+       "topMatches": 7,
+       "topShare": 0.35
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Displacement",
+      "chrSpecs": {
+       "specId": 31,
+       "specName": "Time",
+       "tabToken": "DISPLACEMENT"
+      },
+      "liveTab": "Time",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 44,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 11,
+       "topLiveTab": "Time",
+       "topMatches": 33,
+       "topShare": 0.75
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Duality",
+      "chrSpecs": {
+       "specId": 32,
+       "specName": "Infinite",
+       "tabToken": "DUALITY"
+      },
+      "liveTab": "Infinite",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 63,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 20,
+       "topLiveTab": "Infinite",
+       "topMatches": 29,
+       "topShare": 0.4603
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Time",
+      "chrSpecs": {
+       "specId": 33,
+       "specName": "Artificer",
+       "tabToken": "TIME"
+      },
+      "liveTab": "Artificer",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 36,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Time",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Artificer",
+       "topMatches": 30,
+       "topShare": 0.8333
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Blessings"
+    ]
+   },
+   "Cultist": {
+    "cadTabs": [
+     "Class",
+     "Corruption",
+     "Godblade",
+     "Influence"
+    ],
+    "classId": 25,
+    "liveTabs": [
+     "Corruption",
+     "Godblade",
+     "Heretic",
+     "Dreadnought",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 23,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Dreadnought",
+       "runnerUpMatches": 4,
+       "topLiveTab": "Class",
+       "topMatches": 12,
+       "topShare": 0.5217
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Corruption",
+      "chrSpecs": {
+       "specId": 41,
+       "specName": "Corruption",
+       "tabToken": "CORRUPTION"
+      },
+      "liveTab": "Corruption",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 42,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Corruption",
+       "topMatches": 33,
+       "topShare": 0.7857
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Godblade",
+      "chrSpecs": {
+       "specId": 42,
+       "specName": "Godblade",
+       "tabToken": "GODBLADE"
+      },
+      "liveTab": "Godblade",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 55,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Dreadnought",
+       "runnerUpMatches": 19,
+       "topLiveTab": "Godblade",
+       "topMatches": 23,
+       "topShare": 0.4182
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Influence",
+      "chrSpecs": {
+       "specId": 40,
+       "specName": "Heretic",
+       "tabToken": "INFLUENCE"
+      },
+      "liveTab": "Heretic",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 44,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Heretic",
+       "topMatches": 34,
+       "topShare": 0.7727
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Dreadnought"
+    ]
+   },
+   "DemonHunter": {
+    "cadTabs": [
+     "Class",
+     "Demonology",
+     "Felblood",
+     "Slaying"
+    ],
+    "classId": 14,
+    "liveTabs": [
+     "Slayer",
+     "Infernal",
+     "Tyrant",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 22,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Tyrant",
+       "runnerUpMatches": 4,
+       "topLiveTab": "Class",
+       "topMatches": 14,
+       "topShare": 0.6364
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Demonology",
+      "chrSpecs": {
+       "specId": 9,
+       "specName": "Tyrant",
+       "tabToken": "DEMONOLOGY"
+      },
+      "liveTab": "Tyrant",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 80,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 19,
+       "topLiveTab": "Tyrant",
+       "topMatches": 51,
+       "topShare": 0.6375
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Felblood",
+      "chrSpecs": {
+       "specId": 7,
+       "specName": "Infernal",
+       "tabToken": "FELBLOOD"
+      },
+      "liveTab": "Infernal",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 44,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Infernal",
+       "topMatches": 36,
+       "topShare": 0.8182
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Slaying",
+      "chrSpecs": {
+       "specId": 8,
+       "specName": "Slayer",
+       "tabToken": "SLAYING"
+      },
+      "liveTab": "Slayer",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 51,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 11,
+       "topLiveTab": "Slayer",
+       "topMatches": 37,
+       "topShare": 0.7255
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Guardian": {
+    "cadTabs": [
+     "Class",
+     "Gladiator",
+     "Inspiration",
+     "Protection"
+    ],
+    "classId": 18,
+    "liveTabs": [
+     "Vanguard",
+     "Inspiration",
+     "Gladiator",
+     "Class",
+     "None"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 25,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Vanguard",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Class",
+       "topMatches": 9,
+       "topShare": 0.36
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Gladiator",
+      "chrSpecs": {
+       "specId": 19,
+       "specName": "Gladiator",
+       "tabToken": "GLADIATOR"
+      },
+      "liveTab": "Gladiator",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 57,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 23,
+       "topLiveTab": "Gladiator",
+       "topMatches": 28,
+       "topShare": 0.4912
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Inspiration",
+      "chrSpecs": {
+       "specId": 20,
+       "specName": "Inspiration",
+       "tabToken": "INSPIRATION"
+      },
+      "liveTab": "Inspiration",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 49,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 10,
+       "topLiveTab": "Inspiration",
+       "topMatches": 39,
+       "topShare": 0.7959
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Protection",
+      "chrSpecs": {
+       "specId": 21,
+       "specName": "Vanguard",
+       "tabToken": "PROTECTION"
+      },
+      "liveTab": "Vanguard",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 48,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 12,
+       "topLiveTab": "Vanguard",
+       "topMatches": 30,
+       "topShare": 0.625
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "None"
+    ]
+   },
+   "KnightOfXoroth": {
+    "cadTabs": [
+     "Class",
+     "Defiance",
+     "Hellfire",
+     "War"
+    ],
+    "classId": 17,
+    "liveTabs": [
+     "Hellfire",
+     "War",
+     "Defiance",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 21,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Hellfire",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Class",
+       "topMatches": 10,
+       "topShare": 0.4762
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Defiance",
+      "chrSpecs": {
+       "specId": 17,
+       "specName": "Defiance",
+       "tabToken": "DEFIANCE"
+      },
+      "liveTab": "Defiance",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 58,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 13,
+       "topLiveTab": "Defiance",
+       "topMatches": 39,
+       "topShare": 0.6724
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Hellfire",
+      "chrSpecs": {
+       "specId": 16,
+       "specName": "Hellfire",
+       "tabToken": "HELLFIRE"
+      },
+      "liveTab": "Hellfire",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 37,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Hellfire",
+       "topMatches": 30,
+       "topShare": 0.8108
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "War",
+      "chrSpecs": {
+       "specId": 18,
+       "specName": "War",
+       "tabToken": "WAR"
+      },
+      "liveTab": "War",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 42,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 15,
+       "topLiveTab": "War",
+       "topMatches": 25,
+       "topShare": 0.5952
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Monk": {
+    "cadTabs": [
+     "Class",
+     "Discipline",
+     "Fighting",
+     "Runes"
+    ],
+    "classId": 19,
+    "liveTabs": [
+     "Zealot",
+     "Oathkeeper",
+     "Crusader",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 26,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Oathkeeper",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Class",
+       "topMatches": 12,
+       "topShare": 0.4615
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Discipline",
+      "chrSpecs": {
+       "specId": 22,
+       "specName": "Oathkeeper",
+       "tabToken": "DISCIPLINE"
+      },
+      "liveTab": "Oathkeeper",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 44,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 10,
+       "topLiveTab": "Oathkeeper",
+       "topMatches": 32,
+       "topShare": 0.7273
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Fighting",
+      "chrSpecs": {
+       "specId": 23,
+       "specName": "Zealot",
+       "tabToken": "FIGHTING"
+      },
+      "liveTab": "Zealot",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 53,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 11,
+       "topLiveTab": "Zealot",
+       "topMatches": 36,
+       "topShare": 0.6792
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Runes",
+      "chrSpecs": {
+       "specId": 24,
+       "specName": "Crusader",
+       "tabToken": "RUNES"
+      },
+      "liveTab": "Crusader",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 38,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 9,
+       "topLiveTab": "Crusader",
+       "topMatches": 20,
+       "topShare": 0.5263
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Necromancer": {
+    "cadTabs": [
+     "Animation",
+     "Class",
+     "Death",
+     "Rime"
+    ],
+    "classId": 23,
+    "liveTabs": [
+     "Animation",
+     "Class",
+     "Death",
+     "Rime"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Animation",
+      "chrSpecs": {
+       "specId": 35,
+       "specName": "Animation",
+       "tabToken": "ANIMATION"
+      },
+      "liveTab": "Animation",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 46,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 16,
+       "topLiveTab": "Animation",
+       "topMatches": 25,
+       "topShare": 0.5435
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 21,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Death",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Class",
+       "topMatches": 9,
+       "topShare": 0.4286
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Death",
+      "chrSpecs": {
+       "specId": 34,
+       "specName": "Death",
+       "tabToken": "DEATH"
+      },
+      "liveTab": "Death",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 47,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Animation",
+       "runnerUpMatches": 3,
+       "topLiveTab": "Death",
+       "topMatches": 39,
+       "topShare": 0.8298
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Rime",
+      "chrSpecs": {
+       "specId": 36,
+       "specName": "Rime",
+       "tabToken": "RIME"
+      },
+      "liveTab": "Rime",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 35,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 7,
+       "topLiveTab": "Rime",
+       "topMatches": 28,
+       "topShare": 0.8
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Primalist": {
+    "cadTabs": [
+     "Class",
+     "Geomancy",
+     "Life",
+     "Primal"
+    ],
+    "classId": 31,
+    "liveTabs": [
+     "Life",
+     "Geomancy",
+     "Primal",
+     "Mountain King",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 17,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Geomancy",
+       "runnerUpMatches": 3,
+       "topLiveTab": "Class",
+       "topMatches": 8,
+       "topShare": 0.4706
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Geomancy",
+      "chrSpecs": {
+       "specId": 95,
+       "specName": "Geomancy",
+       "tabToken": "GEOMANCY"
+      },
+      "liveTab": "Geomancy",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 49,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Mountain King",
+       "runnerUpMatches": 13,
+       "topLiveTab": "Geomancy",
+       "topMatches": 16,
+       "topShare": 0.3265
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Life",
+      "chrSpecs": {
+       "specId": 58,
+       "specName": "Grovekeeper",
+       "tabToken": "LIFE"
+      },
+      "liveTab": "Life",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 48,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 9,
+       "topLiveTab": "Life",
+       "topMatches": 39,
+       "topShare": 0.8125
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Primal",
+      "chrSpecs": {
+       "specId": 59,
+       "specName": "Wildwalker",
+       "tabToken": "PRIMAL"
+      },
+      "liveTab": "Primal",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 45,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 8,
+       "topLiveTab": "Primal",
+       "topMatches": 36,
+       "topShare": 0.8
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Mountain King"
+    ]
+   },
+   "Pyromancer": {
+    "cadTabs": [
+     "Class",
+     "Destruction",
+     "Draconic",
+     "Incineration"
+    ],
+    "classId": 24,
+    "liveTabs": [
+     "Draconic",
+     "Flameweaving",
+     "Incineration",
+     "Class",
+     "None"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 19,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Incineration",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Class",
+       "topMatches": 8,
+       "topShare": 0.4211
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Destruction",
+      "chrSpecs": {
+       "specId": 37,
+       "specName": "Flameweaving",
+       "tabToken": "DESTRUCTION"
+      },
+      "liveTab": "Flameweaving",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 41,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 9,
+       "topLiveTab": "Flameweaving",
+       "topMatches": 28,
+       "topShare": 0.6829
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Draconic",
+      "chrSpecs": {
+       "specId": 39,
+       "specName": "Draconic",
+       "tabToken": "DRACONIC"
+      },
+      "liveTab": "Draconic",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 49,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 16,
+       "topLiveTab": "Draconic",
+       "topMatches": 23,
+       "topShare": 0.4694
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Incineration",
+      "chrSpecs": {
+       "specId": 38,
+       "specName": "Incineration",
+       "tabToken": "INCINERATION"
+      },
+      "liveTab": "Incineration",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 27,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 3,
+       "topLiveTab": "Incineration",
+       "topMatches": 19,
+       "topShare": 0.7037
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "None"
+    ]
+   },
+   "Ranger": {
+    "cadTabs": [
+     "Archery",
+     "Class",
+     "Dueling",
+     "Survival"
+    ],
+    "classId": 21,
+    "liveTabs": [
+     "Brigand",
+     "Class",
+     "Farstrider",
+     "Archery"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Archery",
+      "chrSpecs": {
+       "specId": 28,
+       "specName": "Archery",
+       "tabToken": "ARCHERY"
+      },
+      "liveTab": "Archery",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 43,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 14,
+       "topLiveTab": "Archery",
+       "topMatches": 26,
+       "topShare": 0.6047
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 19,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Archery",
+       "runnerUpMatches": 4,
+       "topLiveTab": "Class",
+       "topMatches": 10,
+       "topShare": 0.5263
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Dueling",
+      "chrSpecs": {
+       "specId": 30,
+       "specName": "Brigand",
+       "tabToken": "DUELING"
+      },
+      "liveTab": "Brigand",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 34,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Brigand",
+       "topMatches": 26,
+       "topShare": 0.7647
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Survival",
+      "chrSpecs": {
+       "specId": 29,
+       "specName": "Farstrider",
+       "tabToken": "SURVIVAL"
+      },
+      "liveTab": "Farstrider",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 41,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 7,
+       "topLiveTab": "Farstrider",
+       "topMatches": 32,
+       "topShare": 0.7805
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Reaper": {
+    "cadTabs": [
+     "Class",
+     "Domination",
+     "Reaping",
+     "Soul"
+    ],
+    "classId": 30,
+    "liveTabs": [
+     "Harvest",
+     "Soul",
+     "Domination",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 20,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Soul",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Class",
+       "topMatches": 9,
+       "topShare": 0.45
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Domination",
+      "chrSpecs": {
+       "specId": 57,
+       "specName": "Domination",
+       "tabToken": "DOMINATION"
+      },
+      "liveTab": "Domination",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 49,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 16,
+       "topLiveTab": "Domination",
+       "topMatches": 26,
+       "topShare": 0.5306
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Reaping",
+      "chrSpecs": {
+       "specId": 56,
+       "specName": "Harvest",
+       "tabToken": "REAPING"
+      },
+      "liveTab": "Harvest",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 42,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 10,
+       "topLiveTab": "Harvest",
+       "topMatches": 29,
+       "topShare": 0.6905
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Soul",
+      "chrSpecs": {
+       "specId": 55,
+       "specName": "Soul",
+       "tabToken": "SOUL"
+      },
+      "liveTab": "Soul",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 51,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 18,
+       "topLiveTab": "Soul",
+       "topMatches": 32,
+       "topShare": 0.6275
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Runemaster": {
+    "cadTabs": [
+     "Arcane",
+     "Class",
+     "Riftblade",
+     "Runic"
+    ],
+    "classId": 32,
+    "liveTabs": [
+     "Runic",
+     "Arcane",
+     "Riftblade",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Arcane",
+      "chrSpecs": {
+       "specId": 62,
+       "specName": "Glyphic",
+       "tabToken": "ARCANE"
+      },
+      "liveTab": "Arcane",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 41,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 7,
+       "topLiveTab": "Arcane",
+       "topMatches": 31,
+       "topShare": 0.7561
+      }
+     },
+     {
+      "agreesWithNodeOverlap": false,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 22,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 9,
+       "topLiveTab": "Arcane",
+       "topMatches": 9,
+       "topShare": 0.4091
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Riftblade",
+      "chrSpecs": {
+       "specId": 63,
+       "specName": "Riftblade",
+       "tabToken": "RIFTBLADE"
+      },
+      "liveTab": "Riftblade",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 45,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 13,
+       "topLiveTab": "Riftblade",
+       "topMatches": 25,
+       "topShare": 0.5556
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Runic",
+      "chrSpecs": {
+       "specId": 61,
+       "specName": "Engravement",
+       "tabToken": "RUNIC"
+      },
+      "liveTab": "Runic",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 34,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 8,
+       "topLiveTab": "Runic",
+       "topMatches": 18,
+       "topShare": 0.5294
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "SonOfArugal": {
+    "cadTabs": [
+     "Blood",
+     "Class",
+     "Ferocity",
+     "Packleader"
+    ],
+    "classId": 20,
+    "liveTabs": [
+     "Sanguine",
+     "Accursed",
+     "Eternal",
+     "Fleshweaver",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Blood",
+      "chrSpecs": {
+       "specId": 26,
+       "specName": "Sanguine",
+       "tabToken": "BLOOD"
+      },
+      "liveTab": "Sanguine",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 69,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Fleshweaver",
+       "runnerUpMatches": 22,
+       "topLiveTab": "Sanguine",
+       "topMatches": 28,
+       "topShare": 0.4058
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 17,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Eternal",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Class",
+       "topMatches": 7,
+       "topShare": 0.4118
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Ferocity",
+      "chrSpecs": {
+       "specId": 27,
+       "specName": "Accursed",
+       "tabToken": "FEROCITY"
+      },
+      "liveTab": "Accursed",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 48,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Accursed",
+       "topMatches": 39,
+       "topShare": 0.8125
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Packleader",
+      "chrSpecs": {
+       "specId": 99,
+       "specName": "Eternal",
+       "tabToken": "PACKLEADER"
+      },
+      "liveTab": "Eternal",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 50,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 12,
+       "topLiveTab": "Eternal",
+       "topMatches": 35,
+       "topShare": 0.7
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Fleshweaver"
+    ]
+   },
+   "Starcaller": {
+    "cadTabs": [
+     "AstralWarfare",
+     "Class",
+     "Moonbow",
+     "Tides"
+    ],
+    "classId": 26,
+    "liveTabs": [
+     "Moon Guard",
+     "Sentinel",
+     "Moon Priest",
+     "Warden",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": false,
+      "cadTab": "AstralWarfare",
+      "chrSpecs": {
+       "specId": 100,
+       "specName": "Moon Guard",
+       "tabToken": "ASTRALWARFARE"
+      },
+      "liveTab": "Moon Guard",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 79,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Moon Guard",
+       "runnerUpMatches": 29,
+       "topLiveTab": "Warden",
+       "topMatches": 32,
+       "topShare": 0.4051
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 26,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Moon Priest",
+       "runnerUpMatches": 3,
+       "topLiveTab": "Class",
+       "topMatches": 20,
+       "topShare": 0.7692
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Moonbow",
+      "chrSpecs": {
+       "specId": 44,
+       "specName": "Sentinel",
+       "tabToken": "MOONBOW"
+      },
+      "liveTab": "Sentinel",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 42,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Moon Priest",
+       "runnerUpMatches": 15,
+       "topLiveTab": "Sentinel",
+       "topMatches": 22,
+       "topShare": 0.5238
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Tides",
+      "chrSpecs": {
+       "specId": 43,
+       "specName": "Moon Priest",
+       "tabToken": "TIDES"
+      },
+      "liveTab": "Moon Priest",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 27,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 8,
+       "topLiveTab": "Moon Priest",
+       "topMatches": 19,
+       "topShare": 0.7037
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Warden"
+    ]
+   },
+   "Stormbringer": {
+    "cadTabs": [
+     "Class",
+     "Gifts",
+     "Lightning",
+     "Wind"
+    ],
+    "classId": 16,
+    "liveTabs": [
+     "Lightning",
+     "Wind",
+     "Maelstrom",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 25,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Lightning",
+       "runnerUpMatches": 5,
+       "topLiveTab": "Class",
+       "topMatches": 14,
+       "topShare": 0.56
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Gifts",
+      "chrSpecs": {
+       "specId": 14,
+       "specName": "Maelstrom",
+       "tabToken": "GIFTS"
+      },
+      "liveTab": "Maelstrom",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 52,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 14,
+       "topLiveTab": "Maelstrom",
+       "topMatches": 35,
+       "topShare": 0.6731
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Lightning",
+      "chrSpecs": {
+       "specId": 15,
+       "specName": "Lightning",
+       "tabToken": "LIGHTNING"
+      },
+      "liveTab": "Lightning",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 45,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 12,
+       "topLiveTab": "Lightning",
+       "topMatches": 31,
+       "topShare": 0.6889
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Wind",
+      "chrSpecs": {
+       "specId": 13,
+       "specName": "Wind",
+       "tabToken": "WIND"
+      },
+      "liveTab": "Wind",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 45,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 10,
+       "topLiveTab": "Wind",
+       "topMatches": 35,
+       "topShare": 0.7778
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "SunCleric": {
+    "cadTabs": [
+     "Blessings",
+     "Class",
+     "Piety",
+     "Seraphim"
+    ],
+    "classId": 27,
+    "liveTabs": [
+     "Seraphim",
+     "Piety",
+     "Valkyrie",
+     "Blessings",
+     "Class",
+     "None"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Blessings",
+      "chrSpecs": {
+       "specId": 98,
+       "specName": "Blessings",
+       "tabToken": "BLESSINGS"
+      },
+      "liveTab": "Blessings",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 58,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Blessings",
+       "topMatches": 47,
+       "topShare": 0.8103
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 22,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Piety",
+       "runnerUpMatches": 4,
+       "topLiveTab": "Class",
+       "topMatches": 10,
+       "topShare": 0.4545
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Piety",
+      "chrSpecs": {
+       "specId": 46,
+       "specName": "Piety",
+       "tabToken": "PIETY"
+      },
+      "liveTab": "Piety",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 54,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 10,
+       "topLiveTab": "Piety",
+       "topMatches": 39,
+       "topShare": 0.7222
+      }
+     },
+     {
+      "agreesWithNodeOverlap": false,
+      "cadTab": "Seraphim",
+      "chrSpecs": {
+       "specId": 48,
+       "specName": "Seraphim",
+       "tabToken": "SERAPHIM"
+      },
+      "liveTab": "Seraphim",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 75,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Seraphim",
+       "runnerUpMatches": 22,
+       "topLiveTab": "Valkyrie",
+       "topMatches": 27,
+       "topShare": 0.36
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "None",
+     "Valkyrie"
+    ]
+   },
+   "Tinker": {
+    "cadTabs": [
+     "Class",
+     "Firearms",
+     "Invention",
+     "Mechanics"
+    ],
+    "classId": 28,
+    "liveTabs": [
+     "Class",
+     "Mechanics",
+     "Invention",
+     "Demolition"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 17,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Demolition",
+       "runnerUpMatches": 1,
+       "topLiveTab": "Class",
+       "topMatches": 14,
+       "topShare": 0.8235
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Firearms",
+      "chrSpecs": {
+       "specId": 49,
+       "specName": "Demolition",
+       "tabToken": "FIREARMS"
+      },
+      "liveTab": "Demolition",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 16,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 3,
+       "topLiveTab": "Demolition",
+       "topMatches": 12,
+       "topShare": 0.75
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Invention",
+      "chrSpecs": {
+       "specId": 51,
+       "specName": "Invention",
+       "tabToken": "INVENTION"
+      },
+      "liveTab": "Invention",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 39,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Demolition",
+       "runnerUpMatches": 10,
+       "topLiveTab": "Invention",
+       "topMatches": 21,
+       "topShare": 0.5385
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Mechanics",
+      "chrSpecs": {
+       "specId": 50,
+       "specName": "Mechanics",
+       "tabToken": "MECHANICS"
+      },
+      "liveTab": "Mechanics",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 33,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 12,
+       "topLiveTab": "Mechanics",
+       "topMatches": 16,
+       "topShare": 0.4848
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "Venomancer": {
+    "cadTabs": [
+     "Class",
+     "Fortitude",
+     "Stalking",
+     "Venom"
+    ],
+    "classId": 29,
+    "liveTabs": [
+     "Vizier",
+     "Venom",
+     "Stalking",
+     "Fortitude",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 29,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Fortitude",
+       "runnerUpMatches": 7,
+       "topLiveTab": "Class",
+       "topMatches": 11,
+       "topShare": 0.3793
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Fortitude",
+      "chrSpecs": {
+       "specId": 52,
+       "specName": "Fortitude",
+       "tabToken": "FORTITUDE"
+      },
+      "liveTab": "Fortitude",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 57,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Fortitude",
+       "topMatches": 44,
+       "topShare": 0.7719
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Stalking",
+      "chrSpecs": {
+       "specId": 53,
+       "specName": "Stalking",
+       "tabToken": "STALKING"
+      },
+      "liveTab": "Stalking",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 54,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 17,
+       "topLiveTab": "Stalking",
+       "topMatches": 36,
+       "topShare": 0.6667
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Venom",
+      "chrSpecs": {
+       "specId": 54,
+       "specName": "Rot",
+       "tabToken": "VENOM"
+      },
+      "liveTab": "Venom",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 51,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Vizier",
+       "runnerUpMatches": 16,
+       "topLiveTab": "Venom",
+       "topMatches": 22,
+       "topShare": 0.4314
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Vizier"
+    ]
+   },
+   "WitchDoctor": {
+    "cadTabs": [
+     "Brewing",
+     "Class",
+     "Shadowhunting",
+     "Voodoo"
+    ],
+    "classId": 13,
+    "liveTabs": [
+     "Shadowhunting",
+     "Voodoo",
+     "Brewing",
+     "Class"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Brewing",
+      "chrSpecs": {
+       "specId": 6,
+       "specName": "Brewing",
+       "tabToken": "BREWING"
+      },
+      "liveTab": "Brewing",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 46,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 8,
+       "topLiveTab": "Brewing",
+       "topMatches": 38,
+       "topShare": 0.8261
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 19,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Voodoo",
+       "runnerUpMatches": 4,
+       "topLiveTab": "Class",
+       "topMatches": 11,
+       "topShare": 0.5789
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Shadowhunting",
+      "chrSpecs": {
+       "specId": 4,
+       "specName": "Shadowhunting",
+       "tabToken": "SHADOWHUNTING"
+      },
+      "liveTab": "Shadowhunting",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 40,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 8,
+       "topLiveTab": "Shadowhunting",
+       "topMatches": 25,
+       "topShare": 0.625
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Voodoo",
+      "chrSpecs": {
+       "specId": 5,
+       "specName": "Voodoo",
+       "tabToken": "VOODOO"
+      },
+      "liveTab": "Voodoo",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 41,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Voodoo",
+       "topMatches": 34,
+       "topShare": 0.8293
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": []
+   },
+   "WitchHunter": {
+    "cadTabs": [
+     "Boltslinger",
+     "Class",
+     "Darkness",
+     "Inquisition"
+    ],
+    "classId": 15,
+    "liveTabs": [
+     "Boltslinger",
+     "Houndmaster",
+     "Inquisition",
+     "Black Knight",
+     "Class",
+     "None"
+    ],
+    "mapped": [
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Boltslinger",
+      "chrSpecs": {
+       "specId": 10,
+       "specName": "Boltslinger",
+       "tabToken": "BOLTSLINGER"
+      },
+      "liveTab": "Boltslinger",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 52,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 13,
+       "topLiveTab": "Boltslinger",
+       "topMatches": 32,
+       "topShare": 0.6154
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Class",
+      "chrSpecs": null,
+      "liveTab": "Class",
+      "method": "sameName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 24,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Boltslinger",
+       "runnerUpMatches": 9,
+       "topLiveTab": "Class",
+       "topMatches": 10,
+       "topShare": 0.4167
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Darkness",
+      "chrSpecs": {
+       "specId": 11,
+       "specName": "Houndmaster",
+       "tabToken": "DARKNESS"
+      },
+      "liveTab": "Houndmaster",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 39,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 6,
+       "topLiveTab": "Houndmaster",
+       "topMatches": 31,
+       "topShare": 0.7949
+      }
+     },
+     {
+      "agreesWithNodeOverlap": true,
+      "cadTab": "Inquisition",
+      "chrSpecs": {
+       "specId": 12,
+       "specName": "Inquisition",
+       "tabToken": "INQUISITION"
+      },
+      "liveTab": "Inquisition",
+      "method": "chrSpecsSpecName",
+      "nodeOverlap": {
+       "cadTabMatchedEntries": 54,
+       "meetsThresholds": true,
+       "runnerUpLiveTab": "Black Knight",
+       "runnerUpMatches": 13,
+       "topLiveTab": "Inquisition",
+       "topMatches": 28,
+       "topShare": 0.5185
+      }
+     }
+    ],
+    "unmatchedCadTabs": [],
+    "unmatchedLiveTabs": [
+     "Black Knight",
+     "None"
+    ]
+   }
+  },
+  "methodAgreementWithNodeOverlap": {
+   "agreeing": 80,
+   "disagreements": [
+    {
+     "cadTab": "Class",
+     "class": "Chronomancer",
+     "mappedTo": "Class",
+     "method": "sameName",
+     "nodeOverlap": {
+      "cadTabMatchedEntries": 20,
+      "meetsThresholds": true,
+      "runnerUpLiveTab": "Class",
+      "runnerUpMatches": 6,
+      "topLiveTab": "Artificer",
+      "topMatches": 7,
+      "topShare": 0.35
+     }
+    },
+    {
+     "cadTab": "Class",
+     "class": "Runemaster",
+     "mappedTo": "Class",
+     "method": "sameName",
+     "nodeOverlap": {
+      "cadTabMatchedEntries": 22,
+      "meetsThresholds": true,
+      "runnerUpLiveTab": "Class",
+      "runnerUpMatches": 9,
+      "topLiveTab": "Arcane",
+      "topMatches": 9,
+      "topShare": 0.4091
+     }
+    },
+    {
+     "cadTab": "AstralWarfare",
+     "class": "Starcaller",
+     "mappedTo": "Moon Guard",
+     "method": "chrSpecsSpecName",
+     "nodeOverlap": {
+      "cadTabMatchedEntries": 79,
+      "meetsThresholds": true,
+      "runnerUpLiveTab": "Moon Guard",
+      "runnerUpMatches": 29,
+      "topLiveTab": "Warden",
+      "topMatches": 32,
+      "topShare": 0.4051
+     }
+    },
+    {
+     "cadTab": "Seraphim",
+     "class": "SunCleric",
+     "mappedTo": "Seraphim",
+     "method": "chrSpecsSpecName",
+     "nodeOverlap": {
+      "cadTabMatchedEntries": 75,
+      "meetsThresholds": true,
+      "runnerUpLiveTab": "Seraphim",
+      "runnerUpMatches": 22,
+      "topLiveTab": "Valkyrie",
+      "topMatches": 27,
+      "topShare": 0.36
+     }
+    }
+   ],
+   "note": "an independent statistical cross-check on the ChrSpecs/sameName mapping, NOT the mapping itself - a disagreement is recorded, not silently resolved",
+   "pairsCheckable": 84,
+   "rate": 0.9524
+  },
+  "note": "CAD tab names and live builder tab names are DIFFERENT GENERATIONS of the same tree slots (Starcaller CAD 'Tides' is live 'Moon Priest'). Mapped per class by three recorded methods - see tools/build_classes.py:_tab_mapping. Pairs that no method resolves are listed in unmatchedCadTabs / unmatchedLiveTabs rather than invented."
+ },
+ "task": "W4-14: join live-talent-builder truth onto the CAD catalog so consumers stop reading the catalog as if it were the game",
+ "totals": {
+  "classes": 43,
+  "classesWithLiveGeometry": 21,
+  "classesWithoutLiveGeometry": 22,
+  "entries": 23709,
+  "entriesInClassesWithGeometry": 8331,
+  "liveCounts": {
+   "deadCatalog": 3518,
+   "live": 3417,
+   "liveViaRank": 6,
+   "unknown": 16768
+  },
+  "liveCountsByReason": {
+   "deadCatalog": 3518,
+   "indeterminate": 1390,
+   "liveDirect": 3417,
+   "liveViaRank": 6,
+   "unknownNoGeometry": 15378
+  }
+ }
+}

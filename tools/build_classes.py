@@ -1,4 +1,4 @@
-"""Group CharacterAdvancementData by class into data/classes/, joined to spells.jsonl.
+﻿"""Group CharacterAdvancementData by class into data/classes/, joined to spells.jsonl.
 
 Amendment A: CharacterAdvancementData.json is account-wide across four realms served
 by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest
@@ -20,11 +20,23 @@ Measured: Type alone is insufficient because Trait entries are ~95% of the overs
 tabs; a requiredLevel band is also insufficient because ~40% of those Trait entries
 share literally the same RequiredLevel (mostly 1), so no level-band width shrinks
 that cluster - cadId-range is the only one of the amendment's two sanctioned
-mechanisms that actually gets every file under the gate."""
+mechanisms that actually gets every file under the gate.
+
+[Task W4-14] Every entry now also carries `live` + `liveEvidence`, joined against
+the live talent-builder capture (tools/coa_live.py, which owns the rule and the
+payload parser both writers share). THIS FILE IS A CATALOG, NOT THE GAME: the CAD
+tables list content that is no longer in the live trees at all (a real level-60
+Starcaller proved it - the catalog's whole "Tides" tree, Tide Lash included, does
+not exist in game), so an entry's presence here has never meant it is playable.
+`live` is the flag that finally says which is which; per-class index.json gains
+`liveCounts`, and data/classes/_live_summary.json (written here - this module owns
+data/classes/ minus classmeta's two files) carries the repo-wide totals, the
+measured false-negative risk, the CAD-tab -> live-tab mapping with its evidence,
+and the Vol'jin-vs-Rexxar caveat that scopes every verdict."""
 import json, re, shutil
 from collections import Counter, defaultdict
 
-from tools import config, dbc, build_spells, sharding
+from tools import config, dbc, build_spells, coa_live, sharding
 
 VANILLA = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight",
            "Shaman", "Mage", "Warlock", "Druid"}
@@ -429,6 +441,350 @@ def _realms_evidence(cad) -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# [Task W4-14] live/dead join - see tools/coa_live.py for the rule itself.
+# ---------------------------------------------------------------------------
+
+# node-overlap thresholds, used ONLY as the last-resort mapping method (and as
+# the cross-check on the other two): a CAD tab must land >=MIN_OVERLAP_MATCHES
+# of its live-matched entries in one live tab, and that tab must take
+# >=MIN_OVERLAP_SHARE of them, or the pair is recorded unmatched rather than
+# guessed.
+MIN_OVERLAP_MATCHES = 5
+MIN_OVERLAP_SHARE = 0.30
+
+
+def _chr_specs_by_class(chr_by_norm, chr_by_filename) -> dict:
+    """classId -> [{specId, specName, tabToken}] from ChrSpecs.dbc, joined to
+    ChrClasses the same way build_classmeta does (display name, falling back to
+    `filename` - task W4-5). ChrSpecs is the ONE in-client table that carries both
+    generations of a spec tab's identity at once: `tabToken` is the OLD CAD tab
+    string (Starcaller TIDES) and `name` is the CURRENT live-builder tab name
+    (Moon Priest) - which is what makes the CAD-tab -> live-tab mapping below an
+    evidenced client join rather than a name-similarity guess."""
+    out = defaultdict(list)
+    for r in dbc.iter_named("ChrSpecs"):
+        token = r["classToken"] or None
+        cc = ((chr_by_norm.get(_norm(token)) or chr_by_filename.get(_norm(token)))
+              if token else None)
+        if cc is None:
+            continue
+        out[cc["id"]].append({"specId": r["id"], "specName": r["name_enUS"],
+                              "tabToken": r["tabToken"] or None})
+    for v in out.values():
+        v.sort(key=lambda s: s["specId"])
+    return dict(out)
+
+
+def _tab_mapping(cad_tabs, class_live, specs, overlap) -> dict:
+    """Map this class's CAD tab names onto the live builder's tab names.
+
+    Three methods, tried in this order, every one of them recorded per pair
+    alongside the node-overlap numbers so a consumer can audit the call:
+      1. `chrSpecsSpecName` - a ChrSpecs row whose `tabToken` IS this CAD tab and
+         whose `name` IS a live tab name. Authoritative: it is the client's own
+         row linking the two generations.
+      2. `sameName` - the CAD tab name is itself a live tab name. Deliberately
+         BELOW method 1, because a surviving name can belong to a different tree:
+         Chronomancer's CAD "Time" tab maps to live "Artificer" (ChrSpecs spec 33,
+         tabToken TIME, name Artificer - and node overlap agrees, 83%), while the
+         live tab literally named "Time" is a DIFFERENT tree (spec 31, tabToken
+         DISPLACEMENT). Same-name-first would have silently swapped those two.
+      3. `nodeOverlap` - where the CAD tab's live-matched entries actually land,
+         subject to the thresholds above.
+    Unmatched CAD tabs (a whole tree with no live counterpart) and unmatched live
+    tabs (a tree with no catalog ancestor) are both recorded rather than forced."""
+    live_by_norm = {_norm(t["tabName"]): t["tabName"] for t in class_live["tabs"]}
+    spec_by_token = {_norm(s["tabToken"]): s for s in specs if s["tabToken"]}
+    mapped, taken = [], {}
+    for cad_tab in sorted(cad_tabs):
+        counts = overlap.get(cad_tab, {})
+        ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+        matched_total = sum(counts.values())
+        top, top_n = (ranked[0] if ranked else (None, 0))
+        runner, runner_n = (ranked[1] if len(ranked) > 1 else (None, 0))
+        overlap_ok = (top is not None and top_n >= MIN_OVERLAP_MATCHES
+                      and top_n / matched_total >= MIN_OVERLAP_SHARE)
+
+        spec = spec_by_token.get(_norm(cad_tab))
+        live_tab = method = None
+        if spec is not None and _norm(spec["specName"]) in live_by_norm:
+            live_tab, method = live_by_norm[_norm(spec["specName"])], "chrSpecsSpecName"
+        elif _norm(cad_tab) in live_by_norm:
+            live_tab, method = live_by_norm[_norm(cad_tab)], "sameName"
+        elif overlap_ok:
+            live_tab, method = top, "nodeOverlap"
+
+        rec = {
+            "cadTab": cad_tab, "liveTab": live_tab, "method": method,
+            "chrSpecs": ({"specId": spec["specId"], "specName": spec["specName"],
+                          "tabToken": spec["tabToken"]} if spec else None),
+            "nodeOverlap": {
+                "topLiveTab": top, "topMatches": top_n,
+                "cadTabMatchedEntries": matched_total,
+                "topShare": round(top_n / matched_total, 4) if matched_total else None,
+                "runnerUpLiveTab": runner, "runnerUpMatches": runner_n,
+                "meetsThresholds": overlap_ok,
+            },
+            "agreesWithNodeOverlap": (None if live_tab is None or top is None
+                                      else live_tab == top),
+        }
+        if live_tab is not None and live_tab in taken:
+            rec["collidesWith"] = taken[live_tab]
+        elif live_tab is not None:
+            taken[live_tab] = cad_tab
+        mapped.append(rec)
+
+    return {
+        "mapped": mapped,
+        "unmatchedCadTabs": sorted(r["cadTab"] for r in mapped if r["liveTab"] is None),
+        "unmatchedLiveTabs": sorted(t["tabName"] for t in class_live["tabs"]
+                                    if t["tabName"] not in taken),
+        "liveTabs": [t["tabName"] for t in class_live["tabs"]],
+        "cadTabs": sorted(cad_tabs),
+    }
+
+
+class _FalseNegativeMeter:
+    """[Task W4-14, requirement 2] MEASURE the false-negative risk instead of
+    hand-waving it. The builder payload shows the TREES; anything CoA grants
+    outside a tree looks dead here while being live in game. Accumulated over
+    every class that HAS geometry (classes without it are `unknownNoGeometry`
+    and claim nothing), and written into _live_summary.json verbatim."""
+
+    def __init__(self):
+        self.not_in_trees = 0
+        self.in_trees = 0
+        self.signal_entries = Counter()
+        self.signal_spell_ids = defaultdict(set)
+        self.examples = defaultdict(list)
+        self.indeterminate = 0
+        # the brief's first suggested heuristic, kept as a MEASUREMENT so its
+        # failure is visible rather than asserted: "low requiredLevel + Ability"
+        self.heur_not_in_trees = 0
+        self.heur_in_trees = 0
+
+    @staticmethod
+    def _heuristic(e):
+        return e["requiredLevel"] <= 10 and e["type"] == "Ability"
+
+    def observe(self, cls, entries):
+        for e in entries:
+            reason = e["liveEvidence"]["reason"]
+            if reason in ("liveDirect", "liveViaRank"):
+                self.in_trees += 1
+                self.heur_in_trees += self._heuristic(e)
+                continue
+            self.not_in_trees += 1
+            self.heur_not_in_trees += self._heuristic(e)
+            signals = e["liveEvidence"].get("signals") or []
+            if signals:
+                self.indeterminate += 1
+            for sig in signals:
+                self.signal_entries[sig] += 1
+                self.signal_spell_ids[sig].update(s["id"] for s in e["spells"])
+                if len(self.examples[sig]) < 6:
+                    self.examples[sig].append(
+                        {"class": cls, "cadId": e["cadId"], "name": e["name"],
+                         "tab": e["tab"], "type": e["type"],
+                         "requiredLevel": e["requiredLevel"]})
+
+    def report(self) -> dict:
+        n = self.not_in_trees or 1
+        return {
+            "question": (
+                "Of the CAD entries this method finds NOT in the live trees, how "
+                "many are false negatives - abilities CoA grants outside a tree "
+                "(baseline/automatic or trainer-taught), which would look dead "
+                "while being live?"),
+            "entriesNotInTrees": self.not_in_trees,
+            "entriesInTrees": self.in_trees,
+            "signals": {
+                "skillLineAutoGrant": {
+                    "entries": self.signal_entries["skillLineAutoGrant"],
+                    "rateOfNotInTrees": round(
+                        self.signal_entries["skillLineAutoGrant"] / n, 4),
+                    "distinctSpellIds": len(self.signal_spell_ids["skillLineAutoGrant"]),
+                    "test": ("the entry's spell chain has a SkillLineAbility row with "
+                             "acquireMethod != 0 (automatically granted)"),
+                    "separable": True,
+                    "verdict": (
+                        "SEPARABLE and trustworthy on its own. acquireMethod is stock "
+                        "3.3.5 semantics, generation-independent, and perfectly "
+                        "disjoint from the live node set (0 of the live builder's "
+                        "spell ids carry acquireMethod != 0 anywhere in "
+                        "SkillLineAbility.dbc). The population is overwhelmingly "
+                        "weapon/armour proficiency grants (Fist Weapons, Polearms, "
+                        "Plate Mail, Dual Wield, Auto Shot, Block, Staves, Wands...) - "
+                        "exactly the 'baseline, not via a tree node' class the task "
+                        "asked to quantify. Shipped as live:null/indeterminate, NOT "
+                        "live:false."),
+                    "examples": self.examples["skillLineAutoGrant"],
+                },
+                "npcTrainerRow": {
+                    "entries": self.signal_entries["npcTrainerRow"],
+                    "rateOfNotInTrees": round(
+                        self.signal_entries["npcTrainerRow"] / n, 4),
+                    "distinctSpellIds": len(self.signal_spell_ids["npcTrainerRow"]),
+                    "test": "some rank of the entry's spell chain has an NPCTrainer row",
+                    "separable": False,
+                    "verdict": (
+                        "REAL but NOT SEPARABLE offline - said plainly rather than "
+                        "guessed. NPCTrainer.dbc in this client snapshot is provably "
+                        "CONTEMPORARY with the live generation, not a leftover of the "
+                        "catalog's: it carries rows under skill lines that exist ONLY "
+                        "in the live builder and nowhere in the CAD tab layer ('Moon "
+                        "Guard', 'Moon Priest', 'Warden', 'Headhunting'), teaching "
+                        "rank variants of abilities whose base rank IS a live node "
+                        "(e.g. Starcall - live node spellId 800497, trainer rows "
+                        "302568/302569/502316/502317). So a trainer row IS evidence of "
+                        "a non-tree acquisition path - but the CAD row hanging off it "
+                        "can equally be a retired duplicate, and no offline table "
+                        "distinguishes those two. Shipped as live:null/indeterminate."),
+                    "examples": self.examples["npcTrainerRow"],
+                },
+                "liveNodeNameTwin": {
+                    "entries": self.signal_entries["liveNodeNameTwin"],
+                    "rateOfNotInTrees": round(
+                        self.signal_entries["liveNodeNameTwin"] / n, 4),
+                    "distinctSpellIds": len(self.signal_spell_ids["liveNodeNameTwin"]),
+                    "test": ("the entry's NAME matches a live node's name in the same "
+                             "class while none of its spell ids do"),
+                    "separable": False,
+                    "verdict": (
+                        "NOT SEPARABLE - the spellId-variant drift already measured in "
+                        "data/talents/coa/_meta.json's `contentDrift` (duplicate CAD "
+                        "rows per ability, each carrying a different spellId variant; "
+                        "the builder picks one). The ABILITY is live; whether THIS row "
+                        "is the live variant is unknowable offline, so the row is "
+                        "live:null/indeterminate rather than a name-matched live:true "
+                        "(names collide across a class's talents and abilities)."),
+                    "examples": self.examples["liveNodeNameTwin"],
+                },
+            },
+            "indeterminateEntries": self.indeterminate,
+            "indeterminateRateOfNotInTrees": round(self.indeterminate / n, 4),
+            "deadCatalogEntries": self.not_in_trees - self.indeterminate,
+            "rejectedHeuristic": {
+                "test": "CAD requiredLevel <= 10 AND type == 'Ability'",
+                "rateOnNotInTrees": round(self.heur_not_in_trees / n, 4),
+                "rateOnProvenLiveEntries": round(
+                    self.heur_in_trees / (self.in_trees or 1), 4),
+                "verdict": (
+                    "REJECTED as a baseline-grant discriminator - measured, not "
+                    "assumed. It fires on a large minority of entries that are "
+                    "PROVEN live (they are in the trees), so it has no specificity: "
+                    "'low level + Ability' describes early tree nodes just as well as "
+                    "baseline grants. Not used in any shipped verdict."),
+            },
+            "conclusion": (
+                "The risk is real and it IS partly separable: the automatic-grant "
+                "population (SkillLineAbility acquireMethod != 0) is isolated exactly "
+                "and cleanly. The other two paths are real but indistinguishable from "
+                "retired content with offline data alone, so every entry carrying any "
+                "of the three signals ships live:null with reason 'indeterminate' and "
+                "the firing signals listed, rather than being guessed false. Entries "
+                "with live:false are the ones with NO evidence of any acquisition "
+                "path at all."),
+        }
+
+
+def _live_summary(live, per_class, tab_maps, fn) -> dict:
+    totals = Counter()
+    by_reason = Counter()
+    for c in per_class.values():
+        totals.update(c["liveCounts"])
+        by_reason.update(c["liveCountsByReason"])
+    with_geom = {k: v for k, v in per_class.items() if v["hasLiveGeometry"]}
+
+    agree = [r for m in tab_maps.values() for r in m["mapped"]
+             if r["agreesWithNodeOverlap"] is not None]
+    return {
+        "_generatedBy": "tools/build_classes.py:_live_summary (task W4-14)",
+        "task": ("W4-14: join live-talent-builder truth onto the CAD catalog so "
+                 "consumers stop reading the catalog as if it were the game"),
+        "method": {
+            "rule": (
+                "An entry is live if any of its own CAD spell ids is a live builder "
+                "node's spellId/spellIds member (reason liveDirect); failing that, if "
+                "any OTHER rank of its SpellRankData chain is (reason liveViaRank). "
+                "Otherwise it is not in the trees, and is split by whether it carries "
+                "evidence of a non-tree acquisition path (reason indeterminate, "
+                "live:null) or none at all (reason deadCatalog, live:false). Classes "
+                "with no builder file get reason unknownNoGeometry, live:null - "
+                "nothing is claimed about them either way."),
+            "matching": ("spell id equality only - no name matching enters the live/"
+                         "dead verdict itself (names are used only as a false-negative "
+                         "PROBE, and only to downgrade dead -> indeterminate)"),
+            "liveCountsKeys": (
+                "live = liveDirect; liveViaRank counted separately; unknown = "
+                "indeterminate + unknownNoGeometry. Entries with live==true are "
+                "live + liveViaRank. The four keys sum to entryCount."),
+            "owner": ("tools/coa_live.py holds the rule; tools/build_classes.py "
+                      "writes data/classes/**, tools/build_coatalents.py writes "
+                      "data/talents/coa/** (Amendment D single-writer)"),
+        },
+        "payload": live["provenance"],
+        "realmCaveat": live["realmCaveat"],
+        "totals": {
+            "classes": len(per_class),
+            "classesWithLiveGeometry": len(with_geom),
+            "classesWithoutLiveGeometry": len(per_class) - len(with_geom),
+            "entries": sum(c["entryCount"] for c in per_class.values()),
+            "entriesInClassesWithGeometry": sum(c["entryCount"] for c in with_geom.values()),
+            "liveCounts": dict(totals),
+            "liveCountsByReason": dict(by_reason),
+        },
+        "perClass": per_class,
+        "falseNegativeMeasurement": fn.report(),
+        "tabMapping": {
+            "note": (
+                "CAD tab names and live builder tab names are DIFFERENT GENERATIONS "
+                "of the same tree slots (Starcaller CAD 'Tides' is live 'Moon "
+                "Priest'). Mapped per class by three recorded methods - see "
+                "tools/build_classes.py:_tab_mapping. Pairs that no method resolves "
+                "are listed in unmatchedCadTabs / unmatchedLiveTabs rather than "
+                "invented."),
+            "methodAgreementWithNodeOverlap": {
+                "pairsCheckable": len(agree),
+                "agreeing": sum(1 for r in agree if r["agreesWithNodeOverlap"]),
+                "rate": round(sum(1 for r in agree if r["agreesWithNodeOverlap"])
+                              / (len(agree) or 1), 4),
+                "disagreements": [
+                    {"class": cls, "cadTab": r["cadTab"], "mappedTo": r["liveTab"],
+                     "method": r["method"], "nodeOverlap": r["nodeOverlap"]}
+                    for cls, m in sorted(tab_maps.items()) for r in m["mapped"]
+                    if r["agreesWithNodeOverlap"] is False],
+                "note": ("an independent statistical cross-check on the ChrSpecs/"
+                         "sameName mapping, NOT the mapping itself - a disagreement "
+                         "is recorded, not silently resolved"),
+            },
+            "byClass": tab_maps,
+        },
+        "groundTruth": _ground_truth_check(per_class, tab_maps),
+    }
+
+
+def _ground_truth_check(per_class, tab_maps) -> dict:
+    """The one piece of REAL-PLAYER evidence this method has, re-derived at every
+    build so it fails loudly if the method or the payload drifts: a level-60
+    Starcaller reports their live trees are Moon Guard / Sentinel / Moon Priest /
+    Warden / Class, and that Tide Lash - a CAD 'Tides' ability - does not exist in
+    game. Both must fall out of the join; pinned again in tests/test_live_flags.py."""
+    sc = per_class.get("Starcaller", {})
+    return {
+        "source": "level-60 Starcaller player report (task W4-14 brief)",
+        "starcallerLiveTabs": sc.get("liveTabs"),
+        "starcallerLiveTabsExpected": ["Class", "Moon Guard", "Moon Priest",
+                                       "Sentinel", "Warden"],
+        "starcallerCadTabs": tab_maps.get("Starcaller", {}).get("cadTabs"),
+        "starcallerCadSpellIdDeadRate": sc.get("cadSpellIdDeadRate"),
+        "note": ("cadSpellIdDeadRate is the brief's cited ~53% - the share of "
+                 "Starcaller's DISTINCT CAD spell ids that appear in no live "
+                 "builder node. The entry-level split is in perClass.Starcaller."),
+    }
+
+
 def build() -> dict:
     cad = json.loads((config.RAW_CONTENT_DIR / "CharacterAdvancementData.json")
                      .read_text(encoding="utf-8-sig"))
@@ -471,6 +827,14 @@ def build() -> dict:
     index_classes, total_entries, matched_norms = [], 0, set()
     unresolved_reborn = unresolved_other = 0
     refs_reborn = refs_other = 0
+
+    # [Task W4-14] live/dead join inputs. live_index() parses the frozen builder
+    # capture once per process (lru_cached) and is the SAME parse build_coatalents
+    # uses; alt_acquisition_index() is the non-tree-grant probe set.
+    live = coa_live.live_index()
+    alt = coa_live.alt_acquisition_index()
+    chr_specs = _chr_specs_by_class(chr_by_norm, chr_by_filename)
+    live_per_class, tab_maps, fn = {}, {}, _FalseNegativeMeter()
 
     for cls in sorted(groups):
         tag = "meta" if cls == "_other" else _tag(cls)
@@ -522,6 +886,45 @@ def build() -> dict:
                 alias = chr_match["filename"]
         realm_hint = REALM_HINT[tag]
 
+        # [Task W4-14] stamp live/liveEvidence. class_live is None for every class
+        # with no builder file (the 10 vanilla + 11 Reborn/meta dirs) - those get
+        # `unknownNoGeometry`, never a bare false.
+        class_id = chr_match["id"] if chr_match else None
+        class_live = live["byClassId"].get(class_id)
+        reasons = Counter()
+        for e in entries:
+            e["live"], e["liveEvidence"] = coa_live.classify_entry(e, class_live, alt)
+            reasons[e["liveEvidence"]["reason"]] += 1
+        counts = coa_live.live_counts(reasons)
+        if class_live is not None:
+            fn.observe(cls, entries)
+            cad_ids = {s["id"] for e in entries for s in e["spells"]}
+            live_ids = set(class_live["spellNodes"])
+            live_per_class[cls] = {
+                "classId": class_id, "hasLiveGeometry": True,
+                "entryCount": len(entries), "liveCounts": counts,
+                "liveCountsByReason": {r: reasons[r] for r in coa_live.REASONS
+                                       if reasons[r]},
+                "cadSpellIds": len(cad_ids),
+                "cadSpellIdsNotLive": len(cad_ids - live_ids),
+                "cadSpellIdDeadRate": round(len(cad_ids - live_ids) / len(cad_ids), 4)
+                                      if cad_ids else None,
+                "liveNodeCount": class_live["nodeCount"],
+                "liveTabs": [t["tabName"] for t in class_live["tabs"]],
+            }
+            tab_maps[cls] = dict(
+                _tab_mapping({e["tab"] for e in entries if e["tab"]}, class_live,
+                             chr_specs.get(class_id, []),
+                             coa_live.tab_overlap(entries, class_live)),
+                classId=class_id)
+        else:
+            live_per_class[cls] = {
+                "classId": class_id, "hasLiveGeometry": False,
+                "entryCount": len(entries), "liveCounts": counts,
+                "liveCountsByReason": {r: reasons[r] for r in coa_live.REASONS
+                                       if reasons[r]},
+            }
+
         by_tab = defaultdict(list)
         for e in entries:
             by_tab[e["tab"] or None].append(e)
@@ -541,6 +944,14 @@ def build() -> dict:
             "entryCount": len(entries),
             "unresolvedCount": class_unresolved,
             "entryCounts": dict(Counter(x["type"] for x in entries)),
+            # [Task W4-14] live/deadCatalog/liveViaRank/unknown - sums to
+            # entryCount. `live` counts only direct spell-id hits; entries with
+            # live==true are live + liveViaRank. `unknown` merges the two
+            # live==null reasons (indeterminate + unknownNoGeometry), split out
+            # in liveCountsByReason and in data/classes/_live_summary.json.
+            "hasLiveGeometry": class_live is not None,
+            "liveCounts": counts,
+            "liveCountsByReason": live_per_class[cls]["liveCountsByReason"],
             "files": files_meta,
         }
         (class_dir / "index.json").write_text(
@@ -554,6 +965,7 @@ def build() -> dict:
             "index": f"{cls}/index.json",
             "entryCounts": dict(Counter(x["type"] for x in entries)),
             "unresolvedCount": class_unresolved,
+            "liveCounts": counts,
         })
 
     index = {
@@ -574,10 +986,19 @@ def build() -> dict:
         json.dumps(realms_evidence, indent=1, sort_keys=True, ensure_ascii=False),
         encoding="utf-8")
 
+    # [Task W4-14] live/dead summary - totals, the measured false-negative risk,
+    # the tab mapping + its evidence, and the payload provenance/caveat.
+    summary = _live_summary(live, live_per_class, tab_maps, fn)
+    (cdir / "_live_summary.json").write_text(
+        json.dumps(summary, indent=1, sort_keys=True, ensure_ascii=False),
+        encoding="utf-8")
+
     return {"classes": len(index_classes), "entries": total_entries,
             "unresolved_reborn": unresolved_reborn, "unresolved_other": unresolved_other,
             "refs_reborn": refs_reborn, "refs_other": refs_other,
-            "realmsBitmaskGoldenBarMet": realms_evidence["verdict"]["goldenBarMet"]}
+            "realmsBitmaskGoldenBarMet": realms_evidence["verdict"]["goldenBarMet"],
+            "liveCounts": summary["totals"]["liveCounts"],
+            "liveCountsByReason": summary["totals"]["liveCountsByReason"]}
 
 
 if __name__ == "__main__":
