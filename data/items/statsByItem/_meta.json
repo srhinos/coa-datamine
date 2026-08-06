@@ -1,0 +1,10 @@
+{
+ "count": 20267,
+ "itemIdJoinRate": 0.9696,
+ "itemIdJoinRateFinding": "19651/20267 = 0.9696 of ItemStat's distinct itemIds resolve against live Item.dbc ids - matches the source doc's cited 96.96% closely. NOT treated as the primary proof (Item.dbc's id space is only ~6% dense - Sec 4 trap 8's exact false-positive shape); the 75-row-block structure + the golden armor/stat match are the real evidence, this join rate is corroborating context only.",
+ "provenColumns": {
+  "itemId": "ItemStat.dbc f1 - 20,267 distinct values, golden-verified against item 100248 (\"Beaststalker's Belt\") vs itemcache.wdb via tools/wdb_item.py - see tools/dbc.py's ItemStat TABLE_MAPS comment for the full re-derivation.",
+  "ownItemLevel": "ItemStat.dbc f2 - 75 distinct table-wide (dense 1-65 + sparse 86/88/91/94/96/98/99/101/103/105), row-count-per-item histogram {75:20171,11:48,12:44,13:2,16:1,8:1} matches the source doc's cited histogram exactly."
+ },
+ "scopeNote": "This is a coverage INDEX (itemId -> which ownItemLevel rows exist + which raw shard holds them), not a re-decode of ItemStat's stat/armor/ damage columns (f3-f38) - those are documented, golden-checked evidence for the keying proof above, not independently named in TABLE_MAPS this task. A future task can pick up statType/statValue/armor/damage naming with the same golden-proof bar as everything else in this pipeline."
+}

@@ -1282,6 +1282,44 @@ TABLE_MAPS = {
     "SpellRank": {"expected_fields": 4, "columns": [
         ("id", 0, "u"), ("firstSpellId", 1, "u"), ("spellId", 2, "u"), ("rank", 3, "u"),
     ]},
+    # ItemStat (task W4-11b, 1,513,931 rows x 39 fields, no strings, 236MB body - too
+    # large for a single raw/dbc/ file, see dbc.CUSTOM_RAW_DUMP_TABLES and
+    # tools/build_items.py's sharded raw/dbc/itemstat/ dumper). DATAMINE-REQUEST.md
+    # Sec 8.2 + Sec 4 trap 8 flagged this table's keying as a prior audit's misread
+    # (f0 IS a unique monotonic row id, NOT the item id - trap 8's join=1.000 false
+    # positive is specifically about mistaking f0 for the key against Item.dbc's
+    # low ids). Only f1/f2 are named here - the letter's explicit scope; f3-f38's
+    # documented stat-pair/armor/damage/level-ramp layout (used below only to CHECK
+    # the golden, never independently named) stays raw pending a future task.
+    #
+    # Fresh re-derivation (2026-08-06, item 100248 "Beaststalker's Belt", NOT copied
+    # from the source doc) against a live wdb_item.py parse of
+    # E:\ascension-live\Cache\WDB\enUS\itemcache.wdb (8,393,618 bytes - byte-identical
+    # to the doc's own cited size, same client snapshot):
+    #   itemcache.wdb: itemLevel=61 armor=277 stats=[(3,13),(5,8),(7,9),(31,10),(38,17)]
+    #   ItemStat row f1=100248 f2=61: armor(f27)=277 pairs=[(3,13),(5,8),(7,9),(31,9),(38,17)]
+    # ARMOR EXACT, 4/5 stat pairs exact, statType 31 differs by exactly 1 (9 vs 10) -
+    # reproduces Sec 8.2's own "armor exact, 4 of 5 stats exact, hit differs by 1"
+    # claim verbatim. The f2=60 row (armor=271, pairs mostly halved) does NOT match,
+    # confirming f2 is a real per-row axis, not noise.
+    #
+    # f1 (itemId): 20,267 distinct values over 1,513,931 rows. Join vs live Item.dbc
+    # ids: 19,651/20,267 = 96.9606% (doc: 96.96%, exact match to 4sf). max(f1) =
+    # 9,200,579 vs Item.dbc's own max id 9,200,842 (doc's exact cross-reference,
+    # reproduced exactly). This alone is the trap-8-shaped false-positive risk the
+    # doc itself flags (Item.dbc's id space is only ~6% dense) - the row-BLOCK
+    # structure below is the real proof, not the join rate.
+    #
+    # f2 (ownItemLevel): 75 distinct values table-wide, EXACT match to the doc's cited
+    # set - dense 1-65, then sparse {86,88,91,94,96,98,99,101,103,105}. Per-item row-
+    # count histogram (grouping all 1,513,931 rows by f1): {75: 20171, 11: 48, 12: 44,
+    # 13: 2, 16: 1, 8: 1} - EXACT match to the doc's histogram, and it sums to exactly
+    # 20,267 (the distinct-f1 count above). Item 100248 itself is a 75-row item (full
+    # ladder) with f2 running 1..65 then the same 10-value sparse tail, confirming the
+    # per-item shape matches the global column shape.
+    "ItemStat": {"expected_fields": 39, "columns": [
+        ("itemId", 1, "u"), ("ownItemLevel", 2, "u"),
+    ]},
 }
 
 
@@ -1425,14 +1463,25 @@ def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Pat
     return out
 
 
+# Tables whose raw dump does not fit the "one raw/dbc/<Table>.csv.gz file" shape
+# every other table uses - task W4-11b: ItemStat.dbc's body is 236MB (1,513,931
+# rows), hostile as a single committed file. dump_all() skips these entirely
+# (whether or not they also carry a TABLE_MAPS entry, e.g. ItemStat now does); the
+# owning module writes its own sharded raw evidence instead
+# (tools/build_items.py -> raw/dbc/itemstat/itemstat-<f1//50000>.csv.gz + index.json).
+CUSTOM_RAW_DUMP_TABLES = {"ItemStat"}
+
+
 def dump_all():
     config.ensure_dirs()
     for table in sorted(TABLE_MAPS):
+        if table in CUSTOM_RAW_DUMP_TABLES:
+            continue
         p = dump_table(table)
         print(f"dumped {p.name}")
     for name in sorted(config.WANTED_DBCS):
         table = Path(name).stem
-        if table in TABLE_MAPS:
+        if table in TABLE_MAPS or table in CUSTOM_RAW_DUMP_TABLES:
             continue
         p = dump_unmapped(table)
         print(f"dumped {p.name} (unmapped)")

@@ -62,6 +62,9 @@ this repo needs an exemption).
 | `data/mythic/keystones/_unresolved.json` | 101 `MythicKeystones` rows whose `dungeonId` doesn't resolve against `LFGDungeons.dbc` (raw, documented; overall join rate 0.9851) | small |
 | `data/mythic/affixes/affixes-<id//5000*5000>.jsonl` + `index.json` | 13409 `MythicAffixes` rows; affix identity is `grantSpellId`/`effectSpells` (resolved spell names) - the brief's `ChallengeModifierTypes` name hypothesis was tested and disproven, see `tools/dbc.py` | small-medium |
 | `data/mythic/scaling.json` / `timedDungeons.json` / `mapDifficulty.json` | small standalone Mythic+ tables: `MythicPlusScaling` (200 rows), `TimedDungeons` (82 rows, `dungeonName` resolved), `MapDifficulty` (685 rows, `mapName`/`lockoutMessage` resolved) | small |
+| `data/items/statsByItem/index.json` + `statsByItem-<itemId//5000*5000>.jsonl` | task W4-11b: `ItemStat.dbc` per-item COVERAGE index (20,267 items) - `{itemId, rowCount, ilvls: [ownItemLevel...], rawShard}` per record; NOT a stats re-decode (`f1`/`f2` only are proven - see "Item support tables" below) | small |
+| `data/items/statsByItem/_meta.json` | `count`, `provenColumns`, `itemIdJoinRate` (0.9696), `itemIdJoinRateFinding`, `scopeNote` | small |
+| `raw/dbc/itemstat/index.json` + `itemstat-<itemId//50000*50000>.csv.gz` | task W4-11b: `ItemStat.dbc`'s own sharded raw dump (1,513,931 rows, 29 non-empty buckets - id-space is highly clustered, not uniform) - **the whole reason this is sharded**: one committed `raw/dbc/ItemStat.csv.gz` would be a 236MB hostile single file (see `dbc.CUSTOM_RAW_DUMP_TABLES`); header names `itemId`/`ownItemLevel` (f1/f2), rest raw `f0`,`f3`..`f38` | large |
 | `raw/interface/_manifest.json` | every extracted Interface file: sorted relative path -> `{source, size, sha256}` (1553 files: 1444 archive-sourced + 109 disk-sourced, per the 2026-07-23 capture) | small |
 | `raw/interface/AddOns/APIDocumentation/**` | Ascension's own API-documentation addon, copied **verbatim from the live client install** (disk copy, not an archive snapshot - it always wins any path collision against an archive-extracted file) - **their real API**, the ground-truth reference for porting agents; see "Interface/API code layer" below | large |
 | `raw/interface/{AddOns,FrameXML,GlueXML,SharedXML,LibraryXML,LCDXML}/**` | every other `.lua`/`.xml`/`.toc`/`.txt`/`.md` file found under the client's `Interface\` tree across every MPQ archive (art/BLPs/sounds/models excluded - this is a code layer, not an art dump); winner per file resolved by the same chain-order rule as the DBCs | large |
@@ -1347,6 +1350,60 @@ as everything else in this file.
 236MB raw body too large for a single `raw/dbc/` file) before any column gets named;
 see the sub-sections below (added incrementally as this task's remaining
 sub-commits land).
+
+**`ItemStat.dbc` (task W4-11b) - Sec 8.2's `f1`/`f2` keying hypothesis is now
+PROVEN, independently re-derived, not copied from the doc.** `WANTED_DBCS_V7` adds
+this one table (1,513,931 rows x 39 fields, no strings). Sec 4 trap 8 warns that a
+PRIOR audit misread this table's keying (mistaking `f0`, a unique monotonic row id,
+for the item id - a naive join against `Item.dbc`'s low, dense ids "proved" the
+wrong column). This task re-derived the correction from scratch:
+
+- **The golden.** Item 100248 ("Beaststalker's Belt") decoded independently from
+  `E:\ascension-live\Cache\WDB\enUS\itemcache.wdb` (8,393,618 bytes - byte-identical
+  to the source doc's own cited size, confirming the same client snapshot) via a
+  fresh `tools/wdb_item.py` parse (copied from `coa-sim-handoff/parsers/wdb_item.py`
+  with attribution, see that file's header comment): `itemLevel=61 armor=277
+  stats=[(3,13),(5,8),(7,9),(31,10),(38,17)]`. The `ItemStat.dbc` row with `f1=100248
+  f2=61` gives `armor(f27)=277` and stat pairs `[(3,13),(5,8),(7,9),(31,9),(38,17)]` -
+  **armor exact, 4 of 5 stat pairs exact, statType 31 ("hit") off by exactly 1** -
+  reproducing Sec 8.2's own claim verbatim. The `f2=60` row (`armor=271`, stats
+  roughly halved) does **not** match - confirming `f2` is a real per-row axis.
+- **The row-block structure** is the primary proof, stronger than any join rate:
+  item 100248 carries exactly 75 `ItemStat` rows, and the table-wide distinct-`f2`
+  set is exactly 75 values (dense 1-65, then sparse `{86,88,91,94,96,98,99,101,103,
+  105}`) - an EXACT match to Sec 8.2's cited set. The per-item row-count histogram
+  (`{75: 20171, 11: 48, 12: 44, 13: 2, 16: 1, 8: 1}`, summing to exactly 20,267
+  distinct `f1` values) also reproduces the doc's own histogram exactly.
+- **The join rate** (19,651/20,267 = 96.96% of distinct `f1` values resolve against
+  live `Item.dbc` ids, max `f1` 9,200,579 vs `Item.dbc`'s own max id 9,200,842) is
+  corroborating context only, **not** the proof - `Item.dbc`'s id space is only ~6%
+  dense, precisely the Sec 4 trap 8 false-positive shape this table already burned
+  a prior audit on once.
+
+`TABLE_MAPS["ItemStat"]` now names `itemId` (f1) and `ownItemLevel` (f2) only - the
+letter's explicit scope. `f3`-`f38`'s documented layout (10 interleaved stat-type/
+value pairs, float damage min/max, armor, a level-counter/price ramp) was used only
+to CHECK the golden above, never independently named; a future task can pick up
+`statType`/`statValue`/`armor`/`damage` naming with the same golden-proof bar.
+
+**Sharded raw dump + curated coverage index** (`tools/build_items.py`, new module):
+`raw/dbc/itemstat/itemstat-<itemId//50000>.csv.gz` (29 non-empty buckets - item ids
+cluster hard, the `[2,050,000, 2,100,000)` band alone holds 60% of all rows, so
+shard sizes are uneven by design, not a bug) replaces the single 236MB file every
+other table gets (`dbc.CUSTOM_RAW_DUMP_TABLES` - `dbc.dump_all()` skips `ItemStat`
+entirely; this module owns its raw evidence). `data/items/statsByItem/` is a
+**coverage index**, not a stats re-decode: `{itemId, rowCount, ilvls: [...],
+rawShard}` per item, bucketed at **5,000** ids (narrower than the raw layer's
+50,000 - the same item-id clustering that makes shard sizes uneven would blow the
+`data/` 5,000-line gate at 50,000-wide curated buckets; empirically the narrowest
+raw-id band alone holds 12,165 distinct items). `build_items.py`'s own golden gate
+(the 100248 75-row check + the exact histogram, both re-derivable from
+`work/dbc/ItemStat.dbc` alone) mirrors `build_creatures.py`'s "refuse to publish if
+the pinned facts don't hold" convention - the `itemcache.wdb` cross-check that
+originally PROVED the keying stays a test-time-only dependency
+(`tests/test_items_layer.py`), not a build-path one, matching how every other
+external-ground-truth golden in this pipeline is used once to establish a
+`TABLE_MAPS` entry and then trusted, not re-fetched on every build.
 
 ## Recipes (PowerShell / Python)
 

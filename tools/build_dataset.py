@@ -4,7 +4,7 @@ import argparse, datetime, hashlib, json
 from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
                    build_spells, build_classes, build_talents, build_dungeons,
                    build_creatures, build_classmeta, build_essence, build_mythic,
-                   build_manastorm, build_realms, build_coatalents)
+                   build_manastorm, build_realms, build_coatalents, build_items)
 
 
 def run(skip_extract=False, skip_dump=False, skip_interface=False,
@@ -46,6 +46,14 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     print(f"[essence]  {stats['essence']}")
     stats["mythic"] = build_mythic.build()
     print(f"[mythic]   {stats['mythic']}")
+
+    # v4 (task W4-11b): item support tables. Only needs work/dbc (ItemStat, Item -
+    # both already populated above), independent of the class/spell/dungeon stages.
+    # dbc.dump_all() above already skips ItemStat's raw dump (CUSTOM_RAW_DUMP_TABLES) -
+    # this is where its sharded raw/dbc/itemstat/ + data/items/statsByItem/ actually
+    # get written.
+    stats["items"] = build_items.build()
+    print(f"[items]    {stats['items']}")
 
     # v4 (task W4-9): CoA talent tree geometry. Reads the FROZEN external payload
     # capture (raw/talents/coa-builder-<slug>.html, written by the separate,

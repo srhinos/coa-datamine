@@ -126,6 +126,16 @@ WANTED_DBCS_V6 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V6
 
+# v7 (task W4-11b): ItemStat.dbc - 1,513,931 rows, 236MB body, hostile as a single
+# raw/dbc/ file (see tools/build_items.py's sharded raw/dbc/itemstat/ dumper and
+# dbc.CUSTOM_RAW_DUMP_TABLES). Kept in its own wave, separate from WANTED_DBCS_V6,
+# because it needs a real keying investigation (DATAMINE-REQUEST.md Sec 8.2 + Sec 4
+# trap 8) before any column gets named - unlike V6's index-only tables. Verdict:
+# f1=itemId/f2=ownItemLevel PROVEN (item-100248 golden vs itemcache.wdb, see
+# tools/dbc.py's ItemStat TABLE_MAPS comment) - both are now named.
+WANTED_DBCS_V7 = ["ItemStat.dbc"]
+WANTED_DBCS += WANTED_DBCS_V7
+
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):
         d.mkdir(parents=True, exist_ok=True)

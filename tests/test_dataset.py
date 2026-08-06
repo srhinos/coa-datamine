@@ -10,7 +10,7 @@ assert prov["clientDir"] == str(config.CLIENT_DIR)
 assert set(prov["buildStats"]) == {
     "spells", "classes", "talents", "dungeons",
     "creatures", "classmeta", "essence", "mythic", "interface",
-    "manastorm", "realms", "coatalents",
+    "manastorm", "realms", "coatalents", "items",
 }
 assert prov["extract"]["files"]["spell.dbc"]["fields"] == 234
 assert "manifestSha256" in prov["buildStats"]["interface"]
