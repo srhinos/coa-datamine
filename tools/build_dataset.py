@@ -3,8 +3,8 @@ import argparse, datetime, hashlib, json
 
 from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content,
                    build_spells, build_classes, build_talents, build_dungeons,
-                   build_creatures, build_classmeta, build_mythic, build_manastorm,
-                   build_realms)
+                   build_creatures, build_classmeta, build_essence, build_mythic,
+                   build_manastorm, build_realms)
 
 
 def run(skip_extract=False, skip_dump=False, skip_interface=False,
@@ -38,6 +38,12 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     # specs.json/archetypes.json get wiped by a later classes rebuild.
     stats["classmeta"] = build_classmeta.build()
     print(f"[classmeta] {stats['classmeta']}")
+    # v4 (task W4-5): per-class AE/TE curves, class-adjacent but deliberately NOT
+    # classmeta's (Amendment D - classmeta owns specs.json/archetypes.json only).
+    # Only needs work/dbc (ChrClasses + CharacterAdvancementEssence), independent
+    # of build_classes/build_classmeta's own data/classes/ output.
+    stats["essence"] = build_essence.build()
+    print(f"[essence]  {stats['essence']}")
     stats["mythic"] = build_mythic.build()
     print(f"[mythic]   {stats['mythic']}")
 

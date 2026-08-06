@@ -120,6 +120,14 @@ def build() -> dict:
     spells = _spell_min()
     chr_classes = list(dbc.iter_named("ChrClasses"))
     chr_by_norm = {_norm(c["name_enUS"]): c for c in chr_classes}
+    # [Task W4-5] filename fallback join (DATAMINE-REQUEST.md Sec 11 / Sec 4 trap 6):
+    # 3 CAD class dirs (DemonHunter/Monk/SonOfArugal) have no ChrClasses row matching
+    # their display name at all - their content is filed under a DIFFERENT display
+    # name (Felsworn/Templar/Bloodmage, ChrClasses ids 14/19/20) whose `filename`
+    # column equals the CAD class name instead. Falling back to a filename join
+    # (only tried when the display-name join misses) resolves all 3 - see
+    # tools/dbc.py's TABLE_MAPS comment for the golden evidence.
+    chr_by_filename = {_norm(c["filename"]): c for c in chr_classes}
 
     groups = defaultdict(list)
     for e in cad:
@@ -171,10 +179,22 @@ def build() -> dict:
                 "realms": e.get("Realms", ""), "spells": resolved,
             })
         total_entries += len(entries)
-        chr_match = None if cls == "_other" else chr_by_norm.get(
-            _norm(cls.removeprefix("Reborn") if cls.startswith("Reborn") else cls))
+        base_cls = cls.removeprefix("Reborn") if cls.startswith("Reborn") else cls
+        chr_match = None if cls == "_other" else (
+            chr_by_norm.get(_norm(base_cls)) or chr_by_filename.get(_norm(base_cls)))
+        # [Task W4-5] ClassRemap aliases (raw/interface/FrameXML/Data/
+        # CharacterAdvancement.lua): when the matched row's `filename` token isn't
+        # just an uppercase of this CAD class's own name, it's a real alias the
+        # client's own ClassRemap table carries (Runemaster->SPIRITMAGE, Primalist->
+        # WILDWALKER, Venomancer->PROPHET, "Knight of Xoroth"->FLESHWARDEN) - record
+        # it. The 3 filename-only matches (DemonHunter/Monk/SonOfArugal) do NOT
+        # alias here by construction (their filename IS their own normalized name -
+        # that's how the fallback matched them in the first place).
+        alias = None
         if chr_match:
             matched_norms.add(_norm(chr_match["name_enUS"]))
+            if _norm(chr_match["filename"]) != _norm(base_cls):
+                alias = chr_match["filename"]
         realm_hint = REALM_HINT[tag]
 
         by_tab = defaultdict(list)
@@ -191,6 +211,7 @@ def build() -> dict:
         class_index = {
             "class": cls, "tag": tag,
             "classId": chr_match["id"] if chr_match else None,
+            "aliases": [alias] if alias else [],
             "realmHint": realm_hint,
             "entryCount": len(entries),
             "unresolvedCount": class_unresolved,
@@ -202,6 +223,7 @@ def build() -> dict:
         index_classes.append({
             "name": cls, "tag": tag,
             "classId": chr_match["id"] if chr_match else None,
+            "aliases": [alias] if alias else [],
             "realmHint": realm_hint,
             "dir": f"{cls}/",
             "index": f"{cls}/index.json",
@@ -211,7 +233,7 @@ def build() -> dict:
 
     index = {
         "classes": index_classes,
-        "chrClasses": [{"id": c["id"], "name": c["name_enUS"],
+        "chrClasses": [{"id": c["id"], "name": c["name_enUS"], "filename": c["filename"],
                         "powerType": c["powerType"]} for c in chr_classes],
         "unmatchedChrClasses": sorted(c["name_enUS"] for c in chr_classes
                                       if _norm(c["name_enUS"]) not in matched_norms),

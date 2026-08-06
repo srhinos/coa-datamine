@@ -20,8 +20,8 @@ this repo needs an exemption).
 
 | Path | What | Size class |
 |---|---|---|
-| `data/classes/index.json` | class roster + tags + classId map + `dir`/`index` pointers into each class's subdirectory + `chrClasses` (ChrClasses.dbc table, 32 rows, ids 1-32) + `unmatchedChrClasses` (ChrClasses rows with no CAD data: Bloodmage, Felsworn, Hero, Templar) | small |
-| `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`entryCount`/`unresolvedCount` + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class | small |
+| `data/classes/index.json` | class roster + tags + classId map + `dir`/`index` pointers into each class's subdirectory + `chrClasses` (ChrClasses.dbc table, 32 rows, ids 1-32, each carrying `filename` - task W4-5) + `unmatchedChrClasses` (ChrClasses rows with no CAD data: **Hero only**, task W4-5 - was Bloodmage/Felsworn/Hero/Templar before the `filename`-join fix, see "ChrClasses filename join..." below) | small |
+| `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`aliases`/`entryCount`/`unresolvedCount` + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class - `aliases` (task W4-5) is `[]` for 40 of 43 classes, `[<ClassRemap token>]` for the 4 CoA-custom classes whose internal filename token isn't a trivial uppercase of their own CAD name (Runemaster/Primalist/Venomancer/KnightOfXoroth) | small |
 | `data/classes/<Class>/<Tab>.json` | one spec tab's obtainable abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`); each resolved spell's `ranks[]` already carries `{spellId, rank, level}` per rank (unchanged V1 design, verified still current by task W4-4) - for level-60 rank selection, look up that chain's first-rank id in `data/spells/` instead and read its `rankAt60` field (task W4-4) rather than re-deriving the CAD-level cutoff here | small-medium |
 | `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs) - see "Class tab sharding" below | small |
 | `data/classes/<Class>/_general.json` | entries with no `Tab` (none exist in the current snapshot; the file only appears if some do) | small |
@@ -45,8 +45,9 @@ this repo needs an exemption).
 | `data/trainers/index.json` | bucket manifest (`bucketSize` 2000, `count` 13111) | small |
 | `data/trainers/trainers-<id//2000*2000>.json` | `{bucket, count, minId, maxId, entries: [{id, spellId, name, skillLine:{id,name}\|null, f3}]}` - a **flat per-row list**, not grouped by trainer: `NPCTrainer.dbc` has no trainer-NPC identity column at all (see `trainerIdFinding` in `_meta.json`) | small |
 | `data/trainers/_meta.json` | `count`, `spellJoinRate` (0.9892), `provenColumns`, `trainerIdFinding` | small |
-| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {25 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json` | small |
+| `data/classes/specs.json` | `{specs: [101 ChrSpecs rows: id, name, classId\|null, className\|null, classToken, tabToken, description, armorType, primaryStat, secondaryStat, difficulty, powerType, secondaryPowerType, f63], perClass: {32 classNames: [specIds]}, roles: {32 classNames: [role,...]}, specialAbilities: {3 classNames: {spellId, name}}}` - owned solely by `build_classmeta.py` (Amendment D); read this file for spec/role data, never `data/classes/index.json`. `perClass`/matched-classId coverage is **32/32 as of task W4-5** (was 25/32 - the `classToken` join now falls back to `ChrClasses.filename` when the display-name join misses, see "ChrClasses filename join..." below); `classId`/`className` can still ship `null` in principle if a future client patch reintroduces a token neither join resolves | small |
 | `data/classes/archetypes.json` | `{archetypes: [56 CharacterCreationArchetypes rows: id, name, tagline, description, primaryStat, weaponTypes, armorTypes, iconToken, cinematicPath, abilityPreviews, races]}` - character-creation flavor presets, class-agnostic (no classId link exists in this table) | small |
+| `data/classes/essence.json` | task W4-5: `{levels: [1..80], classes: [32 rows: classId, className, curveGroup ("classlessBase"\|"hero"\|"coaCustom"), abilityEssence: [80 ints], talentEssence: [80 ints]]}` (`CharacterAdvancementEssence.dbc`, 5,600 rows = 80 levels x 32 classes x 8 flag-variant rows, canonical curve = the flags-all-zero row per (classId,level) pair) - owned solely by `tools/build_essence.py`, a **new module deliberately separate from `build_classmeta.py`** (Amendment D: classmeta owns specs.json/archetypes.json only); see "Per-class Ability/Talent Essence curves..." below | small |
 | `data/spells/charges.json` | standalone `SpellCharges`/`SpellChargesCategory` curation (400 charge rows / 105 categories) - **NOT attached** to any `spells.jsonl` record (join-rate 0.885 < the 0.90 attach bar, see Honest limits); `{categories: {<categoryId>: {id, raw:[f1,f2]}}, charges: [{ref, categoryId, resolvedSpellName\|null}]}` | small |
 | `data/mythic/challenges/index.json` | one compact record per Mythic+ Challenge: `{id, name, file, difficultyToken, modeToken, featured}` (297 challenges) | small |
 | `data/mythic/challenges/<id>-<slug>.json` | one challenge incl. `groups`/`levels`/`rules`/`modifiers`/`conditions`/`requirements`/`rewards`/`spells` (one-record-per-line `sharding.dump_manifest` format - the default "Adventure Mode" challenge alone aggregates ~2,000 rows across those lists) | small-medium |
@@ -69,6 +70,7 @@ this repo needs an exemption).
 | `data/manastorm/_meta.json` | per-table `counts`, `provenColumns`, `dungeonEncounterJoinRate`, `spellIdFinding`/`areaIdFinding` (both DISPROVEN column hypotheses for `ManastormMessages`, left raw - see Honest limits) | small |
 | `data/realms/<realm>/index.json` | one realm's overlay-evidence index (currently one realm on this install, `area-52`): per-table `{records, fields, mapped, baseRecords\|null, delta\|null}` (`declaredFields` key present only when that table's WDBC header disagrees with its own byte-accurate field count - see "Manastorm + realm overlays" below), plus `spellIdRange`, `newSpellCount` (realm-only Spell.dbc ids), `missingRefResolution` (id-membership evidence - **read the framing below before trusting this field**) | small |
 | `data/realms/<realm>/_meta.json` | `mappedTables`/`unmappedTables` + `futureMilestone` (full realm spell/class curation - out of v3's scope, see below) | small |
+| `data/realms/<realm>/overlay_diff.json` | task W4-5, `tools/diff_realm_overlay.py` (standalone CLI, `python -m tools.diff_realm_overlay <realm>`) - NOT written by `tools/build_realms.py` (a second, narrower single-writer boundary under the same `data/realms/<realm>/` dir, see "Base-vs-overlay Spell.dbc diff..." below): base-vs-overlay `Spell.dbc` diff over the CoA class spell set - `{realm, coaIdSetSize, sharedCount, differingSharedCount, differingSharedPct, damageNumberDisagreementCount, nameChangeCount, nameChanges: [...], columnDiffs: [...], totalBaseSpellCount, totalOverlaySpellCount, overlayOnlySpellCount, baseOnlySpellCount, docComparison}` | small |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` | mapped realm tables (base `tools/dbc.py` `TABLE_MAPS` column map + layout guard reused as-is - zero new column proofs introduced for realm data) - named-header dump, same shape as `raw/dbc/<Table>.csv.gz` | large |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` + `<Table>.colinfo.json` | unmapped realm tables (no same-named base `TABLE_MAPS` entry, or a field-count mismatch against it) - raw `f0..fN` dump + evidence sidecar, same shape as `dbc.dump_unmapped`'s base-table output | large |
 | `data/gt/combatRatings.json` | `gtCombatRatings.dbc` (3200 rows = 32 RATING slots x 100 levels, rating-major not class-major - see "gt* combat-rating tables" below): `{ratings: [{index, name, curve: [99 floats, levels 1-99]}]}` - 16 of 32 rating slots pinned to a published WotLK name (`WEAPON_SKILL`/`DEFENSE`/`DODGE`/`PARRY`/`BLOCK`/`HIT_MELEE`/`HIT_RANGED`/`HIT_SPELL`/`CRIT_MELEE`/`CRIT_RANGED`/`CRIT_SPELL`/`HASTE_MELEE`/`HASTE_RANGED`/`HASTE_SPELL`/`EXPERTISE`/`ARMOR_PENETRATION`), the other 16 stay `cr<N>` (RESILIENCE explicitly checked and NOT pinned - a level-60-only value coincidence, see below) | small |
@@ -171,9 +173,14 @@ unaudited retail API parity is a recurring source of live-client crashes).
   (reborn) or worth investigating (anything else).
 - **Class tags** (`data/classes/index.json`): `vanilla` (classic 9 + DK), `reborn`
   (CoA revamps of originals, e.g. RebornWarlock), `coa-custom` (Necromancer, Tinker,
-  ...), `meta` (non-class rows). `classId` matches ChrClasses.dbc (customs are
-  ids 17-32) - this is the id used by client APIs like minimap blips; `null` means
-  the CAD class has no ChrClasses row.
+  ...), `meta` (non-class rows). `classId` matches ChrClasses.dbc (the 21
+  `coa-custom` classes are ids 12-32, not just 17-32 - Barbarian/WitchDoctor/
+  Felsworn"DemonHunter"/WitchHunter/Stormbringer fill 12-16) - this is the id used
+  by client APIs like minimap blips. As of task W4-5, `classId` is non-null for
+  **21/21** `coa-custom` dirs (previously 18/21 - 3 dirs matched via a
+  `ChrClasses.filename` fallback join, see "ChrClasses filename join..." below);
+  `null` still means genuinely no ChrClasses row at all (only relevant to `_other`/
+  meta rows now, not any real class).
 - **Dispels**: `spell.dispel.name` in None/Magic/Curse/Disease/Poison/... A spell is
   a dispellable buff if it applies an aura (`effects[].effect.name == "APPLY_AURA"`)
   and `dispel.id != 0`. Dispel-CAPABLE spells have `effects[].effect.name == "DISPEL"`
@@ -233,8 +240,11 @@ unaudited retail API parity is a recurring source of live-client crashes).
   owned solely by `build_classmeta.py` per Amendment D - never edited by
   `build_classes.py` or present in `index.json`): coverage differs per key inside
   `specs.json` - `roles` covers all 32 `ChrClasses` (`ChrClassesRoles.dbc` has a row
-  for every class), but `perClass` only lists the 25/32 that actually have `ChrSpecs`
-  rows in this snapshot (the other 7 - see Honest limits - get `[]`), and
+  for every class), and (as of task W4-5's `ChrClasses.filename` fallback join)
+  `perClass` now also covers all 32 - it used to list only 25/32 before that join
+  existed, because 7 classes' `ChrSpecs.classToken` values were filename-column
+  tokens (DEMONHUNTER/MONK/SONOFARUGAL/FLESHWARDEN/PROPHET/WILDWALKER/SPIRITMAGE),
+  not display names, and silently missed the display-name-only join. And
   `specialAbilities` only has an entry for the 3 classes with a nonzero
   `specialAbilitySpellId` (Shaman, Bloodmage, Primalist) - absence there means
   "no special ability," not "unresolved." `archetypes.json` is character-*creation*
@@ -738,6 +748,142 @@ effect slots**, not spell records) and is not directly comparable to this
 per-record flag - this task's count is independently re-derived and re-verified in
 `tests/test_closure_ranks.py`, not copied from the doc.
 
+### Per-class Ability/Talent Essence curves, ChrClasses filename join, realm-overlay diff tooling (task W4-5)
+
+`coa-sim-handoff/DATAMINE-REQUEST.md` Sec 7 (essence + `ChrClassesRoles` goldens),
+Sec 11 (`specs.json` inconsistency / the filename fix), Sec 3 (the realm-overlay
+dispute numbers), Sec 4 trap 6, Sec 13 items 9+12+7(prep).
+
+**(a) `CharacterAdvancementEssence` -> `data/classes/essence.json`.** Golden-proven
+directly against `work/dbc/CharacterAdvancementEssence.dbc` (not copied from the
+doc): f1=level (1-80), f2=classId (1-32), f7=Ability Essence, f8=Talent Essence.
+Re-derived goldens, all exact: classless classId 1-9/11 (the 10 non-Hero
+"classless" ids) @ level 60 = (60, 51) - "the classic 51-talent-point number";
+Hero (classId 10) @ level 60 = (100, 51); all 21 CoA-custom classes (classId
+12-32) share ONE identical curve (L10 (1,0) -> L20 (6,5) -> L30 (11,10) -> L40
+(16,15) -> L50 (21,20) -> L60 (26,25) -> L70 (31,30) -> L80 (36,35)). f3-f6 are 4
+unmapped per-row flag columns (8 combos observed) - for every class except Hero,
+every flag combo at a given (classId, level) carries the IDENTICAL AE/TE pair, so
+the flags are immaterial; Hero (unmatched to any CAD class - see
+`unmatchedChrClasses` below) is the sole exception, carrying up to 8 DIFFERENT
+AE/TE pairs per level across its combos (e.g. level 60 also reads
+(100,71)/(60,25)/(44,51) under other combos) - an inert, unresolved finding since
+Hero isn't a playable CoA class in this snapshot. `tools/build_essence.py` always
+selects the flags-(0,0,0,0) row, present exactly once per (classId, level) pair
+(2,560/2,560 = 32 x 80, verified) and the row that reproduces every doc golden.
+
+> **Amendment D note.** `essence.json` is class-*adjacent* data, not class/spec/
+> archetype metadata - `build_classmeta.py`'s own docstring states it owns
+> `specs.json`/`archetypes.json` **only**. Rather than silently widening that
+> module's scope, this task added a **new**, single-purpose module,
+> `tools/build_essence.py`, wired into `tools/build_dataset.py`'s orchestrator
+> right after the classmeta stage. It only reads `work/dbc` (ChrClasses +
+> CharacterAdvancementEssence) - no dependency on `data/classes/` existing.
+
+**(b) `ChrClasses.filename` join - the fix for Sec 4 trap 6.** `ChrClasses.dbc`
+carries a second name column, `filename` (f55, already a `TABLE_MAPS` entry before
+this task but never wired through anywhere) - an internal uppercase token,
+DISTINCT from `name_enUS` (the display name). Three CoA class directories
+(DemonHunter/Monk/SonOfArugal) have no ChrClasses row matching their display name
+at all, because their real ChrClasses row uses a DIFFERENT display name whose
+`filename` equals the CAD class name instead: id14 name_enUS="Felsworn"
+filename="DEMONHUNTER", id19 "Templar"->"MONK", id20 "Bloodmage"->"SONOFARUGAL" -
+golden-proven directly against `work/dbc/ChrClasses.dbc`, exact match to the doc's
+cited mapping. **Doubly cross-checked** against the client's OWN
+`raw/interface/FrameXML/Data/CharacterAdvancement.lua` `ClassRemap` table (applied
+to every `CharacterAdvancementData` entry at load time, `data.Class =
+ClassRemap[data.Class]`): every one of its ~32 CAD-name -> token pairs equals this
+column's value for the matched row, including the 4 cases where the token isn't a
+trivial uppercase of the display name (Runemaster->SPIRITMAGE,
+Primalist->WILDWALKER, Venomancer->PROPHET, "Knight of Xoroth"->FLESHWARDEN) -
+these 4 already had a working classId (matched by display name, since their CAD
+name IS a ChrClasses display name), so the alias is purely informational and
+surfaces as `data/classes/<Class>/index.json` / the top-level `classes[]` entry's
+`aliases` field. **Content sanity check** (not just id/string matching): the
+DemonHunter CAD dir's own tab names (Class/Demonology/Felblood/Slaying) match
+`ChrSpecs` rows whose `classToken=="DEMONHUNTER"` tab-for-tab
+(FELBLOOD/SLAYING/DEMONOLOGY) - real content agreement, confirming the DemonHunter
+dir genuinely IS Felsworn's data, not a coincidental string join (same check holds
+for Monk/Templar and SonOfArugal/Bloodmage).
+
+Both `tools/build_classes.py` (CAD class name -> `ChrClasses` row) and
+`tools/build_classmeta.py` (`ChrSpecs.classToken` -> `ChrClasses` row) now try the
+display-name join first, falling back to the filename join only on a miss.
+Results: **21/21 `coa-custom`-tagged class directories now have a non-null
+`classId`** (was 18/21); `data/classes/index.json`'s `unmatchedChrClasses` shrank
+from `[Bloodmage, Felsworn, Hero, Templar]` to `[Hero]` (the only ChrClasses row
+with genuinely no matching CAD class - Hero is unreleased content); `specs.json`'s
+`ChrClasses` coverage went from **25/32 to 32/32** - all 24 previously-unmatched
+`ChrSpecs.classToken` values (DEMONHUNTER x3, MONK x3, SONOFARUGAL x4, FLESHWARDEN
+x3, PROPHET x4, WILDWALKER x4, SPIRITMAGE x3) turned out to be filename-column
+tokens, not display names. This closes the join-level half of Sec 11's "specs.json
+is inconsistent... no classId-linked rows for Knight of Xoroth/Venomancer/
+Primalist/Runemaster/DemonHunter/Monk/SonOfArugal" finding - the deeper
+spec-NAMING disagreement that section also describes (specs.json's own spec names
+disagreeing with the CAD tab layer, e.g. Chronomancer Time/Infinite/Artificer vs.
+tabs Time/Displacement/Duality) is Sec 13 item 20, explicitly out of this task's
+scope and deliberately untouched.
+
+**(c) `ChrClassesRoles` roster cross-check (Sec 7).** This task re-derived the
+doc's own published role roster (Pure DPS / Tank+DPS / Healer+DPS /
+Tank+Healer+DPS, 31 named classes) against `specs.json`'s `roles` field - unchanged
+V2-3 code, `ChrClassesRoles.roleMask` decoded directly. **Full agreement, 0
+mismatches** - the only ChrClasses row the doc's roster doesn't cover is Hero
+(same unreleased/unmatched class as above), not a disagreement. Per this task's
+binding rule ("change nothing if they agree"), `build_classmeta.py`'s role logic
+is untouched - this is a verification pass, documented as a golden set in
+`tests/test_class_plumbing.py` rather than a code change.
+
+**(d) Base-vs-overlay `Spell.dbc` diff tooling.** `tools/diff_realm_overlay.py`
+(CLI: `python -m tools.diff_realm_overlay <realm>`) reproduces Sec 3's dispute
+measurement - the finding that area-52's realm overlay and the base client chain
+disagree on a real fraction of the shared CoA spell set, not just cosmetically.
+Scope: "shared CoA rows" = `build_spells._coa_class_spell_ids()` (the same
+6,436-id CoA class-spell universe task W4-3 defined) present in BOTH the base
+client's `Spell.dbc` and the realm's own `Spell.dbc`. Run against area-52 (today's
+only extracted realm) and re-derives Sec 3's own cited numbers closely (**not**
+copied, measured fresh against this snapshot - some drift is expected and
+reported, not hidden): differing shared rows 1,176/6,038 = 19.48% (doc: 1,178/
+6,038 = 19.51%), `description_enUS` diff 517 (doc 515), `effectBasePoints1`
+("damage numbers") diff 410 (doc 409), name changes 51 (doc 51, **exact** -
+includes the doc's own literal example, spell 92093 "Deadeye"->"Houndmaster").
+All four land inside this task's +/-10% tolerance gate. Per-column diff counts are
+computed over every named `TABLE_MAPS["Spell"]` column, not just the doc's cited
+top few, so `data/realms/<realm>/overlay_diff.json`'s `columnDiffs` shows the full
+shape. `overlayOnlySpellCount`/`baseOnlySpellCount` are computed over the FULL
+spell id space (not scoped to the CoA set), matching Sec 3's own
+209,130(doc:209,125)/238,939(exact)/31,497(doc:31,498)/1,688(doc:1,684) figures.
+
+> **Amendment D note, and a bug this task found+fixed.** `overlay_diff.json` is a
+> SECOND file under `data/realms/<realm>/` with its own single writer
+> (`tools/diff_realm_overlay.py`) alongside `tools/build_realms.py`'s
+> `index.json`/`_meta.json` - deliberately a standalone CLI tool, not folded into
+> `build_realms.py`'s `build()`, since which realm to diff and when is an on-demand
+> decision (Sec 13 item 7 proper - capturing Vol'jin/Rexxar and deciding which side
+> is authoritative for the disputed rows - stays out of this task's scope). Wiring
+> this up surfaced a real bug: `tools/build_realms.py`'s `build_realm()` used to
+> `shutil.rmtree()` the WHOLE `data/realms/<realm>/` directory before rewriting its
+> own 2 files - harmless while it was the sole writer there, but it would have
+> silently destroyed `overlay_diff.json` on every rebuild (the same class of bug
+> the `specs.json`/`archetypes.json` survival gate exists to catch for
+> `build_classes` vs. `build_classmeta`). Fixed to `mkdir(parents=True,
+> exist_ok=True)` + direct overwrite of just its own 2 files; the survival gate is
+> pinned in `tests/test_class_plumbing.py`.
+
+**(e) `discover_realms()` fixture-dir test.** Sec 13 item 7's prep half - a true
+unit test (not the real client install) that `config.discover_realms()` picks up
+a hypothetical new realm directory: a temp `Data\` tree with 2 fixture realm dirs
+(each carrying its own `listarchive` file) plus an `enUS\` dir (even given its own
+`listarchive`, still excluded - base locale dir) and a no-`listarchive` dir (not a
+realm), `config.CLIENT_DIR` monkeypatched to the temp root for the duration of the
+call. Also a live-client caveat this task didn't chase further: `Config.wtf`'s
+literal realm name (`"Rexxar - Conquest of Azeroth"`) does not match
+`CustomFunctionChecks.lua`'s realm-table key
+(`"Rexxar - CoA Alpha - Development"`) - if that mismatch means the launcher never
+materializes a `Data\rexxar\` directory on login, `discover_realms()` would
+correctly find nothing to extract even after logging into Rexxar; worth checking
+directly against the live client when Sec 13 item 7 is picked up.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -974,7 +1120,11 @@ whenever CoA ships new content:
   (`Creature.dbc`/`Quest.dbc`/`NPCTrainer.dbc` record counts), trainer spellId
   join-rate >=90% (measured 0.9892)
 - `tests/test_classmeta.py`: 101 specs / 56 archetypes, >=60% of the 32 `ChrClasses`
-  covered by >=1 spec (measured 25/32 = 78.1%)
+  covered by >=1 spec (measured, as of task W4-5's filename-fallback join, 32/32 =
+  100% - was 25/32 = 78.1% before it; the >=60% floor is deliberately kept loose
+  rather than tightened to ==32, in case a future client patch reintroduces a
+  genuinely unmatched token - see `tests/test_class_plumbing.py` for the exact
+  32/32 gate)
 - `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags
   26281, category 6034, customAttr 7635, descriptionVariables 1302, addon 133,
   overrideData 6, all of 27441 referenced spells). These enrichment counts drift
@@ -998,7 +1148,22 @@ whenever CoA ships new content:
   client patch, same re-pin treatment as every other snapshot pin here.
   `newSpellCount` is gated loosely (>10000, measured 31498) rather than pinned exactly,
   since a realm's own content churns independently of the base client's.
-- `tests/test_dataset.py`: 10 `buildStats` keys; `headerMismatches == []` for the base
+  `CharacterAdvancementEssence` moved from its `UNMAPPED_TABLES` set to
+  `MAPPED_TABLES` in task W4-5 (gained a real `TABLE_MAPS` column proof) - the one
+  intended change to this file's own expectations from that task.
+- `tests/test_class_plumbing.py` (task W4-5): `data/classes/essence.json` goldens
+  re-derived fresh from `work/dbc/CharacterAdvancementEssence.dbc` at test time
+  (not hardcoded); the `ChrClasses.filename` join goldens (id14/19/20) plus a
+  cross-check against the live `ClassRemap` Lua table; 21/21 `coa-custom` classId
+  gate + `unmatchedChrClasses == ["Hero"]`; `specs.json` 32/32 coverage gate; the
+  `ChrClassesRoles` roster cross-check (31/31 doc-listed classes, 0 mismatches);
+  `tools/diff_realm_overlay.py` run against area-52, gated at +/-10% of Sec 3's
+  cited numbers (re-derived fresh, not pinned - report exact per the task's own
+  gate); the `overlay_diff.json`-survives-a-`build_realms`-rerun regression test
+  for the bug this task found+fixed; a true fixture-dir unit test for
+  `config.discover_realms()` (temp `Data\` tree, not the real client install).
+- `tests/test_dataset.py`: 11 `buildStats` keys (task W4-5 added `essence`);
+  `headerMismatches == []` for the base
   77-table `config.WANTED_DBCS` set is a STRUCTURAL check, not a snapshot pin - see
   "Header-invariant parity" above. Don't re-pin a nonzero list; investigate which base
   table's header started lying and why.

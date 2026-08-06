@@ -9,7 +9,7 @@ prov = run(skip_extract=True, skip_dump=True)
 assert prov["clientDir"] == str(config.CLIENT_DIR)
 assert set(prov["buildStats"]) == {
     "spells", "classes", "talents", "dungeons",
-    "creatures", "classmeta", "mythic", "interface",
+    "creatures", "classmeta", "essence", "mythic", "interface",
     "manastorm", "realms",
 }
 assert prov["extract"]["files"]["spell.dbc"]["fields"] == 234

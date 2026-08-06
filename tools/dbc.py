@@ -192,6 +192,28 @@ def _spell_columns():
 
 TABLE_MAPS = {
     "Spell": {"expected_fields": 234, "columns": _spell_columns()},
+    # [Task W4-5] f55 filename - an internal uppercase class token, DISTINCT from
+    # name_enUS (the display name). Golden-proven by re-deriving DATAMINE-REQUEST.md
+    # Sec 11's three "silently dropped" CoA class dirs directly against
+    # work/dbc/ChrClasses.dbc: id14 name_enUS="Felsworn" filename="DEMONHUNTER",
+    # id19 "Templar"->"MONK", id20 "Bloodmage"->"SONOFARUGAL" - exact match. Doubly
+    # cross-checked against raw/interface/FrameXML/Data/CharacterAdvancement.lua's
+    # own `ClassRemap` table (`data.Class = ClassRemap[data.Class]`, applied to every
+    # CharacterAdvancementData entry at load time): every one of its ~32
+    # CAD-class-name -> token pairs equals this column's value for the matched
+    # ChrClasses row, including the four cases where the token is NOT a trivial
+    # uppercase of the display name (Runemaster->SPIRITMAGE, Primalist->WILDWALKER,
+    # Venomancer->PROPHET, "Knight of Xoroth"->FLESHWARDEN) - build_classes.py
+    # surfaces those four as `aliases`. Content sanity check (not just id/string
+    # matching): the DemonHunter CAD dir's own tab names (Class/Demonology/Felblood/
+    # Slaying) match ChrSpecs rows whose classToken=="DEMONHUNTER" tabToken-for-
+    # tabToken (FELBLOOD/SLAYING/DEMONOLOGY) - real content agreement, not a
+    # coincidental string join. This is also THE fix for ChrSpecs' 24 previously-
+    # unmatched classToken rows (tools/build_classmeta.py's by_norm join used only
+    # name_enUS): every one of those 24 rows carries a token from this exact
+    # filename set (DEMONHUNTER x3, MONK x3, SONOFARUGAL x4, FLESHWARDEN x3,
+    # PROPHET x4, WILDWALKER x4, SPIRITMAGE x3) - joining on filename as a fallback
+    # resolves all 24, taking specs.json's ChrClasses coverage from 25/32 to 32/32.
     "ChrClasses": {"expected_fields": 60, "columns": [
         ("id", 0, "u"), ("powerType", 2, "u"), ("petNameToken", 3, "s"),
         ("name_enUS", 4, "s"), ("filename", 55, "s"), ("spellClassSet", 56, "u"),
@@ -436,6 +458,37 @@ TABLE_MAPS = {
     # provable meaning of their own - left raw. f5-f10 are always 0 - left raw.
     "ChrClassesRoles": {"expected_fields": 11, "columns": [
         ("id", 0, "u"), ("roleMask", 1, "u"), ("specialAbilitySpellId", 4, "u"),
+    ]},
+    # [Task W4-5] CharacterAdvancementEssence (5600x9, coa-sim-handoff/DATAMINE-
+    # REQUEST.md Sec 7 + Sec 13 item 9). f0 ascending-unique row id (not carried).
+    # Golden-proven against work/dbc/CharacterAdvancementEssence.dbc directly (not
+    # copied from the doc): f1=level (1-80, dense per class), f2=classId (1-32,
+    # matches ChrClasses.dbc exactly). f7/f8 identified by the doc's own classless
+    # golden - f8=51 at level 60 for classId 1-9/11 is the classic 51-talent-point
+    # number, which only lines up if f7=Ability Essence and f8=Talent Essence:
+    #   - classId 1-9,11 (the 10 non-Hero "classless" ids) @ level 60: f7=60,f8=51 -
+    #     EXACT match to the doc's "classless classId 1-11 at L60 = (60,51)".
+    #   - classId 10 (Hero) @ level 60: f7=100,f8=51 - EXACT match to the doc's
+    #     "Hero classId 10 = 100/51".
+    #   - All 21 CoA-custom classId 12-32 share ONE identical curve: L10 (1,0) ->
+    #     L20 (6,5) -> L30 (11,10) -> L40 (16,15) -> L50 (21,20) -> L60 (26,25) ->
+    #     L70 (31,30) -> L80 (36,35) - EXACT match to the doc's cited curve.
+    # f3-f6 are 4 unnamed per-row flag columns (8 distinct combos observed, values
+    # 0/1 each) - left UNMAPPED (raw, not exposed via iter_named): for every class
+    # except Hero, all flag combos present for a given (classId, level) carry the
+    # IDENTICAL f7/f8 pair (verified: e.g. classId 12 level 60 reads (26,25) under
+    # both its flags(0,0,0,0) and flags(0,0,0,1) rows), so the flags are immaterial
+    # there. classId 10 (Hero) is the one exception - its 8 flag combos carry
+    # DIFFERENT f7/f8 pairs at the same level (level 60: (100,51)/(100,71)/(60,25)/
+    # (44,51) across combos) - an unresolved finding (Hero has no matched CAD class
+    # at all, see data/classes/index.json's unmatchedChrClasses, so this is inert
+    # for every real CoA character either way). tools/build_essence.py's canonical
+    # curve always selects the flags-(0,0,0,0) row, which is present EXACTLY ONCE
+    # for every (classId, level) pair (2,560/2,560 = 32 classes x 80 levels,
+    # verified) - a safe, deterministic, and doc-golden-reproducing selection rule.
+    "CharacterAdvancementEssence": {"expected_fields": 9, "columns": [
+        ("id", 0, "u"), ("level", 1, "u"), ("classId", 2, "u"),
+        ("abilityEssence", 7, "u"), ("talentEssence", 8, "u"),
     ]},
     # CharacterCreationArchetypes (56x157, "Choose your Archetype"-style character-
     # creation flavor presets, class-agnostic - no classId column exists in this

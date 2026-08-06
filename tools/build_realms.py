@@ -131,10 +131,16 @@ def build_realm(realm: str) -> dict:
         "missingRefResolution": _missing_ref_resolution(realm_spell_ids),
     }
 
+    # [Task W4-5 fix] Used to shutil.rmtree() the whole realm dir here before
+    # rewriting - harmless while this module was the ONLY writer under
+    # data/realms/<realm>/, but tools/diff_realm_overlay.py now also owns one file
+    # there (overlay_diff.json) and a wholesale rmtree would silently destroy it on
+    # every rebuild (the same class of bug the specs.json/archetypes.json survival
+    # gate exists to catch for build_classes vs. build_classmeta). This module still
+    # owns index.json/_meta.json exclusively and always rewrites them fully - it
+    # just no longer nukes files it doesn't own to do so.
     data_dir = config.DATA_REALMS_DIR / realm
-    if data_dir.exists():
-        shutil.rmtree(data_dir)
-    data_dir.mkdir(parents=True)
+    data_dir.mkdir(parents=True, exist_ok=True)
     (data_dir / "index.json").write_text(
         json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
 

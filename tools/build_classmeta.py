@@ -13,9 +13,15 @@ and in .superpowers/sdd/task-v2-3-report.md. Summary of what this module derives
 top of the raw named columns:
 
 - ChrSpecs.classToken (a string, not a raw int) is joined against ChrClasses.name_enUS
-  (normalized) to resolve classId/className; 24/101 specs have no match (a real token
-  for a class outside the 32-row ChrClasses ground truth, e.g. DEMONHUNTER/MONK/
-  PROPHET) and ship classId=None/className=None per the brief's gate.
+  (normalized), falling back to ChrClasses.filename (normalized) when the name join
+  misses [task W4-5] - the 24/101 specs that used to have no match at all
+  (DEMONHUNTER/MONK/SONOFARUGAL/FLESHWARDEN/PROPHET/WILDWALKER/SPIRITMAGE tokens,
+  which are filename-column values, not display names - see tools/dbc.py's
+  ChrClasses TABLE_MAPS comment) now all resolve via the fallback; coverage went
+  from 25/32 to 32/32 ChrClasses. A spec's classId/className still ships null only
+  if BOTH joins miss (none currently do, but the fallback chain is kept rather than
+  asserting 32/32, in case a future client patch reintroduces a genuinely
+  unmatched token).
 - ChrSpecs' 4 armor-flag columns (armorCloth/armorLeather/armorMail/armorPlate) are
   combined into one "armorType" string (None when zero or more than one flag is set).
 - ChrSpecs.f63 (the brief's disproven "role" candidate) is read directly off the raw
@@ -77,6 +83,18 @@ def build_specs() -> dict:
     cdir = config.DATA_DIR / "classes"
     chr_classes = list(dbc.iter_named("ChrClasses"))
     by_norm = {_norm(c["name_enUS"]): c for c in chr_classes}
+    # [Task W4-5] filename fallback join (see tools/dbc.py's ChrClasses TABLE_MAPS
+    # comment for the golden evidence). All 24 of this table's previously-unmatched
+    # classToken values (DEMONHUNTER x3, MONK x3, SONOFARUGAL x4, FLESHWARDEN x3,
+    # PROPHET x4, WILDWALKER x4, SPIRITMAGE x3) are ChrClasses.filename tokens, not
+    # display names - a fallback join on filename resolves every one of them
+    # (re-derived: coverage 25/32 -> 32/32), closing DATAMINE-REQUEST.md Sec 11's
+    # "specs.json is inconsistent... no classId-linked rows for Knight of Xoroth
+    # (17), Venomancer (29), Primalist (31), Runemaster (32), DemonHunter, Monk or
+    # SonOfArugal" finding at the join level (the deeper spec-NAMING disagreement
+    # against the CAD tab layer that section also describes is Sec 13 item 20, out
+    # of this task's scope - deliberately not touched here).
+    by_filename = {_norm(c["filename"]): c for c in chr_classes}
 
     # f63 (disproven "role" candidate, see module docstring) isn't a named column -
     # read raw rows in parallel, keyed by id.
@@ -88,7 +106,7 @@ def build_specs() -> dict:
     matched_class_ids = set()
     for r in dbc.iter_named("ChrSpecs"):
         token = r["classToken"] or None
-        cc = by_norm.get(_norm(token)) if token else None
+        cc = (by_norm.get(_norm(token)) or by_filename.get(_norm(token))) if token else None
         class_id = cc["id"] if cc else None
         class_name = cc["name_enUS"] if cc else None
         if class_id is not None:
