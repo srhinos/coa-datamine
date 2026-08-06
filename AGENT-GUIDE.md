@@ -884,6 +884,141 @@ materializes a `Data\rexxar\` directory on login, `discover_realms()` would
 correctly find nothing to extract even after logging into Rexxar; worth checking
 directly against the live client when Sec 13 item 7 is picked up.
 
+## Traps (task W4-6)
+
+`coa-sim-handoff/DATAMINE-REQUEST.md` Sec 4 lists 17 traps found by the
+sim-handoff audit - things that silently produce wrong data if a consumer
+doesn't know about them. Numbered to match the source doc so you can
+cross-reference directly. Every number below was independently re-measured
+against `work/dbc`/`data/` before being written down (full doc-vs-remeasured
+table in `.superpowers/sdd/task-w4-6-report.md`); several traps are already
+documented at length elsewhere in this file, and those get a one-line
+pointer here instead of a second, driftable copy.
+
+1. **`procChance` sentinel is 101, not a percentage.** Re-measured against
+   the full current `work/dbc/Spell.dbc` (209,130 rows): 163,006 carry the
+   unset sentinel, 46,124 carry a real value (2,319 of the 6,038 base-
+   resolved CoA-class-set ids). The doc's own cited "6,452 spells carry a
+   real value" doesn't reproduce against either population and its
+   denominator isn't stated in the source - flagged, not chased further. The
+   field is already emitted unconditionally; `build_spells.py`'s
+   `_SPELL_COLUMN_COVERAGE["procChance"]` comment ("sentinel 101 = unset, not
+   a percentage - see AGENT-GUIDE.md") has pointed here since task W4-3 - this
+   entry is what makes that pointer resolve to something.
+2. **`maxLevel` clamps 85.2% of level-scaled CoA spells below level 80.**
+   Already fully documented, with the clamp formula, the `maxLevel == 0`
+   "uncapped" sentinel correction, and frozen-value goldens - see "Spell
+   column completion (task W4-3)" above, the `EffectRealPointsPerLevel` entry.
+3. **CoA reuses Classic ability NAMES for unrelated effects - resolve by id,
+   never by name.** Re-verified against `work/dbc/Spell.dbc`: spell 300475
+   `"Expose"` is not Expose Armor (an `ADD_FLAT_MODIFIER`-family "damage
+   taken from the Felsworn / crit vs this target" aura pair); spell 803477
+   `"Sunder"` is not Sunder Armor (`COA_MOD_ATTACK_POWER_FLAT`,
+   `basePoints: -24`, exact match to the doc's cited value). A name-keyed
+   lookup silently returns the wrong spell for either id.
+4. **`id >= 100000` does not mean custom.** Re-derived over the 6,436-id CoA
+   class set (`build_spells._coa_class_spell_ids()`): exactly **86** ids are
+   sub-100000 - an exact match to the doc's cited count. Key off the
+   `data/classes/<Class>/` directory a spell was reached through, never an
+   id range.
+5. **Reborn contamination.** Re-derived directly against `data/classes/`:
+   Reborn's own spell-id universe is **14,107** ids (exact match to the
+   doc), CoA intersected with stock/vanilla = **1** id, CoA intersected with
+   Reborn = **0** ids (both exact matches). Already documented at length in "Four realms, one
+   account-wide CAD file" above; the doc's "~51% unresolved refs" figure
+   re-derives to 51.2% there too (`data/spells/_meta.json`'s `cad_reborn`
+   7,119/13,901 missing). Any naive "all classes" iteration over
+   `data/classes/` still pulls Reborn in - filter on `tag == "coa-custom"`
+   (or `"vanilla"` for stock) explicitly.
+6. **Three CoA class dirs used to read `classId == null`** (DemonHunter,
+   Monk, SonOfArugal) - **fixed since task W4-5, no longer a live trap.**
+   Verified on disk: `data/classes/index.json` now gives DemonHunter classId
+   14, Monk 19, SonOfArugal 20; `unmatchedChrClasses` is down to `["Hero"]`
+   (the one ChrClasses row with genuinely no CAD class). See "ChrClasses
+   filename join..." above for the fix. Kept here only so the old advice
+   ("code keyed on classId silently drops 3 of 21 classes") isn't
+   rediscovered as if still true.
+7. **No difficulty-display-name field exists anywhere in this dataset - the
+   doc's specific "blank for 2 of 3 tiers" pattern does not reproduce here.**
+   Checked both difficulty-adjacent tables this pipeline extracts:
+   `data/dungeons/*.json`'s own `difficulty` is a bare 0-3 int (431 dungeons:
+   212x0, 99x1, 101x2, 19x3) with no name column at all, and
+   `data/mythic/mapDifficulty.json`'s `lockoutMessage`/`difficultyToken`
+   fields are blank for a large, roughly-even share of rows at *every*
+   `difficultyIndex` (0: 87% blank, 1: 64%, 2: 63%, 3: 74% - no index is
+   cleanly "always populated"), not the clean populated/blank split the doc
+   describes - most likely an aowow page-scrape artifact rather than a client
+   DBC field this pipeline touches. **The actionable trap survives regardless
+   of its origin:** never assume a difficulty label exists in `data/` - a
+   consumer must map `(mapId, difficulty)` / `(mapId, difficultyIndex)` to a
+   display string itself; nothing here does it for you.
+8. **`ItemStat.dbc`'s `f2` join = 1.000 is a dense-id false positive.** Not
+   currently extracted by this pipeline (`ItemStat`/`Item`/`ItemSpells` are
+   all absent from `config.WANTED_DBCS` - Sec 13 items 14-15, out of every W4
+   task's scope). Carried forward as-cited, unverifiable from this repo's own
+   data since the table isn't on disk here - but it's the textbook instance
+   of this repo's own "dense-id join-rate lies" pattern (see the `f<N>`
+   convention section above): `f2`'s values are 1..105 and item ids 1..105
+   exist, so a naive join looks perfect purely by coincidence. If a future
+   task extracts `ItemStat`, re-derive this from scratch rather than trusting
+   the cited join rate.
+9. **`ItemSpells.dbc`'s `f1` is not the item link.** Same not-yet-extracted
+   caveat as trap 8. Per the source doc: `f1` is unique per row (so it can't
+   be a many-spells-per-item foreign key) and only 55% resolves against
+   `Item.dbc`; `f2 -> spellId` is the well-supported column (99.81% against a
+   sparse spell-id space). Whoever extracts this table should apply the same
+   "a high join rate against a dense id space proves nothing" skepticism as
+   trap 8.
+10. **aowow's 1,000-row list cap is silent data loss.** Not exercised by this
+    pipeline - no aowow scraping happens in `coa-datamine` itself, that's a
+    `coa-sim-handoff`-side concern (`parsers/aowow.py` there). Documented
+    here only so a future consumer building on top of an aowow scrape doesn't
+    rediscover it: any list response returning exactly 1,000 rows is almost
+    certainly truncated (check the `itemsfound`/`_truncated` fields and
+    subdivide the query); `minle`/`maxle` filter item level, not required
+    level; a bare `ub=<class>` URL param is silently ignored.
+11. **`DUMMY` effects/auras are server-side script - `basePoints` on them is
+    meaningless.** Re-measured against the current curated dataset (28,951
+    records): 4,231 spells (14.61%) touch a `DUMMY`/`PERIODIC_DUMMY` effect
+    or aura (doc's snapshot: 3,920/27,474 = 14.3% - consistent growth, same
+    order, not a discrepancy). No behavior is recoverable from the data for
+    these slots; only the tooltip text, if any, hints at what the server-side
+    script actually does.
+12. **`ranks[-1]` is the wrong rank at CoA's level-60 cap.** Already fully
+    documented, including the median 1.54x/max 6.61x inflation and the
+    `rankAt60` fix - see "Formula closure, level-60 ranks..." above, part (b).
+13. **A coefficient may be bound to a non-damaging effect slot.** Already
+    documented - see "Formula closure..." above, the "binder must follow
+    `$mN`/`$sN`-style tokens into ANY effect slot" callout (Barbarian
+    *Gutspiller*/*Dawnfall* goldens).
+14. **`@s:<id>` is a spellbook cross-link, not a formula reference.** Already
+    documented - see "Formula closure..." above: this repo's closure
+    deliberately does not follow it, and structurally cannot conflate it with
+    the regexes that ARE followed (pinned in `tests/test_closure_ranks.py`).
+15. **The `realms` bitmask is undecoded.** Already documented - see "Honest
+    limits" below: `"Realms bitmask on class entries: semantics unknown,
+    carried raw."` Still true; decoding it (Sec 6.2, Sec 13 item 10) is out
+    of scope for every W4 task including this one.
+16. **`TalentAbility` entries grant no damaging abilities.** Re-derived from
+    scratch over every `coa-custom`-tagged class's `TalentAbility` CAD
+    entries: **266** distinct rank-chains (exact match to the doc), and
+    **zero** of them carry a direct damaging effect/aura (`SCHOOL_DAMAGE`,
+    `WEAPON_DAMAGE`, `PERIODIC_DAMAGE`, ...) on any rank's first-rank record -
+    confirms the doc's "all 266 chains are pure passive modifiers" claim
+    exactly. The per-effect-name breakdown is close to but doesn't exactly
+    reproduce the doc's cited counts (methodology-sensitive - which slot(s)
+    of a multi-effect spell get counted); the golden example reproduces
+    verbatim: Barbarian *Boulderfist* (705184) reads "Reduces the Energy cost
+    of Wrecker by $s1" via an `ADD_FLAT_MODIFIER` aura. Correct to exclude
+    these from a damaging-ability denominator, but don't drop them from a
+    modifier/buff ingest path - nothing in this dataset serves that path
+    today.
+17. **Dev-dead content ships in the data.** Already documented, including the
+    literal marker text and this task's own re-derivation correcting the
+    doc's "three such slots" (a narrower, damaging-slot-only unit) to **7
+    records** at the per-record level - see "Formula closure..." above, part
+    (d), and the `devDead` flag.
+
 ## Recipes (PowerShell / Python)
 
 All spells across the whole dataset (helper for the recipes below):
@@ -1030,6 +1165,41 @@ def class_specs_and_roles(class_name):
   only `id` plus 28 raw numeric columns. If you need quest text, it lives in the
   server's own quest-template data, which this pipeline (client-side DBCs + Content
   JSONs only) cannot see.
+- **`data/creatures/` has no level, health, armor, resistance, or
+  creature-type field for any of its 127,178 rows - by design, not omission.**
+  `{id, name, subname}` is the whole schema (`subname` itself is always
+  `null` - see the disproven-mappings list below); `raw/dbc/Creature.csv.gz`
+  is entirely display data end to end, verified directly. This is genuinely
+  server-side content on a 3.3.5 client, the same class of gap as quest text
+  above - a DPS simulator needs to measure target stats in game, this
+  pipeline (client-side DBCs only) cannot see them.
+- **No base stats, no PPM, and no internal cooldown anywhere in client
+  data (task W4-6, DATAMINE-REQUEST.md Sec 11).** Base mana/health/primary-stat
+  tables and crit/dodge/parry intercepts (a `player_classlevelstats`
+  equivalent) are server-side only on 3.3.5 - verified by absence, not just by
+  omission: no such table appears anywhere in `config.WANTED_DBCS`, and a
+  repo-wide search of `data/` for `baseMana`/`baseHealth`/`internalCooldown`/
+  `procsPerMinute` turns up zero structured fields (the one substring hit is a
+  spell tooltip's own `...basemana` prose, not a value). Likewise no PPM field
+  and no internal-cooldown field exist in any extracted table - the `gt*`
+  regen tables (see "gt* combat-rating tables" above) give mana/health
+  regen-per-second curves only, not the base pool a percentage-of-base cost
+  needs. `coa-sim-handoff/gtdbc/charbaseinfo.dbc` is shipped there as a
+  possible partial source for base stats and is worth a future task's look -
+  it is not extracted or evaluated by this pipeline today.
+- **`manaCostPct` needs base mana to resolve to an actual number - and it's
+  the majority mana-cost channel, not the minority one.** Re-derived directly
+  against `work/dbc/Spell.dbc`: on the current curated dataset (28,951
+  records, post-task-W4-4 formula closure) **20.30%** of spells carry a
+  nonzero `manaCostPct` vs **8.65%** a nonzero flat `manaCost`. Measured on
+  the pre-W4-4-closure population instead (27,475 records - the snapshot
+  shape the source doc's own figure was measured against), these read
+  **21.12%/9.04%**, an almost-exact match to the doc's cited 21.1%/9.0%; the
+  further drift on the current 28,951-record figure is the formula-closure
+  records task W4-4 added, not new mana-cost content. Since no base-mana
+  table exists anywhere (see the bullet above), a `manaCostPct`-priced
+  spell's actual mana cost is **not computable from this dataset alone** for
+  what is the majority mana-cost channel, not an edge case.
 - **`effects[].bonusMultiplierStock` is a trap for CoA damage modeling** - correct
   for stock/Reborn content only, near-zero agreement with CoA's own tooltip-authored
   coefficient on the same slot (re-derived this task: stock 0/65, CoA 7/113 = 6.2% -
