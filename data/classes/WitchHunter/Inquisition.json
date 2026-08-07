@@ -1977,11 +1977,13 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_skyreach_overwhelmed",
-   "live": false,
+   "live": true,
    "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "builderNodeId": 34588,
+    "builderTab": "Class",
+    "chainNameCoherent": true,
+    "matchedSpellId": 501380,
+    "reason": "liveViaRank"
    },
    "name": "Interrogate",
    "quality": "Normal",
@@ -1993,7 +1995,58 @@
      "dispel": null,
      "id": 802012,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 802012
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501374
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501375
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501376
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501377
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501378
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501379
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501380
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501381
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501382
+      }
+     ],
      "schools": []
     }
    ],
@@ -2006,11 +2059,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_skyreach_overwhelmed",
-   "live": false,
+   "live": true,
    "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "builderNodeId": 34588,
+    "builderTab": "Class",
+    "chainNameCoherent": true,
+    "matchedSpellId": 501380,
+    "reason": "liveViaRank"
    },
    "name": "Interrogate",
    "quality": "Normal",
@@ -2022,7 +2077,58 @@
      "dispel": null,
      "id": 802012,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 802012
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501374
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501375
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501376
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501377
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501378
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501379
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501380
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501381
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501382
+      }
+     ],
      "schools": []
     }
    ],
@@ -2035,11 +2141,13 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
-   "live": false,
+   "live": true,
    "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "builderNodeId": 34588,
+    "builderTab": "Class",
+    "chainNameCoherent": true,
+    "matchedSpellId": 501380,
+    "reason": "liveViaRank"
    },
    "name": "Interrogate",
    "quality": "Normal",
@@ -2051,7 +2159,58 @@
      "dispel": null,
      "id": 802012,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 802012
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501374
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501375
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501376
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501377
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501378
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501379
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501380
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501381
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501382
+      }
+     ],
      "schools": []
     }
    ],
@@ -2645,6 +2804,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -2679,6 +2839,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -2713,6 +2874,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },

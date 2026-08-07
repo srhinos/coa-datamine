@@ -173,11 +173,14 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Chaos Nova",
    "quality": "Normal",
@@ -706,7 +709,33 @@
      "dispel": null,
      "id": 500030,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500030
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 501322
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 501323
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 501324
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 501325
+      }
+     ],
      "schools": []
     }
    ],
@@ -2319,7 +2348,58 @@
      "dispel": null,
      "id": 801239,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801239
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 503489
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 503490
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 503491
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 503492
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 503493
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 503494
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 503495
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 503496
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 503497
+      }
+     ],
      "schools": []
     }
    ],

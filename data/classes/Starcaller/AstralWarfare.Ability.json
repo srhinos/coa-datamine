@@ -2922,6 +2922,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -2956,6 +2957,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -2984,11 +2986,14 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_argus_soulbombdebufflarge",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Scattered Stars",
    "quality": "Normal",
@@ -3015,11 +3020,14 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_argus_soulbombdebufflarge",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Scattered Stars",
    "quality": "Normal",

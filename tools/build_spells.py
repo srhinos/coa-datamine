@@ -783,7 +783,20 @@ def _coa_class_spell_ids():
     fill rate against the doc's cited figures; NOT used by build() itself, since
     data/classes/ must already exist on disk (build_dataset.py's stage order
     runs spells before classes) - this can only run after build_classes has
-    populated data/classes/ at least once."""
+    populated data/classes/ at least once.
+
+    SCOPE, now stated instead of incidental: rank-chain ids are taken only from
+    spells that HAVE a base Spell.dbc row (`spell.name is None` is build_classes'
+    marker for "no row"). That is the doc's set, exactly - it is what reproduces
+    6,436/6,038 on the nose, and both numbers move together if it is widened.
+    data/classes/ itself no longer agrees with that scope: a CAD spell with no
+    Spell.dbc row still HAS a SpellRankData chain (the table is keyed on the id,
+    not on the row), and build_classes used to drop it - a bug that cost the
+    live/dead join a real acquisition path and is now fixed. Widening this
+    function to match would add 354 ids (17 of them base-resolvable) and silently
+    retire the only exact external calibration this repo has against
+    DATAMINE-REQUEST.md Sec 3, so the two scopes are kept deliberately distinct
+    and this one stays pinned to the doc."""
     classes_dir = config.DATA_DIR / "classes"
     idx = json.loads((classes_dir / "index.json").read_text(encoding="utf-8"))
     ids = set()
@@ -797,6 +810,8 @@ def _coa_class_spell_ids():
                 for s in e.get("spells", []) or []:
                     if s.get("id"):
                         ids.add(s["id"])
+                    if s.get("name") is None:
+                        continue          # no base Spell.dbc row - see the scope note
                     for rk in s.get("ranks") or []:
                         if rk.get("spellId"):
                             ids.add(rk["spellId"])

@@ -180,6 +180,13 @@ assert meta["columnCoverage"]["mappedColumns"] == 128
 # =====================================================================
 coa_ids = build_spells._coa_class_spell_ids()
 assert len(coa_ids) == 6436, len(coa_ids)              # exact match to Sec 3's "6,436-id CoA class set"
+# This set is deliberately NOT "every id in data/classes": rank chains are taken
+# only from spells with a base Spell.dbc row, which is what makes both numbers
+# below reproduce the doc exactly. data/classes/ carries 354 more chain ids since
+# build_classes stopped dropping the chains of unresolved spells - widening the
+# scope moves 6436 -> 6790 and 6038 -> 6055. See _coa_class_spell_ids' docstring.
+assert 802012 in coa_ids        # the CAD row references it, so it is in the set
+assert 501380 not in coa_ids    # but its chain hangs off a spell with no Spell.dbc row
 
 f = dbc.DBCFile(config.WORK_DBC_DIR / "Spell.dbc")
 rows = {dbc.u32(row[0]): row for row in f.iter_rows()}

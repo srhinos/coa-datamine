@@ -405,7 +405,28 @@
      "dispel": null,
      "id": 500922,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 500922
+      },
+      {
+       "level": 21,
+       "rank": 2,
+       "spellId": 501400
+      },
+      {
+       "level": 41,
+       "rank": 3,
+       "spellId": 501401
+      },
+      {
+       "level": 61,
+       "rank": 4,
+       "spellId": 501402
+      }
+     ],
      "schools": []
     }
    ],
@@ -1169,6 +1190,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -1740,11 +1762,14 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Summon Thunder Orb",
    "quality": "Normal",
@@ -2106,7 +2131,43 @@
      "dispel": null,
      "id": 801845,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801845
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501459
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501460
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501461
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501462
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501463
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501464
+      }
+     ],
      "schools": []
     }
    ],

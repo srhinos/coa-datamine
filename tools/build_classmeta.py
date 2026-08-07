@@ -1,4 +1,4 @@
-﻿"""Class/spec metadata pack (task V2-3): ChrSpecs -> data/classes/specs.json,
+"""Class/spec metadata pack (task V2-3): ChrSpecs -> data/classes/specs.json,
 CharacterCreationArchetypes(+ArchetypeDetails) -> data/classes/archetypes.json.
 
 Amendment D (single-writer ownership): this module owns specs.json/archetypes.json

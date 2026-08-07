@@ -1042,7 +1042,63 @@
      "dispel": null,
      "id": 800883,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800883
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 502912
+      },
+      {
+       "level": 16,
+       "rank": 3,
+       "spellId": 502913
+      },
+      {
+       "level": 23,
+       "rank": 4,
+       "spellId": 502914
+      },
+      {
+       "level": 30,
+       "rank": 5,
+       "spellId": 502915
+      },
+      {
+       "level": 37,
+       "rank": 6,
+       "spellId": 502916
+      },
+      {
+       "level": 45,
+       "rank": 7,
+       "spellId": 502917
+      },
+      {
+       "level": 52,
+       "rank": 8,
+       "spellId": 502918
+      },
+      {
+       "level": 59,
+       "rank": 9,
+       "spellId": 502919
+      },
+      {
+       "level": 66,
+       "rank": 10,
+       "spellId": 502920
+      },
+      {
+       "level": 74,
+       "rank": 11,
+       "spellId": 502921
+      }
+     ],
      "schools": []
     }
    ],
@@ -1087,11 +1143,14 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Miasma",
    "quality": "Normal",
@@ -1368,7 +1427,63 @@
      "dispel": null,
      "id": 800900,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800900
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 502958
+      },
+      {
+       "level": 16,
+       "rank": 3,
+       "spellId": 502959
+      },
+      {
+       "level": 23,
+       "rank": 4,
+       "spellId": 502960
+      },
+      {
+       "level": 30,
+       "rank": 5,
+       "spellId": 502961
+      },
+      {
+       "level": 37,
+       "rank": 6,
+       "spellId": 502962
+      },
+      {
+       "level": 45,
+       "rank": 7,
+       "spellId": 502963
+      },
+      {
+       "level": 52,
+       "rank": 8,
+       "spellId": 502964
+      },
+      {
+       "level": 59,
+       "rank": 9,
+       "spellId": 502965
+      },
+      {
+       "level": 66,
+       "rank": 10,
+       "spellId": 502966
+      },
+      {
+       "level": 74,
+       "rank": 11,
+       "spellId": 502967
+      }
+     ],
      "schools": []
     }
    ],
@@ -2141,7 +2256,8 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
-     "npcTrainerRow"
+     "npcTrainerRow",
+     "liveNodeTriggerSpell"
     ]
    },
    "name": "Tunnel Below",

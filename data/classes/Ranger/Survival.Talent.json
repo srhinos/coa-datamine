@@ -1,9 +1,9 @@
 {
- "class": "Monk",
+ "class": "Ranger",
  "entries": [
   {
    "aeCost": 0,
-   "cadId": 31254,
+   "cadId": 34200,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -13,39 +13,7 @@
     "matchedSpellId": null,
     "reason": "deadCatalog"
    },
-   "name": "Acrobatics",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 704178,
-     "name": "Acrobatics",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34335,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 31255,
-    "builderTab": "Zealot",
-    "matchedSpellId": 300502,
-    "reason": "liveDirect"
-   },
-   "name": "Aggramar's Scale",
+   "name": "Affinity",
    "quality": "Poor",
    "qualityCost": 1,
    "realms": "100679750",
@@ -53,485 +21,20 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 300502,
-     "name": "Blessing of Aggramar",
+     "id": 705099,
+     "name": "Affinity",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 29706,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 31172,
-    "builderTab": "Zealot",
-    "matchedSpellId": 801446,
-    "reason": "liveDirect"
-   },
-   "name": "Bladebreaker",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "Magic",
-     "id": 801446,
-     "name": "Vindication",
-     "ranks": [
-      {
-       "level": 1,
-       "rank": 1,
-       "spellId": 801446
-      },
-      {
-       "level": 14,
-       "rank": 2,
-       "spellId": 501589
-      },
-      {
-       "level": 28,
-       "rank": 3,
-       "spellId": 501590
-      },
-      {
-       "level": 41,
-       "rank": 4,
-       "spellId": 501591
-      },
-      {
-       "level": 54,
-       "rank": 5,
-       "spellId": 501592
-      },
-      {
-       "level": 68,
-       "rank": 6,
-       "spellId": 501593
-      }
-     ],
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 31256,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 29714,
-    "builderTab": "Class",
-    "matchedSpellId": 704180,
-    "reason": "liveDirect"
-   },
-   "name": "Blessed Strikes",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 704180,
-     "name": "Blessed Strikes",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30836,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 31314,
-    "builderTab": "Class",
-    "matchedSpellId": 806153,
-    "reason": "liveDirect"
-   },
-   "name": "Bodyslam",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "Magic",
-     "id": 806153,
-     "name": "Divine Force",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34374,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 30066,
-    "builderTab": "Zealot",
-    "matchedSpellId": 705284,
-    "reason": "liveDirect"
-   },
-   "name": "Brawler",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705284,
-     "name": "One-Punch Man",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34355,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 34339,
-    "builderTab": "Zealot",
-    "matchedSpellId": 705276,
-    "reason": "liveDirect"
-   },
-   "name": "Bursting Impact",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705276,
-     "name": "Bursting Impact",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30066,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 30960,
-    "builderTab": "Zealot",
-    "matchedSpellId": 803158,
-    "reason": "liveDirect"
-   },
-   "name": "Chakra of Discipline",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803158,
-     "name": "Chakra of Power",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30067,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 30836,
-    "builderTab": "Zealot",
-    "matchedSpellId": 803159,
-    "reason": "liveDirect"
-   },
-   "name": "Chakra of Light",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803159,
-     "name": "Chakra of Light",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30068,
-   "expansion": 0,
-   "flags": 1,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Chakra of Storms",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803161,
-     "name": "Enlightened",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30069,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Chakra of Wrath",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803162,
-     "name": "Chakra of Wrath",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30065,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": null,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "indeterminate",
-    "signals": [
-     "npcTrainerRow"
-    ]
-   },
-   "name": "Chakram",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 803157,
-     "name": "Chastise",
-     "ranks": [
-      {
-       "level": 0,
-       "rank": 1,
-       "spellId": 803157
-      },
-      {
-       "level": 11,
-       "rank": 2,
-       "spellId": 503135
-      },
-      {
-       "level": 21,
-       "rank": 3,
-       "spellId": 503136
-      },
-      {
-       "level": 31,
-       "rank": 4,
-       "spellId": 503137
-      },
-      {
-       "level": 41,
-       "rank": 5,
-       "spellId": 503138
-      },
-      {
-       "level": 51,
-       "rank": 6,
-       "spellId": 503139
-      },
-      {
-       "level": 61,
-       "rank": 7,
-       "spellId": 503140
-      },
-      {
-       "level": 71,
-       "rank": 8,
-       "spellId": 503141
-      }
-     ],
-     "schools": [
-      "Holy"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34338,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 34338,
-    "builderTab": "Zealot",
-    "matchedSpellId": 705250,
-    "reason": "liveDirect"
-   },
-   "name": "Combo Strikes",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705250,
-     "name": "Martial Paladin",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    },
-    {
-     "dispel": "None",
-     "id": 705251,
-     "name": "Martial Paladin",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34359,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 34358,
-    "builderTab": "Zealot",
-    "matchedSpellId": 704116,
-    "reason": "liveDirect"
-   },
-   "name": "Deliverance",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 704116,
-     "name": "Deliverance",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 29719,
+   "cadId": 34179,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -544,39 +47,7 @@
      "liveNodeNameTwin"
     ]
    },
-   "name": "Devotion of Khaz'goroth",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 801479,
-     "name": "Devotion of Khaz'goroth",
-     "ranks": null,
-     "schools": [
-      "Nature"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34337,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 7758,
-    "builderTab": "Oathkeeper",
-    "matchedSpellId": 300515,
-    "reason": "liveDirect"
-   },
-   "name": "Dip and Weave",
+   "name": "Battle Screech",
    "quality": "Poor",
    "qualityCost": 1,
    "realms": "100679750",
@@ -584,20 +55,150 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 300515,
-     "name": "Fortified Body",
+     "id": 705069,
+     "name": "Battle Screech",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 31255,
+   "cadId": 30786,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 11255,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 805888,
+    "reason": "liveDirect"
+   },
+   "name": "Battleweaver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805888,
+     "name": "Battle Prowess",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30932,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30932,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 806368,
+    "reason": "liveDirect"
+   },
+   "name": "Blade of the Sin'dorei",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806368,
+     "name": "Woodland Arrow",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34147,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Blow The Horns!",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300464,
+     "name": "Blow The Horns!",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30929,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Coordination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806362,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30351,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -607,7 +208,101 @@
     "matchedSpellId": null,
     "reason": "deadCatalog"
    },
-   "name": "Endurance of Eonar",
+   "name": "Diversion",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 804711,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34184,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 8358,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705076,
+    "reason": "liveDirect"
+   },
+   "name": "Falcon Charm",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705076,
+     "name": "Falcon Charmer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34183,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34195,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705075,
+    "reason": "liveDirect"
+   },
+   "name": "Falcon's Aid",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705075,
+     "name": "Falcon's Aid",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30354,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34181,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 804715,
+    "reason": "liveDirect"
+   },
+   "name": "Falcon's Call",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -615,215 +310,253 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 704177,
-     "name": "Argent Commander",
+     "id": 804715,
+     "name": "Falcon's Call",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 30616,
+   "cadId": 30926,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Falconstrike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806345,
+     "name": "Falconstrike",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 31180,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Farstrider Ranger",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500027,
+     "name": "Farstrider Ranger",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34193,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Farstrider's Command",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705079,
+     "name": "Farstrider's Command",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34146,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Farstrider's Leap",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300463,
+     "name": "Farstrider's Leap",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34145,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Farstriders Opportunity",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300462,
+     "name": "Farstrider's Opportunity",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34198,
    "expansion": 0,
    "flags": 0,
    "icon": "",
    "live": true,
    "liveEvidence": {
-    "builderNodeId": 5713,
+    "builderNodeId": 11930,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705094,
+    "reason": "liveDirect"
+   },
+   "name": "Forward March",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705094,
+     "name": "Defense of the Ancients",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34196,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29416,
     "builderTab": "Class",
-    "matchedSpellId": 805423,
+    "matchedSpellId": 705092,
     "reason": "liveDirect"
    },
-   "name": "Engrave Runes of Benediction",
-   "quality": "Normal",
+   "name": "Grand Entrance",
+   "quality": "Poor",
    "qualityCost": 1,
    "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "Magic",
-     "id": 805423,
-     "name": "Libram of Fervor",
-     "ranks": null,
-     "schools": [
-      "Holy"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 29703,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": null,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "indeterminate",
-    "signals": [
-     "npcTrainerRow"
-    ]
-   },
-   "name": "Engrave Runes of Discipline",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "Magic",
-     "id": 801441,
-     "name": "Libram of Consecration",
-     "ranks": null,
-     "schools": [
-      "Holy",
-      "Fire"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 29713,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": null,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "indeterminate",
-    "signals": [
-     "npcTrainerRow"
-    ]
-   },
-   "name": "Engrave Runes of Grace",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "Magic",
-     "id": 801463,
-     "name": "Libram of Grace",
-     "ranks": null,
-     "schools": [
-      "Holy"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 31172,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Fighting Monk",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
+   "requiredLevel": 0,
    "spells": [
     {
      "dispel": "None",
-     "id": 500008,
-     "name": "Zealotry",
+     "id": 705092,
+     "name": "Grace",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 29257,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Fist of Light",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 500689,
-     "name": "Divine Fury",
-     "ranks": [
-      {
-       "level": 1,
-       "rank": 1,
-       "spellId": 500689
-      },
-      {
-       "level": 21,
-       "rank": 2,
-       "spellId": 501567
-      },
-      {
-       "level": 41,
-       "rank": 3,
-       "spellId": 501568
-      },
-      {
-       "level": 61,
-       "rank": 4,
-       "spellId": 501569
-      }
-     ],
-     "schools": [
-      "Holy"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 29720,
+   "cadId": 30352,
    "expansion": 0,
    "flags": 0,
    "icon": "",
    "live": true,
    "liveEvidence": {
-    "builderNodeId": 29720,
-    "builderTab": "Zealot",
-    "matchedSpellId": 801480,
+    "builderNodeId": 19631,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 804712,
     "reason": "liveDirect"
    },
-   "name": "Fists of Aggramar",
+   "name": "Grapplebomb",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -831,63 +564,31 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 801480,
-     "name": "Fury of Aggramar",
+     "id": 804712,
+     "name": "Emerald Arrow",
      "ranks": null,
      "schools": [
       "Nature"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 34383,
+   "cadId": 29365,
    "expansion": 0,
    "flags": 0,
    "icon": "",
    "live": true,
    "liveEvidence": {
-    "builderNodeId": 34355,
-    "builderTab": "Zealot",
-    "matchedSpellId": 705283,
+    "builderNodeId": 34185,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 800150,
     "reason": "liveDirect"
    },
-   "name": "Flurry",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705283,
-     "name": "Oath Flow",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30070,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 7813,
-    "builderTab": "Zealot",
-    "matchedSpellId": 803163,
-    "reason": "liveDirect"
-   },
-   "name": "Flurry of Blows",
+   "name": "Herald",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -895,200 +596,20 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 803163,
-     "name": "Might of Aggramar",
+     "id": 800150,
+     "name": "Forest Herald",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 30455,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 11290,
-    "builderTab": "Zealot",
-    "matchedSpellId": 804932,
-    "reason": "liveDirect"
-   },
-   "name": "Focus of Norgannon",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 804932,
-     "name": "Unbroken Creed",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34360,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 11288,
-    "builderTab": "Zealot",
-    "matchedSpellId": 705281,
-    "reason": "liveDirect"
-   },
-   "name": "Gut Punch",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705281,
-     "name": "Calm Combatant",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 29255,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 29255,
-    "builderTab": "Zealot",
-    "chainNameCoherent": true,
-    "matchedSpellId": 501562,
-    "reason": "liveViaRank"
-   },
-   "name": "Haymaker",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 500680,
-     "name": "Righteous Upheaval",
-     "ranks": [
-      {
-       "level": 1,
-       "rank": 1,
-       "spellId": 500680
-      },
-      {
-       "level": 9,
-       "rank": 2,
-       "spellId": 501558
-      },
-      {
-       "level": 17,
-       "rank": 3,
-       "spellId": 501559
-      },
-      {
-       "level": 25,
-       "rank": 4,
-       "spellId": 501560
-      },
-      {
-       "level": 33,
-       "rank": 5,
-       "spellId": 501561
-      },
-      {
-       "level": 41,
-       "rank": 6,
-       "spellId": 501562
-      },
-      {
-       "level": 49,
-       "rank": 7,
-       "spellId": 501563
-      },
-      {
-       "level": 57,
-       "rank": 8,
-       "spellId": 501564
-      },
-      {
-       "level": 65,
-       "rank": 9,
-       "spellId": 501565
-      },
-      {
-       "level": 73,
-       "rank": 10,
-       "spellId": 501566
-      }
-     ],
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 31253,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 30443,
-    "builderTab": "Zealot",
-    "matchedSpellId": 704175,
-    "reason": "liveDirect"
-   },
-   "name": "Hit Combo",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 704175,
-     "name": "Condemnation",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34339,
+   "cadId": 29631,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -1098,70 +619,7 @@
     "matchedSpellId": null,
     "reason": "deadCatalog"
    },
-   "name": "Improved Jab",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705249,
-     "name": "Holy Master",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34384,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Improved Righteous Palm",
-   "quality": "Poor",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 0,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 705282,
-     "name": "Devout",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30960,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": true,
-   "liveEvidence": {
-    "builderNodeId": 31254,
-    "builderTab": "Zealot",
-    "matchedSpellId": 806516,
-    "reason": "liveDirect"
-   },
-   "name": "Pursuit",
+   "name": "Impale",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -1169,20 +627,20 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 806516,
-     "name": "Heaven's Finest",
+     "id": 801081,
+     "name": "Javelin Toss",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 30438,
+   "cadId": 34194,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -1192,69 +650,7 @@
     "matchedSpellId": null,
     "reason": "deadCatalog"
    },
-   "name": "Quenching Blow",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 804905,
-     "name": "Ancestor's Call",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 30449,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Righteous Palm",
-   "quality": "Normal",
-   "qualityCost": 1,
-   "realms": "100679750",
-   "requiredLevel": 10,
-   "spells": [
-    {
-     "dispel": "None",
-     "id": 804918,
-     "name": "Transcending Strikes",
-     "ranks": null,
-     "schools": [
-      "Physical"
-     ]
-    }
-   ],
-   "tab": "Fighting",
-   "type": "Talent"
-  },
-  {
-   "aeCost": 0,
-   "cadId": 34358,
-   "expansion": 0,
-   "flags": 0,
-   "icon": "",
-   "live": false,
-   "liveEvidence": {
-    "builderTab": null,
-    "matchedSpellId": null,
-    "reason": "deadCatalog"
-   },
-   "name": "Runes of Power",
+   "name": "Improved Grapplebomb",
    "quality": "Poor",
    "qualityCost": 1,
    "realms": "100679750",
@@ -1262,8 +658,8 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 705264,
-     "name": "Runes of Power",
+     "id": 705090,
+     "name": "Improved Grapplebomb",
      "ranks": null,
      "schools": [
       "Physical"
@@ -1271,31 +667,31 @@
     },
     {
      "dispel": "None",
-     "id": 705265,
-     "name": "Runes of Power",
+     "id": 705091,
+     "name": "Improved Grapplebomb",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 34334,
+   "cadId": 34199,
    "expansion": 0,
    "flags": 0,
    "icon": "",
    "live": true,
    "liveEvidence": {
-    "builderNodeId": 6355,
-    "builderTab": "Class",
-    "matchedSpellId": 300501,
+    "builderNodeId": 5431,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705098,
     "reason": "liveDirect"
    },
-   "name": "Sacred Candle",
+   "name": "Liquid Fire",
    "quality": "Poor",
    "qualityCost": 1,
    "realms": "100679750",
@@ -1303,20 +699,84 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 300501,
-     "name": "Sacred Candle",
+     "id": 705098,
+     "name": "Wingman",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 30443,
+   "cadId": 34182,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34179,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705074,
+    "reason": "liveDirect"
+   },
+   "name": "Phoenix Plumes",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705074,
+     "name": "Phoenix Plumes",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34180,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30925,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705071,
+    "reason": "liveDirect"
+   },
+   "name": "Plumes of War",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705071,
+     "name": "Plumes of War",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34195,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -1326,7 +786,38 @@
     "matchedSpellId": null,
     "reason": "deadCatalog"
    },
-   "name": "Swift Justice",
+   "name": "Rally The Archers",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705088,
+     "name": "Rally The Archers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30054,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger General's Command",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -1334,31 +825,30 @@
    "spells": [
     {
      "dispel": "Magic",
-     "id": 804910,
-     "name": "Beatdown",
+     "id": 803118,
+     "name": "Ranger General's Command",
      "ranks": null,
      "schools": [
-      "Holy"
+      "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 30435,
+   "cadId": 29334,
    "expansion": 0,
    "flags": 0,
    "icon": "",
-   "live": true,
+   "live": false,
    "liveEvidence": {
-    "builderNodeId": 31256,
-    "builderTab": "Zealot",
-    "matchedSpellId": 804897,
-    "reason": "liveDirect"
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
    },
-   "name": "Transcending",
+   "name": "Ranger's Horn of Alacrity",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -1366,20 +856,54 @@
    "spells": [
     {
      "dispel": "None",
-     "id": 804897,
-     "name": "Transcending Strikes",
+     "id": 800087,
+     "name": "Ranger's Horn of Coordination",
      "ranks": null,
      "schools": [
       "Physical"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
    "type": "Talent"
   },
   {
    "aeCost": 0,
-   "cadId": 30444,
+   "cadId": 29335,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ranger's Horn of Coordination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800088,
+     "name": "Horn of Perseverance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 29421,
    "expansion": 0,
    "flags": 0,
    "icon": "",
@@ -1389,7 +913,189 @@
     "matchedSpellId": null,
     "reason": "deadCatalog"
    },
-   "name": "Word of Wrath",
+   "name": "Ranger's Horn of Perseverance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800278,
+     "name": "Ranger's Horn-unused",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800278
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501764
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501765
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501766
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501767
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501768
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501769
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501770
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501771
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 29333,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6955,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 800086,
+    "reason": "liveDirect"
+   },
+   "name": "Ranger's Horn of War",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800086,
+     "name": "Horn of War",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34181,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34196,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705072,
+    "reason": "liveDirect"
+   },
+   "name": "Razorquils",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705072,
+     "name": "Razorquills",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    },
+    {
+     "dispel": "Magic",
+     "id": 705073,
+     "name": "Razorquills",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34192,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Reverberation",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705080,
+     "name": "Dream Flowers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30925,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30929,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 806342,
+    "reason": "liveDirect"
+   },
+   "name": "Ripyank",
    "quality": "Normal",
    "qualityCost": 1,
    "realms": "100679750",
@@ -1397,19 +1103,222 @@
    "spells": [
     {
      "dispel": "Magic",
-     "id": 804911,
-     "name": "Vindication",
+     "id": 806342,
+     "name": "Whipvine Arrow",
      "ranks": null,
      "schools": [
-      "Physical",
-      "Holy"
+      "Nature"
      ]
     }
    ],
-   "tab": "Fighting",
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34201,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Sentinel",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705100,
+     "name": "Whipping Pressure",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34178,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6436,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 705067,
+    "reason": "liveDirect"
+   },
+   "name": "War Falconer",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705067,
+     "name": "War Falconer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    },
+    {
+     "dispel": "None",
+     "id": 705068,
+     "name": "Aerial Assault",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30931,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Warband",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806367,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34197,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Wardancer",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705096,
+     "name": "Wardancer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    },
+    {
+     "dispel": "None",
+     "id": 705097,
+     "name": "Wardancer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30930,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Wayfinder",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806365,
+     "name": "Dream Flowers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 35414,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34201,
+    "builderTab": "Farstrider",
+    "matchedSpellId": 706282,
+    "reason": "liveDirect"
+   },
+   "name": "Wilder Strike",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 706282,
+     "name": "Forest Fighter",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
    "type": "Talent"
   }
  ],
- "tab": "Fighting",
+ "tab": "Survival",
  "type": "Talent"
 }

@@ -2019,7 +2019,63 @@
      "dispel": null,
      "id": 800883,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800883
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 502912
+      },
+      {
+       "level": 16,
+       "rank": 3,
+       "spellId": 502913
+      },
+      {
+       "level": 23,
+       "rank": 4,
+       "spellId": 502914
+      },
+      {
+       "level": 30,
+       "rank": 5,
+       "spellId": 502915
+      },
+      {
+       "level": 37,
+       "rank": 6,
+       "spellId": 502916
+      },
+      {
+       "level": 45,
+       "rank": 7,
+       "spellId": 502917
+      },
+      {
+       "level": 52,
+       "rank": 8,
+       "spellId": 502918
+      },
+      {
+       "level": 59,
+       "rank": 9,
+       "spellId": 502919
+      },
+      {
+       "level": 66,
+       "rank": 10,
+       "spellId": 502920
+      },
+      {
+       "level": 74,
+       "rank": 11,
+       "spellId": 502921
+      }
+     ],
      "schools": []
     }
    ],
@@ -2032,11 +2088,14 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIcons\\_Curse_Green",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Miasma",
    "quality": "Normal",
@@ -4222,7 +4281,8 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
-     "npcTrainerRow"
+     "npcTrainerRow",
+     "liveNodeTriggerSpell"
     ]
    },
    "name": "Tunnel Below",

@@ -1,4 +1,4 @@
-﻿# Agent Guide - querying coa-datamine
+# Agent Guide - querying coa-datamine
 
 Dataset of Ascension CoA (WoW 3.3.5a custom server) game data for porting work
 (dispel logic, class buffs, raid tooling). Everything below is generated - do not
@@ -636,7 +636,7 @@ is `0`, not the in-game default `1.0`).
 doc's "0.13% (8 spells)" down to the literal count - all 8 are Invigorating Surge
 ranks sharing missile 9429.
 
-> ### âš  `EffectBonusMultiplier` (f229-231, `effects[].bonusMultiplierStock`) -
+> ### ⚠ `EffectBonusMultiplier` (f229-231, `effects[].bonusMultiplierStock`) -
 > **do NOT treat as a CoA coefficient source**
 >
 > Extracted and emitted (correct for **stock and Reborn content only**), but it is
@@ -722,7 +722,7 @@ its damage scaling there (Sec 2), heavily cross-referencing other spells
   tell them apart from real refs would be exactly this repo's own "dense-id
   join-rate lies" trap) and one that WAS caught by review and fixed:
 
-  > **âš  The `$1s` transposition-typo trap.** The no-trailing-digit widened shape
+  > **⚠ The `$1s` transposition-typo trap.** The no-trailing-digit widened shape
   > collides with a different real authoring artifact - a same-spell `$s1`/`$m1`
   > self-value token, TRANSPOSED by a tooltip typo into `$1s`/`$1m` (digit-then-
   > letter instead of letter-then-digit). Rejuvenation (28722) reads `"Restores
@@ -779,7 +779,7 @@ doc's own cited depth-3 marginal yield, a reassuring cross-check that the widene
 grammar above is finding the intended reference set. Full breakdown in
 `data/spells/_meta.json`'s `formulaClosure` block.
 
-> **âš  The doc's own resolution-rate figure (2,446/5,317 = 46%) does not reproduce
+> **⚠ The doc's own resolution-rate figure (2,446/5,317 = 46%) does not reproduce
 > here** (this build measures 4,893/5,075 = 96.4% resolved, per
 > `data/spells/_meta.json`'s `formulaClosure`). Population-independent
 > in principle (an id either exists in `Spell.dbc` or it doesn't), so this is most
@@ -790,7 +790,7 @@ grammar above is finding the intended reference set. Full breakdown in
 > patch" below). Flagged rather than chased further - re-deriving a stale doc
 > figure against a newer live snapshot is expected to diverge.
 
-> **âš  The binder must follow `$mN`/`$sN`-style tokens into ANY effect slot, not
+> **⚠ The binder must follow `$mN`/`$sN`-style tokens into ANY effect slot, not
 > only damaging ones** (Sec 1.6) - this closure widens which SPELLS are in the
 > dataset, but a future consumer building a coefficient binder (matching a
 > formula's `$mN`/`$sN` tokens to the effect slot that actually carries the
@@ -824,7 +824,7 @@ clamps to **value 509** - the doc's own cited 3,365-vs-509 pair, re-derived here
 independently via the maxLevel-clamp formula from this record's own emitted
 fields, not copied. Pinned in `tests/test_closure_ranks.py`.
 
-> **âš  [INFERRED] gating field - UNRESOLVED, needs an in-game `/dump`.** CAD
+> **⚠ [INFERRED] gating field - UNRESOLVED, needs an in-game `/dump`.** CAD
 > `ranks[].level` and DBC `spellLevel` agree on only **32.0%** of rank rows and
 > pick a **different** level-60 rank on **512 of 920** CoA chains (Sec 1.7). This
 > field follows **CAD level**, on the doc's own reasoning that CAD is what grants
@@ -835,7 +835,7 @@ fields, not copied. Pinned in `tests/test_closure_ranks.py`.
 > entry's level or `Spell.dbc`'s own `spellLevel`?) before trusting `rankAt60` for
 > anything beyond the "roughly which rank" level** - this is a real, load-bearing
 > unresolved question for absolute damage values on ~55% of multi-rank chains, not
-> a hedge. Track this the same way as the Â§14 in-game probe items already noted
+> a hedge. Track this the same way as the §14 in-game probe items already noted
 > elsewhere in this guide.
 
 **(c) `$scalingbp` - named constant.** `data/spells/_meta.json`'s
@@ -1381,10 +1381,10 @@ unconfirmed"). This task re-extracted fresh (2026-08-06) and independently
 re-ran every numeric claim in that subsection - every one reproduced, with two
 honest caveats (see `tools/dbc.py`'s `SpellAffect` TABLE_MAPS comment for the
 full log):
-- f1â†’Spell.dbc join 100.0000%, |f2| join 99.9973% (one row's abs value doesn't
+- f1→Spell.dbc join 100.0000%, |f2| join 99.9973% (one row's abs value doesn't
   resolve - the doc's own "100.0%" was a rounding, not literal), raw unsigned f2
   join 93.4528%, negative f2 rows 2,407/36,779 exactly.
-- All 3 goldens reproduce (324â†’978816, 2565â†’47294-6); the third (12043â†’Blizzard/
+- All 3 goldens reproduce (324→978816, 2565→47294-6); the third (12043→Blizzard/
   Hailstorm) reproduces the SEMANTIC finding but the doc's quoted id range
   (81328-81332) is narrower than what's actually on disk (81328-81336 plus a
   second 281800-281808 block the doc never mentions) - a transcription gap in
@@ -1393,8 +1393,8 @@ full log):
   denominator (CoA spells carrying the modifier aura) measured 1,269 fresh vs
   the doc's 1,295 (ordinary content drift, same class as this build's own
   Spell.dbc row-count drift).
-- Id-band overlap (f1 âˆ© vanilla-tagged=209, âˆ© reborn-tagged=277,
-  âˆ© coa-custom-tagged=5) and the 158/10,684 CoA-band |f2| count both reproduce
+- Id-band overlap (f1 ∩ vanilla-tagged=209, ∩ reborn-tagged=277,
+  ∩ coa-custom-tagged=5) and the 158/10,684 CoA-band |f2| count both reproduce
   EXACTLY. **Verdict unchanged from Sec 9's own framing: it is genuinely
   Bronzebeard/Area-52 legacy content, not a CoA table** -
   `EffectSpellClassMask` (task W4-3) remains the primary CoA talent-targeting
@@ -1442,7 +1442,7 @@ The other 9 tables (`SpellDifficulty`, `SummonProperties`, `SpellMissile`,
 `GlyphProperties`, `GlyphSlot`, `SpellItemEnchantmentCondition`) ship raw +
 colinfo only - explicitly out of this task's curation scope. One flag found in
 passing: `SpellItemEnchantmentCondition`'s WDBC header **declares 31 fields**
-(the real stock-WotLK 1+5Ã—6 operand-condition shape) but its `record_size` only
+(the real stock-WotLK 1+5×6 operand-condition shape) but its `record_size` only
 supports **16** - `extract_mpq.py`'s `headerMismatches` caught this on a BASE
 table for the first time (previously only ever seen on realm-overlay tables,
 see `DBCFile`'s docstring); `DBCFile.fields` (record_size//4) is what this
@@ -1462,7 +1462,7 @@ unmapped table. Per the brief, the sim's **primary** item source stays an extern
 job is completeness/evidence, not owning item acquisition (Sec 8's own framing).
 
 **`Item.dbc` is an INDEX, not a stat source** - re-derived directly from its own
-colinfo, not just asserted from the doc: 563,335 rows Ã— 8 fields, **zero-length
+colinfo, not just asserted from the doc: 563,335 rows × 8 fields, **zero-length
 string block** (`string_block_size: 0`), every column's `samples` empty (nothing
 string-like at all). `f0` (the id) is unique per row and its max (9,200,842)
 reproduces Sec 8.2's own cross-reference ceiling exactly. Shape matches the doc's
@@ -1603,14 +1603,39 @@ Every entry now carries the verdict:
 | field | meaning |
 |---|---|
 | `live: true` + `liveEvidence.reason: "liveDirect"` | one of the entry's own spell ids IS a live builder node's spell (`matchedSpellId`, `builderTab`, `builderNodeId` name the hit) |
-| `live: true` + `"liveViaRank"` | no own id matched, but another rank of the same `SpellRankData` chain did |
-| `live: false` + `"deadCatalog"` | not in the live trees by any rank, and **no evidence of any other acquisition path** - treat as cut/legacy content |
+| `live: true` + `"liveViaRank"` | no own id matched, but another rank of the same `SpellRankData` chain did **and that chain is name-coherent** (see the gate below) |
+| `live: false` + `"deadCatalog"` | not in the live trees by any rank, and **no evidence of any acquisition path this dataset can probe** - treat as cut/legacy content, but read "no evidence" as exactly that, not as proof |
 | `live: null` + `"indeterminate"` | not in the trees, but carries a non-tree acquisition signal (`liveEvidence.signals`) - see the false-negative measurement below |
 | `live: null` + `"unknownNoGeometry"` | the class has no builder capture at all (the 10 vanilla + Reborn/meta dirs) - nothing is claimed either way |
 
+⚠ **`live` is an ABILITY-level claim, never a row-level one.** 781 entries flagged
+`live: true` sit on CAD rows the client's OWN loader discards - `raw/interface/
+FrameXML/Data/CharacterAdvancement.lua:68` skips any entry whose `Flags` carry
+`Deprecated` (0x1) or `Disabled` (0x8) before the UI ever sees it. The ability is
+live; it reaches the player through a sibling duplicate row, not through this one.
+`entry.flags` is emitted verbatim if you need the row-level view. Measured every
+build into `_live_summary.json.falseNegativeMeasurement.rowLevelVsAbilityLevel`,
+which also records that this flag was TESTED as a discriminator for the 324
+`liveNodeNameTwin` indeterminates and **rejected**: it fires on 34.0% of them but
+also on 22.8% of proven-live rows, so it has no specificity - the same failure mode
+as the rejected `requiredLevel` heuristic.
+
+**The `liveViaRank` gate, and why it is not decoration.** 92 of the 1,780 resolvable
+`SpellRankData` chains (5.2%) are recycled contiguous id blocks rather than real rank
+chains. Chain head 801667 runs rank 1 `Revitalize (Rank 1 DEPRECATED)`, rank 6
+`Ascetic Abdication`, rank 7 `Fearmonger`, rank 8 `War Cry`, rank 9 `Umbral Glaive`,
+rank 10 `Ice Hide`, rank 11 `Mirage` - so an unguarded rank join declared WitchDoctor's
+CAD `Revitalize` live because `Mirage` (501136) is a live node. `liveViaRank` therefore
+fires only when the chain carries **at most one distinct `Spell.dbc` name**; a rejected
+match is kept as `liveEvidence.rejectedRankMatch` on the row it disqualified rather
+than thrown away. Ids with no `Spell.dbc` row carry no name and so cannot break
+coherence - which is what keeps WitchHunter `Interrogate` (802012, no Spell.dbc row)
+correctly live via rank 8 of its own chain, 501380 = the live node `Brand of the
+Unworthy`.
+
 Repo-wide (re-derived at every build, mirrored into `data/classes/_live_summary.json`
 and each class's `index.json` as `liveCounts`): **3,417 liveDirect + 6 liveViaRank,
-3,518 deadCatalog, 1,390 indeterminate, 15,378 unknownNoGeometry** of 23,709 entries.
+3,460 deadCatalog, 1,448 indeterminate, 15,378 unknownNoGeometry** of 23,709 entries.
 Restricted to the 21 classes that HAVE a builder capture: 8,331 entries, of which
 **4,908 (58.9%) are not in the live trees at all**. Starcaller alone: 53.1% of its
 distinct CAD spell ids appear in no live node.
@@ -1631,8 +1656,8 @@ date + sha256) travels in `_live_summary.json.payload`; re-run
 capture makes `live` stale too.
 
 **The false-negative risk was MEASURED, not hand-waved.** The builder payload shows
-the TREES; anything CoA grants outside a tree would look dead while being live. Three
-probes were run over the 4,908 not-in-trees entries and every one is written up in
+the TREES; anything CoA grants outside a tree would look dead while being live. Four
+probes are run over the 4,908 not-in-trees entries and every one is written up in
 `_live_summary.json.falseNegativeMeasurement`:
 
 - **`skillLineAutoGrant`** - 183 entries (3.7%). `SkillLineAbility.acquireMethod != 0`,
@@ -1641,21 +1666,43 @@ probes were run over the 4,908 not-in-trees entries and every one is written up 
   set (0 of the live builder's spell ids carry it). The population is overwhelmingly
   weapon/armour proficiencies (Fist Weapons, Polearms, Plate Mail, Dual Wield, Auto
   Shot, Block, Staves, Wands) - exactly the "baseline, not via a tree node" class.
-- **`npcTrainerRow`** - 1,022 entries (20.8%). **Real but NOT separable offline**, said
-  plainly rather than guessed: `NPCTrainer.dbc` in this snapshot is provably
-  CONTEMPORARY with the live generation (it carries rows under skill lines that exist
-  ONLY in the live builder and nowhere in the CAD tab layer - "Moon Guard", "Moon
-  Priest", "Warden", "Headhunting" - teaching rank variants of abilities whose base
-  rank IS a live node, e.g. Starcall). So a trainer row is evidence of a non-tree
-  path, but the CAD row hanging off it can equally be a retired duplicate.
+- **`npcTrainerRow`** - 1,028 entries (21.0%). **Real but NOT separable offline**, said
+  plainly rather than guessed: `NPCTrainer.dbc` in this snapshot is contemporary with
+  the live generation **in at least 20 verified instances**. 166 trainer rows sit under
+  the skill lines "Moon Guard", "Moon Priest", "Warden" and "Headhunting", and 20 of
+  them teach a name-coherent rank variant of an ability whose base rank IS a live node:
+  Shooting Star ranks 5-7 (skill line Warden) → live node 800505, Prayer of Elune ranks
+  2-5 (Moon Priest) → 801987, Headhunter's Spear ranks 2-7 and Berserker Axe ranks 2-8
+  (Headhunting) → 804137 / 804138. Two things this is **not**: it is not a claim that
+  those skill-line NAMES belong only to live content - `SkillLineAbility` files the
+  player-proven-dead Tide Lash (800380) and every `Tides` sibling under skill line 92
+  "Moon Priest", the live name of the very slot the tab mapping says was CAD "Tides" -
+  and the Starcall example this guide used to cite is under skill line "Sentinel", not
+  one of the four. So a trainer row is evidence of a non-tree path, but the CAD row
+  hanging off it can equally be a retired duplicate.
+- **`liveNodeTriggerSpell`** - 99 entries (2.0%). The entry's spell is an
+  `effectTriggerSpell{1,2,3}` of a spell that IS a live node **of the same class** -
+  the game casts it every time that node procs. **Mechanistic, not statistical**, which
+  is exactly why the first three probes missed it: its base rate barely differs between
+  live and not-in-trees entries, so no correlation search would have surfaced it. It
+  moved 52 rows off `deadCatalog`, whose definition ("no evidence of any acquisition
+  path at all") was simply false for them. Examples: Monk `Light's Reach` 804907
+  (`Spell.dbc` "Transcending Strikes", rank "Trigger") ← live node 804897; Ranger
+  `Commander` 705078 ("Plumes of War", "Proc") ← 705071; Chronomancer `Word of Balance:
+  Mend` 806314 ← 806312; Barbarian `Improved Wrist Snap` 804862 ("Jawbreaker",
+  "Success!") ← 705196.
 - **`liveNodeNameTwin`** - 324 entries (6.6%). The entry's NAME matches a live node in
   the same class while none of its spell ids do: the spellId-variant drift already
   measured in `data/talents/coa/_meta.json`'s `contentDrift`. The ability is live;
   whether THIS row is the live variant is unknowable offline.
 
-Union: **1,390 entries (28.3% of not-in-trees) ship `live: null` / `"indeterminate"`
+Union: **1,448 entries (29.5% of not-in-trees) ship `live: null` / `"indeterminate"`
 with their firing signals listed, rather than being guessed `false`.** The remaining
-3,518 carry no acquisition evidence of any kind and are the honest `live: false`.
+3,460 carry no acquisition evidence of any kind and are the honest `live: false` -
+"honest" meaning no probe in the set above fires, which is a statement about the probe
+set as much as about the content. `liveNodeTriggerSpell` was added after review found
+52 rows the earlier three probes had left flatly mislabelled; assume a fifth path
+exists until someone looks.
 The task's first suggested heuristic - "low `requiredLevel` + `type == Ability`" - was
 tested and **REJECTED by measurement**: it fires on 28.4% of not-in-trees entries but
 also on 16.9% of PROVEN-live ones, so it has no specificity and is used in no verdict.
@@ -1739,15 +1786,25 @@ level-curve-only pairs the published triage worked, **74 (80%) are not proven li
 |---|---:|---:|---:|---:|---:|
 | CAD catalog (historical) | 1,429 | 1,151 | 80.5% | 278 | 101 |
 | **live only (`live == true`)** | **552** | **493** | **89.3%** | **59** | **20** |
-| live + indeterminate (`live != false`) | 993 | 892 | 89.8% | 101 | 36 |
+| live + indeterminate (`live != false`) | 1,002 | 901 | 89.9% | 101 | 36 |
 
 The live figure is a **lower** bound and the live+indeterminate figure an **upper**
 bound, because `live: null` is a genuine unknown (see "Live vs catalog" above);
 liveness is **consumed** from each entry's `live`/`liveEvidence` flag, never
 re-derived here. Same Vol'jin scope caveat applies. **10 of the 21 CoA classes have
-zero live holes** (DemonHunter, Guardian, Monk, Necromancer, Ranger, Reaper,
-Runemaster, Starcaller, Stormbringer, SunCleric) - every hole the catalog attributed
-to them is uncastable content.
+zero PROVEN-LIVE holes** (DemonHunter, Guardian, Monk, Necromancer, Ranger, Reaper,
+Runemaster, Starcaller, Stormbringer, SunCleric) - but "zero live holes" is not "zero
+holes": **SunCleric still carries 2 indeterminate holes** (502394 slot 1 `Sunflare`,
+502446 slot 1 `Divine Vision`) **and Monk 1** (801165 slot 3 `Temple Guardian`). For
+the other 7, every hole the catalog attributed to them is uncastable or unproven
+content.
+
+The live denominator is also mildly **over**-inclusive, measured rather than assumed
+small in `livenessSource.liveDenominatorSlack`: `live` is stamped per ENTRY but
+consumed per CHAIN, so 174 of the 3,630 live chains (4.8%) enter it on a spell id
+that is in no live node - they ride on a sibling spell of the same multi-spell entry -
+and 289 live chains measure a different rank than the matched node holds, because the
+rank is picked by level (`rank.level <= 60`), not by the node.
 
 Two consequences worth carrying:
 

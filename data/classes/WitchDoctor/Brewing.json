@@ -247,7 +247,43 @@
      "dispel": null,
      "id": 500019,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500019
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501214
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501215
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501216
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501217
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501218
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501219
+      }
+     ],
      "schools": []
     }
    ],
@@ -276,7 +312,43 @@
      "dispel": null,
      "id": 500019,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500019
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501214
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501215
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501216
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501217
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501218
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501219
+      }
+     ],
      "schools": []
     }
    ],
@@ -305,7 +377,43 @@
      "dispel": null,
      "id": 500019,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500019
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501214
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501215
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501216
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501217
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501218
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501219
+      }
+     ],
      "schools": []
     }
    ],
@@ -1566,11 +1674,14 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "INV_DRINK_14",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Ingredient: Frog Venom",
    "quality": "Normal",
@@ -2603,12 +2714,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_ember_green",
-   "live": true,
+   "live": false,
    "liveEvidence": {
-    "builderNodeId": 29747,
-    "builderTab": "Class",
-    "matchedSpellId": 501136,
-    "reason": "liveViaRank"
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog",
+    "rejectedRankMatch": {
+     "distinctChainNames": [
+      "asceticabdication",
+      "fearmonger",
+      "icehide",
+      "mirage",
+      "miragegameobjectsummon",
+      "miragereturn",
+      "revitalize",
+      "umbralglaive",
+      "warcry"
+     ],
+     "spellId": 801667,
+     "wouldHaveMatched": 501136
+    }
    },
    "name": "Revitalize",
    "quality": "Normal",
@@ -2701,12 +2826,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_ember_green",
-   "live": true,
+   "live": false,
    "liveEvidence": {
-    "builderNodeId": 29747,
-    "builderTab": "Class",
-    "matchedSpellId": 501136,
-    "reason": "liveViaRank"
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog",
+    "rejectedRankMatch": {
+     "distinctChainNames": [
+      "asceticabdication",
+      "fearmonger",
+      "icehide",
+      "mirage",
+      "miragegameobjectsummon",
+      "miragereturn",
+      "revitalize",
+      "umbralglaive",
+      "warcry"
+     ],
+     "spellId": 801667,
+     "wouldHaveMatched": 501136
+    }
    },
    "name": "Revitalize",
    "quality": "Normal",
@@ -2799,12 +2938,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
-   "live": true,
+   "live": false,
    "liveEvidence": {
-    "builderNodeId": 29747,
-    "builderTab": "Class",
-    "matchedSpellId": 501136,
-    "reason": "liveViaRank"
+    "builderTab": null,
+    "matchedSpellId": null,
+    "reason": "deadCatalog",
+    "rejectedRankMatch": {
+     "distinctChainNames": [
+      "asceticabdication",
+      "fearmonger",
+      "icehide",
+      "mirage",
+      "miragegameobjectsummon",
+      "miragereturn",
+      "revitalize",
+      "umbralglaive",
+      "warcry"
+     ],
+     "spellId": 801667,
+     "wouldHaveMatched": 501136
+    }
    },
    "name": "Revitalize",
    "quality": "Normal",

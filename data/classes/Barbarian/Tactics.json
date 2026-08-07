@@ -718,6 +718,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -752,6 +753,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },
@@ -3497,7 +3499,38 @@
      "dispel": null,
      "id": 500921,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 4,
+       "rank": 1,
+       "spellId": 500921
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501052
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501053
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501054
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501055
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501056
+      }
+     ],
      "schools": []
     }
    ],
@@ -4439,11 +4472,14 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsAbility_Warrior_Trauma",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Wrecker",
    "quality": "Normal",

@@ -845,11 +845,14 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Flintlock Shot",
    "quality": "Normal",
@@ -1679,7 +1682,53 @@
      "dispel": null,
      "id": 500084,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500084
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501356
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501357
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501358
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501359
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501360
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501361
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501362
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501363
+      }
+     ],
      "schools": []
     }
    ],

@@ -7,7 +7,9 @@
   "The live denominator is a lower bound: indeterminate entries (live: null) are excluded from it and included in liveOrIndeterminate.",
   "Coverage measures whether a scaling channel EXISTS to model, not whether the resulting number is correct.",
   "Spell ids referenced by CoA classes that have no BASE Spell.dbc row at all (they exist only in a realm overlay) are dropped from every denominator identically - see method.chainSpellIdsAbsentFromBaseSpellDbc.",
-  "valueAtCap on the hole rows is descriptive metadata, not part of any verdict; it uses the guide's canonical clamp formula (basePoints + dieSides + ...), so it reads higher than the published triage table, which quoted basePoints + 1 and did not clamp on maxLevel."
+  "valueAtCap on the hole rows is descriptive metadata, not part of any verdict; it uses the guide's canonical clamp formula (basePoints + dieSides + ...), so it reads higher than the published triage table, which quoted basePoints + 1 and did not clamp on maxLevel.",
+  "The live denominator is slightly OVER-inclusive in two ways, both measured in livenessSource.liveDenominatorSlack rather than assumed small: `live` is stamped per ENTRY but consumed per CHAIN, so 174 of the 3630 live chains (4.8%) enter the denominator on a spell id that is in no live node - they ride on a sibling spell of the same multi-spell entry; and 289 live chains measure a different rank than the one the matched builder node holds, because rank_at_cap picks the highest rank with level <= 60 rather than the node's rank. Neither moves the headline materially, but both are real.",
+  "Liveness itself is consumed, so its caveats travel with it: liveViaRank is gated on SpellRankData chain name-coherence (recycled contiguous id blocks otherwise manufacture false positives), and `live` is an ABILITY-level claim - a live:true entry can sit on a CAD row the client's own loader discards. See tools/coa_live.py and data/classes/_live_summary.json.falseNegativeMeasurement."
  ],
  "delta": {
   "holeDistinctPairsCad": 101,
@@ -247,22 +249,22 @@
   },
   "liveOrIndeterminate": {
    "buckets": {
-    "FLAT": 34,
-    "PERLEVEL_SCALED": 558,
+    "FLAT": 35,
+    "PERLEVEL_SCALED": 560,
     "TOOLTIP_SCALED": 114,
     "UNRESOLVED": 4,
-    "WEAPON_SCALED": 283
+    "WEAPON_SCALED": 289
    },
    "byBucket": {
     "FLAT": {
-     "distinctSpellSlotPairs": 12,
-     "distinctSpells": 12,
-     "instances": 34
+     "distinctSpellSlotPairs": 13,
+     "distinctSpells": 13,
+     "instances": 35
     },
     "PERLEVEL_SCALED": {
-     "distinctSpellSlotPairs": 191,
-     "distinctSpells": 181,
-     "instances": 558
+     "distinctSpellSlotPairs": 192,
+     "distinctSpells": 182,
+     "instances": 560
     },
     "TOOLTIP_SCALED": {
      "distinctSpellSlotPairs": 39,
@@ -275,16 +277,16 @@
      "instances": 4
     },
     "WEAPON_SCALED": {
-     "distinctSpellSlotPairs": 96,
-     "distinctSpells": 55,
-     "instances": 283
+     "distinctSpellSlotPairs": 98,
+     "distinctSpells": 56,
+     "instances": 289
     }
    },
    "byKind": {
     "direct_damage": {
-     "distinctSpellSlotPairs": 143,
-     "distinctSpells": 141,
-     "instances": 417
+     "distinctSpellSlotPairs": 145,
+     "distinctSpells": 143,
+     "instances": 420
     },
     "direct_heal": {
      "distinctSpellSlotPairs": 48,
@@ -302,9 +304,9 @@
      "instances": 38
     },
     "weapon": {
-     "distinctSpellSlotPairs": 96,
-     "distinctSpells": 55,
-     "instances": 283
+     "distinctSpellSlotPairs": 98,
+     "distinctSpells": 56,
+     "instances": 289
     }
    },
    "byVerdict": {
@@ -319,14 +321,14 @@
      "instances": 9
     },
     "MODELABLE:1-point tag (no damage to model)": {
-     "distinctSpellSlotPairs": 4,
-     "distinctSpells": 4,
-     "instances": 8
+     "distinctSpellSlotPairs": 5,
+     "distinctSpells": 5,
+     "instances": 9
     },
     "MODELABLE:gear-coefficient": {
-     "distinctSpellSlotPairs": 293,
-     "distinctSpells": 233,
-     "instances": 863
+     "distinctSpellSlotPairs": 296,
+     "distinctSpells": 235,
+     "instances": 871
     },
     "MODELABLE:percent-of-max (no coefficient exists)": {
      "distinctSpellSlotPairs": 7,
@@ -335,21 +337,21 @@
     }
    },
    "denominator": "entries with live != false - live plus indeterminate (carries evidence of a non-tree acquisition path); UPPER bound on live coverage",
-   "distinctSpellSlotPairs": 340,
-   "distinctSpells": 275,
-   "entryRows": 805,
+   "distinctSpellSlotPairs": 344,
+   "distinctSpells": 278,
+   "entryRows": 811,
    "holeDistinctSpellSlotPairs": 36,
    "holeDistinctSpells": 36,
-   "holePct": 10.2,
+   "holePct": 10.1,
    "holes": 101,
-   "modelable": 892,
-   "modelablePct": 89.8,
-   "slots": 993,
+   "modelable": 901,
+   "modelablePct": 89.9,
+   "slots": 1002,
    "verdicts": {
     "HOLE:level-curve only, no gear term": 92,
     "HOLE:no scaling channel at all": 9,
-    "MODELABLE:1-point tag (no damage to model)": 8,
-    "MODELABLE:gear-coefficient": 863,
+    "MODELABLE:1-point tag (no damage to model)": 9,
+    "MODELABLE:gear-coefficient": 871,
     "MODELABLE:percent-of-max (no coefficient exists)": 21
    }
   }
@@ -2319,19 +2321,27 @@
  "livenessSource": {
   "capture": "data/talents/coa/** from raw/talents/coa-builder-voljin.html (sha256-pinned)",
   "caveat": "Every live/dead verdict is a VOL'JIN verdict. Rexxar is a separate CoA realm whose tree geometry is assumed identical but unverified. data/classes entries are account-wide across four realms, so a Rexxar-only ability is indistinguishable from dead content here.",
-  "consumedNotDerived": true,
-  "entryReasonCounts": {
-   "deadCatalog": 3678,
-   "indeterminate": 1398,
+  "chainReasonCounts": {
+   "deadCatalog": 3615,
+   "indeterminate": 1461,
    "liveDirect": 3624,
    "liveViaRank": 6
   },
+  "chainReasonCountsUnit": "CHAINS (one per spell reference on a walked entry), NOT entries. Deliberately does not match _live_summary.json's entry-level liveCountsByReason - an entry carrying three spells is three rows here and one there. Was misnamed entryReasonCounts before.",
+  "consumedNotDerived": true,
   "flags": "data/classes/**/<tab>.json entry.live + entry.liveEvidence",
+  "liveDenominatorSlack": {
+   "chainsMeasuringAnotherRank": 289,
+   "chainsMeasuringAnotherRankPct": 8.0,
+   "chainsRidingOnASibling": 174,
+   "chainsRidingOnASiblingPct": 4.8,
+   "liveChains": 3630
+  },
   "summary": "data/classes/_live_summary.json",
   "writer": "tools/coa_live.py (task W4-14)"
  },
  "method": {
-  "chainSpellIdsAbsentFromBaseSpellDbc": 203,
+  "chainSpellIdsAbsentFromBaseSpellDbc": 200,
   "chainsWalked": 8706,
   "channels": "W = weapon effect; P = effectRealPointsPerLevel or a bound $ppl/$PL; T = a stat*number coefficient term in description + tooltip + SpellDescriptionVariables",
   "classes": 21,

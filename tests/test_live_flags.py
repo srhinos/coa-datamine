@@ -1,4 +1,4 @@
-﻿"""TDD gate for task W4-14: live-talent-builder truth joined onto the CAD catalog
+"""TDD gate for task W4-14: live-talent-builder truth joined onto the CAD catalog
 (`live` / `liveEvidence` on data/classes/<Class>/*.json entries, `liveCounts` on the
 per-class index, data/classes/_live_summary.json, and specs.json's re-derived
 `tabStatus`).
@@ -304,4 +304,100 @@ assert len(renamed) == sum(1 for s in specs_doc["specs"]
 assert len(renamed) >= 20, len(renamed)   # the misreading was widespread, not a one-off
 
 print(f"(g) specs.json tabStatus: PASS {counts}, {len(renamed)} renamed trees")
+
+# =========================================================================
+# (h) the corrections an adversarial review of this join proved necessary.
+#     Each is pinned on the exact row that proved it, in BOTH directions:
+#     a false positive that must stay dead and a false negative that must
+#     stay live. Re-derived from the DBCs here, not copied from the writer.
+# =========================================================================
+spell_name = {r["id"]: r["name_enUS"] for r in __import__(
+    "tools.dbc", fromlist=["dbc"]).iter_named("Spell")}
+
+# 1. FALSE NEGATIVE - build_classes used to hardcode ranks=None for any CAD spell
+#    with no Spell.dbc row, which threw away the SpellRankData chain (keyed on the
+#    id, not the row) for 142 spell references and made liveViaRank unable to fire.
+_, wh = per_class_entries["WitchHunter"]
+interrogate = [e for e in wh if e["name"] == "Interrogate"]
+assert len(interrogate) == 3, len(interrogate)
+for e in interrogate:
+    assert e["live"] is True, e
+    ev = e["liveEvidence"]
+    assert ev["reason"] == "liveViaRank" and ev["matchedSpellId"] == 501380, ev
+    assert ev["builderTab"] == "Class", ev
+    # the chain reached it only because the unresolved spell kept its ranks
+    s = next(s for s in e["spells"] if s["id"] == 802012)
+    assert s["name"] is None and s["ranks"], "unresolved spell lost its rank chain"
+    assert 501380 in {r["spellId"] for r in s["ranks"]}
+assert spell_name[501380] == "Brand of the Unworthy"
+
+# 2. FALSE POSITIVE - SpellRankData chain 801667 is a recycled contiguous id block,
+#    not a rank chain, so a rank match on it means nothing. It must NOT be live.
+_, wd = per_class_entries["WitchDoctor"]
+revitalize = [e for e in wd if e["name"] == "Revitalize"]
+assert len(revitalize) == 3, len(revitalize)
+for e in revitalize:
+    assert e["live"] is not True, e
+    rej = e["liveEvidence"].get("rejectedRankMatch")
+    assert rej and rej["spellId"] == 801667 and rej["wouldHaveMatched"] == 501136, e
+    assert len(rej["distinctChainNames"]) > 1, rej   # the disproof, kept on the row
+
+# and the gate as a general invariant: no liveViaRank verdict rests on a chain
+# carrying more than one distinct Spell.dbc name
+via_rank = 0
+for cls in class_dirs:
+    cidx, entries = per_class_entries[cls]
+    for e in entries:
+        if e["liveEvidence"]["reason"] != "liveViaRank":
+            continue
+        via_rank += 1
+        for s in e["spells"]:
+            ids = [s["id"]] + [r["spellId"] for r in (s.get("ranks") or ())]
+            assert len(coa_live.chain_names_norm(ids, alt)) <= 1, (cls, e["cadId"])
+assert via_rank == totals["liveCountsByReason"]["liveViaRank"]
+
+# 3. FOURTH ACQUISITION PATH - a spell a live node TRIGGERS is cast in game, so
+#    "no evidence of any acquisition path at all" was false for these rows.
+assert "liveNodeTriggerSpell" in coa_live.ALT_SIGNALS
+trig_block = fn["signals"]["liveNodeTriggerSpell"]
+assert trig_block["entries"] > 0 and trig_block["separable"] is False
+PROBES = {"Monk": (7320, 804907, 804897), "Ranger": (34185, 705078, 705071),
+          "Chronomancer": (7958, 806314, 806312), "Barbarian": (30423, 804862, 705196)}
+for cls, (cad_id, spell, src) in PROBES.items():
+    cidx, entries = per_class_entries[cls]
+    e = next(x for x in entries if x["cadId"] == cad_id)
+    assert e["live"] is None and e["liveEvidence"]["reason"] == "indeterminate", e
+    assert "liveNodeTriggerSpell" in e["liveEvidence"]["signals"], e
+    # re-derive the mechanism rather than trusting the flag: src IS a live node of
+    # this class, and it really does trigger `spell`
+    cl = coa_live.live_index()["byClassId"][cidx["classId"]]
+    assert src in cl["spellNodes"], (cls, src)
+    assert src in alt["triggeredBySpellIds"].get(spell, ()), (cls, spell, src)
+    assert spell in {s["id"] for s in e["spells"]}, e
+# no such entry may be deadCatalog any more
+for cls in class_dirs:
+    cidx, entries = per_class_entries[cls]
+    if not cidx["hasLiveGeometry"]:
+        continue
+    cl = coa_live.live_index()["byClassId"][cidx["classId"]]
+    for e in entries:
+        if e["liveEvidence"]["reason"] != "deadCatalog":
+            continue
+        chain = set(sum(coa_live.entry_spell_ids(e), []))
+        assert not coa_live.triggering_live_nodes(chain, cl, alt), (cls, e["cadId"])
+
+# 4. ROW LEVEL vs ABILITY LEVEL - `live` is an ability claim; the client's own
+#    loader drops Deprecated|Disabled rows. Stated, measured, and NOT used as a
+#    verdict input (it has no specificity - it fires on proven-live rows too).
+row = fn["rowLevelVsAbilityLevel"]
+assert row["liveTrueRowsDroppedByLoader"] > 0, row
+disc = row["asRowLevelDiscriminatorForNameTwins"]
+assert disc["nameTwinRows"] == fn["signals"]["liveNodeNameTwin"]["entries"]
+assert disc["dropRateOnProvenLiveRows"] > 0.10, disc      # why it is rejected
+assert "REJECTED" in disc["verdict"]
+
+print(f"(h) review corrections pinned: PASS Interrogate live via 501380, "
+      f"Revitalize rejected as an incoherent chain, {trig_block['entries']} "
+      f"trigger-path entries, {row['liveTrueRowsDroppedByLoader']} live rows the "
+      f"client's loader drops")
 print("test_live_flags: ALL PASS")

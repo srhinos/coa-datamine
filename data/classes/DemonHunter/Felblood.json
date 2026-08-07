@@ -71,11 +71,14 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "ability_demonhunter_infernalstrike1",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Chaos Nova",
    "quality": "Normal",
@@ -102,11 +105,14 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "ability_demonhunter_infernalstrike1",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Chaos Nova",
    "quality": "Normal",
@@ -557,7 +563,33 @@
      "dispel": null,
      "id": 500030,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500030
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 501322
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 501323
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 501324
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 501325
+      }
+     ],
      "schools": []
     }
    ],
@@ -814,6 +846,7 @@
     "matchedSpellId": null,
     "reason": "indeterminate",
     "signals": [
+     "liveNodeTriggerSpell",
      "liveNodeNameTwin"
     ]
    },

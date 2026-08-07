@@ -1,4 +1,4 @@
-﻿"""Group CharacterAdvancementData by class into data/classes/, joined to spells.jsonl.
+"""Group CharacterAdvancementData by class into data/classes/, joined to spells.jsonl.
 
 Amendment A: CharacterAdvancementData.json is account-wide across four realms served
 by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest
@@ -552,6 +552,11 @@ class _FalseNegativeMeter:
     every class that HAS geometry (classes without it are `unknownNoGeometry`
     and claim nothing), and written into _live_summary.json verbatim."""
 
+    # raw/interface/FrameXML/Data/CharacterAdvancement.lua:68 - the client's own
+    # loader skips any CAD entry carrying either bit before the UI sees it.
+    # Values from raw/interface/SharedXML/Enum.lua Enum.CharacterAdvancementFlag.
+    LOADER_DROP_FLAGS = 0x1 | 0x8          # Deprecated | Disabled
+
     def __init__(self):
         self.not_in_trees = 0
         self.in_trees = 0
@@ -563,14 +568,27 @@ class _FalseNegativeMeter:
         # failure is visible rather than asserted: "low requiredLevel + Ability"
         self.heur_not_in_trees = 0
         self.heur_in_trees = 0
+        # row-level vs ability-level: `live` is an ABILITY claim, so a live:true
+        # entry can still sit on a row the client's loader discards
+        self.rows_total = Counter()
+        self.rows_dropped_by_loader = Counter()
+        self.twin_rows = 0
+        self.twin_rows_dropped = 0
 
     @staticmethod
     def _heuristic(e):
         return e["requiredLevel"] <= 10 and e["type"] == "Ability"
 
+    @classmethod
+    def _loader_drops(cls, e):
+        return bool(e.get("flags", 0) & cls.LOADER_DROP_FLAGS)
+
     def observe(self, cls, entries):
         for e in entries:
             reason = e["liveEvidence"]["reason"]
+            dropped = self._loader_drops(e)
+            self.rows_total[reason] += 1
+            self.rows_dropped_by_loader[reason] += dropped
             if reason in ("liveDirect", "liveViaRank"):
                 self.in_trees += 1
                 self.heur_in_trees += self._heuristic(e)
@@ -578,6 +596,9 @@ class _FalseNegativeMeter:
             self.not_in_trees += 1
             self.heur_not_in_trees += self._heuristic(e)
             signals = e["liveEvidence"].get("signals") or []
+            if "liveNodeNameTwin" in signals:
+                self.twin_rows += 1
+                self.twin_rows_dropped += dropped
             if signals:
                 self.indeterminate += 1
             for sig in signals:
@@ -630,18 +651,59 @@ class _FalseNegativeMeter:
                     "separable": False,
                     "verdict": (
                         "REAL but NOT SEPARABLE offline - said plainly rather than "
-                        "guessed. NPCTrainer.dbc in this client snapshot is provably "
-                        "CONTEMPORARY with the live generation, not a leftover of the "
-                        "catalog's: it carries rows under skill lines that exist ONLY "
-                        "in the live builder and nowhere in the CAD tab layer ('Moon "
-                        "Guard', 'Moon Priest', 'Warden', 'Headhunting'), teaching "
-                        "rank variants of abilities whose base rank IS a live node "
-                        "(e.g. Starcall - live node spellId 800497, trainer rows "
-                        "302568/302569/502316/502317). So a trainer row IS evidence of "
-                        "a non-tree acquisition path - but the CAD row hanging off it "
-                        "can equally be a retired duplicate, and no offline table "
-                        "distinguishes those two. Shipped as live:null/indeterminate."),
+                        "guessed. NPCTrainer.dbc in this client snapshot is "
+                        "CONTEMPORARY with the live generation in at least 20 verified "
+                        "instances, not a leftover of the catalog's: 166 trainer rows "
+                        "sit under the skill lines 'Moon Guard', 'Moon Priest', "
+                        "'Warden' and 'Headhunting', and 20 of them teach a "
+                        "name-coherent rank variant of an ability whose base rank IS a "
+                        "live builder node - Shooting Star ranks 5-7 (skill line "
+                        "Warden) -> live node 800505; Prayer of Elune ranks 2-5 (Moon "
+                        "Priest) -> 801987; Headhunter's Spear ranks 2-7 and Berserker "
+                        "Axe ranks 2-8 (Headhunting) -> 804137 / 804138. Two "
+                        "overstatements corrected here rather than left standing: this "
+                        "is NOT a claim that those skill-line NAMES belong only to live "
+                        "content (SkillLineAbility files the player-proven-dead Tide "
+                        "Lash 800380, and every Tides sibling, under skill line 92 "
+                        "'Moon Priest' - the live name of the very tree slot the tab "
+                        "mapping says was CAD 'Tides'), and the Starcall example this "
+                        "text used to cite is under skill line 'Sentinel', not one of "
+                        "the four (live node 800497; trainer rows 502316/502317 are "
+                        "Starcall ranks 2-3, also Sentinel). So a trainer row IS "
+                        "evidence of a non-tree acquisition path - but the CAD row "
+                        "hanging off it can equally be a retired duplicate, and no "
+                        "offline table distinguishes those two. Shipped as "
+                        "live:null/indeterminate."),
                     "examples": self.examples["npcTrainerRow"],
+                },
+                "liveNodeTriggerSpell": {
+                    "entries": self.signal_entries["liveNodeTriggerSpell"],
+                    "rateOfNotInTrees": round(
+                        self.signal_entries["liveNodeTriggerSpell"] / n, 4),
+                    "distinctSpellIds": len(
+                        self.signal_spell_ids["liveNodeTriggerSpell"]),
+                    "test": ("the entry's spell chain contains a spell that appears as "
+                             "effectTriggerSpell{1,2,3} on a spell that IS a live "
+                             "builder node of the SAME class"),
+                    "separable": False,
+                    "verdict": (
+                        "REAL and MECHANISTIC, added after the first three probes "
+                        "missed it. The spell is cast in game every time the live node "
+                        "procs, so 'no evidence of any acquisition path at all' - the "
+                        "definition of deadCatalog - was simply false for these rows. "
+                        "It is deliberately NOT a statistical discriminator: its base "
+                        "rate is near-identical on live and not-in-trees entries, which "
+                        "is exactly why a correlation search could not have found it "
+                        "and why it does not promote anything to live:true. Concrete: "
+                        "Monk 'Light's Reach' 804907 (Spell.dbc 'Transcending Strikes', "
+                        "rank 'Trigger') <- live node 804897; Ranger 'Commander' 705078 "
+                        "('Plumes of War', 'Proc') <- 705071; Chronomancer 'Word of "
+                        "Balance: Mend' 806314 <- live node 806312; Barbarian 'Improved "
+                        "Wrist Snap' 804862 ('Jawbreaker', 'Success!') <- 705196. The "
+                        "SPELL provably fires; whether THIS CAD row is how a character "
+                        "gets it is a different question, so the row is "
+                        "live:null/indeterminate rather than live:true."),
+                    "examples": self.examples["liveNodeTriggerSpell"],
                 },
                 "liveNodeNameTwin": {
                     "entries": self.signal_entries["liveNodeNameTwin"],
@@ -665,6 +727,47 @@ class _FalseNegativeMeter:
             "indeterminateEntries": self.indeterminate,
             "indeterminateRateOfNotInTrees": round(self.indeterminate / n, 4),
             "deadCatalogEntries": self.not_in_trees - self.indeterminate,
+            "rowLevelVsAbilityLevel": {
+                "_what": (
+                    "`live` is an ABILITY-level claim, not a row-level one, and this "
+                    "block is the size of that gap. The client's own loader "
+                    "(raw/interface/FrameXML/Data/CharacterAdvancement.lua:68) skips "
+                    "any CAD entry whose Flags carry Deprecated (0x1) or Disabled "
+                    "(0x8) before the UI ever sees it. An entry can therefore be "
+                    "live:true - its ability IS a live builder node - while THIS row "
+                    "is one the client never loads, the live grant coming from a "
+                    "sibling duplicate row. Nothing downstream should read `live: "
+                    "true` as 'this row is the one the game uses'."),
+                "loaderDropFlags": "Deprecated 0x1 | Disabled 0x8",
+                "rowsByReason": dict(sorted(self.rows_total.items())),
+                "rowsDroppedByLoaderByReason": dict(sorted(
+                    (k, v) for k, v in self.rows_dropped_by_loader.items() if v)),
+                "liveTrueRowsDroppedByLoader": (
+                    self.rows_dropped_by_loader["liveDirect"]
+                    + self.rows_dropped_by_loader["liveViaRank"]),
+                "asRowLevelDiscriminatorForNameTwins": {
+                    "_question": ("can the loader flag settle which of a set of "
+                                  "duplicate rows is the live one, and so resolve the "
+                                  "liveNodeNameTwin indeterminates?"),
+                    "nameTwinRows": self.twin_rows,
+                    "nameTwinRowsDropped": self.twin_rows_dropped,
+                    "dropRateOnNameTwins": round(
+                        self.twin_rows_dropped / (self.twin_rows or 1), 4),
+                    "dropRateOnProvenLiveRows": round(
+                        (self.rows_dropped_by_loader["liveDirect"]
+                         + self.rows_dropped_by_loader["liveViaRank"])
+                        / (self.in_trees or 1), 4),
+                    "verdict": (
+                        "REJECTED as a discriminator, measured the same way the "
+                        "requiredLevel heuristic was. The flag fires on a large share "
+                        "of rows carrying PROVEN-live abilities, so 'flagged' does not "
+                        "mean 'not the live variant' - it means the ability reaches the "
+                        "player some other way, which is the very thing in question. "
+                        "The flag IS worth carrying as row-level metadata (entry.flags "
+                        "is already emitted verbatim); it is not worth promoting to a "
+                        "verdict input."),
+                },
+            },
             "rejectedHeuristic": {
                 "test": "CAD requiredLevel <= 10 AND type == 'Ability'",
                 "rateOnNotInTrees": round(self.heur_not_in_trees / n, 4),
@@ -680,12 +783,14 @@ class _FalseNegativeMeter:
             "conclusion": (
                 "The risk is real and it IS partly separable: the automatic-grant "
                 "population (SkillLineAbility acquireMethod != 0) is isolated exactly "
-                "and cleanly. The other two paths are real but indistinguishable from "
-                "retired content with offline data alone, so every entry carrying any "
-                "of the three signals ships live:null with reason 'indeterminate' and "
-                "the firing signals listed, rather than being guessed false. Entries "
-                "with live:false are the ones with NO evidence of any acquisition "
-                "path at all."),
+                "and cleanly. The other three paths are real but indistinguishable "
+                "from retired content with offline data alone, so every entry carrying "
+                "any of the four signals ships live:null with reason 'indeterminate' "
+                "and the firing signals listed, rather than being guessed false. "
+                "Entries with live:false are the ones with NO evidence of any "
+                "acquisition path at all - a definition that is only as good as the "
+                "probe set, which is why liveNodeTriggerSpell was added when review "
+                "found 52 deadCatalog rows whose spell demonstrably fires in game."),
         }
 
 
@@ -855,8 +960,16 @@ def build() -> dict:
                     else:
                         unresolved_other += 1
                     class_unresolved += 1
+                    # No Spell.dbc row - but the SpellRankData chain is keyed on
+                    # the id, not on the row, so it still exists and must still be
+                    # joined. Hardcoding ranks=None here silently dropped the chain
+                    # for 142 spell references (49 distinct ids) that ARE chain
+                    # heads, which made coa_live's liveViaRank unable to fire on
+                    # them at all - WitchHunter "Interrogate" (802012) shipped
+                    # live:false/deadCatalog even though rank 8 of its own chain,
+                    # 501380, is the live builder node "Brand of the Unworthy".
                     resolved.append({"id": sid, "name": None, "dispel": None,
-                                     "schools": [], "ranks": None})
+                                     "schools": [], "ranks": chains.get(sid) or None})
                 else:
                     resolved.append(dict(s, ranks=chains.get(sid) or None))
             entries.append({

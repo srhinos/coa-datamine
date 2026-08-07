@@ -1,4 +1,4 @@
-﻿"""CoA talent tree geometry -> data/talents/coa/<Class>.json (task W4-9,
+"""CoA talent tree geometry -> data/talents/coa/<Class>.json (task W4-9,
 coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11).
 
 Two geometry sources exist and this module reconciles them:

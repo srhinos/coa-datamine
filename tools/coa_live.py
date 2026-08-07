@@ -1,4 +1,4 @@
-﻿"""Shared live-vs-catalog join for the CoA layer (task W4-14).
+"""Shared live-vs-catalog join for the CoA layer (task W4-14).
 
 The problem this exists to solve: `data/classes/<Class>/*.json` is the CAD
 *catalog* - what the client's CharacterAdvancementData tables LIST for a class -
@@ -26,7 +26,26 @@ Liveness rule (exact, spell-id level - no name matching in the verdict):
   live=True  reason "liveViaRank"  - no own id matches, but another rank of the
                                      same SpellRankData chain does (the live
                                      builder node carries a different rank of the
-                                     same ability than the CAD row does).
+                                     same ability than the CAD row does) AND that
+                                     chain is NAME-COHERENT. The gate is not
+                                     decoration: 92 of the 1,780 resolvable
+                                     SpellRankData chains (5.2%) are recycled
+                                     contiguous id blocks rather than rank chains,
+                                     and without it they manufacture false
+                                     positives. Chain head 801667 is the proven
+                                     case - rank 1 "Revitalize (Rank 1
+                                     DEPRECATED)", rank 6 "Ascetic Abdication",
+                                     rank 7 "Fearmonger", rank 8 "War Cry", rank 9
+                                     "Umbral Glaive", rank 10 "Ice Hide", rank 11
+                                     "Mirage" - so an unguarded join declared
+                                     WitchDoctor's CAD "Revitalize" live because
+                                     "Mirage" (501136) is a live node. Coherence =
+                                     the chain's members carry at most ONE distinct
+                                     Spell.dbc name; ids with no Spell.dbc row
+                                     carry no name and so cannot break coherence
+                                     (that is what keeps WitchHunter "Interrogate"
+                                     802012 -> rank 8 501380 live, a chain whose
+                                     only named member is the live node itself).
   live=None  reason "indeterminate"- not in the trees, BUT carries positive
                                      evidence of a non-tree acquisition path, so
                                      "dead content" would be a false negative.
@@ -50,18 +69,49 @@ and both are measured in data/classes/_live_summary.json:
     live spell ids carry acquireMethod != 0).
   - `npcTrainerRow`: the entry's spell (or a rank of it) is taught by an
     NPCTrainer row. This one is REAL but NOT separable from dead content offline,
-    and that is the honest verdict rather than a guess: NPCTrainer.dbc in this
-    same client snapshot is provably CONTEMPORARY with the live generation (it
-    carries rows under skill lines that exist ONLY in the live builder and not in
-    the CAD tab layer at all - "Moon Guard", "Moon Priest", "Warden",
-    "Headhunting" - teaching rank variants of abilities whose base rank IS a live
-    node, e.g. Starcall), so a trainer row is evidence the ability is reachable
-    without a tree node; but the CAD row it hangs off can equally be a retired
-    duplicate. Hence live=None, not live=False and not live=True.
+    and that is the honest verdict rather than a guess. NPCTrainer.dbc in this
+    same client snapshot is contemporary with the live generation in at least 20
+    verified instances: 166 trainer rows sit under the skill lines "Moon Guard",
+    "Moon Priest", "Warden" and "Headhunting", and 20 of them teach a name-coherent
+    rank variant of an ability whose base rank IS a live builder node - Shooting
+    Star ranks 5-7 (skill line Warden) -> live node 800505, Prayer of Elune ranks
+    2-5 (Moon Priest) -> 801987, Headhunter's Spear ranks 2-7 and Berserker Axe
+    ranks 2-8 (Headhunting) -> 804137 / 804138. Two things this is NOT: it is not
+    a claim that those skill-line NAMES belong only to live content
+    (SkillLineAbility files the player-proven-dead Tide Lash 800380 and every
+    Tides sibling under skill line 92 "Moon Priest", the live name of the very
+    tree slot the tab mapping says was CAD "Tides"), and the Starcall example
+    previously cited here is under skill line "Sentinel", not one of the four.
+    So a trainer row is evidence the ability is reachable without a tree node;
+    but the CAD row it hangs off can equally be a retired duplicate. Hence
+    live=None, not live=False and not live=True.
+  - `liveNodeTriggerSpell`: the entry's spell is an effectTriggerSpell{1,2,3} of a
+    spell that IS a live builder node of the SAME class - i.e. the game casts it
+    whenever the live node fires. Mechanistic, not statistical, which is why the
+    first three probes all missed it (its base rate barely differs between dead
+    and live entries, so no correlation search would surface it). Concrete: Monk
+    "Light's Reach" 804907 (Spell.dbc "Transcending Strikes", rank "Trigger") is
+    triggered by live node 804897; Ranger "Commander" 705078 ("Plumes of War",
+    "Proc") by live node 705071; Chronomancer "Word of Balance: Mend" 806314 by
+    live node 806312; Barbarian "Improved Wrist Snap" 804862 ("Jawbreaker",
+    "Success!") by live node 705196. These spells fire in game, so `deadCatalog` -
+    "no evidence of any acquisition path at all" - was simply false for them.
+    Still live=None rather than live=True: the SPELL provably fires, but whether
+    THIS CAD row is how a character gets it is a different question.
   - `liveNodeNameTwin`: the entry's NAME matches a live node's name in the same
     class while none of its spell ids do - the duplicate-CAD-row / spellId-variant
     drift already documented in data/talents/coa/_meta.json's `contentDrift`. The
     ability is live; whether THIS row is the live variant is unknowable offline.
+
+Row level vs ability level (the one thing `live` does NOT say): `live` is an
+ABILITY-level claim. The client's own loader (raw/interface/FrameXML/Data/
+CharacterAdvancement.lua:68) drops any CAD entry whose Flags carry Deprecated
+(0x1) or Disabled (0x8) before the UI ever sees it, and entries flagged live=True
+sit on such rows - the ability is live through a sibling duplicate row, THIS row
+is not loaded. Measured every build into _live_summary.json's
+falseNegativeMeasurement.rowLevelVsAbilityLevel, including the test of whether
+that flag can act as a row-level discriminator for the liveNodeNameTwin
+indeterminates (it cannot - see the block's verdict).
 
 Everything above is re-derived at every build; nothing here is a copied figure.
 """
@@ -275,14 +325,44 @@ def live_index(slug: str = "voljin") -> dict:
 
 @lru_cache(maxsize=1)
 def alt_acquisition_index() -> dict:
-    """{"autoGrantSpellIds": frozenset, "trainerSpellIds": frozenset} - spells the
-    client grants WITHOUT a talent node. See the module docstring for why each is
-    a false-negative probe and why only one of the two is self-sufficient."""
+    """Everything the non-tree probes and the rank-chain gate need out of the DBCs:
+
+      autoGrantSpellIds   frozenset  SkillLineAbility.acquireMethod != 0
+      trainerSpellIds     frozenset  NPCTrainer.spellId
+      triggeredBySpellIds {triggeredSpellId: frozenset(sourceSpellIds)} - reversed
+                          Spell.effectTriggerSpell{1,2,3}, so a spell can be asked
+                          "what casts you?" in O(1)
+      spellNameNorm       {spellId: normalized name} for the LIVEVIARANK GATE -
+                          empty names are omitted, so a spell with no Spell.dbc row
+                          and a spell with a blank name both read as "no name" and
+                          cannot break a chain's name-coherence
+
+    See the module docstring for why each is a false-negative probe and why only
+    one of the four is self-sufficient."""
     from tools import dbc  # local import: keeps this module importable without DBCs
     auto = frozenset(r["spell"] for r in dbc.iter_named("SkillLineAbility")
                      if r["acquireMethod"] != 0)
     trainer = frozenset(r["spellId"] for r in dbc.iter_named("NPCTrainer"))
-    return {"autoGrantSpellIds": auto, "trainerSpellIds": trainer}
+    names, triggered_by = {}, defaultdict(set)
+    for r in dbc.iter_named("Spell"):
+        n = norm(r["name_enUS"])
+        if n:
+            names[r["id"]] = n
+        for slot in (1, 2, 3):
+            t = r[f"effectTriggerSpell{slot}"]
+            if t:
+                triggered_by[t].add(r["id"])
+    return {"autoGrantSpellIds": auto, "trainerSpellIds": trainer,
+            "spellNameNorm": names,
+            "triggeredBySpellIds": {k: frozenset(v)
+                                    for k, v in triggered_by.items()}}
+
+
+def chain_names_norm(spell_ids, alt) -> set:
+    """The distinct non-blank normalized Spell.dbc names carried by a rank chain.
+    <= 1 name means coherent - see classify_entry's liveViaRank gate."""
+    n = alt["spellNameNorm"]
+    return {v for v in (n.get(i) for i in spell_ids) if v}
 
 
 def entry_spell_ids(entry) -> tuple:
@@ -300,12 +380,14 @@ def entry_spell_ids(entry) -> tuple:
     return own, ranks
 
 
-ALT_SIGNALS = ("skillLineAutoGrant", "npcTrainerRow", "liveNodeNameTwin")
+ALT_SIGNALS = ("skillLineAutoGrant", "npcTrainerRow", "liveNodeTriggerSpell",
+               "liveNodeNameTwin")
 
 
 def alt_signals(entry, class_live, alt) -> list:
     """Which non-tree acquisition signals fire for a NOT-in-the-trees entry.
-    Order is stable (ALT_SIGNALS) so the emitted evidence is deterministic."""
+    Order is stable (ALT_SIGNALS) so the emitted evidence is deterministic - the
+    three spell-id-level signals first, the name-level one last."""
     own, ranks = entry_spell_ids(entry)
     chain = set(own) | set(ranks)
     out = []
@@ -313,9 +395,22 @@ def alt_signals(entry, class_live, alt) -> list:
         out.append("skillLineAutoGrant")
     if chain & alt["trainerSpellIds"]:
         out.append("npcTrainerRow")
+    if triggering_live_nodes(chain, class_live, alt):
+        out.append("liveNodeTriggerSpell")
     if norm(entry.get("name")) in class_live["nodeNamesNorm"]:
         out.append("liveNodeNameTwin")
     return out
+
+
+def triggering_live_nodes(chain, class_live, alt) -> set:
+    """Live nodes of THIS class that cast one of `chain` as an effectTriggerSpell.
+    Same-class is the point: a global trigger join would fire on any proc anywhere
+    in the client and mean nothing about this class's acquisition paths."""
+    srcs = set()
+    trig = alt["triggeredBySpellIds"]
+    for sid in chain:
+        srcs |= trig.get(sid, frozenset())
+    return srcs & set(class_live["spellNodes"])
 
 
 def classify_entry(entry, class_live, alt) -> tuple:
@@ -326,22 +421,44 @@ def classify_entry(entry, class_live, alt) -> tuple:
         return None, {"reason": "unknownNoGeometry", "matchedSpellId": None,
                       "builderTab": None}
     nodes = class_live["spellNodes"]
-    own, ranks = entry_spell_ids(entry)
+    own = [s["id"] for s in entry.get("spells", ())]
+    own_set = set(own)
     for sid in own:
         hit = nodes.get(sid)
         if hit:
             return True, {"reason": "liveDirect", "matchedSpellId": sid,
                           "builderTab": hit["tabName"], "builderNodeId": hit["nodeId"]}
-    for sid in ranks:
-        hit = nodes.get(sid)
-        if hit:
-            return True, {"reason": "liveViaRank", "matchedSpellId": sid,
-                          "builderTab": hit["tabName"], "builderNodeId": hit["nodeId"]}
+
+    # Rank pass, PER SPELL so coherence is judged within one SpellRankData chain
+    # (an entry may legitimately carry several differently-named spells; a chain
+    # may not). A recycled id block matches a live node by accident, so a match is
+    # only believed when the chain carries at most one distinct Spell.dbc name.
+    rejected = None
+    for s in entry.get("spells", ()):
+        chain_ids = [r["spellId"] for r in (s.get("ranks") or ())
+                     if r.get("spellId") and r["spellId"] not in own_set]
+        hit_sid = next((sid for sid in chain_ids if sid in nodes), None)
+        if hit_sid is None:
+            continue
+        chain_names = chain_names_norm([s["id"]] + chain_ids, alt)
+        if len(chain_names) > 1:
+            if rejected is None:
+                rejected = {"spellId": s["id"], "wouldHaveMatched": hit_sid,
+                            "distinctChainNames": sorted(chain_names)}
+            continue
+        hit = nodes[hit_sid]
+        return True, {"reason": "liveViaRank", "matchedSpellId": hit_sid,
+                      "builderTab": hit["tabName"], "builderNodeId": hit["nodeId"],
+                      "chainNameCoherent": True}
+
     signals = alt_signals(entry, class_live, alt)
+    ev = {"matchedSpellId": None, "builderTab": None}
+    if rejected is not None:
+        # keep the disproof attached to the row it disqualified
+        ev["rejectedRankMatch"] = rejected
     if signals:
-        return None, {"reason": "indeterminate", "matchedSpellId": None,
-                      "builderTab": None, "signals": signals}
-    return False, {"reason": "deadCatalog", "matchedSpellId": None, "builderTab": None}
+        return None, dict(ev, reason="indeterminate", signals=signals)
+    return False, dict(ev, reason="deadCatalog")
 
 
 REASONS = ("liveDirect", "liveViaRank", "indeterminate", "deadCatalog",

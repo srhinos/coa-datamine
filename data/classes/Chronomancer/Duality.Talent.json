@@ -1037,7 +1037,58 @@
      "dispel": null,
      "id": 801296,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801296
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501796
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501797
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501798
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501799
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501800
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501801
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501802
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501803
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501804
+      }
+     ],
      "schools": []
     }
    ],
@@ -1417,11 +1468,14 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
-   "live": false,
+   "live": null,
    "liveEvidence": {
     "builderTab": null,
     "matchedSpellId": null,
-    "reason": "deadCatalog"
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
    },
    "name": "Word of Balance: Mend",
    "quality": "Normal",

@@ -517,21 +517,56 @@ def _hole_row(sp, h, rec):
 
 
 def node_index():
-    """builderNodeId -> {tab, tier(y), x, requiredLevel} per class."""
-    out = {}
+    """(class, builderNodeId) -> {tab, tier(y), x, requiredLevel}, plus
+    {class: {every spell id any of that class's live nodes carries}}. Both are
+    CONSUMED from data/talents/coa/ - the same frozen capture the `live` flags were
+    stamped from - so nothing here re-derives liveness."""
+    out, live_ids = {}, {}
     if not os.path.isdir(TALENTS):
-        return out
+        return out, live_ids
     for fn in sorted(os.listdir(TALENTS)):
         if not fn.endswith(".json") or fn.startswith("_") or fn == "index.json":
             continue
         d = json.load(open(os.path.join(TALENTS, fn), encoding="utf-8"))
         tabs = {t["tabId"]: t["tabName"] for t in d.get("tabs", [])}
+        ids = live_ids.setdefault(d["class"], set())
         for n in d.get("nodes", []):
             out[(d["class"], n["id"])] = dict(
                 tab=tabs.get(n.get("tabId")), tier=n.get("y"), column=n.get("x"),
                 requiredLevel=n.get("requiredLevel"), nodeName=n.get("name"),
                 entryType=n.get("entryType"), maxPoints=n.get("maxPoints"))
-    return out
+            ids.update(i for i in [n.get("spellId")] + list(n.get("spellIds") or ())
+                       if i)
+    return out, live_ids
+
+
+def live_denominator_slack(recs, live_ids):
+    """`live` is stamped per ENTRY but consumed per CHAIN here, and the rank this
+    script measures is picked by level, not by which rank the builder node holds.
+    Both are over-inclusions in the live denominator, so both get measured rather
+    than asserted small.
+
+      chainsRidingOnASibling - live chains none of whose OWN spell ids is in any
+        live node of that class: the entry earned `live` on a DIFFERENT spell.
+      chainsMeasuringAnotherRank - live chains that do contain the matched node's
+        spell, but where rank_at_cap picks a different rank of it to measure."""
+    riders = other_rank = live_chains = 0
+    for r in recs:
+        if r["live"] is not True:
+            continue
+        live_chains += 1
+        ids = {x[1] for x in r["chain"]}
+        if not (ids & live_ids.get(r["cls"], set())):
+            riders += 1
+        elif r["matchedSpellId"] is not None and r["matchedSpellId"] in ids:
+            if rank_at_cap(r["chain"])[1] != r["matchedSpellId"]:
+                other_rank += 1
+    return {"liveChains": live_chains,
+            "chainsRidingOnASibling": riders,
+            "chainsRidingOnASiblingPct": round(100.0 * riders / max(1, live_chains), 1),
+            "chainsMeasuringAnotherRank": other_rank,
+            "chainsMeasuringAnotherRankPct": round(
+                100.0 * other_rank / max(1, live_chains), 1)}
 
 
 # --------------------------------------------------------------------------
@@ -540,9 +575,15 @@ def node_index():
 def main(write=True):
     sp, skipped = load_spells()
     recs, entries, nclasses = walk_chains()
-    nodes = node_index()
+    nodes, live_node_spell_ids = node_index()
+    slack = live_denominator_slack(recs, live_node_spell_ids)
 
-    live_counts = collections.Counter(
+    # NOTE the unit: recs are CHAINS (one per spell reference on a walked entry),
+    # not entries. These counts are therefore NOT comparable with
+    # _live_summary.json's entry-level liveCountsByReason - an entry with three
+    # spells contributes three chains here and one entry there. Named
+    # chainReasonCounts for exactly that reason.
+    chain_reason_counts = collections.Counter(
         (r["liveReason"] or "missing") for r in recs)
 
     cad_slots, dropped = build_slots(sp, recs, lambda r: True)
@@ -754,7 +795,13 @@ def main(write=True):
             "summary": "data/classes/_live_summary.json",
             "writer": "tools/coa_live.py (task W4-14)",
             "capture": "data/talents/coa/** from raw/talents/coa-builder-voljin.html (sha256-pinned)",
-            "entryReasonCounts": dict(sorted(live_counts.items())),
+            "chainReasonCounts": dict(sorted(chain_reason_counts.items())),
+            "chainReasonCountsUnit": (
+                "CHAINS (one per spell reference on a walked entry), NOT entries. "
+                "Deliberately does not match _live_summary.json's entry-level "
+                "liveCountsByReason - an entry carrying three spells is three rows "
+                "here and one there. Was misnamed entryReasonCounts before."),
+            "liveDenominatorSlack": slack,
             "caveat": ("Every live/dead verdict is a VOL'JIN verdict. Rexxar is a "
                        "separate CoA realm whose tree geometry is assumed identical "
                        "but unverified. data/classes entries are account-wide across "
@@ -803,6 +850,24 @@ def main(write=True):
             "verdict; it uses the guide's canonical clamp formula (basePoints + "
             "dieSides + ...), so it reads higher than the published triage table, "
             "which quoted basePoints + 1 and did not clamp on maxLevel.",
+            "The live denominator is slightly OVER-inclusive in two ways, both "
+            "measured in livenessSource.liveDenominatorSlack rather than assumed "
+            "small: `live` is stamped per ENTRY but consumed per CHAIN, so %d of "
+            "the %d live chains (%.1f%%) enter the denominator on a spell id that "
+            "is in no live node - they ride on a sibling spell of the same "
+            "multi-spell entry; and %d live chains measure a different rank than "
+            "the one the matched builder node holds, because rank_at_cap picks the "
+            "highest rank with level <= %d rather than the node's rank. Neither "
+            "moves the headline materially, but both are real."
+            % (slack["chainsRidingOnASibling"], slack["liveChains"],
+               slack["chainsRidingOnASiblingPct"],
+               slack["chainsMeasuringAnotherRank"], LEVEL_CAP),
+            "Liveness itself is consumed, so its caveats travel with it: liveViaRank "
+            "is gated on SpellRankData chain name-coherence (recycled contiguous id "
+            "blocks otherwise manufacture false positives), and `live` is an "
+            "ABILITY-level claim - a live:true entry can sit on a CAD row the "
+            "client's own loader discards. See tools/coa_live.py and "
+            "data/classes/_live_summary.json.falseNegativeMeasurement.",
         ],
     }
 
@@ -818,7 +883,10 @@ def main(write=True):
     w("=" * 92 + "\n")
     w("spell rows %d (skipped %d) | classes %d | entries %d | chains %d\n"
       % (len(sp), skipped, nclasses, entries, len(recs)))
-    w("entry liveness (chains): %s\n" % dict(sorted(live_counts.items())))
+    w("liveness by CHAIN (not by entry): %s\n" % dict(sorted(chain_reason_counts.items())))
+    w("live denominator slack: %d/%d chains ride on a sibling spell, %d measure "
+      "another rank\n" % (slack["chainsRidingOnASibling"], slack["liveChains"],
+                          slack["chainsMeasuringAnotherRank"]))
     w("\n%-22s %8s %10s %8s %8s %10s\n"
       % ("denominator", "slots", "modelable", "%", "holes", "hole(sid,slot)"))
     for nm, f in (("CAD catalog", cad_fig), ("LIVE only", live_fig),

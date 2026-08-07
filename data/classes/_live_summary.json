@@ -1,18 +1,43 @@
 {
  "_generatedBy": "tools/build_classes.py:_live_summary (task W4-14)",
  "falseNegativeMeasurement": {
-  "conclusion": "The risk is real and it IS partly separable: the automatic-grant population (SkillLineAbility acquireMethod != 0) is isolated exactly and cleanly. The other two paths are real but indistinguishable from retired content with offline data alone, so every entry carrying any of the three signals ships live:null with reason 'indeterminate' and the firing signals listed, rather than being guessed false. Entries with live:false are the ones with NO evidence of any acquisition path at all.",
-  "deadCatalogEntries": 3518,
+  "conclusion": "The risk is real and it IS partly separable: the automatic-grant population (SkillLineAbility acquireMethod != 0) is isolated exactly and cleanly. The other three paths are real but indistinguishable from retired content with offline data alone, so every entry carrying any of the four signals ships live:null with reason 'indeterminate' and the firing signals listed, rather than being guessed false. Entries with live:false are the ones with NO evidence of any acquisition path at all - a definition that is only as good as the probe set, which is why liveNodeTriggerSpell was added when review found 52 deadCatalog rows whose spell demonstrably fires in game.",
+  "deadCatalogEntries": 3460,
   "entriesInTrees": 3423,
   "entriesNotInTrees": 4908,
-  "indeterminateEntries": 1390,
-  "indeterminateRateOfNotInTrees": 0.2832,
+  "indeterminateEntries": 1448,
+  "indeterminateRateOfNotInTrees": 0.295,
   "question": "Of the CAD entries this method finds NOT in the live trees, how many are false negatives - abilities CoA grants outside a tree (baseline/automatic or trainer-taught), which would look dead while being live?",
   "rejectedHeuristic": {
    "rateOnNotInTrees": 0.2844,
    "rateOnProvenLiveEntries": 0.1691,
    "test": "CAD requiredLevel <= 10 AND type == 'Ability'",
    "verdict": "REJECTED as a baseline-grant discriminator - measured, not assumed. It fires on a large minority of entries that are PROVEN live (they are in the trees), so it has no specificity: 'low level + Ability' describes early tree nodes just as well as baseline grants. Not used in any shipped verdict."
+  },
+  "rowLevelVsAbilityLevel": {
+   "_what": "`live` is an ABILITY-level claim, not a row-level one, and this block is the size of that gap. The client's own loader (raw/interface/FrameXML/Data/CharacterAdvancement.lua:68) skips any CAD entry whose Flags carry Deprecated (0x1) or Disabled (0x8) before the UI ever sees it. An entry can therefore be live:true - its ability IS a live builder node - while THIS row is one the client never loads, the live grant coming from a sibling duplicate row. Nothing downstream should read `live: true` as 'this row is the one the game uses'.",
+   "asRowLevelDiscriminatorForNameTwins": {
+    "_question": "can the loader flag settle which of a set of duplicate rows is the live one, and so resolve the liveNodeNameTwin indeterminates?",
+    "dropRateOnNameTwins": 0.3395,
+    "dropRateOnProvenLiveRows": 0.2282,
+    "nameTwinRows": 324,
+    "nameTwinRowsDropped": 110,
+    "verdict": "REJECTED as a discriminator, measured the same way the requiredLevel heuristic was. The flag fires on a large share of rows carrying PROVEN-live abilities, so 'flagged' does not mean 'not the live variant' - it means the ability reaches the player some other way, which is the very thing in question. The flag IS worth carrying as row-level metadata (entry.flags is already emitted verbatim); it is not worth promoting to a verdict input."
+   },
+   "liveTrueRowsDroppedByLoader": 781,
+   "loaderDropFlags": "Deprecated 0x1 | Disabled 0x8",
+   "rowsByReason": {
+    "deadCatalog": 3460,
+    "indeterminate": 1448,
+    "liveDirect": 3417,
+    "liveViaRank": 6
+   },
+   "rowsDroppedByLoaderByReason": {
+    "deadCatalog": 1008,
+    "indeterminate": 548,
+    "liveDirect": 779,
+    "liveViaRank": 2
+   }
   },
   "signals": {
    "liveNodeNameTwin": {
@@ -73,9 +98,67 @@
     "test": "the entry's NAME matches a live node's name in the same class while none of its spell ids do",
     "verdict": "NOT SEPARABLE - the spellId-variant drift already measured in data/talents/coa/_meta.json's `contentDrift` (duplicate CAD rows per ability, each carrying a different spellId variant; the builder picks one). The ABILITY is live; whether THIS row is the live variant is unknowable offline, so the row is live:null/indeterminate rather than a name-matched live:true (names collide across a class's talents and abilities)."
    },
+   "liveNodeTriggerSpell": {
+    "distinctSpellIds": 43,
+    "entries": 99,
+    "examples": [
+     {
+      "cadId": 6646,
+      "class": "Barbarian",
+      "name": "Avatar of War",
+      "requiredLevel": 51,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 18825,
+      "class": "Barbarian",
+      "name": "Avatar of War",
+      "requiredLevel": 50,
+      "tab": "Ancestry",
+      "type": "Ability"
+     },
+     {
+      "cadId": 29782,
+      "class": "Barbarian",
+      "name": "Avatar of War",
+      "requiredLevel": 10,
+      "tab": "Ancestry",
+      "type": "Talent"
+     },
+     {
+      "cadId": 7032,
+      "class": "Barbarian",
+      "name": "Berserker",
+      "requiredLevel": 51,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 19221,
+      "class": "Barbarian",
+      "name": "Berserker",
+      "requiredLevel": 10,
+      "tab": "Tactics",
+      "type": "Ability"
+     },
+     {
+      "cadId": 30166,
+      "class": "Barbarian",
+      "name": "Berserker",
+      "requiredLevel": 10,
+      "tab": "Class",
+      "type": "Ability"
+     }
+    ],
+    "rateOfNotInTrees": 0.0202,
+    "separable": false,
+    "test": "the entry's spell chain contains a spell that appears as effectTriggerSpell{1,2,3} on a spell that IS a live builder node of the SAME class",
+    "verdict": "REAL and MECHANISTIC, added after the first three probes missed it. The spell is cast in game every time the live node procs, so 'no evidence of any acquisition path at all' - the definition of deadCatalog - was simply false for these rows. It is deliberately NOT a statistical discriminator: its base rate is near-identical on live and not-in-trees entries, which is exactly why a correlation search could not have found it and why it does not promote anything to live:true. Concrete: Monk 'Light's Reach' 804907 (Spell.dbc 'Transcending Strikes', rank 'Trigger') <- live node 804897; Ranger 'Commander' 705078 ('Plumes of War', 'Proc') <- 705071; Chronomancer 'Word of Balance: Mend' 806314 <- live node 806312; Barbarian 'Improved Wrist Snap' 804862 ('Jawbreaker', 'Success!') <- 705196. The SPELL provably fires; whether THIS CAD row is how a character gets it is a different question, so the row is live:null/indeterminate rather than live:true."
+   },
    "npcTrainerRow": {
-    "distinctSpellIds": 334,
-    "entries": 1022,
+    "distinctSpellIds": 336,
+    "entries": 1028,
     "examples": [
      {
       "cadId": 7262,
@@ -126,10 +209,10 @@
       "type": "Ability"
      }
     ],
-    "rateOfNotInTrees": 0.2082,
+    "rateOfNotInTrees": 0.2095,
     "separable": false,
     "test": "some rank of the entry's spell chain has an NPCTrainer row",
-    "verdict": "REAL but NOT SEPARABLE offline - said plainly rather than guessed. NPCTrainer.dbc in this client snapshot is provably CONTEMPORARY with the live generation, not a leftover of the catalog's: it carries rows under skill lines that exist ONLY in the live builder and nowhere in the CAD tab layer ('Moon Guard', 'Moon Priest', 'Warden', 'Headhunting'), teaching rank variants of abilities whose base rank IS a live node (e.g. Starcall - live node spellId 800497, trainer rows 302568/302569/502316/502317). So a trainer row IS evidence of a non-tree acquisition path - but the CAD row hanging off it can equally be a retired duplicate, and no offline table distinguishes those two. Shipped as live:null/indeterminate."
+    "verdict": "REAL but NOT SEPARABLE offline - said plainly rather than guessed. NPCTrainer.dbc in this client snapshot is CONTEMPORARY with the live generation in at least 20 verified instances, not a leftover of the catalog's: 166 trainer rows sit under the skill lines 'Moon Guard', 'Moon Priest', 'Warden' and 'Headhunting', and 20 of them teach a name-coherent rank variant of an ability whose base rank IS a live builder node - Shooting Star ranks 5-7 (skill line Warden) -> live node 800505; Prayer of Elune ranks 2-5 (Moon Priest) -> 801987; Headhunter's Spear ranks 2-7 and Berserker Axe ranks 2-8 (Headhunting) -> 804137 / 804138. Two overstatements corrected here rather than left standing: this is NOT a claim that those skill-line NAMES belong only to live content (SkillLineAbility files the player-proven-dead Tide Lash 800380, and every Tides sibling, under skill line 92 'Moon Priest' - the live name of the very tree slot the tab mapping says was CAD 'Tides'), and the Starcall example this text used to cite is under skill line 'Sentinel', not one of the four (live node 800497; trainer rows 502316/502317 are Starcall ranks 2-3, also Sentinel). So a trainer row IS evidence of a non-tree acquisition path - but the CAD row hanging off it can equally be a retired duplicate, and no offline table distinguishes those two. Shipped as live:null/indeterminate."
    },
    "skillLineAutoGrant": {
     "distinctSpellIds": 21,
@@ -241,14 +324,14 @@
    "entryCount": 387,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 161,
+    "deadCatalog": 151,
     "live": 171,
     "liveViaRank": 0,
-    "unknown": 55
+    "unknown": 65
    },
    "liveCountsByReason": {
-    "deadCatalog": 161,
-    "indeterminate": 55,
+    "deadCatalog": 151,
+    "indeterminate": 65,
     "liveDirect": 171
    },
    "liveNodeCount": 162,
@@ -267,14 +350,14 @@
    "entryCount": 434,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 200,
+    "deadCatalog": 197,
     "live": 163,
     "liveViaRank": 0,
-    "unknown": 71
+    "unknown": 74
    },
    "liveCountsByReason": {
-    "deadCatalog": 200,
-    "indeterminate": 71,
+    "deadCatalog": 197,
+    "indeterminate": 74,
     "liveDirect": 163
    },
    "liveNodeCount": 157,
@@ -335,14 +418,14 @@
    "entryCount": 369,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 130,
+    "deadCatalog": 124,
     "live": 197,
     "liveViaRank": 0,
-    "unknown": 42
+    "unknown": 48
    },
    "liveCountsByReason": {
-    "deadCatalog": 130,
-    "indeterminate": 42,
+    "deadCatalog": 124,
+    "indeterminate": 48,
     "liveDirect": 197
    },
    "liveNodeCount": 158,
@@ -456,14 +539,14 @@
    "entryCount": 377,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 165,
+    "deadCatalog": 162,
     "live": 158,
     "liveViaRank": 3,
-    "unknown": 51
+    "unknown": 54
    },
    "liveCountsByReason": {
-    "deadCatalog": 165,
-    "indeterminate": 51,
+    "deadCatalog": 162,
+    "indeterminate": 54,
     "liveDirect": 158,
     "liveViaRank": 3
    },
@@ -591,14 +674,14 @@
    "entryCount": 393,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 178,
+    "deadCatalog": 177,
     "live": 137,
     "liveViaRank": 0,
-    "unknown": 78
+    "unknown": 79
    },
    "liveCountsByReason": {
-    "deadCatalog": 178,
-    "indeterminate": 78,
+    "deadCatalog": 177,
+    "indeterminate": 79,
     "liveDirect": 137
    },
    "liveNodeCount": 165,
@@ -617,14 +700,14 @@
    "entryCount": 364,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 150,
+    "deadCatalog": 147,
     "live": 162,
     "liveViaRank": 0,
-    "unknown": 52
+    "unknown": 55
    },
    "liveCountsByReason": {
-    "deadCatalog": 150,
-    "indeterminate": 52,
+    "deadCatalog": 147,
+    "indeterminate": 55,
     "liveDirect": 162
    },
    "liveNodeCount": 153,
@@ -811,14 +894,14 @@
    "entryCount": 424,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 249,
+    "deadCatalog": 244,
     "live": 142,
     "liveViaRank": 0,
-    "unknown": 33
+    "unknown": 38
    },
    "liveCountsByReason": {
-    "deadCatalog": 249,
-    "indeterminate": 33,
+    "deadCatalog": 244,
+    "indeterminate": 38,
     "liveDirect": 142
    },
    "liveNodeCount": 160,
@@ -878,14 +961,14 @@
    "entryCount": 416,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 158,
+    "deadCatalog": 156,
     "live": 174,
     "liveViaRank": 0,
-    "unknown": 84
+    "unknown": 86
    },
    "liveCountsByReason": {
-    "deadCatalog": 158,
-    "indeterminate": 84,
+    "deadCatalog": 156,
+    "indeterminate": 86,
     "liveDirect": 174
    },
    "liveNodeCount": 192,
@@ -905,14 +988,14 @@
    "entryCount": 368,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 141,
+    "deadCatalog": 138,
     "live": 167,
     "liveViaRank": 0,
-    "unknown": 60
+    "unknown": 63
    },
    "liveCountsByReason": {
-    "deadCatalog": 141,
-    "indeterminate": 60,
+    "deadCatalog": 138,
+    "indeterminate": 63,
     "liveDirect": 167
    },
    "liveNodeCount": 156,
@@ -959,14 +1042,14 @@
    "entryCount": 412,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 262,
+    "deadCatalog": 252,
     "live": 105,
     "liveViaRank": 0,
-    "unknown": 45
+    "unknown": 55
    },
    "liveCountsByReason": {
-    "deadCatalog": 262,
-    "indeterminate": 45,
+    "deadCatalog": 252,
+    "indeterminate": 55,
     "liveDirect": 105
    },
    "liveNodeCount": 158,
@@ -985,14 +1068,14 @@
    "entryCount": 404,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 118,
+    "deadCatalog": 112,
     "live": 191,
     "liveViaRank": 0,
-    "unknown": 95
+    "unknown": 101
    },
    "liveCountsByReason": {
-    "deadCatalog": 118,
-    "indeterminate": 95,
+    "deadCatalog": 112,
+    "indeterminate": 101,
     "liveDirect": 191
    },
    "liveNodeCount": 202,
@@ -1042,14 +1125,13 @@
    "liveCounts": {
     "deadCatalog": 205,
     "live": 143,
-    "liveViaRank": 3,
-    "unknown": 52
+    "liveViaRank": 0,
+    "unknown": 55
    },
    "liveCountsByReason": {
     "deadCatalog": 205,
-    "indeterminate": 52,
-    "liveDirect": 143,
-    "liveViaRank": 3
+    "indeterminate": 55,
+    "liveDirect": 143
    },
    "liveNodeCount": 159,
    "liveTabs": [
@@ -1067,15 +1149,16 @@
    "entryCount": 392,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 165,
+    "deadCatalog": 159,
     "live": 169,
-    "liveViaRank": 0,
-    "unknown": 58
+    "liveViaRank": 3,
+    "unknown": 61
    },
    "liveCountsByReason": {
-    "deadCatalog": 165,
-    "indeterminate": 58,
-    "liveDirect": 169
+    "deadCatalog": 159,
+    "indeterminate": 61,
+    "liveDirect": 169,
+    "liveViaRank": 3
    },
    "liveNodeCount": 192,
    "liveTabs": [
@@ -3118,13 +3201,13 @@
       "liveTab": "Inquisition",
       "method": "chrSpecsSpecName",
       "nodeOverlap": {
-       "cadTabMatchedEntries": 54,
+       "cadTabMatchedEntries": 57,
        "meetsThresholds": true,
-       "runnerUpLiveTab": "Black Knight",
-       "runnerUpMatches": 13,
+       "runnerUpLiveTab": "Class",
+       "runnerUpMatches": 15,
        "topLiveTab": "Inquisition",
        "topMatches": 28,
-       "topShare": 0.5185
+       "topShare": 0.4912
       }
      }
     ],
@@ -3213,14 +3296,14 @@
   "entries": 23709,
   "entriesInClassesWithGeometry": 8331,
   "liveCounts": {
-   "deadCatalog": 3518,
+   "deadCatalog": 3460,
    "live": 3417,
    "liveViaRank": 6,
-   "unknown": 16768
+   "unknown": 16826
   },
   "liveCountsByReason": {
-   "deadCatalog": 3518,
-   "indeterminate": 1390,
+   "deadCatalog": 3460,
+   "indeterminate": 1448,
    "liveDirect": 3417,
    "liveViaRank": 6,
    "unknownNoGeometry": 15378

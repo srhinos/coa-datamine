@@ -1,4 +1,4 @@
-﻿"""TDD gate for task W4-11: items layer (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8 +
+"""TDD gate for task W4-11: items layer (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8 +
 Sec 13 items 14/15/16/20/21). Split into sections per sub-task letter, each
 independently re-derived against a fresh 2026-08-06 extraction (not copied from the
 source doc) - see .superpowers/sdd/task-w4-11-report.md for the full log.
