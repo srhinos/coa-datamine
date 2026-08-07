@@ -1,0 +1,5134 @@
+{
+ "contentHashed": true,
+ "loosePathCount": 104,
+ "mpqPathCount": 637350,
+ "note": "Index for raw/_inventory/files/*.json. Per-path records live in the shards; each shard holds one compact JSON record per line, sorted by path, keyed by the path prefix in `prefix`.",
+ "oversizeShards": [],
+ "recordCount": 637454,
+ "shardCount": 640,
+ "shardMaxLines": 5000,
+ "shards": [
+  {
+   "file": "_root~jkl.json",
+   "firstPath": "Launcher.exe",
+   "kind": "~jkl",
+   "lastPath": "Launcher.exe",
+   "prefix": "",
+   "records": 1
+  },
+  {
+   "file": "_root~mno.json",
+   "firstPath": "Microsoft.VC80.CRT.manifest",
+   "kind": "~mno",
+   "lastPath": "msvcr80.dll",
+   "prefix": "",
+   "records": 3
+  },
+  {
+   "file": "_root~other.json",
+   "firstPath": "_shaders/effects/MapObj.wfx",
+   "kind": "~other",
+   "lastPath": "_shaders/vertex/vs_3_0/vsLiquidProcWater_Editor.bls",
+   "prefix": "",
+   "records": 447
+  },
+  {
+   "file": "_root~pqr.json",
+   "firstPath": "PARTICLES/BloodSpurts/BloodSpurt.m2",
+   "kind": "~pqr",
+   "lastPath": "Repair.exe",
+   "prefix": "",
+   "records": 83
+  },
+  {
+   "file": "a.json",
+   "firstPath": "area-52/listarchive",
+   "kind": "",
+   "lastPath": "area-52/listarchive",
+   "prefix": "a",
+   "records": 1
+  },
+  {
+   "file": "b.json",
+   "firstPath": "Background Downloader.app/Contents/Info.plist",
+   "kind": "",
+   "lastPath": "Battle.net.dll",
+   "prefix": "b",
+   "records": 20
+  },
+  {
+   "file": "c~abc.json",
+   "firstPath": "Cameras/FlyByBloodElf.m2",
+   "kind": "~abc",
+   "lastPath": "Cameras/Scry_cam00.skin",
+   "prefix": "c",
+   "records": 40
+  },
+  {
+   "file": "c~mno.json",
+   "firstPath": "component.wow-data.txt",
+   "kind": "~mno",
+   "lastPath": "Content/WorldMapAreaData.json",
+   "prefix": "c",
+   "records": 84
+  },
+  {
+   "file": "c~stu.json",
+   "firstPath": "custom/BLU.blp",
+   "kind": "~stu",
+   "lastPath": "custom/WMO/Crucible_Event/ArgentCrusadeColiseum_CrucibleEvent_012.wmo",
+   "prefix": "c",
+   "records": 21
+  },
+  {
+   "file": "character-~jkl.json",
+   "firstPath": "Character/Kultiran/eyes00_00_3486357.blp",
+   "kind": "~jkl",
+   "lastPath": "Character/LeperTroll/Male/LeperTrollmaleskin00_04.blp",
+   "prefix": "character/",
+   "records": 1078
+  },
+  {
+   "file": "character-~pqr.json",
+   "firstPath": "Character/Pandaren/eyes00_00_3513030.blp",
+   "kind": "~pqr",
+   "lastPath": "Character/Pandaren/male/pandarenmale_eyereflect.blp",
+   "prefix": "character/",
+   "records": 1191
+  },
+  {
+   "file": "character-~vwx.json",
+   "firstPath": "CHARACTER/Vrykul/FACIALLOWERHAIR00_00.BLP",
+   "kind": "~vwx",
+   "lastPath": "Character/worgen/Male/WorgenMaleSkin00_07_Extra.blp",
+   "prefix": "character/",
+   "records": 2062
+  },
+  {
+   "file": "character-~yz.json",
+   "firstPath": "Character/zandalaritroll/female/zandalaritrollfemale.m2",
+   "kind": "~yz",
+   "lastPath": "Character/zandalaritroll/male/zandalaritrollmaleskin04_06_extra.blp",
+   "prefix": "character/",
+   "records": 799
+  },
+  {
+   "file": "character-b~pqr.json",
+   "firstPath": "Character/BROKEN/Female/BrokenFemale.m2",
+   "kind": "~pqr",
+   "lastPath": "Character/BROKEN/Male/BrokenMaleSkin00_05.blp",
+   "prefix": "character/b",
+   "records": 127
+  },
+  {
+   "file": "character-bloodelf2.json",
+   "firstPath": "Character/BloodElf2/female/bloodelffemale2.m2",
+   "kind": "",
+   "lastPath": "Character/BloodElf2/male/ScalpUpperHair00_12.blp",
+   "prefix": "character/bloodelf2",
+   "records": 1497
+  },
+  {
+   "file": "character-bloodelf-~def.json",
+   "firstPath": "Character/BloodElf/eyes00_00_3492879.blp",
+   "kind": "~def",
+   "lastPath": "Character/BloodElf/Female/ScalpUpperHair00_26.blp",
+   "prefix": "character/bloodelf/",
+   "records": 3030
+  },
+  {
+   "file": "character-bloodelf-~ghi.json",
+   "firstPath": "Character/BloodElf/HAIR00_00.blp",
+   "kind": "~ghi",
+   "lastPath": "Character/BloodElf/HAIR00_26.blp",
+   "prefix": "character/bloodelf/",
+   "records": 27
+  },
+  {
+   "file": "character-bloodelf-~mno.json",
+   "firstPath": "Character/BloodElf/Male/BloodElfFemaleEyeGlowGreen.blp",
+   "kind": "~mno",
+   "lastPath": "Character/BloodElf/Male/Teeth.blp",
+   "prefix": "character/bloodelf/",
+   "records": 3022
+  },
+  {
+   "file": "character-d~vwx.json",
+   "firstPath": "Character/Dwarf2/FacialLowerHair00_00.blp",
+   "kind": "~vwx",
+   "lastPath": "Character/Dwarf/ScalpUpperHair12_22.blp",
+   "prefix": "character/d",
+   "records": 4605
+  },
+  {
+   "file": "character-dra~def.json",
+   "firstPath": "Character/Draenei2/Female/deathKnightEyeGlow.blp",
+   "kind": "~def",
+   "lastPath": "Character/Draenei/ScalpUpperHair00_21.blp",
+   "prefix": "character/dra",
+   "records": 4435
+  },
+  {
+   "file": "character-dra~jkl.json",
+   "firstPath": "Character/DrakkariTroll/DrakkariTrollHair00_00.blp",
+   "kind": "~jkl",
+   "lastPath": "Character/DrakkariTroll/Male/DrakkariTrollMaleskin00_08_extra.blp",
+   "prefix": "character/dra",
+   "records": 613
+  },
+  {
+   "file": "character-f.json",
+   "firstPath": "Character/FelOrc/Female/FelOrc_Black.blp",
+   "kind": "",
+   "lastPath": "Character/ForestTroll/ScalpUpperHair02_09.blp",
+   "prefix": "character/f",
+   "records": 529
+  },
+  {
+   "file": "character-g.json",
+   "firstPath": "Character/Gnome2/FacialLowerHair00_00.blp",
+   "kind": "",
+   "lastPath": "Character/GoblinOld/Male/GoblinOldMaleSkin00_102.blp",
+   "prefix": "character/g",
+   "records": 4208
+  },
+  {
+   "file": "character-human2.json",
+   "firstPath": "Character/Human2/FacialLowerHair00_00.blp",
+   "kind": "",
+   "lastPath": "Character/Human2/ScalpUpperHair02_12.blp",
+   "prefix": "character/human2",
+   "records": 2053
+  },
+  {
+   "file": "character-human-.json",
+   "firstPath": "Character/Human/eyes00_12_3484655.blp",
+   "kind": "",
+   "lastPath": "Character/Human/ScalpUpperHair02_22.blp",
+   "prefix": "character/human/",
+   "records": 3605
+  },
+  {
+   "file": "character-i.json",
+   "firstPath": "Character/ICETROLL/Hair00_00.blp",
+   "kind": "",
+   "lastPath": "Character/ICETROLL/MALE/IceTrollMaleSkin00_04.blp",
+   "prefix": "character/i",
+   "records": 77
+  },
+  {
+   "file": "character-n~abc.json",
+   "firstPath": "Character/Naga_/Female/naga_female.m2",
+   "kind": "~abc",
+   "lastPath": "Character/Naga_/Male/Naga_MaleSkinTeal.blp",
+   "prefix": "character/n",
+   "records": 80
+  },
+  {
+   "file": "character-n~mno.json",
+   "firstPath": "Character/NorthrendSkeleton/Male/NorthrendSkeletonMale.M2",
+   "kind": "~mno",
+   "lastPath": "Character/NorthrendSkeleton/Male/NorthrendSkeletonSkin00_03_Extra.blp",
+   "prefix": "character/n",
+   "records": 14
+  },
+  {
+   "file": "character-n~pqr.json",
+   "firstPath": "Character/Npc_Earthen/FacialLowerHair00_00.blp",
+   "kind": "~pqr",
+   "lastPath": "Character/Npc_HumanCultist/ScalpUpperHair02_12.blp",
+   "prefix": "character/n",
+   "records": 3193
+  },
+  {
+   "file": "character-nightelf2.json",
+   "firstPath": "Character/NightElf2/FacialLowerHair00_00.blp",
+   "kind": "",
+   "lastPath": "Character/NightElf2/ScalpUpperHair01_10.blp",
+   "prefix": "character/nightelf2",
+   "records": 1654
+  },
+  {
+   "file": "character-nightelf-~def.json",
+   "firstPath": "Character/NightElf/eyes00_00_3509222.blp",
+   "kind": "~def",
+   "lastPath": "Character/NightElf/Female/NightElfFemaleSkin00_34_Extra.blp",
+   "prefix": "character/nightelf/",
+   "records": 2333
+  },
+  {
+   "file": "character-nightelf-~ghi.json",
+   "firstPath": "Character/NightElf/Hair00_00.blp",
+   "kind": "~ghi",
+   "lastPath": "Character/NightElf/Hair00_28.blp",
+   "prefix": "character/nightelf/",
+   "records": 27
+  },
+  {
+   "file": "character-nightelf-~mno.json",
+   "firstPath": "Character/NightElf/Male/deathKnightEyeGlow.blp",
+   "kind": "~mno",
+   "lastPath": "Character/NightElf/NightElfFemaleFacialUpperHair25_30.blp",
+   "prefix": "character/nightelf/",
+   "records": 2764
+  },
+  {
+   "file": "character-nightelf-~stu.json",
+   "firstPath": "Character/NightElf/ScalpLowerHair00_00.blp",
+   "kind": "~stu",
+   "lastPath": "Character/NightElf/ScalpUpperHair01_28.blp",
+   "prefix": "character/nightelf/",
+   "records": 108
+  },
+  {
+   "file": "character-orc2.json",
+   "firstPath": "Character/Orc2/Female/deathKnightEyeGlow.blp",
+   "kind": "",
+   "lastPath": "Character/Orc2/Male/ScalpUpperHair07_10.blp",
+   "prefix": "character/orc2",
+   "records": 1654
+  },
+  {
+   "file": "character-orc-~def.json",
+   "firstPath": "Character/Orc/eyes00_03_3492831.blp",
+   "kind": "~def",
+   "lastPath": "Character/Orc/Female/ScalpUpperHair08_22.blp",
+   "prefix": "character/orc/",
+   "records": 2614
+  },
+  {
+   "file": "character-orc-~ghi.json",
+   "firstPath": "Character/Orc/Hair00_00.blp",
+   "kind": "~ghi",
+   "lastPath": "Character/Orc/Hair00_22.blp",
+   "prefix": "character/orc/",
+   "records": 22
+  },
+  {
+   "file": "character-orc-~mno.json",
+   "firstPath": "Character/Orc/Male/deathKnightEyeGlow.blp",
+   "kind": "~mno",
+   "lastPath": "Character/Orc/Male/ScalpUpperHair07_22.blp",
+   "prefix": "character/orc/",
+   "records": 2845
+  },
+  {
+   "file": "character-orc-~stu.json",
+   "firstPath": "Character/Orc/ScalpLowerHair00_00.blp",
+   "kind": "~stu",
+   "lastPath": "Character/Orc/ScalpUpperHair07_22.blp",
+   "prefix": "character/orc/",
+   "records": 352
+  },
+  {
+   "file": "character-s.json",
+   "firstPath": "Character/Scourge2/FacialFemaleLowerHair00_00.blp",
+   "kind": "",
+   "lastPath": "Character/Skeleton/Male/SKELETONMALESKIN00_05.BLP",
+   "prefix": "character/s",
+   "records": 3381
+  },
+  {
+   "file": "character-t~abc.json",
+   "firstPath": "CHARACTER/Taunka/Male/TaunkaMale.M2",
+   "kind": "~abc",
+   "lastPath": "Character/Tauren/TAURENHORNS_04.blp",
+   "prefix": "character/t",
+   "records": 2690
+  },
+  {
+   "file": "character-t~ghi.json",
+   "firstPath": "Character/thinhuman/male/thinhumanmale.m2",
+   "kind": "~ghi",
+   "lastPath": "Character/thinhuman/thinhumanmalehair00_06.blp",
+   "prefix": "character/t",
+   "records": 87
+  },
+  {
+   "file": "character-t~stu.json",
+   "firstPath": "Character/TUSKARR/Hair00_00.blp",
+   "kind": "~stu",
+   "lastPath": "Character/TUSKARR/MALE/TuskarrMaleSkin00_06.blp",
+   "prefix": "character/t",
+   "records": 63
+  },
+  {
+   "file": "character-tro~ghi.json",
+   "firstPath": "Character/Troglodyte/Male/TroglodyteMale.m2",
+   "kind": "~ghi",
+   "lastPath": "Character/Troglodyte/Troglodytehair00_06.blp",
+   "prefix": "character/tro",
+   "records": 37
+  },
+  {
+   "file": "character-troll2.json",
+   "firstPath": "Character/troll2/female/deathKnightEyeGlow.blp",
+   "kind": "",
+   "lastPath": "Character/troll2/TrollMaleScalpUpperHair07_12.blp",
+   "prefix": "character/troll2",
+   "records": 1410
+  },
+  {
+   "file": "character-troll-.json",
+   "firstPath": "Character/Troll/eyes00_00_3500335.blp",
+   "kind": "",
+   "lastPath": "Character/Troll/TrollMaleScalpUpperHair07_30.blp",
+   "prefix": "character/troll/",
+   "records": 3658
+  },
+  {
+   "file": "creature-~jkl.json",
+   "firstPath": "Creature/jailer/armorreflect_hard.blp",
+   "kind": "~jkl",
+   "lastPath": "Creature/LynxGod/Lynxgod01.skin",
+   "prefix": "creature/",
+   "records": 2748
+  },
+  {
+   "file": "creature-~pqr.json",
+   "firstPath": "Creature/pa_keg_creature/armorreflect4.blp",
+   "kind": "~pqr",
+   "lastPath": "Creature/rutaanibirdmount/rutaanibirdmount_saddle_red.blp",
+   "prefix": "creature/",
+   "records": 3777
+  },
+  {
+   "file": "creature-~vwx.json",
+   "firstPath": "Creature/Valdior/armorreflect4.blp",
+   "kind": "~vwx",
+   "lastPath": "Creature/xuen/xuen0123-00.anim",
+   "prefix": "creature/",
+   "records": 4133
+  },
+  {
+   "file": "creature-~yz.json",
+   "firstPath": "Creature/yaga/armorreflect4.blp",
+   "kind": "~yz",
+   "lastPath": "Creature/zuljin/Zuljin_Skin.blp",
+   "prefix": "creature/",
+   "records": 683
+  },
+  {
+   "file": "creature-a.json",
+   "firstPath": "Creature/abominationlord/abominationlord.m2",
+   "kind": "",
+   "lastPath": "Creature/azzarvoidmounts/oldglass3.blp",
+   "prefix": "creature/a",
+   "records": 2615
+  },
+  {
+   "file": "creature-b.json",
+   "firstPath": "Creature/babybearcoa/armorreflect_organic01.blp",
+   "kind": "",
+   "lastPath": "Creature/bwonsamdispirit/wispyfrost_dissipate_01.blp",
+   "prefix": "creature/b",
+   "records": 3650
+  },
+  {
+   "file": "creature-c.json",
+   "firstPath": "Creature/cadaverousgolem/cadaverousgolem.m2",
+   "kind": "",
+   "lastPath": "Creature/CustomTinkerShredderMount/shreddermountsilver3.blp",
+   "prefix": "creature/c",
+   "records": 2278
+  },
+  {
+   "file": "creature-d.json",
+   "firstPath": "Creature/dancingbear/armorreflect4.blp",
+   "kind": "",
+   "lastPath": "Creature/dwarfpaladinram/smokestrip_01.blp",
+   "prefix": "creature/d",
+   "records": 4942
+  },
+  {
+   "file": "creature-e.json",
+   "firstPath": "Creature/eagle2/eagle2.m2",
+   "kind": "",
+   "lastPath": "Creature/eyris/valkier2_fxsmoke_gold.blp",
+   "prefix": "creature/e",
+   "records": 1031
+  },
+  {
+   "file": "creature-f.json",
+   "firstPath": "Creature/FacelessGeneral/FacelessGeneral.M2",
+   "kind": "",
+   "lastPath": "Creature/futurebotpet/white8x8.blp",
+   "prefix": "creature/f",
+   "records": 3347
+  },
+  {
+   "file": "creature-g.json",
+   "firstPath": "Creature/galletajengibre/galletajengibre.m2",
+   "kind": "",
+   "lastPath": "Creature/gyrocopter/smoothreflect01.blp",
+   "prefix": "creature/g",
+   "records": 2272
+  },
+  {
+   "file": "creature-h.json",
+   "firstPath": "Creature/HAKKAR/Hakkar.m2",
+   "kind": "",
+   "lastPath": "Creature/Hyena/HyenaSkinYellow.blp",
+   "prefix": "creature/h",
+   "records": 2049
+  },
+  {
+   "file": "creature-i.json",
+   "firstPath": "Creature/Iceberg/Iceberg.blp",
+   "kind": "",
+   "lastPath": "Creature/IvyBalaena/IvyBalaena0223-00.anim",
+   "prefix": "creature/i",
+   "records": 891
+  },
+  {
+   "file": "creature-m.json",
+   "firstPath": "Creature/madscientist2/armorreflect4.blp",
+   "kind": "",
+   "lastPath": "Creature/Muzah/muzah_skin.blp",
+   "prefix": "creature/m",
+   "records": 3255
+  },
+  {
+   "file": "creature-n.json",
+   "firstPath": "Creature/naaru/fire1white_invert.blp",
+   "kind": "",
+   "lastPath": "Creature/nzothwormtentacleeye/nzothwormtentacleeye_3071344.blp",
+   "prefix": "creature/n",
+   "records": 2485
+  },
+  {
+   "file": "creature-o.json",
+   "firstPath": "Creature/object/7dl_dummy.blp",
+   "kind": "",
+   "lastPath": "Creature/owldragonmount/owldragonmount_saddle.blp",
+   "prefix": "creature/o",
+   "records": 1024
+  },
+  {
+   "file": "creature-s.json",
+   "firstPath": "Creature/saber2/Arcane_Wisps_Desat_02.blp",
+   "kind": "",
+   "lastPath": "Creature/Sylvanas/sylvanas2.blp",
+   "prefix": "creature/s",
+   "records": 4833
+  },
+  {
+   "file": "creature-t.json",
+   "firstPath": "Creature/T_Robot/T_Robot.M2",
+   "kind": "",
+   "lastPath": "Creature/tyrena/tyrena_skin.blp",
+   "prefix": "creature/t",
+   "records": 2257
+  },
+  {
+   "file": "creature-u.json",
+   "firstPath": "Creature/ULDUMWATCHER/uldumwatcherleft.blp",
+   "kind": "",
+   "lastPath": "Creature/Unicorn/UnicornSkinZebra.blp",
+   "prefix": "creature/u",
+   "records": 161
+  },
+  {
+   "file": "d~abc.json",
+   "firstPath": "Data/enUS/AccountBilling.url",
+   "kind": "~abc",
+   "lastPath": "dbghelp.dll",
+   "prefix": "d",
+   "records": 496
+  },
+  {
+   "file": "d~ghi.json",
+   "firstPath": "DivxDecoder.dll",
+   "kind": "~ghi",
+   "lastPath": "DivxDecoder.dll",
+   "prefix": "d",
+   "records": 1
+  },
+  {
+   "file": "dungeons-~abc.json",
+   "firstPath": "dungeons/buildings/6bl_reddarkportal/redportaltextures/6bl_reddarkportal_crackedfloor.blp",
+   "kind": "~abc",
+   "lastPath": "dungeons/cities/az_stormwind/7sw_stromwind_funeral/wryntoomb03_grey.blp",
+   "prefix": "dungeons/",
+   "records": 162
+  },
+  {
+   "file": "dungeons-~def.json",
+   "firstPath": "DUNGEONS/DUNGEONS/LD_SHADOW FANG/FINAL/MM_SHDWFANG_WND_01.BLP",
+   "kind": "~def",
+   "lastPath": "DUNGEONS/DUNGEONS/OL_LADYVASHJ/TEXTURE/RAID WING/CFANG_SMALL_PILLAR.BLP",
+   "prefix": "dungeons/",
+   "records": 66
+  },
+  {
+   "file": "dungeons-~mno.json",
+   "firstPath": "dungeons/Micro_Dungeons/Az_Worgenmine/Floor.Blp",
+   "kind": "~mno",
+   "lastPath": "DUNGEONS/MICRO_DUNGEONS/ND_SHOLAZAR_ORACLETREE/TEXTURES/INTERIOR_TREE_TOP_TX.BLP",
+   "prefix": "dungeons/",
+   "records": 12
+  },
+  {
+   "file": "dungeons-~pqr.json",
+   "firstPath": "dungeons/psdtextures/scholomance/bm_skol_dirtfloor01.blp",
+   "kind": "~pqr",
+   "lastPath": "DUNGEONS/PSDTEXTURES/TUSKARR/TESTS/TUSKARRHUTA_TUSKS.BLP",
+   "prefix": "dungeons/",
+   "records": 25
+  },
+  {
+   "file": "dungeons-~vwx.json",
+   "firstPath": "dungeons/Vehicles/6Hu_Transport_Ships/Textures/psds/6hu_ship01_map01_grime.blp",
+   "kind": "~vwx",
+   "lastPath": "dungeons/Vehicles/transport_vrykul_ship/tex/vrykul_wingsail.blp",
+   "prefix": "dungeons/",
+   "records": 163
+  },
+  {
+   "file": "dungeons-textures-~abc.json",
+   "firstPath": "dungeons/textures/A01_Blackrock/A01_Blackrock_Brick_Wall_01.blp",
+   "kind": "~abc",
+   "lastPath": "DUNGEONS/TEXTURES/COMMON/XWALL.BLP",
+   "prefix": "dungeons/textures/",
+   "records": 593
+  },
+  {
+   "file": "dungeons-textures-~def.json",
+   "firstPath": "DUNGEONS/TEXTURES/DALARAN/DAL_ARCHWALLDARK.BLP",
+   "kind": "~def",
+   "lastPath": "dungeons/textures/frostwind/6xp_rc_frostwind_rock_floor_2.blp",
+   "prefix": "dungeons/textures/",
+   "records": 1222
+  },
+  {
+   "file": "dungeons-textures-~ghi.json",
+   "firstPath": "dungeons/textures/Gilneas/EB_GIL_BRICK.blp",
+   "kind": "~ghi",
+   "lastPath": "DUNGEONS/TEXTURES/IRONDWARF/SNOW VARIANT/FROSTDWARF_WINDOWWALL_01.BLP",
+   "prefix": "dungeons/textures/",
+   "records": 419
+  },
+  {
+   "file": "dungeons-textures-~jkl.json",
+   "firstPath": "dungeons/textures/kekie6/lrd_noble_woodtrim.blp",
+   "kind": "~jkl",
+   "lastPath": "DUNGEONS/TEXTURES/LAVA/MM_MOLTEN_01.BLP",
+   "prefix": "dungeons/textures/",
+   "records": 13
+  },
+  {
+   "file": "dungeons-textures-~mno.json",
+   "firstPath": "DUNGEONS/TEXTURES/MAGNATAR/BOREAN_CEILING.BLP",
+   "kind": "~mno",
+   "lastPath": "DUNGEONS/TEXTURES/OUTLAND/MM_ORC_AWALL_BRKS_02_RUIN.blp",
+   "prefix": "dungeons/textures/",
+   "records": 375
+  },
+  {
+   "file": "dungeons-textures-~other.json",
+   "firstPath": "dungeons/textures/0GEN_GENERIC/SWATCHES/0GEN_SWATCH_TRANSPARENT.BLP",
+   "kind": "~other",
+   "lastPath": "dungeons/textures/8xp_lordaeron/8xp_l_wall_wood.blp",
+   "prefix": "dungeons/textures/",
+   "records": 2034
+  },
+  {
+   "file": "dungeons-textures-~pqr.json",
+   "firstPath": "dungeons/textures/Pandaren/BAMBOO_BRIDGE/RC_BAMBOO.BLP",
+   "kind": "~pqr",
+   "lastPath": "DUNGEONS/TEXTURES/ROOF/TD_DWRF_ROOF_01.BLP",
+   "prefix": "dungeons/textures/",
+   "records": 794
+  },
+  {
+   "file": "dungeons-textures-~stu.json",
+   "firstPath": "dungeons/textures/Scadeald/bzb_seagull_stains.blp",
+   "kind": "~stu",
+   "lastPath": "DUNGEONS/TEXTURES/UTGARDE/ND_UTGARDE_TRIM_06.BLP",
+   "prefix": "dungeons/textures/",
+   "records": 1448
+  },
+  {
+   "file": "dungeons-textures-~vwx.json",
+   "firstPath": "dungeons/textures/vashjir/vashjir_int_cieling_fleshy.blp",
+   "kind": "~vwx",
+   "lastPath": "dungeons/textures/WYRMREST/WR_WINDOW.BLP",
+   "prefix": "dungeons/textures/",
+   "records": 939
+  },
+  {
+   "file": "dungeons-textures-~yz.json",
+   "firstPath": "dungeons/textures/zandalari/dh_zandalriwoodfloor.blp",
+   "kind": "~yz",
+   "lastPath": "dungeons/textures/Zuldrak/zuldrakwallsmallstairs_detail.blp",
+   "prefix": "dungeons/textures/",
+   "records": 93
+  },
+  {
+   "file": "e.json",
+   "firstPath": "enUS/Interface/Cinematics/Logo_1024.avi",
+   "kind": "",
+   "lastPath": "Environments/Stars/zuldrakskyb00.skin",
+   "prefix": "e",
+   "records": 2516
+  },
+  {
+   "file": "f.json",
+   "firstPath": "Fonts/2002.ttf",
+   "kind": "",
+   "lastPath": "Fonts/skurri_cyr.ttf",
+   "prefix": "f",
+   "records": 24
+  },
+  {
+   "file": "i~jkl.json",
+   "firstPath": "ijl15.dll",
+   "kind": "~jkl",
+   "lastPath": "ijl15.dll",
+   "prefix": "i",
+   "records": 1
+  },
+  {
+   "file": "inter~ghi.json",
+   "firstPath": "Interiors/buildings/ND_Forsaken/ND_Forsaken_Barricade_Doodad.M2",
+   "kind": "~ghi",
+   "lastPath": "Interiors/buildings/ND_Forsaken/ND_Forsaken_ShipWreckSkulls00.skin",
+   "prefix": "inter",
+   "records": 4
+  },
+  {
+   "file": "interface-~abc.json",
+   "firstPath": "Interface/AbilitiesFrame/UI-AbilityPanel-BotLeft.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/Cursor/workorders.blp",
+   "prefix": "interface/",
+   "records": 3192
+  },
+  {
+   "file": "interface-~def.json",
+   "firstPath": "Interface/darkmoon/art_bottom.blp",
+   "kind": "~def",
+   "lastPath": "Interface/FullScreenTextures/OutOfControl.blp",
+   "prefix": "interface/",
+   "records": 856
+  },
+  {
+   "file": "interface-~jkl.json",
+   "firstPath": "Interface/KeyBindingFrame/UI-KeyBindingFrame-Bot.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/lottery/lotteryAtlas.blp",
+   "prefix": "interface/",
+   "records": 405
+  },
+  {
+   "file": "interface-~mno.json",
+   "firstPath": "Interface/MacroFrame/MacroFrame-BotLeft.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/OPTIONSFRAME/VoiceChat-Record.blp",
+   "prefix": "interface/",
+   "records": 179
+  },
+  {
+   "file": "interface-~pqr.json",
+   "firstPath": "Interface/PaperDoll/UI-Backpack-EmptySlot.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/Reforging/itemupgrade.blp",
+   "prefix": "interface/",
+   "records": 517
+  },
+  {
+   "file": "interface-~stu.json",
+   "firstPath": "Interface/Scenarios/legioninvasion.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/UNITPOWERBARALT/WowUI_Vertical_Frame.blp",
+   "prefix": "interface/",
+   "records": 1985
+  },
+  {
+   "file": "interface-g.json",
+   "firstPath": "Interface/Garrison/GarrisonBuildingUI.blp",
+   "kind": "",
+   "lastPath": "Interface/GuildFrame/GuildFrame.blp",
+   "prefix": "interface/g",
+   "records": 2471
+  },
+  {
+   "file": "interface-h.json",
+   "firstPath": "Interface/HelpFrame/DLL-Error-Atlas.blp",
+   "kind": "",
+   "lastPath": "Interface/HUD/uiwarlocksoulshard.blp",
+   "prefix": "interface/h",
+   "records": 33
+  },
+  {
+   "file": "interface-i~mno.json",
+   "firstPath": "Interface/InventoryItems/InventoryArtGeometry.m2",
+   "kind": "~mno",
+   "lastPath": "Interface/InventoryItems/WoWUnknownItem01.blp",
+   "prefix": "interface/i",
+   "records": 8
+  },
+  {
+   "file": "interface-i~stu.json",
+   "firstPath": "Interface/ItemAnimations/ForcedBackpackItem.m2",
+   "kind": "~stu",
+   "lastPath": "Interface/ItemTextFrame/UI-ItemText-TopLeft.blp",
+   "prefix": "interface/i",
+   "records": 33
+  },
+  {
+   "file": "interface-icons-~def.json",
+   "firstPath": "Interface/icons/daedricdagger.blp",
+   "kind": "~def",
+   "lastPath": "Interface/icons/full_grain_void_leather.blp",
+   "prefix": "interface/icons/",
+   "records": 1438
+  },
+  {
+   "file": "interface-icons-~jkl.json",
+   "firstPath": "Interface/icons/janalai.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/icons/LunarLance.blp",
+   "prefix": "interface/icons/",
+   "records": 120
+  },
+  {
+   "file": "interface-icons-~mno.json",
+   "firstPath": "Interface/icons/mace_1h_blacksmithing_d_04_icon.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/icons/overwhelming_void_effigy.blp",
+   "prefix": "interface/icons/",
+   "records": 2401
+  },
+  {
+   "file": "interface-icons-~pqr.json",
+   "firstPath": "Interface/icons/paladin_holy.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/icons/rust_inv_shield_1h_kultirasquest_b_01.blp",
+   "prefix": "interface/icons/",
+   "records": 553
+  },
+  {
+   "file": "interface-icons-~stu.json",
+   "firstPath": "Interface/icons/sable-inmo.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/UnleashtheHounds.blp",
+   "prefix": "interface/icons/",
+   "records": 3551
+  },
+  {
+   "file": "interface-icons-~vwx.json",
+   "firstPath": "Interface/icons/vaina-balta.blp",
+   "kind": "~vwx",
+   "lastPath": "Interface/icons/xuen3.blp",
+   "prefix": "interface/icons/",
+   "records": 345
+  },
+  {
+   "file": "interface-icons-~yz.json",
+   "firstPath": "Interface/icons/yak_1.blp",
+   "kind": "~yz",
+   "lastPath": "Interface/icons/zombiewc3.blp",
+   "prefix": "interface/icons/",
+   "records": 83
+  },
+  {
+   "file": "interface-icons-1.json",
+   "firstPath": "Interface/icons/10_2_raidability_black.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/10prof_table_tailoring01.blp",
+   "prefix": "interface/icons/1",
+   "records": 22
+  },
+  {
+   "file": "interface-icons-2.json",
+   "firstPath": "Interface/icons/2_inv_shield_1h_maldraxxus_b_01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/2_inv_shield_1h_maldraxxus_b_01.blp",
+   "prefix": "interface/icons/2",
+   "records": 1
+  },
+  {
+   "file": "interface-icons-3.json",
+   "firstPath": "Interface/icons/3_inv_shield_1h_maldraxxus_b_01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/3_inv_shield_1h_maldraxxus_b_01.blp",
+   "prefix": "interface/icons/3",
+   "records": 1
+  },
+  {
+   "file": "interface-icons-4.json",
+   "firstPath": "Interface/icons/4_inv_shield_1h_maldraxxus_b_01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/4_inv_shield_1h_maldraxxus_b_01.blp",
+   "prefix": "interface/icons/4",
+   "records": 1
+  },
+  {
+   "file": "interface-icons-5.json",
+   "firstPath": "Interface/icons/5_archerskill01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/5_woundnobg_Border.blp",
+   "prefix": "interface/icons/5",
+   "records": 4776
+  },
+  {
+   "file": "interface-icons-6.json",
+   "firstPath": "Interface/icons/6bf_blackrock_nova.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/6or_garrison_stonewall.blp",
+   "prefix": "interface/icons/6",
+   "records": 20
+  },
+  {
+   "file": "interface-icons-7.json",
+   "firstPath": "Interface/icons/70_inscription_deck_dominion.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/7fx_alphamask_glow_teal_blend.blp",
+   "prefix": "interface/icons/7",
+   "records": 57
+  },
+  {
+   "file": "interface-icons-8.json",
+   "firstPath": "Interface/icons/8fk_forsaken_poleaxe01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/8xp_vulperaflute.blp",
+   "prefix": "interface/icons/8",
+   "records": 4
+  },
+  {
+   "file": "interface-icons-9.json",
+   "firstPath": "Interface/icons/9mw_ironmaiden_mace01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/9xp_sigil_maldraxxus01.blp",
+   "prefix": "interface/icons/9",
+   "records": 4
+  },
+  {
+   "file": "interface-icons-_.json",
+   "firstPath": "Interface/icons/_AimedShot_Blue.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/_WorgenRunningWild_Warrior.blp",
+   "prefix": "interface/icons/_",
+   "records": 1490
+  },
+  {
+   "file": "interface-icons-a~abc.json",
+   "firstPath": "Interface/icons/ability_accretion.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/icons/Acme.blp",
+   "prefix": "interface/icons/a",
+   "records": 3539
+  },
+  {
+   "file": "interface-icons-a~def.json",
+   "firstPath": "Interface/icons/aether_bash.blp",
+   "kind": "~def",
+   "lastPath": "Interface/icons/aetherpierce_913402.blp",
+   "prefix": "interface/icons/a",
+   "records": 40
+  },
+  {
+   "file": "interface-icons-a~ghi.json",
+   "firstPath": "Interface/icons/Aimedshot_Arcane.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/icons/AirElementalCoA.blp",
+   "prefix": "interface/icons/a",
+   "records": 8
+  },
+  {
+   "file": "interface-icons-a~jkl.json",
+   "firstPath": "Interface/icons/akilzon.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/icons/almaaspectos.blp",
+   "prefix": "interface/icons/a",
+   "records": 49
+  },
+  {
+   "file": "interface-icons-a~mno.json",
+   "firstPath": "Interface/icons/Ancient_Wood_Log.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/icons/Animated_Meat_Chunks_icon.blp",
+   "prefix": "interface/icons/a",
+   "records": 11
+  },
+  {
+   "file": "interface-icons-a~pqr.json",
+   "firstPath": "Interface/icons/apoth_wings_green.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/icons/artifactability_vengeancedemonhunter_painbringer.blp",
+   "prefix": "interface/icons/a",
+   "records": 91
+  },
+  {
+   "file": "interface-icons-a~stu.json",
+   "firstPath": "Interface/icons/asaltante-amarillo.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/Aura-fcca-06.blp",
+   "prefix": "interface/icons/a",
+   "records": 2845
+  },
+  {
+   "file": "interface-icons-a~vwx.json",
+   "firstPath": "Interface/icons/axe_1h_draenei_b_01.blp",
+   "kind": "~vwx",
+   "lastPath": "Interface/icons/axe_2h_ahnqiraj_d_02_icon.blp",
+   "prefix": "interface/icons/a",
+   "records": 3
+  },
+  {
+   "file": "interface-icons-a~yz.json",
+   "firstPath": "Interface/icons/AZ_inv_ascension_chameleonmount.blp",
+   "kind": "~yz",
+   "lastPath": "Interface/icons/Azzar_wing_05.blp",
+   "prefix": "interface/icons/a",
+   "records": 42
+  },
+  {
+   "file": "interface-icons-b.json",
+   "firstPath": "Interface/icons/Backstab_Arcane.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/bwonsamdi.blp",
+   "prefix": "interface/icons/b",
+   "records": 295
+  },
+  {
+   "file": "interface-icons-c~abc.json",
+   "firstPath": "Interface/icons/caballito1.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/icons/casting_beam_of_flaming_lightning_64px_border.blp",
+   "prefix": "interface/icons/c",
+   "records": 48
+  },
+  {
+   "file": "interface-icons-c~ghi.json",
+   "firstPath": "Interface/icons/Chacal.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/icons/Cinnamon_Stick.blp",
+   "prefix": "interface/icons/c",
+   "records": 68
+  },
+  {
+   "file": "interface-icons-c~jkl.json",
+   "firstPath": "Interface/icons/ClaspofInfinity.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/icons/cloth_outdooremeralddream_d_01_yellow_flower1.blp",
+   "prefix": "interface/icons/c",
+   "records": 85
+  },
+  {
+   "file": "interface-icons-c~mno.json",
+   "firstPath": "Interface/icons/copper_inv_belt_plate_legiondungeon_c_03.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/icons/counterstanceguardian.blp",
+   "prefix": "interface/icons/c",
+   "records": 29
+  },
+  {
+   "file": "interface-icons-c~pqr.json",
+   "firstPath": "Interface/icons/Crawling_Steak.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/icons/CryptLord.blp",
+   "prefix": "interface/icons/c",
+   "records": 93
+  },
+  {
+   "file": "interface-icons-c~yz.json",
+   "firstPath": "Interface/icons/cyan_custom_gnome_toy_mount.blp",
+   "kind": "~yz",
+   "lastPath": "Interface/icons/cyan_inv_shoulder_leather_raiddemonhunteremerald_d_01.blp",
+   "prefix": "interface/icons/c",
+   "records": 10
+  },
+  {
+   "file": "interface-icons-ct.json",
+   "firstPath": "Interface/icons/CThunIcon.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/CThunIcon.blp",
+   "prefix": "interface/icons/ct",
+   "records": 1
+  },
+  {
+   "file": "interface-icons-cu~pqr.json",
+   "firstPath": "Interface/icons/Cured_Animated_Meat_icon_64x64.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/icons/CuredFeralhide_64x64.blp",
+   "prefix": "interface/icons/cu",
+   "records": 14
+  },
+  {
+   "file": "interface-icons-custom_~abc.json",
+   "firstPath": "Interface/icons/custom_a_b_01.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/icons/custom_cupcake_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 3346
+  },
+  {
+   "file": "interface-icons-custom_~def.json",
+   "firstPath": "Interface/icons/custom_Dagger_01.blp",
+   "kind": "~def",
+   "lastPath": "Interface/icons/custom_fungal_noborder.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 1743
+  },
+  {
+   "file": "interface-icons-custom_~ghi.json",
+   "firstPath": "Interface/icons/custom_g_01.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/icons/custom_iron_skin_nobg_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 1386
+  },
+  {
+   "file": "interface-icons-custom_~jkl.json",
+   "firstPath": "Interface/icons/custom_jaw_b_01.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/icons/custom_lz_t_09_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 536
+  },
+  {
+   "file": "interface-icons-custom_~mno.json",
+   "firstPath": "Interface/icons/custom_m_01.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/icons/custom_outgrowth_03_t_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 652
+  },
+  {
+   "file": "interface-icons-custom_~other.json",
+   "firstPath": "Interface/icons/custom_003_b.blp",
+   "kind": "~other",
+   "lastPath": "Interface/icons/custom_9_Mail_Shoulder_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 3398
+  },
+  {
+   "file": "interface-icons-custom_~pqr.json",
+   "firstPath": "Interface/icons/custom_package.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/icons/custom_runic_tablet_04_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 1565
+  },
+  {
+   "file": "interface-icons-custom_~stu.json",
+   "firstPath": "Interface/icons/custom_saberon_icon_Leopard_no_mane.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/custom_Update_09_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 3279
+  },
+  {
+   "file": "interface-icons-custom_~vwx.json",
+   "firstPath": "Interface/icons/custom_vampire_nobg.blp",
+   "kind": "~vwx",
+   "lastPath": "Interface/icons/custom_worm_t_01_Border.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 405
+  },
+  {
+   "file": "interface-icons-custom_~yz.json",
+   "firstPath": "Interface/icons/custom_zombiehand_weapon.blp",
+   "kind": "~yz",
+   "lastPath": "Interface/icons/custom_zombiehand_weapon.blp",
+   "prefix": "interface/icons/custom_",
+   "records": 1
+  },
+  {
+   "file": "interface-icons-g.json",
+   "firstPath": "Interface/icons/Galakrasmount.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/gurtogg_bloodboil.blp",
+   "prefix": "interface/icons/g",
+   "records": 307
+  },
+  {
+   "file": "interface-icons-h.json",
+   "firstPath": "Interface/icons/halazzi.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/HyperJoy_Emote_Icon.blp",
+   "prefix": "interface/icons/h",
+   "records": 158
+  },
+  {
+   "file": "interface-icons-i~abc.json",
+   "firstPath": "Interface/icons/Ice_Black_Cloak_Lining.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/icons/icon_upgradestone_water_uncommon.blp",
+   "prefix": "interface/icons/i",
+   "records": 79
+  },
+  {
+   "file": "interface-icons-i~def.json",
+   "firstPath": "Interface/icons/Idol1.blp",
+   "kind": "~def",
+   "lastPath": "Interface/icons/Idol4.blp",
+   "prefix": "interface/icons/i",
+   "records": 4
+  },
+  {
+   "file": "interface-icons-i~jkl.json",
+   "firstPath": "Interface/icons/illidan_stormrage.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/icons/Illustrious_Scarlet_Cloak_Lining.blp",
+   "prefix": "interface/icons/i",
+   "records": 3
+  },
+  {
+   "file": "interface-icons-i~stu.json",
+   "firstPath": "Interface/icons/item_alchemiststone.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/item_venari_paragonchest_03.blp",
+   "prefix": "interface/icons/i",
+   "records": 87
+  },
+  {
+   "file": "interface-icons-i~vwx.json",
+   "firstPath": "Interface/icons/ivn_belt_armor_zandalaritroll_d_01.blp",
+   "kind": "~vwx",
+   "lastPath": "Interface/icons/ivn_toadloamountrojo.blp",
+   "prefix": "interface/icons/i",
+   "records": 48
+  },
+  {
+   "file": "interface-icons-im.json",
+   "firstPath": "Interface/icons/impale.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/Impure_Drakesteel_Scraps_64x64.blp",
+   "prefix": "interface/icons/im",
+   "records": 7
+  },
+  {
+   "file": "interface-icons-in~abc.json",
+   "firstPath": "Interface/icons/inc_marmoset_black.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/icons/inc_marmoset_red.blp",
+   "prefix": "interface/icons/in",
+   "records": 4
+  },
+  {
+   "file": "interface-icons-in~ghi.json",
+   "firstPath": "Interface/icons/inicow1_dblu.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/icons/inicow6_ylw.blp",
+   "prefix": "interface/icons/in",
+   "records": 41
+  },
+  {
+   "file": "interface-icons-in~stu.json",
+   "firstPath": "Interface/icons/intact_dread_weave_garmets.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/interlaced_void_weave.blp",
+   "prefix": "interface/icons/in",
+   "records": 7
+  },
+  {
+   "file": "interface-icons-inv~abc.json",
+   "firstPath": "Interface/icons/invaxe_1h_draenorraid_d_01.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/icons/invaxe_1h_draenorraid_d_01.blp",
+   "prefix": "interface/icons/inv",
+   "records": 1
+  },
+  {
+   "file": "interface-icons-inv~ghi.json",
+   "firstPath": "Interface/icons/invhand_1h_draenorcrafted_d_01_a_alliance.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/icons/invhand_1h_draenorcrafted_d_01_c_horde.blp",
+   "prefix": "interface/icons/inv",
+   "records": 6
+  },
+  {
+   "file": "interface-icons-inv~stu.json",
+   "firstPath": "Interface/icons/invstaff_2h_draenorcrafted_d_03_a_alliance.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/invstaff_2h_draenordungeon_c_04_purple.blp",
+   "prefix": "interface/icons/inv",
+   "records": 10
+  },
+  {
+   "file": "interface-icons-inv-.json",
+   "firstPath": "Interface/icons/inv-mount_raven_54.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/inv-sword_53.blp",
+   "prefix": "interface/icons/inv-",
+   "records": 2
+  },
+  {
+   "file": "interface-icons-inv1.json",
+   "firstPath": "Interface/icons/inv12_ability_alleria_aspectoftheend.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/inv12_twilight_blade_cultist_insignia.blp",
+   "prefix": "interface/icons/inv1",
+   "records": 213
+  },
+  {
+   "file": "interface-icons-inv_~def.json",
+   "firstPath": "Interface/icons/inv_dagger_emporersblade_purple.blp",
+   "kind": "~def",
+   "lastPath": "Interface/icons/inv_fyrakk_dragonbreath.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 1313
+  },
+  {
+   "file": "interface-icons-inv_~ghi.json",
+   "firstPath": "Interface/icons/inv_g_fishingbobber_05.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/icons/inv_item_stonen.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 3919
+  },
+  {
+   "file": "interface-icons-inv_~jkl.json",
+   "firstPath": "Interface/icons/inv_jailerhoundmount_black.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/icons/inv_lunarsnakepet.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 2117
+  },
+  {
+   "file": "interface-icons-inv_~mno.json",
+   "firstPath": "Interface/icons/inv_mace22.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/icons/inv_oxmount.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 4997
+  },
+  {
+   "file": "interface-icons-inv_~other.json",
+   "firstPath": "Interface/icons/inv_10_alchemy2_catalyst_color1.blp",
+   "kind": "~other",
+   "lastPath": "Interface/icons/inv__wod_arakoa6.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 2909
+  },
+  {
+   "file": "interface-icons-inv_~pqr.json",
+   "firstPath": "Interface/icons/inv_pa_celestialmallet.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/icons/inv_rutaanibirdmount_red.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 3659
+  },
+  {
+   "file": "interface-icons-inv_~stu.json",
+   "firstPath": "Interface/icons/inv_saber2cub.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/icons/inv_ursocpet.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 4276
+  },
+  {
+   "file": "interface-icons-inv_~vwx.json",
+   "firstPath": "Interface/icons/inv_valentinecolognebottle.blp",
+   "kind": "~vwx",
+   "lastPath": "Interface/icons/inv_XWing2.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 745
+  },
+  {
+   "file": "interface-icons-inv_~yz.json",
+   "firstPath": "Interface/icons/inv_yakpet.blp",
+   "kind": "~yz",
+   "lastPath": "Interface/icons/inv_zulgurubtrinket.blp",
+   "prefix": "interface/icons/inv_",
+   "records": 26
+  },
+  {
+   "file": "interface-icons-inv_a.json",
+   "firstPath": "Interface/icons/inv_abbys_wings_01.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/inv_AzzarRipperStar_07.blp",
+   "prefix": "interface/icons/inv_a",
+   "records": 4944
+  },
+  {
+   "file": "interface-icons-inv_b.json",
+   "firstPath": "Interface/icons/inv_babyalpaca_black.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/inv_butterflymount_red.blp",
+   "prefix": "interface/icons/inv_b",
+   "records": 3803
+  },
+  {
+   "file": "interface-icons-inv_c.json",
+   "firstPath": "Interface/icons/inv_camelmount2.blp",
+   "kind": "",
+   "lastPath": "Interface/icons/inv_cystallinemonster2_blue.blp",
+   "prefix": "interface/icons/inv_c",
+   "records": 3852
+  },
+  {
+   "file": "interface-v.json",
+   "firstPath": "Interface/Vehicles/Arrow.blp",
+   "kind": "",
+   "lastPath": "Interface/Vehicles/VehicleSeats.blp",
+   "prefix": "interface/v",
+   "records": 58
+  },
+  {
+   "file": "interface-w~abc.json",
+   "firstPath": "Interface/Waypoint/waypoinmappinui.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/Waypoint/waypoinmappinui.blp",
+   "prefix": "interface/w",
+   "records": 1
+  },
+  {
+   "file": "interface-w~ghi.json",
+   "firstPath": "Interface/WildCard/anim_constant_1.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/WildCard/wildcardAtlas.blp",
+   "prefix": "interface/w",
+   "records": 15
+  },
+  {
+   "file": "interface-world~stu.json",
+   "firstPath": "Interface/WorldStateFrame/AllianceFlag.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/WorldStateFrame/WorldStateScoreFrame-TopRight.blp",
+   "prefix": "interface/world",
+   "records": 44
+  },
+  {
+   "file": "interface-worldmap-~abc.json",
+   "firstPath": "Interface/WorldMap/adtdevmap/AdtDevMap1.blp",
+   "kind": "~abc",
+   "lastPath": "Interface/WORLDMAP/CrystalSongForest/WindrunnersOverlook6.blp",
+   "prefix": "interface/worldmap/",
+   "records": 1650
+  },
+  {
+   "file": "interface-worldmap-~def.json",
+   "firstPath": "Interface/WORLDMAP/Dalaran/Dalaran1_1.blp",
+   "kind": "~def",
+   "lastPath": "Interface/WorldMap/Frostgiantnbossmap/Frostgiantnbossmap9.blp",
+   "prefix": "interface/worldmap/",
+   "records": 1115
+  },
+  {
+   "file": "interface-worldmap-~ghi.json",
+   "firstPath": "Interface/WorldMap/Gear_64.blp",
+   "kind": "~ghi",
+   "lastPath": "Interface/WorldMap/Isleofconquest/IsleofConquest9.blp",
+   "prefix": "interface/worldmap/",
+   "records": 732
+  },
+  {
+   "file": "interface-worldmap-~jkl.json",
+   "firstPath": "Interface/WorldMap/jangolodemine/jangolodemine1.blp",
+   "kind": "~jkl",
+   "lastPath": "Interface/WorldMap/Lowerfargodeepmine/Lowerfargodeepmine9.blp",
+   "prefix": "interface/worldmap/",
+   "records": 433
+  },
+  {
+   "file": "interface-worldmap-~mno.json",
+   "firstPath": "Interface/WorldMap/MagistersTerrace/MagistersTerrace1_1.blp",
+   "kind": "~mno",
+   "lastPath": "Interface/WorldMap/osrs4/osrs49.blp",
+   "prefix": "interface/worldmap/",
+   "records": 789
+  },
+  {
+   "file": "interface-worldmap-~other.json",
+   "firstPath": "Interface/WorldMap/3DSkull_64.blp",
+   "kind": "~other",
+   "lastPath": "Interface/WorldMap/3DSkull_64Grey.blp",
+   "prefix": "interface/worldmap/",
+   "records": 2
+  },
+  {
+   "file": "interface-worldmap-~pqr.json",
+   "firstPath": "Interface/WorldMap/palehorn/Palehorn1.blp",
+   "kind": "~pqr",
+   "lastPath": "Interface/WorldMap/RuinsofAhnQiraj/RuinsofAhnQiraj9.blp",
+   "prefix": "interface/worldmap/",
+   "records": 178
+  },
+  {
+   "file": "interface-worldmap-~stu.json",
+   "firstPath": "Interface/WorldMap/Scadeald/AdaGumbad1.blp",
+   "kind": "~stu",
+   "lastPath": "Interface/WorldMap/UtgardePinnacle/UtgardePinnacle2_9.blp",
+   "prefix": "interface/worldmap/",
+   "records": 2256
+  },
+  {
+   "file": "interface-worldmap-~vwx.json",
+   "firstPath": "Interface/WorldMap/valleyoftrialsstart/valleyoftrialsstart1.blp",
+   "kind": "~vwx",
+   "lastPath": "Interface/WorldMap/X_Mark_64Grey.blp",
+   "prefix": "interface/worldmap/",
+   "records": 308
+  },
+  {
+   "file": "interface-worldmap-~yz.json",
+   "firstPath": "Interface/WorldMap/Ysondrebossmap/Ysondrebossmap1.blp",
+   "kind": "~yz",
+   "lastPath": "Interface/WorldMap/ZulGurub/ZulGurub9.blp",
+   "prefix": "interface/worldmap/",
+   "records": 191
+  },
+  {
+   "file": "item-~vwx.json",
+   "firstPath": "ITEM/WEAPON/1_NULL.BLP",
+   "kind": "~vwx",
+   "lastPath": "ITEM/WEAPON/t_vfx_sun_64.blp",
+   "prefix": "item/",
+   "records": 47
+  },
+  {
+   "file": "item-objectcomponents-~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Pouch/Pouch_Alliance_A_01.m2",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Quiver/QuiverSkin_A.blp",
+   "prefix": "item/objectcomponents/",
+   "records": 198
+  },
+  {
+   "file": "item-objectcomponents-a.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/ammo/10fx_amirdrassil_council_noxiousblossom_cast_5152433.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/ArmorPLC/Plate_RaidWarrior_H_01_Belt_Combined.blp",
+   "prefix": "item/objectcomponents/a",
+   "records": 330
+  },
+  {
+   "file": "item-objectcomponents-b.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/backpack/backpack_wrathion_c_01.m2",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/BATTLESTANDARDS/BATTLESTANDARD_HORDE_A_01/BattleStandard_Horde_A_0100.skin",
+   "prefix": "item/objectcomponents/b",
+   "records": 31
+  },
+  {
+   "file": "item-objectcomponents-c~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/cape/4190839_4191307.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/cape/wispymagic_vert_grey50.blp",
+   "prefix": "item/objectcomponents/c",
+   "records": 1342
+  },
+  {
+   "file": "item-objectcomponents-collections-~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/dark_plate_raiddeathknightmidnight_d_01_ArmLower_Left_be_f.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/FX_cloth_dragonpvp_d_01_robe_red.blp",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 370
+  },
+  {
+   "file": "item-objectcomponents-collections-~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/glove_armor_clockwork_d_01_be_m_6247297.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/incense_white_inverted.blp",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 591
+  },
+  {
+   "file": "item-objectcomponents-collections-~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/kneeleft_mail_bastion_d_01_dr_f.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/lowerlegright_plate_raidwarrior_r_01_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 2148
+  },
+  {
+   "file": "item-objectcomponents-collections-~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/mail_dragongold_c_01_shoulder_l_4711062.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/orbreflectbright.blp",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 1096
+  },
+  {
+   "file": "item-objectcomponents-collections-~other.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/5740089_be_m_5740326.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/8fx_water_scroll_alpha2.blp",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 4
+  },
+  {
+   "file": "item-objectcomponents-collections-~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/pink_5740089_be_m_5740326.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/robe_armor_dreadlordsregalia_c_01_legupper_right_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 4969
+  },
+  {
+   "file": "item-objectcomponents-collections-~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/smoothreflect.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/upperlegright_plate_raidwarrior_r_01_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 606
+  },
+  {
+   "file": "item-objectcomponents-collections-~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/white8x8_4707886.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/wispymagic_vert_grey_5869344.blp",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 4
+  },
+  {
+   "file": "item-objectcomponents-collections-~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/yellow_5740086_5740288.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/yellow_5740089_be_m_5740326.blp",
+   "prefix": "item/objectcomponents/collections/",
+   "records": 2
+  },
+  {
+   "file": "item-objectcomponents-collections-arm~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armlower_left_leather_raidmonkgoblin_d_01_be_f.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armlower_right_leather_raidmonkgoblin_d_01_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/arm",
+   "records": 80
+  },
+  {
+   "file": "item-objectcomponents-collections-armor~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armorreflect4.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armorreflectmetal.blp",
+   "prefix": "item/objectcomponents/collections/armor",
+   "records": 8
+  },
+  {
+   "file": "item-objectcomponents-collections-armor_~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armor_azshararobe_d_01_collections.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armor_corehound_c_01_shoulder_r_6661049.blp",
+   "prefix": "item/objectcomponents/collections/armor_",
+   "records": 1581
+  },
+  {
+   "file": "item-objectcomponents-collections-armor_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armor_darkmoonjester_d_01.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armor_flameskull_d_01_green_za_f_6661059.blp",
+   "prefix": "item/objectcomponents/collections/armor_",
+   "records": 1010
+  },
+  {
+   "file": "item-objectcomponents-collections-armor_~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armor_gryphonrider_d_01_bronze.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armor_harvester_d_01_chest_waist_red_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/armor_",
+   "records": 404
+  },
+  {
+   "file": "item-objectcomponents-collections-armor_~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armor_kirintor_c_01_ArmLower_Left_be_f.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armor_lovewitch_d_01_waist_v2_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/armor_",
+   "records": 989
+  },
+  {
+   "file": "item-objectcomponents-collections-armor_~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armor_magni_d_01_ArmLower_Left_be_f.m2",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armor_opulent_d_01_LegUpper_Right_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/armor_",
+   "records": 802
+  },
+  {
+   "file": "item-objectcomponents-collections-armor_~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/armor_scribe_d_01_ArmLower_Left_be_f.m2",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/armor_summerswimsuit_c_01_chest_upper_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/armor_",
+   "records": 452
+  },
+  {
+   "file": "item-objectcomponents-collections-b.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/belt_armor_gryphonrider_d_01_gold_5338832.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/buckle_plate_zuldazarraidmythic_d_01_purple.blp",
+   "prefix": "item/objectcomponents/collections/b",
+   "records": 1034
+  },
+  {
+   "file": "item-objectcomponents-collections-c~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/caustic_medfreq_half.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/caustic_medfreq_half.blp",
+   "prefix": "item/objectcomponents/collections/c",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-collections-c~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/chest_armor_ballnecklace_c_01_be_f.m2",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/chest_mail_raidshamanprimalist_d_01_ChestUpper_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/c",
+   "records": 2427
+  },
+  {
+   "file": "item-objectcomponents-collections-c~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/cloth_dragonpvp_d_01_robe_armlower_left_be_f.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/cloth_revendreth_d_01_collections_white.blp",
+   "prefix": "item/objectcomponents/collections/c",
+   "records": 3706
+  },
+  {
+   "file": "item-objectcomponents-collections-c~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/custom_buckle_cloth_nzothraidmythic_d_01_be_f.m2",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/custom_red_glove_armor_clockwork_d_01_be_m_6247300.blp",
+   "prefix": "item/objectcomponents/collections/c",
+   "records": 41
+  },
+  {
+   "file": "item-objectcomponents-collections-c~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/cyan_chest_leather_raiddemonhunteremerald_d_01_chest_be_f.m2",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/cyan_chest_leather_raiddemonhunteremerald_d_01_chest_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/c",
+   "records": 40
+  },
+  {
+   "file": "item-objectcomponents-collections-collection~other.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collection_armor_spiritbringer_a_01_ArmLower_Left_be_f.m2",
+   "kind": "~other",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collection_armor_spiritrune_a_01_LegUpper_Right_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/collection",
+   "records": 724
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_etherealswimsuit_armupper_left_be_f.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/Collections_Etherealswimsuit_White.blp",
+   "prefix": "item/objectcomponents/collections/collections_",
+   "records": 161
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_leather_kultirasdungeon_c_01_armlower_left_be_f.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collections_leather_warfrontshorde_d_01red.blp",
+   "prefix": "item/objectcomponents/collections/collections_",
+   "records": 2333
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_mail_bastion_d_01_3557159.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collections_mail_zuldazarraidmythic_d_01_red.blp",
+   "prefix": "item/objectcomponents/collections/collections_",
+   "records": 1969
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_plate_ardenweald_d_01_armlower_left_be_f.m2",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collections_plate_zuldazarraidmythic_d_01_purple.blp",
+   "prefix": "item/objectcomponents/collections/collections_",
+   "records": 3843
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_a.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_armor_bastioncosmetic_d_01_arm_lower_left_be_f.m2",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collections_armor_voidelf_d_01_shoes_right_tr_m00.skin",
+   "prefix": "item/objectcomponents/collections/collections_a",
+   "records": 3106
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_b.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_belt_leather_raidroguedragon_d_01_4897194.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collections_belt_plate_raidpaladindragon_d_01_white.blp",
+   "prefix": "item/objectcomponents/collections/collections_b",
+   "records": 493
+  },
+  {
+   "file": "item-objectcomponents-collections-collections_c.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/collections/collections_chest_leather_raidroguedragon_d_01_ArmLower_Left_be_f.m2",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/collections/collections_cloth_warfrontsnightelfmythic_d_01_wo_f00.skin",
+   "prefix": "item/objectcomponents/collections/collections_c",
+   "records": 3108
+  },
+  {
+   "file": "item-objectcomponents-head-~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/arcane_wisps_desat.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/cyan_helm_leather_raiddemonhunteremerald_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/",
+   "records": 3077
+  },
+  {
+   "file": "item-objectcomponents-head-~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/dark_plate_raiddeathknightmidnight_d_01_helm_bef.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/frostmournefrost.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 210
+  },
+  {
+   "file": "item-objectcomponents-head-~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/larva2skinreflect.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/LIGHTNINGVIOLET_3LG.BLP",
+   "prefix": "item/objectcomponents/head/",
+   "records": 161
+  },
+  {
+   "file": "item-objectcomponents-head-~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/mail_common_b_01_purple.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/OrbReflectWarm.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 558
+  },
+  {
+   "file": "item-objectcomponents-head-~other.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/10el_explorersleague_waterbucket02_4227911.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/8se_serpentine_snakeskull01.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 6
+  },
+  {
+   "file": "item-objectcomponents-head-~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/pa_brewinggrains_01.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/roguesmokepuff.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 1231
+  },
+  {
+   "file": "item-objectcomponents-head-~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/shahauntflakes01.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/Tornado2c.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 230
+  },
+  {
+   "file": "item-objectcomponents-head-~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/warlock_demonicportal_fire_greyscale.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/wispysmoke_mask_ba.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 6
+  },
+  {
+   "file": "item-objectcomponents-head-~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/yellow.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/yellow.blp",
+   "prefix": "item/objectcomponents/head/",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-g.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/GenericGlow64.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/grey50percentsquare16x16.blp",
+   "prefix": "item/objectcomponents/head/g",
+   "records": 181
+  },
+  {
+   "file": "item-objectcomponents-head-h~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/hagarasmoke01.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/hagarasmoke01.blp",
+   "prefix": "item/objectcomponents/head/h",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-h~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/HUNGERINGALPHA.BLP",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/HUNGERINGALPHA.BLP",
+   "prefix": "item/objectcomponents/head/h",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-he~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/headlesshorsemanhelmet.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/headlesshorsemanhelmet.blp",
+   "prefix": "item/objectcomponents/head/he",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-helm~def.json",
+   "firstPath": "Item/ObjectComponents/Head/Helmet_ArgentHorde_D_01.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helmetvisorgradient.blp",
+   "prefix": "item/objectcomponents/head/helm",
+   "records": 39
+  },
+  {
+   "file": "item-objectcomponents-head-helm~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helmleather_pvpdruid_c_01cream.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helmleather_pvpdruid_c_01purple.blp",
+   "prefix": "item/objectcomponents/head/helm",
+   "records": 3
+  },
+  {
+   "file": "item-objectcomponents-head-helm~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helmShadowMod.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helmShadowMod.blp",
+   "prefix": "item/objectcomponents/head/helm",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-helm%2e.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm.blp",
+   "prefix": "item/objectcomponents/head/helm.",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-helm2.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/Helm2_Armor_Phoenix_D_01.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/Helm2_Armor_Phoenix_D_01.blp",
+   "prefix": "item/objectcomponents/head/helm2",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-helm_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_draenei_giftofnaaru_01_bef.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_flowercrown_a_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_",
+   "records": 499
+  },
+  {
+   "file": "item-objectcomponents-head-helm_~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_glasses_b_01_bef.m2",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/Helm_HungeringDarkness_D_01_TrM00.skin",
+   "prefix": "item/objectcomponents/head/helm_",
+   "records": 775
+  },
+  {
+   "file": "item-objectcomponents-head-helm_~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/Helm_Suncrown_D_01.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_unicornhorn_pink.blp",
+   "prefix": "item/objectcomponents/head/helm_",
+   "records": 147
+  },
+  {
+   "file": "item-objectcomponents-head-helm_a.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_alliancetoy_a_01.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_armor_zandalaritroll_d_01.blp",
+   "prefix": "item/objectcomponents/head/helm_a",
+   "records": 2100
+  },
+  {
+   "file": "item-objectcomponents-head-helm_b.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_blindfold_a_01_bef.m2",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Blindfold_A_01Red.blp",
+   "prefix": "item/objectcomponents/head/helm_b",
+   "records": 50
+  },
+  {
+   "file": "item-objectcomponents-head-helm_c~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_circlet_a_01_bef.m2",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Circlet_C_01Silver.blp",
+   "prefix": "item/objectcomponents/head/helm_c",
+   "records": 194
+  },
+  {
+   "file": "item-objectcomponents-head-helm_c~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_crown_c_01_bef.m2",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_crown_c_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_c",
+   "records": 48
+  },
+  {
+   "file": "item-objectcomponents-head-helm_c~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_custom_cat_ears_bef.m2",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_custom_cat_ears_white.blp",
+   "prefix": "item/objectcomponents/head/helm_c",
+   "records": 42
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_cloth_a_01_bef.m2",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_cloth_chefhat_a_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 893
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_draenorhonors2_c_01_bef.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_eredarargus_d_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 184
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_gilneashat_a_01_bef.m2",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_holiday_christmas_a_03_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 180
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_kultirasdungeon_c_01_bef.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_legionraid_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 189
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_maldraxxus_d_01_3512263.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_outdoorethereal_c_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 484
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_pandabow_a_01pink.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_revendrethraid_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 3419
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_shadowpan_a_01.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_uisuit_a_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 192
+  },
+  {
+   "file": "item-objectcomponents-head-helm_cloth_~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_warfrontsalliance_b_01_ktf.m2",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_cloth_witchhat_b_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_cloth_",
+   "records": 370
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_leather_a_01_bef.m2",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_common_c_01yellow.blp",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 787
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_leather_d_01_bef.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_frostwolfclan_b_01_orm00.skin",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 533
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_kultirasdungeon_c_01_bef.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_legiondungeon_c_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 159
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/HELM_LEATHER_NORTHREND_B_01.BLP",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_nzothraidmythic_d_01_pvp.blp",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 272
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_leather_pvpalliance_a_01_bef.m2",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_revendrethraid_d_01_yellow_yellow.blp",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 4140
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Leather_Sunwell_D_01.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Leather_Tuskarr_04_TuM00.skin",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 60
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_vrykulhunter_b_01_gof.m2",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_leather_warfrontshorde_d_01red.blp",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 466
+  },
+  {
+   "file": "item-objectcomponents-head-helm_leather_~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Leather_ZulAman_D_01.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Leather_Zulaman_D_02Eagle.blp",
+   "prefix": "item/objectcomponents/head/helm_leather_",
+   "records": 92
+  },
+  {
+   "file": "item-objectcomponents-head-helm_m~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_misc_bunnyears_a_01_bef.m2",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_misc_starpartyhat_a_01_gnm00.skin",
+   "prefix": "item/objectcomponents/head/helm_m",
+   "records": 274
+  },
+  {
+   "file": "item-objectcomponents-head-helm_m~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_monocle_a_01_bef.m2",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_monocle_c_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_m",
+   "records": 181
+  },
+  {
+   "file": "item-objectcomponents-head-helm_ma~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Mask_A_01.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Mask_ZulGurub_D_01Red.blp",
+   "prefix": "item/objectcomponents/head/helm_ma",
+   "records": 364
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mag.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_magic_b_01_bef.m2",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_magicflamelicksmoke.blp",
+   "prefix": "item/objectcomponents/head/helm_mag",
+   "records": 136
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_mail_a_01_bef.m2",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_mail_common_c_01yellow.blp",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 646
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_mail_d_01_bef.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/HELM_MAIL_DUNGEONSHAMAN_B_01RED.BLP",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 527
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_mail_legiondungeon_c_01_bef.m2",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_mail_legiondungeon_c_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 63
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_mail_maldraxxus_d_01_3491109.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_mail_nzothraid_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 355
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Mail_PVPAlliance_A_01.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_mail_revendrethraid_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 3679
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_mail_sunwell_d_01_bef.m2",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Mail_Sunwell_D_01Red.blp",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 48
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Mail_Vrykul_01.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_mail_warfrontshorde_d_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 385
+  },
+  {
+   "file": "item-objectcomponents-head-helm_mail_~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/HELM_MAIL_ZULAMAN_D_01.BLP",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Mail_Zulaman_D_02Red.blp",
+   "prefix": "item/objectcomponents/head/helm_mail_",
+   "records": 91
+  },
+  {
+   "file": "item-objectcomponents-head-helm_n.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_nzothraidmythic_effect_2917461.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_nzothraidmythic_effect_2917461.blp",
+   "prefix": "item/objectcomponents/head/helm_n",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-head-helm_p~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_partyhat_01cone_green.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_partyhat_05firework.blp",
+   "prefix": "item/objectcomponents/head/helm_p",
+   "records": 3
+  },
+  {
+   "file": "item-objectcomponents-head-helm_p~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_pvpmonk_e_01blue.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_pvpmonk_e_01red.blp",
+   "prefix": "item/objectcomponents/head/helm_p",
+   "records": 3
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_plateraidpaladin_j_01blue.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plateraidwarrior_h_01particle.blp",
+   "prefix": "item/objectcomponents/head/helm_plate",
+   "records": 5
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Plate_A_01Blue.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_common_c_01yellow.blp",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 926
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_plate_d_01_bef.m2",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_emperorshood_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 798
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/HELM_PLATE_HEADLESS_D_01.BLP",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_plate_headless_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 45
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_kingmechagon_d_01_0_2851688.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_legionraid_d_01gold.blp",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 236
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_maldraxxus_d_01_3174832.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_oribosquesting_b_01_3448011.blp",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 327
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Plate_Sunwell_D_01.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Plate_Sunwell_D_01White.blp",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 48
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/HELM_PLATE_VIKING_D_01.BLP",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_warfrontshorde_d_01red.blp",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 470
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Head/helm_plate_zulaman_d_01_bef.m2",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_plate_zuldazarraidmythic_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_plate_",
+   "records": 223
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_p.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_paladinclass_d_01.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_pvpwarriorgladaitor_o_01_zam00.skin",
+   "prefix": "item/objectcomponents/head/helm_plate_p",
+   "records": 2537
+  },
+  {
+   "file": "item-objectcomponents-head-helm_plate_r.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Plate_Raid_Paladin_C_01.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_revendrethraid_d_01_trm00.skin",
+   "prefix": "item/objectcomponents/head/helm_plate_r",
+   "records": 2665
+  },
+  {
+   "file": "item-objectcomponents-head-helm_r.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/HEAD/HELM_RAIDPRIEST_C_01.BLP",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/HEAD/Helm_Robe_ZulAman_D_01Green.blp",
+   "prefix": "item/objectcomponents/head/helm_r",
+   "records": 3672
+  },
+  {
+   "file": "item-objectcomponents-head-i.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/head/incense_white_inverted.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/head/incense_white_inverted.blp",
+   "prefix": "item/objectcomponents/head/i",
+   "records": 1
+  },
+  {
+   "file": "item-objectcomponents-sh~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHIELD/10rq_reliquary_cart01_4287605.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHIELD/zandalarigold_lighter.blp",
+   "prefix": "item/objectcomponents/sh",
+   "records": 1997
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/anim_shoulder_leather_raidmonkgoblin_d_01_l.m2",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/cyan_shoulder_leather_raiddemonhunteremerald_d_01_r00.skin",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 637
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/DH_Smoke_Big.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/frostmournea2.blp",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 41
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/genericglow_alpha_128.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/inv_shoulder_robe_dungeonrobe_c_05.blp",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 30
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/larva2skinreflect.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/lshoulder_slagelementalboss00.skin",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 1219
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~mno.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/mace_1h_orgrimmarraid_d_04_firespark.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Shoulder/ORBREFLECTWARMDARK.BLP",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 182
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~other.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/3051516.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/8fx_explosionsmoke_a.blp",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 14
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/pink_shoulder_plate_ardenweald_d_01_fx1.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/rshoulder_slagelementalboss00.skin",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 1452
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~stu.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/sandstorm_rubble.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/tesla_particle01.blp",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 2465
+  },
+  {
+   "file": "item-objectcomponents-shoulder-~vwx.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/voidkoboldkingshoulder.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/wispymagic_necroblur_a.blp",
+   "prefix": "item/objectcomponents/shoulder/",
+   "records": 8
+  },
+  {
+   "file": "item-objectcomponents-w~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/waist/6240344.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/waist/white8x8.blp",
+   "prefix": "item/objectcomponents/w",
+   "records": 1717
+  },
+  {
+   "file": "item-objectcomponents-w~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/Wings/D3AngelWing_Alpha1.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/Wings/D3TwoToneWing_Purple00.skin",
+   "prefix": "item/objectcomponents/w",
+   "records": 35
+  },
+  {
+   "file": "item-objectcomponents-weapon-~abc.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/acid_drip.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/cyanstarflash.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 3415
+  },
+  {
+   "file": "item-objectcomponents-weapon-~def.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/daedricsword.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/FX_weapon_azzarfaire.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 881
+  },
+  {
+   "file": "item-objectcomponents-weapon-~ghi.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/g_jewelblack.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/itk_detail_doodads03.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 1241
+  },
+  {
+   "file": "item-objectcomponents-weapon-~jkl.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/jinyu_weapon_rack_tex.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/lostisles_giantflower_stem_02.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 1548
+  },
+  {
+   "file": "item-objectcomponents-weapon-~mno.json",
+   "firstPath": "Item/ObjectComponents/Weapon/M2111400.skin",
+   "kind": "~mno",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/organic_reflect01.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 2849
+  },
+  {
+   "file": "item-objectcomponents-weapon-~other.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/10can_lifebloom_flower_d01_4005301.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/9nc_necro_weapondestroyed_axe0100.skin",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 322
+  },
+  {
+   "file": "item-objectcomponents-weapon-~pqr.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/pa_alchemygear.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/runestrip_desat.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 800
+  },
+  {
+   "file": "item-objectcomponents-weapon-~vwx.json",
+   "firstPath": "Item/ObjectComponents/Weapon/VerticalEndFeatherMask.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/worgen_bottle_03_tex.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 405
+  },
+  {
+   "file": "item-objectcomponents-weapon-~yz.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/zandalari_brazier_fire.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/zombie2_greennoshirt1_white.blp",
+   "prefix": "item/objectcomponents/weapon/",
+   "records": 5
+  },
+  {
+   "file": "item-objectcomponents-weapon-s.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/sand_scroll_light.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/Sword_Ice.blp",
+   "prefix": "item/objectcomponents/weapon/s",
+   "records": 4845
+  },
+  {
+   "file": "item-objectcomponents-weapon-t.json",
+   "firstPath": "ITEM/OBJECTCOMPONENTS/WEAPON/t_vfx_aura01.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/twilighhammer_sword_2h_01red.blp",
+   "prefix": "item/objectcomponents/weapon/t",
+   "records": 202
+  },
+  {
+   "file": "item-objectcomponents-weapon-u.json",
+   "firstPath": "Item/ObjectComponents/Weapon/UL_Jewel_Cloud02.blp",
+   "kind": "",
+   "lastPath": "ITEM/OBJECTCOMPONENTS/WEAPON/upscaled_offhand_1h_artifactdoomhammer_d_0401.skin",
+   "prefix": "item/objectcomponents/weapon/u",
+   "records": 7
+  },
+  {
+   "file": "item-s.json",
+   "firstPath": "ITEM/Stave_2H_Horde_A_01Yellow.blp",
+   "kind": "",
+   "lastPath": "ITEM/Stave_2H_Horde_A_01Yellow.blp",
+   "prefix": "item/s",
+   "records": 1
+  },
+  {
+   "file": "item-texturecomponents-~def.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/FOOTTEXTURE/1_armor_summerswimsuit_c_01_boot_fo_u.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/FOOTTEXTURE/yellow_boot_armor_civilianscholar_b_01_fo_u.blp",
+   "prefix": "item/texturecomponents/",
+   "records": 2584
+  },
+  {
+   "file": "item-texturecomponents-~ghi.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/HANDTEXTURE/1_armor_murloconesie_c_glove_ha_u.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/HANDTEXTURE/yellow_glove_armor_civilianscholar_b_01_ha_u.blp",
+   "prefix": "item/texturecomponents/",
+   "records": 2423
+  },
+  {
+   "file": "item-texturecomponents-arm~stu.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMUPPERTEXTURE/1_armor_murloconesie_c_chest_au_u.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMUPPERTEXTURE/yellow_robe_armor_civilianscholar_b_01_au_u.blp",
+   "prefix": "item/texturecomponents/arm",
+   "records": 3267
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~abc.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/armor_banshee_d_01_bracer_blue_al_u.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 1463
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~def.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/dark_bracer_armor_civilianscholar_b_01_al_u.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/fire_robe_armor_civilianscholar_b_01_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 28
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~ghi.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/glove_armor_civilianlaborer_b_01_black_al_u.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/green_robe_armor_civilianscholar_b_01_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 63
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~jkl.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ArmLowerTexture/Leather_A_01_Glove_AL_U.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ArmLowerTexture/Leather_ZulAman_D_01Turquoise_Glove_AL_U.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 1163
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~mno.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ArmLowerTexture/Mail_A_01_Glove_AL_U.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/oribosquesting_b_01_glove_mail_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 1105
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~other.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/1_armor_murloconesie_c_chest_al_u.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/3_armor_summerswimsuit_c_01_bracer_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 18
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~pqr.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ArmLowerTexture/Plate_A_01Black_Bracer_AL_U.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ArmLowerTexture/Robe_ZulAman_D_01Green_Sleeve_AL_U.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 2414
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~stu.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/shirt_basic_a_01_orange_al_u.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/underarmor_bloodtroll_03_arm_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 38
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~vwx.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/void_bracer_plate_legiondungeon_c_03_al_u.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/void_glove_plate_legiondungeon_c_03_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 3
+  },
+  {
+   "file": "item-texturecomponents-armlowertexture-~yz.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/yellow_armor_murloconesie_c_chest_al_u.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/yellow_robe_armor_civilianscholar_b_01_al_u.blp",
+   "prefix": "item/texturecomponents/armlowertexture/",
+   "records": 5
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~abc.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/ardenweald_d_01_tabard_lu_u.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_ll_u.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 1972
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~def.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/dark_boot_armor_civilianscholar_b_01_ll_u.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/fel_chest_leather_raiddemonhunteremerald_d_01_be_m_ll_u.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 33
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~ghi.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/gold_boot_armor_civiliancraftsperson_b_01_ll_u.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/green_robe_armor_civilianscholar_b_01_ll_u.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 15
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~jkl.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LegLowerTexture/Leather_A_01_Boot_LL_U.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LegLowerTexture/Leather_ZulAman_D_01Turquoise_Pant_LL_U.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 1121
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~mno.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LegLowerTexture/Mail_A_01_Boot_LL_F.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/oribosquesting_b_01_pants_mail_ll_u.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 1066
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~other.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/1_1_1_robe_armor_dreadlordsregalia_c_01_be_m_ll_u.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/90pvp_d_01_tabard_lu_u_3597395.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 21
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~pqr.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/pant_armor_civilianlaborer_b_01_black_ll_u.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LegLowerTexture/Robe_ZulAman_D_01Green_Robe_LL_U.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 2411
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~stu.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/silver_boot_armor_civiliancraftsperson_b_01_ll_u.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/underarmor_bloodtroll_03_pant_ll_u.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 36
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~vwx.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/void_boot_plate_legiondungeon_c_03_ll_u.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/White_Cloth_A_01Fishnet_Pant_LL_M.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 4
+  },
+  {
+   "file": "item-texturecomponents-leglowertexture-~yz.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/yellow_armor_murloconesie_c_pant_ll_u.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/yellow_robe_armor_civilianscholar_b_01_ll_u.blp",
+   "prefix": "item/texturecomponents/leglowertexture/",
+   "records": 4
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~abc.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/armor_azshararobe_d_01_chest_lu_u.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_lu_u.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 1548
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~def.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/dark_belt_armor_civilianscholar_b_01_lu_u.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/fel_chest_leather_raiddemonhunteremerald_d_01_be_m_lu_u.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 55
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~ghi.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/gold_belt_armor_civiliancraftsperson_b_01_lu_u.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/HR_custom_necro_robe_lu_m.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 17
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~jkl.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LegUpperTexture/Leather_A_01_Belt_LU_U.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LegUpperTexture/Leather_ZulAman_D_01Turquoise_Pant_LU_U.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 1121
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~mno.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LegUpperTexture/Mail_A_01_Belt_LU_U.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/oribosquesting_b_01_pants_mail_lu_u.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 1063
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~other.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/1_armor_murloconesie_c_pant_lu_u.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/3_armor_summerswimsuit_c_01_pant_lu_u.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 10
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~pqr.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/pant_armor_civilianlaborer_b_01_black_lu_u.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LegUpperTexture/Robe_ZulAman_D_01Green_Robe_LU_U.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 2582
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~stu.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/sexy_black_pant_lu_u.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/underarmor_bloodtroll_03_pant_lu_m.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 63
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~vwx.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/void_buckle_plate_legiondungeon_c_03_lu_u.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/White_Cloth_A_01Fishnet_Pant_LU_M.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 4
+  },
+  {
+   "file": "item-texturecomponents-leguppertexture-~yz.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/yellow_armor_murloconesie_c_pant_lu_u.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/yellow_robe_armor_civilianscholar_b_01_lu_u.blp",
+   "prefix": "item/texturecomponents/leguppertexture/",
+   "records": 4
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~abc.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/ankoan_tabard_tl_f.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_tl_m.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 1543
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~def.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/dark_belt_armor_civilianscholar_b_01_tl_u.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/fel_chest_leather_raiddemonhunteremerald_d_01_be_m_tl_m.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 48
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~ghi.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/gold_chest_armor_civiliancraftsperson_b_01_tl_u.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/green_robe_armor_civilianscholar_b_01_tl_u.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 13
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~jkl.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/Leather_A_01_Chest_TL_U.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/Leather_ZulAman_D_01Turquoise_Chest_TL_M.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 1037
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~mno.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/Mail_A_01_Chest_TL_F.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/oribosquesting_b_01_chest_tl_u.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 1042
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~other.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/1_armor_murloconesie_c_chest_tl_u.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/90pvp_d_01_tabard_tl_u_3597400.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 20
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~pqr.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/Plate_A_01Black_Chest_TL_U.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/rustboltresistance_tabard_tl_m.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 2408
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~stu.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/shirt_basic_a_01_orange_tl_u.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/unshackled_tabard_tl_m.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 522
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~vwx.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/void_buckle_plate_legiondungeon_c_03_tl_u.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/void_chest_plate_legiondungeon_c_03_tl_m.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 3
+  },
+  {
+   "file": "item-texturecomponents-torsolowertexture-~yz.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/yellow_armor_murloconesie_c_chest_tl_u.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/yellow_robe_armor_civilianscholar_b_01_tl_u.blp",
+   "prefix": "item/texturecomponents/torsolowertexture/",
+   "records": 3
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~abc.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/ankoan_tabard_tu_f.blp",
+   "kind": "~abc",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_tu_m.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 1425
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~def.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/dark_collections_armor_tanariswasteland_c_01_tu_u.blp",
+   "kind": "~def",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/fel_chest_leather_raiddemonhunteremerald_d_01_be_m_tu_m.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 77
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~ghi.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/gold_chest_armor_civiliancraftsperson_b_01_tu_u.blp",
+   "kind": "~ghi",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/green_robe_armor_civilianscholar_b_01_tu_u.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 11
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~jkl.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/Leather_A_01_Chest_TU_U.blp",
+   "kind": "~jkl",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/Leather_ZulAman_D_01Turquoise_Chest_TU_M.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 933
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~mno.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/Mail_A_01_Chest_TU_F.blp",
+   "kind": "~mno",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/oribosquesting_b_01_chest_tu_u.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 871
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~other.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/1_armor_murloconesie_c_chest_tu_u.blp",
+   "kind": "~other",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/90pvp_d_01_tabard_tu_u_3597405.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 19
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~pqr.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/Plate_A_01Black_Chest_TU_U.blp",
+   "kind": "~pqr",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/rustboltresistance_tabard_tu_m.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 2150
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~stu.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/sexy_black_chest_tu_f.blp",
+   "kind": "~stu",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/unshackled_tabard_tu_m.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 537
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~vwx.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/void_chest_plate_legiondungeon_c_03_tu_f.blp",
+   "kind": "~vwx",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/void_chest_plate_legiondungeon_c_03_tu_m.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 2
+  },
+  {
+   "file": "item-texturecomponents-torsouppertexture-~yz.json",
+   "firstPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/yellow_armor_murloconesie_c_chest_tu_u.blp",
+   "kind": "~yz",
+   "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/yellow_robe_armor_civilianscholar_b_01_tu_u.blp",
+   "prefix": "item/texturecomponents/torsouppertexture/",
+   "records": 2
+  },
+  {
+   "file": "s~abc.json",
+   "firstPath": "Scan.dll",
+   "kind": "~abc",
+   "lastPath": "Scan.dll",
+   "prefix": "s",
+   "records": 1
+  },
+  {
+   "file": "s~ghi.json",
+   "firstPath": "shaders/effects/MapObj.wfx",
+   "kind": "~ghi",
+   "lastPath": "signaturefile",
+   "prefix": "s",
+   "records": 609
+  },
+  {
+   "file": "sound-~def.json",
+   "firstPath": "sound/doodad/6oc_orcclans_cage01_close.ogg",
+   "kind": "~def",
+   "lastPath": "sound/eventsounds/ogreeventcheer4.ogg",
+   "prefix": "sound/",
+   "records": 2411
+  },
+  {
+   "file": "sound-~ghi.json",
+   "firstPath": "sound/grunt_birthday_party.mp3",
+   "kind": "~ghi",
+   "lastPath": "Sound/Item/Weapons/Whip/BullWhipHit3.wav",
+   "prefix": "sound/",
+   "records": 3549
+  },
+  {
+   "file": "sound-~jkl.json",
+   "firstPath": "sound/legendary_ui_legendary_item_toast.ogg",
+   "kind": "~jkl",
+   "lastPath": "sound/legendary_ui_legendary_item_toast.ogg",
+   "prefix": "sound/",
+   "records": 1
+  },
+  {
+   "file": "sound-~mno.json",
+   "firstPath": "sound/Manastorm/Manastorm_BFD_CrabSoup.wav",
+   "kind": "~mno",
+   "lastPath": "Sound/Music/ZoneMusic/ZulDrak/ZD_Sseratus_Intro02.mp3",
+   "prefix": "sound/",
+   "records": 1704
+  },
+  {
+   "file": "sound-~pqr.json",
+   "firstPath": "sound/rare_ui_orderhall_talent_ready_toast.ogg",
+   "kind": "~pqr",
+   "lastPath": "sound/rare_ui_orderhall_talent_ready_toast.ogg",
+   "prefix": "sound/",
+   "records": 1
+  },
+  {
+   "file": "sound-~vwx.json",
+   "firstPath": "Sound/Vehicles/AllianceGunShip/AllianceGunShip.wav",
+   "kind": "~vwx",
+   "lastPath": "Sound/Vehicles/VehicleMount_Organic.wav",
+   "prefix": "sound/",
+   "records": 123
+  },
+  {
+   "file": "sound-a.json",
+   "firstPath": "Sound/Ambience/GhostState.wav",
+   "kind": "",
+   "lastPath": "Sound/Ambience/ZoneAmbience/ZulDrakGeneralNight.wav",
+   "prefix": "sound/a",
+   "records": 382
+  },
+  {
+   "file": "sound-c~mno.json",
+   "firstPath": "sound/common_ui_mission_select.ogg",
+   "kind": "~mno",
+   "lastPath": "sound/common_ui_mission_select.ogg",
+   "prefix": "sound/c",
+   "records": 1
+  },
+  {
+   "file": "sound-character-~abc.json",
+   "firstPath": "Sound/Character/BloodElf/BloodElfFemale_Err_2h_Equipped.wav",
+   "kind": "~abc",
+   "lastPath": "Sound/Character/BloodElfMalePC/BloodElfMalePCWoundH.wav",
+   "prefix": "sound/character/",
+   "records": 315
+  },
+  {
+   "file": "sound-character-~def.json",
+   "firstPath": "Sound/Character/Draenei/DraeneiFemale_Err_2h_Equipped01.wav",
+   "kind": "~def",
+   "lastPath": "Sound/Character/Footsteps/WaterSplash/FootStepsSmallWaterE.wav",
+   "prefix": "sound/character/",
+   "records": 2481
+  },
+  {
+   "file": "sound-character-~ghi.json",
+   "firstPath": "Sound/Character/Gnome/GnomeFemaleChicken01.wav",
+   "kind": "~ghi",
+   "lastPath": "Sound/Character/Human/MaleNPC/HumanWarrior3/HumanMaleNPC3WoundCrit.wav",
+   "prefix": "sound/character/",
+   "records": 602
+  },
+  {
+   "file": "sound-character-~mno.json",
+   "firstPath": "Sound/Character/NightElf/NightElfFemale/NightElfFemaleAttackA.wav",
+   "kind": "~mno",
+   "lastPath": "Sound/Character/Orc/OrcVocalMale/OrcMaleYoureWelcome03.wav",
+   "prefix": "sound/character/",
+   "records": 582
+  },
+  {
+   "file": "sound-character-~pqr.json",
+   "firstPath": "sound/Character/pc_-_highmountain_tauren_male/vo_735_pc_-_highmountain_tauren_male_charge_01.ogg",
+   "kind": "~pqr",
+   "lastPath": "Sound/Character/PlayerRoars/CharacterRoarsUndeadMale.wav",
+   "prefix": "sound/character/",
+   "records": 2222
+  },
+  {
+   "file": "sound-character-~stu.json",
+   "firstPath": "Sound/Character/Scourge/ScourgeFemale/UndeadFemaleAttackA.wav",
+   "kind": "~stu",
+   "lastPath": "Sound/Character/Troll/TrollVocalMale/TrollMaleYoureWelcome03.wav",
+   "prefix": "sound/character/",
+   "records": 821
+  },
+  {
+   "file": "sound-character-~vwx.json",
+   "firstPath": "Sound/Character/VryKulMale/VrykulMaleAggro.wav",
+   "kind": "~vwx",
+   "lastPath": "sound/Character/vulpera_male/vo_83_pc_vulpera_male_99_m.ogg",
+   "prefix": "sound/character/",
+   "records": 349
+  },
+  {
+   "file": "sound-ci.json",
+   "firstPath": "Sound/CinematicVoices/BloodElfNarration.mp3",
+   "kind": "",
+   "lastPath": "Sound/CinematicVoices/UndeadNarration.mp3",
+   "prefix": "sound/ci",
+   "records": 11
+  },
+  {
+   "file": "sound-creature-~abc.json",
+   "firstPath": "Sound/Creature/Abedneum/HS_Abedneum_Activation.wav",
+   "kind": "~abc",
+   "lastPath": "Sound/Creature/Cyanigosa/VH_Cyanigosa_WoundCrit04.wav",
+   "prefix": "sound/creature/",
+   "records": 4436
+  },
+  {
+   "file": "sound-creature-~def.json",
+   "firstPath": "Sound/Creature/DaliahTheDoomsayer/TEMPEST_Dalliah_Aggro01.wav",
+   "kind": "~def",
+   "lastPath": "sound/creature/fx_fungarianmysticscluster_aura/FX_FungarianMysticsCluster_Aura_loop_5737867.ogg",
+   "prefix": "sound/creature/",
+   "records": 4826
+  },
+  {
+   "file": "sound-creature-~ghi.json",
+   "firstPath": "Sound/Creature/GalDarah/GD_Galdarah_Aggro.wav",
+   "kind": "~ghi",
+   "lastPath": "Sound/Creature/IronVrykulMale/IronVrykulMale_WoundCrit01.wav",
+   "prefix": "sound/creature/",
+   "records": 4213
+  },
+  {
+   "file": "sound-creature-~jkl.json",
+   "firstPath": "sound/creature/jailer/mon_jailer_aggro01.ogg",
+   "kind": "~jkl",
+   "lastPath": "sound/creature/lunarrocketmount/Mount_LunarRocket_Stop_03.ogg",
+   "prefix": "sound/creature/",
+   "records": 2616
+  },
+  {
+   "file": "sound-creature-~mno.json",
+   "firstPath": "sound/creature/macaw/pet_macaw_clickable01.ogg",
+   "kind": "~mno",
+   "lastPath": "sound/creature/owlpet/owlpet_greetings_4912777.ogg",
+   "prefix": "sound/creature/",
+   "records": 4669
+  },
+  {
+   "file": "sound-creature-~other.json",
+   "firstPath": "sound/creature/30thbatmount/30thbatmount_cast_oneshot_6200316.ogg",
+   "kind": "~other",
+   "lastPath": "sound/creature/7117154/7117154_fidget_7134958.ogg",
+   "prefix": "sound/creature/",
+   "records": 355
+  },
+  {
+   "file": "sound-creature-~pqr.json",
+   "firstPath": "Sound/Creature/Paletress/AC_Paletress_Aggro01.wav",
+   "kind": "~pqr",
+   "lastPath": "Sound/Creature/Rupert/IC_Captain Rupert_WoundCrit10.wav",
+   "prefix": "sound/creature/",
+   "records": 2602
+  },
+  {
+   "file": "sound-creature-~vwx.json",
+   "firstPath": "Sound/Creature/Vaelastrasz/Vaelastrasz50Health.wav",
+   "kind": "~vwx",
+   "lastPath": "Sound/Creature/XT002Deconstructor/UR_XT002_Special01.wav",
+   "prefix": "sound/creature/",
+   "records": 1838
+  },
+  {
+   "file": "sound-creature-~yz.json",
+   "firstPath": "sound/creature/yak/mon_yak_aggro_01.ogg",
+   "kind": "~yz",
+   "lastPath": "Sound/Creature/ZuramatTheObliterator/VH_Zuramat_WoundCrit04.wav",
+   "prefix": "sound/creature/",
+   "records": 1729
+  },
+  {
+   "file": "sound-creature-s.json",
+   "firstPath": "sound/creature/saber2/mon_saberplayermount_death_01.ogg",
+   "kind": "",
+   "lastPath": "Sound/Creature/SylvanasWindrunner/WG_Sylvanas_HORintro02.wav",
+   "prefix": "sound/creature/s",
+   "records": 2379
+  },
+  {
+   "file": "sound-creature-t.json",
+   "firstPath": "sound/creature/t_robot_pet/t_robot_pet_clickable_01.ogg",
+   "kind": "",
+   "lastPath": "Sound/Creature/TyrandeWhisperwind/TyrandeWhisperwindGreeting05.wav",
+   "prefix": "sound/creature/t",
+   "records": 2456
+  },
+  {
+   "file": "sound-creature-u.json",
+   "firstPath": "sound/creature/unbndairelem/mon_unboundairelem_aggro_01.ogg",
+   "kind": "",
+   "lastPath": "Sound/Creature/UtherLightbringer/Uther_W3ChpVI15.wav",
+   "prefix": "sound/creature/u",
+   "records": 313
+  },
+  {
+   "file": "sound-s~abc.json",
+   "firstPath": "sound/scadeald/bruja1.wav",
+   "kind": "~abc",
+   "lastPath": "sound/scenarios/navalbattle/vo_401_elite_guard_battleshout_pre_01.ogg",
+   "prefix": "sound/s",
+   "records": 71
+  },
+  {
+   "file": "sound-spell~other.json",
+   "firstPath": "sound/spell/activatesoulguardbrazier_aurastart_loop_3548335.ogg",
+   "kind": "~other",
+   "lastPath": "sound/spell/wickedstar_impact_oneshot_02.ogg",
+   "prefix": "sound/spell",
+   "records": 239
+  },
+  {
+   "file": "sound-spells-~abc.json",
+   "firstPath": "sound/spells/abolishmagic.ogg",
+   "kind": "~abc",
+   "lastPath": "sound/spells/cycloneofelements.ogg",
+   "prefix": "sound/spells/",
+   "records": 316
+  },
+  {
+   "file": "sound-spells-~def.json",
+   "firstPath": "sound/spells/deadly_throw_impact_chest.ogg",
+   "kind": "~def",
+   "lastPath": "sound/spells/fx_zuldazar_coin_pour_small.ogg",
+   "prefix": "sound/spells/",
+   "records": 1912
+  },
+  {
+   "file": "sound-spells-~ghi.json",
+   "firstPath": "sound/spells/ghostlystrikeimpact.ogg",
+   "kind": "~ghi",
+   "lastPath": "Sound/Spells/Invisibility_Impact_Chest.wav",
+   "prefix": "sound/spells/",
+   "records": 257
+  },
+  {
+   "file": "sound-spells-~jkl.json",
+   "firstPath": "sound/spells/jennyswhistle.ogg",
+   "kind": "~jkl",
+   "lastPath": "Sound/Spells/LightningShieldImpact.wav",
+   "prefix": "sound/spells/",
+   "records": 79
+  },
+  {
+   "file": "sound-spells-~mno.json",
+   "firstPath": "sound/spells/madness_impact_largedamage_stereo_madnesscast_01.ogg",
+   "kind": "~mno",
+   "lastPath": "Sound/Spells/OwlkinFrenzy.wav",
+   "prefix": "sound/spells/",
+   "records": 150
+  },
+  {
+   "file": "sound-spells-~other.json",
+   "firstPath": "sound/spells/10.0_magic_wind_howling_loop_01.ogg",
+   "kind": "~other",
+   "lastPath": "sound/spells/11_0_MON_FlyingNerubianEvolved_Rashanan_Battleshout_03.ogg",
+   "prefix": "sound/spells/",
+   "records": 16
+  },
+  {
+   "file": "sound-spells-~pqr.json",
+   "firstPath": "sound/spells/paladin_shieldofrighteousness1.ogg",
+   "kind": "~pqr",
+   "lastPath": "sound/spells/rusty_pliers_gnome_wound.ogg",
+   "prefix": "sound/spells/",
+   "records": 203
+  },
+  {
+   "file": "sound-spells-~vwx.json",
+   "firstPath": "sound/spells/valentinefirework.ogg",
+   "kind": "~vwx",
+   "lastPath": "Sound/Spells/wrongfully_accused_impact.wav",
+   "prefix": "sound/spells/",
+   "records": 180
+  },
+  {
+   "file": "sound-spells-~yz.json",
+   "firstPath": "sound/spells/yarrrrimpact.ogg",
+   "kind": "~yz",
+   "lastPath": "Sound/Spells/ZulAmanTransformFrog.wav",
+   "prefix": "sound/spells/",
+   "records": 22
+  },
+  {
+   "file": "sound-spells-s~abc.json",
+   "firstPath": "sound/spells/sacredcleansingimpact.ogg",
+   "kind": "~abc",
+   "lastPath": "Sound/Spells/Screech.wav",
+   "prefix": "sound/spells/s",
+   "records": 10
+  },
+  {
+   "file": "sound-spells-s~def.json",
+   "firstPath": "sound/spells/sealofblood_impact_base.ogg",
+   "kind": "~def",
+   "lastPath": "Sound/Spells/SenseDemons.wav",
+   "prefix": "sound/spells/s",
+   "records": 32
+  },
+  {
+   "file": "sound-spells-s~ghi.json",
+   "firstPath": "sound/spells/shadow_mend_impact.ogg",
+   "kind": "~ghi",
+   "lastPath": "Sound/Spells/SinisterStrikeImpact.wav",
+   "prefix": "sound/spells/s",
+   "records": 136
+  },
+  {
+   "file": "sound-spells-s~jkl.json",
+   "firstPath": "sound/spells/sleepimpact.ogg",
+   "kind": "~jkl",
+   "lastPath": "Sound/Spells/SlowTaget.wav",
+   "prefix": "sound/spells/s",
+   "records": 6
+  },
+  {
+   "file": "sound-spells-s~mno.json",
+   "firstPath": "sound/spells/smallexplosions_generic_01.ogg",
+   "kind": "~mno",
+   "lastPath": "Sound/Spells/SoulstoneResurrection_Base.wav",
+   "prefix": "sound/spells/s",
+   "records": 53
+  },
+  {
+   "file": "sound-spells-s~pqr.json",
+   "firstPath": "sound/spells/spawn_impact_base.ogg",
+   "kind": "~pqr",
+   "lastPath": "Sound/Spells/SpiritWolf.wav",
+   "prefix": "sound/spells/s",
+   "records": 4933
+  },
+  {
+   "file": "sound-spells-s~stu.json",
+   "firstPath": "sound/spells/starfireimpact.ogg",
+   "kind": "~stu",
+   "lastPath": "Sound/Spells/Sunwell_Fel_PortalStand.wav",
+   "prefix": "sound/spells/s",
+   "records": 36
+  },
+  {
+   "file": "sound-spells-s~vwx.json",
+   "firstPath": "sound/spells/swipe.ogg",
+   "kind": "~vwx",
+   "lastPath": "Sound/Spells/SwipeTarget.wav",
+   "prefix": "sound/spells/s",
+   "records": 4
+  },
+  {
+   "file": "sound-spells-s~yz.json",
+   "firstPath": "sound/spells/symbolofhope_impact_base.ogg",
+   "kind": "~yz",
+   "lastPath": "Sound/Spells/symbolofhope_impact_base.wav",
+   "prefix": "sound/spells/s",
+   "records": 2
+  },
+  {
+   "file": "sound-spells-t.json",
+   "firstPath": "sound/spells/taunt.ogg",
+   "kind": "",
+   "lastPath": "Sound/Spells/TurnUndeadTarget.wav",
+   "prefix": "sound/spells/t",
+   "records": 99
+  },
+  {
+   "file": "sound-spells-u.json",
+   "firstPath": "sound/spells/ud_bubblegum_01.ogg",
+   "kind": "",
+   "lastPath": "sound/spells/uproot_precaststart_loop_5483862.ogg",
+   "prefix": "sound/spells/u",
+   "records": 92
+  },
+  {
+   "file": "sound-t.json",
+   "firstPath": "sound/test/music_test.mp3",
+   "kind": "",
+   "lastPath": "sound/test/music_test.mp3",
+   "prefix": "sound/t",
+   "records": 1
+  },
+  {
+   "file": "sound-u.json",
+   "firstPath": "sound/ui/ui_profession_spec_path_select_0_4642701.ogg",
+   "kind": "",
+   "lastPath": "Sound/Universal/TradeskillLearnRecipeLoop.wav",
+   "prefix": "sound/u",
+   "records": 14
+  },
+  {
+   "file": "spell~other.json",
+   "firstPath": "spell/SonicBoom_ImpactDD_Uber_Chest.m2",
+   "kind": "~other",
+   "lastPath": "spell/SonicBoom_ImpactDD_Uber_Chest00.skin",
+   "prefix": "spell",
+   "records": 2
+  },
+  {
+   "file": "spells-~ghi.json",
+   "firstPath": "SPELLS/G_Fireworks_Alliance.M2",
+   "kind": "~ghi",
+   "lastPath": "SPELLS/itk_lightning_geo.blp",
+   "prefix": "spells/",
+   "records": 2127
+  },
+  {
+   "file": "spells-~jkl.json",
+   "firstPath": "SPELLS/j_fire_swirl.blp",
+   "kind": "~jkl",
+   "lastPath": "SPELLS/lunarbeam_general_base_large00.skin",
+   "prefix": "spells/",
+   "records": 587
+  },
+  {
+   "file": "spells-~mno.json",
+   "firstPath": "SPELLS/M2232100.skin",
+   "kind": "~mno",
+   "lastPath": "SPELLS/owl2_sunwarden_camera00.skin",
+   "prefix": "spells/",
+   "records": 1600
+  },
+  {
+   "file": "spells-~pqr.json",
+   "firstPath": "SPELLS/PA_arrow_Spell_01.M2",
+   "kind": "~pqr",
+   "lastPath": "SPELLS/runestrip_desat.blp",
+   "prefix": "spells/",
+   "records": 1535
+  },
+  {
+   "file": "spells-~stu.json",
+   "firstPath": "SPELLS/s_energy_c01.BLP",
+   "kind": "~stu",
+   "lastPath": "SPELLS/Utgarde_Mirror_FX00.skin",
+   "prefix": "spells/",
+   "records": 3701
+  },
+  {
+   "file": "spells-~vwx.json",
+   "firstPath": "SPELLS/Valanry_Proc_01.M2",
+   "kind": "~vwx",
+   "lastPath": "SPELLS/Xplosion_Twilight_Impact_NoFlash00.skin",
+   "prefix": "spells/",
+   "records": 1833
+  },
+  {
+   "file": "spells-~yz.json",
+   "firstPath": "SPELLS/yellow1.blp",
+   "kind": "~yz",
+   "lastPath": "SPELLS/ZulAman_FireDoor_Unit00.skin",
+   "prefix": "spells/",
+   "records": 57
+  },
+  {
+   "file": "spells-1.json",
+   "firstPath": "SPELLS/10fx_aberrus_amalgamation_coalescingvoid_precast.m2",
+   "kind": "",
+   "lastPath": "SPELLS/1smoke_puffy_mask_verysoft.blp",
+   "prefix": "spells/1",
+   "records": 2464
+  },
+  {
+   "file": "spells-2.json",
+   "firstPath": "SPELLS/2048base1.blp",
+   "kind": "",
+   "lastPath": "SPELLS/2048baserimlight.blp",
+   "prefix": "spells/2",
+   "records": 4
+  },
+  {
+   "file": "spells-4.json",
+   "firstPath": "SPELLS/4064231_4095897.blp",
+   "kind": "",
+   "lastPath": "SPELLS/4881935_4891419.blp",
+   "prefix": "spells/4",
+   "records": 42
+  },
+  {
+   "file": "spells-5.json",
+   "firstPath": "SPELLS/5012056_4879970.blp",
+   "kind": "",
+   "lastPath": "SPELLS/5740086_5740289.blp",
+   "prefix": "spells/5",
+   "records": 6
+  },
+  {
+   "file": "spells-6.json",
+   "firstPath": "SPELLS/6_0_arcane_runes_01.blp",
+   "kind": "",
+   "lastPath": "SPELLS/6zg_slimeball02.blp",
+   "prefix": "spells/6",
+   "records": 119
+  },
+  {
+   "file": "spells-7.json",
+   "firstPath": "SPELLS/7_0_arcane_runes_01.blp",
+   "kind": "",
+   "lastPath": "SPELLS/7xp_patch_nebula_purple2.blp",
+   "prefix": "spells/7",
+   "records": 2393
+  },
+  {
+   "file": "spells-8.json",
+   "firstPath": "SPELLS/8_tgiving_plates.blp",
+   "kind": "",
+   "lastPath": "SPELLS/8xp_gnome_azeritedetectormap03.blp",
+   "prefix": "spells/8",
+   "records": 2078
+  },
+  {
+   "file": "spells-9.json",
+   "firstPath": "SPELLS/9fx_flare_b.blp",
+   "kind": "",
+   "lastPath": "SPELLS/9mw_ironmaiden_spikeball01_4024667.blp",
+   "prefix": "spells/9",
+   "records": 28
+  },
+  {
+   "file": "spells-a.json",
+   "firstPath": "SPELLS/A01_Azzar_rocket_green.blp",
+   "kind": "",
+   "lastPath": "SPELLS/azzinothblood.blp",
+   "prefix": "spells/a",
+   "records": 1305
+  },
+  {
+   "file": "spells-b.json",
+   "firstPath": "SPELLS/backpack_ammopouch_c_01_blue.blp",
+   "kind": "",
+   "lastPath": "SPELLS/bwonsamdi_skulls.blp",
+   "prefix": "spells/b",
+   "records": 775
+  },
+  {
+   "file": "spells-c.json",
+   "firstPath": "Spells/CallLightning_Impact.m2",
+   "kind": "",
+   "lastPath": "SPELLS/CycloneWater_State00.skin",
+   "prefix": "spells/c",
+   "records": 4863
+  },
+  {
+   "file": "spells-d.json",
+   "firstPath": "SPELLS/dalaran_brilliance.m2",
+   "kind": "",
+   "lastPath": "SPELLS/DynamiteA_SpellObject00.skin",
+   "prefix": "spells/d",
+   "records": 932
+  },
+  {
+   "file": "spells-e.json",
+   "firstPath": "SPELLS/e_smoke_anim256.blp",
+   "kind": "",
+   "lastPath": "SPELLS/EZ.blp",
+   "prefix": "spells/e",
+   "records": 505
+  },
+  {
+   "file": "spells-f.json",
+   "firstPath": "SPELLS/f_energy_c01.blp",
+   "kind": "",
+   "lastPath": "SPELLS/fx_youareanherbalist_aura_4538289.blp",
+   "prefix": "spells/f",
+   "records": 4556
+  },
+  {
+   "file": "t~ghi.json",
+   "firstPath": "tileset/2162/2162_3092283.BLP",
+   "kind": "~ghi",
+   "lastPath": "tileset/zulgurub/zulgurubvines_s.blp",
+   "prefix": "t",
+   "records": 3962
+  },
+  {
+   "file": "te~stu.json",
+   "firstPath": "TEST/QATestOrange.blp",
+   "kind": "~stu",
+   "lastPath": "TEST/TOTALLYRAD.BLP",
+   "prefix": "te",
+   "records": 2
+  },
+  {
+   "file": "textures-~def.json",
+   "firstPath": "textures/ELWYNN/BATTLEGLADE/SKULLS/BATTLEGLADESKULLDARKGREEN.BLP",
+   "kind": "~def",
+   "lastPath": "textures/Footsteps/PawFootprint.blp",
+   "prefix": "textures/",
+   "records": 8
+  },
+  {
+   "file": "textures-~stu.json",
+   "firstPath": "textures/Shaders/Vertex/patter.bls",
+   "kind": "~stu",
+   "lastPath": "textures/UnitSelectTextureNoFill.blp",
+   "prefix": "textures/",
+   "records": 153
+  },
+  {
+   "file": "textures-~vwx.json",
+   "firstPath": "textures/WaterPoop02.blp",
+   "kind": "~vwx",
+   "lastPath": "textures/WESTWOOD/MISC/WESTWOODMISCROPE02.BLP",
+   "prefix": "textures/",
+   "records": 10
+  },
+  {
+   "file": "textures-b~jkl.json",
+   "firstPath": "textures/BloodSplats/BloodSplatBlack01.blp",
+   "kind": "~jkl",
+   "lastPath": "textures/BloodSplats/BloodSplatRed04.blp",
+   "prefix": "textures/b",
+   "records": 12
+  },
+  {
+   "file": "textures-bakednpctextures-~def.json",
+   "firstPath": "textures/BakedNpcTextures/d0059b1961a3a2b50be36ab1b183fb1.blp",
+   "kind": "~def",
+   "lastPath": "textures/BakedNpcTextures/Frostwalker_SD.blp",
+   "prefix": "textures/bakednpctextures/",
+   "records": 1913
+  },
+  {
+   "file": "textures-bakednpctextures-~ghi.json",
+   "firstPath": "Textures/BakedNPCTextures/goblinNpc-1.blp",
+   "kind": "~ghi",
+   "lastPath": "Textures/BakedNPCTextures/goblinWarrior-1.blp",
+   "prefix": "textures/bakednpctextures/",
+   "records": 4
+  },
+  {
+   "file": "textures-bakednpctextures-~jkl.json",
+   "firstPath": "textures/BakedNpcTextures/Liliasa_HD.blp",
+   "kind": "~jkl",
+   "lastPath": "textures/BakedNpcTextures/LostPriestess4_HD.blp",
+   "prefix": "textures/bakednpctextures/",
+   "records": 10
+  },
+  {
+   "file": "textures-bakednpctextures-~mno.json",
+   "firstPath": "textures/BakedNpcTextures/Miel_HD_Body.blp",
+   "kind": "~mno",
+   "lastPath": "textures/BakedNpcTextures/Millificent_SD.blp",
+   "prefix": "textures/bakednpctextures/",
+   "records": 4
+  },
+  {
+   "file": "textures-bakednpctextures-~pqr.json",
+   "firstPath": "Textures/BakedNPCTextures/Riko.blp",
+   "kind": "~pqr",
+   "lastPath": "Textures/BakedNPCTextures/Riko_Noblegarden.blp",
+   "prefix": "textures/bakednpctextures/",
+   "records": 2
+  },
+  {
+   "file": "textures-bakednpctextures-~stu.json",
+   "firstPath": "textures/BakedNpcTextures/TaurenWitch_HD.blp",
+   "kind": "~stu",
+   "lastPath": "Textures/BakedNPCTextures/tribute_texture.blp",
+   "prefix": "textures/bakednpctextures/",
+   "records": 5
+  },
+  {
+   "file": "textures-bakednpctextures-1.json",
+   "firstPath": "textures/BakedNpcTextures/101c188c8b8591d1cec74647a719182.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/1ffd3a2bbff8b08987c9bb2f6cf9f898.blp",
+   "prefix": "textures/bakednpctextures/1",
+   "records": 591
+  },
+  {
+   "file": "textures-bakednpctextures-2.json",
+   "firstPath": "textures/BakedNpcTextures/2007233f9dbfe68635f4eba146847ed2.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/2ff6519c80406ca554dec2b39a4a6572.blp",
+   "prefix": "textures/bakednpctextures/2",
+   "records": 597
+  },
+  {
+   "file": "textures-bakednpctextures-3.json",
+   "firstPath": "textures/BakedNpcTextures/300051b21611dd49d13f93744ebcd6fe.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/3ffbb3e54ddf4c584d2f494ed974449.blp",
+   "prefix": "textures/bakednpctextures/3",
+   "records": 637
+  },
+  {
+   "file": "textures-bakednpctextures-4.json",
+   "firstPath": "textures/BakedNpcTextures/40008dd67f7aa9c1ef814b961941e98f.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/4ff401a532295786596a8c59aaafadcc.blp",
+   "prefix": "textures/bakednpctextures/4",
+   "records": 612
+  },
+  {
+   "file": "textures-bakednpctextures-5.json",
+   "firstPath": "textures/BakedNpcTextures/500051b48a312ae76fcc0b5ef756df77.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/5ff8908144bf8e78adc2903ef41ffa27.blp",
+   "prefix": "textures/bakednpctextures/5",
+   "records": 643
+  },
+  {
+   "file": "textures-bakednpctextures-6.json",
+   "firstPath": "textures/BakedNpcTextures/6001fc50bd3bff6269fd570b11ab50c1.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/6ffc54664c44f61ddf524d649e0aebe9.blp",
+   "prefix": "textures/bakednpctextures/6",
+   "records": 690
+  },
+  {
+   "file": "textures-bakednpctextures-7.json",
+   "firstPath": "textures/BakedNpcTextures/70009cd1e3bf7205742af67098a2582e.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/7ff2feaf45dc61b438730b247a23f38.blp",
+   "prefix": "textures/bakednpctextures/7",
+   "records": 639
+  },
+  {
+   "file": "textures-bakednpctextures-8.json",
+   "firstPath": "textures/BakedNpcTextures/800869b148f59e268410af608513f28a.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/8ffec6e779289bad645cc4a99e254d.blp",
+   "prefix": "textures/bakednpctextures/8",
+   "records": 668
+  },
+  {
+   "file": "textures-bakednpctextures-9.json",
+   "firstPath": "textures/BakedNpcTextures/9000074da7dc9cbb1788c9625a604276.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/9ff290e554c72f9a446cce687d54d829.blp",
+   "prefix": "textures/bakednpctextures/9",
+   "records": 605
+  },
+  {
+   "file": "textures-bakednpctextures-a.json",
+   "firstPath": "textures/BakedNpcTextures/a0057d66e72bb94ffd7740489fbddd4f.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/aff2b8da177d9a3155888b30952db88a.blp",
+   "prefix": "textures/bakednpctextures/a",
+   "records": 647
+  },
+  {
+   "file": "textures-bakednpctextures-b.json",
+   "firstPath": "Textures/BakedNPCTextures/b001152eaf7e0ea7130fa48b5886b99f.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/bff4011c97c7a33cdcc509e1bf17cb9.blp",
+   "prefix": "textures/bakednpctextures/b",
+   "records": 625
+  },
+  {
+   "file": "textures-bakednpctextures-c~abc.json",
+   "firstPath": "textures/BakedNpcTextures/ca014f421ad9e9ed621d20a7088d3d2.blp",
+   "kind": "~abc",
+   "lastPath": "textures/BakedNpcTextures/ccfd19baf61f084797c6b7b4b4b8defa.blp",
+   "prefix": "textures/bakednpctextures/c",
+   "records": 122
+  },
+  {
+   "file": "textures-bakednpctextures-c~def.json",
+   "firstPath": "textures/BakedNpcTextures/cd08ee47d8a33eb8136bd0fb27a9dd2a.blp",
+   "kind": "~def",
+   "lastPath": "textures/BakedNpcTextures/cffabaf2b656062130339e77224c3a39.blp",
+   "prefix": "textures/bakednpctextures/c",
+   "records": 117
+  },
+  {
+   "file": "textures-bakednpctextures-c~other.json",
+   "firstPath": "textures/BakedNpcTextures/c007380b9fa533b4beb05cfac547b991.blp",
+   "kind": "~other",
+   "lastPath": "textures/BakedNpcTextures/c9fca524e552c6ad9e55d6d0bc6c4f0c.blp",
+   "prefix": "textures/bakednpctextures/c",
+   "records": 382
+  },
+  {
+   "file": "textures-bakednpctextures-c~stu.json",
+   "firstPath": "textures/BakedNpcTextures/Custom_Troll_Vazul_HD.blp",
+   "kind": "~stu",
+   "lastPath": "textures/BakedNpcTextures/Custom_Troll_Zazera_SD.blp",
+   "prefix": "textures/bakednpctextures/c",
+   "records": 6
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-~abc.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-CustomBackseatBabe1.blp",
+   "kind": "~abc",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-CustomBackseatBabe2_Spring_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-",
+   "records": 14
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-00.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-00000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-00999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-00",
+   "records": 975
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-01.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-01000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-01999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-01",
+   "records": 971
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-02.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-02000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-02994_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-02",
+   "records": 1007
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-03.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-03000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-03985_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-03",
+   "records": 420
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-04.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-04000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-04985_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-04",
+   "records": 600
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-05.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-05002_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-05985_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-05",
+   "records": 335
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-06.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-06003_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-06983_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-06",
+   "records": 468
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-07.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-07003.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-07999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-07",
+   "records": 652
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-08.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-08000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-08984_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-08",
+   "records": 674
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-09.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-09003_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-09987.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-09",
+   "records": 600
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-10.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-10003_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-10999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-10",
+   "records": 774
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-11.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-11000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-11999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-11",
+   "records": 998
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-12.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-12000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-12999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-12",
+   "records": 878
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-13.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-13000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-13998_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-13",
+   "records": 956
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-14.json",
+   "firstPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-14000_HD.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-14999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-14",
+   "records": 1110
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-15.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-15000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-15999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-15",
+   "records": 1691
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-16.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-16000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-16999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-16",
+   "records": 1754
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-17.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-17000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-17999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-17",
+   "records": 1786
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-18.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-18000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-18999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-18",
+   "records": 1534
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-19.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-19000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-19999_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-19",
+   "records": 1331
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-2.json",
+   "firstPath": "textures/BakedNpcTextures/CreatureDisplayExtra-20000.blp",
+   "kind": "",
+   "lastPath": "textures/BakedNpcTextures/creaturedisplayextra-29004_HD.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-2",
+   "records": 1514
+  },
+  {
+   "file": "textures-bakednpctextures-creaturedisplayextra-5.json",
+   "firstPath": "Textures/BakedNPCTextures/creaturedisplayextra-500000.blp",
+   "kind": "",
+   "lastPath": "Textures/BakedNPCTextures/CreatureDisplayExtra-500035.blp",
+   "prefix": "textures/bakednpctextures/creaturedisplayextra-5",
+   "records": 25
+  },
+  {
+   "file": "textures-guildemblems-~abc.json",
+   "firstPath": "textures/GuildEmblems/Background_00_TL_U.blp",
+   "kind": "~abc",
+   "lastPath": "textures/GuildEmblems/Border_09_03_TU_U.blp",
+   "prefix": "textures/guildemblems/",
+   "records": 338
+  },
+  {
+   "file": "textures-guildemblems-emblem_0.json",
+   "firstPath": "textures/GuildEmblems/Emblem_00_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_09_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_0",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_1.json",
+   "firstPath": "textures/GuildEmblems/Emblem_100_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_19_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_1",
+   "records": 2720
+  },
+  {
+   "file": "textures-guildemblems-emblem_2.json",
+   "firstPath": "textures/GuildEmblems/Emblem_20_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_29_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_2",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_3.json",
+   "firstPath": "textures/GuildEmblems/Emblem_30_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_39_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_3",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_4.json",
+   "firstPath": "textures/GuildEmblems/Emblem_40_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_49_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_4",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_5.json",
+   "firstPath": "textures/GuildEmblems/Emblem_50_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_59_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_5",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_6.json",
+   "firstPath": "textures/GuildEmblems/Emblem_60_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_69_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_6",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_7.json",
+   "firstPath": "textures/GuildEmblems/Emblem_70_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_79_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_7",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_8.json",
+   "firstPath": "textures/GuildEmblems/Emblem_80_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_89_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_8",
+   "records": 340
+  },
+  {
+   "file": "textures-guildemblems-emblem_9.json",
+   "firstPath": "textures/GuildEmblems/Emblem_90_00_TL_U.blp",
+   "kind": "",
+   "lastPath": "textures/GuildEmblems/Emblem_99_16_TU_U.blp",
+   "prefix": "textures/guildemblems/emblem_9",
+   "records": 340
+  },
+  {
+   "file": "textures-m~mno.json",
+   "firstPath": "textures/moon.blp",
+   "kind": "~mno",
+   "lastPath": "textures/moonglare.blp",
+   "prefix": "textures/m",
+   "records": 4
+  },
+  {
+   "file": "textures-minimap~mno.json",
+   "firstPath": "textures/MinimapMask.blp",
+   "kind": "~mno",
+   "lastPath": "textures/MinimapMask.blp",
+   "prefix": "textures/minimap",
+   "records": 1
+  },
+  {
+   "file": "textures-minimap-~def.json",
+   "firstPath": "textures/Minimap/d000e1ebf9be8c4d858b0471126ea2f2.blp",
+   "kind": "~def",
+   "lastPath": "textures/minimap/forgottenmine_29_29.blp",
+   "prefix": "textures/minimap/",
+   "records": 3864
+  },
+  {
+   "file": "textures-minimap-~ghi.json",
+   "firstPath": "textures/minimap/gundrakarena_36_20.blp",
+   "kind": "~ghi",
+   "lastPath": "textures/minimap/IsleofKings_21_6.blp",
+   "prefix": "textures/minimap/",
+   "records": 139
+  },
+  {
+   "file": "textures-minimap-~jkl.json",
+   "firstPath": "textures/minimap/kalimdor_0_00.blp",
+   "kind": "~jkl",
+   "lastPath": "textures/minimap/Lordaeron_33_30.blp",
+   "prefix": "textures/minimap/",
+   "records": 1007
+  },
+  {
+   "file": "textures-minimap-~mno.json",
+   "firstPath": "textures/minimap/Maldraxxuscoliseum_27_26.blp",
+   "kind": "~mno",
+   "lastPath": "textures/minimap/osrs4_9_9.blp",
+   "prefix": "textures/minimap/",
+   "records": 309
+  },
+  {
+   "file": "textures-minimap-~pqr.json",
+   "firstPath": "textures/minimap/ppl5_troll_bg_27_24.blp",
+   "kind": "~pqr",
+   "lastPath": "textures/minimap/RedridgeMountains_39_51.blp",
+   "prefix": "textures/minimap/",
+   "records": 55
+  },
+  {
+   "file": "textures-minimap-~stu.json",
+   "firstPath": "textures/minimap/shadopanarena29_30.blp",
+   "kind": "~stu",
+   "lastPath": "textures/minimap/underworld_47_15.blp",
+   "prefix": "textures/minimap/",
+   "records": 602
+  },
+  {
+   "file": "textures-minimap-~vwx.json",
+   "firstPath": "textures/minimap/valleyofpower/map27_27.blp",
+   "kind": "~vwx",
+   "lastPath": "textures/minimap/WSGWinter30_30.blp",
+   "prefix": "textures/minimap/",
+   "records": 194
+  },
+  {
+   "file": "textures-minimap-0.json",
+   "firstPath": "textures/Minimap/00013a4985890dda61667826be20ef36.blp",
+   "kind": "",
+   "lastPath": "textures/Minimap/0ff9916c011fefaf477171c05fddd518.blp",
+   "prefix": "textures/minimap/0",
+   "records": 1216
+  },
+  {
+   "file": "textures-minimap-1.json",
+   "firstPath": "textures/Minimap/1001ad2deb812532e032fbc5b985f1d5.blp",
+   "kind": "",
+   "lastPath": "textures/minimap/1ff67ce20b5f0544bd97e41c32613c3b.blp",
+   "prefix": "textures/minimap/1",
+   "records": 1185
+  },
+  {
+   "file": "textures-minimap-2.json",
+   "firstPath": "textures/Minimap/20006e25a1c3acc00e0899d5c9a8ec6f.blp",
+   "kind": "",
+   "lastPath": "textures/Minimap/2ffc575aef5115db462195154e0de3dd.blp",
+   "prefix": "textures/minimap/2",
+   "records": 1242
+  },
+  {
+   "file": "textures-minimap-3.json",
+   "firstPath": "Textures/Minimap/30003693f31352e964eba8c287fe9277.blp",
+   "kind": "",
+   "lastPath": "Textures/Minimap/3fffeed1273af0bffb05ce182f77b781.blp",
+   "prefix": "textures/minimap/3",
+   "records": 1189
+  },
+  {
+   "file": "textures-minimap-4.json",
+   "firstPath": "textures/Minimap/40033727216822688e7f80b335d3409f.blp",
+   "kind": "",
+   "lastPath": "textures/Minimap/4ffd2734c7beb2a7e348862a0bb1879f.blp",
+   "prefix": "textures/minimap/4",
+   "records": 1323
+  },
+  {
+   "file": "textures-minimap-5.json",
+   "firstPath": "Textures/Minimap/50039469f9237414307fd98ae5a4d963.blp",
+   "kind": "",
+   "lastPath": "textures/minimap/5fffb53ea5485515384758b58b3bab51.blp",
+   "prefix": "textures/minimap/5",
+   "records": 1268
+  },
+  {
+   "file": "textures-minimap-6.json",
+   "firstPath": "textures/Minimap/60024754937791520bfd621bf507543a.blp",
+   "kind": "",
+   "lastPath": "textures/Minimap/6ffff4ce9e9d0b59b7ca446e0f04ff79.blp",
+   "prefix": "textures/minimap/6",
+   "records": 1251
+  },
+  {
+   "file": "textures-minimap-7.json",
+   "firstPath": "textures/Minimap/700443f2c1373a2de5a24369fdce6cfc.blp",
+   "kind": "",
+   "lastPath": "Textures/Minimap/7ffc67c2b6a97d36097c71643ae643c8.blp",
+   "prefix": "textures/minimap/7",
+   "records": 1227
+  },
+  {
+   "file": "textures-minimap-8.json",
+   "firstPath": "Textures/Minimap/8000efd39ccb0588199bdda674726234.blp",
+   "kind": "",
+   "lastPath": "textures/minimap/8tr_zandalari_ruined03_001_00_00.blp",
+   "prefix": "textures/minimap/8",
+   "records": 1204
+  },
+  {
+   "file": "textures-minimap-9.json",
+   "firstPath": "textures/minimap/9002f4a8370aabd7dee7402d4c5098ca.blp",
+   "kind": "",
+   "lastPath": "textures/Minimap/9ffb1e50f6ddafd8e6458fe0ed95f8d3.blp",
+   "prefix": "textures/minimap/9",
+   "records": 1210
+  },
+  {
+   "file": "textures-minimap-a.json",
+   "firstPath": "Textures/Minimap/a00054c25390120fab8cae92095094b5.blp",
+   "kind": "",
+   "lastPath": "textures/minimap/AzzarFaire_Tent_Parkour_09_001_01_01.blp",
+   "prefix": "textures/minimap/a",
+   "records": 2331
+  },
+  {
+   "file": "textures-minimap-b.json",
+   "firstPath": "textures/minimap/b0004376d2e8d2937d2942a267a8121b.blp",
+   "kind": "",
+   "lastPath": "textures/minimap/BlastedLands_39_55.blp",
+   "prefix": "textures/minimap/b",
+   "records": 1359
+  },
+  {
+   "file": "textures-minimap-c.json",
+   "firstPath": "textures/Minimap/c0045ee97bc54385953fd6e42e8113d3.blp",
+   "kind": "",
+   "lastPath": "textures/minimap/custom_vrykul1_32_32.blp",
+   "prefix": "textures/minimap/c",
+   "records": 1386
+  },
+  {
+   "file": "u.json",
+   "firstPath": "unicows.dll",
+   "kind": "",
+   "lastPath": "Uninstall.exe",
+   "prefix": "u",
+   "records": 2
+  },
+  {
+   "file": "w~stu.json",
+   "firstPath": "WTF/DefaultBindings.wtf",
+   "kind": "~stu",
+   "lastPath": "WTF/RunOnce.wtf",
+   "prefix": "w",
+   "records": 2
+  },
+  {
+   "file": "wo~vwx.json",
+   "firstPath": "Wow.exe",
+   "kind": "~vwx",
+   "lastPath": "WowError.exe",
+   "prefix": "wo",
+   "records": 3
+  },
+  {
+   "file": "world%20.json",
+   "firstPath": "World of Warcraft Launcher.app/Contents/Info.plist",
+   "kind": "",
+   "lastPath": "World of Warcraft.app/Contents/Resources/wow.icns",
+   "prefix": "world ",
+   "records": 30
+  },
+  {
+   "file": "world-~abc.json",
+   "firstPath": "World/ArtTest/Boxtest/xyz.blp",
+   "kind": "~abc",
+   "lastPath": "world/Custom/stave_2h_jeweled_altar_effect00.skin",
+   "prefix": "world/",
+   "records": 3922
+  },
+  {
+   "file": "world-~pqr.json",
+   "firstPath": "world/replaceabletextureprops/guild/battlestandard_guild_clothallianceborder_a_01.blp",
+   "kind": "~pqr",
+   "lastPath": "world/replaceabletextureprops/guild/battlestandard_guild_clothhordeborder_a_01.blp",
+   "prefix": "world/",
+   "records": 2
+  },
+  {
+   "file": "world-~stu.json",
+   "firstPath": "World/Scale/1000x1000.m2",
+   "kind": "~stu",
+   "lastPath": "world/TESTING/Watermark_Vendetta200.skin",
+   "prefix": "world/",
+   "records": 711
+  },
+  {
+   "file": "world-d.json",
+   "firstPath": "world/DALKAN/STRANGLETHORN/PASSIVEDOODADS/TREES/STRANGLETHORNTREE01/STRANGLETHORNTREE01_TRUNK5124.BLP",
+   "kind": "",
+   "lastPath": "world/dungeon/wellofeternity/woe_palace_doors00.skin",
+   "prefix": "world/d",
+   "records": 640
+  },
+  {
+   "file": "world-e~jkl.json",
+   "firstPath": "world/Elwynn/Elwynn_29_46.adt",
+   "kind": "~jkl",
+   "lastPath": "world/Elwynn/Elwynn_32_51.adt",
+   "prefix": "world/e",
+   "records": 24
+  },
+  {
+   "file": "world-e~mno.json",
+   "firstPath": "World/ENVIRONMENT/BUILDING/ELWYNN/BLACKSMITH/TEXTURES/JOSE/BLACKSMITHDOOR01.blp",
+   "kind": "~mno",
+   "lastPath": "World/ENVIRONMENT/MINES/DOODAD/WETLANDS/WETLANDWAGONS/TEXTURE/WETLANDSWAGON.BLP",
+   "prefix": "world/e",
+   "records": 1058
+  },
+  {
+   "file": "world-e~pqr.json",
+   "firstPath": "world/Epoch/Generic/pvpbridge_01_generic.wmo",
+   "kind": "~pqr",
+   "lastPath": "world/Epoch/Lordaeron/Crypt_Restored_004.wmo",
+   "prefix": "world/e",
+   "records": 56
+  },
+  {
+   "file": "world-ex~stu.json",
+   "firstPath": "World/ExteriorDesigners/Buildings/ED_Dragonshrine_A.m2",
+   "kind": "~stu",
+   "lastPath": "World/ExteriorDesigners/ZulDrak/ZulDrak_wall_03.blp",
+   "prefix": "world/ex",
+   "records": 115
+  },
+  {
+   "file": "world-expansion~abc.json",
+   "firstPath": "world/Expansiona01/doodads/adaalosisland/tree/bush000.m2",
+   "kind": "~abc",
+   "lastPath": "world/Expansiona01/doodads/testing/xyz_custom_box00.skin",
+   "prefix": "world/expansion",
+   "records": 1377
+  },
+  {
+   "file": "world-expansion01.json",
+   "firstPath": "World/EXPANSION01/DOODADS/Arakkoa/Passivedoodads/Arakkoa_Hut_Glow/Arakkoahouse_InteriorGlow.m2",
+   "kind": "",
+   "lastPath": "world/EXPANSION01/generic/bloodelf/cups/BE_Cup01.m2",
+   "prefix": "world/expansion01",
+   "records": 4484
+  },
+  {
+   "file": "world-expansion02-doodads-~abc.json",
+   "firstPath": "World/Expansion02/Doodads/Azjol-Nerub/Arches/Azjol_arch_a.M2",
+   "kind": "~abc",
+   "lastPath": "World/Expansion02/Doodads/CRYSTALSONGFOREST/TREES/TREE_GLOW01.BLP",
+   "prefix": "world/expansion02/doodads/",
+   "records": 919
+  },
+  {
+   "file": "world-expansion02-doodads-~def.json",
+   "firstPath": "World/Expansion02/Doodads/DAGGERCAP/BURNINGSHIP/CR_BOATFIRE_1.BLP",
+   "kind": "~def",
+   "lastPath": "world/EXPANSION02/DOODADS/furbolgs/glowball02.blp",
+   "prefix": "world/expansion02/doodads/",
+   "records": 1252
+  },
+  {
+   "file": "world-expansion02-doodads-~ghi.json",
+   "firstPath": "World/Expansion02/Doodads/Generic/Alliance_Tabard.M2",
+   "kind": "~ghi",
+   "lastPath": "World/Expansion02/Doodads/IsleOfConquest/IsleofConquest_Portal_Niche_Horde_0100.skin",
+   "prefix": "world/expansion02/doodads/",
+   "records": 3781
+  },
+  {
+   "file": "world-expansion02-doodads-~jkl.json",
+   "firstPath": "World/Expansion02/Doodads/LakeWintergrasp/Alliance_Vehicle_Piece_01.M2",
+   "kind": "~jkl",
+   "lastPath": "World/Expansion02/Doodads/LakeWintergrasp/WG_Wall02_FX203.skin",
+   "prefix": "world/expansion02/doodads/",
+   "records": 128
+  },
+  {
+   "file": "world-expansion02-doodads-~mno.json",
+   "firstPath": "World/Expansion02/Doodads/Nexus/Alpha.blp",
+   "kind": "~mno",
+   "lastPath": "World/Expansion02/Doodads/Oracle/Huts/Oracle_Hut0300.skin",
+   "prefix": "world/expansion02/doodads/",
+   "records": 203
+  },
+  {
+   "file": "world-expansion02-doodads-~pqr.json",
+   "firstPath": "World/Expansion02/Doodads/Riplash/jac_floor_01.blp",
+   "kind": "~pqr",
+   "lastPath": "world/Expansion02/doodads/Rubysanctum/SMOKE_04.BLP",
+   "prefix": "world/expansion02/doodads/",
+   "records": 115
+  },
+  {
+   "file": "world-expansion02-doodads-~stu.json",
+   "firstPath": "World/Expansion02/Doodads/Scholazar/bridge/SholazarPalm_Bridge01.blp",
+   "kind": "~stu",
+   "lastPath": "world/EXPANSION02/DOODADS/ULDUM/UL_POWERORB_FUSION/ul_powerorb_fusion00.skin",
+   "prefix": "world/expansion02/doodads/",
+   "records": 1517
+  },
+  {
+   "file": "world-expansion02-doodads-~vwx.json",
+   "firstPath": "World/Expansion02/Doodads/VALGRADE/VALGRADE_FIRE/CR_FIRE_SMOKE.BLP",
+   "kind": "~vwx",
+   "lastPath": "World/Expansion02/Doodads/WINTERTAUREN/WT_Windbreak0200.skin",
+   "prefix": "world/expansion02/doodads/",
+   "records": 137
+  },
+  {
+   "file": "world-expansion02-doodads-~yz.json",
+   "firstPath": "World/Expansion02/Doodads/ZulDrak/Aqueduct/WaterChop9.blp",
+   "kind": "~yz",
+   "lastPath": "world/EXPANSION02/DOODADS/zuldrak/waterfalls/ZulDrak_WaterFog_0100.skin",
+   "prefix": "world/expansion02/doodads/",
+   "records": 551
+  },
+  {
+   "file": "world-expansion03-doodads-~abc.json",
+   "firstPath": "world/Expansion03/Doodads/Abyssalmaw/Coral/Abyssal_BlueFish_TEX.blp",
+   "kind": "~abc",
+   "lastPath": "world/Expansion03/Doodads/braziers/uldum_brazier00.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 233
+  },
+  {
+   "file": "world-expansion03-doodads-~def.json",
+   "firstPath": "world/Expansion03/Doodads/DARKSHOREREWORK/cowwhite_128.blp",
+   "kind": "~def",
+   "lastPath": "world/Expansion03/Doodads/firelands/webs/firelands_spideregg_01.blp",
+   "prefix": "world/expansion03/doodads/",
+   "records": 540
+  },
+  {
+   "file": "world-expansion03-doodads-~ghi.json",
+   "firstPath": "world/Expansion03/Doodads/generic/alliance_taskboard.m2",
+   "kind": "~ghi",
+   "lastPath": "world/Expansion03/Doodads/grimbatolraid/grimbatolraid_fire_wall_0100.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 454
+  },
+  {
+   "file": "world-expansion03-doodads-~jkl.json",
+   "firstPath": "world/Expansion03/Doodads/lostisles/BUSHES/lostisles_carnivorousplant01.m2",
+   "kind": "~jkl",
+   "lastPath": "world/Expansion03/Doodads/lostisles/waterfalls/lostisles_waterfallmist0100.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 94
+  },
+  {
+   "file": "world-expansion03-doodads-~mno.json",
+   "firstPath": "world/Expansion03/Doodads/ogre/om_chair_01_gray.m2",
+   "kind": "~mno",
+   "lastPath": "world/Expansion03/Doodads/ogre/om_table_01_gray00.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 6
+  },
+  {
+   "file": "world-expansion03-doodads-~pqr.json",
+   "firstPath": "world/Expansion03/Doodads/pygmy/cookpot/pygmy_bowl_01.m2",
+   "kind": "~pqr",
+   "lastPath": "world/Expansion03/Doodads/pygmy/turtlepot/pygmy_turtlepot0100.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 109
+  },
+  {
+   "file": "world-expansion03-doodads-~stu.json",
+   "firstPath": "world/Expansion03/Doodads/skywall/BIGWIND/SKYWALL_BIGWIND_01.M2",
+   "kind": "~stu",
+   "lastPath": "world/Expansion03/Doodads/ULDUM/whitelotus/uldum_whitelotus0300.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 2128
+  },
+  {
+   "file": "world-expansion03-doodads-~vwx.json",
+   "firstPath": "world/Expansion03/Doodads/vashjir/anemone/vj_anemone01.blp",
+   "kind": "~vwx",
+   "lastPath": "world/Expansion03/Doodads/Worgen/worgenmicro/worgen_minecar_0100.skin",
+   "prefix": "world/expansion03/doodads/",
+   "records": 1702
+  },
+  {
+   "file": "world-expansion04.json",
+   "firstPath": "world/EXPANSION04/DOODADS/alliance/cages/alliance_human_cage.m2",
+   "kind": "",
+   "lastPath": "world/EXPANSION04/DOODADS/zandalari/zandpowderbowldif.blp",
+   "prefix": "world/expansion04",
+   "records": 3604
+  },
+  {
+   "file": "world-expansion05-doodads-~abc.json",
+   "firstPath": "world/EXPANSION05/DOODADS/Arakkoa/6ak_apexis_blocks01.blp",
+   "kind": "~abc",
+   "lastPath": "world/EXPANSION05/DOODADS/ashrand/doodads/worgen_farmmoth_01.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 326
+  },
+  {
+   "file": "world-expansion05-doodads-~def.json",
+   "firstPath": "world/EXPANSION05/DOODADS/darkmoonfaire/6df_darkmoon_powerup01.m2",
+   "kind": "~def",
+   "lastPath": "world/EXPANSION05/DOODADS/fx/white8x8.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 1249
+  },
+  {
+   "file": "world-expansion05-doodads-~ghi.json",
+   "firstPath": "world/EXPANSION05/DOODADS/goblintreasureflag01.blp",
+   "kind": "~ghi",
+   "lastPath": "world/EXPANSION05/DOODADS/ironhorde/White8x8.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 2071
+  },
+  {
+   "file": "world-expansion05-doodads-~jkl.json",
+   "firstPath": "world/EXPANSION05/DOODADS/kirintor/6kt_kirintor_floatinglantern01.blp",
+   "kind": "~jkl",
+   "lastPath": "world/EXPANSION05/DOODADS/kirintor/white8x8.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 13
+  },
+  {
+   "file": "world-expansion05-doodads-~mno.json",
+   "firstPath": "world/EXPANSION05/DOODADS/nagrand/doodads/6gn_gnome_spidertankv2.m2",
+   "kind": "~mno",
+   "lastPath": "world/EXPANSION05/DOODADS/orcclans/white8x8.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 2403
+  },
+  {
+   "file": "world-expansion05-doodads-~other.json",
+   "firstPath": "world/EXPANSION05/DOODADS/6dr_crystal.blp",
+   "kind": "~other",
+   "lastPath": "world/EXPANSION05/DOODADS/6XP_GENERIC_WATERPLANE0100.skin",
+   "prefix": "world/expansion05/doodads/",
+   "records": 7
+  },
+  {
+   "file": "world-expansion05-doodads-~pqr.json",
+   "firstPath": "world/EXPANSION05/DOODADS/primals/6pr_primals_botani_basket.blp",
+   "kind": "~pqr",
+   "lastPath": "world/EXPANSION05/DOODADS/primals/gloworange32.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 19
+  },
+  {
+   "file": "world-expansion05-doodads-~stu.json",
+   "firstPath": "world/EXPANSION05/DOODADS/saberon/6SB_SABERON_BED01.BLP",
+   "kind": "~stu",
+   "lastPath": "world/EXPANSION05/DOODADS/tradeskill_cooking_feastofblood00.skin",
+   "prefix": "world/expansion05/doodads/",
+   "records": 621
+  },
+  {
+   "file": "world-expansion05-doodads-~vwx.json",
+   "firstPath": "world/EXPANSION05/DOODADS/waterfalldrops.blp",
+   "kind": "~vwx",
+   "lastPath": "world/EXPANSION05/DOODADS/waterfalldrops.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 1
+  },
+  {
+   "file": "world-expansion05-doodads-~yz.json",
+   "firstPath": "world/EXPANSION05/DOODADS/zangarmarsh/doodads/6zg_hangingmoss01.blp",
+   "kind": "~yz",
+   "lastPath": "world/EXPANSION05/DOODADS/zangarmarsh/doodads/6zg_slimeball01_glow.blp",
+   "prefix": "world/expansion05/doodads/",
+   "records": 48
+  },
+  {
+   "file": "world-expansion06-doodads-~abc.json",
+   "firstPath": "world/Expansion06/Doodads/alliance_Taskboard_papers.blp",
+   "kind": "~abc",
+   "lastPath": "world/Expansion06/Doodads/crystalglow.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 2017
+  },
+  {
+   "file": "world-expansion06-doodads-~def.json",
+   "firstPath": "world/Expansion06/Doodads/Dalaran/6hu_garrison_bs_book_texture.blp",
+   "kind": "~def",
+   "lastPath": "world/Expansion06/Doodads/fx/wispysmoke_mask_ba.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 2225
+  },
+  {
+   "file": "world-expansion06-doodads-~ghi.json",
+   "firstPath": "world/Expansion06/Doodads/glow128.blp",
+   "kind": "~ghi",
+   "lastPath": "world/Expansion06/Doodads/INFRAM/inf_infram_starmap02_empty00.skin",
+   "prefix": "world/expansion06/doodads/",
+   "records": 330
+  },
+  {
+   "file": "world-expansion06-doodads-~jkl.json",
+   "firstPath": "world/Expansion06/Doodads/Kobold/7ko_kobbold_trash_items2.blp",
+   "kind": "~jkl",
+   "lastPath": "world/Expansion06/Doodads/lightforged/sword_2h_lightforged_c_01_gold.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 538
+  },
+  {
+   "file": "world-expansion06-doodads-~mno.json",
+   "firstPath": "world/Expansion06/Doodads/murloc/6hu_ship01_ropemap01.blp",
+   "kind": "~mno",
+   "lastPath": "world/Expansion06/Doodads/orgrimmar/smoothreflect_blue.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 1519
+  },
+  {
+   "file": "world-expansion06-doodads-~other.json",
+   "firstPath": "world/Expansion06/Doodads/6hu_jewelcrafting_benchclamp.blp",
+   "kind": "~other",
+   "lastPath": "world/Expansion06/Doodads/8xp_horde_taskboard_small.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 423
+  },
+  {
+   "file": "world-expansion06-doodads-~pqr.json",
+   "firstPath": "world/Expansion06/Doodads/purple_star.blp",
+   "kind": "~pqr",
+   "lastPath": "world/Expansion06/Doodads/resonite_rock01.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 4
+  },
+  {
+   "file": "world-expansion06-doodads-~stu.json",
+   "firstPath": "world/Expansion06/Doodads/satyr/7ST_Satyr_Bedroll01.blp",
+   "kind": "~stu",
+   "lastPath": "world/Expansion06/Doodads/tradeskill_cooking_feastofblood.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 620
+  },
+  {
+   "file": "world-expansion06-doodads-~vwx.json",
+   "firstPath": "world/Expansion06/Doodads/valsharah/6vs_blackrook_cattail01.blp",
+   "kind": "~vwx",
+   "lastPath": "world/Expansion06/Doodads/waterspray5.blp",
+   "prefix": "world/expansion06/doodads/",
+   "records": 841
+  },
+  {
+   "file": "world-expansion07-doodads-~abc.json",
+   "firstPath": "world/expansion07/doodads/alpha_windyfade.blp",
+   "kind": "~abc",
+   "lastPath": "world/expansion07/doodads/conemask2.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 727
+  },
+  {
+   "file": "world-expansion07-doodads-~def.json",
+   "firstPath": "world/expansion07/doodads/darkiron/6ar_steam_cloud_08_blue.blp",
+   "kind": "~def",
+   "lastPath": "world/expansion07/doodads/fx/wispysmoke_masksmall_blend.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 3742
+  },
+  {
+   "file": "world-expansion07-doodads-~ghi.json",
+   "firstPath": "world/expansion07/doodads/genericglow_alpha_128.blp",
+   "kind": "~ghi",
+   "lastPath": "world/expansion07/doodads/icecrown_dkblueglow_01.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 1811
+  },
+  {
+   "file": "world-expansion07-doodads-~jkl.json",
+   "firstPath": "world/expansion07/doodads/jinyu/8jn_deepjinyu_bedding01.m2",
+   "kind": "~jkl",
+   "lastPath": "world/expansion07/doodads/lordaeron/8xp_lordaerontreebarricade_d0100.skin",
+   "prefix": "world/expansion07/doodads/",
+   "records": 209
+  },
+  {
+   "file": "world-expansion07-doodads-~mno.json",
+   "firstPath": "world/expansion07/doodads/mechagon/8mecgear01.m2",
+   "kind": "~mno",
+   "lastPath": "world/expansion07/doodads/OUTLAW/smoke_painterly_mask.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 889
+  },
+  {
+   "file": "world-expansion07-doodads-~other.json",
+   "firstPath": "world/expansion07/doodads/6hu_magetower_table.blp",
+   "kind": "~other",
+   "lastPath": "world/expansion07/doodads/8xp_waterplant_tallbush_c0100.skin",
+   "prefix": "world/expansion07/doodads/",
+   "records": 283
+  },
+  {
+   "file": "world-expansion07-doodads-~pqr.json",
+   "firstPath": "world/expansion07/doodads/PIRATE/8hu_kultiras_docks_tile01.blp",
+   "kind": "~pqr",
+   "lastPath": "world/expansion07/doodads/riverzone/8riv_wildflowers_c0100.skin",
+   "prefix": "world/expansion07/doodads/",
+   "records": 199
+  },
+  {
+   "file": "world-expansion07-doodads-~stu.json",
+   "firstPath": "world/expansion07/doodads/sandfurytroll/8tr_sandfury_banner01.blp",
+   "kind": "~stu",
+   "lastPath": "world/expansion07/doodads/underrotzone/bow_1h_pandaraid_d_01_spark.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 704
+  },
+  {
+   "file": "world-expansion07-doodads-~vwx.json",
+   "firstPath": "world/expansion07/doodads/vulpera/8vp_vulpera_banner01.blp",
+   "kind": "~vwx",
+   "lastPath": "world/expansion07/doodads/witch/white_64.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 277
+  },
+  {
+   "file": "world-expansion07-doodads-~yz.json",
+   "firstPath": "world/expansion07/doodads/zandalarigold.blp",
+   "kind": "~yz",
+   "lastPath": "world/expansion07/doodads/ZULDAZARZONE/watermist_spiral.blp",
+   "prefix": "world/expansion07/doodads/",
+   "records": 1328
+  },
+  {
+   "file": "world-expansion08-doodads-~abc.json",
+   "firstPath": "world/expansion08/doodads/ardenweald/7sr_willow_canopydome02.blp",
+   "kind": "~abc",
+   "lastPath": "world/expansion08/doodads/castlezone/9casmushroom01_2620231.blp",
+   "prefix": "world/expansion08/doodads/",
+   "records": 383
+  },
+  {
+   "file": "world-expansion08-doodads-~def.json",
+   "firstPath": "world/expansion08/doodads/dungeon/7fx_alphamask_glow.blp",
+   "kind": "~def",
+   "lastPath": "world/expansion08/doodads/fx/wispymagic_vert_grey50.blp",
+   "prefix": "world/expansion08/doodads/",
+   "records": 3700
+  },
+  {
+   "file": "world-expansion08-doodads-~jkl.json",
+   "firstPath": "world/expansion08/doodads/korthia/9mxt_groundbush_a01.m2",
+   "kind": "~jkl",
+   "lastPath": "world/expansion08/doodads/korthia/9mxtmudrocks0100.skin",
+   "prefix": "world/expansion08/doodads/",
+   "records": 18
+  },
+  {
+   "file": "world-expansion08-doodads-~mno.json",
+   "firstPath": "world/expansion08/doodads/maldraxxus/9mal_accentmushroom_a01.m2",
+   "kind": "~mno",
+   "lastPath": "world/expansion08/doodads/oribos/white8x8.blp",
+   "prefix": "world/expansion08/doodads/",
+   "records": 1761
+  },
+  {
+   "file": "world-expansion08-doodads-~other.json",
+   "firstPath": "world/expansion08/doodads/7fx_alphamask_glow.blp",
+   "kind": "~other",
+   "lastPath": "world/expansion08/doodads/9xp_spiderweb_c0300.skin",
+   "prefix": "world/expansion08/doodads/",
+   "records": 77
+  },
+  {
+   "file": "world-expansion08-doodads-~pqr.json",
+   "firstPath": "world/expansion08/doodads/progenitor/7fx_alphamask_glow.blp",
+   "kind": "~pqr",
+   "lastPath": "world/expansion08/doodads/progenitor/9prg_whiteflower_c0100.skin",
+   "prefix": "world/expansion08/doodads/",
+   "records": 177
+  },
+  {
+   "file": "world-expansion08-doodads-~stu.json",
+   "firstPath": "world/expansion08/doodads/treeweb01.blp",
+   "kind": "~stu",
+   "lastPath": "world/expansion08/doodads/treeweb01.blp",
+   "prefix": "world/expansion08/doodads/",
+   "records": 1
+  },
+  {
+   "file": "world-expansion08-doodads-~vwx.json",
+   "firstPath": "world/expansion08/doodads/valkyr/9vl_aspirants_2991601.blp",
+   "kind": "~vwx",
+   "lastPath": "world/expansion08/doodads/vampire/white8x8.blp",
+   "prefix": "world/expansion08/doodads/",
+   "records": 338
+  },
+  {
+   "file": "world-expansion09.json",
+   "firstPath": "world/expansion09/doodads/10dks/10dks_tallfillerbush_c01/10dks_tallfillerbush_c01.m2",
+   "kind": "",
+   "lastPath": "world/expansion09/doodads/white8x8_4060928.blp",
+   "prefix": "world/expansion09",
+   "records": 3663
+  },
+  {
+   "file": "world-expansion1.json",
+   "firstPath": "world/expansion10/doodads/10xp_waterfall_bottom01.blp",
+   "kind": "",
+   "lastPath": "world/expansion11/doodads/playerhousing/12ph_rugged_curtain01_mirrored_6937648.blp",
+   "prefix": "world/expansion1",
+   "records": 3359
+  },
+  {
+   "file": "world-f.json",
+   "firstPath": "world/ForgottenMine/wmo/ascension_fm_cave01.wmo",
+   "kind": "",
+   "lastPath": "world/ForgottenMine/wmo/ascension_fm_rockformation_b03_000.wmo",
+   "prefix": "world/f",
+   "records": 20
+  },
+  {
+   "file": "world-g~mno.json",
+   "firstPath": "world/GOOBER/6_gtree.blp",
+   "kind": "~mno",
+   "lastPath": "World/Goober/XmasTreeLarge_Alliance01Star.blp",
+   "prefix": "world/g",
+   "records": 608
+  },
+  {
+   "file": "world-generic-~abc.json",
+   "firstPath": "World/GENERIC/ACTIVEDOODADS/Bushes/BerryBush01.blp",
+   "kind": "~abc",
+   "lastPath": "world/GENERIC/custom_dk_forge/unholy_jlo_udercity_stonewall01.blp",
+   "prefix": "world/generic/",
+   "records": 342
+  },
+  {
+   "file": "world-generic-~def.json",
+   "firstPath": "World/GENERIC/DARKIRONDWARF/Active Doodads/Runes/COLORCORRECTED RUNE.BLP",
+   "kind": "~def",
+   "lastPath": "world/GENERIC/DWARF/passivedoodads/TOOLS/wrench0100.skin",
+   "prefix": "world/generic/",
+   "records": 939
+  },
+  {
+   "file": "world-generic-~ghi.json",
+   "firstPath": "World/GENERIC/GNOME/ACTIVEDOODADS/GNOMEMACHINE/GnomeMachine.m2",
+   "kind": "~ghi",
+   "lastPath": "World/GENERIC/IceTroll/Passive Doodads/BloodSpout/ND_Drak_Water.blp",
+   "prefix": "world/generic/",
+   "records": 3436
+  },
+  {
+   "file": "world-generic-~mno.json",
+   "firstPath": "World/GENERIC/MageHunter/Passive Doodads/Brazier/MH_Brazier_01.blp",
+   "kind": "~mno",
+   "lastPath": "World/GENERIC/OwlBear/Rocks/SilverMyst_Rock01.blp",
+   "prefix": "world/generic/",
+   "records": 1458
+  },
+  {
+   "file": "world-generic-~pqr.json",
+   "firstPath": "World/Generic/Passive Doodads/ArenaElevators/jlo_gob_metal2.blp",
+   "kind": "~pqr",
+   "lastPath": "World/GENERIC/QuilBoar/Passive Doodads/Troughs/RazorFenTrough0100.skin",
+   "prefix": "world/generic/",
+   "records": 2117
+  },
+  {
+   "file": "world-generic-~stu.json",
+   "firstPath": "World/GENERIC/Satyr/Passive Doodads/Container/SatyrContainer01.m2",
+   "kind": "~stu",
+   "lastPath": "world/GENERIC/upperdeck/ud_pinatacandypile00.skin",
+   "prefix": "world/generic/",
+   "records": 1031
+  },
+  {
+   "file": "world-k.json",
+   "firstPath": "World/KALIMDOR/ASHENVALE/ActiveDoodads/MannarothSpear/AshenvaleMannarothSpear.m2",
+   "kind": "",
+   "lastPath": "World/KHAZMODAN/WETLANDS/PASSIVEDOODADS/WETLANDSWAGONS/WetlandsWagonNest00.skin",
+   "prefix": "world/k",
+   "records": 4137
+  },
+  {
+   "file": "world-l.json",
+   "firstPath": "World/LORDAERON/AeriePeaks/PassiveDoodads/Boulders/AerieBoulder01.m2",
+   "kind": "",
+   "lastPath": "World/LORDAERON/TIRISFALGLADE/PASSIVEDOODADS/WINDMILL/WINDMILLSTONE4.BLP",
+   "prefix": "world/l",
+   "records": 998
+  },
+  {
+   "file": "world-m~mno.json",
+   "firstPath": "World/Model.blob",
+   "kind": "~mno",
+   "lastPath": "World/Model.blob",
+   "prefix": "world/m",
+   "records": 1
+  },
+  {
+   "file": "world-maps-~abc.json",
+   "firstPath": "world/maps/abwinter/abwinter.wdl",
+   "kind": "~abc",
+   "lastPath": "world/maps/custom_vrykul2/custom_vrykul2_32_32.adt",
+   "prefix": "world/maps/",
+   "records": 2477
+  },
+  {
+   "file": "world-maps-~def.json",
+   "firstPath": "world/maps/DalaranArena/DalaranArena.wdl",
+   "kind": "~def",
+   "lastPath": "world/maps/FrostwhisperGorgeTDM/FrostwhisperGorgeTDM_41_23.adt",
+   "prefix": "world/maps/",
+   "records": 1613
+  },
+  {
+   "file": "world-maps-~ghi.json",
+   "firstPath": "world/maps/Ghostlands/Ghostlands.wdl",
+   "kind": "~ghi",
+   "lastPath": "world/maps/IsleofKings/IsleofKings_21_6.adt",
+   "prefix": "world/maps/",
+   "records": 935
+  },
+  {
+   "file": "world-maps-~jkl.json",
+   "firstPath": "world/maps/Jaedenar/Jaedenar.wdt",
+   "kind": "~jkl",
+   "lastPath": "world/maps/LushwaterTDM/LushwaterTDM_37_34.adt",
+   "prefix": "world/maps/",
+   "records": 1157
+  },
+  {
+   "file": "world-maps-~mno.json",
+   "firstPath": "world/maps/MageArtifact/MageArtifact.wdl",
+   "kind": "~mno",
+   "lastPath": "world/maps/OutdoorDevMap/OutdoorDevMap_37_13.adt",
+   "prefix": "world/maps/",
+   "records": 2370
+  },
+  {
+   "file": "world-maps-~pqr.json",
+   "firstPath": "world/maps/ppl5_snow_bg/ppl5_snow_bg.wdl",
+   "kind": "~pqr",
+   "lastPath": "world/maps/RobinDevMap/RobinDevMap_32_32.adt",
+   "prefix": "world/maps/",
+   "records": 442
+  },
+  {
+   "file": "world-maps-~stu.json",
+   "firstPath": "world/maps/SchoolofNecromancy/SchoolofNecromancy.wdl",
+   "kind": "~stu",
+   "lastPath": "World/maps/UtgardePinnacle/UtgardePinnacle_35_35.adt",
+   "prefix": "world/maps/",
+   "records": 1831
+  },
+  {
+   "file": "world-maps-~vwx.json",
+   "firstPath": "world/maps/Valgarde70/Valgarde70.wdl",
+   "kind": "~vwx",
+   "lastPath": "world/maps/wsgwinter/WSGWinter_30_30.adt",
+   "prefix": "world/maps/",
+   "records": 305
+  },
+  {
+   "file": "world-maps-~yz.json",
+   "firstPath": "world/maps/ysondrebossmap/ysondrebossmap.wdl",
+   "kind": "~yz",
+   "lastPath": "world/maps/ZulAman/ZulAman_31_33.adt",
+   "prefix": "world/maps/",
+   "records": 148
+  },
+  {
+   "file": "world-n.json",
+   "firstPath": "world/NODXT/DETAIL/10nrb_5199382.blp",
+   "kind": "",
+   "lastPath": "world/NODXT/generic/passivedoodads/volumetriclights/uthershrinelightbeam_nosound00.skin",
+   "prefix": "world/n",
+   "records": 4315
+  },
+  {
+   "file": "world-o.json",
+   "firstPath": "World/OUTLAND/PASSIVEDOODADS/BLADETHROWER/bladethrowerruined01.m2",
+   "kind": "",
+   "lastPath": "World/OUTLAND/PASSIVEDOODADS/TREES/umbrellatree_001_dead.blp",
+   "prefix": "world/o",
+   "records": 209
+  },
+  {
+   "file": "world-wmo-~abc.json",
+   "firstPath": "world/wmo/arathi/8ara_arathirockwmo_01.wmo",
+   "kind": "~abc",
+   "lastPath": "world/wmo/custom/Ldrn/WATERFALLSTEAM.BLP",
+   "prefix": "world/wmo/",
+   "records": 4177
+  },
+  {
+   "file": "world-wmo-~ghi.json",
+   "firstPath": "world/wmo/human/6hu_garrison_wallsegment_v1.wmo",
+   "kind": "~ghi",
+   "lastPath": "world/wmo/human/6hu_garrison_wallsegment_v1_001.wmo",
+   "prefix": "world/wmo/",
+   "records": 3
+  },
+  {
+   "file": "world-wmo-~jkl.json",
+   "firstPath": "World/wmo/Kalimdor/Buildings/AzsharaOutpost/AzsharaOutpost.wmo",
+   "kind": "~jkl",
+   "lastPath": "World/wmo/Lorderon/Undercity/Undercitywall01_000.wmo",
+   "prefix": "world/wmo/",
+   "records": 3231
+  },
+  {
+   "file": "world-wmo-~mno.json",
+   "firstPath": "world/wmo/NAZJATAR/8NZJ_NAZJATAR_BUILDING01_2367018.WMO",
+   "kind": "~mno",
+   "lastPath": "World/wmo/Outland/ZangarMushroomBase/Mushroombase_011.wmo",
+   "prefix": "world/wmo/",
+   "records": 2477
+  },
+  {
+   "file": "world-wmo-~pqr.json",
+   "firstPath": "world/wmo/pandaria/generic/ARCHWAY/PA_ARCHWAY_01.WMO",
+   "kind": "~pqr",
+   "lastPath": "world/wmo/pvp/ValleyofPower/MG_WALLSECTION_000.wmo",
+   "prefix": "world/wmo/",
+   "records": 600
+  },
+  {
+   "file": "world-wmo-~stu.json",
+   "firstPath": "world/wmo/Sirus/Rakari/rakari_2a_.wmo",
+   "kind": "~stu",
+   "lastPath": "World/wmo/transports/WMO_elevators/ulduarRaid_gnomeWing_transport_WMO_000.wmo",
+   "prefix": "world/wmo/",
+   "records": 270
+  },
+  {
+   "file": "world-wmo-~yz.json",
+   "firstPath": "world/wmo/zuldazar/buildings/orc/8or_pvp_warsongbg_tower01_2411643.wmo",
+   "kind": "~yz",
+   "lastPath": "world/wmo/zuldazar/troll/8tr_zandalari_waterfallstructure01_000.wmo",
+   "prefix": "world/wmo/",
+   "records": 629
+  },
+  {
+   "file": "world-wmo-d~abc.json",
+   "firstPath": "world/wmo/DARKMOONFAIRE/8df_darkmoon_rollercoaster_2339779.blp",
+   "kind": "~abc",
+   "lastPath": "world/wmo/DARKMOONFAIRE/WEEDTENT_ROUND_001.wmo",
+   "prefix": "world/wmo/d",
+   "records": 7
+  },
+  {
+   "file": "world-wmo-d~pqr.json",
+   "firstPath": "world/wmo/draenor/ASHRAN/6as_alliance_tower.wmo",
+   "kind": "~pqr",
+   "lastPath": "world/wmo/draenor/tanaanjungle/6tj_rockwall_medium_c06_000.wmo",
+   "prefix": "world/wmo/d",
+   "records": 450
+  },
+  {
+   "file": "world-wmo-dungeon-~abc.json",
+   "firstPath": "world/wmo/Dungeon/alliancebase/nd_human_lighthouse.wmo",
+   "kind": "~abc",
+   "lastPath": "world/wmo/Dungeon/custom_tuskarr/BT_KASKALA_CLIFFS_ISLAND_Custom_000.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 912
+  },
+  {
+   "file": "world-wmo-dungeon-~def.json",
+   "firstPath": "World/wmo/Dungeon/DrakTharon/DrakTharon.wmo",
+   "kind": "~def",
+   "lastPath": "world/wmo/Dungeon/dreamlike/groundtextures/chunks9.blp",
+   "prefix": "world/wmo/dungeon/",
+   "records": 47
+  },
+  {
+   "file": "world-wmo-dungeon-~ghi.json",
+   "firstPath": "World/wmo/Dungeon/Gjalerbron/Gjalerbron.wmo",
+   "kind": "~ghi",
+   "lastPath": "world/wmo/Dungeon/INFRAMUNDO/INFRAM_CUEVA_003.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 207
+  },
+  {
+   "file": "world-wmo-dungeon-~jkl.json",
+   "firstPath": "world/wmo/Dungeon/KEZANDUNGEON/8du_kezan_horde_goblin_gate01.wmo",
+   "kind": "~jkl",
+   "lastPath": "World/wmo/Dungeon/LD_Stratholme/Stratholme_raid_064.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 1394
+  },
+  {
+   "file": "world-wmo-dungeon-~mno.json",
+   "firstPath": "world/wmo/Dungeon/maldraxxusarenadungeon/9du_maldraxxusarenadungeon_main01_3136472.blp",
+   "kind": "~mno",
+   "lastPath": "World/wmo/Dungeon/OL_TempestKeep/TK_Raid_015.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 2185
+  },
+  {
+   "file": "world-wmo-dungeon-~other.json",
+   "firstPath": "world/wmo/Dungeon/9du_plaguefalldungeon_sanctum01.wmo",
+   "kind": "~other",
+   "lastPath": "world/wmo/Dungeon/9du_plaguefalldungeon_sanctum01_006.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 8
+  },
+  {
+   "file": "world-wmo-dungeon-~pqr.json",
+   "firstPath": "world/wmo/Dungeon/PANTHEON/PANTHEON_CIRCULO.WMO",
+   "kind": "~pqr",
+   "lastPath": "World/wmo/Dungeon/RubySanctum/ND_Ruby_Collision_000.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 243
+  },
+  {
+   "file": "world-wmo-dungeon-~stu.json",
+   "firstPath": "world/wmo/Dungeon/sethrackdungeon/8du_sethrackdungeon_giantspine01.wmo",
+   "kind": "~stu",
+   "lastPath": "World/wmo/Dungeon/Ulduar/UlduarTramArchitecture_002.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 636
+  },
+  {
+   "file": "world-wmo-dungeon-~vwx.json",
+   "firstPath": "World/wmo/Dungeon/Valgarde/IC_VrykulTunnel01.wmo",
+   "kind": "~vwx",
+   "lastPath": "World/wmo/Dungeon/woodtroll_temple/woodtroll_temple_007.wmo",
+   "prefix": "world/wmo/dungeon/",
+   "records": 133
+  },
+  {
+   "file": "world-wmo-e.json",
+   "firstPath": "World/wmo/elevators/ancDraeneiElevator/ancDrae_elevator.wmo",
+   "kind": "",
+   "lastPath": "World/wmo/Exterior_Designers/HowlingFjord/ND_Vrykul_Dwelling_02_Blockout_001.wmo",
+   "prefix": "world/wmo/e",
+   "records": 3055
+  },
+  {
+   "file": "world-wmo-f.json",
+   "firstPath": "world/wmo/felyard/vrykul_tomb_instance.wmo",
+   "kind": "",
+   "lastPath": "world/wmo/felyard/vrykul_tomb_instance_008.wmo",
+   "prefix": "world/wmo/f",
+   "records": 10
+  },
+  {
+   "file": "x.json",
+   "firstPath": "XTEXTURES/caustic/caustic02.blp",
+   "kind": "",
+   "lastPath": "XTEXTURES/splash/wake.blp",
+   "prefix": "x",
+   "records": 319
+  }
+ ],
+ "totalUncompressedBytes": 67870028230,
+ "unreadableCount": 41053
+}

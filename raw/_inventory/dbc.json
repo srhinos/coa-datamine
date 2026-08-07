@@ -1,0 +1,5663 @@
+{
+ "headerMismatches": [
+  "AppearanceCategories.dbc",
+  "CharBaseInfo.dbc",
+  "CharStartOutfit.dbc",
+  "CharacterAdvancement.dbc",
+  "PowerDisplay.dbc",
+  "SpellChainEffects.dbc",
+  "SpellItemEnchantmentCondition.dbc",
+  "Tutorial.dbc",
+  "TutorialKeywords.dbc",
+  "VanityCollection.dbc"
+ ],
+ "nonWdbcMagic": [],
+ "note": "Every DBFilesClient table in the winning chain, with its WDBC header measured from the winning bytes. actualFields = recordSize//4; a disagreement with declaredFields is a lying header, recorded not swallowed.",
+ "tableCount": 368,
+ "tables": [
+  {
+   "actualFields": 62,
+   "declaredFields": 62,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 248,
+   "records": 22618,
+   "sha256": "7f0b889fc6b0483c332ac3257a20265b2547c7d747a02252ef2663465283a689",
+   "size": 7070154,
+   "stringBlockSize": 1460870,
+   "table": "Achievement.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 245,
+   "sha256": "3b8f666e58ebb5c5f584a1060efcb5854d8ce14ec10845ac471b873a97284985",
+   "size": 22089,
+   "stringBlockSize": 2469,
+   "table": "Achievement_Category.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 31,
+   "declaredFields": 31,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 124,
+   "records": 33630,
+   "sha256": "0eff7f116f1b377a27d0fb5ed19d2eb9e7ca5cc38e4a514a2fa80413a6ace721",
+   "size": 4845467,
+   "stringBlockSize": 675327,
+   "table": "Achievement_Criteria.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 1663,
+   "sha256": "4143690acf0dd6c1d515cfa06a5efbb1bb458d6e5700229365b0cbfb42f14ba0",
+   "size": 26628,
+   "stringBlockSize": 0,
+   "table": "AchievementRewards.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 1792,
+   "sha256": "0af1f9b3b83b1f7df1221d4d5e0af6fa0851044b549d705279a1d060ba0a033d",
+   "size": 87154,
+   "stringBlockSize": 29790,
+   "table": "AnimationData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 26,
+   "declaredFields": 25,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 104,
+   "records": 68,
+   "sha256": "f2252b0fcdf33d196a2e8b2b906f8a964af2f84e2b9011baea6dbb906defa80c",
+   "size": 9815,
+   "stringBlockSize": 2723,
+   "table": "AppearanceCategories.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 17297,
+   "sha256": "91c3d3ed5ac9b4405b912f3edab03e4636b5933e394a5e6a2734e3640bc96b92",
+   "size": 1452969,
+   "stringBlockSize": 1,
+   "table": "AppearanceDetails.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 17,
+   "declaredFields": 17,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 68,
+   "records": 42884,
+   "sha256": "176b1216a1b813c665392f7449bb50b12092d5229da96b969a13f8fa5903a8b2",
+   "size": 2916384,
+   "stringBlockSize": 252,
+   "table": "Appearances.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 304,
+   "sha256": "c5b643ef35f0d718c69f7619aa7784ed29a399bef451742c301bad3edebd8e3d",
+   "size": 9748,
+   "stringBlockSize": 0,
+   "table": "AreaGroup.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 54,
+   "declaredFields": 54,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 216,
+   "records": 847,
+   "sha256": "f1cc9b829786444f8ebb25a6ee52f64573b42fccaf1d4a43eb1c9cb2e856c239",
+   "size": 191929,
+   "stringBlockSize": 8957,
+   "table": "AreaPOI.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 36,
+   "declaredFields": 36,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 144,
+   "records": 2848,
+   "sha256": "2abcdb489d4c4a2efb6e63b1e218669123cd4a43ef052b07fc9aad370564c649",
+   "size": 451087,
+   "stringBlockSize": 40955,
+   "table": "AreaTable.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 1484,
+   "sha256": "82e11d20b3ac49044a985d63608dedaea2272c00920950a8c4448baf5ba7278c",
+   "size": 59380,
+   "stringBlockSize": 0,
+   "table": "AreaTrigger.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 26,
+   "sha256": "9b9a43f367aed2d98436cc9e57f8cb398b4a75c40ecca530b607370135096b0c",
+   "size": 541,
+   "stringBlockSize": 1,
+   "table": "AttackAnimKits.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 7,
+   "sha256": "330aaeb83908885a21dd9b9262cbf8423ac8802467234baab1caa24d0f682c88",
+   "size": 160,
+   "stringBlockSize": 84,
+   "table": "AttackAnimTypes.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 8,
+   "sha256": "6ecca5797c40e3576cd5794e98d828dac0774ad331b3b0572d6f7d3aa591ab13",
+   "size": 891,
+   "stringBlockSize": 199,
+   "table": "AuctionHouse.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 12,
+   "sha256": "1787dbae16e5f28984ccf0738904012d31f69abf4e14bde0d2bcc61600fa3f71",
+   "size": 116,
+   "stringBlockSize": 0,
+   "table": "BankBagSlotPrices.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 102,
+   "sha256": "5d3dcef2826d400b5c1e1050af9cb4439f813b8109a295355a7994d601209044",
+   "size": 4508,
+   "stringBlockSize": 0,
+   "table": "BannedAddOns.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 40,
+   "declaredFields": 40,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 160,
+   "records": 635,
+   "sha256": "0c072924ec813c3d0ed1305467f711b0360edcd20ac0515473edbbbeafbd6d22",
+   "size": 104321,
+   "stringBlockSize": 2701,
+   "table": "BarberShopStyle.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 32,
+   "declaredFields": 32,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 128,
+   "records": 73,
+   "sha256": "54d942c31be22ef3e90ebb90d045bfa3deddc0609181798d98983323be6c9925",
+   "size": 10766,
+   "stringBlockSize": 1402,
+   "table": "BattlemasterList.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 89,
+   "sha256": "c8b880d4a24b7798b4e6c25a10c56a986675b8ccdb1c5d0733441530b5eee5d8",
+   "size": 2868,
+   "stringBlockSize": 0,
+   "table": "CameraShakes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 41,
+   "sha256": "fe1a34dabe6acd50dd35a41d4e10db1e062b085c56b6b8bb87ee66a7ff4917a6",
+   "size": 3725,
+   "stringBlockSize": 261,
+   "table": "Cfg_Categories.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 13,
+   "sha256": "3b5c427d8b1cd4169a59ab16ce73d1e4dfa29c9bed88caa5ba6ae31384a682d1",
+   "size": 229,
+   "stringBlockSize": 1,
+   "table": "Cfg_Configs.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 53,
+   "declaredFields": 53,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 212,
+   "records": 297,
+   "sha256": "fea6a34e78318c78a917265abf2b79a2e827450d4f9b79325bc87630288242c7",
+   "size": 156060,
+   "stringBlockSize": 93076,
+   "table": "Challenge.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 354,
+   "sha256": "0cd5a6709cbe98e0732cd4ed97c4b798ec09a359ef74fb8d2d730e37b88bff44",
+   "size": 14347,
+   "stringBlockSize": 167,
+   "table": "ChallengeConditions.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 73,
+   "declaredFields": 73,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 292,
+   "records": 18,
+   "sha256": "0336288cc5d18a319c3ba8b0441ea209805e338439dbf48a7317fcc3512d163f",
+   "size": 9374,
+   "stringBlockSize": 4098,
+   "table": "ChallengeConditionTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 54,
+   "sha256": "a456c1638f56609f3aa9371810674f09b9522d00269a335660b5f8688c9e90a6",
+   "size": 1100,
+   "stringBlockSize": 0,
+   "table": "ChallengeFeatured.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 144,
+   "sha256": "ac177053f51b005b7d065173df14e967ad9151680fb5f43f0670eccb210aa764",
+   "size": 5872,
+   "stringBlockSize": 92,
+   "table": "ChallengeGroupRewards.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 1203,
+   "sha256": "09bdcaa5001ad2fea9681eae1040d557129cd81fc6c3d38eec9b828579e001c3",
+   "size": 14456,
+   "stringBlockSize": 0,
+   "table": "ChallengeGroups.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 1334,
+   "sha256": "e318095860ef9066163382ff945b0cd86d37a6afbff09d6f3c1499cb8ef62e14",
+   "size": 26700,
+   "stringBlockSize": 0,
+   "table": "ChallengeLevels.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 2,
+   "sha256": "7b6482b1c2d01777a0d7eeab36a4f0598430b1b336ecb84e76e040b8163b5d51",
+   "size": 120,
+   "stringBlockSize": 36,
+   "table": "ChallengeModifiers.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 37,
+   "declaredFields": 37,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 148,
+   "records": 8,
+   "sha256": "5fb4205b3e050c9a4fd5a5447a76d66c4cf81a72a119a8eab308ee1675bb41d1",
+   "size": 2040,
+   "stringBlockSize": 836,
+   "table": "ChallengeModifierTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 2047,
+   "sha256": "b6596298a52f79a5f5afc2703d7b12b599aa7022a659e86964c53a5746c34298",
+   "size": 74035,
+   "stringBlockSize": 323,
+   "table": "ChallengeRequirements.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 41,
+   "declaredFields": 41,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 164,
+   "records": 22,
+   "sha256": "57314b44ad9a5104e79549d2c6038b49af97a647d751d1852461ae3abc8cfade",
+   "size": 7613,
+   "stringBlockSize": 3985,
+   "table": "ChallengeRequirementTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 21677,
+   "sha256": "d8e63ad40b598b1d74b3d6dbbc4888ecbc323b75f4d593124c165854b321b7e0",
+   "size": 954413,
+   "stringBlockSize": 605,
+   "table": "ChallengeRewards.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 3646,
+   "sha256": "ad347c4930e5bfd655a6ee4e839fbac9d68b3f97d713eb187077022c3ddb1ff4",
+   "size": 77916,
+   "stringBlockSize": 4976,
+   "table": "ChallengeRules.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 36,
+   "declaredFields": 36,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 144,
+   "records": 127,
+   "sha256": "353aef51c14c018367e679c541cec0dc803c60c3a2b40ecf8c83ba03e98c1dd2",
+   "size": 33460,
+   "stringBlockSize": 15152,
+   "table": "ChallengeRuleTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 7702,
+   "sha256": "4e01af63c8dd4e0548923b4b25972263381107a50ffd9969e8b329203e36bf0f",
+   "size": 308100,
+   "stringBlockSize": 0,
+   "table": "ChallengeSpells.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 173,
+   "declaredFields": 179,
+   "losers": [
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 692,
+   "records": 7820,
+   "sha256": "0a6f6311bcd92552a391c5dcf670c3b1896eb3e5a5a0a6da1d0c1e701242666f",
+   "size": 5597994,
+   "stringBlockSize": 186534,
+   "table": "CharacterAdvancement.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 39,
+   "declaredFields": 39,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 156,
+   "records": 51,
+   "sha256": "ecd79664f943c5678263390f52b36e887d91ffb5431cacc06c6dc6a88338623e",
+   "size": 12790,
+   "stringBlockSize": 4814,
+   "table": "CharacterAdvancementCategories.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 46,
+   "sha256": "02da78174798c0db90b5509fac6d829d6b3b91db39410b4d61772c184b61bedb",
+   "size": 4879,
+   "stringBlockSize": 627,
+   "table": "CharacterAdvancementClassTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 5440,
+   "sha256": "4ae386343e716fab4ef6c9ec2f78c5da1e6f6b21b11c3eb067602f1c5229f353",
+   "size": 195860,
+   "stringBlockSize": 0,
+   "table": "CharacterAdvancementEssence.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 94,
+   "sha256": "f1c295b4acfcf71d03d3a9ce9749885dbca10c243b9be912b8803e3c1268fde4",
+   "size": 8074,
+   "stringBlockSize": 910,
+   "table": "CharacterAdvancementTabTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 73,
+   "declaredFields": 73,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 292,
+   "records": 9,
+   "sha256": "a5919c430b2e5323e2811d1d153ef78a4a962b32f828f04eb4ef1830389b1ebf",
+   "size": 5737,
+   "stringBlockSize": 3089,
+   "table": "CharacterCreationArchetypeCategories.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 28,
+   "declaredFields": 28,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 112,
+   "records": 1120,
+   "sha256": "2cbc5bb3756f0116630aee79e536f3e06b93f1ae443963c72cc3d5d9cce64564",
+   "size": 125460,
+   "stringBlockSize": 0,
+   "table": "CharacterCreationArchetypeDetails.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 71,
+   "declaredFields": 71,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 284,
+   "records": 3,
+   "sha256": "a935ac6cc3199e0d9cb4bb2102dadbcdc8cfd75b06a5e59406d5de8cdb99b33e",
+   "size": 2376,
+   "stringBlockSize": 1504,
+   "table": "CharacterCreationArchetypeRoles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 157,
+   "declaredFields": 157,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 628,
+   "records": 56,
+   "sha256": "4042891f6c9ab700cff38aac96d7714d85500b86b988f664e8c8f607fa3ed2ff",
+   "size": 94445,
+   "stringBlockSize": 59257,
+   "table": "CharacterCreationArchetypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 28,
+   "declaredFields": 28,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 112,
+   "records": 464,
+   "sha256": "d58a1288458b307d942da4ed2a7152148ffa623ed62366392ca58939606d9a53",
+   "size": 51988,
+   "stringBlockSize": 0,
+   "table": "CharacterCreationClassDetails.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 38,
+   "declaredFields": 38,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 152,
+   "records": 4,
+   "sha256": "bb54029a2a0c14b082c785967928903e9b3d9a5d548d6edf527eb93627280cb3",
+   "size": 943,
+   "stringBlockSize": 315,
+   "table": "CharacterCreationClassGuideRoles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 29,
+   "sha256": "4b1d2e6f16c35ef0e5b7e31319199f38615cb86affeb6e9ce1188bafbf5a37d1",
+   "size": 484,
+   "stringBlockSize": 0,
+   "table": "CharacterCreationClassGuideSubroleClasses.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 40,
+   "declaredFields": 40,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 160,
+   "records": 7,
+   "sha256": "8fece6699cbdb17729d1db048c3191ea12fc573a6f7448a837bf448c6fec1cb9",
+   "size": 1709,
+   "stringBlockSize": 569,
+   "table": "CharacterCreationClassGuideSubroles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 12,
+   "declaredFields": 12,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 48,
+   "records": 170,
+   "sha256": "8b6d7fd7515130a02e9a9a2504bbe32307215326ffd10dfbc95f67999bf841c4",
+   "size": 8180,
+   "stringBlockSize": 0,
+   "table": "CharacterCreationPetDetails.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 100,
+   "sha256": "e64df8311e376e7b6fe57db6f10cc2f5d93741e2a4e5b889b49f42c77f4d9079",
+   "size": 8420,
+   "stringBlockSize": 0,
+   "table": "CharacterCreationShapeshiftDetails.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 1281,
+   "sha256": "c63889a84cbc9630760c34fd55c84ee065fa48f96b9770d14e4d3f99cb0b4ab3",
+   "size": 41012,
+   "stringBlockSize": 0,
+   "table": "CharacterFacialHairStyles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 0,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 2,
+   "records": 208,
+   "sha256": "18c1ee408d507e0145c4c3f25c08b18e0b96583c49f376eabcb2c1d17ab96a07",
+   "size": 436,
+   "stringBlockSize": 0,
+   "table": "CharBaseInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 945,
+   "sha256": "d042047304d1f3b3741fabbef6bb7bc022ba76d0dba6d3985a9d8d932b9c69dc",
+   "size": 22700,
+   "stringBlockSize": 0,
+   "table": "CharHairGeosets.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 93,
+   "sha256": "ae3dc90406f4e0ed406c04f1441f40f4067328bd29ce83d93dca09aff2ef53ab",
+   "size": 2997,
+   "stringBlockSize": 1,
+   "table": "CharHairTextures.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 42354,
+   "sha256": "e33f3732f5a85046279de03b77cd94836d5d31f9f159ae9c924bc32bcad56a6e",
+   "size": 4187665,
+   "stringBlockSize": 2493485,
+   "table": "CharSections.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 74,
+   "declaredFields": 77,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 296,
+   "records": 981,
+   "sha256": "23812ac3120c00ed3759c6fa2ef697d258ca3130ff26b2019f85fe4347135ab4",
+   "size": 290396,
+   "stringBlockSize": 0,
+   "table": "CharStartOutfit.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 37,
+   "declaredFields": 37,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 148,
+   "records": 190,
+   "sha256": "0136913dd90aa4fc8709225de24bbc32933091798a72554ee9b46f2eb714d28d",
+   "size": 31249,
+   "stringBlockSize": 3109,
+   "table": "CharTitles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 40,
+   "sha256": "3f1ae4da4769cabf218a775c9fd5e8ac3eb76abd8b9718c6119d71520f768c64",
+   "size": 981,
+   "stringBlockSize": 1,
+   "table": "CharVariations.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 37,
+   "declaredFields": 37,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 148,
+   "records": 7,
+   "sha256": "b44af7aa0be962d956f7e9b9a4c16c4cb6253dc1a5e1fc71a2047553a712390c",
+   "size": 1135,
+   "stringBlockSize": 79,
+   "table": "ChatChannels.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 5233,
+   "sha256": "658096282304c2fa68b57e276eb5a07a0021d523ca2e64981fe5df174f613da1",
+   "size": 102072,
+   "stringBlockSize": 39256,
+   "table": "ChatProfanity.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 60,
+   "declaredFields": 60,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 240,
+   "records": 32,
+   "sha256": "4d1cf3a0e2e43c4e2ded9336193d73b4f6f47a2ffc6c106470f1909799d741b8",
+   "size": 8294,
+   "stringBlockSize": 594,
+   "table": "ChrClasses.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 32,
+   "sha256": "138f1da926fb281a53615dd7d0ae6fde4b7aa4789ab4f73f1a881b1df1bcfaa2",
+   "size": 1428,
+   "stringBlockSize": 0,
+   "table": "ChrClassesRoles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 69,
+   "declaredFields": 69,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 276,
+   "records": 42,
+   "sha256": "6310e9f9ba70700612409610a619e47c089313c112ff882980e9228fe981f8c4",
+   "size": 12291,
+   "stringBlockSize": 679,
+   "table": "ChrRaces.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 65,
+   "declaredFields": 65,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 260,
+   "records": 101,
+   "sha256": "1a602c618ba0aa24406fe482561d5b98133772d651e069ffc14d7ddd01988894",
+   "size": 39101,
+   "stringBlockSize": 12821,
+   "table": "ChrSpecs.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 17,
+   "sha256": "061568b41fe508f4e85a52b44095e2fcfcf57db148b460597d65cf6daca85352",
+   "size": 916,
+   "stringBlockSize": 420,
+   "table": "CinematicCamera.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 15,
+   "sha256": "a3213f3366ce5aa12c89d94681c629ea0298c19ae5e16db067cee41226ec4e5a",
+   "size": 620,
+   "stringBlockSize": 0,
+   "table": "CinematicSequences.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 26,
+   "declaredFields": 26,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 104,
+   "records": 14,
+   "sha256": "6bb80a7f10f5872cfea77df9ff79061e02ca5b98d24d7778ea9bab81a946a364",
+   "size": 1476,
+   "stringBlockSize": 0,
+   "table": "CollectorCacheItems.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 351,
+   "sha256": "f13b16c0cc703b0f31976baaf07e56030ea298afdbd1537722b4de47de3f8e4d",
+   "size": 5636,
+   "stringBlockSize": 0,
+   "table": "CollectorCacheRarityRates.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 8,
+   "sha256": "a52d9de94f70347c45de0d70bfee856baebaa03bd4eb41ee57bb32688fa3307c",
+   "size": 690,
+   "stringBlockSize": 62,
+   "table": "CollectorCacheRarityTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 38,
+   "declaredFields": 38,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 152,
+   "records": 1,
+   "sha256": "71edf720498edc199364b747d4aa63563d58112bbb4fe19a20fe203a64cb805d",
+   "size": 202,
+   "stringBlockSize": 30,
+   "table": "CollectorCacheTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 127178,
+   "sha256": "aecf0a81fb2deed5d6a946efc6e79153a71245b0ad96699fa373fe86b961ba71",
+   "size": 14257908,
+   "stringBlockSize": 2557512,
+   "table": "Creature.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 16,
+   "declaredFields": 16,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 64,
+   "records": 84477,
+   "sha256": "810deac1a4137cbe8867f46270465ec3b5fcceb34977b4787300d8b77e151ebb",
+   "size": 5652484,
+   "stringBlockSize": 245936,
+   "table": "CreatureDisplayInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 23351,
+   "sha256": "46a63afa50095db1990c603ada0af358b00d1356ec22b1779544d04770dc8335",
+   "size": 2728278,
+   "stringBlockSize": 766774,
+   "table": "CreatureDisplayInfoExtra.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 18935,
+   "sha256": "489b7ac42d6dc10d4393f4e002218de907ee10160a4c5a05502c4a709c64dca2",
+   "size": 302980,
+   "stringBlockSize": 0,
+   "table": "CreatureDisplayInfoGeosetData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 28,
+   "declaredFields": 28,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 112,
+   "records": 399,
+   "sha256": "31545d9d7e261f018e580015277dcdaa96000aa1a786d151afbba0a817a5bef4",
+   "size": 53964,
+   "stringBlockSize": 9256,
+   "table": "CreatureFamily.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 28,
+   "declaredFields": 28,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 112,
+   "records": 35494,
+   "sha256": "287cea532bc1ea3e6801b839f459c9ee7e28117c2bf233d8d6374da38d4e1bb5",
+   "size": 5544858,
+   "stringBlockSize": 1569510,
+   "table": "CreatureModelData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 258,
+   "sha256": "18df195930edde569282a612ba700138b8bb8e618f442a39fc82f20b8153afd8",
+   "size": 2084,
+   "stringBlockSize": 0,
+   "table": "CreatureMovementInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 38,
+   "declaredFields": 38,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 152,
+   "records": 10398,
+   "sha256": "7f78807c342be91475a2d269a74637464077d3163351c15d051148ccd3df145c",
+   "size": 1580516,
+   "stringBlockSize": 0,
+   "table": "CreatureSoundData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 803,
+   "sha256": "cb2f19fb988766668aa2dcff3532b5e166b5c0f5be549a278e2f3327e3486aa9",
+   "size": 28928,
+   "stringBlockSize": 0,
+   "table": "CreatureSpellData.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 17,
+   "sha256": "51701ac538a41992bbfa71d9db1c7664aad931c9794934cdfa85899985c217c5",
+   "size": 1468,
+   "stringBlockSize": 156,
+   "table": "CreatureType.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 14,
+   "sha256": "c0779a33a09f634f53f19fdb10a5d6a4210599172cd8be4579850d7a6b51ac01",
+   "size": 1300,
+   "stringBlockSize": 216,
+   "table": "CurrencyCategory.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 69,
+   "sha256": "e382c18116014302db3c7d8b27a9a654db6583ec8b2f8c3086e563e03536d934",
+   "size": 1124,
+   "stringBlockSize": 0,
+   "table": "CurrencyTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 24,
+   "sha256": "f5d29ee88b659aa33ce4627ac7b581571a7fc6931081c5c63bfa8a93cffd74ee",
+   "size": 3018,
+   "stringBlockSize": 694,
+   "table": "DanceMoves.dbc",
+   "winner": "Data/enUS/patch-enUS-3.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 45,
+   "sha256": "8db1d2d037a23a257e8057832481015654d21402d396aa74244e2f990e19b7c0",
+   "size": 921,
+   "stringBlockSize": 1,
+   "table": "DeathThudLookups.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 29426,
+   "sha256": "bcb59c262020f1c6dc1efae67e69bfd77d5405f2b6b395009bcd43a5313090fc",
+   "size": 1313560,
+   "stringBlockSize": 1078132,
+   "table": "DeclinedWord.dbc",
+   "winner": "Data/enUS/patch-enUS-3.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 141956,
+   "sha256": "47c5b9adb49e1d1c5431fff8a7047c8a2f2c8f4fc85a0f8d678fd9f8975cf959",
+   "size": 6734878,
+   "stringBlockSize": 4463562,
+   "table": "DeclinedWordCases.dbc",
+   "winner": "Data/enUS/patch-enUS-3.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 41,
+   "sha256": "131fcbb1d1e49df31e1879fe64553d068f33742363ff23274ef158bc5c94ae19",
+   "size": 3136,
+   "stringBlockSize": 0,
+   "table": "DestructibleModelData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 2080,
+   "sha256": "f02642f3a02302f8b6d965a2ab3c0adb4f5b73117c6e0ece04bbb2c0facdded9",
+   "size": 200727,
+   "stringBlockSize": 9347,
+   "table": "DungeonEncounter.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 2080,
+   "sha256": "52fcd045014b68c58b57414262a3099b501cdb69d359047da591f7c6fc62519d",
+   "size": 33300,
+   "stringBlockSize": 0,
+   "table": "DungeonEncounterExtra.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 200,
+   "sha256": "39b9019cf6b1bbfc567e655e35423d579e75fba5851260b2d2fc1af5a54b9571",
+   "size": 6420,
+   "stringBlockSize": 0,
+   "table": "DungeonMap.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 2696,
+   "sha256": "f070dc969c95d840561a7af665f3c5caf1a8c94c02f5067ee68790482dab90f0",
+   "size": 53940,
+   "stringBlockSize": 0,
+   "table": "DungeonMapChunk.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 30,
+   "declaredFields": 30,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 120,
+   "records": 300,
+   "sha256": "718a64d3eae9c540f5ab1d4785fce88205ff1fbe844584a97e74365324137ae7",
+   "size": 36020,
+   "stringBlockSize": 0,
+   "table": "DurabilityCosts.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 16,
+   "sha256": "2b1a28c5f1809dd2caa2a9e7311c53f2328493658b671f43e7e3875b6a536a92",
+   "size": 148,
+   "stringBlockSize": 0,
+   "table": "DurabilityQuality.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 466,
+   "sha256": "57e217cf93847426c9e03436ad70469437baf82beb6a9f910c2c39fe776ae681",
+   "size": 22603,
+   "stringBlockSize": 9535,
+   "table": "Emotes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 252,
+   "sha256": "a6a87931342757cc0c664136b886e7c51f793254abf09bcc02d188d495a67ba6",
+   "size": 20790,
+   "stringBlockSize": 1618,
+   "table": "EmotesText.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 1327,
+   "sha256": "9d2856f3d410716b1d0157390de73377bbc6e62ee888ae28dfbf5aa54e4bd1ef",
+   "size": 133239,
+   "stringBlockSize": 37675,
+   "table": "EmotesTextData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 542,
+   "sha256": "2742d78a30c1a31fa753784327a2f511a8aaa98356439495db003de7eab5c419",
+   "size": 10860,
+   "stringBlockSize": 0,
+   "table": "EmotesTextSound.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 380008,
+   "sha256": "e6dd6108adedcd8e66b1ddd84306776f90c5a7149cd4c5bf4331def49949370e",
+   "size": 6080148,
+   "stringBlockSize": 0,
+   "table": "EnchantEnchantSuggestions.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 0,
+   "sha256": "6a6a447cdf470a14ef662b1fa5fc624ba06c8eb8ce37b8c9ac001272e59accca",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "EnchantRoleSuggestions.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 0,
+   "sha256": "6a6a447cdf470a14ef662b1fa5fc624ba06c8eb8ce37b8c9ac001272e59accca",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "EnchantStatSuggestions.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 6,
+   "sha256": "81f4a158d904fd04a6eac16dd5bbdd3fcba54e6711b935a5f7a0e6de98f5036e",
+   "size": 93,
+   "stringBlockSize": 1,
+   "table": "EnvironmentalDamage.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 6,
+   "sha256": "c87430b03c5094715b604ec2f10d006087cdff1c34501d1199d6b0fdee68b79d",
+   "size": 624,
+   "stringBlockSize": 52,
+   "table": "Exhaustion.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 28,
+   "sha256": "d73ca7eadf31a4ea1fcbd7d6e1c93d020c2066f18e7950d39ab53e6f7e36aa8b",
+   "size": 1666,
+   "stringBlockSize": 526,
+   "table": "ExtraActionButtons.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 57,
+   "declaredFields": 57,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 228,
+   "records": 417,
+   "sha256": "58e03b45ca65ddfe7e08599c7386183a37e9c57bd5db0c063df067cbb426ae3f",
+   "size": 113034,
+   "stringBlockSize": 17938,
+   "table": "Faction.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 4,
+   "sha256": "45bdc95bacc7cacb77dd644caa935b853134d4758c2b6c7936c6bef990f9ad21",
+   "size": 371,
+   "stringBlockSize": 31,
+   "table": "FactionGroup.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 14,
+   "declaredFields": 14,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 56,
+   "records": 871,
+   "sha256": "2e42e5dd0e685db09f74d2c42589b1f315afe1d0633dd77c18485cd6d5b0edf9",
+   "size": 48796,
+   "stringBlockSize": 0,
+   "table": "FactionTemplate.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 13,
+   "sha256": "fb73ec0e0db8deb8408e3bb4b287ded694ef389f48718fbca9e4827f4895c13c",
+   "size": 433,
+   "stringBlockSize": 257,
+   "table": "FileData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 6,
+   "sha256": "139c946cf2ae36d142bd067460d490750a5ca4cce496c5e58d45ee0d1c34e57e",
+   "size": 268,
+   "stringBlockSize": 200,
+   "table": "FootprintTextures.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 240,
+   "sha256": "3e1bbc9fd67ed0501fc4eb120f1481fb369537c99566944ae8ce5cca91ff1f92",
+   "size": 4820,
+   "stringBlockSize": 0,
+   "table": "FootstepTerrainLookup.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 18,
+   "sha256": "1c4369db9ccabc4bf72cd7097977b489e3f8051a0fdd067cc2ccef13dde84e71",
+   "size": 2073,
+   "stringBlockSize": 1477,
+   "table": "GameObjectArtKit.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 120869,
+   "sha256": "5027bc67923d7514a8afc34c33a04bf72730af76fd4b296fca897fc55a26d50f",
+   "size": 11688839,
+   "stringBlockSize": 2502775,
+   "table": "GameObjectDisplayInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 106834,
+   "sha256": "025253c257e706f8a87bcdefcf8689bc48e07fc0d2c60900617f7150221a535b",
+   "size": 2206431,
+   "stringBlockSize": 1351739,
+   "table": "GameObjectDisplayInfoAddon.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 87,
+   "sha256": "fa4930d02d448c74eaaa79e097d4b5d202a43ea50514905693e96579e16913b3",
+   "size": 2665,
+   "stringBlockSize": 1601,
+   "table": "GameTables.dbc",
+   "winner": "Data/enUS/patch-enUS-3.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 169,
+   "sha256": "b13fc04baea17b009aa906f4065f1d6fbbaaa987bf019ce51c7d05cd087ff1d8",
+   "size": 33885,
+   "stringBlockSize": 21697,
+   "table": "GameTips.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 668,
+   "sha256": "c4449a08fe3d77af1b79a25d79aae200d9ac224d5b7736fb224c8bc79eec032a",
+   "size": 13380,
+   "stringBlockSize": 0,
+   "table": "GemProperties.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 14344,
+   "sha256": "ccb2a2323dd230ef1615dc0987ea7c7e3d64952f3e082575d5b19c12b2467f38",
+   "size": 1966082,
+   "stringBlockSize": 818542,
+   "table": "GlobalStrings.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 362,
+   "sha256": "f1bcd26ffb13499a58409b833cec171f38c01aab85258d59895696f0ea45bf28",
+   "size": 5812,
+   "stringBlockSize": 0,
+   "table": "GlyphProperties.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 10,
+   "sha256": "4e431c96868c205d24d79d413febbeb02030664e654932732f0e09ce11c16a8d",
+   "size": 140,
+   "stringBlockSize": 0,
+   "table": "GlyphSlot.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 45,
+   "sha256": "19fe01859c61213c7d76358247a8baf1f4f6cc50b89ae296567fa0f295470ca3",
+   "size": 3715,
+   "stringBlockSize": 95,
+   "table": "GMSurveyAnswers.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 9,
+   "sha256": "b468c54bf7e6db404eaaabe3fb8db3f4644d541e4fd7f96ee9d41037ada05521",
+   "size": 93,
+   "stringBlockSize": 1,
+   "table": "GMSurveyCurrentSurvey.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 13,
+   "sha256": "63f7ab8458248e810e4f4032867a9e4ea25d12308a536fd82e8931d85414a934",
+   "size": 1861,
+   "stringBlockSize": 905,
+   "table": "GMSurveyQuestions.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 2,
+   "sha256": "9b0edc0dc2af9e4349813ecf1f5532acb3ed050d89a20cfb083456b0ac4a731c",
+   "size": 109,
+   "stringBlockSize": 1,
+   "table": "GMSurveySurveys.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 38,
+   "sha256": "f98fcf8b80768f484a62f64750a9955517fcb158a32d85f45a6a7989e05908ad",
+   "size": 3396,
+   "stringBlockSize": 640,
+   "table": "GMTicketCategory.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 1968,
+   "sha256": "70ce4011059e43558ade669bb942bba6ffc2611c9eb15b0d3d3e5e51a4a6d113",
+   "size": 53456,
+   "stringBlockSize": 29820,
+   "table": "GroundEffectDoodad.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 38436,
+   "sha256": "36175ed21db35bd558ccdb0a31e31618268c9df746c0fc6aa4eac824748cca43",
+   "size": 1691204,
+   "stringBlockSize": 0,
+   "table": "GroundEffectTexture.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 255,
+   "sha256": "c6c36ce18859cbcae085de9ff354cdb727f6cfab60438fec47a821eb2060c91e",
+   "size": 1040,
+   "stringBlockSize": 0,
+   "table": "gtBarberShopCostBase.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "5ee9fbc992bba25c3dc21c89c7c9f58f9c05f7cec304c564d2e0ac499b4dc5a3",
+   "size": 12820,
+   "stringBlockSize": 0,
+   "table": "gtChanceToMeleeCrit.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 32,
+   "sha256": "078feacd0072226c057d96ac79973ca11cac50ca3dc451dce71808da5164bb2e",
+   "size": 148,
+   "stringBlockSize": 0,
+   "table": "gtChanceToMeleeCritBase.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "fc69aa127756673ccc07e7702a965aca739872409a8db6cdea4bfbd8e4f3eb1c",
+   "size": 12820,
+   "stringBlockSize": 0,
+   "table": "gtChanceToSpellCrit.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 32,
+   "sha256": "b6dc49d218285209efb46ac5cb0b4a46a045412ddfbc865fcb08585c18c0d049",
+   "size": 148,
+   "stringBlockSize": 0,
+   "table": "gtChanceToSpellCritBase.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "685005ac08ea037aa21c868b3c70b9c4b7b82eb9f7a456ef215faaca9578e551",
+   "size": 12820,
+   "stringBlockSize": 0,
+   "table": "gtCombatRatings.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 100,
+   "sha256": "9cff4003f1588f5a68c045365ef4d64105a4dae11f8256df83b745e7acdcdb19",
+   "size": 420,
+   "stringBlockSize": 0,
+   "table": "gtNPCManaCostScaler.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 1024,
+   "sha256": "735e573f49f7a3db29f188af62bd39430d794d8ed5ae960990a13eb3cc9dd51f",
+   "size": 8212,
+   "stringBlockSize": 0,
+   "table": "gtOCTClassCombatRatingScalar.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "80aa0fdf2516b895e361bef1fdb9df92cef555dd08b15cb58bf0559eb330f1fd",
+   "size": 12820,
+   "stringBlockSize": 0,
+   "table": "gtOCTRegenHP.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "fd5288d5b54b7a9e12f884f651f8bc1432b653e42333b661c99521b66cb1ccc7",
+   "size": 12821,
+   "stringBlockSize": 1,
+   "table": "gtOCTRegenMP.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "0a8f507776eb42ba0093c997efd50c3af04d7cc89730625ec8224a181ff6f3f8",
+   "size": 12820,
+   "stringBlockSize": 0,
+   "table": "gtRegenHPPerSpt.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 3200,
+   "sha256": "958ab5fdb41669620edcddc5d0d750a6dc2d462d31066b6067f4b351fc898c00",
+   "size": 12820,
+   "stringBlockSize": 0,
+   "table": "gtRegenMPPerSpt.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 272,
+   "sha256": "9c348ae36f62815aae5cef1a9863ec86ffe81737a98870a530f179d45fa6cad0",
+   "size": 9812,
+   "stringBlockSize": 0,
+   "table": "HDCharacterFacialHairStyles.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 372,
+   "sha256": "21a4f75f619b7450fa3080efe22099943250286a0ce722f2ec6768b6391d6656",
+   "size": 8948,
+   "stringBlockSize": 0,
+   "table": "HDCharHairGeosets.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 25544,
+   "sha256": "99b8d6ffcc0b29f7bf5a92397829b7095f86c0b43718812fe67975d33ceaeb36",
+   "size": 2762142,
+   "stringBlockSize": 1740362,
+   "table": "HDCharSections.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 16,
+   "declaredFields": 16,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 64,
+   "records": 6855,
+   "sha256": "3fef2a34eac2ba7b1a06a5d462b64957ff93dcfc5cd6854244549b97aadc0830",
+   "size": 468332,
+   "stringBlockSize": 29592,
+   "table": "HDCreatureDisplayInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 14169,
+   "sha256": "036842a5c8392497f13053d1355e903aa39460c887cf27042d919e9245a072b1",
+   "size": 1670007,
+   "stringBlockSize": 479791,
+   "table": "HDCreatureDisplayInfoExtra.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 28,
+   "declaredFields": 28,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 112,
+   "records": 545,
+   "sha256": "d7a017722e55a1fd7c6f53148a5721ee86e43e951a743d71b100c666f7a6044d",
+   "size": 80822,
+   "stringBlockSize": 19762,
+   "table": "HDCreatureModelData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 782,
+   "sha256": "ea5b4c4debea307f940c87859d4a3bad07854086d83f60838e625fb124eb30e1",
+   "size": 15660,
+   "stringBlockSize": 0,
+   "table": "HDEmotesTextSound.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 66,
+   "sha256": "f95af23544f492117bf92f66231a08af9412aca320feab0ab53c93ae6a4284cd",
+   "size": 2132,
+   "stringBlockSize": 0,
+   "table": "HDHelmetGeosetVisData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 424,
+   "sha256": "bed28bd741603f3da05fb990ea370d21604c75089fcfda7cad6590493cfeae7b",
+   "size": 27447,
+   "stringBlockSize": 15555,
+   "table": "HDSpellVisualEffectName.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 737,
+   "sha256": "bdaf5ac7256683584676c108432d4981fce0f927235ee07b55e3c98a22464b41",
+   "size": 29500,
+   "stringBlockSize": 0,
+   "table": "HDSpellVisualKitModelAttach.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 66,
+   "sha256": "2de72eacd8949fb0c89edacaf7c2aece00641efc1f6475f4de20ae622b4b71fa",
+   "size": 2132,
+   "stringBlockSize": 0,
+   "table": "HelmetGeosetVisData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 30,
+   "sha256": "5591276b56070006d4b9d8e11220872a7263409e01bcc6c413a7a8eef12feb61",
+   "size": 7195,
+   "stringBlockSize": 5015,
+   "table": "HolidayDescriptions.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 28,
+   "sha256": "7c268385fdec208f57677b27a0c3cebb5ffe308738612f0a8bbe7a1209fc3761",
+   "size": 2613,
+   "stringBlockSize": 577,
+   "table": "HolidayNames.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 55,
+   "declaredFields": 55,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 220,
+   "records": 58,
+   "sha256": "7f781f0de019599c845c42bdd9eaeff73a91839973d3ab1a2486b52b18b9c67c",
+   "size": 13191,
+   "stringBlockSize": 411,
+   "table": "Holidays.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 563335,
+   "sha256": "7fa31b341a9e1d27df3d08eae54c27c3863ecb3b260df21fa1c28a3681534b48",
+   "size": 18026740,
+   "stringBlockSize": 0,
+   "table": "Item.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 48,
+   "declaredFields": 48,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 192,
+   "records": 563335,
+   "sha256": "aa86da3de39d5ccd74ad9b667649f5c4576a3c69daf6dcdcedd036c3e1dbd7b0",
+   "size": 115118908,
+   "stringBlockSize": 6958568,
+   "table": "ItemAddon.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 202903,
+   "sha256": "522be205a457376059125f302554632fa32bc237a1a1a9b6dbcb0cd848a13516",
+   "size": 2434856,
+   "stringBlockSize": 0,
+   "table": "ItemAppearances.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 16,
+   "sha256": "3c1e4d8b846df656bae1de716b6ad86256250aec75a69d4e616fa1888ed17fc5",
+   "size": 1383,
+   "stringBlockSize": 211,
+   "table": "ItemBagFamily.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 18,
+   "sha256": "f18b7ea83918481c73b6b1e1f9f8c8fccb8ca182d35ab1d0a7daa22e0a2ee6d2",
+   "size": 1632,
+   "stringBlockSize": 172,
+   "table": "ItemClass.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 1163,
+   "sha256": "f178565cc07a9cfa641f87821b987d4aede9e07a406ca769c507008901a60791",
+   "size": 18628,
+   "stringBlockSize": 0,
+   "table": "ItemCondExtCosts.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 25,
+   "declaredFields": 25,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 100,
+   "records": 129603,
+   "sha256": "654666d8b16529b2cb95cfd8af401dba149b031112ea1861e2fbba66b535c29d",
+   "size": 16553756,
+   "stringBlockSize": 3593436,
+   "table": "ItemDisplayInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 4704,
+   "sha256": "85a1d1806651eaab28cafd7ebca522f23c81281fe7d503ec94f3b3b884a989db",
+   "size": 261929,
+   "stringBlockSize": 111381,
+   "table": "ItemDisplayInfoCollections.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 16,
+   "declaredFields": 16,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 64,
+   "records": 13777,
+   "sha256": "b0bec7d13ec1ab9bf241547d9d8c45cc8f5a1d9061d34a510b1a291eb34fd5c5",
+   "size": 881748,
+   "stringBlockSize": 0,
+   "table": "ItemExtendedCost.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 29,
+   "sha256": "9df7d8352cd54613b7b5606d2e304ebfe422089b3bdc3814fe921e4c6586994a",
+   "size": 600,
+   "stringBlockSize": 0,
+   "table": "ItemGroupSounds.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 2629,
+   "sha256": "29c1ca6918f954e565f67dc3fdfc07c9e4e39d768280a15faf9818e774f86192",
+   "size": 264646,
+   "stringBlockSize": 54306,
+   "table": "ItemLimitCategory.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 8,
+   "sha256": "fa69f1391d3f3d4a9932740bd6fd5d180dfcf6250e9d1f2ad697c6e717b73a65",
+   "size": 651,
+   "stringBlockSize": 55,
+   "table": "ItemPetFood.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 26,
+   "declaredFields": 26,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 104,
+   "records": 1,
+   "sha256": "d89d957edecf02c6459dd783f78c663b830ebd7078c3a683d5dd24e2aec9dbec",
+   "size": 158,
+   "stringBlockSize": 34,
+   "table": "ItemPurchaseGroup.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 10087,
+   "sha256": "56c46a3de975cdcc3e5790c7d3d8c193792c4f2b011aa5d6cc4657f5becb2578",
+   "size": 972299,
+   "stringBlockSize": 3927,
+   "table": "ItemRandomProperties.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 29,
+   "declaredFields": 29,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 116,
+   "records": 275,
+   "sha256": "7f6d762abdab76b57a1084b7e0df4fb9f83c56ee6dee7f20e8f7def8aa783ac1",
+   "size": 37735,
+   "stringBlockSize": 5815,
+   "table": "ItemRandomSuffix.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 53,
+   "declaredFields": 53,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 212,
+   "records": 2347,
+   "sha256": "ce6e2b3036e85a95b1591e632ce0135467e550a5879dac3801f6a74489ac34da",
+   "size": 539046,
+   "stringBlockSize": 41462,
+   "table": "ItemSet.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 1603,
+   "sha256": "044a0f83ca4a2eba7658555fc0b30d75707f0400dfb05c3414bf2f89727861f4",
+   "size": 19256,
+   "stringBlockSize": 0,
+   "table": "ItemSetAppearances.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 37,
+   "declaredFields": 37,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 148,
+   "records": 131722,
+   "sha256": "3aa714952955037ee2be2d29aef39e06c7d6357212fa89b29084f592b4552c8c",
+   "size": 19494876,
+   "stringBlockSize": 0,
+   "table": "ItemSpells.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 39,
+   "declaredFields": 39,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 156,
+   "records": 1513931,
+   "sha256": "c09b91e67d97db5624f68a3de3cc0a3aa76e8672647cbf9bd924e343f918b237",
+   "size": 236173256,
+   "stringBlockSize": 0,
+   "table": "ItemStat.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 44,
+   "declaredFields": 44,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 176,
+   "records": 121,
+   "sha256": "a7350f8cc4590008b456bbdd6562f9d8f8ecff7b0dd9cc472c8b38821be4e195",
+   "size": 22563,
+   "stringBlockSize": 1247,
+   "table": "ItemSubClass.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 4,
+   "sha256": "ddd51aa40618af2d41b32fcd061cac848205a817d35689099b179bafcb656211",
+   "size": 383,
+   "stringBlockSize": 59,
+   "table": "ItemSubClassMask.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 205,
+   "sha256": "4e22a60173b8fa07aae3ca991d4ffa0210d4399a0e30048cd7082ac75b971551",
+   "size": 9030,
+   "stringBlockSize": 7370,
+   "table": "ItemVisualEffects.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 227,
+   "sha256": "820b8dd9e27c5e32c646fb04626eba75ea240abec10e5a346c48b9cc4af575b8",
+   "size": 5468,
+   "stringBlockSize": 0,
+   "table": "ItemVisuals.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 17,
+   "sha256": "bf70c60c03ba6fec0dbba9d713e685b5b9f05ee21da28b4747e559c1ac2bfd36",
+   "size": 1399,
+   "stringBlockSize": 155,
+   "table": "Languages.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 1663,
+   "sha256": "00382b3c391386297647c2391d5dcbf51ede11b0575b961980ddadb46d599589",
+   "size": 26903,
+   "stringBlockSize": 6927,
+   "table": "LanguageWords.dbc",
+   "winner": "Data/enUS/patch-enUS-2.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 322,
+   "sha256": "dd0e132611b4da34a1381082933a4bdad357e43f66699261942a9b7c45bdd08f",
+   "size": 31705,
+   "stringBlockSize": 2061,
+   "table": "LFGActivities.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 16,
+   "sha256": "40370182c39e8d80d249f4989bb557bc92933fcf5b1b3bbbb2170f020353351c",
+   "size": 1416,
+   "stringBlockSize": 116,
+   "table": "LFGActivityCategories.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 5,
+   "sha256": "472b745900c5386e59193172f875657cb9bab033bdf201c2e01701ae410a3b29",
+   "size": 454,
+   "stringBlockSize": 54,
+   "table": "LFGActivityGroupType.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 28,
+   "sha256": "12575f0ce799161dea1eab3916ae0bc92ec5b8d32101ce8968956ac6530bf038",
+   "size": 916,
+   "stringBlockSize": 0,
+   "table": "LfgDungeonExpansion.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 18,
+   "sha256": "48a287de4c038503b55e0e01cebe2cc58f684097b8443de9221e40eb37b1365f",
+   "size": 1954,
+   "stringBlockSize": 422,
+   "table": "LFGDungeonGroup.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 49,
+   "declaredFields": 49,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 196,
+   "records": 431,
+   "sha256": "f903626707568eef279fc66ab364bb168c7781d1e89507a62fb8214bfd922d1b",
+   "size": 89170,
+   "stringBlockSize": 4674,
+   "table": "LFGDungeons.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 15,
+   "declaredFields": 15,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 60,
+   "records": 1349,
+   "sha256": "7a601ff99c8fce13c315748fdb568ad57c372e3aee1fbf4006f164b3f185cf15",
+   "size": 80960,
+   "stringBlockSize": 0,
+   "table": "Light.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 34,
+   "declaredFields": 34,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 136,
+   "records": 6834,
+   "sha256": "d314dc48797e22079046d43ffca00b741dfaa1f9fb4a446473e52c118c367b61",
+   "size": 929444,
+   "stringBlockSize": 0,
+   "table": "LightFloatBand.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 34,
+   "declaredFields": 34,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 136,
+   "records": 20503,
+   "sha256": "402885fa5c15ad58d94df385707cbda18ee4a825487a777f29e5809faca38dc3",
+   "size": 2788428,
+   "stringBlockSize": 0,
+   "table": "LightIntBand.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 1140,
+   "sha256": "063bba67c2f3e74cbb8acbb12b923bbf858cadaca41a65495cd552e0f833cc36",
+   "size": 41060,
+   "stringBlockSize": 0,
+   "table": "LightParams.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 230,
+   "sha256": "208145e35e85fcae48a5cb578a107ebd50cac8f2caccdb33c06946ebda86b943",
+   "size": 8921,
+   "stringBlockSize": 6141,
+   "table": "LightSkybox.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 3,
+   "sha256": "103b8daa4f2b7d683ff95c19ffe03160ba684eb05e035491033b463911a23d0b",
+   "size": 57,
+   "stringBlockSize": 1,
+   "table": "LiquidMaterial.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 45,
+   "declaredFields": 45,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 180,
+   "records": 28,
+   "sha256": "08fd0fdb14862820f2f20888f95b0b0a0e3343143eb972b31cd97264c33d1030",
+   "size": 5812,
+   "stringBlockSize": 752,
+   "table": "LiquidType.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 159,
+   "sha256": "341908a3252ad4a4f306bd8d3338461a8cd3ca384cff022143175e2a2b11d721",
+   "size": 14170,
+   "stringBlockSize": 11606,
+   "table": "LoadingScreens.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 27,
+   "sha256": "9f1374425f76368b76fb1e284d70e24b28b3dc45a455c73417c04cb7bfc52553",
+   "size": 2073,
+   "stringBlockSize": 1,
+   "table": "LoadingScreenTaxiSplines.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 17,
+   "declaredFields": 17,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 68,
+   "records": 0,
+   "sha256": "94cb30142126204b18487ed64f9f0f6e10caa4a64b58d8b28a2d17d6dfb64088",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "LoadingScreenVariation.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 33,
+   "declaredFields": 33,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 132,
+   "records": 453,
+   "sha256": "332a4c3141cd6ee6fda9ea76c332280168070ff7ec8bd7982290060883c95cc8",
+   "size": 59816,
+   "stringBlockSize": 0,
+   "table": "Lock.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 53,
+   "declaredFields": 53,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 212,
+   "records": 25,
+   "sha256": "80a175a4c9d22604d7f9a222378a5ab56c4c373353aac4b5a93aecd2810c701b",
+   "size": 5913,
+   "stringBlockSize": 593,
+   "table": "LockType.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 35,
+   "declaredFields": 35,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 140,
+   "records": 208,
+   "sha256": "390967508302df421c96c392df9b8fd97ab31bc83593742a1e6bfbfc9b86123d",
+   "size": 64579,
+   "stringBlockSize": 35439,
+   "table": "MailTemplate.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 1025,
+   "sha256": "d162298a3d9312690dcdf098120da029d444870e38075895d3f66fa3a6beae5f",
+   "size": 36920,
+   "stringBlockSize": 0,
+   "table": "Manastorm.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 39,
+   "declaredFields": 39,
+   "losers": [
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 156,
+   "records": 291,
+   "sha256": "737adbca4c7891f3920356afd3cdac01aa06989ae3117c1264a1319b3d153770",
+   "size": 67282,
+   "stringBlockSize": 21866,
+   "table": "ManastormMessages.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 15,
+   "declaredFields": 15,
+   "losers": [
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 60,
+   "records": 32768,
+   "sha256": "5dee268867c1e6d9b3ff0bac600e99c5752ae21870680db69ca4196e65fbcbbb",
+   "size": 1966100,
+   "stringBlockSize": 0,
+   "table": "ManastormModifiers.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 15,
+   "sha256": "2b228922073ea876aa4f812c701b4b5b380ac2ad67d91e72c8b5d85ece4ce2bc",
+   "size": 320,
+   "stringBlockSize": 0,
+   "table": "ManastormPlayerGroupModifiers.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 66,
+   "declaredFields": 66,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 264,
+   "records": 374,
+   "sha256": "f6e9117b1e8796a2316c19683c0573ee78318502cb345f3f624185a333c3f2cb",
+   "size": 113271,
+   "stringBlockSize": 14515,
+   "table": "Map.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 685,
+   "sha256": "d0c47115092addb26dd7b1326aad4de6f8944d7ddf524ad31612ff90c7aead1c",
+   "size": 65380,
+   "stringBlockSize": 2340,
+   "table": "MapDifficulty.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 8,
+   "sha256": "0c30ba608a985d0b773a52b50e288789231206923b6120464646bd71286e265b",
+   "size": 181,
+   "stringBlockSize": 1,
+   "table": "Material.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 10,
+   "sha256": "b9a83c20cbb0440e752f5b5d22bbf8aac77e10bb8807ae92bd2c6c3aa644819e",
+   "size": 1047,
+   "stringBlockSize": 267,
+   "table": "MentorSpecializations.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 10,
+   "sha256": "bd6295ab896787384bb0d941595cb1241eae33ca75d5f4b2043bade33a3c95d2",
+   "size": 457,
+   "stringBlockSize": 317,
+   "table": "Movie.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 12,
+   "sha256": "a64ea777b722831f5af71c4de0fb7c33bcbc001a6eaafbfb9adc888800e9642b",
+   "size": 117,
+   "stringBlockSize": 1,
+   "table": "MovieFileData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 13,
+   "sha256": "d4fd88bc0cfc78d3a3abbc5fd109b92678be102a7830626882d1ac7b39a797a3",
+   "size": 177,
+   "stringBlockSize": 1,
+   "table": "MovieVariation.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 31,
+   "declaredFields": 31,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 124,
+   "records": 7815,
+   "sha256": "8955d89047a5ec6a657d3501377c92a81d75adb10fd8a99aecc2e8106b0fb338",
+   "size": 969439,
+   "stringBlockSize": 359,
+   "table": "MysticEnchant.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 16,
+   "declaredFields": 16,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 64,
+   "records": 13409,
+   "sha256": "3ac7eaa831da17a71ab21b2abc4cbacbe842a67e211dff95f2ca5c1137c0b762",
+   "size": 858196,
+   "stringBlockSize": 0,
+   "table": "MythicAffixes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 6801,
+   "sha256": "52ada871d42f1aebf4146394ca508038781f0311cfda0e89d26639361955058b",
+   "size": 81632,
+   "stringBlockSize": 0,
+   "table": "MythicKeystones.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 200,
+   "sha256": "9a2b9d036f757f7e177964226a2a26d0080fa04b271b3dd690242e02f9177402",
+   "size": 6420,
+   "stringBlockSize": 0,
+   "table": "MythicPlusScaling.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 6232,
+   "sha256": "8c3aea9dbddd572894c1bd32c237cdd8cd53ab34448885a5684993fb154be4eb",
+   "size": 144727,
+   "stringBlockSize": 44995,
+   "table": "NameGen.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 8268,
+   "sha256": "fbb2371f1afbd74ddaf059cf6816e6fd10eff079f15f0df0fa03b7a39f05bb8d",
+   "size": 134440,
+   "stringBlockSize": 35204,
+   "table": "NamesProfanity.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 16329,
+   "sha256": "35c307c3d5f62d142cdd7fcc800fff8e6d74943261e1bd3f044ce2eced52d8e6",
+   "size": 229866,
+   "stringBlockSize": 33898,
+   "table": "NamesReserved.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 2487,
+   "sha256": "66f85436cb279c6df6f701b8b912488985aa2bda1e3285b636b28d6802cc75d7",
+   "size": 49760,
+   "stringBlockSize": 0,
+   "table": "NPCSounds.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 13111,
+   "sha256": "79f0b0b659c1f081ef415811915e4684f72c8ec1dedc3707e2071f6d6c9dea88",
+   "size": 209796,
+   "stringBlockSize": 0,
+   "table": "NPCTrainer.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 12,
+   "declaredFields": 12,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 48,
+   "records": 160,
+   "sha256": "a17dd215a7fba639bf0d1ab009bd7e9a9128d9f7bf42c32848e50541cb87915c",
+   "size": 9616,
+   "stringBlockSize": 1916,
+   "table": "ObjectEffect.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 111,
+   "sha256": "5b4b467e6f1f7d296ee90465d7129abe7f9de81ab4465583235381524a9eb6ba",
+   "size": 3715,
+   "stringBlockSize": 2807,
+   "table": "ObjectEffectGroup.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 11,
+   "sha256": "4d03f2f3ff8046271d1f51315c5c28a2ecdf1ae6f24f3335433620414df80751",
+   "size": 372,
+   "stringBlockSize": 0,
+   "table": "ObjectEffectModifier.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 30,
+   "sha256": "f092e714b8c5b4a3ebd60e5e613f3e78125fbdd1a90ae573e663cbf317a6f953",
+   "size": 859,
+   "stringBlockSize": 599,
+   "table": "ObjectEffectPackage.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 198,
+   "sha256": "b89ef3ab854287c8b1907a39283a0075b0234d53a7ddc2c75a6ced818f6f2e44",
+   "size": 3188,
+   "stringBlockSize": 0,
+   "table": "ObjectEffectPackageElem.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 0,
+   "sha256": "7c5ae3d728342cf408f652f479ca7839c6793d6ccf681df4ab7287062ed48a00",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "ObjectSpawnVisibilitySettings.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 373,
+   "sha256": "9657b21891d5c5324869cce440fc5548c083b8b0a817d73a6811ff3fd9aee873",
+   "size": 12545,
+   "stringBlockSize": 6557,
+   "table": "OcclusionVolume.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 1529,
+   "sha256": "af56dbb4ce970a5f2983f327b05e820e4f3f5696334de90c4406bb3c99a2da66",
+   "size": 30600,
+   "stringBlockSize": 0,
+   "table": "OcclusionVolumePoints.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 12,
+   "declaredFields": 12,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 48,
+   "records": 49,
+   "sha256": "9ddf34992c821d3c60c00b319de296587f3093c676ba400667923654b0d0559b",
+   "size": 2372,
+   "stringBlockSize": 0,
+   "table": "OverrideSpellData.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 1,
+   "sha256": "6708613d6f229c3b32efb37b591e2d1adca46ed4e022a715ef5bf4befefaaf6b",
+   "size": 125,
+   "stringBlockSize": 25,
+   "table": "Package.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 7,
+   "sha256": "25f19f032c0ced6824d0e43296e27428767e64822d9954d12c89eec10ad2a560",
+   "size": 132,
+   "stringBlockSize": 56,
+   "table": "PageTextMaterial.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 36,
+   "sha256": "43c40ee0a4ea5bd9046056a18062e01ef7aafeea62fb2c5022421ef760642817",
+   "size": 1602,
+   "stringBlockSize": 1150,
+   "table": "PaperDollItemFrame.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 1666,
+   "sha256": "1740cf817f327a022ff4fc6c237a094dce224ac81cac5c0a5f3e6d472ad99f25",
+   "size": 66660,
+   "stringBlockSize": 0,
+   "table": "ParticleColor.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 2,
+   "sha256": "bf33b20226b455536ffb7b78b4f2f9eb7b143782a8c2ae98d82d51c7ac7e7ae4",
+   "size": 62,
+   "stringBlockSize": 18,
+   "table": "PetitionType.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 2,
+   "sha256": "31e0be3e060d7b7bb67ddbdb484669a66b9a895c5ab9a7d67cce7617187897c8",
+   "size": 247,
+   "stringBlockSize": 35,
+   "table": "PetPersonality.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 15,
+   "records": 7,
+   "sha256": "6dce660d4502b5f32e1bb8b9865fff97cfb7670d2c10f241bfb949e9c36261ea",
+   "size": 241,
+   "stringBlockSize": 116,
+   "table": "PowerDisplay.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 658,
+   "sha256": "868ded54246725633a20f25b1aebc386e757e0f4f7ed978675408543f73787ce",
+   "size": 15812,
+   "stringBlockSize": 0,
+   "table": "PvpDifficulty.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 29,
+   "declaredFields": 29,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 116,
+   "records": 18561,
+   "sha256": "a711951835eea8233fd783e787c4ef92c8b08a53812d3190df8f7761faafa336",
+   "size": 2153096,
+   "stringBlockSize": 0,
+   "table": "Quest.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 2,
+   "sha256": "e7f81065acf64e7fc4ecc68f345f5e870d8dfac5eb87ef045353189aea9ff6ac",
+   "size": 108,
+   "stringBlockSize": 0,
+   "table": "QuestFactionReward.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 11,
+   "sha256": "c60b0f69c48cd8441685545676572908e2e35703969f42a3b4a1507de75de9c6",
+   "size": 897,
+   "stringBlockSize": 85,
+   "table": "QuestInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 144,
+   "sha256": "0297d2b5294766960e31f3facb599dc9395f2e8d0bdbbc1749d25982d278d4f9",
+   "size": 13386,
+   "stringBlockSize": 2998,
+   "table": "QuestSort.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 102,
+   "declaredFields": 102,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 408,
+   "records": 11269,
+   "sha256": "c6e584f430c08a0381dd613e04f031d1fb1cd751936f49f9e47a1f3a8b86277a",
+   "size": 4597772,
+   "stringBlockSize": 0,
+   "table": "QuestSuperTrack.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 15,
+   "declaredFields": 15,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 60,
+   "records": 5535,
+   "sha256": "d0052b06a25d0daa0f17c904fccec56c190b265796a1dd375870a4e5f98e0fbb",
+   "size": 332120,
+   "stringBlockSize": 0,
+   "table": "QuestTemplateScaling.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 100,
+   "sha256": "ce97ff654302d15e2d3e0e4c014685b27cd167a5e71ee9f3527ded78555a8954",
+   "size": 4420,
+   "stringBlockSize": 0,
+   "table": "QuestXP.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 16,
+   "declaredFields": 16,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 64,
+   "records": 300,
+   "sha256": "13b7aa3abd731297f98a6faba8ec78b1aeeb153204d8caa706204151773f8e26",
+   "size": 19220,
+   "stringBlockSize": 0,
+   "table": "RandPropPoints.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 7,
+   "sha256": "a26f523ec66bd8cb5900d3d21a9cb5ac4e5e9c79f9241788f91938c996d8342d",
+   "size": 627,
+   "stringBlockSize": 47,
+   "table": "Resistances.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 22,
+   "declaredFields": 22,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 88,
+   "records": 163,
+   "sha256": "20b327c50074dee4858ec32fb73a4aa4022599e3ceb27b6f893e7bd9dc414d71",
+   "size": 14364,
+   "stringBlockSize": 0,
+   "table": "ScalingStatDistribution.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 80,
+   "sha256": "b512a82bdd05c6bba83f53a34b22200260eaa79ff82014b8199804933d0d91fb",
+   "size": 7700,
+   "stringBlockSize": 0,
+   "table": "ScalingStatValues.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 52,
+   "sha256": "52428850d9bf56d023a982b6b6bcaccd6a8386b8696c480fa6ec722f19b55268",
+   "size": 3468,
+   "stringBlockSize": 1368,
+   "table": "ScreenEffect.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 12,
+   "sha256": "5886ddd194592394a1bd4c3b88f7e2f4f19c4b0d557c97096b283efdbdff5589",
+   "size": 266,
+   "stringBlockSize": 150,
+   "table": "ScreenLocations.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 25,
+   "declaredFields": 25,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 100,
+   "records": 101,
+   "sha256": "9609e074fab36a384a9fefa7b1005a08c8029ab9634bb2b6246ad0433d36153c",
+   "size": 10120,
+   "stringBlockSize": 0,
+   "table": "SealedCardCosts.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 259,
+   "sha256": "3777ff565c932bc155fa60c4e6388dbdd2a874a9dfce24aba4eac6937bf830d2",
+   "size": 10380,
+   "stringBlockSize": 0,
+   "table": "SeasonalAppearances.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 9,
+   "sha256": "51736a126ac75bf98226d84c994cf69ac9bd080ef4431e7018aafadf84e17a36",
+   "size": 921,
+   "stringBlockSize": 253,
+   "table": "ServerMessages.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 33,
+   "sha256": "4757d38512ebdcab7499c1be07456caa73786ef4a9536cb7bba96489386af939",
+   "size": 944,
+   "stringBlockSize": 0,
+   "table": "SheatheSoundLookups.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 12,
+   "declaredFields": 12,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 48,
+   "records": 7726,
+   "sha256": "f2f75e9d6445e4f36e95ff7ca65a3e0eaccc22b84beb1e3f423bf420ca15882a",
+   "size": 371149,
+   "stringBlockSize": 281,
+   "table": "SkillCard.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 1500,
+   "sha256": "849b80dfd621a40ff503c7a3c346d6a61b80e99bc9f1127ef1dd4a44a98a1891",
+   "size": 30020,
+   "stringBlockSize": 0,
+   "table": "SkillCostsData.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 56,
+   "declaredFields": 56,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 224,
+   "records": 872,
+   "sha256": "ab69d16132fa1457b3c014e5d37b9d34dfd734ed14ee9380ca8eb0aa045a2dfa",
+   "size": 210211,
+   "stringBlockSize": 14863,
+   "table": "SkillLine.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 14,
+   "declaredFields": 14,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ",
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 56,
+   "records": 38542,
+   "sha256": "2633fafe7f938737ddc2ee24f5453db37438adf541f71bcb0084f6dbc7a3bc37",
+   "size": 2158372,
+   "stringBlockSize": 0,
+   "table": "SkillLineAbility.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 9,
+   "sha256": "fe7e0e354f03bc10635dc47f1a1c186033e1fb2a5be4a7a3cdd6c852e5ae4e70",
+   "size": 826,
+   "stringBlockSize": 122,
+   "table": "SkillLineCategory.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 230,
+   "sha256": "4cac26775810c2e2d9336d1213b583d204d92d641e3f6a61fcb36941fe1022ba",
+   "size": 7380,
+   "stringBlockSize": 0,
+   "table": "SkillRaceClassInfo.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 0,
+   "sha256": "e5cbefca0adba78ce929b189ca18ba35464a647f8766f0bfcbb5341140716c2c",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "SkillRaceClassInfo_335.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 33,
+   "declaredFields": 33,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 132,
+   "records": 26,
+   "sha256": "9574853ca87f85b4734f1e2dcb667e9b2ac987d14f6888cbe79954f53e988931",
+   "size": 3452,
+   "stringBlockSize": 0,
+   "table": "SkillTiers.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 242,
+   "sha256": "1db8e3b9da6b2f503e073a34117bfaa0c7d309756f7d9e3bf8b706aef8c9eeec",
+   "size": 2924,
+   "stringBlockSize": 0,
+   "table": "SoundAmbience.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 632,
+   "sha256": "dd159ee3ee6704d0446539d771818c67a37a5f23b074ec3ec5002844631fdad9",
+   "size": 26778,
+   "stringBlockSize": 1478,
+   "table": "SoundEmitters.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 30,
+   "declaredFields": 30,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 120,
+   "records": 45868,
+   "sha256": "cde32514b954d6fcd23e0149f986f2092aa8ec04a0f9f20718ad5b465e2f13b4",
+   "size": 10040514,
+   "stringBlockSize": 4536334,
+   "table": "SoundEntries.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 18810,
+   "sha256": "a6ec621aff4cdb5fca1f86c5acc459dac43ba5871281aa726bd050bd1da87f83",
+   "size": 1840721,
+   "stringBlockSize": 34941,
+   "table": "SoundEntriesAdvanced.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 20,
+   "sha256": "4cb6dbcce4ca2a2a94bf8bf1684fb965e43c205140523bc0c5da29cbdfdbbaa1",
+   "size": 698,
+   "stringBlockSize": 518,
+   "table": "SoundFilter.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 13,
+   "declaredFields": 13,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 52,
+   "records": 51,
+   "sha256": "fb5796645ceb146032ab01efd49a0441532987cd692f449c637642523b5644f2",
+   "size": 2672,
+   "stringBlockSize": 0,
+   "table": "SoundFilterElem.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 32,
+   "sha256": "2abc6636c08b9fad5559d3a432801302a04497fffeb66675977a5a56840620c1",
+   "size": 3592,
+   "stringBlockSize": 500,
+   "table": "SoundProviderPreferences.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 17,
+   "declaredFields": 17,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 68,
+   "records": 2,
+   "sha256": "e5a7a69b01580ae819159f7d8dc605bdccbf3b654018382cfec0748776caa3cc",
+   "size": 156,
+   "stringBlockSize": 0,
+   "table": "SoundSamplePreferences.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 12,
+   "sha256": "69a7303a315946f96aebd9f0c6eb49748430e1730e414e8a6dba857e105b16f9",
+   "size": 212,
+   "stringBlockSize": 0,
+   "table": "SoundWaterType.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 133,
+   "sha256": "aeecd470d1c8a7c3a99e1aca17b5984e99454714a8c4d8bf6e49f6ba99b6c648",
+   "size": 14950,
+   "stringBlockSize": 13866,
+   "table": "SpamMessages.dbc",
+   "winner": "Data/enUS/patch-enUS-3.MPQ"
+  },
+  {
+   "actualFields": 234,
+   "declaredFields": 234,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ",
+    "Data/patch-T.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 936,
+   "records": 238939,
+   "sha256": "026808a453e9f5fee718b86c9b0b6b498c99efe6d6707edcfa44f3cd462e0d91",
+   "size": 237708173,
+   "stringBlockSize": 14061249,
+   "table": "Spell.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 14,
+   "declaredFields": 14,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 56,
+   "records": 1369,
+   "sha256": "873a60d4c56805637f3d56d4f0b74507b046514589f76ed66d3a7c2cfd6acde3",
+   "size": 78621,
+   "stringBlockSize": 1937,
+   "table": "SpellActivationOverlays.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 5602,
+   "sha256": "5e6d674e7087688cdda34532012e70895bf558974520d5b7aa1a0f2f9ff53815",
+   "size": 515404,
+   "stringBlockSize": 0,
+   "table": "SpellAddon.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 36779,
+   "sha256": "f66132aeac4b83cf8e606c05e2d49afbdd986ae8ffdcdf29363050e3e4c6e492",
+   "size": 441368,
+   "stringBlockSize": 0,
+   "table": "SpellAffect.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 0,
+   "sha256": "5be0608b5a73c8e90cddc1b306c79f0e1c53547dc4ccb66013a4732faafc2679",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "SpellAlternativeCost.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 4,
+   "sha256": "67f0e8d81d0afb2822df416abb1cbc95e8490e9cedd11dc49b027aa083978f6a",
+   "size": 387,
+   "stringBlockSize": 63,
+   "table": "SpellAlternativePowerType.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 71,
+   "sha256": "82e5f22dbbd21971947601a50e6df12587953cf5d5af2739785e7b040d049981",
+   "size": 1156,
+   "stringBlockSize": 0,
+   "table": "SpellCastTimes.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 5189,
+   "sha256": "b1df90f3096fe8d612e6224e0ec43c2d333d0505e78c408dc58e38c72c0b015d",
+   "size": 41532,
+   "stringBlockSize": 0,
+   "table": "SpellCategory.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 44,
+   "declaredFields": 48,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 177,
+   "records": 6636,
+   "sha256": "8a851f2df97a5269295a6413a9f78b700e1fc9ce1a7e4ea4e70f442efdd439ef",
+   "size": 1200886,
+   "stringBlockSize": 26294,
+   "table": "SpellChainEffects.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/patch-S.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 473,
+   "sha256": "9a55f883c64fc86f60f8c68af963c7677cce5081e5738f0a0e849c3057805e44",
+   "size": 3804,
+   "stringBlockSize": 0,
+   "table": "SpellCharges.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/patch-S.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 108,
+   "sha256": "23e31c4beb74761a55d009ba89f9069dbc2cf5940b18426e03524b4f7b463f3d",
+   "size": 1316,
+   "stringBlockSize": 0,
+   "table": "SpellChargesCategory.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 58583,
+   "sha256": "8bfb994f390e6fc7c79443642e4e765ba612983c2ed58c8d44b02aedb8208e65",
+   "size": 2577672,
+   "stringBlockSize": 0,
+   "table": "SpellCustomAttr.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 31,
+   "sha256": "c0576e466ef6a3473ca79c0ee16f2dff2254aacaed62ccf138e7ecd343f039b5",
+   "size": 2879,
+   "stringBlockSize": 2611,
+   "table": "SpellDescriptionVariables.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 3810,
+   "sha256": "a50853964a740e4cc60a2e9480abf08a2b9573be4c6bc23a45350de3cb4f117d",
+   "size": 76220,
+   "stringBlockSize": 0,
+   "table": "SpellDifficulty.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 21,
+   "declaredFields": 21,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 84,
+   "records": 12,
+   "sha256": "cb112f7b585e68915c9def3f902d6c0931cebac1f81877785242e4b52204d037",
+   "size": 1146,
+   "stringBlockSize": 118,
+   "table": "SpellDispelType.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 866,
+   "sha256": "eeae44ef0185924f3d6ec57ab2701c66566db86e51ab0bae017a9449126eb3a0",
+   "size": 13876,
+   "stringBlockSize": 0,
+   "table": "SpellDuration.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 37,
+   "sha256": "3034e507a4d13ea8ba051664aaa66f4e63a0add9156f3a200ec66b96456df042",
+   "size": 612,
+   "stringBlockSize": 0,
+   "table": "SpellEffectCameraShakes.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 1144863,
+   "sha256": "398c52f3b065d693cc7e1c8f56caf49c9733cf3c9b4c7021b4e79e48cc3ae1be",
+   "size": 18317828,
+   "stringBlockSize": 0,
+   "table": "SpellEnchantSuggestions.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 435,
+   "sha256": "0d9bfd4665e85e53d9b218c21ea12e6d90b062eb6ed57c1864737188fcd2ac2b",
+   "size": 40647,
+   "stringBlockSize": 9307,
+   "table": "SpellFocusObject.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 16361,
+   "sha256": "25721140c3b85af3167d0fc5b559feae4d0ce8cf8c9bd9d519afacc1eb970999",
+   "size": 785441,
+   "stringBlockSize": 654533,
+   "table": "SpellIcon.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 38,
+   "declaredFields": 38,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 152,
+   "records": 18035,
+   "sha256": "6b1e550191ca718c71638f78cb0b934aa93cd2a7b7f4007d73fc88e8a36a7cad",
+   "size": 3056336,
+   "stringBlockSize": 314996,
+   "table": "SpellItemEnchantment.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 16,
+   "declaredFields": 31,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 64,
+   "records": 49,
+   "sha256": "07eda4eff9b99f8de7cb77f17cfac283878263beb28339138b052baf6c7c3f43",
+   "size": 3156,
+   "stringBlockSize": 0,
+   "table": "SpellItemEnchantmentCondition.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 31,
+   "sha256": "ede893f538999689101eacc073013a3e0311ea0c46d82019a3bf95be58fa1757",
+   "size": 2521,
+   "stringBlockSize": 269,
+   "table": "SpellMechanic.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 15,
+   "declaredFields": 15,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 60,
+   "records": 170,
+   "sha256": "3b4416007e74b0641db2a317dcecf154894da16c95205badc388a636b5992b7b",
+   "size": 10220,
+   "stringBlockSize": 0,
+   "table": "SpellMissile.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 1786,
+   "sha256": "2c9d3ad58eb8ffe9f19e07b5f49d77c7e87faf24a6231c57041d5c7a00fae8e0",
+   "size": 792889,
+   "stringBlockSize": 757149,
+   "table": "SpellMissileMotion.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 318,
+   "sha256": "dba6ed2f165f75c84dda5f32ae46b1a01fe562efd88fa51fd19365705c3e6a44",
+   "size": 5108,
+   "stringBlockSize": 0,
+   "table": "SpellRadius.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 40,
+   "declaredFields": 40,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 160,
+   "records": 323,
+   "sha256": "bb899631818942a7a7100abfb7a970612a79ac99637b1b459561e2b108125ddd",
+   "size": 55407,
+   "stringBlockSize": 3707,
+   "table": "SpellRange.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/patch-S.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 19601,
+   "sha256": "8ce8c0cbaab3e2edcc820668ea1d98cce703fc2c5a79495bd12e471cc04e4fc8",
+   "size": 313636,
+   "stringBlockSize": 0,
+   "table": "SpellRank.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 0,
+   "sha256": "6a6a447cdf470a14ef662b1fa5fc624ba06c8eb8ce37b8c9ac001272e59accca",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "SpellRoleSuggestions.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 476,
+   "sha256": "18406c2b532d9751319ed4db16b6e158403de0cd1695abb0216163852a340f06",
+   "size": 9540,
+   "stringBlockSize": 0,
+   "table": "SpellRuneCost.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 35,
+   "declaredFields": 35,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 140,
+   "records": 61,
+   "sha256": "be842b8f14fce179cb658296ab3ca505f784c1b8830651ad720c150a255f2fd4",
+   "size": 9394,
+   "stringBlockSize": 834,
+   "table": "SpellShapeshiftForm.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 353193,
+   "sha256": "df1d553c0a8e8670772265ae15135ba778c0ff0127dee0cf338eee2fe72aa7da",
+   "size": 5651108,
+   "stringBlockSize": 0,
+   "table": "SpellSpellSuggestions.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 1121,
+   "sha256": "43dfbd9edb63291fd59ee436fb4c7db094c731c0723d99a754125b088cf57265",
+   "size": 17956,
+   "stringBlockSize": 0,
+   "table": "SpellStatSuggestions.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 488662,
+   "sha256": "eb2166cd98673c02ef591f5ad4dc81f92df6744eb9b0b9d49b8453daf5c7344f",
+   "size": 5863964,
+   "stringBlockSize": 0,
+   "table": "SpellTags.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 61,
+   "declaredFields": 61,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 244,
+   "records": 200,
+   "sha256": "4b92069b284f7cc9929b7f8338fe4b09902013205e37952c79fb611ff9a9df7c",
+   "size": 59216,
+   "stringBlockSize": 10396,
+   "table": "SpellTagTypes.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 32,
+   "declaredFields": 32,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 128,
+   "records": 23104,
+   "sha256": "fd2ede9572256d241c146c03a719a5de338f3f805f4d003c41ca6d95bd6a2794",
+   "size": 2957332,
+   "stringBlockSize": 0,
+   "table": "SpellVisual.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 18700,
+   "sha256": "7b9e128e50a50959865d953b9b9de2e559d11cbbfb310e5cfead4094418328ca",
+   "size": 1296818,
+   "stringBlockSize": 773198,
+   "table": "SpellVisualEffectName.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 38,
+   "declaredFields": 38,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 152,
+   "records": 29541,
+   "sha256": "3819227f0cee11b6fd37a5a436a4543eedd6520f893f49cdcca54a414fce07c2",
+   "size": 4490252,
+   "stringBlockSize": 0,
+   "table": "SpellVisualKit.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 17,
+   "sha256": "e26997e5c4dfe24a5be7ef59063afe9f28fa1d56adcd0f304a271b3eb9c99f9d",
+   "size": 780,
+   "stringBlockSize": 556,
+   "table": "SpellVisualKitAreaModel.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 7867,
+   "sha256": "3b31d709e60e1447735f8dd356b7a5e05d618b233265ef1954e7035d33520744",
+   "size": 314700,
+   "stringBlockSize": 0,
+   "table": "SpellVisualKitModelAttach.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 3,
+   "sha256": "c4b89658b2d2b874fb969f1028376db096aaab196a86580fc9dba0af9d368666",
+   "size": 114,
+   "stringBlockSize": 58,
+   "table": "SpellVisualPrecastTransitions.dbc",
+   "winner": "Data/patch-S.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 4,
+   "sha256": "8e2aa2ba1d6eaffbd7e5e1baa9b03ba8abce83aa7903319d084317618cd5d3b9",
+   "size": 52,
+   "stringBlockSize": 0,
+   "table": "StableSlotPrices.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 9,
+   "sha256": "c4cc19a4103caafa9d9f930201625ebffc8524b25632693d5c4a4019993ad4eb",
+   "size": 1534,
+   "stringBlockSize": 830,
+   "table": "Startup_Strings.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 7,
+   "sha256": "70fec42fc99542b6864df2d2d8a8f65bc966a22cab72724e47a60f4b3ef046cc",
+   "size": 224,
+   "stringBlockSize": 92,
+   "table": "Stationery.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 9,
+   "sha256": "06b2aef8087125463554e30d1fac1ebeedceed491fd0e7947081b3aacf41ce30",
+   "size": 384,
+   "stringBlockSize": 292,
+   "table": "StringLookups.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 217,
+   "sha256": "7a18e515cd0416aa1407aede0086bbd81ad58c57bab4901e4c72ce195bcf25dd",
+   "size": 5228,
+   "stringBlockSize": 0,
+   "table": "SummonProperties.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 9763,
+   "sha256": "6a32b4ab9ee53bec00f0fe23b6f29aa1523a47bb8cd97e42ff1e63907f58bc6d",
+   "size": 312436,
+   "stringBlockSize": 0,
+   "table": "SuperTrack.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ",
+    "Data/patch-M.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 2368,
+   "sha256": "22b73c2700ee34016a19865ef8a52b77e18e2c4fb38df4f7f274a4fbb48f740a",
+   "size": 217876,
+   "stringBlockSize": 0,
+   "table": "Talent.dbc",
+   "winner": "Data/area-52/patch-D.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 37,
+   "sha256": "5673d2fc4831df706eb52151c5bad285198807465db9f021008726582b4b151d",
+   "size": 4458,
+   "stringBlockSize": 886,
+   "table": "TalentTab.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 401,
+   "sha256": "4fa184e3986cc19616a361693ed6d21e4ef8ee2579f49f9fc3741c7cd3d05a5a",
+   "size": 51127,
+   "stringBlockSize": 12611,
+   "table": "TaxiNodes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 947,
+   "sha256": "a8157d5717a74da1c8298dcc5573da081eec4b3905b5c0ea008e510c70d5672a",
+   "size": 15172,
+   "stringBlockSize": 0,
+   "table": "TaxiPath.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 23314,
+   "sha256": "60070f8a5b797f9e27e327130276b296393be34a654acf96b9884dfbf5d5283b",
+   "size": 1025836,
+   "stringBlockSize": 0,
+   "table": "TaxiPathNode.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 1,
+   "sha256": "8a3043154840cfbb28b230abef6b4dc73a63591e57fe725afe618ae1e5bcb978",
+   "size": 36,
+   "stringBlockSize": 0,
+   "table": "TaxiTimes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 1400,
+   "sha256": "c3b51faa31a0c9b460af20bb5d45b0c1afc97f3a3a5379b98607e80270a03481",
+   "size": 11220,
+   "stringBlockSize": 0,
+   "table": "TeamContributionPoints.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 12,
+   "sha256": "6f01e690efb37b2154afa52d7d2e9a614c287ed746d7e37af63891873288fe27",
+   "size": 385,
+   "stringBlockSize": 77,
+   "table": "TerrainType.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 1,
+   "declaredFields": 1,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 4,
+   "records": 10,
+   "sha256": "9164cf6f524240baaf48cf99306d7e75eaadd832af64cc2977abc1dc401928c6",
+   "size": 61,
+   "stringBlockSize": 1,
+   "table": "TerrainTypeSounds.dbc",
+   "winner": "Data/enUS/patch-enUS.MPQ"
+  },
+  {
+   "actualFields": 6,
+   "declaredFields": 6,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 24,
+   "records": 82,
+   "sha256": "df5c2bc0e1ddd0a3e358be1a0235c56bd38a0aa934c3cac685967b66303d40ad",
+   "size": 1988,
+   "stringBlockSize": 0,
+   "table": "TimedDungeons.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 57,
+   "declaredFields": 57,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 228,
+   "records": 61,
+   "sha256": "89387e5b7843a4a8d96cd7624c1cc7a7b7355e289519f89fd2778bbdccf19c31",
+   "size": 35271,
+   "stringBlockSize": 21343,
+   "table": "TokenTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 20,
+   "declaredFields": 20,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 80,
+   "records": 40,
+   "sha256": "b114dc58436bf616c2fbfde7a1f536d964ba3e363c642611174baf5e6da64526",
+   "size": 3962,
+   "stringBlockSize": 742,
+   "table": "TotemCategory.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 5422,
+   "sha256": "9490b95b48efc18386b1c3a967757671f83a3e3fbce1aa243cdc263146e058eb",
+   "size": 151836,
+   "stringBlockSize": 0,
+   "table": "TransportAnimation.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 7,
+   "sha256": "78602adccb9fcf729784bcabb414b7a5769239638b12e0fc9353f719c10f6f7e",
+   "size": 328,
+   "stringBlockSize": 0,
+   "table": "TransportPhysics.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 227,
+   "sha256": "344178bb1f001fdeb492eac986d5c98bb65c363ed29ad3702691a6d7f6cb2c69",
+   "size": 6376,
+   "stringBlockSize": 0,
+   "table": "TransportRotation.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 93,
+   "declaredFields": 92,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 372,
+   "records": 262,
+   "sha256": "bac2e74aa390001e23c4ba5e79f4b4de7516a411e297d1af009cc35ff2b80356",
+   "size": 287518,
+   "stringBlockSize": 190034,
+   "table": "Tutorial.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 18,
+   "declaredFields": 18,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 72,
+   "records": 3,
+   "sha256": "d1ccd557dbb8915a2af0e1eeafd22da297d621c6448bf0f6039cb1150a5c7410",
+   "size": 261,
+   "stringBlockSize": 25,
+   "table": "TutorialCategories.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 65,
+   "declaredFields": 64,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 260,
+   "records": 483,
+   "sha256": "2b70a138145295689e89672de207e4e9832cab537e8dd6a45925944b00ca5d3f",
+   "size": 355484,
+   "stringBlockSize": 229884,
+   "table": "TutorialKeywords.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 24,
+   "declaredFields": 24,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 96,
+   "records": 257,
+   "sha256": "8c57eec36b5eb3f5c1d561a53ea02492e418a2966479ef7c6f69e2ed4c03f542",
+   "size": 39037,
+   "stringBlockSize": 14345,
+   "table": "TutorialObjectives.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 2,
+   "sha256": "dad8d63f180e5a1a36c23bbb7f651e7fc8da92b0d895328df3c821299e8bca89",
+   "size": 199,
+   "stringBlockSize": 27,
+   "table": "TutorialObjectiveTypes.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 591,
+   "sha256": "c03a6adc983bb1019188c799c0b9ec822b0399932eaa022976211b025fbfcad2",
+   "size": 9476,
+   "stringBlockSize": 0,
+   "table": "TutorialRewards.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 240,
+   "sha256": "b6c37bb5f412ddb42054666d78788ed488f30602d3b0c868a4d988af3e15d385",
+   "size": 4820,
+   "stringBlockSize": 0,
+   "table": "UICameraAppearanceChrRaces.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 36,
+   "sha256": "912656f634aa605b9b0b063a8d19f18eb0adf03b73fc64abc9a1f86e446d379e",
+   "size": 740,
+   "stringBlockSize": 0,
+   "table": "UICameraAppearanceWeapons.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 271,
+   "sha256": "1edf984ac07c2dd77e1b2dc9bcf6e84077f218f09648aae4a0d7eb104042f245",
+   "size": 10860,
+   "stringBlockSize": 0,
+   "table": "UICameras.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 3,
+   "declaredFields": 3,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 12,
+   "records": 130,
+   "sha256": "9c464a15d2a9a2bbf5527cf1d6b4805a708844c8a0b48d07fbad518d2cb662fa",
+   "size": 3959,
+   "stringBlockSize": 2379,
+   "table": "UISoundLookups.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 21,
+   "sha256": "e7e552cbc5f1a9ea5cd2cd8aa2a8a88fa1e4b0320b169cb12dc6063247a2ed04",
+   "size": 1611,
+   "stringBlockSize": 751,
+   "table": "UnitBlood.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 21,
+   "sha256": "29f067c5fdb622264cc47a5e8438b084a2a8356f0a11a0c71e7527bdb1069d73",
+   "size": 356,
+   "stringBlockSize": 0,
+   "table": "UnitBloodLevels.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 77,
+   "declaredFields": 76,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 308,
+   "records": 10671,
+   "sha256": "04048888dec20bd7b95ef32e71f20ddcbe0ef6e4d1af1925f559054feeb04359",
+   "size": 3581650,
+   "stringBlockSize": 294962,
+   "table": "VanityCollection.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 40,
+   "declaredFields": 40,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 160,
+   "records": 614,
+   "sha256": "793a3a518dbed6b11a6a79a740fb6c522d4f1f35e6b052f98756719951409c30",
+   "size": 98896,
+   "stringBlockSize": 636,
+   "table": "Vehicle.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 58,
+   "declaredFields": 58,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 232,
+   "records": 1030,
+   "sha256": "6db6b2e6b551ae94268ab09df144576c27ec16f06969f11d7f8bbd218e039e65",
+   "size": 238980,
+   "stringBlockSize": 0,
+   "table": "VehicleSeat.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 2,
+   "declaredFields": 2,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 8,
+   "records": 21,
+   "sha256": "6cd292356fa4f13d60a28d449ba0cbf443533feb9206877c7f30297bbe4615af",
+   "size": 1202,
+   "stringBlockSize": 1014,
+   "table": "VehicleUIIndicator.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 35,
+   "sha256": "1ef2bd0303b4edb5870d81ae7a05807b0e899610a7ad97d659a67f5e27f0b89f",
+   "size": 720,
+   "stringBlockSize": 0,
+   "table": "VehicleUIIndSeat.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 194,
+   "sha256": "729c24d4eb59baebc18f8e827d4c07f8a23bc3c2ce461d4f58d1f1558f9a4b46",
+   "size": 17893,
+   "stringBlockSize": 25,
+   "table": "VideoHardware.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 641,
+   "sha256": "bf17d55549ebc07a70b2ba33f5f7818ee4f6e4ab14395f84f1f8fe214cad8051",
+   "size": 17968,
+   "stringBlockSize": 0,
+   "table": "VocalUISounds.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 23,
+   "declaredFields": 23,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 92,
+   "records": 30,
+   "sha256": "adde2b6e8e205d60e8f7c4feee0169b2fdd8f77ac15ae49fc9a6bf297bdef428",
+   "size": 2781,
+   "stringBlockSize": 1,
+   "table": "WeaponImpactSounds.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 4,
+   "declaredFields": 4,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 16,
+   "records": 6,
+   "sha256": "0c75521451dd4a28a32697aa546bf53738fcef7c3faff8d75c6b5372b893a928",
+   "size": 117,
+   "stringBlockSize": 1,
+   "table": "WeaponSwingSounds2.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 34,
+   "sha256": "e9ee18f3dd66e9ea78e0b333f4b850ca751ec043960b0ee73f80190760eba9f0",
+   "size": 1292,
+   "stringBlockSize": 184,
+   "table": "Weather.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 28,
+   "declaredFields": 28,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 112,
+   "records": 24195,
+   "sha256": "ee1202620079c00e1bfaa6ff72dd3c16941cccc97f8f1b63a8b5a62691aa3c0d",
+   "size": 2727847,
+   "stringBlockSize": 17987,
+   "table": "WMOAreaTable.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 9,
+   "declaredFields": 9,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 36,
+   "records": 0,
+   "sha256": "2593a413f5962f50090e8e7b3041c860dcebf3a1088d9a6a551d96b98feb662e",
+   "size": 20,
+   "stringBlockSize": 0,
+   "table": "WorldChunkSounds.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 11,
+   "declaredFields": 11,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 44,
+   "records": 307,
+   "sha256": "4e1e9feae8a842f3ec9c81f80573cfc45254857f9b58bcb9fdaa719fac891d5f",
+   "size": 17805,
+   "stringBlockSize": 4277,
+   "table": "WorldMapArea.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 14,
+   "declaredFields": 14,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 56,
+   "records": 4,
+   "sha256": "644091fdf74bfd8405476ce63fe587a531a952f5c8212d07a6a730c9563f3d35",
+   "size": 244,
+   "stringBlockSize": 0,
+   "table": "WorldMapContinent.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 17,
+   "declaredFields": 17,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 68,
+   "records": 1068,
+   "sha256": "de2e536a6c4fa8f44f9507c65886f63c45700e8f4b08b91d83c20a7be64e640c",
+   "size": 86272,
+   "stringBlockSize": 13628,
+   "table": "WorldMapOverlay.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 10,
+   "declaredFields": 10,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 40,
+   "records": 12,
+   "sha256": "340aa0e2c383f892e4719c91ecce05e7c0302e135c6098594d7eb43ec99f3634",
+   "size": 500,
+   "stringBlockSize": 0,
+   "table": "WorldMapTransforms.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 22,
+   "declaredFields": 22,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 88,
+   "records": 915,
+   "sha256": "f51a25e16367785675e91eff2fb3dbdd033bbb073bf7b9c2d4d67a40737e1347",
+   "size": 107039,
+   "stringBlockSize": 26499,
+   "table": "WorldSafeLocs.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 63,
+   "declaredFields": 63,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 252,
+   "records": 265,
+   "sha256": "26892f7ac03422da0913689c800c15e12993e43be197652b75402ef1af84f185",
+   "size": 77231,
+   "stringBlockSize": 10431,
+   "table": "WorldStateUI.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 42,
+   "sha256": "6f7054cc0173614ca0b82795097d5ff2d700761708bf5c55ed668137c9b375ce",
+   "size": 1364,
+   "stringBlockSize": 0,
+   "table": "WorldStateZoneSounds.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 19,
+   "declaredFields": 19,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 76,
+   "records": 13,
+   "sha256": "0aef55a0771c6fc7324c11322c72a600386ecf984b9572df9747e1cfeb3cbb86",
+   "size": 1474,
+   "stringBlockSize": 466,
+   "table": "WowError_Strings.dbc",
+   "winner": "Data/enUS/locale-enUS.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 179,
+   "sha256": "fb86be2d7f4ae2204c98bd8f53eaed75e95f01b2823673c822be7e344d3451d1",
+   "size": 6962,
+   "stringBlockSize": 3362,
+   "table": "ZoneIntroMusicTable.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 7,
+   "declaredFields": 7,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 28,
+   "records": 19,
+   "sha256": "2353e0c6859e105d671734bbe8c5655ee2e3d9fc60a49cccda8fc4381828dcfd",
+   "size": 821,
+   "stringBlockSize": 269,
+   "table": "ZoneLight.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 336,
+   "sha256": "9f93f621009f5ad47a69a992e451b0e88132288a39fcb9a820612b484eeb2fa2",
+   "size": 6740,
+   "stringBlockSize": 0,
+   "table": "ZoneLightPoint.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 8,
+   "declaredFields": 8,
+   "losers": [
+    "Data/enUS/locale-enUS.MPQ",
+    "Data/enUS/patch-enUS-2.MPQ",
+    "Data/enUS/patch-enUS-3.MPQ",
+    "Data/enUS/patch-enUS.MPQ"
+   ],
+   "magic": "WDBC",
+   "recordSize": 32,
+   "records": 496,
+   "sha256": "42213ab824d874e3d748761c0e3588550ddb5a8536eaa267dd71b3c240dce9c7",
+   "size": 27245,
+   "stringBlockSize": 11353,
+   "table": "ZoneMusic.dbc",
+   "winner": "Data/patch-M.MPQ"
+  },
+  {
+   "actualFields": 5,
+   "declaredFields": 5,
+   "losers": [],
+   "magic": "WDBC",
+   "recordSize": 20,
+   "records": 20,
+   "sha256": "c8bb212fc6010274adbd97ea4bdb52688e1f1e89ccd4593cb8c851a030909183",
+   "size": 636,
+   "stringBlockSize": 216,
+   "table": "ZoneStory.dbc",
+   "winner": "Data/patch-M.MPQ"
+  }
+ ]
+}
