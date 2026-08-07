@@ -15,6 +15,54 @@ hand-edit; rerun `python -m tools.build_dataset` after a client patch instead.
 
 ## File map
 
+### Three layers: which one answers your question
+
+This dataset carries three layers that describe the same abilities and **disagree
+with each other on purpose**. They are not redundant copies, and nothing joins them
+implicitly. Pick the layer that matches the question you are actually asking:
+
+| Layer | Path | What it is | Size | Answers |
+|---|---|---|---|---|
+| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 28,951 records | "what does spell `<id>` DO?" |
+| **2. Catalog (CAD)** | `data/classes/` | what the client's character-advancement tables **LIST** for a class - an authored roster, kept across content generations | 43 class dirs, 23,709 entries | "what does the client's catalog SAY about this class?" |
+| **3. Live trees** | `data/talents/coa/` | the published talent-builder capture (task W4-9, sha256-pinned in `raw/talents/`) - the actual tree geometry a player sees | 21 `coa-custom` classes, 3,618 nodes | "what can a player ACTUALLY train or spec into?" |
+
+**Layer 2 is not the game.** Of the 8,331 CAD entries belonging to a class that has
+a live capture, **4,908 (58.9%) appear in no live tree node** (3,460 `deadCatalog` +
+1,448 `indeterminate`; re-derived at every build into
+`data/classes/_live_summary.json`). Reading the catalog as reality is the single most
+expensive mistake available here - this repo's own agents made it twice, and it is
+what task W4-14 exists to fix.
+
+**Worked example - Starcaller / Tide Lash** (a real level-60 player's report, since
+reproduced from the data alone). The catalog gives Starcaller the tabs
+`AstralWarfare` / `Class` / `Moonbow` / `Tides`. The live builder gives that character
+Moon Guard / Sentinel / Moon Priest / Warden / Class. **113 of Starcaller's 213
+distinct CAD spell ids (53.1%) appear in no live node.** In the `Tides` tab
+specifically, `Tide Lash`, `Pond`, `Deluge` and `Geyser` all ship `live: false` /
+`deadCatalog` - a player cannot learn them - and `Silvercurrent` (503051) is reachable
+only through the dead entry `Douse`.
+
+The precise shape of the failure matters, because "the tree is fake" is too coarse:
+CAD `Tides` and live `Moon Priest` are **the same tree slot in two content
+generations** (`ChrSpecs` specId 43, tabToken `TIDES`, live name "Moon Priest" -
+`_live_summary.json.tabMapping`). The slot survived; the name and most of the
+contents did not. 55 of the tab's 85 entries are `deadCatalog`, 27 are `liveDirect`.
+So you cannot resolve this by dropping tabs wholesale, and you cannot resolve it by
+name - **only per entry.**
+
+**The rule.** For any "what can a player do" question - simulation, rotation, spec
+UI, coverage, ability rosters - branch on each entry's **`live` / `liveEvidence`**
+(`true` / `false` / `null`, semantics table under "Live vs catalog" below), never on
+mere presence in `data/classes/`. `live: null` is a real unknown, not a soft no. For
+"what does this spell do" questions, layer 1 alone is fine and needs no filter.
+
+**What ignoring it costs, measured:** the damage-model coverage figure is **80.5%
+over the catalog but 89.3% over castable content**, and **74 of the 92 published
+level-curve-only coverage holes (80%) are not proven live** - 59 dead, 15
+indeterminate. Four of every five "holes" in the audit were work on content no player
+can cast. See "Damage-model coverage" below and Trap 18.
+
 **Amendment C (sharding).** No committed `data/` file is an arbitrary 10k+-line
 monolith: every dataset with enough records to matter is split by a stable semantic
 key (per-dungeon file, per-class-per-tab file) or a fixed id range (`id // N * N`
@@ -1020,8 +1068,9 @@ test above still earns its keep as a pure unit test of the finder's shape.
 
 `coa-sim-handoff/DATAMINE-REQUEST.md` Sec 4 lists 17 traps found by the
 sim-handoff audit - things that silently produce wrong data if a consumer
-doesn't know about them. Numbered to match the source doc so you can
-cross-reference directly. Every number below was independently re-measured
+doesn't know about them. Traps 1-17 are numbered to match the source doc so you
+can cross-reference directly; **18 is ours**, found after that audit and added
+here rather than left undocumented. Every number below was independently re-measured
 against `work/dbc`/`data/` before being written down (full doc-vs-remeasured
 table in `.superpowers/sdd/task-w4-6-report.md`); several traps are already
 documented at length elsewhere in this file, and those get a one-line
@@ -1178,6 +1227,22 @@ pointer here instead of a second, driftable copy.
     doc's "three such slots" (a narrower, damaging-slot-only unit) to **7
     records** at the per-record level - see "Formula closure..." above, part
     (d), and the `devDead` flag.
+18. **The catalog is not the game - `data/classes/` lists content no player
+    can reach.** Not in the source doc's 17; added by task W4-14 because this
+    repo's own agents hit it twice. Three layers coexist (`data/spells/` =
+    everything in the client, `data/classes/` = the authored CAD catalog,
+    `data/talents/coa/` = the live trees) and nothing joins them implicitly,
+    so presence in the catalog silently reads as "exists in game."
+    **4,908 of the 8,331 CAD entries in a class with a live capture (58.9%)
+    are in no live tree**; the level-60 Starcaller case (`Tides` /
+    `Tide Lash`) is the worked example. **Fix: branch on each entry's
+    `live` / `liveEvidence`, never on presence** - and note `live` is an
+    ABILITY-level claim, `null` means unknown rather than no. Full treatment
+    in "Three layers: which one answers your question" (top of the file map,
+    for the routing rule) and "Live vs catalog" (below, for the field
+    semantics and the measured false-negative probes); the cost of ignoring
+    it is quantified in "Damage-model coverage" (74 of 92 published holes not
+    proven live). Not duplicated here.
 
 ### Realms bitmask decode attempt (task W4-8)
 

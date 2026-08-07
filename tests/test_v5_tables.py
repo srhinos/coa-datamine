@@ -157,7 +157,12 @@ def _class_spell_ids(tag):
 
 
 coa_ids = _class_spell_ids("coa-custom")
-assert len(coa_ids) == 6436, len(coa_ids)                # exact match to the doc's headline set
+# 6,790, not the doc's headline 6,436: this helper reads data/classes/ off disk (the
+# WIDE scope), while build_spells._coa_class_spell_ids() takes rank chains only from
+# spells that have a base Spell.dbc row (the NARROW scope, still pinned at 6,436 in
+# test_spells_columns.py). The 354-id gap is exactly the chains build_classes stopped
+# dropping for unresolved spells; the wide set is a strict superset (narrow-only = 0).
+assert len(coa_ids) == 6790, len(coa_ids)
 
 MODIFIER_AURA_IDS = {107, 108}                            # ADD_FLAT_MODIFIER, ADD_PCT_MODIFIER
 coa_with_modifier = set()
