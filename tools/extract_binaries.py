@@ -59,7 +59,8 @@ produced; the Lua score travels with every string so a reader can re-cut it.
 
 CRASH SAFETY
 ------------
-This host aborts processes at random. Each binary is finished independently and
+This host aborts long processes at 0xC0000005, cause never isolated (see
+HOST_FAULT_SCOPE in tools/crack.py). Each binary is finished independently and
 its completion is checkpointed in work/binaries/ under the INPUT's sha256, so a
 killed run resumes at the next binary instead of restarting, and the layer
 carries tools/layerstate's sentinel so a half-written tree can never be read as

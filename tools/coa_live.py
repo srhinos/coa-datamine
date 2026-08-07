@@ -254,12 +254,16 @@ def load_build_record(slug: str = "voljin") -> tuple:
 
 
 REALM_CAVEAT = (
-    "This is the VOL'JIN builder (https://ascension.gg/en/v2/coa-builder/voljin). "
-    "Rexxar - Conquest of Azeroth is a SEPARATE CoA realm whose geometry is ASSUMED "
-    "IDENTICAL here but UNVERIFIED until a Rexxar capture exists - so every `live` / "
-    "`liveEvidence` verdict in this dataset is a VOL'JIN verdict. data/classes/ "
-    "entries are account-wide (four realms), so a Rexxar-only ability would be "
-    "indistinguishable from dead content by this method."
+    "Every `live` / `liveEvidence` verdict is a CONQUEST OF AZEROTH verdict. The "
+    "payload comes from the 'voljin' builder URL (https://ascension.gg/en/v2/"
+    "coa-builder/voljin), but Vol'jin and Rexxar are two realms of the SAME game "
+    "mode (gameMode=11) reading the same base chain, so this is a mode-wide capture "
+    "and there is no per-realm CoA split - do not read 'voljin' in a filename as a "
+    "scope limit. The limits that ARE real: (1) TIME - the published builder drifts "
+    "from this repo's client snapshot, so content the builder has not caught up to "
+    "reads as dead; (2) data/classes/ entries are account-wide across all four "
+    "realms, so an entry belonging to another game mode is correctly dead FOR CoA "
+    "while being alive on the mode that owns it."
 )
 
 

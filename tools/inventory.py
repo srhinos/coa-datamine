@@ -22,7 +22,11 @@ COMPLETE      Nothing is filtered. There is no wanted-list here. Every path in
               characterized by block-table census + hash-table probe rather than
               being skipped. A file this module cannot READ is recorded with
               readable=false and its error - never silently dropped, because a
-              silent drop is exactly the failure mode being fixed.
+              silent drop is exactly the failure mode being fixed. Every read
+              goes through tools/mpq.py, the reader verified against each
+              archive's own `(attributes)` MD5 oracle - see READER_RULE for what
+              the previous reader got wrong and how much of this census it
+              invalidated.
 MECHANICAL    Every field is measured. Sizes come from the MPQ block table, not
               from a table of expectations. The `class` rollup (dbc/interface/
               content-json/sound/art/other) is the ONLY derived label in the
@@ -55,11 +59,10 @@ import sys
 import time
 from pathlib import Path
 
-from mpyq import (MPQArchive, MPQ_FILE_EXISTS, MPQ_FILE_ENCRYPTED,
-                  MPQ_FILE_SINGLE_UNIT, MPQ_FILE_COMPRESS, MPQ_FILE_IMPLODE,
-                  MPQ_FILE_SECTOR_CRC)
-
-from tools import config, layerstate, probe_unlistable
+from tools import config, layerstate, mpq, probe_unlistable
+from tools.mpq import (MPQ_FILE_EXISTS, MPQ_FILE_ENCRYPTED, MPQ_FILE_SINGLE_UNIT,
+                       MPQ_FILE_COMPRESS, MPQ_FILE_IMPLODE, MPQ_FILE_SECTOR_CRC,
+                       HASH_NAME_A, HASH_NAME_B, hash_string)
 from tools.extract_mpq import chain_rank
 
 INV_DIR = config.RAW_DIR / "_inventory"
@@ -94,7 +97,33 @@ HASH_CACHE_RULE = (
     "output - the same client produces the same census with an empty cache or a "
     "full one, because the key is the archive's content hash and a changed "
     "archive invalidates its own checkpoint. Delete the directory to force a "
-    "full re-read.")
+    "full re-read.\n\n"
+    "The archive sha256 is NOT a sufficient key on its own: it pins the input "
+    "bytes but says nothing about the code that turned them into a hash. When "
+    "this module moved off `mpyq` onto tools/mpq.py, every checkpoint on disk "
+    "still matched its archive and would have been served verbatim - re-running "
+    "the census would have re-published the very hashes the move exists to "
+    "correct. `READER_ID` is therefore part of the key, and a checkpoint written "
+    "by a different reader is discarded rather than trusted.")
+
+# Reader identity, part of the pass-4 checkpoint key (see HASH_CACHE_RULE).
+# Bump this whenever a change to tools/mpq.py can alter the BYTES a member
+# decodes to; a checkpoint stamped with any other value is thrown away.
+READER_ID = "tools.mpq/1"
+
+READER_RULE = (
+    "Every read in this census goes through tools/mpq.py, the reader whose "
+    "output is verified against each archive's own `(attributes)` MD5 oracle. "
+    "It used to go through `mpyq`, which mis-slices any member stored WITHOUT a "
+    "sector offset table: it treats such a member's sectors as if a table were "
+    "present, so the bytes it returns are not the bytes the archive holds. The "
+    "crack phase measured the damage against the MD5 oracle - 1,266 of this "
+    "client's 1,271 no-sector-table members were read wrong, and 1,186 of them "
+    "were winning paths whose sha256 this census had published. Every one is "
+    "music, cinematics, or one nested archive; no DBC, Interface or Content file "
+    "is affected, which is why the derived data layers were never wrong. "
+    "raw/recovered/corrections/ is the record of that disagreement, and this "
+    "census now agrees with it by construction rather than by patch.")
 
 # The `winner` of a path a loose file on disk takes from the archives. Not an
 # archive id, and it cannot collide with one (archive ids are `<dir>/<name>.MPQ`).
@@ -251,12 +280,12 @@ def scan_archive(rec: dict) -> tuple:
     """Open one archive, census its tables, and enumerate its listfile.
 
     Returns (archive_record, {lowercased path: entry}). The entry keeps the
-    STORED name bytes verbatim - MPQ lookups are case-insensitive but read_file
+    STORED name bytes verbatim - MPQ lookups are case-insensitive but the read
     still wants a real name, and the stored spelling is itself data.
 
-    mpyq's get_hash_table_entry() is a linear scan of the whole hash table; used
-    per file that is O(files x hash_entries) and takes hours on this client. This
-    builds the (hash_a, hash_b) index once per archive instead."""
+    tools/mpq.py builds its (hash_a, hash_b) -> block index once per archive and
+    reuses it; a per-lookup linear scan of the hash table would be
+    O(files x hash_entries) and takes hours on this client."""
     p = rec["path"]
     arch = {
         # `id` (dir-qualified) - never the bare basename - keys every lookup.
@@ -270,24 +299,26 @@ def scan_archive(rec: dict) -> tuple:
     }
     files, reason = probe_unlistable.try_list(p)
     try:
-        a = MPQArchive(str(p), listfile=False)
+        a = mpq.Archive(p)
     except Exception as e:
         arch.update({"listable": False, "unlistableReason": reason,
                      "openError": f"{type(e).__name__}: {e}", "fileCount": 0,
                      "blockExistsCount": 0, "unnamedCount": 0})
         return arch, {}
 
-    exists = [b for b in a.block_table if b.flags & MPQ_FILE_EXISTS]
+    # tools/mpq.py returns raw table rows: block = (offset, storedBytes, size,
+    # flags), hash = (hash_a, hash_b, locale, platform, block_index).
+    exists = [b for b in a.block_table if b[3] & MPQ_FILE_EXISTS]
     arch.update({
         "formatVersion": a.header["format_version"],
         "hashTableEntries": a.header["hash_table_entries"],
         "blockTableEntries": a.header["block_table_entries"],
-        "hashSlotsUsed": sum(1 for e in a.hash_table if e.block_table_index < HASH_DELETED),
+        "hashSlotsUsed": sum(1 for e in a.hash_table if e[4] < HASH_DELETED),
         "hashSlotsDeleteMarked": sum(1 for e in a.hash_table
-                                     if e.block_table_index == HASH_DELETED),
+                                     if e[4] == HASH_DELETED),
         "blockExistsCount": len(exists),
-        "blockEncryptedCount": sum(1 for b in exists if b.flags & MPQ_FILE_ENCRYPTED),
-        "uncompressedBytes": sum(b.size for b in exists),
+        "blockEncryptedCount": sum(1 for b in exists if b[3] & MPQ_FILE_ENCRYPTED),
+        "uncompressedBytes": sum(b[2] for b in exists),
         "listable": files is not None,
     })
     if files is None:
@@ -295,38 +326,30 @@ def scan_archive(rec: dict) -> tuple:
 
     # metadata members present? they explain the gap between listfile count and
     # block-table EXISTS count without hand-waving it away
-    meta = [m for m in MPQ_META_MEMBERS
-            if (e := a.get_hash_table_entry(m)) is not None
-            and e.block_table_index < HASH_DELETED]
+    meta = [m for m in MPQ_META_MEMBERS if a.block_index_of(m) is not None]
     arch["metaMembers"] = meta
 
     if files is None:
         arch["fileCount"] = 0
         arch["unnamedCount"] = len(exists) - len(meta)
-        a.file.close()
+        a.close()
         return arch, {}
-
-    index = {}
-    for e in a.hash_table:
-        if e.block_table_index < HASH_DELETED:
-            index.setdefault((e.hash_a, e.hash_b), e.block_table_index)
 
     entries, unresolved = {}, []
     for raw in files:
         stored = raw.decode("latin-1", "replace").replace("/", "\\")
         if not stored:
             continue
-        bi = index.get((a._hash(stored, "HASH_A"), a._hash(stored, "HASH_B")))
+        bi = a.block_index_of(stored)
         if bi is None or bi >= len(a.block_table):
             unresolved.append(stored)
             continue
         b = a.block_table[bi]
-        if not (b.flags & MPQ_FILE_EXISTS):
+        if not (b[3] & MPQ_FILE_EXISTS):
             unresolved.append(stored)
             continue
         entries[stored.lower()] = {
-            "stored": stored, "size": b.size, "storedBytes": b.archived_size,
-            "flags": b.flags,
+            "stored": stored, "size": b[2], "storedBytes": b[1], "flags": b[3],
         }
     arch["fileCount"] = len(entries)
     arch["listfileLines"] = len(files)
@@ -335,7 +358,7 @@ def scan_archive(rec: dict) -> tuple:
     arch["listfileUnresolvedCount"] = len(unresolved)
     # EXISTS block entries not accounted for by a listfile name or a meta member
     arch["unnamedCount"] = len(exists) - len(entries) - len(meta)
-    a.file.close()
+    a.close()
     return arch, entries
 
 
@@ -344,25 +367,6 @@ def scan_archive(rec: dict) -> tuple:
 # --------------------------------------------------------------------------
 CHECKPOINT_EVERY = 500       # files hashed between fsyncs (see _hash_archive)
 
-
-def _index_hash_table(arch) -> None:
-    """Replace mpyq's per-lookup LINEAR SCAN of the hash table with a dict built
-    once per archive.
-
-    `MPQArchive.get_hash_table_entry` walks the whole hash table on every call,
-    which makes reading a large archive quadratic: patch-I holds 75,963 winning
-    paths against a hash table of the same order, measured at 6.2 ms per file -
-    about 8 minutes for that one archive, essentially all of it scanning rather
-    than decompressing. tools/extract_interface_all.py already does this; pass 4
-    did not, which is most of why the census took ~25 minutes. The (hash_a,
-    hash_b) pair is exactly what the scan compares, so indexing on it is
-    equivalent - same lookup, same result, same first-match-wins order."""
-    index = {}
-    for e in arch.hash_table:
-        if e.block_table_index < HASH_DELETED:
-            index.setdefault((e.hash_a, e.hash_b), e)
-    arch.get_hash_table_entry = lambda name: index.get(
-        (arch._hash(name, "HASH_A"), arch._hash(name, "HASH_B")))
 
 _CACHE_HITS = set()
 
@@ -374,10 +378,12 @@ def _cache_file(archive_id_str: str) -> Path:
 
 
 def _load_hash_cache(archive_id_str: str, archive_sha: str) -> dict:
-    """Whatever of this archive has already been hashed, for THESE archive
-    bytes. Keyed on the archive's own sha256, so a patched archive can never be
-    served from a stale checkpoint. A trailing line a crash truncated is dropped
-    rather than trusted."""
+    """Whatever of this archive has already been hashed, for THESE archive bytes
+    AND THIS READER. Keyed on the archive's own sha256 so a patched archive can
+    never be served from a stale checkpoint, and on READER_ID so a checkpoint
+    written by a reader that decoded members differently is discarded instead of
+    being re-published (see HASH_CACHE_RULE). A trailing line a crash truncated
+    is dropped rather than trusted."""
     p = _cache_file(archive_id_str)
     if not p.is_file():
         return {}
@@ -389,7 +395,8 @@ def _load_hash_cache(archive_id_str: str, archive_sha: str) -> dict:
         except Exception:
             return {}
         if (h.get("archive") != archive_id_str
-                or h.get("archiveSha256") != archive_sha):
+                or h.get("archiveSha256") != archive_sha
+                or h.get("reader") != READER_ID):
             return {}
         for raw in f:
             try:
@@ -408,9 +415,10 @@ def _hash_archive(archive_path: Path, archive_id_str: str, archive_sha: str,
     checkpoint does not already have, appending each batch to the checkpoint.
 
     Append-only, FLUSHED after every single file and fsynced every
-    CHECKPOINT_EVERY: a process abort (which is how this host fails - it dies at
-    0xC0000005 rather than raising) loses nothing already written, because the
-    bytes are in the OS by then. Buffering even 500 of them was enough to make a
+    CHECKPOINT_EVERY: a process abort (which is how this host fails on a long
+    pass - it dies at 0xC0000005 with no traceback; cause never isolated, see
+    HOST_FAULT_SCOPE in tools/crack.py) loses nothing already written, because
+    the bytes are in the OS by then. Buffering even 500 of them was enough to make a
     run lose every hash it had just computed and restart from the same line
     forever. `lows` is sorted, so which files a resumed run still has to do is a
     function of the input, not of when the kill happened."""
@@ -420,32 +428,36 @@ def _hash_archive(archive_path: Path, archive_id_str: str, archive_sha: str,
     p = _cache_file(archive_id_str)
     p.parent.mkdir(parents=True, exist_ok=True)
     fresh = not done
-    ar = MPQArchive(str(archive_path), listfile=False)
-    _index_hash_table(ar)
+    ar = mpq.Archive(archive_path)
     n = 0
     try:
         with open(p, "wb" if fresh else "ab") as cache:
             if fresh:
                 cache.write(json.dumps(
                     {"note": HASH_CACHE_RULE, "archive": archive_id_str,
-                     "archiveSha256": archive_sha}).encode("utf-8") + b"\n")
+                     "archiveSha256": archive_sha,
+                     "reader": READER_ID}).encode("utf-8") + b"\n")
                 cache.flush()
                 os.fsync(cache.fileno())
             for low in todo:
                 e = carriers[low]["e"]
                 try:
-                    data = ar.read_file(e["stored"])
+                    m = ar.read(e["stored"])
                 except Exception as ex:          # noqa: BLE001 - recorded, not raised
                     rec = {"sha256": None,
                            "readError": f"{type(ex).__name__}: {ex}"}
                 else:
-                    if data is None:
-                        rec = {"sha256": None,
-                               "readError": "read_file returned None "
-                                            "(zero-length stored block)"}
-                    else:
+                    # tools/mpq.py returns a STATUS, so "no bytes" is never
+                    # confused with "not read". `empty` is a real zero-length
+                    # member and gets the real sha256 of zero bytes; `deleted` is
+                    # a patch tombstone that carries no bytes BY DESIGN; only
+                    # `error`/`missing` are failures to read.
+                    data = m.data
+                    if m.ok or (m.status == "empty" and data is not None):
                         rec = {"sha256": hashlib.sha256(data).hexdigest(),
                                "readBytes": len(data)}
+                        if m.status != "ok":
+                            rec["memberStatus"] = m.status
                         if low.startswith("dbfilesclient\\") and len(data) >= 20:
                             magic, nrec, nfld, rsz, ssz = struct.unpack_from(
                                 "<4s4I", data, 0)
@@ -454,6 +466,9 @@ def _hash_archive(archive_path: Path, archive_id_str: str, archive_sha: str,
                                           "recordSize": rsz,
                                           "stringBlockSize": ssz,
                                           "actualFields": rsz // 4}
+                    else:
+                        rec = {"sha256": None, "memberStatus": m.status,
+                               "readError": f"{m.status}: {m.detail}"}
                 done[low] = rec
                 cache.write(json.dumps({"_path": low, **rec}).encode("utf-8") + b"\n")
                 cache.flush()          # out of this process on every file
@@ -464,7 +479,7 @@ def _hash_archive(archive_path: Path, archive_id_str: str, archive_sha: str,
             cache.flush()
             os.fsync(cache.fileno())
     finally:
-        ar.file.close()
+        ar.close()
     return done
 
 
@@ -671,28 +686,26 @@ def build(skip_content_hash: bool = False, verbose: bool = True,
         log(f"probing {len(unlistable)} unlistable archive(s) against "
             f"{len(carriers)} harvested names + {len(MPQ_META_MEMBERS)} meta members")
         names = sorted(carriers) + list(MPQ_META_MEMBERS)
-        stub = MPQArchive(str(archives[0]["path"]), listfile=False)
-        keys = [(n, stub._hash(n, "HASH_A"), stub._hash(n, "HASH_B")) for n in names]
-        stub.file.close()
+        # The (hash_a, hash_b) pair for a name is archive-independent, so the
+        # expensive part is a pure function of the name - no archive needed.
+        keys = [(n, hash_string(n, HASH_NAME_A), hash_string(n, HASH_NAME_B))
+                for n in names]
         log(f"  hashed {len(keys)} names [{time.time()-t0:.1f}s]")
         for a in unlistable:
             p = path_by_id[a["id"]]
             try:
-                ar = MPQArchive(str(p), listfile=False)
+                ar = mpq.Archive(p)
             except Exception as e:
                 probe[a["id"]] = {"error": f"{type(e).__name__}: {e}",
                                   "probedCount": len(keys), "hits": []}
                 continue
-            idx = {}
-            for e in ar.hash_table:
-                if e.block_table_index < HASH_DELETED:
-                    idx.setdefault((e.hash_a, e.hash_b), e.block_table_index)
+            idx = ar.index
             hits = []
             for n, ha, hb in keys:
                 bi = idx.get((ha, hb))
-                if bi is not None and ar.block_table[bi].flags & MPQ_FILE_EXISTS:
+                if bi is not None and ar.block_table[bi][3] & MPQ_FILE_EXISTS:
                     hits.append(n)
-            live = sum(1 for b in ar.block_table if b.flags & MPQ_FILE_EXISTS)
+            live = sum(1 for b in ar.block_table if b[3] & MPQ_FILE_EXISTS)
             probe[a["id"]] = {
                 "probedCount": len(keys),
                 "hits": sorted(hits),
@@ -704,7 +717,7 @@ def build(skip_content_hash: bool = False, verbose: bool = True,
             }
             log(f"  {a['archive']:16s} live={live} hits={len(hits)} "
                 f"unidentified={live - len(hits)}")
-            ar.file.close()
+            ar.close()
 
     # ---- pass 3: loose (non-MPQ) files, under Data\ and at the client root ----
     # See LOOSE_OVERRIDE_RULE. Two mechanical conditions, no name list: under
@@ -774,6 +787,11 @@ def build(skip_content_hash: bool = False, verbose: bool = True,
         if "readError" in e:
             r["readable"] = False
             r["readError"] = e["readError"]
+        # Carried on every non-`ok` read, including the ones that DID produce
+        # bytes (a genuine zero-length member), so a consumer can tell an empty
+        # file from a failed one without parsing an error string.
+        if "memberStatus" in e:
+            r["memberStatus"] = e["memberStatus"]
         if "dbc" in e:
             r["dbc"] = e["dbc"]
         o = overrides.get(low)
@@ -785,7 +803,7 @@ def build(skip_content_hash: bool = False, verbose: bool = True,
             r["overrides"] = {k: v for k, v in r.items()
                               if k in ("winner", "size", "storedBytes", "sha256",
                                        "flags", "losers", "readable", "readError",
-                                       "dbc")}
+                                       "memberStatus", "dbc")}
             r.update({"source": "loose", "winner": DISK_WINNER,
                       "diskPath": o["stored"].replace("\\", "/"),
                       "size": o["size"], "sha256": o["sha256"],
@@ -793,6 +811,7 @@ def build(skip_content_hash: bool = False, verbose: bool = True,
                       "differsFromArchive": o["sha256"] != r["overrides"].get("sha256")})
             r.pop("readable", None)
             r.pop("readError", None)
+            r.pop("memberStatus", None)
             r.pop("dbc", None)
         records.append(r)
     for low in sorted(loose):
@@ -1031,16 +1050,26 @@ def write_catalog() -> None:
             if r.get("readable") is not False:
                 continue
             ur_class[r["class"]] = ur_class.get(r["class"], 0) + 1
-            kind = ("empty override block" if "None" in r["readError"]
-                    else "compression mpyq cannot decode")
+            # The reason is the reader's OWN wording, truncated to its first
+            # clause, so this table reports what actually happened rather than a
+            # guess about it. `memberStatus` separates a real MPQ semantic (a
+            # patch tombstone carries no bytes BY DESIGN) from a failure to read.
+            kind = r.get("memberStatus") or "error"
+            detail = r["readError"].split(":", 1)[-1].strip()
+            kind = f"{kind}: {detail[:80]}"
             ur_reason[kind] = ur_reason.get(kind, 0) + 1
             base = r["path"].rsplit("/", 1)[-1]
             ext = base.rsplit(".", 1)[-1].lower() if "." in base else "(none)"
             ur_ext[ext] = ur_ext.get(ext, 0) + 1
     L.append("## What is not readable, and whether it matters\n")
-    L.append("`mpyq` implements only the zlib and bzip2 MPQ compressions; the "
-             "client also uses PKWARE/ADPCM variants. Files it cannot decode are "
-             "recorded with `readable: false` and the error - never dropped.\n")
+    L.append(READER_RULE + "\n")
+    L.append("tools/mpq.py implements every compression this client's sectors "
+             "actually use (zlib, bzip2, PKWARE/explode, sparse). The three it "
+             "does not implement - Blizzard adaptive huffman and the two IMA "
+             "ADPCM audio codecs - occur in ZERO sectors here, which the run "
+             "measures rather than assumes. Anything that still cannot be read "
+             "is recorded with `readable: false`, its `memberStatus` and the "
+             "reader's own error - never dropped.\n")
     L.append("| unreadable by class | count |")
     L.append("| --- | ---: |")
     for k, v in sorted(ur_class.items(), key=lambda kv: -kv[1]):

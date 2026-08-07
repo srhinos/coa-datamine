@@ -28,6 +28,15 @@ from tools import config, dbc, enums335, sharding
 
 BUCKET_SIZE = 10000
 
+# Files under data/spells/ written by a module OTHER than this one. build()
+# rmtree's its output directory (the shard set changes between runs), so anything
+# here must be carried across that delete or it is destroyed by every rebuild.
+# Add a name here when a new module starts writing into data/spells/, and add it
+# to tests/test_spells.py's survival gate at the same time.
+FOREIGN_FILES = (
+    "_coverage_live.json",      # analysis/coverage_live.py (task W4-14)
+)
+
 # [Task W4-4] Formula-reference closure (DATAMINE-REQUEST.md Sec 1.6): CoA authors
 # damage scaling in description/tooltip text, and 622/1,694 CoA damaging spells
 # cross-reference ANOTHER spell id from their own formula (e.g. Crusader's Brand
@@ -1229,10 +1238,25 @@ def build() -> dict:
     missing_by_source["formula"] = formula_missing_ids
 
     out_dir = config.DATA_DIR / "spells"
+    # This rmtree drops any prior monolith/shards, which is necessary because the
+    # shard SET changes between runs. It also used to destroy every file under
+    # data/spells/ that this module does not write - the same bug already fixed
+    # for build_realms vs overlay_diff.json and build_classes vs specs.json, and
+    # it really happened: analysis/coverage_live.py's _coverage_live.json was
+    # silently deleted by a rebuild and stayed missing until a later audit noticed
+    # the file was gone. Foreign files are now carried across the rmtree by name,
+    # and tests/test_spells.py gates their survival.
+    foreign = {}
     if out_dir.exists():
-        shutil.rmtree(out_dir)                    # drop any prior monolith/shards
+        for name in FOREIGN_FILES:
+            p = out_dir / name
+            if p.is_file():
+                foreign[name] = p.read_bytes()
+        shutil.rmtree(out_dir)
     by_id_dir = out_dir / "by-id"
     by_id_dir.mkdir(parents=True)
+    for name, blob in foreign.items():
+        (out_dir / name).write_bytes(blob)
 
     charges_finding = _build_charges(out_dir)
     stat_suggestions_finding = _build_stat_suggestions(out_dir)

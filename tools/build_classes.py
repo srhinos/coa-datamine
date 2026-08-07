@@ -1,8 +1,9 @@
 """Group CharacterAdvancementData by class into data/classes/, joined to spells.jsonl.
 
 Amendment A: CharacterAdvancementData.json is account-wide across four realms served
-by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest
-of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class spell data is not
+by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, and Rexxar and
+Vol'jin, which are two realms of the SAME game mode, Conquest of Azeroth - three
+modes, four realms). Reborn*-class spell data is not
 materialized in this client's Spell.dbc snapshot, so null-resolved spells on
 reborn-tagged classes are an expected data reality, not a pipeline error - they are
 counted separately (unresolved_reborn / refs_reborn) rather than folded into the
@@ -32,7 +33,9 @@ not exist in game), so an entry's presence here has never meant it is playable.
 `liveCounts`, and data/classes/_live_summary.json (written here - this module owns
 data/classes/ minus classmeta's two files) carries the repo-wide totals, the
 measured false-negative risk, the CAD-tab -> live-tab mapping with its evidence,
-and the Vol'jin-vs-Rexxar caveat that scopes every verdict."""
+and the capture-drift caveat that scopes every verdict (which is about the
+published builder aging against this client snapshot - NOT about Vol'jin vs Rexxar,
+which are one game mode and one content set)."""
 import json, re, shutil
 from collections import Counter, defaultdict
 

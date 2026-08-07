@@ -38,8 +38,13 @@ for name in config.WANTED_DBCS_V5:
 # ---- fresh header pins (records, ACTUAL fields = record_size//4, the
 # authoritative layout per DBCFile - not the possibly-lying declared header
 # count) ----
+# [2026-08-07 re-pin] SpellAffect is the only one of the twelve that moved: the
+# launcher live-patched the client during the preceding phases (36,779 -> 36,780 ->
+# 36,781 across three archive rewrites). Re-derived from the CURRENT client, not
+# incremented - the other eleven were re-derived at the same time and are unchanged,
+# which is what makes this content churn rather than a layout regression.
 EXPECTED = {
-    "SpellAffect": (36779, 3),
+    "SpellAffect": (36781, 3),
     "SpellDifficulty": (3810, 5),
     "SummonProperties": (217, 6),
     "SpellMissile": (170, 15),
@@ -112,8 +117,14 @@ assert f1_hits == len(aff_rows), f"f1 join {f1_hits}/{len(aff_rows)}"           
 f2_unsigned_hits = sum(1 for r in aff_rows if dbc.u32(r[2]) in spell_ids)
 assert abs(f2_unsigned_hits / len(aff_rows) - 0.934528) < 0.0005                # doc: 93.5%
 
+# [2026-08-07 re-pin] 2407 -> 2409, re-derived from the current client. This count
+# scales with SpellAffect's row count, which the launcher moved 36,779 -> 36,781
+# during the preceding phases; the two new rows both carry a negative f2. The
+# STRUCTURAL claim next to it - that abs(f2) joins Spell.dbc for every row but one
+# - is what actually proves the sign is a flag rather than corruption, and it is
+# re-derived rather than pinned, so it still gates this.
 negatives = sum(1 for r in aff_rows if r[2] < 0)
-assert negatives == 2407, negatives                                            # doc: exact
+assert negatives == 2409, negatives
 
 f2_abs_hits = sum(1 for r in aff_rows if abs(r[2]) in spell_ids)
 assert f2_abs_hits == len(aff_rows) - 1, f2_abs_hits          # 99.9973%, one dead id (83998)

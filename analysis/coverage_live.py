@@ -712,7 +712,7 @@ def main(write=True):
             "cad": dict(cad_fig, denominator="every build-reachable entry in the 21 "
                         "coa-custom classes (the published/historical measurement)"),
             "live": dict(live_fig, denominator="entries with live == true - proven "
-                         "present in the Vol'jin live talent-builder capture "
+                         "present in the live CoA talent-builder capture "
                          "(LOWER bound on live coverage)"),
             "liveOrIndeterminate": dict(upper_fig, denominator="entries with live != "
                                         "false - live plus indeterminate (carries "
@@ -802,11 +802,16 @@ def main(write=True):
                 "liveCountsByReason - an entry carrying three spells is three rows "
                 "here and one there. Was misnamed entryReasonCounts before."),
             "liveDenominatorSlack": slack,
-            "caveat": ("Every live/dead verdict is a VOL'JIN verdict. Rexxar is a "
-                       "separate CoA realm whose tree geometry is assumed identical "
-                       "but unverified. data/classes entries are account-wide across "
-                       "four realms, so a Rexxar-only ability is indistinguishable "
-                       "from dead content here."),
+            "caveat": ("Every live/dead verdict is a CONQUEST OF AZEROTH verdict, "
+                       "and CoA is one game mode: Vol'jin and Rexxar are two realms "
+                       "of gameMode=11 reading the same base chain, so the builder "
+                       "payload is not a one-realm sample and there is no second "
+                       "realm's trees missing. The real limit is TIME - the "
+                       "published builder and this repo's client snapshot drift "
+                       "apart, so content the builder has not caught up to reads as "
+                       "dead. Compounding it, data/classes entries are account-wide "
+                       "across all four realms, so an entry belonging to another "
+                       "mode is correctly dead FOR CoA while alive elsewhere."),
         },
         "method": {
             "spellSource": "raw/dbc/Spell.csv.gz (BASE only - never a realm overlay)",

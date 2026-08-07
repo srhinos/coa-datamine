@@ -59,4 +59,17 @@ missing = json.loads((sdir / "_missing_refs.json").read_text(encoding="utf-8"))
 assert missing == stats["missing_by_source"]
 for k, v in meta["missing_ref_counts_by_source"].items():
     assert v == len(stats["missing_by_source"][k])
+
+# Single-writer survival gate. build() rmtree's data/spells/ because its shard set
+# changes between runs, which silently destroyed analysis/coverage_live.py's
+# _coverage_live.json on every rebuild until it was noticed missing. build() now
+# carries build_spells.FOREIGN_FILES across that delete; this asserts it, and the
+# `stats` call at the top of this file IS the rebuild that would have deleted them.
+for _name in build_spells.FOREIGN_FILES:
+    assert (sdir / _name).is_file(), (
+        f"{_name} did not survive build_spells.build() - a module that does not "
+        f"own data/spells/ had its output destroyed by the rmtree. See "
+        f"build_spells.FOREIGN_FILES.")
+assert build_spells.FOREIGN_FILES, "the survival gate must gate something"
+print(f"foreign-file survival: {len(build_spells.FOREIGN_FILES)} file(s) intact")
 print("ALL PASS")

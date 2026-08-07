@@ -19,7 +19,7 @@ Regenerate: `python -m tools.inventory`. Every file here is written by `tools/in
 - **368 DBC tables**
 - **77 archives** (8 unlistable), 44.9 GB on disk
 - **67.88 GB** uncompressed if everything is extracted
-- unreadable files: 41,051
+- unreadable files: 4,906
 - files in unlistable archives that no harvested name identified: **0**
 - paths a loose file at the client root takes from the archives: **25**
 
@@ -59,21 +59,21 @@ Each of these records the DISK bytes as the winner. The archive copy it displace
 
 ## What is not readable, and whether it matters
 
-`mpyq` implements only the zlib and bzip2 MPQ compressions; the client also uses PKWARE/ADPCM variants. Files it cannot decode are recorded with `readable: false` and the error - never dropped.
+Every read in this census goes through tools/mpq.py, the reader whose output is verified against each archive's own `(attributes)` MD5 oracle. It used to go through `mpyq`, which mis-slices any member stored WITHOUT a sector offset table: it treats such a member's sectors as if a table were present, so the bytes it returns are not the bytes the archive holds. The crack phase measured the damage against the MD5 oracle - 1,266 of this client's 1,271 no-sector-table members were read wrong, and 1,186 of them were winning paths whose sha256 this census had published. Every one is music, cinematics, or one nested archive; no DBC, Interface or Content file is affected, which is why the derived data layers were never wrong. raw/recovered/corrections/ is the record of that disagreement, and this census now agrees with it by construction rather than by patch.
+
+tools/mpq.py implements every compression this client's sectors actually use (zlib, bzip2, PKWARE/explode, sparse). The three it does not implement - Blizzard adaptive huffman and the two IMA ADPCM audio codecs - occur in ZERO sectors here, which the run measures rather than assumes. Anything that still cannot be read is recorded with `readable: false`, its `memberStatus` and the reader's own error - never dropped.
 
 | unreadable by class | count |
 | --- | ---: |
-| sound | 35,920 |
-| art | 5,031 |
-| interface | 85 |
-| other | 15 |
+| art | 4,879 |
+| interface | 22 |
+| sound | 5 |
 
 | reason | count |
 | --- | ---: |
-| compression mpyq cannot decode | 36,139 |
-| empty override block | 4,912 |
+| deleted: patch tombstone: this layer DELETES the path; it carries no bytes | 4,906 |
 
-Unreadable files with a DATA extension (dbc/json/lua/xml/toc/txt/loc): `{'lua': 12, 'xml': 12, 'toc': 1}`. Everything else unreadable is binary media (ogg/wav/blp/mp3/avi/...).
+Unreadable files with a DATA extension (dbc/json/lua/xml/toc/txt/loc): `{'lua': 9, 'xml': 10, 'toc': 1}`. Everything else unreadable is binary media (ogg/wav/blp/mp3/avi/...).
 
 ## DBC tables won by a realm overlay, not the base chain
 

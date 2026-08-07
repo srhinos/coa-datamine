@@ -205,17 +205,28 @@ print(f"(d) false-negative measurement: PASS "
       f"({fn['indeterminateRateOfNotInTrees']:.1%}) held back as indeterminate")
 
 # =========================================================================
-# (e) provenance + the Rexxar caveat must travel with the verdicts
+# (e) provenance + the scope caveat must travel with the verdicts
 # =========================================================================
 prov = summary["payload"]
 assert prov["slug"] == "voljin" and prov["capturedUtc"], prov
 assert len(prov["sha256"]) == 64, prov
 assert prov["sha256"] == json.loads(
     (config.RAW_TALENTS_DIR / "_fetch.json").read_text(encoding="utf-8"))["sha256"]
-assert "Rexxar" in summary["realmCaveat"] and "UNVERIFIED" in summary["realmCaveat"]
+# The caveat used to assert Rexxar was a SEPARATE, UNVERIFIED realm. That framing
+# was wrong: Rexxar and Vol'jin are two realms of the same game mode (Conquest of
+# Azeroth, gameMode=11) reading the same base chain, so the payload is a mode-wide
+# capture and there is no second realm's trees to be missing. What the caveat must
+# now carry is the limit that IS real - the published builder drifting in time from
+# this repo's client snapshot - plus the account-wide scope of data/classes/.
+caveat = summary["realmCaveat"]
+assert "CONQUEST OF AZEROTH" in caveat.upper(), caveat
+assert "same game mode" in caveat.lower() or "SAME game mode" in caveat, caveat
+assert "account-wide" in caveat, caveat
+assert "UNVERIFIED" not in caveat.upper(), \
+    "the retracted 'Rexxar is unverified' framing must not come back"
 assert summary["method"]["rule"] and summary["groundTruth"]["starcallerLiveTabs"]
 
-print("(e) payload provenance + Vol'jin/Rexxar caveat: PASS")
+print("(e) payload provenance + CoA-mode scope caveat: PASS")
 
 # =========================================================================
 # (f) tab mapping: evidenced, injective, and never invented

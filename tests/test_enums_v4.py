@@ -145,12 +145,15 @@ assert curse_of_lich["effectAura3"] == 71 and curse_of_lich["effectMiscValue3"] 
 # so the drift set was not discoverable from the code it describes. It is named
 # here as well as there for that reason.
 #
-# Observed 2026-08-07 after the 14:01 client patch: len(vals165) is 1553, not the
-# pinned 1552. Deliberately NOT re-pinned in the audit-correction commit: these
-# numbers read work/dbc, raw/tables is a patch behind it, and re-pinning one
-# against the other would freeze an inconsistency. They get re-pinned together in
-# the rebuild that regenerates raw/tables, which is where every other count in
-# this repo is re-pinned.
+# Observed 2026-08-07 after the 14:01 client patch: len(vals165) was 1553, not the
+# pinned 1552. Deliberately NOT re-pinned in the audit-correction commit: those
+# numbers read work/dbc while raw/tables was a patch behind it, and re-pinning one
+# against the other would have frozen an inconsistency. THIS commit is the rebuild
+# that regenerates raw/tables, so both sides now describe the same client snapshot
+# and the four counts below are re-derived against it: 1552 -> 1553 and 1501 ->
+# 1502 (the two that read the live Spell.dbc); the 187/charge-category pair is
+# unchanged at 118/110, which is the cross-check that this is one new SpellAffect-
+# era row rather than a decode shift.
 charges_doc = json.loads((config.DATA_DIR / "spells" / "charges.json").read_text(encoding="utf-8"))
 cat_ids = {c["id"] for c in charges_doc["categories"].values()}
 vals165, vals187 = [], []
@@ -160,8 +163,8 @@ for r in SPELLS.values():
             vals165.append(r[f"effectMiscValue{slot}"])
         if r[f"effect{slot}"] == 187:
             vals187.append(r[f"effectMiscValue{slot}"])
-assert len(vals165) == 1552, len(vals165)
-assert sum(1 for v in vals165 if v in SPELLS) == 1501
+assert len(vals165) == 1553, len(vals165)
+assert sum(1 for v in vals165 if v in SPELLS) == 1502
 assert len(vals187) == 118, len(vals187)
 assert sum(1 for v in vals187 if v in cat_ids) == 110
 

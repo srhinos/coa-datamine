@@ -4,9 +4,16 @@ realm's data") + Sec 13 item 7's prep half. Sec 3 measured area-52's overlay
 against the base client chain and found the two disagree on 1,178/6,038 = 19.51%
 of the CoA class set's shared spell rows - not just cosmetic text, 409 rows
 disagree on raw damage numbers (effectBasePoints1). This module is the reusable
-tool that reproduces that measurement (run against area-52 today, "ready for
-rexxar" once a Vol'jin/Rexxar realm capture exists on this machine - Sec 13 item 7
-proper, out of THIS task's scope per the brief).
+tool that reproduces that measurement. It stays generic over realm names, but note
+what task W4-13 settled: **there is no CoA realm overlay to point it at.** The
+product ships exactly one realm-scoped data set at a time, currently area-52's, and
+that realm is Free-Pick - no Conquest of Azeroth realm has a client data directory
+and no login creates one. So the 1,178-row disagreement this measures is
+Free-Pick-vs-base, NOT evidence about what a CoA character reads (CoA reads the
+base chain). Rexxar and Vol'jin are also the same game mode, so there was never a
+per-realm CoA split to diff in the first place. Kept generic because a future
+product revision could ship a different overlay - see AGENT-GUIDE.md "Realm
+overlays".
 
 CLI: `python -m tools.diff_realm_overlay <realm>` - realm must already be
 extracted under work/dbc/ (base) and work/realms/<realm>/dbc/ (overlay); this

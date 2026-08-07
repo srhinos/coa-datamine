@@ -4,7 +4,7 @@
   "formula": 1476,
   "rank": 10497,
   "talent": 5526,
-  "trigger": 3224
+  "trigger": 3230
  },
  "columnCoverage": {
   "emittedColumns": 124,
@@ -14,7 +14,7 @@
   "totalFields": 234,
   "unmappedColumns": 106
  },
- "count": 28951,
+ "count": 28957,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
  "devDead": {
   "count": 7,
@@ -30,7 +30,7 @@
   "marker": "DOES NOT WORK, YOU SHOULD NOT HAVE IT"
  },
  "enrichment": {
-  "addon": 144,
+  "addon": 145,
   "alternativePowerType": {
    "attached": false,
    "names": [
@@ -42,7 +42,7 @@
    "reason": "Hypothesized link (Spell.dbc's signed powerType going negative indexes this table) is disproven: the only negative powerType value anywhere in Spell.dbc is -2, already decoded by enums335.POWER_TYPES as the pre-existing 'Health' resource-cost sentinel (518 spells: Life Tap, Health Funnel, Bloodrage, ...), unrelated to alternate power bars. No other Spell.dbc column was found to reference this table's ids.",
    "recordCount": 4
   },
-  "category": 6262,
+  "category": 6263,
   "charges": {
    "attached": false,
    "categoryLinkJoinRate": 1.0,
@@ -66,7 +66,7 @@
    "recordCount": 1121,
    "spellIdJoinRate": 0.9991
   },
-  "tags": 27516
+  "tags": 27518
  },
  "enumEvidence": {
   "auraIds": 158,
@@ -88,9 +88,9 @@
    1433,
    43
   ],
-  "distinctIdsSeen": 5075,
+  "distinctIdsSeen": 5077,
   "maxDepth": 2,
-  "resolvedIds": 4893,
+  "resolvedIds": 4895,
   "totalNewRecords": 1476,
   "unresolvedIds": 182
  },
@@ -108,7 +108,7 @@
  "ref_counts": {
   "cad_other": 7162,
   "cad_reborn": 13901,
-  "formula": 5075,
+  "formula": 5077,
   "rank": 12661,
   "talent": 647
  },

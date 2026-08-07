@@ -296,14 +296,16 @@ retail/Classic API shape, since Ascension's client carries a mix of backported a
 custom systems (see the WoW-addon-porting projects' own hard-learned lesson: assuming
 unaudited retail API parity is a recurring source of live-client crashes).
 
-- **Four realms, one account-wide CAD file.** This client serves four realms:
-  "Area 52 - Free-Pick" (classless), "Bronzebeard - Warcraft Reborn" (the Reborn*
-  classes), "Rexxar - Conquest of Azeroth", and "Vol'jin - Conquest of Azeroth".
+- **Four realms, THREE game modes, one account-wide CAD file.** This client serves
+  four realms: "Area 52 - Free-Pick" (classless), "Bronzebeard - Warcraft Reborn"
+  (the Reborn* classes), and **"Rexxar - Conquest of Azeroth" and "Vol'jin -
+  Conquest of Azeroth", which are two realms of the SAME mode** (`gameMode=11`) and
+  not two content sets. Treat CoA as one thing throughout this dataset.
   `CharacterAdvancementData.json` - the source of everything in `data/classes/` - is
   **account-wide across all four realms**, not scoped to one. Exactly ONE realm ships
   a client-side DBC overlay - Free-Pick's `Data\area-52\patch-D.MPQ` (task W4-13; the
-  CoA realms have none in the current `ascension-live` product, and none has ever
-  appeared on this install, see "Realm overlays" below) - and
+  CoA realms have none in the current `ascension-live` product, see "Realm overlays"
+  below) - and
   **Bronzebeard/Reborn's spell data is not part of this client snapshot's
   `Spell.dbc`**. Consequence: Reborn-class spell references resolve as `null` in
   class files far more often than other classes (~51% of Reborn* refs) - this is a
@@ -430,40 +432,34 @@ game-content system, distinct from the realm-overlay layer below.
 `Data\area-52\patch-D.MPQ` + its `listarchive` are **Free-Pick's overlay, not "the
 realm overlay"**: it is the only realm-scoped data set this product ships *right now*.
 The product carries **exactly one realm overlay at a time, and which realm it is has
-changed**: the legacy launcher's own installed-file manifest
-(`%LOCALAPPDATA%\ProjectAscension\Config\AscensionLauncherSettings-legacy.json`,
-written 2026-07-01) lists `\Data\Bronzebeard\listarchive` + `\Data\Bronzebeard\patch-D.MPQ`
-and **no area-52 entry at all**; twenty-one seconds after the new patcher logged
-`Directory Data/Bronzebeard is on disk but it's not in the database`, it queued the
-area-52 pair. So "no CoA overlay" is a fact about this product revision, not a
-permanent property of the client - a future revision could ship one, which is why
-`discover_realms()` stays generic rather than hard-coding `area-52`.
+changed**: the launcher's own installed-file manifest names a `\Data\Bronzebeard\`
+`listarchive` + `patch-D.MPQ` pair and **no area-52 entry at all**, and seconds after
+the patcher logged `Directory Data/Bronzebeard is on disk but it's not in the
+database` it queued the area-52 pair instead. So "no CoA overlay" is a fact about
+this product revision, not a permanent property of the client - a future revision
+could ship one, which is why `discover_realms()` stays generic rather than
+hard-coding `area-52`.
 `tools/config.discover_realms()` finds any `Data\<dir>\` carrying its own
 `listarchive` file (excluding the base `enUS`/`Content` dirs) - a generic finder that
 correctly returns exactly one name here, `area-52`.
 
 > **Task W4-13: this is settled, not pending.** DATAMINE-REQUEST.md Sec 3 asked us to
-> log into Rexxar/Vol'jin so the launcher would "materialize `Data\rexxar\`", then
+> log into a CoA realm so the launcher would "materialize `Data\rexxar\`", then
 > diff base vs the CoA overlay. **There is no CoA overlay to capture and no login will
-> create one.** Evidence (full write-up:
-> `.superpowers/sdd/task-w4-13-realm-report.md`):
-> - The launcher's own patcher logs
->   (`%LOCALAPPDATA%\ProjectAscension\Logs\Agent\*.log`) show `Data/area-52/listarchive`
->   and `Data/area-52/patch-D.MPQ` written by `patcher::patch::executor::write_plans`
+> create one.** Evidence, reproducible on any install of this product:
+> - The launcher's own patcher logs show `Data/area-52/listarchive` and
+>   `Data/area-52/patch-D.MPQ` written by `patcher::patch::executor::write_plans`
 >   as part of the ordinary product update plan, alongside the base MPQs, on **10
->   separate patch passes**. Across every agent log on this machine the patcher wrote
->   **181 distinct `Data/` paths and exactly 2 realm-scoped ones** - both area-52.
->   The first write is 2026-07-01; the account's first Area 52 *character* dir is
->   2026-07-14. The directory is a **download**, ~2 weeks older than any Area 52
->   login. Login does not create these dirs - the patcher does.
-> - The user has played **seven** realms (`WTF\Account\<acct>\`: Area 52 - Free-Pick,
->   Bronzebeard - Warcraft Reborn, Darkmoon - Season 10 Wildcard, Elune - Season 9,
->   **Rexxar - Conquest of Azeroth**, **Vol'jin - Conquest of Azeroth**, Vol'jin -
->   Stress Test), with a Rexxar session on 2026-08-06 proven by
->   `Cache\WDB\enUS\Rexxar - Conquest of Azeroth\*.wdb` (10 files rewritten 11:34:24)
->   and `Logs\connection.log` (`COP_LOGIN_CHARACTER ... result=TRUE`). Six of those
->   seven realms have no `Data\` directory. A whole-install search finds exactly one
->   `listarchive` file, ever.
+>   separate patch passes**. Across every patcher log on the reference install, the
+>   patcher wrote **181 distinct `Data/` paths and exactly 2 realm-scoped ones** -
+>   both area-52. Those writes PRECEDE any Area 52 session on that install by about
+>   two weeks. The directory is a **download**; login does not create these dirs,
+>   the patcher does.
+> - Playing a realm does not produce a `Data\<realm>\` directory. On a reference
+>   install with sessions across seven realms - including **both Conquest of Azeroth
+>   realms** - six of the seven have no `Data\` directory at all, and a whole-install
+>   search finds exactly one `listarchive` file, ever. The one that exists is
+>   area-52's, and area-52 is a Free-Pick realm, not a CoA one.
 > - Sec 3's claim that `CustomFunctionChecks.lua`'s realm table supplies the
 >   `Data\<dir>` **slug is disproven**: `GlueXML/RealmList/RealmList.lua:161` unpacks
 >   that same tuple as `name, expansionID, gamemodeID, **image**, unlocked, page,
@@ -482,6 +478,16 @@ correctly returns exactly one name here, `area-52`.
 >   `if HasVisitedArea52ThisSession() and GetRealmId() ~= 11 then` -> *"You must
 >   restart your client before entering another realm."* One realm gets a named
 >   one-way data latch, and it is Free-Pick.
+>
+> **Rexxar and Vol'jin are not two datasets.** They are two realms running the SAME
+> game mode - Conquest of Azeroth, `gameMode=11` in the client's own
+> `C_RealmSelect.RealmInfo` - the way two servers run the same ruleset. The content
+> that defines CoA (classes, the CharacterAdvancement trees, spells) is a property of
+> the mode and is shipped in the base chain both realms read. So there is no
+> "Rexxar half" and "Vol'jin half" of this dataset to reconcile, and a WDB cache
+> captured on one of them is a CoA capture, not a one-realm sample with the other
+> realm missing. Where this guide says a capture is "Vol'jin", read it as *which
+> server the session happened to be on*, not as a scope limit on the data.
 >
 > **Conclusion: CoA realms read the BASE chain, which is what this dataset is already
 > built on.** Consequently **the 1,178-row base-vs-area-52 dispute is not a CoA
@@ -1099,8 +1105,8 @@ spell id space (not scoped to the CoA set), matching Sec 3's own
 > (`tools/diff_realm_overlay.py`) alongside `tools/build_realms.py`'s
 > `index.json`/`_meta.json` - deliberately a standalone CLI tool, not folded into
 > `build_realms.py`'s `build()`, since which realm to diff and when is an on-demand
-> decision (Sec 13 item 7 proper - capturing Vol'jin/Rexxar and deciding which side
-> is authoritative for the disputed rows - stayed out of W4-5's scope, and task
+> decision (Sec 13 item 7 proper - capturing a CoA realm's overlay and deciding which
+> side is authoritative for the disputed rows - stayed out of W4-5's scope, and task
 > W4-13 has since **closed** it: there is nothing to capture, the disputed rows are
 > Free-Pick's, and base is authoritative for CoA. See "Realm overlays" above).
 > Wiring
@@ -1112,6 +1118,17 @@ spell id space (not scoped to the CoA set), matching Sec 3's own
 > `build_classes` vs. `build_classmeta`). Fixed to `mkdir(parents=True,
 > exist_ok=True)` + direct overwrite of just its own 2 files; the survival gate is
 > pinned in `tests/test_class_plumbing.py`.
+>
+> **Third instance of the same bug, found and fixed 2026-08-07.**
+> `tools/build_spells.py`'s `build()` `shutil.rmtree()`s `data/spells/` - it has
+> to, because its shard SET changes between runs - and that deleted
+> `analysis/coverage_live.py`'s `_coverage_live.json` on **every** rebuild. Unlike
+> the two above, this one was not hypothetical: the file was found actually
+> missing from the tree, deleted by a `build()` that a test had called. Fixed by
+> carrying `build_spells.FOREIGN_FILES` across the delete, gated in
+> `tests/test_spells.py`. **The rule, now that this has happened three times:** a
+> module that rmtree's a shared directory must NAME the files it does not own, and
+> a test must assert they survive a real `build()` - not a mock of one.
 
 **(e) `discover_realms()` fixture-dir test.** Sec 13 item 7's prep half - a true
 unit test (not the real client install) that `config.discover_realms()` picks up
@@ -1126,9 +1143,10 @@ dissolves in both directions:** that Lua table is a dev-only fallback
 (`if not C_RealmSelect then`) whose 4th field is a glue background texture name, not
 a `Data\` slug, so the mismatch was never the mechanism; and the real mechanism is
 the launcher's patcher, which ships `Data/area-52/` to every install and has never
-written any other realm directory. `discover_realms()` finding only `area-52` after
-weeks of CoA play is the **correct** answer, permanently - not a gap. The fixture
-test above still earns its keep as a pure unit test of the finder's shape.
+been observed writing any other realm directory. `discover_realms()` finding only
+`area-52` on an install with CoA sessions on it is the **correct** answer - not a
+gap. The fixture test above still earns its keep as a pure unit test of the finder's
+shape.
 
 ## Traps (task W4-6)
 
@@ -1484,14 +1502,17 @@ columns serve the client's narrower "ConnectingNode" decorative-line UI
 `CHARACTER_ADVANCEMENT_NODES` population rule), a different thing from gameplay
 tree geometry despite the matching field names.
 
-**Realm caveat.** This is the Vol'Jin builder specifically. Rexxar - Conquest of
-Azeroth is a separate CoA realm; its geometry is **assumed identical but
-unverified** until a Rexxar capture exists. NB: the capture meant here is a fetch of
-the Rexxar **web builder payload** (`ascension.gg/v2/builder/coa/...`) - it is a
-different, still-open thing from Sec 13 item 7's client-side `Data\rexxar\` capture,
-which task W4-13 closed as impossible (no CoA realm has a client data directory - see
-"Realm overlays"). Full evidence, goldens, and re-derivation log:
-`.superpowers/sdd/task-w4-9-report.md`.
+**Which builder this is.** The payload is served from the `voljin` builder URL.
+Vol'jin and Rexxar are two realms running the SAME game mode (Conquest of Azeroth,
+`gameMode=11`), so this is a **CoA-mode** capture, not a one-realm sample: the trees
+are mode content, shipped in the base chain both realms read. The residual risk is
+therefore not "Rexxar might have different trees" but the ordinary one that applies
+to any single fetch - **the published builder can drift from the client snapshot in
+this repo**, which is exactly what the ~53% CAD resolve rate below measures. Guard
+against that by re-running `tools/fetch_coatalents.py` and diffing the pinned
+sha256, not by hunting for a second realm's payload. (Sec 13 item 7's client-side
+`Data\rexxar\` capture is a different thing entirely, and task W4-13 closed it as
+impossible - no CoA realm has a client data directory; see "Realm overlays".)
 
 ### Simulation-adjacent spell support tables (task W4-10)
 
@@ -1778,11 +1799,15 @@ Matching is **spell-id equality only** - no name matching enters the verdict its
 (`build_classes` owns `data/classes/**`, `build_coatalents` owns
 `data/talents/coa/**`) so neither can drift from the other.
 
-**Scope, and it is a real one:** the capture is the **Vol'jin** builder. Rexxar -
-Conquest of Azeroth is a separate CoA realm assumed identical but UNVERIFIED, and
-`data/classes/` entries are account-wide across four realms - so a Rexxar-only
-ability is indistinguishable from dead content by this method. Provenance (capture
-date + sha256) travels in `_live_summary.json.payload`; re-run
+**Scope, and it is a real one - but it is not a realm split.** The capture is the
+CoA-mode builder payload (served from the `voljin` URL; Vol'jin and Rexxar are the
+same game mode, so there is no second realm's trees to be missing). The real scope
+limit is *time*: the published builder and this repo's client snapshot are two
+captures that drift apart, so an ability the builder has not caught up to looks dead
+by this method. That is compounded by `data/classes/` being **account-wide** - CAD
+entries arrive from every mode an account has touched, so a non-CoA entry with no CoA
+tree node is correctly `live: false` for CoA while being perfectly alive elsewhere.
+Provenance (capture date + sha256) travels in `_live_summary.json.payload`; re-run
 `tools/fetch_coatalents.py` and diff the sha256 to check for drift, because a stale
 capture makes `live` stale too.
 
@@ -2250,9 +2275,10 @@ def class_specs_and_roles(class_name):
   per-realm breakdown lives in `charges.json`'s own `realmGapFinding` key (also
   summarized in `_meta.json`'s `enrichment.charges.realmGapFinding`), and each
   non-joining row now carries `realmResolvedIn: [realm names]` inline.
-- **`data/talents/coa/` is Vol'Jin-only, and only ~53% of its nodes join
-  `data/spells/`.** See "CoA talent tree geometry" above for the full writeup -
-  Rexxar geometry is assumed identical but unverified, and the low curated-spell
+- **Only ~53% of `data/talents/coa/`'s nodes join `data/spells/`.** See "CoA talent
+  tree geometry" above for the full writeup. The payload is the CoA-mode builder
+  (served from the `voljin` URL - Vol'jin and Rexxar are the same game mode, so this
+  is not a per-realm gap), and the low curated-spell
   join rate is real measured content drift between the live published builder and
   this repo's client snapshot (100% of the same spellIds DO exist in raw
   `Spell.dbc`, just not always as the same variant this repo's CAD closure
@@ -2284,6 +2310,41 @@ def class_specs_and_roles(class_name):
   tables" above), and `gtCombatRatings`' ARMOR_PENETRATION rating reads 11.55 at level 80
   against a published 15.39 - a real, unresolved behavioral difference, not a bug in this
   pipeline's decode.
+
+## The build host: what is actually known, and what was overclaimed
+
+Long passes in this pipeline are checkpointed and several of them re-read their
+own output. That design came out of a real problem, but the problem was described
+more confidently than the evidence supported, so here is the scoped version. The
+authoritative statement lives in `tools/crack.py`'s `HOST_FAULT_SCOPE`.
+
+- **RETRACTED.** The earlier write-up cited "physically impossible Python errors"
+  as evidence of machine memory corruption. One of the cited examples -
+  `TypeError: slice indices must be integers` - was later traced to an **ordinary
+  bug in this repo's own code**: a missing `[0]` on a `struct.unpack_from` result,
+  which returns a tuple. That is a normal defect with a normal fix and says
+  nothing about the hardware.
+- **SURVIVES: the crashes.** Long-running processes on this host die at
+  `STATUS_ACCESS_VIOLATION` (0xC0000005) with no Python traceback. Observed
+  repeatedly; it is why every long pass checkpoints per item and why
+  `tools/layerstate.py` sentinels exist. But an access violation proves a crash,
+  **not its cause** - a CPython or extension-module bug, stack exhaustion, or an
+  OS/antivirus interaction all look identical from here, and none was ruled out.
+  "Confirmed hardware memory corruption" was a stronger claim than that.
+- **SURVIVES, separately: one silent-corruption incident.** A member was once
+  written with 2 wrong bytes out of 115 MB, same length and valid header (see
+  `tools/extract_all.py`'s `READ_AGREEMENT_RULE`). Real, single, never
+  reproduced, never root-caused.
+- **Evidence the other way, measured now:** `python -m tools.crack --only verify`
+  decodes every member of every archive and checks each against the MD5 the
+  archive itself recorded - **763,928 members, 0 mismatches**. A host corrupting
+  reads at any appreciable rate would not produce that.
+
+**What to do with this:** keep the defenses. Checkpoint long passes, keep the
+two-agreeing-reads rule in `extract_all`, and keep the MD5 oracle - they are cheap,
+the aborts are real, and the one corruption incident was never explained. Do not
+repeat the hardware-fault diagnosis as established fact, and if a run dies, resume
+it from its checkpoint rather than concluding the data is bad.
 
 ## Regenerating after a client patch
 

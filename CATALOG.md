@@ -4,7 +4,7 @@
 
 ## What is here
 
-- **368 tables**, **7,467,568 rows**, **6,662 columns**, 131.8 MB stored (2.0 GB decoded)
+- **368 tables**, **7,467,569 rows**, **6,662 columns**, 131.8 MB stored (2.0 GB decoded)
 - Columns are positional: `f0`, `f1`, ... `fN`. Nothing in this repo knows what a column means, so nothing here names one.
 - Types are measured, not asserted: 507 float, 4,889 int, 444 string, 56 unknown, 766 zero. The evidence behind every call is in `raw/tables/<Table>/<Table>.colinfo.json` and `raw/_catalog/tables.json`.
 
@@ -330,7 +330,7 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **Spell** | 238,939 | 234 | 21.4 MB | 238,939 @ 1.7% | 157 (140 strong) | 6 realm-won | `raw/tables/Spell/*.jsonl.gz` | `f136` AB: Blackrock Depths (D1) (PHYS) (HP) · `f170` <Right click to apply this enchant to a piece… · `f187` A Knight of Decay is granting you $s2% increa… |
 | **SpellActivationOverlays** | 1,370 | 14 | 231.3 KB | 1,370 @ 97% | - | 1 | `raw/tables/SpellActivationOverlays/*.jsonl` | `f2` Textures\\SpellActivationOverlays\\art_of_war · `f9` TRIGGER_TYPE_AURA_EXISTS |
 | **SpellAddon** | 5,603 | 23 | 1.0 MB | 5,603 @ 0.35% | 767 (502 strong) | 1 | `raw/tables/SpellAddon/*.jsonl` | - |
-| **SpellAffect** | 36,780 | 3 | 205.0 KB | 36,780 @ 0.4% | 368 (135 strong) | 1 | `raw/tables/SpellAffect/*.jsonl.gz` | - |
+| **SpellAffect** | 36,781 | 3 | 205.0 KB | 36,781 @ 0.4% | 368 (135 strong) | 1 | `raw/tables/SpellAffect/*.jsonl.gz` | - |
 | **SpellAlternativeCost** | 0 | 3 | 0 B | - | - | 1 | `raw/tables/SpellAlternativeCost/*.jsonl` | - |
 | **SpellAlternativePowerType** | 4 | 19 | 733 B | 4 @ 100% | - | 1 | `raw/tables/SpellAlternativePowerType/*.jsonl` | `f1` Holy Power (3) |
 | **SpellCastTimes** | 71 | 4 | 2.7 KB | 71 @ 34% | - | 4 realm-won | `raw/tables/SpellCastTimes/*.jsonl` | - |

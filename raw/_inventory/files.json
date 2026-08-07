@@ -1,5 +1,5 @@
 {
- "contentHashCheckpointRule": "Pass 4 decompresses and hashes every winning file in the chain - 637k files and ~62 GB - and it is the only pass long enough that finishing it in one process is a real assumption rather than a formality. It is therefore checkpointed PER ARCHIVE into work/inventory_hashes/, keyed by the archive's own sha256: an archive whose checkpoint matches its current sha256 is not re-read, so a run interrupted anywhere resumes instead of starting over, and repeated runs converge. This changes NOTHING about the output - the same client produces the same census with an empty cache or a full one, because the key is the archive's content hash and a changed archive invalidates its own checkpoint. Delete the directory to force a full re-read.",
+ "contentHashCheckpointRule": "Pass 4 decompresses and hashes every winning file in the chain - 637k files and ~62 GB - and it is the only pass long enough that finishing it in one process is a real assumption rather than a formality. It is therefore checkpointed PER ARCHIVE into work/inventory_hashes/, keyed by the archive's own sha256: an archive whose checkpoint matches its current sha256 is not re-read, so a run interrupted anywhere resumes instead of starting over, and repeated runs converge. This changes NOTHING about the output - the same client produces the same census with an empty cache or a full one, because the key is the archive's content hash and a changed archive invalidates its own checkpoint. Delete the directory to force a full re-read.\n\nThe archive sha256 is NOT a sufficient key on its own: it pins the input bytes but says nothing about the code that turned them into a hash. When this module moved off `mpyq` onto tools/mpq.py, every checkpoint on disk still matched its archive and would have been served verbatim - re-running the census would have re-published the very hashes the move exists to correct. `READER_ID` is therefore part of the key, and a checkpoint written by a different reader is discarded rather than trusted.",
  "contentHashed": true,
  "looseOverrideCount": 25,
  "looseOverrideRule": "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. The census therefore walks the whole client root, and a loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost. Which loose files are recorded is decided mechanically, by two conditions and no list of names: a loose file is recorded if (1) it lives under `Data\\` - the client's data directory, already covered before this rule existed - or (2) its root-relative path is carried by the MPQ chain, which is what makes it an override at all. Everything else on the disk (the user's installed AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) is machine state rather than client content, is not in the archive namespace, and is deliberately outside this census - it is also volatile between launches, so recording it would make a rerun on an unchanged client stop reproducing. `.MPQ` files themselves are skipped here because they are inventoried as archives, with their members as paths.",
@@ -203,7 +203,7 @@
    "size": 4454
   },
   {
-   "archiveSha256": null,
+   "archiveSha256": "7dc7e214a0c9d800aeb39bdfc99e9f5283023529d8e3db18d22bea0618446193",
    "archiveSize": 63042,
    "archiveWinner": "Data/common.MPQ",
    "differsFromArchive": true,
@@ -221,7 +221,7 @@
    "size": 4454
   },
   {
-   "archiveSha256": null,
+   "archiveSha256": "2b584e45a511a31dff272163be293b5906dc12bcd631abfdd607a11684d36585",
    "archiveSize": 220816,
    "archiveWinner": "Data/enUS/base-enUS.MPQ",
    "differsFromArchive": true,
@@ -5359,6 +5359,6 @@
    "records": 319
   }
  ],
- "totalUncompressedBytes": 67877536384,
- "unreadableCount": 41051
+ "totalUncompressedBytes": 67877536396,
+ "unreadableCount": 4906
 }

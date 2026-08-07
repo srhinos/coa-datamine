@@ -17,7 +17,7 @@ client as it played.
 | group | files | records | MB source |
 | --- | ---: | ---: | ---: |
 | `enus` | 10 | 22,476 | 9.20 |
-| `enus/rexxar-conquest-of-azeroth` | 11 | 22,998 | 9.34 |
+| `enus/rexxar-conquest-of-azeroth` | 11 | 23,800 | 9.65 |
 | `root` | 1 | 0 | 0.00 |
 
 A realm subdirectory is not a copy of the base cache - it is what that realm
@@ -26,8 +26,8 @@ MPQ chain for `Spell.dbc`.
 
 ## Totals
 
-- **22 files**, 18.5 MB on disk
-- **45,474 records** decoded
+- **22 files**, 18.8 MB on disk
+- **46,276 records** decoded
 - tiers: {"schema": 18, "blocks": 0, "flat": 2, "raw": 2}
 
 ## Layout
@@ -71,15 +71,15 @@ A file with no WDB header is tried as Ascension's own flat cache shape: uint32 c
 | `enUS/npccache.wdb` | `WNPC` | schema | 54 | 39 |
 | `enUS/pagetextcache.wdb` | `WPTX` | schema | 0 | 0 |
 | `enUS/questcache.wdb` | `WQST` | schema | 210 | 162 |
-| `enUS/Rexxar - Conquest of Azeroth/creaturecache.wdb` | `WMOB` | schema | 2,634 | 291 |
-| `enUS/Rexxar - Conquest of Azeroth/gameobjectcache.wdb` | `WGOB` | schema | 2,034 | 332 |
-| `enUS/Rexxar - Conquest of Azeroth/itemcache.wdb` | `WIDB` | schema | 17,569 | 8,419 |
+| `enUS/Rexxar - Conquest of Azeroth/creaturecache.wdb` | `WMOB` | schema | 2,738 | 303 |
+| `enUS/Rexxar - Conquest of Azeroth/gameobjectcache.wdb` | `WGOB` | schema | 2,167 | 353 |
+| `enUS/Rexxar - Conquest of Azeroth/itemcache.wdb` | `WIDB` | schema | 18,123 | 8,693 |
 | `enUS/Rexxar - Conquest of Azeroth/itemnamecache.wdb` | `WNDB` | schema | 242 | 8 |
-| `enUS/Rexxar - Conquest of Azeroth/itemstatcache.wdb` | `-` | flat | 176 | 30 |
+| `enUS/Rexxar - Conquest of Azeroth/itemstatcache.wdb` | `-` | flat | 182 | 31 |
 | `enUS/Rexxar - Conquest of Azeroth/itemtextcache.wdb` | `WITX` | schema | 0 | 0 |
-| `enUS/Rexxar - Conquest of Azeroth/npccache.wdb` | `WNPC` | schema | 70 | 48 |
+| `enUS/Rexxar - Conquest of Azeroth/npccache.wdb` | `WNPC` | schema | 72 | 50 |
 | `enUS/Rexxar - Conquest of Azeroth/pagetextcache.wdb` | `WPTX` | schema | 7 | 2 |
-| `enUS/Rexxar - Conquest of Azeroth/questcache.wdb` | `WQST` | schema | 257 | 207 |
+| `enUS/Rexxar - Conquest of Azeroth/questcache.wdb` | `WQST` | schema | 260 | 209 |
 | `enUS/Rexxar - Conquest of Azeroth/questcacheaddon.wdb` | `-` | flat | 9 | 0 |
 | `enUS/Rexxar - Conquest of Azeroth/wowcache.wdb` | `WRDN` | schema | 0 | 0 |
 | `enUS/wowcache.wdb` | `WRDN` | schema | 0 | 0 |

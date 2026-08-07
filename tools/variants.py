@@ -413,10 +413,11 @@ def _applies_note(contexts: list, archive: str) -> str:
 def decode_versions(records: list, meta: dict, out_dir: Path, resume: bool = True,
                     verbose: bool = True) -> list:
     """Extract and decode every non-winner version. Grouped by archive so each
-    one is opened once, and the bytes are re-hashed on the way out: this machine
-    has a documented memory-corruption defect, so a byte stream that does not
-    reproduce the hash the checkpoint recorded is caught here rather than
-    committed."""
+    one is opened once, and the bytes are re-hashed on the way out, so a byte
+    stream that does not reproduce the hash the checkpoint recorded is caught
+    here rather than committed. That check is kept as cheap insurance against
+    one unexplained corruption incident on this host, NOT because a hardware
+    fault is established - see HOST_FAULT_SCOPE in tools/crack.py."""
     todo = {}
     for r in records:
         for v in r["versions"]:

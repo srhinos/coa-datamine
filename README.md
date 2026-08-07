@@ -33,6 +33,54 @@ python -m tools.find --joins-to Spell   # which columns point at Spell.f0
 
 `CATALOG.md` is the generated index of all 368 tables - rows, columns, id density,
 inbound joins, sample text - and is the right first read for "where does X live".
+
+### One table, several versions - pick the right one
+
+The client ships most DBC paths more than once and its loader picks one.
+`raw/tables/<Table>/` is that pick, and for **10 tables it is the `Data\area-52`
+realm overlay** - which is *Free-Pick's* data. A Conquest of Azeroth character has
+no client data directory at all and reads the **base chain**, so for CoA questions
+the chain winner is the wrong version: base `Spell` is 209,140 rows, the overlay's
+is 238,939. The contested ten are `Spell`, `SkillLineAbility`, `SpellRank`,
+`Talent`, `CharacterAdvancement`, `CharacterAdvancementEssence`, `SpellCharges`,
+`SpellChargesCategory`, `Manastorm` and `ManastormModifiers` - exactly the tables
+class and spell work depends on.
+
+Nothing is discarded: every distinct version is decoded to
+`raw/tables/<Table>/variants/<archive-slug>/` in the same shape, indexed in that
+table's `index.json` and in `raw/tables/_variants.json`.
+
+```
+python -m tools.find "Tide Lash" --variant baseChain   # what a CoA character reads
+python -m tools.find "Tide Lash" --variant overlay     # the realm overlay only
+python -m tools.find "Tide Lash" --variant all         # every version, each labelled
+```
+
+Every hit names the version it came from, so an answer can always say which layer
+it used.
+
+### How complete this is, stated as a boundary
+
+Everything in the client that can be extracted has been. Two exclusions, both
+deliberate decisions by the repository owner, neither of them silent:
+
+- **Art and sound: recorded, not committed.** Path, size and sha256 for every one
+  of them are in this repo; the bytes (53.5 GB of art, 9.0 GB of sound) stay in the
+  client. A repository-size rule applied by measurement, reversible from the client
+  and checkable against the recorded hashes.
+- **Install-specific data: excluded.** `WTF/`, `Logs/`, `Errors/`, `Screenshots/`,
+  launcher logs and third-party addons are machine state rather than client
+  content, and are volatile between launches, so including them would break
+  byte-for-byte reproduction.
+
+Everything else is in: all 368 tables plus every non-winning version of each, the
+Interface code layer, `Data\Content` and `.loc`, the WDB caches, every executable's
+strings/inlined Lua/PE structure, and the deleted, encrypted and nested-container
+members in `raw/recovered/`. Of the 637,590 paths the census records, **4,906 are
+`readable: false` and every one is an MPQ delete tombstone** - a patch entry that
+removes a path and carries no bytes by design. Zero files are genuinely unreadable,
+and all 763,928 members check clean against the MD5 their own archive recorded
+(`python -m tools.crack --only verify`).
 `raw/README.md` covers the non-table layers. `find.py` scans tables **plus** the
 `.loc` store, the WDB caches and the client's own executables, because `Quest` and
 `Item` carry no string column at all on this client (a tables-only search reports
@@ -91,7 +139,9 @@ the client), `tables/` (all 368 DBC tables decoded, positional `f0..fN`), `_cata
 `.loc` store), `interface/` + `interface_all/` (the client's `Interface\` code tree
 and a census of every path in it), `cache/` (WDB server caches), `dbc/` (raw table
 bodies), `binaries/` (the client's own executables: every string, the inlined Lua,
-the PE structure), `recovered/` (what no previous reader could open), `realms/`
+the PE structure), `recovered/` (patch tombstones, empty members, the per-member
+CRC32+MD5 oracle each archive records about itself, and expanded nested archives),
+`realms/`
 (realm-overlay diffs), `talents/` (the pinned talent-builder capture); `data/` = the
 curated derived layer; `tools/` = the pipeline; `work/` =
 gitignored scratch. Every layer carries `_complete.json` - a layer without one was

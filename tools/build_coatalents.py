@@ -555,7 +555,7 @@ def build(slug: str = "voljin") -> dict:
             "abilities get authored as MULTIPLE duplicate CAD rows per realm/"
             "game-mode, each potentially carrying a DIFFERENT spellId variant): "
             "the account-wide CAD snapshot's 'coa-custom' rows are a union "
-            "across several variants of the same ability, and the live Vol'Jin "
+            "across several variants of the same ability, and the live CoA "
             "builder picks one specific variant that doesn't always line up "
             "1:1 with the variant this snapshot's closure walk reached."),
         "spellDbcResolveRate": {
@@ -674,17 +674,22 @@ def build(slug: str = "voljin") -> dict:
                 "URL and the realm caveat below; 'voljin-alpha' is ignored."),
         },
         "realmCaveat": (
-            "This is the VOL'JIN builder specifically (https://ascension.gg/en/"
-            "v2/coa-builder/voljin). Rexxar - Conquest of Azeroth is a SEPARATE "
-            "CoA realm; its geometry is ASSUMED IDENTICAL here but UNVERIFIED "
-            "until a Rexxar capture exists (coa-sim-handoff/DATAMINE-REQUEST.md "
-            "Sec 13 item 7, 'capture a Vol'Jin/Rexxar realm overlay and diff vs "
-            "base' - not performed by this task). The client-side Lua geometry "
-            "source (Ascension_CoATalents, CharacterAdvancement*.lua) IS "
-            "realm-agnostic structure (node types, gate mechanism, flag bits), "
-            "but carries none of the numeric tree layout itself (see "
-            "clientLuaGeometryFinding) - so this caveat applies to essentially "
-            "all of this dataset's geometry, not just a slice of it."),
+            "The payload is served from the 'voljin' builder URL (https://"
+            "ascension.gg/en/v2/coa-builder/voljin), but this is a CONQUEST OF "
+            "AZEROTH capture, not a one-realm sample: Vol'jin and Rexxar are two "
+            "realms of the SAME game mode (gameMode=11 in the client's own "
+            "C_RealmSelect.RealmInfo) reading the same base chain, so there is no "
+            "separate Rexxar geometry to be missing and nothing to reconcile "
+            "between them. The scope limit that IS real is drift in TIME: this is "
+            "one fetch of a published builder, frozen by sha256, and the live "
+            "builder moves independently of this repo's client snapshot - which is "
+            "exactly what contentDrift below measures. Re-run "
+            "tools/fetch_coatalents.py and diff the pinned sha256 to detect it. "
+            "The client-side Lua geometry source (Ascension_CoATalents, "
+            "CharacterAdvancement*.lua) supplies realm-agnostic STRUCTURE (node "
+            "types, gate mechanism, flag bits) but none of the numeric tree layout "
+            "itself (see clientLuaGeometryFinding), so the payload is the only "
+            "source for geometry and this caveat applies to all of it."),
         "resolveStats": resolve_stats,
         "contentDrift": content_drift,
         "tabLayerReconciliation": tab_layer_reconciliation,

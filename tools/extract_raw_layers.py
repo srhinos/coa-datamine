@@ -99,8 +99,33 @@ def _stage_block() -> tuple:
     return n, "\n".join(lines)
 
 
+def _census_facts() -> dict:
+    """The completeness boundary's numbers, read from the census rather than
+    typed into the prose. Every one of these drifts with a client patch, and a
+    hardcoded 486,527 that the census had already moved past is exactly the kind
+    of quietly-stale claim this file exists to avoid making."""
+    ix = json.loads((config.RAW_DIR / "_inventory" / "files.json")
+                    .read_bytes().decode("utf-8"))
+    cats = json.loads((config.RAW_DIR / "_inventory" / "categories.json")
+                      .read_bytes().decode("utf-8"))
+    by_class = cats.get("byClass") or {}
+
+    def cls(name, key):
+        rec = by_class.get(name) or {}
+        return rec.get(key) or 0
+
+    return {
+        "artFiles": cls("art", "files"), "artGB": cls("art", "bytes") / 1e9,
+        "soundFiles": cls("sound", "files"),
+        "soundGB": cls("sound", "bytes") / 1e9,
+        "records": ix.get("recordCount") or 0,
+        "unreadable": ix.get("unreadableCount") or 0,
+    }
+
+
 def write_root_readme() -> str:
     stage_count, stage_lines = _stage_block()
+    facts = _census_facts()
     rows = []
     for name, index_name, what in LAYERS:
         d = config.RAW_DIR / name
@@ -159,41 +184,69 @@ to be read: it is either mid-run or was left behind by a crash.
 
 Stated as a boundary rather than left as an implication:
 
-1. **Every byte is RECORDED. Not every byte is COMMITTED.** Path, size and
-   sha256 are in this repo for every file in the client. The bytes themselves
-   are committed for everything except large binary media - 486,527 art files
-   (53.5 GB), 56,859 sound files (9.0 GB) and the binary part of the Interface
-   tree. That is a repository-size rule, applied mechanically by measurement
-   (see `raw/interface_all/index.json` -> `sizeRule`), not a judgement about
-   which files matter; every excluded byte is recoverable from the client and
-   verifiable against the sha256 recorded here.
-2. **Complete for THIS install.** The realm overlay is per-machine: this client
-   carries `Data/area-52` and `Cache/WDB/enUS/'Rexxar - Conquest of Azeroth'`.
-   A realm not installed here is not in this repo, and since the overlay is
-   exactly where the extra live spells come from, that is a real boundary.
-3. **Every file in the client decodes.** The 6.4% that `raw/_inventory` still
-   records as `readable: false` were never a compression problem - they are a
-   defect in `mpyq`, which is not a complete MPQ reader. `tools/mpq.py` is, and
-   `raw/recovered/` is the proof: 36,139 of them decode correctly, 4,906 were
-   MPQ delete tombstones that carry no bytes by design, 6 are genuinely empty,
-   and **0 remain unreadable**. The conclusion the old note reached - zero DBC,
-   zero JSON, zero `.loc`, so the DATA layer is fully reachable - was right, and
-   is now checked rather than inferred: every one of the 36,139 is binary media
-   or an executable.
+1. **Everything that can be extracted HAS been. Two exclusions, both by the
+   repository owner's decision, both recorded rather than dropped:**
 
-   The same reader found the reverse problem too. 1,271 members are stored with
-   no sector offset table, `mpyq` mis-reads all of them, and 1,186 of the
-   sha256s in `raw/_inventory` are therefore hashes of bytes that were never in
-   the archive (music, cinematics, one nested archive - again no data file).
-   `raw/recovered/corrections/` lists every one with its true hash.
-   `raw/_inventory` itself is left as its own tool produces it; correcting it
-   means moving `tools/inventory.py` onto `tools/mpq.py` and re-running the
-   census.
+   - **Art and sound bytes are recorded, not committed.** Path, size and sha256
+     are in this repo for every file in the client, but the bytes of {facts['artFiles']:,} art
+     files ({facts['artGB']:.1f} GB) and {facts['soundFiles']:,} sound files ({facts['soundGB']:.1f} GB), plus the binary
+     part of the Interface tree, stay in the client. That is a repository-size
+     decision, applied mechanically by measurement (see
+     `raw/interface_all/index.json` -> `sizeRule`), never a judgement about which
+     files matter: every excluded byte is recoverable from the client and
+     verifiable against the sha256 here.
+   - **Install-specific data is excluded.** `WTF/`, `Logs/`, `Errors/`,
+     `Screenshots/`, launcher logs and the user's own `Interface/AddOns` are
+     machine state, not client content. They are also volatile between launches,
+     so recording them would stop a rerun on an unchanged client from
+     reproducing.
 
-   All of this is now verified against an oracle that is not another reader:
-   every archive records an MD5 per member in its `(attributes)` block, and
+   Everything else in the client is extracted: 368 tables to positional columns,
+   the whole Interface code layer, `Data/Content` and its `.loc` files, the WDB
+   caches, every PE image's strings/Lua/structure, every non-winning VERSION of
+   every table, and the deleted, encrypted and container members recovered in
+   `raw/recovered/`.
+2. **Complete for the installed product revision.** Which realm-scoped data a
+   client carries is a property of the product, not of who is playing: the
+   launcher's patcher ships exactly one realm overlay at a time, currently
+   `Data/area-52` (Free-Pick's). No Conquest of Azeroth realm has a client data
+   directory in this revision and no login creates one, so CoA reads the base
+   chain and the base chain is what this repo is built on. `Cache/WDB/` is a
+   different thing - a server-response cache written by playing - and the
+   capture here covers CoA. NOTE that Rexxar and Vol'jin are two realms of the
+   SAME game mode (Conquest of Azeroth, `gameMode=11`), so a cache captured on
+   either one is a CoA capture and the other is not a missing half.
+
+   `raw/cache` is the ONE layer whose source is not static client files, so it
+   is also the one that reproduces byte for byte only against the same
+   `Cache\\WDB` tree: playing the game appends to that cache, and the next run
+   of this stage will legitimately differ. Everywhere else, "unchanged client"
+   means "unchanged archives"; here it means "unchanged cache too".
+3. **Every file in the client decodes, and the census now says so itself.**
+   `raw/_inventory` used to record 41,051 of its {facts['records']:,} paths (6.4%) as
+   `readable: false`. That was never a compression problem - it was `mpyq`,
+   which is not a complete MPQ reader. `tools/inventory.py` has been moved onto
+   `tools/mpq.py`, which is, and the census re-run: **{facts['unreadable']:,} paths remain
+   `readable: false` and every one of them is an MPQ delete tombstone**, a patch
+   entry that removes a path at its layer and carries no bytes by design. 0
+   files are genuinely unreadable.
+
+   The same move fixed the reverse problem. 1,271 members are stored with no
+   sector offset table and `mpyq` mis-read 1,266 of them, so 1,186 sha256s in
+   the old census were hashes of bytes that were never in the archive (music,
+   cinematics, one nested archive - no data file among them, which is why the
+   derived layers were never affected). The census now carries the true hashes.
+
+   `raw/recovered/corrections/` and `raw/recovered/files/` are consequently
+   **empty, and that is the result**: there is nothing left for them to correct
+   or recover, because the census reads the client correctly itself. A non-empty
+   `corrections/` means the census has drifted from the client again; the fix is
+   `python -m tools.inventory`.
+
+   All of this is verified against an oracle that is not another reader: every
+   archive records an MD5 per member in its `(attributes)` block, and
    `python -m tools.crack --only verify` checks all **763,928** of them.
-   Mismatches: 0.
+   Mismatches: 0. Census hashes it disagrees with: 0.
 4. **The client's own executables are opened too.** `raw/binaries/` holds every
    printable string, the inlined Lua and the full PE structure of every PE image
    in the client - the seven loose in the client root, and the twenty stored
@@ -207,17 +260,42 @@ Stated as a boundary rather than left as an implication:
    `raw/interface_all/index.json` -> `onDiskInterfaceTree`. The one exception is
    `AddOns/APIDocumentation`, which is Ascension's own launcher-managed
    description of their API.
+6. **What `raw/recovered/` still holds, now that the census reads the client
+   itself.** `deleted/` is 4,911 patch tombstones recovered from the block
+   tables - paths a patch layer REMOVES, which is real archive semantics and
+   worth knowing. `empty/` is the 13 genuinely zero-length members.
+   `attributes/` is the per-member CRC32 + MD5 + mtime each archive records
+   about itself, which is the oracle everything else here is checked against.
+   `containers/` is the nested archives, expanded. `files/` and `corrections/`
+   are empty by construction - see boundary 3.
 
 ## The two rules that matter most when reading any of this
 
-1. **The realm overlay outranks the whole base chain.** `Data\\<realm>\\` sits
-   above every base and locale archive. Twelve tables - `Spell.dbc` among them -
-   are won there, and the realm copy carries 14% more spells than the base one.
-   The same is true of `Cache\\WDB\\<locale>\\<realm>\\` against its parent.
-   Reading only the base layer silently loses live content. A LOOSE file at the
-   client root outranks even that: the client reads `<root>\\<path>` before it
-   opens any archive, so `raw/_inventory/files.json` -> `looseOverrides` lists
-   the paths whose winning bytes are on disk rather than in an MPQ.
+1. **A table has several VERSIONS, and the default pick is not always the one
+   your question wants.** `Data\\<realm>\\` sits above every base and locale
+   archive, so for 10 tables - `Spell.dbc` among them - the chain winner in
+   `raw/tables/<Table>/` is the **area-52 overlay**, which is *Free-Pick's*
+   data, carrying about 14% more spells than base. That is the right answer for
+   a Free-Pick question and the WRONG one for a Conquest of Azeroth question:
+   CoA realms have no client data directory at all and read the base chain.
+
+   Nothing is thrown away - every distinct version of every table is decoded to
+   `raw/tables/<Table>/variants/<archive-slug>/`, in the same shape and under
+   the same rules as the winner, listed under `variants` in that table's
+   `index.json` and all together in `raw/tables/_variants.json`. How to pick:
+
+   ```
+   python -m tools.find "Tide Lash"                      # the chain winner (may be the overlay)
+   python -m tools.find "Tide Lash" --variant baseChain  # what a CoA character reads
+   python -m tools.find "Tide Lash" --variant overlay    # the realm overlay only
+   python -m tools.find "Tide Lash" --variant all        # every version, each labelled
+   ```
+
+   Every hit says which version it came from, so an answer can always name its
+   layer. A LOOSE file at the client root outranks even the overlay: the client
+   reads `<root>\\<path>` before it opens any archive, so
+   `raw/_inventory/files.json` -> `looseOverrides` lists the paths whose winning
+   bytes are on disk rather than in an MPQ.
 2. **Columns are positional and types are measured.** `f5` means column 5. A
    type is what the bytes support, recorded with the counts behind it, not what
    a name suggests. Where a field layout IS named (the WDB caches), it was

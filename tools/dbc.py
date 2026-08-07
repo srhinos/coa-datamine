@@ -1463,6 +1463,70 @@ def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Pat
     return out
 
 
+def write_colinfo(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Path:
+    """Refresh ONLY the colinfo.json evidence sidecar for `table`, leaving any
+    CSV beside it alone.
+
+    dump_unmapped() writes the sidecar as a by-product of writing the raw
+    f0..fN dump, so a table that later gained a TABLE_MAPS entry stops going
+    through it and its committed sidecar freezes. 40 mapped tables were in
+    exactly that state - their .csv.gz regenerated on every build while their
+    .colinfo.json still described an older client, which is how a test came to
+    pin `SpellAffect.records == 36779` against a CSV holding 36,781 rows.
+    Calling this from dump_all() for any table that already HAS a sidecar keeps
+    the evidence as fresh as the data it describes, without inventing sidecars
+    for tables that never had one or re-dumping a named-header CSV as f0..fN."""
+    out_dir = out_dir if out_dir is not None else config.RAW_DBC_DIR
+    d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
+    f = DBCFile(d / f"{table}.dbc")
+    n = f.fields
+    strblock_size = len(f._strings)
+    records = f.records
+
+    distinct = [set() for _ in range(n)]
+    mins, maxs = [None] * n, [None] * n
+    zeros, strlike = [0] * n, [0] * n
+    samples = [[] for _ in range(n)]
+    for row in f.iter_rows():
+        for i in range(n):
+            v = row[i]
+            distinct[i].add(v)
+            if mins[i] is None or v < mins[i]:
+                mins[i] = v
+            if maxs[i] is None or v > maxs[i]:
+                maxs[i] = v
+            if v == 0:
+                zeros[i] += 1
+            if strblock_size > 0 and (
+                    v == 0 or (0 < v < strblock_size and f._strings[v - 1] == 0)):
+                strlike[i] += 1
+                if len(samples[i]) < 3:
+                    s = f.string(v)
+                    if s and s not in samples[i]:
+                        samples[i].append(s)
+
+    columns = []
+    for i in range(n):
+        likelihood = round(strlike[i] / records, 4) if records else 0.0
+        columns.append({
+            "index": i,
+            "distinct": len(distinct[i]),
+            "min": mins[i],
+            "max": maxs[i],
+            "pct_zero": round(zeros[i] / records, 4) if records else 0.0,
+            "string_likelihood": likelihood,
+            "samples": samples[i][:3] if likelihood >= 0.9 else [],
+        })
+
+    p = out_dir / f"{table}.colinfo.json"
+    p.write_text(json.dumps(
+        {"table": table, "records": records, "fields": n,
+         "string_block_size": strblock_size, "columns": columns},
+        indent=1, sort_keys=True, ensure_ascii=False),
+        encoding="utf-8", newline="\n")
+    return p
+
+
 # Tables whose raw dump does not fit the "one raw/dbc/<Table>.csv.gz file" shape
 # every other table uses - task W4-11b: ItemStat.dbc's body is 236MB (1,513,931
 # rows), hostile as a single committed file. dump_all() skips these entirely
@@ -1478,6 +1542,13 @@ def dump_all():
         if table in CUSTOM_RAW_DUMP_TABLES:
             continue
         p = dump_table(table)
+        # A mapped table keeps whatever colinfo sidecar it was given while it
+        # was still unmapped. Refresh it here so it can never describe an older
+        # client than the CSV next to it - see write_colinfo().
+        if (config.RAW_DBC_DIR / f"{table}.colinfo.json").is_file():
+            write_colinfo(table)
+            print(f"dumped {p.name} (+ colinfo)")
+            continue
         print(f"dumped {p.name}")
     for name in sorted(config.WANTED_DBCS):
         table = Path(name).stem

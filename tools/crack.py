@@ -51,11 +51,13 @@ hashed, size and sha256 written down, bytes discarded.
 
 CRASH SAFETY
 ------------
-This host aborts processes at random (see raw/_inventory README). Every
-expensive stage checkpoints per archive into work/crack/ keyed by the archive's
-own sha256, so a killed run resumes rather than restarts, and the layer carries
-tools/layerstate's sentinel so a half-written tree can never be read as a whole
-one.
+This host aborts long processes at 0xC0000005 without a Python traceback, cause
+never isolated - see HOST_FAULT_SCOPE below for what that does and does not
+establish. Every expensive stage checkpoints per archive into work/crack/ keyed
+by the archive's own sha256, so a killed run resumes rather than restarts, and
+the layer carries tools/layerstate's sentinel so a half-written tree can never
+be read as a whole one. That design is worth keeping whatever the cause is: it
+costs little and it is the only thing that makes a multi-hour pass finishable.
 """
 import argparse
 import collections
@@ -139,8 +141,10 @@ def _write_records(path: Path, records: list) -> None:
 # --------------------------------------------------------------------------
 # checkpoints
 # --------------------------------------------------------------------------
-def _checkpoint(stage: str, archive_id: str, archive_sha: str, compute):
-    """Run `compute()` once per (stage, archive bytes) and remember the result.
+def _checkpoint(stage: str, archive_id: str, archive_sha: str, compute,
+                extra_key: str = None):
+    """Run `compute()` once per (stage, archive bytes, extra_key) and remember
+    the result.
 
     Keyed on the archive's own sha256 AS MEASURED BY THIS RUN (see _archives),
     so a patched archive invalidates its own checkpoint and an unchanged one is
@@ -152,21 +156,73 @@ def _checkpoint(stage: str, archive_id: str, archive_sha: str, compute):
     here: a cached result predates the field and would come back without it,
     silently leaving the layer half in each shape. Derive such fields at
     aggregation instead, where a cached and a freshly-computed result are
-    treated identically - stage_verify's `cause` is the worked example."""
+    treated identically - stage_verify's `cause` is the worked example.
+
+    `extra_key` exists because two stages take a SECOND input that the archive
+    bytes say nothing about: `verify` and `resweep` both read raw/_inventory.
+    Keyed on the archive alone, a rebuilt census would be served the answer
+    computed against the OLD one - so `verify` would re-publish corrections to
+    hashes that are no longer wrong, and `resweep` would re-recover files the
+    census can now read, both while every archive was byte-identical and every
+    checkpoint looked valid. Callers with a second input pass a digest of it
+    here. This is the same defect that tools/inventory.py's pass-4 checkpoint
+    had against its reader; see that module's HASH_CACHE_RULE."""
     path = WORK_DIR / stage / f"{_slug(archive_id)}.json"
     if path.is_file():
         try:
             cached = json.loads(path.read_bytes().decode("utf-8"))
         except Exception:                    # noqa: BLE001 - truncated by a kill
             cached = None
-        if cached and cached.get("archiveSha256") == archive_sha:
+        if (cached and cached.get("archiveSha256") == archive_sha
+                and cached.get("extraKey") == extra_key):
             return cached["result"], True
     result = compute()
     layerstate.atomic_write(path, json.dumps(
-        {"archive": archive_id, "archiveSha256": archive_sha, "result": result},
+        {"archive": archive_id, "archiveSha256": archive_sha,
+         "extraKey": extra_key, "result": result},
         ensure_ascii=False).encode("utf-8"))
     return result, False
 
+
+def _input_key(payload) -> str:
+    """Stable digest of a stage's non-archive input, for _checkpoint's
+    extra_key. Sorted and serialized deterministically so the same input always
+    produces the same key regardless of dict or list order."""
+    blob = json.dumps(payload, sort_keys=True, ensure_ascii=False,
+                      separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(blob).hexdigest()[:16]
+
+
+HOST_FAULT_SCOPE = (
+    "WHAT IS ACTUALLY KNOWN ABOUT THIS HOST, restated after one of the original "
+    "pieces of evidence collapsed.\n\n"
+    "The earlier write-up asserted 'confirmed nondeterministic memory "
+    "corruption' and cited two things: process aborts, and 'physically "
+    "impossible Python errors'. One of the impossible errors - `TypeError: "
+    "slice indices must be integers` - was later traced to an ordinary bug in "
+    "this repo's own code, a missing `[0]` on a `struct.unpack_from` result, "
+    "which returns a tuple. That is a mundane defect with a mundane fix and it "
+    "is NOT evidence of anything about the machine. Retract it.\n\n"
+    "WHAT SURVIVES: long-running processes on this host die at "
+    "STATUS_ACCESS_VIOLATION (0xC0000005) with no Python traceback. Those "
+    "aborts were observed repeatedly and are why every long pass here is "
+    "checkpointed. But an access violation proves a CRASH, not its cause - a "
+    "CPython or extension-module bug, a stack exhaustion, or an OS/AV "
+    "interaction would look the same from here, and none was ruled out. Calling "
+    "it a hardware memory fault was a stronger claim than the evidence "
+    "supported.\n\n"
+    "ALSO SURVIVES, and separately: one member was once written with 2 wrong "
+    "bytes out of 115 MB while its length and header stayed valid (see "
+    "tools/extract_all.py's READ_AGREEMENT_RULE). Real, single, never "
+    "reproduced, never root-caused.\n\n"
+    "EVIDENCE THE OTHER WAY, measured by this module: the verify stage decodes "
+    "every member of every archive and checks each against the MD5 the archive "
+    "itself recorded. The current run is 763,928 members, 0 mismatches. A "
+    "machine corrupting reads at any appreciable rate would not produce that.\n\n"
+    "CONCLUSION: keep the defenses - checkpoints, two-agreeing-reads, and the "
+    "MD5 oracle - because they are cheap, because the aborts are real, and "
+    "because the one corruption incident was never explained. Do not repeat the "
+    "hardware-fault diagnosis as established fact.")
 
 ARCHIVE_KEY_RULE = (
     "Each archive's sha256 is MEASURED off disk at the start of every run, not "
@@ -654,8 +710,16 @@ RESWEEP_RULE = (
     "the length the block table declares AND its sha256 was taken from those "
     "bytes. `deleted` is not a failure: an MPQ DELETE_MARKER entry is a patch "
     "tombstone that removes the path at that layer and carries no bytes by "
-    "design - the old reader reported those as unreadable files, which is what "
-    "most of the non-media residue in the 6.4% figure actually was.")
+    "design.\n\n"
+    "THIS LAYER IS NOW EMPTY, AND THAT IS THE RESULT. It held 36,139 recovered "
+    "files while the census still read the client through `mpyq` and reported "
+    "41,051 paths unreadable. tools/inventory.py has since been moved onto "
+    "tools/mpq.py, so the census reads those files itself and carries their "
+    "sha256 directly: nothing needs recovering. What remains in the census as "
+    "unreadable is 4,906 paths, and this stage re-reads every one of them to "
+    "confirm the residue is 4,906 patch tombstones, 0 genuinely empty, 0 still "
+    "unreadable. The recovery did not disappear - it moved into raw/_inventory, "
+    "which is where a consumer looks a path up anyway.")
 
 AGREEMENT_RULE = (
     "Files BOTH readers accept are compared byte for byte. Without it, 'the new "
@@ -865,9 +929,13 @@ def stage_resweep(archives: list) -> dict:
 
     for rec in archives:
         mine = failures.get(rec["id"], [])
+        # The census's failure list is this stage's second input - see
+        # _checkpoint's extra_key. A census that can now read a member must not
+        # be served a checkpoint that "recovered" it.
         result, hit = _checkpoint(
             "resweep", rec["id"], rec["sha256"],
-            lambda r=rec, f=mine: _resweep_archive(r, f))
+            lambda r=rec, f=mine: _resweep_archive(r, f),
+            extra_key=_input_key(sorted(mine)))
         for row in result["rows"]:
             row["archive"] = rec["id"]
             row["chainRank"] = rec["chainRank"]
@@ -1063,6 +1131,13 @@ def _shard_rows(directory: Path, rows: list, index_extra: dict,
     for shard_key, paths in sorted(groups.items()):
         chunk = [r for p in sorted(paths)
                  for r in sorted(by_path[p], key=lambda x: x.get("archive", ""))]
+        # A layer with nothing left to report is a real, meaningful outcome
+        # here - correcting the census emptied both `files` and `corrections`
+        # by construction - so an empty group writes no shard rather than
+        # crashing on chunk[0]. The index still publishes recordTotal: 0, which
+        # is the finding, and layerstate still stamps the layer complete.
+        if not chunk:
+            continue
         _write_records(records_dir / names[shard_key], chunk)
         shards.append({"shard": names[shard_key], "records": len(chunk),
                        "firstPath": chunk[0]["path"], "lastPath": chunk[-1]["path"]})
@@ -1085,6 +1160,16 @@ CORRECTIONS_RULE = (
     "the archive holds today. `sha256` here is measured now and `censusSha256` "
     "is what the census still says; both are kept so the correction is "
     "checkable rather than a bare assertion.\n\n"
+    "THIS LAYER IS NOW EMPTY, AND THAT IS THE RESULT. It held 1,190 records "
+    "while tools/inventory.py still read the client through `mpyq`: 1,186 "
+    "readerDefect (music, cinematics and one nested archive - 0 DBC, 0 "
+    "Interface, 0 Content) and 4 clientDrift DBCs the launcher had rewritten "
+    "mid-run. tools/inventory.py has since been moved onto tools/mpq.py and the "
+    "census re-run, so the census and this verifier now agree on all 763,928 "
+    "members and there is nothing left to correct. An empty layer here means "
+    "the census is true; a non-empty one means it has drifted again. The 1,190 "
+    "records themselves are in this repo's history, and the hashes that "
+    "replaced them are in raw/_inventory.\n\n"
     "There are exactly TWO reasons a census hash can be wrong, they are not the "
     "same kind of fact, and every record says which one applies in `cause`:\n\n"
     "  readerDefect - the archive's bytes are UNCHANGED since the census (its "
@@ -1104,12 +1189,12 @@ CORRECTIONS_RULE = (
     "0 Interface and 0 Content. `byCause` and `byClassAndCause` in this index "
     "are the measurement, so that claim is re-checked on every run instead of "
     "being asserted in prose.\n\n"
-    "`raw/_inventory` is deliberately NOT rewritten here. It is still exactly "
-    "what its own tool produces, which is the property that makes it checkable; "
-    "correcting it means moving tools/inventory.py onto this reader and "
-    "re-running the whole census, which is a change to that layer's owner and "
-    "needs its own review. Until then these are the true hashes and this file "
-    "is the record of the disagreement.")
+    "`raw/_inventory` is still not rewritten HERE - this module only reports. "
+    "It is written by its own tool, which is the property that makes it "
+    "checkable. That tool has now been moved onto this reader and the census "
+    "re-run, which is why there is nothing left to report; if this layer ever "
+    "fills up again, the fix is still to re-run `python -m tools.inventory`, "
+    "never to hand-edit a hash.")
 
 VERIFY_RULE = (
     "Every named member of every archive is decoded and its MD5 compared with "
@@ -1209,8 +1294,14 @@ def stage_verify(archives: list) -> dict:
     compression = collections.Counter()
     mismatches, unreadable, per_archive, corrections = [], [], [], []
     for rec in archives:
+        # The census is this stage's second input (see _checkpoint's extra_key):
+        # only the paths THIS archive wins can produce a correction, so the key
+        # is a digest of exactly those census entries.
+        mine = _input_key(sorted((p, v[1]) for p, v in census.items()
+                                 if v[0] == rec["id"]))
         result, hit = _checkpoint("verify", rec["id"], rec["sha256"],
-                                  lambda r=rec: _verify_archive(r, census))
+                                  lambda r=rec: _verify_archive(r, census),
+                                  extra_key=mine)
         counts = collections.Counter(result["counts"])
         totals.update(counts)
         compression.update(result["compression"])

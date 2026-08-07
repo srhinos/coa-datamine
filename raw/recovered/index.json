@@ -245,99 +245,22 @@
   "attributeRecordsDated": 529029,
   "attributeRowsUnnamed": 1004,
   "bytesCommitted": 0,
-  "censusDecompositionRule": "These three numbers decompose the undecodable set EXACTLY - 36,139 recovered + 4,906 tombstones + 6 empty = 41,051 - and they are counted over the CENSUS's rows, which means the winning copy of each path. They are therefore smaller than the client's totals: raw/recovered/deleted/ and raw/recovered/empty/ are built from the block tables and hold every copy, including the ones a higher archive shadows. Neither number is wrong; they answer different questions, and `empty` used to be an integer with nothing behind it, which is why the members are enumerated here.",
-  "censusSha256Corrections": 1190,
-  "censusSha256Drift": [
-   {
-    "archive": "Data/patch-M.MPQ",
-    "censusSha256": "bbad3dccef88a5c6e827e23f5e8b1c8dcc274d89897a9506ce4fcbf33aa79237",
-    "measuredSha256": "385f7673bf9feff8f7a9259dbbafe39af4a7c474f51621d66cd49426e7cbf6f4"
-   },
-   {
-    "archive": "Data/patch-S.MPQ",
-    "censusSha256": "158ffe340f9840ded91ef86a1b539cea9b117baed036e47218159f4056d41a9c",
-    "measuredSha256": "795e1709cf49199106172dfab17da6ff59fafd162829983dd846c3204853b09a"
-   },
-   {
-    "archive": "Data/patch-T.MPQ",
-    "censusSha256": "f35fbe4ecec71e94926b2daa76ba20c374de86c339f0bca6f45afa796ec0963a",
-    "measuredSha256": "9c36a3f8733d26dc29c923747cc9f2f3089c6c916a128a35c315d4ceb233e90f"
-   },
-   {
-    "archive": "Data/area-52/patch-D.MPQ",
-    "censusSha256": "819edf538f375ee5b3e654bcf69da62d4902de485b0a86ffc780286bec20a6d2",
-    "measuredSha256": "30573bc0ae6c7c11a1a23699c6781a20e8e68d99b3277c017bca8216e3f57d09"
-   }
-  ],
+  "censusDecompositionRule": "These three numbers decompose the undecodable set EXACTLY - 0 recovered + 4,906 tombstones + 0 empty = 4,906 - and they are counted over the CENSUS's rows, which means the winning copy of each path. They are therefore smaller than the client's totals: raw/recovered/deleted/ and raw/recovered/empty/ are built from the block tables and hold every copy, including the ones a higher archive shadows. Neither number is wrong; they answer different questions, and `empty` used to be an integer with nothing behind it, which is why the members are enumerated here.",
+  "censusSha256Corrections": 0,
   "compressionCensus": {
    "bzip2": 1,
    "sectorSize 2048 (header says 16384)": 3,
    "sectorSize 4096 (header says 16384)": 12,
    "stored(no sector table)": 1280,
-   "stored(sector not compressed)": 622998,
-   "zlib": 762526
+   "stored(sector not compressed)": 102,
+   "zlib": 323043
   },
   "containerMembers": 21,
   "containers": 5,
   "deleteTombstones": 4906,
-  "empty": 6,
+  "empty": 0,
   "emptyMemberTotal": 13,
-  "emptyMembers": [
-   {
-    "archive": "Data/patch-B.MPQ",
-    "class": "interface",
-    "flags": [
-     "COMPRESS",
-     "EXISTS"
-    ],
-    "path": "Interface/GlueXML/RaceSelect.lua"
-   },
-   {
-    "archive": "Data/patch-B.MPQ",
-    "class": "interface",
-    "flags": [
-     "COMPRESS",
-     "EXISTS"
-    ],
-    "path": "Interface/GlueXML/RaceSelect.xml"
-   },
-   {
-    "archive": "Data/patch-B.MPQ",
-    "class": "interface",
-    "flags": [
-     "COMPRESS",
-     "EXISTS"
-    ],
-    "path": "Interface/GlueXML/SoundOptionsFrame.lua"
-   },
-   {
-    "archive": "Data/patch-B.MPQ",
-    "class": "interface",
-    "flags": [
-     "COMPRESS",
-     "EXISTS"
-    ],
-    "path": "Interface/GlueXML/SoundOptionsFrame.xml"
-   },
-   {
-    "archive": "Data/patch-B.MPQ",
-    "class": "interface",
-    "flags": [
-     "COMPRESS",
-     "EXISTS"
-    ],
-    "path": "Interface/SharedXML/AnimationTemplates.lua"
-   },
-   {
-    "archive": "Data/patch-WC3.MPQ",
-    "class": "art",
-    "flags": [
-     "COMPRESS",
-     "EXISTS"
-    ],
-    "path": "world/Bronzebeard/scadeald/fence/bzb_earthen_rowboat01.m2"
-   }
-  ],
+  "emptyMembers": [],
   "encryptedMembers": 1,
   "encryptedMembersRecovered": 1,
   "exactSectorMultipleMembers": 675,
@@ -348,30 +271,24 @@
   "md5ByCheck": {
    "agreementSample:ok": 2601,
    "exactMultiple:ok": 675,
-   "noSectorTable:ok": 1271,
-   "resweep:ok": 36139
+   "noSectorTable:ok": 1271
   },
   "md5MismatchExamples": [],
   "md5Mismatched": 0,
   "md5MismatchedTotal": 0,
   "md5NoRecordInArchive": 0,
   "md5Rule": "THE AUTHORITATIVE CHECK. Every archive carries an `(attributes)` member holding the MD5 the archive itself recorded for each block entry, so a decoded file can be checked against the archive rather than against another reader. Every file re-read here is verified that way. This is what turns 'my reader disagrees with mpyq' into a decided question: where the two disagree, the MD5 says which one reproduced the file the archive was built from. `md5Mismatched` must be 0; anything else is this reader being wrong.",
-  "md5Verified": 40686,
+  "md5Verified": 4547,
   "md5VerifiedTotal": 763928,
   "noSectorTableMembers": 1271,
   "noSectorTableReadFailed": 0,
   "noSectorTableReadOk": 1271,
   "noSectorTableRule": "Members stored with no compression have NO sector offset table - their sectors are contiguous. The old reader read the file's own first bytes as a table and returned a salad of slices of itself, silently: 1,266 of these 1,271 members came out WRONG, and 1,186 of those are chain winners whose (wrong) sha256 the census committed. This is the real silent-corruption class. Every one is re-read here and MD5-checked against the archive; see corrections/ for the paths and their true hashes.",
   "orphanBlockEntries": 0,
-  "recovered": 36139,
-  "recoveredByClass": {
-   "art": 151,
-   "interface": 58,
-   "other": 15,
-   "sound": 35915
-  },
-  "recoveredDataFiles": 58,
-  "resweptTotal": 41051,
+  "recovered": 0,
+  "recoveredByClass": {},
+  "recoveredDataFiles": 0,
+  "resweptTotal": 4906,
   "stillUnreadable": 0,
   "stillUnreadableDetail": [],
   "tombstoneArchives": 5,

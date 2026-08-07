@@ -6,7 +6,7 @@ Regenerate: `python -m tools.decode_all`. Every byte under this directory is wri
 
 - **368 tables** decoded of 368 in the client census
 - **0 failures** (`_failures.json`)
-- **7,467,568 rows** in 7,857 shards
+- **7,467,569 rows** in 7,857 shards
 - **131.8 MB** on disk (1955.4 MB uncompressed)
 - **56,045,598 string-block bytes**: 56,041,336 reached by a decoded record, 4,262 referenced by no column and written out verbatim to `<Table>.strings.json`
 

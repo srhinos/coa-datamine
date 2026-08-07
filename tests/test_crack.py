@@ -185,16 +185,48 @@ else:
           empty_ix["recordTotal"] > 0 and (crack.EMPTY_DIR / "records").is_dir(),
           str(empty_ix["recordTotal"]))
 
-    # the recovered set contains no DATA file: the standing claim, now checked
+    # [2026-08-07 re-pin] These two layers used to hold 36,139 recovered files and
+    # 1,190 census corrections. tools/inventory.py has since been moved onto
+    # tools/mpq.py and the census re-run, so the census reads those files itself and
+    # carries their true hashes: there is nothing left to recover or correct, and
+    # BOTH layers are now empty BY CONSTRUCTION. That is the pass condition, not a
+    # regression - the old pins are the pre-fix state.
+    #
+    # The assertion is deliberately not "== 0". A recovery layer that is empty
+    # because the census is correct and one that is empty because this stage silently
+    # did nothing look identical from the record count alone. So the check is
+    # RELATIONAL: whatever the census still reports unreadable must be exactly what
+    # this stage re-read, and all of it must decompose into tombstones/empties with
+    # nothing left over. That holds at 0 recovered and would also hold if a future
+    # client reintroduced genuinely unreadable members.
     files_index = json.loads(
         (crack.FILES_DIR / "index.json").read_bytes().decode("utf-8"))
     by_class = files_index["byClass"]
-    check("36,139 previously-unreadable files were recovered",
-          files_index["recordTotal"] == 36139, str(files_index["recordTotal"]))
-    check("NOT ONE of them is a DBC or a Content file - the 'no data file is "
-          "affected' claim, checked rather than assumed",
+    census_unreadable = sum(len(v) for v in crack._load_failures().values())
+    check("every path the census still calls unreadable was re-read by this stage",
+          state["resweptTotal"] == census_unreadable,
+          f"reswept {state["resweptTotal"]} vs census {census_unreadable}")
+    check("the unreadable residue decomposes EXACTLY into recovered + tombstones "
+          "+ empty, with nothing unaccounted for",
+          state["recovered"] + state["deleteTombstones"] + state["empty"]
+          == state["resweptTotal"],
+          json.dumps({k: state[k] for k in
+                      ("recovered", "deleteTombstones", "empty", "resweptTotal")}))
+    check("0 members remain genuinely unreadable anywhere in the client",
+          state["stillUnreadable"] == 0, str(state["stillUnreadable"]))
+    check("the census is correct on its own, so nothing needs recovering "
+          f"(recovered={files_index['recordTotal']})",
+          files_index["recordTotal"] == 0, str(files_index["recordTotal"]))
+    check("NOT ONE recovered file is a DBC or a Content file - the 'no data file "
+          "is affected' claim, checked rather than assumed",
           by_class.get("dbc", 0) == 0 and by_class.get("content", 0) == 0,
           json.dumps(by_class))
+
+    corr_index = json.loads(
+        (crack.CORRECTIONS_DIR / "index.json").read_bytes().decode("utf-8"))
+    check("the census agrees with the MD5-verified reader on every member, so "
+          "there are 0 hash corrections to publish",
+          corr_index["recordTotal"] == 0, str(corr_index["recordTotal"]))
 
     for layer in (crack.ATTR_DIR, crack.DELETED_DIR, crack.EMPTY_DIR,
                   crack.FILES_DIR, crack.CORRECTIONS_DIR, crack.CONTAINER_DIR):

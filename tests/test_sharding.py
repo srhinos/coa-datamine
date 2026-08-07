@@ -44,7 +44,14 @@ ALLOWLIST = {
 # the doc's cited +1,843 - see AGENT-GUIDE.md and data/spells/_meta.json's
 # formulaClosure block for the full count breakdown). This is a real, intentional
 # widening of the writer's output, not client drift - re-pinned accordingly.
-PRE_SPELL_COUNT = 28951
+# 2026-08-07 (scrub/variants task): the Ascension launcher live-patched the client
+# again DURING the preceding phases - base Spell.dbc moved 209,130 -> 209,135 ->
+# 209,140 and SpellAffect 36,779 -> 36,780 -> 36,781 across three rewrites. The
+# writer now produces 28,957 against the current snapshot (+6 vs. 28,951). Re-pinned
+# per AGENT-GUIDE's "Regenerating after a client patch" contract; the class entry
+# counts and dungeon count below were re-derived at the same time and are UNCHANGED,
+# which is what makes this a content-churn delta rather than a writer regression.
+PRE_SPELL_COUNT = 28957
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,
