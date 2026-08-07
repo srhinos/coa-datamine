@@ -1,0 +1,41 @@
+{
+ "chunkFiles": [
+  {
+   "bytes": 690,
+   "file": "chunks/0x006363c0.lua",
+   "sha256": "ddfa95df9b45648500860e874f87cd2967c257eb3ee7662e708a66c2ffc51221"
+  },
+  {
+   "bytes": 1594,
+   "file": "chunks/0x00643180.lua",
+   "sha256": "4556b7e3b8dccc9f7fa5ffe6836236726ca66cfac09b5062396e8e23c0eb3824"
+  }
+ ],
+ "format": "plain",
+ "fragmentMinScore": 3,
+ "fragments": 39,
+ "keyField": "id",
+ "minScore": 3,
+ "oversizeShards": [],
+ "pathRule": "Every `file` path an index records is relative to THAT index's own directory, so `chunks/0x00b59c00.lua` in lua/index.json is <binary>/lua/chunks/0x00b59c00.lua on disk.",
+ "plainBytes": 9960,
+ "precompiled": 0,
+ "precompiledRejected": 1,
+ "rows": 42,
+ "shardCount": 1,
+ "shards": [
+  {
+   "file": "l00-99.jsonl",
+   "format": "plain",
+   "hi": 99,
+   "lo": 0,
+   "plainBytes": 9960,
+   "rows": 42,
+   "sha256": "f320185ddf4994ebe5f20b46a301b49d06620ad9d3afb3058e778d3662314ec9",
+   "storedBytes": 9960
+  }
+ ],
+ "sourceChunks": 2,
+ "storedBytes": 9960,
+ "tokenRule": "A run's Lua score is the number of DISTINCT syntax classes in tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and concatenation syntax, comment openers, table constructors and standard library calls. Counting distinct classes rather than occurrences stops one repeated word from carrying English prose over a threshold. The score is recorded on every extracted string, so any reader can re-cut it."
+}

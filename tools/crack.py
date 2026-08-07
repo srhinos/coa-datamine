@@ -18,13 +18,21 @@ MEASUREMENT, and one of the three turned out to be false.
    while its block table holds 2 - and its `(listfile)`, the only encrypted file
    in the client, decrypts to the string "(listfile)" and nothing else.
 
-2  "41,053 files (6.4%) use compressions mpyq does not implement."  FALSE, and
-   this is the finding that matters. 36,141 of them are ordinary zlib and stored
-   sectors that `mpyq` mis-decodes; see tools/mpq.py for the exact defect. The
-   remaining 4,912 are not compressed at all - 4,906 are patch DELETE tombstones,
-   which carry no bytes BY DESIGN and were being recorded as read failures, and 6
-   are genuinely zero-length. A full-mask census over the client finds no PKWARE,
-   no ADPCM, no huffman and no sparse sector anywhere in it.
+2  "41,053 files (6.4%) use compressions mpyq does not implement."  FALSE twice
+   over - the figure itself is 41,051 - and this is the finding that matters.
+   36,139 of them are ordinary zlib and stored sectors that `mpyq` mis-decodes;
+   see tools/mpq.py for the exact defect. The remaining 4,912 are not compressed
+   at all - 4,906 are patch DELETE tombstones, which carry no bytes BY DESIGN
+   and were being recorded as read failures, and 6 are genuinely zero-length. A
+   full-mask census over the client finds no PKWARE, no ADPCM, no huffman and no
+   sparse sector anywhere in it.
+
+   Those 4,906 and 6 are what the CENSUS saw, which is only ever the winning
+   copy of a path. The client itself holds 4,911 tombstones and 13 zero-length
+   entries; the five and the seven the census cannot see are shadowed by a
+   higher archive. Both layers are therefore built from every archive's BLOCK
+   TABLE (stage `tombstones`), not from the census's failure list - see
+   TOMBSTONE_RULE.
 
 3  "`(attributes)` is archive bookkeeping."  It is a complete second integrity
    record - CRC32, modification time and MD5 for EVERY block entry - that all 77
@@ -69,6 +77,7 @@ WORK_DIR = config.WORK_DIR / "crack"
 FORENSICS = OUT_DIR / "_forensics.json"
 ATTR_DIR = OUT_DIR / "attributes"
 DELETED_DIR = OUT_DIR / "deleted"
+EMPTY_DIR = OUT_DIR / "empty"
 FILES_DIR = OUT_DIR / "files"
 BYTES_DIR = FILES_DIR / "bytes"          # recovered bytes, laid out by client path
 CONTAINER_DIR = OUT_DIR / "containers"
@@ -133,10 +142,17 @@ def _write_records(path: Path, records: list) -> None:
 def _checkpoint(stage: str, archive_id: str, archive_sha: str, compute):
     """Run `compute()` once per (stage, archive bytes) and remember the result.
 
-    Keyed on the archive's own sha256, so a patched archive invalidates its own
-    checkpoint and an unchanged one is never re-read. Written with
-    layerstate.atomic_write, so a process killed mid-write leaves the previous
-    answer rather than a truncated one."""
+    Keyed on the archive's own sha256 AS MEASURED BY THIS RUN (see _archives),
+    so a patched archive invalidates its own checkpoint and an unchanged one is
+    never re-read. Written with layerstate.atomic_write, so a process killed
+    mid-write leaves the previous answer rather than a truncated one.
+
+    The key covers the archive's BYTES, not the SHAPE of the result, so a
+    caller that adds a field to its records must not compute that field in
+    here: a cached result predates the field and would come back without it,
+    silently leaving the layer half in each shape. Derive such fields at
+    aggregation instead, where a cached and a freshly-computed result are
+    treated identically - stage_verify's `cause` is the worked example."""
     path = WORK_DIR / stage / f"{_slug(archive_id)}.json"
     if path.is_file():
         try:
@@ -152,21 +168,69 @@ def _checkpoint(stage: str, archive_id: str, archive_sha: str, compute):
     return result, False
 
 
-def _archives() -> list:
-    """The chain, plus each archive's recorded sha256 - read from the inventory
-    rather than recomputed, because the inventory is the layer that owns it and
-    re-hashing 44.9 GB to learn what it already wrote down is not a check, it is
-    a duplicate."""
+ARCHIVE_KEY_RULE = (
+    "Each archive's sha256 is MEASURED off disk at the start of every run, not "
+    "read out of raw/_inventory. Every checkpoint in this module is keyed on "
+    "that value, so trusting the census for it would mean a stale census "
+    "silently validates stale checkpoints - and on this machine the launcher "
+    "live-patches the client between runs, which is precisely the case the key "
+    "exists to catch. The census value is still loaded and compared, so a "
+    "disagreement is REPORTED (censusSha256Drift) instead of being the reason "
+    "the layer is wrong. Hashing all 44.9 GB costs about 40 seconds, which is "
+    "not a reason to guess.")
+
+
+def _measure_sha(path: Path) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _archives(verbose: bool = True) -> list:
+    """The chain, plus each archive's sha256 measured from its own bytes.
+
+    See ARCHIVE_KEY_RULE. The census's recorded value comes along for the ride
+    as `censusSha256` so the two can be compared rather than conflated."""
     doc = json.loads((config.RAW_DIR / "_inventory" / "archives.json")
                      .read_bytes().decode("utf-8"))
     sha_of = {a["id"]: a["sha256"] for a in doc["archives"]}
-    out = []
+    out, drift = [], []
+    t0 = time.time()
     for rank, rec in enumerate(inventory.discover_archives()):
         aid = inventory.archive_id(rec["path"])
+        measured = _measure_sha(rec["path"])
+        recorded = sha_of.get(aid, "")
+        if recorded and recorded != measured:
+            drift.append({"archive": aid, "censusSha256": recorded,
+                          "measuredSha256": measured})
         out.append({"id": aid, "path": rec["path"], "chainRank": rank,
                     "layer": rec["layer"], "realm": rec["realm"],
-                    "sha256": sha_of.get(aid, "")})
+                    "sha256": measured, "censusSha256": recorded})
+    if verbose:
+        print(f"  measured {len(out)} archive hashes in {time.time() - t0:.0f}s"
+              f"{f' - {len(drift)} DIFFER from the census' if drift else ''}",
+              flush=True)
+    for row in drift:
+        print(f"    census drift: {row['archive']} census="
+              f"{row['censusSha256'][:12]} measured={row['measuredSha256'][:12]}",
+              flush=True)
+    _ARCHIVE_DRIFT.clear()
+    _ARCHIVE_DRIFT.extend(drift)
+    _DRIFTED_ARCHIVES.clear()
+    _DRIFTED_ARCHIVES.update(row["archive"] for row in drift)
     return out
+
+
+# Filled by _archives(); reported in the layer index rather than raised, because
+# a live-patched client is a fact about the client, not a failure of this run.
+_ARCHIVE_DRIFT = []
+
+# The ids of the archives in _ARCHIVE_DRIFT, for the per-path cause split in
+# stage_verify. A set rather than a repeated scan: stage_verify consults it once
+# per disagreeing member, of which there can be thousands.
+_DRIFTED_ARCHIVES = set()
 
 
 # --------------------------------------------------------------------------
@@ -463,7 +527,126 @@ def stage_attributes(archives: list) -> dict:
 
 
 # --------------------------------------------------------------------------
-# stage 3 - re-sweep everything the old reader could not read
+# stage 3 - tombstones and empty members, from the BLOCK TABLES
+# --------------------------------------------------------------------------
+TOMBSTONE_RULE = (
+    "Every MPQ DELETE_MARKER entry in the client, enumerated from each "
+    "archive's own BLOCK TABLE. A patch that REMOVES a path carries a block "
+    "entry with this flag and no data; it stops the path resolving from that "
+    "archive down. Archive semantics, not damage.\n\n"
+    "The source matters and is the whole point of this stage. These layers were "
+    "previously built from the file census's read-FAILURE list, and that list "
+    "holds one row per PATH - the WINNING copy. A tombstone set by an archive "
+    "that a higher archive then re-supplies the path from is invisible to it, "
+    "so the layer held 4,906 of the client's 4,911 and its own rule text "
+    "claimed all of them. The five it could not see: RaceSelect.lua/.xml "
+    "(patch-enUS-2) and CharVariations.dbc, SoundOptionsFrame.lua/.xml "
+    "(patch-enUS). Reading the block tables directly makes the count a "
+    "measurement of the client instead of a measurement of the census.")
+
+EMPTY_RULE = (
+    "Every block entry the archive marks EXISTS, does not mark DELETE_MARKER, "
+    "and records as ZERO BYTES: a real member that holds nothing. Enumerated "
+    "from the block tables for the same reason as the tombstones - the census "
+    "sees 6 of the client's 13, because it only ever sees the winning copy of "
+    "a path.\n\n"
+    "This distinction is not bookkeeping. A tombstone REMOVES a path; an empty "
+    "member REPLACES it with nothing, and the client goes on resolving it. Five "
+    "of the six the census sees are Interface code that patch-B blanks this "
+    "way - RaceSelect.lua/.xml, SoundOptionsFrame.lua/.xml and "
+    "SharedXML/AnimationTemplates.lua - which is a fact about what Ascension "
+    "disabled, and it was previously reduced to the integer 6 in a summary. The "
+    "remaining seven are the zero-byte `(listfile)` members of the stub "
+    "archives that carry no listfile at all.")
+
+
+def _block_semantics_for(rec: dict) -> dict:
+    """This archive's DELETE_MARKER and zero-length entries, named through its
+    own hash table. Nothing is decompressed: the block table already says it."""
+    with mpq.Archive(rec["path"]) as archive:
+        names = archive.list_names()
+        by_block = {}
+        for name in names or []:
+            bi = archive.block_index_of(name)
+            if bi is not None:
+                by_block.setdefault(bi, name)
+        # The meta members are never in a listfile, and in the stub archives
+        # they are the ONLY members - so without this they would be the
+        # unnamed rows in a layer whose point is that everything is named.
+        for meta in ("(listfile)", "(attributes)", "(signature)"):
+            bi = archive.block_index_of(meta)
+            if bi is not None:
+                by_block.setdefault(bi, meta)
+
+        deleted, empty = [], []
+        for i, (offset, stored, size, flags) in enumerate(archive.block_table):
+            if not flags & mpq.MPQ_FILE_EXISTS:
+                continue
+            tombstone = bool(flags & mpq.MPQ_FILE_DELETE_MARKER)
+            if not tombstone and size:
+                continue
+            name = by_block.get(i)
+            row = {"path": (name or f"(unnamed block {i})").replace("\\", "/"),
+                   "named": name is not None,
+                   "class": inventory.path_class(
+                       (name or "").lower().replace("/", "\\"), "mpq")
+                   if name else None,
+                   "block": i, "size": size, "storedBytes": stored,
+                   "flags": mpq.flag_names(flags)}
+            (deleted if tombstone else empty).append(row)
+        return {"deleted": deleted, "empty": empty,
+                "blockEntries": len(archive.block_table),
+                "listfileNames": None if names is None else len(names)}
+
+
+def stage_tombstones(archives: list) -> dict:
+    print("  reading every archive's block table for tombstones and empty "
+          "members", flush=True)
+    layerstate.clear_dir(DELETED_DIR)
+    layerstate.clear_dir(EMPTY_DIR)
+    deleted, empty = [], []
+    for rec in archives:
+        result, hit = _checkpoint("tombstones", rec["id"], rec["sha256"],
+                                  lambda r=rec: _block_semantics_for(r))
+        for row in result["deleted"]:
+            deleted.append({**row, "archive": rec["id"],
+                            "chainRank": rec["chainRank"]})
+        for row in result["empty"]:
+            empty.append({**row, "archive": rec["id"],
+                          "chainRank": rec["chainRank"]})
+        if result["deleted"] or result["empty"]:
+            print(f"    [{rec['chainRank'] + 1:2d}/{len(archives)}] "
+                  f"{rec['id']:38s} tombstones={len(result['deleted']):>5,} "
+                  f"empty={len(result['empty']):>3}"
+                  f"{'  (cached)' if hit else ''}", flush=True)
+
+    _shard_rows(DELETED_DIR, deleted, {
+        "rule": TOMBSTONE_RULE,
+        "generatedBy": "python -m tools.crack --only tombstones",
+        "recordTotal": len(deleted),
+        "byArchive": dict(sorted(collections.Counter(
+            r["archive"] for r in deleted).items())),
+        "byClass": dict(sorted(collections.Counter(
+            r["class"] for r in deleted if r["class"]).items())),
+    }, key=lambda r: (r["archive"], r["path"]))
+    _shard_rows(EMPTY_DIR, empty, {
+        "rule": EMPTY_RULE,
+        "generatedBy": "python -m tools.crack --only tombstones",
+        "recordTotal": len(empty),
+        "byArchive": dict(sorted(collections.Counter(
+            r["archive"] for r in empty).items())),
+        "byClass": dict(sorted(collections.Counter(
+            r["class"] for r in empty if r["class"]).items())),
+    }, key=lambda r: (r["archive"], r["path"]))
+
+    print(f"  {len(deleted):,} DELETE_MARKER tombstones and {len(empty)} "
+          f"zero-length members across {len(archives)} archives")
+    return {"tombstoneTotal": len(deleted), "emptyMemberTotal": len(empty),
+            "tombstoneArchives": len({r["archive"] for r in deleted})}
+
+
+# --------------------------------------------------------------------------
+# stage 4 - re-sweep everything the old reader could not read
 # --------------------------------------------------------------------------
 RESWEEP_RULE = (
     "Every path the inventory recorded with a `readError`, re-read with "
@@ -669,7 +852,6 @@ def stage_resweep(archives: list) -> dict:
             "Run `python -m tools.inventory` first - this stage re-reads what "
             "that census could not.")
     layerstate.clear_dir(FILES_DIR)
-    layerstate.clear_dir(DELETED_DIR)
 
     all_rows, totals = [], collections.Counter()
     compression = collections.Counter()
@@ -741,6 +923,7 @@ def stage_resweep(archives: list) -> dict:
 
     recovered = [r for r in all_rows if r["status"] == "ok"]
     tombstones = [r for r in all_rows if r["status"] == "deleted"]
+    empties = [r for r in all_rows if r["status"] == "empty"]
     still_bad = [r for r in all_rows if r["status"] not in ("ok", "deleted", "empty")]
 
     by_class = collections.Counter(r["class"] for r in recovered)
@@ -765,26 +948,26 @@ def stage_resweep(archives: list) -> dict:
             f"fully decoded, hashed and MD5-checked against its archive, so its "
             f"sha256 is a measurement of the recovered bytes and not a promise."),
     })
-    _shard_rows(DELETED_DIR, tombstones, {
-        "rule": (
-            "MPQ DELETE_MARKER entries: a patch that REMOVES a path carries a "
-            "block entry with no data and this flag, so the path stops resolving "
-            "from that archive down. They are archive semantics, not damage, and "
-            "the previous pipeline recorded every one of them as an unreadable "
-            "file. Listed here with the archive that deletes the path and its "
-            "chain rank, so the effect on any path is readable off this layer."),
-        "generatedBy": "python -m tools.crack --only resweep",
-        "recordTotal": len(tombstones),
-        "byClass": dict(sorted(collections.Counter(
-            r["class"] for r in tombstones).items())),
-    })
-
     summary = {
         "resweptTotal": len(all_rows),
         "recovered": len(recovered),
         "recoveredDataFiles": len(data_recovered),
         "deleteTombstones": len(tombstones),
-        "empty": totals.get("empty", 0),
+        "empty": len(empties),
+        "emptyMembers": [{"path": r["path"], "archive": r["archive"],
+                          "class": r["class"], "flags": r["flags"]}
+                         for r in empties],
+        "censusDecompositionRule": (
+            "These three numbers decompose the undecodable set EXACTLY - "
+            f"{len(recovered):,} recovered + {len(tombstones):,} tombstones + "
+            f"{len(empties)} empty = {len(all_rows):,} - and they are counted "
+            "over the CENSUS's rows, which means the winning copy of each path. "
+            "They are therefore smaller than the client's totals: "
+            "raw/recovered/deleted/ and raw/recovered/empty/ are built from the "
+            "block tables and hold every copy, including the ones a higher "
+            "archive shadows. Neither number is wrong; they answer different "
+            "questions, and `empty` used to be an integer with nothing behind "
+            "it, which is why the members are enumerated here."),
         "stillUnreadable": len(still_bad),
         "stillUnreadableDetail": [
             {"path": r["path"], "archive": r["archive"], "detail": r.get("detail")}
@@ -831,7 +1014,7 @@ def stage_resweep(archives: list) -> dict:
     }
     print(f"  re-swept {len(all_rows):,}: {len(recovered):,} recovered, "
           f"{len(tombstones):,} are delete tombstones, "
-          f"{totals.get('empty', 0):,} genuinely empty, "
+          f"{len(empties):,} genuinely empty, "
           f"{len(still_bad):,} still unreadable")
     print(f"  MD5-verified against the archives' own records: "
           f"{summary['md5Verified']:,} match, {summary['md5Mismatched']:,} "
@@ -846,21 +1029,42 @@ def stage_resweep(archives: list) -> dict:
     return summary
 
 
-def _shard_rows(directory: Path, rows: list, index_extra: dict) -> None:
+def _shard_rows(directory: Path, rows: list, index_extra: dict,
+                key=None) -> None:
     """Shard a record list by path prefix, reusing the inventory's partitioner so
     a path lands in the same-shaped shard everywhere in this repo. Records go in
     `records/`, never beside recovered bytes, so a client path can never collide
-    with an index file."""
+    with an index file.
+
+    `key` identifies a row. It defaults to the path, which is unique in the
+    layers built from the census (one row per path, by construction), but the
+    block-table layers hold one row per (archive, path) and several archives can
+    tombstone the same path. Collapsing on `path` there would silently drop
+    rows - so a collision is FATAL rather than a quiet overwrite."""
+    key = key or (lambda r: r["path"])
     records_dir = directory / "records"
     records_dir.mkdir(parents=True, exist_ok=True)
-    by_path = {r["path"]: r for r in rows}
+    unique = {}
+    for row in rows:
+        row_key = key(row)
+        if row_key in unique:
+            raise SystemExit(
+                f"FATAL: two records in {directory.name}/ share the identity "
+                f"{row_key!r} - one of them would be dropped by sharding.")
+        unique[row_key] = row
+    # Grouped by PATH (what a reader looks a record up by); the identity above
+    # is only about not losing rows.
+    by_path = collections.defaultdict(list)
+    for row in unique.values():
+        by_path[row["path"]].append(row)
     groups = inventory.partition(sorted(by_path))
     names = inventory.shard_names(list(groups))
     shards = []
-    for key, paths in sorted(groups.items()):
-        chunk = [by_path[p] for p in sorted(paths)]
-        _write_records(records_dir / names[key], chunk)
-        shards.append({"shard": names[key], "records": len(chunk),
+    for shard_key, paths in sorted(groups.items()):
+        chunk = [r for p in sorted(paths)
+                 for r in sorted(by_path[p], key=lambda x: x.get("archive", ""))]
+        _write_records(records_dir / names[shard_key], chunk)
+        shards.append({"shard": names[shard_key], "records": len(chunk),
                        "firstPath": chunk[0]["path"], "lastPath": chunk[-1]["path"]})
     payload = dict(index_extra)
     payload["shards"] = shards
@@ -869,28 +1073,43 @@ def _shard_rows(directory: Path, rows: list, index_extra: dict) -> None:
                              sharding.dump_manifest(payload))
     layerstate.finish(directory, {
         "layer": str(directory.relative_to(config.REPO_ROOT)).replace("\\", "/"),
-        "generatedBy": "python -m tools.crack --only resweep",
+        "generatedBy": index_extra.get("generatedBy", "python -m tools.crack"),
         "recordTotal": len(rows), "shardCount": len(shards)})
 
 
 # --------------------------------------------------------------------------
-# stage 4 - verify EVERY member of EVERY archive against the archive's own MD5
+# stage 5 - verify EVERY member of EVERY archive against the archive's own MD5
 # --------------------------------------------------------------------------
 CORRECTIONS_RULE = (
-    "Paths whose sha256 in `raw/_inventory` was computed over bytes that were "
-    "never in the archive, with the value the corrected reader measures. All of "
-    "them are members stored with no sector offset table, which the previous "
-    "reader mis-sliced (see tools/mpq.py). `sha256` here is the true hash and "
-    "`censusSha256` is what the census still says; both are kept so the "
-    "correction is checkable rather than a bare assertion. Nothing in the DATA "
-    "layers is affected: the whole set is music, cinematics and one nested "
-    "archive, and the classes that matter are untouched - 0 DBC, 0 Interface, "
-    "0 Content. `raw/_inventory` is deliberately NOT rewritten here. It is still "
-    "exactly what its own tool produces, which is the property that makes it "
-    "checkable; correcting it means moving tools/inventory.py onto this reader "
-    "and re-running the whole census, which is a change to that layer's owner "
-    "and needs its own review. Until then these are the true hashes and this "
-    "file is the record of the disagreement.")
+    "Paths where the sha256 in `raw/_inventory` is not the sha256 of the bytes "
+    "the archive holds today. `sha256` here is measured now and `censusSha256` "
+    "is what the census still says; both are kept so the correction is "
+    "checkable rather than a bare assertion.\n\n"
+    "There are exactly TWO reasons a census hash can be wrong, they are not the "
+    "same kind of fact, and every record says which one applies in `cause`:\n\n"
+    "  readerDefect - the archive's bytes are UNCHANGED since the census (its "
+    "own sha256 still matches) and the census hash is simply wrong, because the "
+    "previous reader mis-sliced the member. These are members stored with no "
+    "sector offset table; see tools/mpq.py for the defect. This is a permanent "
+    "correction to a wrong number.\n\n"
+    "  clientDrift - the ARCHIVE ITSELF has changed since the census ran, so "
+    "the census hash was right when it was taken and describes bytes the client "
+    "no longer has. Nothing is wrong with either reader; the census is stale. "
+    "The archives concerned are listed as `censusSha256Drift` in this layer's "
+    "index.json, and the fix for those is to re-run tools/inventory, not to "
+    "change any hash here.\n\n"
+    "Keeping the two apart is the whole point of the field. Merged, they read "
+    "as 'the old reader also got DBCs wrong', which is false: on an unpatched "
+    "client this set is music, cinematics and one nested archive, with 0 DBC, "
+    "0 Interface and 0 Content. `byCause` and `byClassAndCause` in this index "
+    "are the measurement, so that claim is re-checked on every run instead of "
+    "being asserted in prose.\n\n"
+    "`raw/_inventory` is deliberately NOT rewritten here. It is still exactly "
+    "what its own tool produces, which is the property that makes it checkable; "
+    "correcting it means moving tools/inventory.py onto this reader and "
+    "re-running the whole census, which is a change to that layer's owner and "
+    "needs its own review. Until then these are the true hashes and this file "
+    "is the record of the disagreement.")
 
 VERIFY_RULE = (
     "Every named member of every archive is decoded and its MD5 compared with "
@@ -1009,6 +1228,17 @@ def stage_verify(archives: list) -> dict:
               f"unreadable={counts.get('unreadable', 0):>4,}"
               f"{'  (cached)' if hit else ''}", flush=True)
 
+    # WHY each census hash disagrees. Decided here rather than inside the
+    # per-archive pass because it is a function of the archive and the drift
+    # set, both of which this scope knows - so the answer is the same whether
+    # the archive was just read or resumed from a checkpoint written before this
+    # field existed, and 77 cached verifications stay valid. See
+    # CORRECTIONS_RULE: a mis-sliced member and a live-patched client are
+    # different facts and must not be counted as one.
+    for row in corrections:
+        row["cause"] = ("clientDrift" if row["winner"] in _DRIFTED_ARCHIVES
+                        else "readerDefect")
+
     payload = {
         "rule": VERIFY_RULE,
         "generatedBy": "python -m tools.crack --only verify",
@@ -1042,6 +1272,13 @@ def stage_verify(archives: list) -> dict:
         "recordTotal": len(corrections),
         "byClass": dict(sorted(collections.Counter(
             r["class"] for r in corrections).items())),
+        "byCause": dict(sorted(collections.Counter(
+            r["cause"] for r in corrections).items())),
+        "byClassAndCause": {
+            cause: dict(sorted(collections.Counter(
+                r["class"] for r in corrections if r["cause"] == cause).items()))
+            for cause in sorted({r["cause"] for r in corrections})},
+        "driftedArchives": sorted(_DRIFTED_ARCHIVES),
     })
     print(f"  {totals.get('md5Ok', 0):,} members match the MD5 their archive "
           f"recorded; {totals.get('md5Mismatch', 0):,} mismatch; "
@@ -1409,7 +1646,8 @@ def stage_containers(archives: list) -> dict:
 # --------------------------------------------------------------------------
 # driver
 # --------------------------------------------------------------------------
-STAGES = ("forensics", "attributes", "resweep", "verify", "containers")
+STAGES = ("forensics", "attributes", "tombstones", "resweep", "verify",
+          "containers")
 
 
 def run(only=None) -> dict:
@@ -1423,12 +1661,15 @@ def run(only=None) -> dict:
 
     archives = _archives()
     summary = {}
+    if _ARCHIVE_DRIFT:
+        summary["censusSha256Drift"] = list(_ARCHIVE_DRIFT)
     for name in picked:
         print(f"\n-- {name}", flush=True)
         t0 = time.time()
         summary.update({
             "forensics": stage_forensics,
             "attributes": stage_attributes,
+            "tombstones": stage_tombstones,
             "resweep": stage_resweep,
             "verify": stage_verify,
             "containers": stage_containers,
@@ -1439,13 +1680,16 @@ def run(only=None) -> dict:
         _write_readme(summary)
         _write_json(OUT_DIR / "index.json", {
             "generatedBy": "python -m tools.crack",
+            "archiveKeyRule": ARCHIVE_KEY_RULE,
             "layers": {
                 "_forensics.json": "per-archive block/hash census, byte coverage, "
                                    "orphan blocks and the encrypted-member sweep",
                 "attributes/": "CRC32 + modification time + MD5 per path, expanded "
                                "from every archive's (attributes) member",
-                "deleted/": "every MPQ DELETE_MARKER tombstone and the archive that "
-                            "sets it",
+                "deleted/": "every MPQ DELETE_MARKER tombstone in the client and "
+                            "the archive that sets it, read from the block tables",
+                "empty/": "every block entry the archive records as zero bytes "
+                          "without deleting the path, read from the block tables",
                 "files/": "bytes of files the previous reader could not read, for "
                           "the classes this repo commits",
                 "containers/": "nested archives and structured blobs, expanded",
@@ -1455,6 +1699,7 @@ def run(only=None) -> dict:
         layerstate.finish(OUT_DIR, {
             "layer": "raw/recovered",
             "generatedBy": "python -m tools.crack",
+            "censusSha256DriftCount": len(_ARCHIVE_DRIFT),
             **{k: v for k, v in summary.items() if isinstance(v, (int, float))}})
     return summary
 
@@ -1473,8 +1718,11 @@ def _write_readme(summary: dict) -> None:
         "member read |",
         "| `attributes/` | CRC32, modification time and MD5 per path, expanded from "
         "the `(attributes)` member all 77 archives carry |",
-        "| `deleted/` | every MPQ DELETE_MARKER tombstone, with the archive that "
-        "deletes the path |",
+        "| `deleted/` | every MPQ DELETE_MARKER tombstone in the client, with the "
+        "archive that deletes the path - read from the block tables, so a "
+        "tombstone a higher archive shadows is still here |",
+        "| `empty/` | every block entry an archive records as zero bytes without "
+        "deleting the path: a member that exists and holds nothing |",
         "| `files/` | the bytes of files the previous reader could not read |",
         "| `containers/` | nested archives and structured blobs, expanded |",
         "",
@@ -1488,8 +1736,14 @@ def _write_readme(summary: dict) -> None:
         f"- **The 6.4% unreadable figure was a reader defect, not a compression "
         f"gap.** {summary.get('recovered', 0):,} of those files read correctly "
         f"now, {summary.get('deleteTombstones', 0):,} were patch tombstones that "
-        f"never had bytes, and {summary.get('stillUnreadable', 0):,} remain "
-        f"unreadable.",
+        f"never had bytes, {summary.get('empty', 0)} are members the archive "
+        f"records as zero bytes, and {summary.get('stillUnreadable', 0):,} "
+        f"remain unreadable.",
+        f"- **The client holds more of both than the census can see.** "
+        f"{summary.get('tombstoneTotal', 0):,} DELETE_MARKER tombstones and "
+        f"{summary.get('emptyMemberTotal', 0)} zero-length members exist across "
+        f"the archives; the census only ever sees the winning copy of a path, so "
+        f"these layers are built from the block tables instead.",
         f"- **`(attributes)` is a whole metadata layer.** "
         f"{summary.get('attributeRecords', 0):,} records, "
         f"{summary.get('attributeRecordsDated', 0):,} of them carrying a "

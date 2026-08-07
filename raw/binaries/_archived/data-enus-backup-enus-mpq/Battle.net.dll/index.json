@@ -1,0 +1,59 @@
+{
+ "bytes": 15588224,
+ "certificates": 1,
+ "dir": "_archived/data-enus-backup-enus-mpq/Battle.net.dll",
+ "exportedFunctions": 5,
+ "importedDlls": 11,
+ "importedFunctions": 292,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "Battle.net.dll",
+ "origin": {
+  "alsoIn": [],
+  "archive": "Data/enUS/backup-enUS.MPQ",
+  "chainRank": 4,
+  "clientPath": "Battle.net.dll",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 4767,
+  "bytesCommitted": true,
+  "file": "overlay.bin",
+  "offset": 15583457,
+  "sha256": "84d10b8a5d10ed2f8fc41efe99eb1a7d60f960ab2741b85010cfb601cc11f55c"
+ },
+ "overlayBytes": 4767,
+ "parseNotes": [],
+ "pdbPaths": [
+  "Battle.net.pdb"
+ ],
+ "resourceCount": 3,
+ "resourcesCommitted": 3,
+ "sectionCount": 5,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc",
+  ".reloc"
+ ],
+ "sha256": "88116951b04723cbb1073a1a0ff72dfdc40367f6649dffd08c602caa3ef1141f",
+ "stringOccurrences": 155425,
+ "stringStoredBytes": 1812884,
+ "strings": 124947,
+ "stringsByEncoding": {
+  "ascii": 95012,
+  "utf16le": 137,
+  "utf8": 29798
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 319,
+ "timeDateStamp": 1277408261
+}

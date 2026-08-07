@@ -17,8 +17,8 @@ unchanged client reproduces it byte for byte.
 | `interface` | Interface code layer (.lua/.xml/.toc) as bytes | `raw/interface/_manifest.json` | 1,555 files / 20.7 MB / count 1,553 | complete |
 | `interface_all` | every Interface path: size, sha256, text/binary | `raw/interface_all/index.json` | 112 files / 29.8 MB / pathCount 93,437 | complete |
 | `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.6 MB / fileCount 22 / recordTotal 45,474 | complete |
-| `binaries` | the client's own executables: strings, embedded Lua, PE structure | `raw/binaries/index.json` | 297 files / 4.1 MB | complete |
-| `recovered` | what was still opaque: deleted/encrypted members, the files the old reader could not read, CRC32+MD5+mtime per path, expanded containers | `raw/recovered/README.md` | 270 files / 133.0 MB | complete |
+| `binaries` | the client's own executables: strings, embedded Lua, PE structure | `raw/binaries/index.json` | 1,379 files / 19.1 MB | complete |
+| `recovered` | what was still opaque: deleted/encrypted members, the files the old reader could not read, CRC32+MD5+mtime per path, expanded containers | `raw/recovered/README.md` | 273 files / 131.7 MB | complete |
 | `realms` | realm-overlay diff artifacts | `raw/realms/` | 13 files / 14.9 MB | - |
 | `talents` | frozen capture of the external CoA talent builder | `raw/talents/` | 2 files / 11.9 MB | - |
 
@@ -99,10 +99,13 @@ Stated as a boundary rather than left as an implication:
    `python -m tools.crack --only verify` checks all **763,928** of them.
    Mismatches: 0.
 4. **The client's own executables are opened too.** `raw/binaries/` holds every
-   printable string, the inlined Lua and the full PE structure of each PE image
-   in the client root - the layer that explains where `listarchive`,
-   `SetDataPath` and the realm hot-swap script actually live, none of which is
-   in any shipped data file.
+   printable string, the inlined Lua and the full PE structure of every PE image
+   in the client - the seven loose in the client root, and the twenty stored
+   INSIDE the MPQ archives under `_archived/` (`Wow.exe`, `Launcher.exe`,
+   `Battle.net.dll`, `Repair.exe` and the rest, found by reading the bytes of
+   every member the archives name). This is the layer that explains where
+   `listarchive`, `SetDataPath` and the realm hot-swap script actually live,
+   none of which is in any shipped data file.
 5. **`Interface\AddOns` on disk is out of scope** - it is the user's installed
    third-party addons, not client data. It is counted, never extracted, in
    `raw/interface_all/index.json` -> `onDiskInterfaceTree`. The one exception is

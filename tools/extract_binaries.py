@@ -73,11 +73,17 @@ import sys
 import time
 from pathlib import Path
 
-from tools import config, layerstate, lua51, pe, rawshard
+from tools import config, inventory, layerstate, lua51, mpq, pe, rawshard
 from tools.decode_all import write_text
 
 OUT_DIR = config.RAW_DIR / "binaries"
 WORK_DIR = config.WORK_DIR / "binaries"
+
+# Where PEs recovered from inside the archives live. A subtree rather than a
+# sibling of the root binaries: `WowError.exe` in base-enUS.MPQ and the client
+# root's own `wowerror.exe` are DIFFERENT images, and on a case-insensitive
+# filesystem one directory name cannot hold both.
+ARCHIVED_DIR = "_archived"
 
 # Shortest run kept, in CHARACTERS, for all three encodings. 4 is the classic
 # `strings` default and is low enough that four-letter identifiers ("Lua",
@@ -151,11 +157,43 @@ PATH_RULE = (
     "<binary>/lua/chunks/0x00b59c00.lua on disk.")
 
 SELECTION_RULE = (
-    "Every file in the client root whose bytes parse as a PE image, found by "
-    "reading the bytes - no name list and no extension test decides it. The "
-    "whole client tree is swept for further .exe/.dll/.ocx/.sys files and the "
-    "result is recorded in `outsideRoot`, so 'these are all of them' is a "
-    "measurement rather than an assumption.")
+    "Every PE image in the client, wherever it sits: the ones loose in the "
+    "client root AND the ones stored inside the MPQ archives. Both are found by "
+    "reading bytes - no name list and no extension test decides it - and the "
+    "archive sweep reads the first sector of every one of the client's ~769,000 "
+    "members and keeps the ones that parse as a PE (see ARCHIVE_SCAN_RULE). The "
+    "whole client tree is also swept for further .exe/.dll/.ocx/.sys files "
+    "outside the root and the result is recorded in `outsideRoot`, so 'these "
+    "are all of them' is a measurement rather than an assumption.")
+
+ARCHIVE_SCAN_RULE = (
+    "Every member named by every archive's listfile has its FIRST SECTOR "
+    "decoded and is kept if those bytes parse as a PE image; a member starting "
+    "`MZ` whose PE header lies past the first sector is re-read in full rather "
+    "than judged on the short read. The sweep costs one sector per member, and "
+    "it is checkpointed per archive under work/binaries/archive_scan/ keyed by "
+    "the archive's own sha256 AND this rule, so changing what counts as a hit "
+    "invalidates the cache instead of being masked by it.\n\n"
+    "Driving this off the listfiles is complete rather than convenient, and "
+    "that is a MEASUREMENT, not an assumption: the client's 77 archives hold "
+    "768,998 block entries, 4,911 of them DELETE_MARKER tombstones that carry "
+    "no bytes, and every one of the 764,087 remaining live entries resolves to "
+    "a name - 0 live members are unnamed. Seven archives ship no readable "
+    "listfile (patch-4, -5, -C, -CZZ, -W, -WB, -WC), and they are stubs: two "
+    "block entries each, which are their own `(listfile)` and `(attributes)` "
+    "members and nothing else, so there is no unnamed payload hiding behind "
+    "them. tools/crack.py's forensics stage records the same decomposition from "
+    "the other direction (orphanBlockEntriesTotal 0, unaccountedBytesTotal 0).")
+
+ARCHIVE_VERSION_RULE = (
+    "One extraction per DISTINCT sha256, not one per carrying archive - the "
+    "same rule tools/variants.py applies to tables. Byte-identical copies are "
+    "ONE version, extracted under the HIGHEST-ranked archive that carries those "
+    "bytes with the others listed in `alsoIn`. A version whose bytes are "
+    "already extracted as a loose client-root binary is not extracted twice "
+    "either; it is recorded against that binary in `alsoInArchives`. Chain rank "
+    "is position in tools/inventory.discover_archives(), the same loader order "
+    "every other layer here uses.")
 
 
 # --------------------------------------------------------------------------
@@ -163,6 +201,18 @@ SELECTION_RULE = (
 # --------------------------------------------------------------------------
 def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def _sha_file(path: Path) -> str:
+    """An archive's sha256, streamed. Used to key the archive PE scan, and
+    MEASURED rather than read out of the census for the same reason
+    tools/crack.py measures it: a stale census would silently validate a stale
+    checkpoint on a client the launcher live-patches between runs."""
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _json(path: Path, obj) -> dict:
@@ -216,6 +266,100 @@ def client_binaries(root: Path = None) -> list:
         if pe.is_pe(head):
             out.append(p)
     return out
+
+
+def _scan_archive(path: Path) -> list:
+    """Every member of one archive whose bytes are a PE image. ARCHIVE_SCAN_RULE."""
+    hits = []
+    with mpq.Archive(path) as archive:
+        for name in sorted(archive.list_names() or []):
+            head = archive.read_prefix(name, 0x1000)
+            if head[:2] != b"MZ":
+                continue
+            if not pe.is_pe(head):
+                member = archive.read(name)
+                if not (member.ok and pe.is_pe(member.data)):
+                    continue
+            hits.append(name.replace("\\", "/"))
+    return hits
+
+
+def archive_binaries(verbose: bool = True) -> list:
+    """Every PE stored inside an MPQ, as [{archive, chainRank, path, ...}].
+
+    Checkpointed per archive: the sweep decodes a sector of every member in the
+    client, which is ~90 seconds, and this host kills long processes."""
+    scan_dir = WORK_DIR / "archive_scan"
+    scan_dir.mkdir(parents=True, exist_ok=True)
+    rule_key = hashlib.sha256(ARCHIVE_SCAN_RULE.encode("utf-8")).hexdigest()[:12]
+    found = []
+    for rank, rec in enumerate(inventory.discover_archives()):
+        aid = inventory.archive_id(rec["path"])
+        digest = _sha_file(rec["path"])
+        cp = scan_dir / f"{_slug(aid)}.{digest[:16]}.{rule_key}.json"
+        if cp.is_file():
+            try:
+                names = json.loads(cp.read_text(encoding="utf-8"))["members"]
+            except Exception:                    # noqa: BLE001 - truncated by a kill
+                names = None
+        else:
+            names = None
+        if names is None:
+            names = _scan_archive(rec["path"])
+            layerstate.atomic_write(cp, json.dumps(
+                {"archive": aid, "sha256": digest, "members": names},
+                indent=1, sort_keys=True).encode("utf-8") + b"\n")
+        for name in names:
+            found.append({"archive": aid, "chainRank": rank, "path": name,
+                          "archivePath": rec["path"]})
+        if verbose and names:
+            print(f"  {aid}: {len(names)} PE members", flush=True)
+    return found
+
+
+def _archive_slug(aid: str) -> str:
+    """An archive id as a directory name, by tools/variants.py's rule so the
+    binaries layer and the tables layer name the same archive the same way."""
+    return re.sub(r"[^a-z0-9]+", "-", aid.lower()).strip("-")
+
+
+def archive_versions(verbose: bool = True) -> list:
+    """The archived PEs collapsed to one record per DISTINCT sha256.
+
+    See ARCHIVE_VERSION_RULE. Every hit is read and hashed here; the extraction
+    pass then re-reads only the winning copy, so byte-identical images in two
+    archives cost one extraction rather than two."""
+    by_sha = {}
+    for hit in archive_binaries(verbose):
+        with mpq.Archive(hit["archivePath"]) as archive:
+            member = archive.read(hit["path"].replace("/", "\\"))
+            if not member.ok:
+                raise SystemExit(
+                    f"FATAL: {hit['path']} in {hit['archive']} parsed as a PE "
+                    f"during the scan but now reads back {member.status!r}.")
+            digest, size = _sha(member.data), len(member.data)
+        carrier = {"archive": hit["archive"], "chainRank": hit["chainRank"],
+                   "path": hit["path"], "archivePath": hit["archivePath"]}
+        rec = by_sha.setdefault(digest, {"sha256": digest, "bytes": size,
+                                         "carriers": []})
+        rec["carriers"].append(carrier)
+
+    versions = []
+    for rec in by_sha.values():
+        # Highest chain rank wins, the same way tools/extract_all.py resolves a
+        # path's winner - the last carrier in loader order is the live one.
+        carriers = sorted(rec["carriers"], key=lambda c: c["chainRank"])
+        top = carriers[-1]
+        versions.append({
+            "sha256": rec["sha256"], "bytes": rec["bytes"],
+            "name": top["path"].rsplit("/", 1)[-1],
+            "archive": top["archive"], "chainRank": top["chainRank"],
+            "clientPath": top["path"], "archivePath": top["archivePath"],
+            "alsoIn": [{"archive": c["archive"], "chainRank": c["chainRank"],
+                        "path": c["path"]} for c in carriers[:-1]],
+        })
+    versions.sort(key=lambda v: (v["name"].lower(), v["chainRank"]))
+    return versions
 
 
 def _outside_root(root: Path = None) -> list:
@@ -465,16 +609,29 @@ def symbol_records(parsed: dict) -> list:
 # one binary
 # --------------------------------------------------------------------------
 def extract_one(path: Path, out_root: Path = None, verbose: bool = True) -> dict:
+    """A PE sitting loose in the client root."""
     out_root = out_root or OUT_DIR
-    data = path.read_bytes()
+    return extract_bytes(path.read_bytes(), path.name, out_root / path.name,
+                         verbose=verbose)
+
+
+def extract_bytes(data: bytes, name: str, out_dir: Path,
+                  verbose: bool = True, origin: dict = None) -> dict:
+    """One PE image, from its bytes, into `out_dir`.
+
+    Split out from extract_one so a PE stored INSIDE an archive goes through
+    exactly the same strings/Lua/resource/PE pass as a loose one - the alternative
+    was a second, thinner code path for archived images, which is how two layers
+    that are supposed to be comparable stop being comparable. `origin` is
+    recorded verbatim in the summary and says where the bytes came from; it is
+    None for a client-root binary."""
     digest = _sha(data)
-    out_dir = out_root / path.name
     layerstate.clear_dir(out_dir)
 
     parsed = pe.parse(data)
     sections = parsed.get("sections", [])
     if verbose:
-        print(f"  {path.name}: {len(data):,} bytes, "
+        print(f"  {name}: {len(data):,} bytes, "
               f"{len(sections)} sections", flush=True)
 
     strings = extract_strings(data, sections)
@@ -538,7 +695,7 @@ def extract_one(path: Path, out_root: Path = None, verbose: bool = True) -> dict
     _json(out_dir / "pe.json", parsed)
 
     summary = {
-        "name": path.name, "bytes": len(data), "sha256": digest,
+        "name": name, "bytes": len(data), "sha256": digest,
         "isPE": parsed.get("isPE", False),
         "machine": parsed.get("coff", {}).get("machineName"),
         "magic": parsed.get("optional", {}).get("magicName"),
@@ -568,8 +725,13 @@ def extract_one(path: Path, out_root: Path = None, verbose: bool = True) -> dict
         "symbols": len(symbols),
         "parseNotes": parsed.get("notes", []),
     }
+    if origin:
+        summary["origin"] = origin
+    rel = out_dir.relative_to(OUT_DIR).as_posix() \
+        if out_dir.is_relative_to(OUT_DIR) else out_dir.name
+    summary["dir"] = rel
     _json(out_dir / "index.json", summary)
-    layerstate.finish(out_dir, {"layer": f"binaries/{path.name}",
+    layerstate.finish(out_dir, {"layer": f"binaries/{rel}",
                                 "generatedBy": "python -m tools.extract_binaries",
                                 "sourceSha256": digest,
                                 "strings": len(strings),
@@ -581,12 +743,46 @@ def extract_one(path: Path, out_root: Path = None, verbose: bool = True) -> dict
 # --------------------------------------------------------------------------
 # the layer
 # --------------------------------------------------------------------------
+SUMMARY_SCHEMA = (
+    "index.json per binary carries: the PE headline, the string/lua/symbol/"
+    "resource counts, `dir` (where this image lives under raw/binaries, which "
+    "is not just the name once archived images are nested under _archived/), "
+    "`origin` for an image read out of an MPQ, and `alsoInArchives` on a "
+    "client-root binary that an archive also carries byte for byte.")
+
+
 def _checkpoint(name: str, digest: str) -> Path:
-    return WORK_DIR / f"{_slug(name)}.{digest[:16]}.json"
+    """Keyed on the image's own sha256 AND the shape of what gets written for
+    it. The second half is not decoration: a checkpoint written before a summary
+    field existed resumes an index.json in the OLD shape, and the layer ends up
+    half in each - which is exactly how adding `dir` left seven resumed
+    client-root binaries without it while every freshly-extracted one had it."""
+    schema = _sha(SUMMARY_SCHEMA.encode("utf-8"))[:8]
+    return WORK_DIR / f"{_slug(name)}.{digest[:16]}.{schema}.json"
+
+
+def _prune_archived(keep: set) -> None:
+    """Drop archived-PE directories the current sweep did not produce, so an
+    image the client stops shipping cannot linger in the layer."""
+    root = OUT_DIR / ARCHIVED_DIR
+    if not root.is_dir():
+        return
+    for adir in sorted(root.iterdir()):
+        if not adir.is_dir():
+            continue
+        for bdir in sorted(adir.iterdir()):
+            if bdir.is_dir() and (adir.name, bdir.name) not in keep:
+                layerstate.clear_dir(bdir)
+                bdir.rmdir()
+        if not any(adir.iterdir()):
+            adir.rmdir()
+    if not any(root.iterdir()):
+        root.rmdir()
 
 
 def extract(only=None, force: bool = False, verbose: bool = True) -> dict:
-    """Every client-root PE, resumable per binary.
+    """Every PE in the client - loose in its root and stored in its archives -
+    resumable per image.
 
     `--only` and `--force` decide what is RE-extracted, never what the layer
     contains: a binary that is not selected is loaded from its own committed
@@ -596,8 +792,15 @@ def extract(only=None, force: bool = False, verbose: bool = True) -> dict:
     if not binaries:
         raise SystemExit(f"no PE image in {config.CLIENT_DIR}")
     want = {o.lower() for o in only} if only else None
-    if want and not any(p.name.lower() in want for p in binaries):
-        raise SystemExit(f"no client-root PE named {', '.join(sorted(only))}")
+    # Resolved before the root pass so `--only Wow.exe` - an image that exists
+    # ONLY inside an archive - is a valid selection rather than an error.
+    versions = archive_versions(verbose)
+    if want:
+        known = ({p.name.lower() for p in binaries}
+                 | {v["name"].lower() for v in versions})
+        if not (want & known):
+            raise SystemExit(f"no PE named {', '.join(sorted(only))} in the "
+                             f"client root or in any archive")
 
     WORK_DIR.mkdir(parents=True, exist_ok=True)
     layerstate.begin(OUT_DIR)
@@ -630,35 +833,122 @@ def extract(only=None, force: bool = False, verbose: bool = True) -> dict:
                   f"{s['luaFragments']} fragments  [{time.time() - t:.1f}s]",
                   flush=True)
 
+    # ---- the PEs stored inside the archives (ARCHIVE_VERSION_RULE) ----
+    root_sha = {s["sha256"]: s for s in summaries}
+    archived, arch_skipped = [], 0
+    for v in versions:
+        twin = root_sha.get(v["sha256"])
+        if twin is not None:
+            # Same bytes as a binary already extracted from the client root.
+            # Extracting it again would publish two identical trees under two
+            # names; recording it against the root binary says the same thing.
+            twin.setdefault("alsoInArchives", []).append(
+                {"archive": v["archive"], "path": v["clientPath"]})
+            for also in v["alsoIn"]:
+                twin["alsoInArchives"].append(
+                    {"archive": also["archive"], "path": also["path"]})
+            continue
+        out_dir = OUT_DIR / ARCHIVED_DIR / _archive_slug(v["archive"]) / v["name"]
+        cp = _checkpoint(f"{v['archive']}~{v['name']}", v["sha256"])
+        selected = want is None or v["name"].lower() in want
+        fresh = (cp.is_file() and (out_dir / "index.json").is_file()
+                 and layerstate.is_complete(out_dir))
+        if fresh and not (force and selected):
+            archived.append(json.loads(
+                (out_dir / "index.json").read_text(encoding="utf-8")))
+            arch_skipped += 1
+            if verbose:
+                print(f"  {v['archive']}/{v['name']}: unchanged, resumed",
+                      flush=True)
+            continue
+        with mpq.Archive(v["archivePath"]) as a:
+            member = a.read(v["clientPath"].replace("/", "\\"))
+        got = _sha(member.data)
+        if got != v["sha256"]:
+            raise SystemExit(
+                f"FATAL: {v['clientPath']} in {v['archive']} hashed "
+                f"{v['sha256'][:12]} when it was selected and {got[:12]} when it "
+                f"was read for extraction.")
+        s = extract_bytes(member.data, v["name"], out_dir, verbose, origin={
+            "kind": "archive", "archive": v["archive"],
+            "chainRank": v["chainRank"], "clientPath": v["clientPath"],
+            "alsoIn": v["alsoIn"], "rule": ARCHIVE_VERSION_RULE})
+        del member
+        archived.append(s)
+        layerstate.atomic_write(cp, json.dumps(
+            {"name": v["name"], "archive": v["archive"], "sha256": v["sha256"],
+             "strings": s["strings"]}, indent=1,
+            sort_keys=True).encode("utf-8") + b"\n")
+        if verbose:
+            print(f"    {s['strings']:,} strings, {s['symbols']:,} symbols, "
+                  f"{s['luaSourceChunks']} lua chunks", flush=True)
+    for s in summaries:
+        if "alsoInArchives" in s:
+            s["alsoInArchives"].sort(key=lambda r: (r["archive"], r["path"]))
+
     # directories for binaries that are no longer in the client
-    keep = {p.name for p in binaries}
+    keep = {p.name for p in binaries} | {ARCHIVED_DIR}
     for d in sorted(OUT_DIR.iterdir()):
         if d.is_dir() and d.name not in keep:
             layerstate.clear_dir(d)
             d.rmdir()
+    _prune_archived({(_archive_slug(s["origin"]["archive"]), s["name"])
+                     for s in archived})
 
-    payload = write_layer_index(summaries)
-    write_readme(summaries)
+    # README first: write_layer_index measures the layer's own size, so every
+    # file it should count has to exist before it runs.
+    write_readme(summaries, archived)
+    payload = write_layer_index(summaries, archived)
+    every = summaries + archived
     layerstate.finish(OUT_DIR, {
         "layer": "binaries", "generatedBy": "python -m tools.extract_binaries",
-        "binaryCount": len(summaries),
-        "stringTotal": sum(s["strings"] for s in summaries),
+        "binaryCount": len(every),
+        "clientRootBinaryCount": len(summaries),
+        "archivedBinaryCount": len(archived),
+        "stringTotal": sum(s["strings"] for s in every),
         "luaChunkTotal": sum(s["luaSourceChunks"] + s["luaPrecompiled"]
-                             for s in summaries),
-        "luaFragmentTotal": sum(s["luaFragments"] for s in summaries),
-        "symbolTotal": sum(s["symbols"] for s in summaries),
-        "resourceTotal": sum(s["resourceCount"] for s in summaries)})
+                             for s in every),
+        "luaFragmentTotal": sum(s["luaFragments"] for s in every),
+        "symbolTotal": sum(s["symbols"] for s in every),
+        "resourceTotal": sum(s["resourceCount"] for s in every)})
     if verbose:
-        print(f"  {len(summaries)} binaries ({skipped} resumed), "
-              f"{sum(s['strings'] for s in summaries):,} strings", flush=True)
+        print(f"  {len(summaries)} client-root binaries ({skipped} resumed) + "
+              f"{len(archived)} archived ({arch_skipped} resumed), "
+              f"{sum(s['strings'] for s in every):,} strings", flush=True)
     return payload
 
 
-def write_layer_index(summaries: list) -> dict:
+def _layer_size() -> dict:
+    """The layer's own file count and byte total, measured off disk.
+
+    Recorded because it was previously quoted from `du -sh` block rounding and
+    written down as '309 files, 4.8 MB' when the tree held 297 files and
+    4,098,555 bytes. A number a reader can re-derive beats a number a reader has
+    to trust.
+
+    The layer's own two bookkeeping files are excluded so the count is the same
+    on a first run and a rerun: `index.json` is what this number goes INTO, and
+    the top-level `_complete.json` is written after it. Everything else,
+    including README.md and every per-binary sentinel, is written before this
+    runs and is counted."""
+    skip = {OUT_DIR / "index.json", OUT_DIR / layerstate.SENTINEL}
+    files = [p for p in OUT_DIR.rglob("*") if p.is_file() and p not in skip]
+    return {"fileCount": len(files),
+            "byteTotal": sum(p.stat().st_size for p in files),
+            "rule": "every file under raw/binaries/ counted and summed at write "
+                    "time, excluding the layer's own index.json and "
+                    "_complete.json, which are written after this measurement"}
+
+
+def write_layer_index(summaries: list, archived: list = ()) -> dict:
+    archived = list(archived)
+    every = summaries + archived
     payload = {
         "generatedBy": "python -m tools.extract_binaries",
         "clientDir": str(config.CLIENT_DIR),
         "selectionRule": SELECTION_RULE,
+        "archiveScanRule": ARCHIVE_SCAN_RULE,
+        "archiveVersionRule": ARCHIVE_VERSION_RULE,
         "stringRule": STRING_RULE,
         "luaRule": lua51.TOKEN_RULE,
         "resourceRule": RESOURCE_RULE,
@@ -669,21 +959,27 @@ def write_layer_index(summaries: list) -> dict:
         "minRunLength": MIN_RUN,
         "luaMinScore": LUA_MIN_SCORE,
         "luaFragmentMinScore": LUA_FRAGMENT_MIN_SCORE,
-        "binaryCount": len(summaries),
-        "stringTotal": sum(s["strings"] for s in summaries),
-        "symbolTotal": sum(s["symbols"] for s in summaries),
-        "resourceTotal": sum(s["resourceCount"] for s in summaries),
+        "binaryCount": len(every),
+        "clientRootBinaryCount": len(summaries),
+        "archivedBinaryCount": len(archived),
+        "stringTotal": sum(s["strings"] for s in every),
+        "symbolTotal": sum(s["symbols"] for s in every),
+        "resourceTotal": sum(s["resourceCount"] for s in every),
         "luaChunkTotal": sum(s["luaSourceChunks"] + s["luaPrecompiled"]
-                             for s in summaries),
-        "luaFragmentTotal": sum(s["luaFragments"] for s in summaries),
+                             for s in every),
+        "luaFragmentTotal": sum(s["luaFragments"] for s in every),
         "outsideRoot": _outside_root(),
         "binaries": sorted(summaries, key=lambda s: s["name"].lower()),
+        "archivedBinaries": sorted(
+            archived, key=lambda s: (s["name"].lower(),
+                                     s["origin"]["archive"])),
     }
+    payload["layerSize"] = _layer_size()
     _json(OUT_DIR / "index.json", payload)
     return payload
 
 
-def write_readme(summaries: list) -> None:
+def write_readme(summaries: list, archived: list = ()) -> None:
     rows = []
     for s in sorted(summaries, key=lambda x: x["name"].lower()):
         rows.append(
@@ -691,6 +987,33 @@ def write_readme(summaries: list) -> None:
             f"{s['strings']:,} | {s['luaSourceChunks'] + s['luaPrecompiled']} | "
             f"{s['luaFragments']} | {s['importedFunctions']} | "
             f"{s['exportedFunctions']} | {s['resourceCount']} |")
+    arch_rows = []
+    for s in sorted(archived, key=lambda x: (x["name"].lower(),
+                                             x["origin"]["archive"])):
+        o = s["origin"]
+        also = f" (+{len(o['alsoIn'])})" if o["alsoIn"] else ""
+        arch_rows.append(
+            f"| `{s['name']}` | `{o['archive']}`{also} | {s['bytes']:,} | "
+            f"{s['machine'] or '-'} | {s['strings']:,} | "
+            f"{s['luaSourceChunks'] + s['luaPrecompiled']} | "
+            f"{s['luaFragments']} | {s['resourceCount']} |")
+    arch_section = f"""
+## The executables stored INSIDE the archives
+
+The client ships more PE images than the ones loose in its root: these are
+members of the MPQ archives, found by reading the bytes of every member the
+archives name and extracted through the same pass as the ones above. They live
+under `{ARCHIVED_DIR}/<archive>/<name>/`.
+
+| binary | archive | bytes | machine | strings | lua chunks | lua fragments | resources |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+{chr(10).join(arch_rows)}
+
+`(+n)` marks a version that n further archive(s) carry byte for byte; they are
+listed in that binary's `origin.alsoIn`. A version identical to a client-root
+binary is not extracted twice - it is recorded on that binary as
+`alsoInArchives`.
+""" if arch_rows else ""
     body = f"""# raw/binaries - the client's own executables (generated)
 
 Written by `python -m tools.extract_binaries` from the PE images in
@@ -700,7 +1023,7 @@ ships; this one reads the client.
 | binary | bytes | machine | strings | lua chunks | lua fragments | imports | exports | resources |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {chr(10).join(rows)}
-
+{arch_section}
 ## What is under each binary
 
 ```
@@ -712,11 +1035,15 @@ ships; this one reads the client.
 <name>/lua/chunks/         recovered Lua, verbatim (.lua source, .luac compiled)
 <name>/resources/          resource payloads, decoded where they are structures
 <name>/symbols/            imports/exports/sections/resources/debug as records
+
+{ARCHIVED_DIR}/<archive>/<name>/   the same tree, for a PE stored in an archive
 ```
 
 ## The rules, stated
 
 * **Which files.** {SELECTION_RULE}
+* **Archive sweep.** {ARCHIVE_SCAN_RULE}
+* **One extraction per version.** {ARCHIVE_VERSION_RULE}
 * **Strings.** {STRING_RULE}
 * **Lua.** {lua51.TOKEN_RULE} A run is written out as a source chunk when it
   spans at least two lines and scores at least {LUA_MIN_SCORE}; single-line

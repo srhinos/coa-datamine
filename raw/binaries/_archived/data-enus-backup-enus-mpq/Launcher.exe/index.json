@@ -1,0 +1,58 @@
+{
+ "bytes": 4895616,
+ "certificates": 1,
+ "dir": "_archived/data-enus-backup-enus-mpq/Launcher.exe",
+ "exportedFunctions": 0,
+ "importedDlls": 18,
+ "importedFunctions": 497,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "Launcher.exe",
+ "origin": {
+  "alsoIn": [],
+  "archive": "Data/enUS/backup-enUS.MPQ",
+  "chainRank": 4,
+  "clientPath": "Launcher.exe",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 3527552,
+  "bytesCommitted": false,
+  "notCommitted": "3527552 bytes exceeds the 65536-byte commit rule",
+  "offset": 1368064,
+  "sha256": "78a0fc638784b44f241055cf6c90deeed2acd3fffd8b429ceb6d6824a091eaba"
+ },
+ "overlayBytes": 3527552,
+ "parseNotes": [],
+ "pdbPaths": [
+  "d:\\buildserver\\1\\work-tools-3.2.x\\core-repository\\branches\\tools-3.2.x\\launcher\\release-wow\\Launcher.pdb"
+ ],
+ "resourceCount": 76,
+ "resourcesCommitted": 76,
+ "sectionCount": 4,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc"
+ ],
+ "sha256": "b649050b867ae3f5f9f3d24008d52ded92fe4fafea01cee2d9d2afc17120a573",
+ "stringOccurrences": 75565,
+ "stringStoredBytes": 908107,
+ "strings": 61589,
+ "stringsByEncoding": {
+  "ascii": 43819,
+  "utf16le": 261,
+  "utf8": 17509
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 588,
+ "timeDateStamp": 1284597819
+}

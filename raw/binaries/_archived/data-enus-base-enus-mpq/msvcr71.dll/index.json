@@ -1,0 +1,62 @@
+{
+ "bytes": 348160,
+ "certificates": 0,
+ "dir": "_archived/data-enus-base-enus-mpq/msvcr71.dll",
+ "exportedFunctions": 837,
+ "importedDlls": 1,
+ "importedFunctions": 154,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "msvcr71.dll",
+ "origin": {
+  "alsoIn": [
+   {
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "path": "msvcr71.dll"
+   }
+  ],
+  "archive": "Data/enUS/base-enUS.MPQ",
+  "chainRank": 5,
+  "clientPath": "msvcr71.dll",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 0,
+  "offset": 348160
+ },
+ "overlayBytes": 0,
+ "parseNotes": [],
+ "pdbPaths": [
+  "msvcr71.pdb"
+ ],
+ "resourceCount": 1,
+ "resourcesCommitted": 1,
+ "sectionCount": 5,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc",
+  ".reloc"
+ ],
+ "sha256": "8094af5ee310714caebccaeee7769ffb08048503ba478b879edfef5f1a24fefe",
+ "stringOccurrences": 4309,
+ "stringStoredBytes": 362423,
+ "strings": 3666,
+ "stringsByEncoding": {
+  "ascii": 3224,
+  "utf16le": 38,
+  "utf8": 404
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 1007,
+ "timeDateStamp": 1045831340
+}

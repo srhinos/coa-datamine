@@ -1,0 +1,58 @@
+{
+ "bytes": 975512,
+ "certificates": 1,
+ "dir": "_archived/data-enus-backup-enus-mpq/Repair.exe",
+ "exportedFunctions": 0,
+ "importedDlls": 13,
+ "importedFunctions": 240,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "Repair.exe",
+ "origin": {
+  "alsoIn": [],
+  "archive": "Data/enUS/backup-enUS.MPQ",
+  "chainRank": 4,
+  "clientPath": "Repair.exe",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 4760,
+  "bytesCommitted": true,
+  "file": "overlay.bin",
+  "offset": 970752,
+  "sha256": "780256ace143462f5430371f5443235a556336813813d5e6ef80ad7863f758b1"
+ },
+ "overlayBytes": 4760,
+ "parseNotes": [],
+ "pdbPaths": [
+  "d:\\buildserver\\1\\work-repair-241\\core-repository\\branches\\repair-241\\repair\\win32\\release\\Repair.pdb"
+ ],
+ "resourceCount": 22,
+ "resourcesCommitted": 22,
+ "sectionCount": 4,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc"
+ ],
+ "sha256": "ae98037ec2f858f0f9a6c69b3267e5268f20dbf08f324aa4453d2252c1b31d52",
+ "stringOccurrences": 14325,
+ "stringStoredBytes": 1028498,
+ "strings": 9143,
+ "stringsByEncoding": {
+  "ascii": 6615,
+  "utf16le": 90,
+  "utf8": 2438
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 277,
+ "timeDateStamp": 1276040829
+}

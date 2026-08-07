@@ -1,0 +1,81 @@
+{"bytes":319488,"detail":"CNT_CODE,MEM_EXECUTE,MEM_READ","id":0,"kind":"section","name":".text","off":4096,"rva":4096,"sha256":"b0b516d8339009cc1ddde3ee97adc4debcd33b981ba20a37a0e3dd14541215da"}
+{"bytes":4096,"detail":"CNT_INITIALIZED_DATA,MEM_READ","id":1,"kind":"section","name":".rdata","off":323584,"rva":323584,"sha256":"f6591b8ca366fe1c08d26e7c5af1fd40289d77b5d06055bb8d658f28aac14ec9"}
+{"bytes":16384,"detail":"CNT_INITIALIZED_DATA,MEM_READ,MEM_WRITE","id":2,"kind":"section","name":".data","off":327680,"rva":327680,"sha256":"98fe058e3a5d09ae641ba3e5d5df92504a28e29569a0ee3b1af086d558e566cd"}
+{"bytes":12288,"detail":"CNT_INITIALIZED_DATA,MEM_READ,MEM_WRITE","id":3,"kind":"section","name":".data1","off":344064,"rva":352256,"sha256":"a2394f59ba66d91e25ecbef29b9e1fcbdd0103fae595b97da96199b6224d6f1f"}
+{"bytes":4096,"detail":"CNT_INITIALIZED_DATA,MEM_READ","id":4,"kind":"section","name":".rsrc","off":356352,"rva":364544,"sha256":"789948fb37b170d42a42c47dfb34abe698d15fffbd3fe8ec3d3b629072e256e4"}
+{"bytes":12288,"detail":"CNT_INITIALIZED_DATA,MEM_DISCARDABLE,MEM_READ","id":5,"kind":"section","name":".reloc","off":360448,"rva":368640,"sha256":"33f34dd387a24b9389837860b90fbccff4fc50ef88ebdb1fc658d1c5ec59387c"}
+{"detail":"KERNEL32.dll!FreeEnvironmentStringsA","dll":"KERNEL32.dll","hint":178,"id":6,"kind":"import","name":"FreeEnvironmentStringsA","ordinal":null}
+{"detail":"KERNEL32.dll!CloseHandle","dll":"KERNEL32.dll","hint":27,"id":7,"kind":"import","name":"CloseHandle","ordinal":null}
+{"detail":"KERNEL32.dll!ReadFile","dll":"KERNEL32.dll","hint":536,"id":8,"kind":"import","name":"ReadFile","ordinal":null}
+{"detail":"KERNEL32.dll!WriteFile","dll":"KERNEL32.dll","hint":735,"id":9,"kind":"import","name":"WriteFile","ordinal":null}
+{"detail":"KERNEL32.dll!SetFilePointer","dll":"KERNEL32.dll","hint":618,"id":10,"kind":"import","name":"SetFilePointer","ordinal":null}
+{"detail":"KERNEL32.dll!LoadLibraryA","dll":"KERNEL32.dll","hint":450,"id":11,"kind":"import","name":"LoadLibraryA","ordinal":null}
+{"detail":"KERNEL32.dll!GetProcAddress","dll":"KERNEL32.dll","hint":318,"id":12,"kind":"import","name":"GetProcAddress","ordinal":null}
+{"detail":"KERNEL32.dll!FreeLibrary","dll":"KERNEL32.dll","hint":180,"id":13,"kind":"import","name":"FreeLibrary","ordinal":null}
+{"detail":"KERNEL32.dll!OutputDebugStringA","dll":"KERNEL32.dll","hint":501,"id":14,"kind":"import","name":"OutputDebugStringA","ordinal":null}
+{"detail":"KERNEL32.dll!GetCurrentThreadId","dll":"KERNEL32.dll","hint":250,"id":15,"kind":"import","name":"GetCurrentThreadId","ordinal":null}
+{"detail":"KERNEL32.dll!GetModuleFileNameA","dll":"KERNEL32.dll","hint":292,"id":16,"kind":"import","name":"GetModuleFileNameA","ordinal":null}
+{"detail":"KERNEL32.dll!lstrlenA","dll":"KERNEL32.dll","hint":776,"id":17,"kind":"import","name":"lstrlenA","ordinal":null}
+{"detail":"KERNEL32.dll!RtlUnwind","dll":"KERNEL32.dll","hint":559,"id":18,"kind":"import","name":"RtlUnwind","ordinal":null}
+{"detail":"KERNEL32.dll!ExitProcess","dll":"KERNEL32.dll","hint":125,"id":19,"kind":"import","name":"ExitProcess","ordinal":null}
+{"detail":"KERNEL32.dll!TerminateProcess","dll":"KERNEL32.dll","hint":670,"id":20,"kind":"import","name":"TerminateProcess","ordinal":null}
+{"detail":"KERNEL32.dll!GetCurrentProcess","dll":"KERNEL32.dll","hint":247,"id":21,"kind":"import","name":"GetCurrentProcess","ordinal":null}
+{"detail":"KERNEL32.dll!GetCommandLineA","dll":"KERNEL32.dll","hint":202,"id":22,"kind":"import","name":"GetCommandLineA","ordinal":null}
+{"detail":"KERNEL32.dll!GetVersion","dll":"KERNEL32.dll","hint":372,"id":23,"kind":"import","name":"GetVersion","ordinal":null}
+{"detail":"KERNEL32.dll!GetModuleHandleA","dll":"KERNEL32.dll","hint":294,"id":24,"kind":"import","name":"GetModuleHandleA","ordinal":null}
+{"detail":"KERNEL32.dll!HeapAlloc","dll":"KERNEL32.dll","hint":409,"id":25,"kind":"import","name":"HeapAlloc","ordinal":null}
+{"detail":"KERNEL32.dll!HeapFree","dll":"KERNEL32.dll","hint":415,"id":26,"kind":"import","name":"HeapFree","ordinal":null}
+{"detail":"KERNEL32.dll!InitializeCriticalSection","dll":"KERNEL32.dll","hint":426,"id":27,"kind":"import","name":"InitializeCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!DeleteCriticalSection","dll":"KERNEL32.dll","hint":85,"id":28,"kind":"import","name":"DeleteCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!EnterCriticalSection","dll":"KERNEL32.dll","hint":102,"id":29,"kind":"import","name":"EnterCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!LeaveCriticalSection","dll":"KERNEL32.dll","hint":449,"id":30,"kind":"import","name":"LeaveCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!TlsSetValue","dll":"KERNEL32.dll","hint":677,"id":31,"kind":"import","name":"TlsSetValue","ordinal":null}
+{"detail":"KERNEL32.dll!TlsAlloc","dll":"KERNEL32.dll","hint":674,"id":32,"kind":"import","name":"TlsAlloc","ordinal":null}
+{"detail":"KERNEL32.dll!TlsFree","dll":"KERNEL32.dll","hint":675,"id":33,"kind":"import","name":"TlsFree","ordinal":null}
+{"detail":"KERNEL32.dll!SetLastError","dll":"KERNEL32.dll","hint":625,"id":34,"kind":"import","name":"SetLastError","ordinal":null}
+{"detail":"KERNEL32.dll!TlsGetValue","dll":"KERNEL32.dll","hint":676,"id":35,"kind":"import","name":"TlsGetValue","ordinal":null}
+{"detail":"KERNEL32.dll!GetLastError","dll":"KERNEL32.dll","hint":282,"id":36,"kind":"import","name":"GetLastError","ordinal":null}
+{"detail":"KERNEL32.dll!SetHandleCount","dll":"KERNEL32.dll","hint":621,"id":37,"kind":"import","name":"SetHandleCount","ordinal":null}
+{"detail":"KERNEL32.dll!GetStdHandle","dll":"KERNEL32.dll","hint":338,"id":38,"kind":"import","name":"GetStdHandle","ordinal":null}
+{"detail":"KERNEL32.dll!GetFileType","dll":"KERNEL32.dll","hint":277,"id":39,"kind":"import","name":"GetFileType","ordinal":null}
+{"detail":"KERNEL32.dll!GetStartupInfoA","dll":"KERNEL32.dll","hint":336,"id":40,"kind":"import","name":"GetStartupInfoA","ordinal":null}
+{"detail":"KERNEL32.dll!CreateFileA","dll":"KERNEL32.dll","hint":52,"id":41,"kind":"import","name":"CreateFileA","ordinal":null}
+{"detail":"KERNEL32.dll!FreeEnvironmentStringsW","dll":"KERNEL32.dll","hint":179,"id":42,"kind":"import","name":"FreeEnvironmentStringsW","ordinal":null}
+{"detail":"KERNEL32.dll!WideCharToMultiByte","dll":"KERNEL32.dll","hint":722,"id":43,"kind":"import","name":"WideCharToMultiByte","ordinal":null}
+{"detail":"KERNEL32.dll!GetEnvironmentStrings","dll":"KERNEL32.dll","hint":262,"id":44,"kind":"import","name":"GetEnvironmentStrings","ordinal":null}
+{"detail":"KERNEL32.dll!GetEnvironmentStringsW","dll":"KERNEL32.dll","hint":264,"id":45,"kind":"import","name":"GetEnvironmentStringsW","ordinal":null}
+{"detail":"KERNEL32.dll!GetEnvironmentVariableA","dll":"KERNEL32.dll","hint":265,"id":46,"kind":"import","name":"GetEnvironmentVariableA","ordinal":null}
+{"detail":"KERNEL32.dll!GetVersionExA","dll":"KERNEL32.dll","hint":373,"id":47,"kind":"import","name":"GetVersionExA","ordinal":null}
+{"detail":"KERNEL32.dll!HeapDestroy","dll":"KERNEL32.dll","hint":413,"id":48,"kind":"import","name":"HeapDestroy","ordinal":null}
+{"detail":"KERNEL32.dll!HeapCreate","dll":"KERNEL32.dll","hint":411,"id":49,"kind":"import","name":"HeapCreate","ordinal":null}
+{"detail":"KERNEL32.dll!VirtualFree","dll":"KERNEL32.dll","hint":703,"id":50,"kind":"import","name":"VirtualFree","ordinal":null}
+{"detail":"KERNEL32.dll!InterlockedDecrement","dll":"KERNEL32.dll","hint":429,"id":51,"kind":"import","name":"InterlockedDecrement","ordinal":null}
+{"detail":"KERNEL32.dll!InterlockedIncrement","dll":"KERNEL32.dll","hint":432,"id":52,"kind":"import","name":"InterlockedIncrement","ordinal":null}
+{"detail":"KERNEL32.dll!VirtualAlloc","dll":"KERNEL32.dll","hint":699,"id":53,"kind":"import","name":"VirtualAlloc","ordinal":null}
+{"detail":"KERNEL32.dll!HeapReAlloc","dll":"KERNEL32.dll","hint":418,"id":54,"kind":"import","name":"HeapReAlloc","ordinal":null}
+{"detail":"KERNEL32.dll!GetCPInfo","dll":"KERNEL32.dll","hint":191,"id":55,"kind":"import","name":"GetCPInfo","ordinal":null}
+{"detail":"KERNEL32.dll!GetACP","dll":"KERNEL32.dll","hint":185,"id":56,"kind":"import","name":"GetACP","ordinal":null}
+{"detail":"KERNEL32.dll!GetOEMCP","dll":"KERNEL32.dll","hint":305,"id":57,"kind":"import","name":"GetOEMCP","ordinal":null}
+{"detail":"KERNEL32.dll!MultiByteToWideChar","dll":"KERNEL32.dll","hint":484,"id":58,"kind":"import","name":"MultiByteToWideChar","ordinal":null}
+{"detail":"KERNEL32.dll!GetStringTypeA","dll":"KERNEL32.dll","hint":339,"id":59,"kind":"import","name":"GetStringTypeA","ordinal":null}
+{"detail":"KERNEL32.dll!GetStringTypeW","dll":"KERNEL32.dll","hint":342,"id":60,"kind":"import","name":"GetStringTypeW","ordinal":null}
+{"detail":"KERNEL32.dll!LCMapStringA","dll":"KERNEL32.dll","hint":447,"id":61,"kind":"import","name":"LCMapStringA","ordinal":null}
+{"detail":"KERNEL32.dll!LCMapStringW","dll":"KERNEL32.dll","hint":448,"id":62,"kind":"import","name":"LCMapStringW","ordinal":null}
+{"detail":"KERNEL32.dll!SetStdHandle","dll":"KERNEL32.dll","hint":636,"id":63,"kind":"import","name":"SetStdHandle","ordinal":null}
+{"detail":"KERNEL32.dll!FlushFileBuffers","dll":"KERNEL32.dll","hint":170,"id":64,"kind":"import","name":"FlushFileBuffers","ordinal":null}
+{"detail":"","dll":"ijl15.dll","forwarder":null,"id":65,"kind":"export","name":"ijlGetLibVersion","ordinal":1,"rva":214864}
+{"detail":"","dll":"ijl15.dll","forwarder":null,"id":66,"kind":"export","name":"ijlInit","ordinal":2,"rva":205568}
+{"detail":"","dll":"ijl15.dll","forwarder":null,"id":67,"kind":"export","name":"ijlFree","ordinal":3,"rva":207296}
+{"detail":"","dll":"ijl15.dll","forwarder":null,"id":68,"kind":"export","name":"ijlRead","ordinal":4,"rva":209872}
+{"detail":"","dll":"ijl15.dll","forwarder":null,"id":69,"kind":"export","name":"ijlWrite","ordinal":5,"rva":212320}
+{"detail":"","dll":"ijl15.dll","forwarder":null,"id":70,"kind":"export","name":"ijlErrorStr","ordinal":6,"rva":214880}
+{"bytes":808,"detail":"RT_VERSION/1","id":71,"kind":"resource","language":1033,"name":"1","off":356448,"type":"RT_VERSION"}
+{"buildNumber":8797,"count":3,"detail":"productId 11 build 8797 x3","id":72,"kind":"richHeaderEntry","off":128,"productId":11}
+{"buildNumber":7299,"count":22,"detail":"productId 14 build 7299 x22","id":73,"kind":"richHeaderEntry","off":128,"productId":14}
+{"buildNumber":8797,"count":88,"detail":"productId 10 build 8797 x88","id":74,"kind":"richHeaderEntry","off":128,"productId":10}
+{"buildNumber":8034,"count":3,"detail":"productId 19 build 8034 x3","id":75,"kind":"richHeaderEntry","off":128,"productId":19}
+{"buildNumber":0,"count":75,"detail":"productId 1 build 0 x75","id":76,"kind":"richHeaderEntry","off":128,"productId":1}
+{"buildNumber":8444,"count":3,"detail":"productId 18 build 8444 x3","id":77,"kind":"richHeaderEntry","off":128,"productId":18}
+{"buildNumber":0,"count":49,"detail":"productId 0 build 0 x49","id":78,"kind":"richHeaderEntry","off":128,"productId":0}
+{"buildNumber":1735,"count":1,"detail":"productId 6 build 1735 x1","id":79,"kind":"richHeaderEntry","off":128,"productId":6}
+{"buildNumber":8447,"count":1,"detail":"productId 4 build 8447 x1","id":80,"kind":"richHeaderEntry","off":128,"productId":4}

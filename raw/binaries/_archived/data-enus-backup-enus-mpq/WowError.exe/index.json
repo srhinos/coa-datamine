@@ -1,0 +1,58 @@
+{
+ "bytes": 350360,
+ "certificates": 1,
+ "dir": "_archived/data-enus-backup-enus-mpq/WowError.exe",
+ "exportedFunctions": 0,
+ "importedDlls": 5,
+ "importedFunctions": 186,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "WowError.exe",
+ "origin": {
+  "alsoIn": [],
+  "archive": "Data/enUS/backup-enUS.MPQ",
+  "chainRank": 4,
+  "clientPath": "WowError.exe",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 4760,
+  "bytesCommitted": true,
+  "file": "overlay.bin",
+  "offset": 345600,
+  "sha256": "cc8ca1f6cb166299271bc111eaa0d6d5720b913aeaafbc39a83e67144afce144"
+ },
+ "overlayBytes": 4760,
+ "parseNotes": [],
+ "pdbPaths": [
+  "d:\\BuildServer\\WoW\\1\\work\\WoW-code\\branches\\wow-patch-3_3_5_A-BNet\\WoW\\Bin\\WowError.pdb"
+ ],
+ "resourceCount": 10,
+ "resourcesCommitted": 10,
+ "sectionCount": 4,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc"
+ ],
+ "sha256": "964eb9ed647c4614f3a3ecf977955750223ecbc8ff0a3bb4078e4dff779244f8",
+ "stringOccurrences": 2839,
+ "stringStoredBytes": 230289,
+ "strings": 2260,
+ "stringsByEncoding": {
+  "ascii": 1816,
+  "utf16le": 43,
+  "utf8": 401
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 209,
+ "timeDateStamp": 1277448808
+}

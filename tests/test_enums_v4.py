@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools import config, dbc, enums335, build_spells
 
-SPELLS = {r["id"]: r for r in dbc.iter_named("Spell")}       # live BASE, 209,125 rows
+SPELLS = {r["id"]: r for r in dbc.iter_named("Spell")}       # live BASE Spell.dbc
 AURA_APPLYING = {6, 27, 35, 65, 119, 128, 129, 143}           # trap 1
 
 
@@ -135,7 +135,22 @@ assert curse_of_lich["effectAura2"] == 71 and curse_of_lich["effectMiscValue2"] 
 assert curse_of_lich["effectAura3"] == 71 and curse_of_lich["effectMiscValue3"] == 16
 
 # ---- the two statistical claims from DATAMINE-REQUEST.md Sec 1.5, re-derived
-# client-wide over all 209,125 BASE rows (not CoA-scoped) - pinned exactly ----
+# client-wide over every BASE Spell row (not CoA-scoped) - pinned exactly ----
+#
+# CLIENT-DRIFT RE-PIN POINT. These four counts are measured over the LIVE base
+# Spell.dbc, so a client patch moves them and this file fails without anything
+# in the repo having changed. It belongs to the same documented re-pin set as
+# tests/test_v5_tables.py, tests/test_sharding.py and tests/test_raw_layers.py,
+# and it was missing from that list - the list lived only in a handoff document,
+# so the drift set was not discoverable from the code it describes. It is named
+# here as well as there for that reason.
+#
+# Observed 2026-08-07 after the 14:01 client patch: len(vals165) is 1553, not the
+# pinned 1552. Deliberately NOT re-pinned in the audit-correction commit: these
+# numbers read work/dbc, raw/tables is a patch behind it, and re-pinning one
+# against the other would freeze an inconsistency. They get re-pinned together in
+# the rebuild that regenerates raw/tables, which is where every other count in
+# this repo is re-pinned.
 charges_doc = json.loads((config.DATA_DIR / "spells" / "charges.json").read_text(encoding="utf-8"))
 cat_ids = {c["id"] for c in charges_doc["categories"].values()}
 vals165, vals187 = [], []

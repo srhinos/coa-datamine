@@ -230,10 +230,37 @@ assert not oversize, f"json files over {MAX_LINES} lines: {oversize}"
 print(f"[4] line cap: every metadata file <= {MAX_LINES} lines")
 
 # a CRLF anywhere would mean the bytes (and every recorded sha256) depend on the
-# platform the layer was generated on
-crlf = [p for p in list(RAW.rglob("*.json")) + list(RAW.rglob("*.jsonl"))
-        + [RAW / "README.md"] if b"\r\n" in p.read_bytes()]
+# platform the layer was generated on.
+#
+# This used to scan raw/tables ONLY, and the hole it left was found the expensive
+# way: 215 of raw/recovered's 270 files were committed with CRLF while
+# tools/crack.py writes LF, so re-running the layer reported 208 files MODIFIED
+# with an empty `git diff --ignore-cr-at-eol`. The content was deterministic; the
+# committed bytes were not, and no gate covered that layer. The sweep is now over
+# every generated raw layer.
+#
+# Verbatim payload trees are exempt BY NAME, not by accident: raw/binaries'
+# `resources/` holds RT_MANIFEST blobs lifted byte for byte out of the PEs (six
+# of them really are CRLF, because that is what the executable contains), and
+# `chunks/`/`bytes/` hold recovered client bytes. Rewriting those would be the
+# corruption this rule exists to prevent, so only GENERATED METADATA is checked.
+VERBATIM_DIRS = {"resources", "chunks", "bytes"}
+
+
+def _generated_metadata(root):
+    for pattern in ("*.json", "*.jsonl", "*.md"):
+        for p in root.rglob(pattern):
+            if not VERBATIM_DIRS & set(p.relative_to(root).parts[:-1]):
+                yield p
+
+
+GENERATED_LAYERS = [RAW, config.RAW_DIR / "recovered", config.RAW_DIR / "binaries"]
+crlf = [p for root in GENERATED_LAYERS if root.is_dir()
+        for p in _generated_metadata(root) if b"\r\n" in p.read_bytes()]
 assert not crlf, f"platform line endings leaked into: {crlf[:5]}"
+print(f"[4] line endings: LF across {len(GENERATED_LAYERS)} generated layers "
+      f"({sum(1 for r in GENERATED_LAYERS if r.is_dir() for _ in _generated_metadata(r)):,} "
+      f"metadata files checked)")
 attrs = (Path(__file__).resolve().parent.parent / ".gitattributes")
 attrs_text = attrs.read_text(encoding="utf-8")
 assert attrs.is_file() and "raw/tables/** -text" in attrs_text
@@ -243,10 +270,11 @@ assert attrs.is_file() and "raw/tables/** -text" in attrs_text
 for guarded in ("raw/tables/**", "raw/content/**", "raw/interface/**",
                 "raw/interface_all/**", "raw/cache/**", "raw/_catalog/**",
                 "raw/_inventory/**", "raw/dbc/**", "raw/realms/**",
-                "raw/provenance.json", "raw/talents/**", "data/**"):
+                "raw/provenance.json", "raw/talents/**", "data/**",
+                "raw/recovered/**", "raw/binaries/**"):
     assert f"{guarded} -text" in attrs_text, guarded
-print("[4] line endings: LF everywhere, and .gitattributes stops git rewriting "
-      "them across every generated path")
+print("[4] .gitattributes: every generated path is -text, so git never rewrites "
+      "these bytes on checkout or on add")
 
 # the layer is whole, not something a crash left half-written
 assert (RAW / "_complete.json").is_file(), (

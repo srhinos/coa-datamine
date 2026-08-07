@@ -1,0 +1,9 @@
+{
+ "generatedBy": "python -m tools.extract_binaries",
+ "layer": "binaries/_archived/data-enus-base-enus-mpq/msvcr80.dll",
+ "luaRecords": 0,
+ "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
+ "sourceSha256": "02bdde38e4c6bd795a092d496b8d6060cdbe71e22ef4d7a204e3050c1be44fa9",
+ "strings": 5138,
+ "symbols": 1643
+}

@@ -1,0 +1,59 @@
+{
+ "bytes": 632656,
+ "certificates": 1,
+ "dir": "_archived/data-enus-backup-enus-mpq/msvcr80.dll",
+ "exportedFunctions": 1466,
+ "importedDlls": 2,
+ "importedFunctions": 161,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "msvcr80.dll",
+ "origin": {
+  "alsoIn": [],
+  "archive": "Data/enUS/backup-enUS.MPQ",
+  "chainRank": 4,
+  "clientPath": "msvcr80.dll",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 5968,
+  "bytesCommitted": true,
+  "file": "overlay.bin",
+  "offset": 626688,
+  "sha256": "f46026bc2a933b2e5d81b0f323873b76bc4866bde61c9b4f6655d5d93aa24cf8"
+ },
+ "overlayBytes": 5968,
+ "parseNotes": [],
+ "pdbPaths": [
+  "msvcr80.i386.pdb"
+ ],
+ "resourceCount": 1,
+ "resourcesCommitted": 1,
+ "sectionCount": 5,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc",
+  ".reloc"
+ ],
+ "sha256": "9382aaed2db19cd75a70e38964f06c63f19f63c9dfb5a33b0c2d445bb41b6e46",
+ "stringOccurrences": 7672,
+ "stringStoredBytes": 530151,
+ "strings": 5223,
+ "stringsByEncoding": {
+  "ascii": 4544,
+  "utf16le": 65,
+  "utf8": 614
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 1644,
+ "timeDateStamp": 1247366265
+}

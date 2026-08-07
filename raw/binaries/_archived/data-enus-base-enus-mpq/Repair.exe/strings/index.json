@@ -1,0 +1,111 @@
+{
+ "byEncoding": {
+  "ascii": 6344,
+  "utf16le": 90,
+  "utf8": 2068
+ },
+ "format": "plain",
+ "keyField": "id",
+ "luaScored": 115,
+ "minRunLength": 4,
+ "occurrences": 13441,
+ "oversizeShards": [],
+ "plainBytes": 943730,
+ "rows": 8502,
+ "rule": "Every printable run of at least 4 characters in the whole file - headers, sections, gaps and overlay alike - in three encodings: ASCII (bytes 0x20-0x7E), UTF-16LE (printable-ASCII code units) and UTF-8 (kept only when the run contains a multi-byte character, so it never duplicates the ASCII pass). Runs are deduplicated by (encoding, text) and every offset each occurs at is kept, with the PE section that offset lands in or '(unmapped)' when no section covers it. Note what the UTF-8 pass is: machine code contains byte pairs that are well-formed UTF-8 by chance, so most `utf8` runs are not text - they are kept because dropping them would mean dropping every genuinely non-ASCII string with them, and `enc` separates them from the ASCII and UTF-16 passes for anyone who wants only text.",
+ "shardCount": 9,
+ "shards": [
+  {
+   "file": "s0000-0999.jsonl",
+   "format": "plain",
+   "hi": 999,
+   "lo": 0,
+   "plainBytes": 107775,
+   "rows": 1000,
+   "sha256": "f7434475708c47aab106ca86df19a0095b003232d12c50be27646b46f4d31d83",
+   "storedBytes": 107775
+  },
+  {
+   "file": "s1000-1999.jsonl",
+   "format": "plain",
+   "hi": 1999,
+   "lo": 1000,
+   "plainBytes": 98157,
+   "rows": 1000,
+   "sha256": "193576ee930c07f41bf8fc13d044c03a2ada02200fbce6223731d754cb943cfc",
+   "storedBytes": 98157
+  },
+  {
+   "file": "s2000-2999.jsonl",
+   "format": "plain",
+   "hi": 2999,
+   "lo": 2000,
+   "plainBytes": 95550,
+   "rows": 1000,
+   "sha256": "bd7cfa9eaa4548caff500ac8fdb83277662688e79b979fbf77a80e459aa3e998",
+   "storedBytes": 95550
+  },
+  {
+   "file": "s3000-3999.jsonl",
+   "format": "plain",
+   "hi": 3999,
+   "lo": 3000,
+   "plainBytes": 96241,
+   "rows": 1000,
+   "sha256": "1df312c1e85654848bcb9706c71baeacf078b800890b73f2451a8cbf0bf6a0f6",
+   "storedBytes": 96241
+  },
+  {
+   "file": "s4000-4999.jsonl",
+   "format": "plain",
+   "hi": 4999,
+   "lo": 4000,
+   "plainBytes": 123378,
+   "rows": 1000,
+   "sha256": "71b350d8003c556aacd119b8e16322c214244f8728f2be41162ed5c35d6ac75c",
+   "storedBytes": 123378
+  },
+  {
+   "file": "s5000-5999.jsonl",
+   "format": "plain",
+   "hi": 5999,
+   "lo": 5000,
+   "plainBytes": 129642,
+   "rows": 1000,
+   "sha256": "29a6bb97c16b8b6260e61c7c6234dbef535c894e2c687ab1de4001c703f17f80",
+   "storedBytes": 129642
+  },
+  {
+   "file": "s6000-6999.jsonl",
+   "format": "plain",
+   "hi": 6999,
+   "lo": 6000,
+   "plainBytes": 131278,
+   "rows": 1000,
+   "sha256": "400f734c5537266576ec38a845f541589b60d2d8d8d37cb2abdcced91860d485",
+   "storedBytes": 131278
+  },
+  {
+   "file": "s7000-7999.jsonl",
+   "format": "plain",
+   "hi": 7999,
+   "lo": 7000,
+   "plainBytes": 107819,
+   "rows": 1000,
+   "sha256": "947af983f71bcf8d8324e66bfc221458ec169a6b65b78e85e5fc608d18b9141f",
+   "storedBytes": 107819
+  },
+  {
+   "file": "s8000-8999.jsonl",
+   "format": "plain",
+   "hi": 8999,
+   "lo": 8000,
+   "plainBytes": 53890,
+   "rows": 502,
+   "sha256": "5a1892d8cc3db4820b07324ade92ac01528bbe70fb419671585719939ebc4c46",
+   "storedBytes": 53890
+  }
+ ],
+ "storedBytes": 943730,
+ "tokenRule": "A run's Lua score is the number of DISTINCT syntax classes in tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and concatenation syntax, comment openers, table constructors and standard library calls. Counting distinct classes rather than occurrences stops one repeated word from carrying English prose over a threshold. The score is recorded on every extracted string, so any reader can re-cut it."
+}

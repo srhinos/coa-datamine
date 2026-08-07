@@ -1,8 +1,1210 @@
 {
+ "archiveScanRule": "Every member named by every archive's listfile has its FIRST SECTOR decoded and is kept if those bytes parse as a PE image; a member starting `MZ` whose PE header lies past the first sector is re-read in full rather than judged on the short read. The sweep costs one sector per member, and it is checkpointed per archive under work/binaries/archive_scan/ keyed by the archive's own sha256 AND this rule, so changing what counts as a hit invalidates the cache instead of being masked by it.\n\nDriving this off the listfiles is complete rather than convenient, and that is a MEASUREMENT, not an assumption: the client's 77 archives hold 768,998 block entries, 4,911 of them DELETE_MARKER tombstones that carry no bytes, and every one of the 764,087 remaining live entries resolves to a name - 0 live members are unnamed. Seven archives ship no readable listfile (patch-4, -5, -C, -CZZ, -W, -WB, -WC), and they are stubs: two block entries each, which are their own `(listfile)` and `(attributes)` members and nothing else, so there is no unnamed payload hiding behind them. tools/crack.py's forensics stage records the same decomposition from the other direction (orphanBlockEntriesTotal 0, unaccountedBytesTotal 0).",
+ "archiveVersionRule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses.",
+ "archivedBinaries": [
+  {
+   "bytes": 2639424,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/BackgroundDownloader.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 15,
+   "importedFunctions": 362,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "BackgroundDownloader.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "BackgroundDownloader.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 1365568,
+    "bytesCommitted": false,
+    "notCommitted": "1365568 bytes exceeds the 65536-byte commit rule",
+    "offset": 1273856,
+    "sha256": "e0b360b3948b104a627d6472577b669f167caaa5ee21a1abde1ded1259b525b6"
+   },
+   "overlayBytes": 1365568,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\buildserver\\1\\work-tools-sc2-gm\\core-repository\\branches\\tools-sc2-gm\\downloader\\release\\Blizzard Downloader.pdb"
+   ],
+   "resourceCount": 41,
+   "resourcesCommitted": 41,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "16dfbb736a0835fc376418f34fcbf0a664382097d3cde951d292e726db4ec4e9",
+   "stringOccurrences": 37325,
+   "stringStoredBytes": 457536,
+   "strings": 27043,
+   "stringsByEncoding": {
+    "ascii": 19135,
+    "utf16le": 136,
+    "utf8": 7772
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 418,
+   "timeDateStamp": 1284739422
+  },
+  {
+   "bytes": 1077904,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/BackgroundDownloader.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 14,
+   "importedFunctions": 276,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "BackgroundDownloader.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "BackgroundDownloader.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4752,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 1073152,
+    "sha256": "6ad89b365a7c0aea3f84d3dc63e8e8b22c7cddd6522ce58138ac3a91d88538f5"
+   },
+   "overlayBytes": 4752,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\buildserver\\work-trunk\\core-repository\\trunk\\downloader\\release\\BlizzardDownloader.pdb"
+   ],
+   "resourceCount": 31,
+   "resourcesCommitted": 31,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "53b9bd473edb54e56a40928f670356372987f0f85179530f3a3ac03713698034",
+   "stringOccurrences": 16897,
+   "stringStoredBytes": 212857,
+   "strings": 11111,
+   "stringsByEncoding": {
+    "ascii": 8145,
+    "utf16le": 94,
+    "utf8": 2872
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 322,
+   "timeDateStamp": 1219109759
+  },
+  {
+   "bytes": 15588224,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/Battle.net.dll",
+   "exportedFunctions": 5,
+   "importedDlls": 11,
+   "importedFunctions": 292,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Battle.net.dll",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "Battle.net.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4767,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 15583457,
+    "sha256": "84d10b8a5d10ed2f8fc41efe99eb1a7d60f960ab2741b85010cfb601cc11f55c"
+   },
+   "overlayBytes": 4767,
+   "parseNotes": [],
+   "pdbPaths": [
+    "Battle.net.pdb"
+   ],
+   "resourceCount": 3,
+   "resourcesCommitted": 3,
+   "sectionCount": 5,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "88116951b04723cbb1073a1a0ff72dfdc40367f6649dffd08c602caa3ef1141f",
+   "stringOccurrences": 155425,
+   "stringStoredBytes": 1812884,
+   "strings": 124947,
+   "stringsByEncoding": {
+    "ascii": 95012,
+    "utf16le": 137,
+    "utf8": 29798
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 319,
+   "timeDateStamp": 1277408261
+  },
+  {
+   "bytes": 225936,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/Battle.net.dll",
+   "exportedFunctions": 4,
+   "importedDlls": 7,
+   "importedFunctions": 119,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Battle.net.dll",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "Battle.net.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4752,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 221184,
+    "sha256": "872e1c03a82994fda482500b9ef969ca59f52f8d8e080112451de88561c68355"
+   },
+   "overlayBytes": 4752,
+   "parseNotes": [],
+   "pdbPaths": [
+    "D:\\Projects\\Battle.net\\Augustus\\Src\\Build\\Battle.net.pdb"
+   ],
+   "resourceCount": 2,
+   "resourcesCommitted": 2,
+   "sectionCount": 5,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "b251a31e3c9851ab0a64d477753eb1226d4e0ae19c66fd6b1411be73a32fc928",
+   "stringOccurrences": 1823,
+   "stringStoredBytes": 143446,
+   "strings": 1400,
+   "stringsByEncoding": {
+    "ascii": 1055,
+    "utf16le": 32,
+    "utf8": 313
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 144,
+   "timeDateStamp": 1218757618
+  },
+  {
+   "bytes": 1039728,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/dbghelp.dll",
+   "exportedFunctions": 204,
+   "importedDlls": 4,
+   "importedFunctions": 171,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "dbghelp.dll",
+   "origin": {
+    "alsoIn": [
+     {
+      "archive": "Data/enUS/backup-enUS.MPQ",
+      "chainRank": 4,
+      "path": "dbghelp.dll"
+     }
+    ],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "dbghelp.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 9584,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 1030144,
+    "sha256": "89802e1f6b05869a3b1c18f983ce04a03bf1c8e2fdc3d0be2011b9b26b9c6cc7"
+   },
+   "overlayBytes": 9584,
+   "parseNotes": [],
+   "pdbPaths": [
+    "dbghelp.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "3f9ad6986eb1f3a09eb0b5cad888ba656f9148b3339399076f2541b3bc59213c",
+   "stringOccurrences": 5812,
+   "stringStoredBytes": 506213,
+   "strings": 4930,
+   "stringsByEncoding": {
+    "ascii": 3800,
+    "utf16le": 492,
+    "utf8": 638
+   },
+   "subsystem": "WINDOWS_CUI",
+   "symbols": 393,
+   "timeDateStamp": 1152389492
+  },
+  {
+   "bytes": 372736,
+   "certificates": 0,
+   "dir": "_archived/data-enus-base-enus-mpq/ijl15.dll",
+   "exportedFunctions": 6,
+   "importedDlls": 1,
+   "importedFunctions": 59,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "ijl15.dll",
+   "origin": {
+    "alsoIn": [
+     {
+      "archive": "Data/enUS/backup-enUS.MPQ",
+      "chainRank": 4,
+      "path": "ijl15.dll"
+     }
+    ],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "ijl15.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 0,
+    "offset": 372736
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".data1",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "334aa12f7dee453d1c6cb1b661a3bb3494d3e4cc9c2ff3f9002064c78404e43a",
+   "stringOccurrences": 2569,
+   "stringStoredBytes": 146345,
+   "strings": 1441,
+   "stringsByEncoding": {
+    "ascii": 949,
+    "utf16le": 27,
+    "utf8": 465
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 81,
+   "timeDateStamp": 969018715
+  },
+  {
+   "bytes": 4895616,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/Launcher.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 18,
+   "importedFunctions": 497,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Launcher.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "Launcher.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 3527552,
+    "bytesCommitted": false,
+    "notCommitted": "3527552 bytes exceeds the 65536-byte commit rule",
+    "offset": 1368064,
+    "sha256": "78a0fc638784b44f241055cf6c90deeed2acd3fffd8b429ceb6d6824a091eaba"
+   },
+   "overlayBytes": 3527552,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\buildserver\\1\\work-tools-3.2.x\\core-repository\\branches\\tools-3.2.x\\launcher\\release-wow\\Launcher.pdb"
+   ],
+   "resourceCount": 76,
+   "resourcesCommitted": 76,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "b649050b867ae3f5f9f3d24008d52ded92fe4fafea01cee2d9d2afc17120a573",
+   "stringOccurrences": 75565,
+   "stringStoredBytes": 908107,
+   "strings": 61589,
+   "stringsByEncoding": {
+    "ascii": 43819,
+    "utf16le": 261,
+    "utf8": 17509
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 588,
+   "timeDateStamp": 1284597819
+  },
+  {
+   "bytes": 2421392,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/Launcher.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 16,
+   "importedFunctions": 405,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Launcher.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "Launcher.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4752,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 2416640,
+    "sha256": "7082e9a1e1aa4e66dc35527c73618b0533560a49ba22b5d51eaef2a57a4a1205"
+   },
+   "overlayBytes": 4752,
+   "parseNotes": [],
+   "pdbPaths": [
+    "e:\\buildserver\\work-launcher-1-7\\core-repository\\branches\\launcher-1-7\\Launcher\\Release\\Launcher.pdb"
+   ],
+   "resourceCount": 199,
+   "resourcesCommitted": 195,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "6ffe86073c25cd53d145535087ba2b387fbf75ee17b63849041376a9e4ea2ffb",
+   "stringOccurrences": 45577,
+   "stringStoredBytes": 634522,
+   "strings": 36433,
+   "stringsByEncoding": {
+    "ascii": 33643,
+    "utf16le": 133,
+    "utf8": 2657
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 619,
+   "timeDateStamp": 1219690832
+  },
+  {
+   "bytes": 348160,
+   "certificates": 0,
+   "dir": "_archived/data-enus-base-enus-mpq/msvcr71.dll",
+   "exportedFunctions": 837,
+   "importedDlls": 1,
+   "importedFunctions": 154,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "msvcr71.dll",
+   "origin": {
+    "alsoIn": [
+     {
+      "archive": "Data/enUS/backup-enUS.MPQ",
+      "chainRank": 4,
+      "path": "msvcr71.dll"
+     }
+    ],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "msvcr71.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 0,
+    "offset": 348160
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "msvcr71.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 5,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "8094af5ee310714caebccaeee7769ffb08048503ba478b879edfef5f1a24fefe",
+   "stringOccurrences": 4309,
+   "stringStoredBytes": 362423,
+   "strings": 3666,
+   "stringsByEncoding": {
+    "ascii": 3224,
+    "utf16le": 38,
+    "utf8": 404
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 1007,
+   "timeDateStamp": 1045831340
+  },
+  {
+   "bytes": 632656,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/msvcr80.dll",
+   "exportedFunctions": 1466,
+   "importedDlls": 2,
+   "importedFunctions": 161,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "msvcr80.dll",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "msvcr80.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 5968,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 626688,
+    "sha256": "f46026bc2a933b2e5d81b0f323873b76bc4866bde61c9b4f6655d5d93aa24cf8"
+   },
+   "overlayBytes": 5968,
+   "parseNotes": [],
+   "pdbPaths": [
+    "msvcr80.i386.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 5,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "9382aaed2db19cd75a70e38964f06c63f19f63c9dfb5a33b0c2d445bb41b6e46",
+   "stringOccurrences": 7672,
+   "stringStoredBytes": 530151,
+   "strings": 5223,
+   "stringsByEncoding": {
+    "ascii": 4544,
+    "utf16le": 65,
+    "utf8": 614
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 1644,
+   "timeDateStamp": 1247366265
+  },
+  {
+   "bytes": 626688,
+   "certificates": 0,
+   "dir": "_archived/data-enus-base-enus-mpq/msvcr80.dll",
+   "exportedFunctions": 1466,
+   "importedDlls": 2,
+   "importedFunctions": 161,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "msvcr80.dll",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "msvcr80.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 0,
+    "offset": 626688
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "msvcr80.i386.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 5,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "02bdde38e4c6bd795a092d496b8d6060cdbe71e22ef4d7a204e3050c1be44fa9",
+   "stringOccurrences": 7551,
+   "stringStoredBytes": 520725,
+   "strings": 5138,
+   "stringsByEncoding": {
+    "ascii": 4470,
+    "utf16le": 62,
+    "utf8": 606
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 1643,
+   "timeDateStamp": 1165042232
+  },
+  {
+   "bytes": 975512,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/Repair.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 13,
+   "importedFunctions": 240,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Repair.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "Repair.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4760,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 970752,
+    "sha256": "780256ace143462f5430371f5443235a556336813813d5e6ef80ad7863f758b1"
+   },
+   "overlayBytes": 4760,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\buildserver\\1\\work-repair-241\\core-repository\\branches\\repair-241\\repair\\win32\\release\\Repair.pdb"
+   ],
+   "resourceCount": 22,
+   "resourcesCommitted": 22,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "ae98037ec2f858f0f9a6c69b3267e5268f20dbf08f324aa4453d2252c1b31d52",
+   "stringOccurrences": 14325,
+   "stringStoredBytes": 1028498,
+   "strings": 9143,
+   "stringsByEncoding": {
+    "ascii": 6615,
+    "utf16le": 90,
+    "utf8": 2438
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 277,
+   "timeDateStamp": 1276040829
+  },
+  {
+   "bytes": 889488,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/Repair.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 13,
+   "importedFunctions": 235,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Repair.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "Repair.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4752,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 884736,
+    "sha256": "67581a5e6a0af0b74e47f7bc8c3f800c8e9ce938d1e9be80d057cb8738f6613d"
+   },
+   "overlayBytes": 4752,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\buildserver\\work-trunk\\core-repository\\trunk\\repair\\win32\\release\\Repair.pdb"
+   ],
+   "resourceCount": 22,
+   "resourcesCommitted": 22,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "2c12c93ebe2669e77e920e409e0f35ac6cb0be115f92865b975ed99c00ab7e47",
+   "stringOccurrences": 13441,
+   "stringStoredBytes": 943730,
+   "strings": 8502,
+   "stringsByEncoding": {
+    "ascii": 6344,
+    "utf16le": 90,
+    "utf8": 2068
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 271,
+   "timeDateStamp": 1219739075
+  },
+  {
+   "bytes": 42244,
+   "certificates": 0,
+   "dir": "_archived/data-enus-base-enus-mpq/Scan.dll",
+   "exportedFunctions": 3,
+   "importedDlls": 3,
+   "importedFunctions": 5,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Scan.dll",
+   "origin": {
+    "alsoIn": [
+     {
+      "archive": "Data/enUS/backup-enUS.MPQ",
+      "chainRank": 4,
+      "path": "Scan.dll"
+     }
+    ],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "Scan.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 260,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 41984,
+    "sha256": "39edb401537c1e801c2c98e26abe91a370a3c535be2f57956ed2cc6f6b17b160"
+   },
+   "overlayBytes": 260,
+   "parseNotes": [],
+   "pdbPaths": [],
+   "resourceCount": 2,
+   "resourcesCommitted": 2,
+   "sectionCount": 3,
+   "sectionNames": [
+    "UPX0",
+    "UPX1",
+    ".rsrc"
+   ],
+   "sha256": "f9c91e31a1614709f5425c6f4f81b181941b89bdc13eddbd240bbd1ee632e3d4",
+   "stringOccurrences": 775,
+   "stringStoredBytes": 70618,
+   "strings": 771,
+   "stringsByEncoding": {
+    "ascii": 604,
+    "utf16le": 25,
+    "utf8": 142
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 21,
+   "timeDateStamp": 1212082232
+  },
+  {
+   "bytes": 245408,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/unicows.dll",
+   "exportedFunctions": 507,
+   "importedDlls": 14,
+   "importedFunctions": 861,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "unicows.dll",
+   "origin": {
+    "alsoIn": [
+     {
+      "archive": "Data/enUS/backup-enUS.MPQ",
+      "chainRank": 4,
+      "path": "unicows.dll"
+     }
+    ],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "unicows.dll",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 6816,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 238592,
+    "sha256": "02ddb85d58fddaefb8df812c5162060a3ca93880679c9762ab2490a6e9e94a73"
+   },
+   "overlayBytes": 6816,
+   "parseNotes": [],
+   "pdbPaths": [
+    "unicows.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "22f23cc65698741184ec34f46e6f69717644e0b5aabf5d5bd015101f2d72e56e",
+   "stringOccurrences": 3538,
+   "stringStoredBytes": 248832,
+   "strings": 2404,
+   "stringsByEncoding": {
+    "ascii": 2230,
+    "utf16le": 33,
+    "utf8": 141
+   },
+   "subsystem": "WINDOWS_CUI",
+   "symbols": 1382,
+   "timeDateStamp": 1050951200
+  },
+  {
+   "bytes": 397312,
+   "certificates": 0,
+   "dir": "_archived/data-enus-base-enus-mpq/Uninstall.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 9,
+   "importedFunctions": 184,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Uninstall.exe",
+   "origin": {
+    "alsoIn": [
+     {
+      "archive": "Data/enUS/backup-enUS.MPQ",
+      "chainRank": 4,
+      "path": "Uninstall.exe"
+     }
+    ],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "Uninstall.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 0,
+    "offset": 397312
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "c:\\HQ-WoW\\Tools\\Installer\\Release\\Uninstaller.pdb"
+   ],
+   "resourceCount": 8,
+   "resourcesCommitted": 8,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "93643e6041cbb07a09f0804a2f2616908f1ee2ac669fc906336f857287609158",
+   "stringOccurrences": 4663,
+   "stringStoredBytes": 319258,
+   "strings": 3179,
+   "stringsByEncoding": {
+    "ascii": 2351,
+    "utf16le": 25,
+    "utf8": 803
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 214,
+   "timeDateStamp": 1110314032
+  },
+  {
+   "bytes": 7704216,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/Wow.exe",
+   "exportedFunctions": 1,
+   "importedDlls": 17,
+   "importedFunctions": 470,
+   "isPE": true,
+   "luaChunkFiles": [
+    "chunks/0x006363c0.lua",
+    "chunks/0x00643180.lua"
+   ],
+   "luaFragments": 39,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 1,
+   "luaSourceChunks": 2,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Wow.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "Wow.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4760,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 7699456,
+    "sha256": "4b3f2023661048e45f38ad299a87750adaf873693e6080ad8afd85bd5ec16b35"
+   },
+   "overlayBytes": 4760,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\BuildServer\\WoW\\1\\work\\WoW-code\\branches\\wow-patch-3_3_5_A-BNet\\WoW\\Bin\\Wow.pdb"
+   ],
+   "resourceCount": 29,
+   "resourcesCommitted": 28,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".zdata",
+    ".tls",
+    ".rsrc"
+   ],
+   "sha256": "aa63a5750d60ef16746c686b3d5e26876d98953eab08b1c026cd0faf78e88cb8",
+   "stringOccurrences": 48144,
+   "stringStoredBytes": 602522,
+   "strings": 36982,
+   "stringsByEncoding": {
+    "ascii": 31456,
+    "utf16le": 189,
+    "utf8": 5337
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 521,
+   "timeDateStamp": 1277448958
+  },
+  {
+   "bytes": 9506960,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/Wow.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 15,
+   "importedFunctions": 436,
+   "isPE": true,
+   "luaChunkFiles": [
+    "chunks/0x0056af50.lua",
+    "chunks/0x0057b2d0.lua"
+   ],
+   "luaFragments": 35,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 1,
+   "luaSourceChunks": 2,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Wow.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "Wow.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4752,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 9502208,
+    "sha256": "9cec2a6193d4ce580ce51ca12b37ced79a9c611e5df17fe3f93ffebb558098ce"
+   },
+   "overlayBytes": 4752,
+   "parseNotes": [],
+   "pdbPaths": [
+    "e:\\BuildServer\\bs1\\work\\WoW-code\\branches\\wow-patch-3_0_1-branch\\WoW\\Bin\\Wow.pdb"
+   ],
+   "resourceCount": 16,
+   "resourcesCommitted": 16,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".zdata",
+    ".tls",
+    ".rsrc"
+   ],
+   "sha256": "966af32c55f337f25409817b5c0b19005739b43aa68f5c9d5d2307e2733c2a05",
+   "stringOccurrences": 38012,
+   "stringStoredBytes": 475434,
+   "strings": 29162,
+   "stringsByEncoding": {
+    "ascii": 24684,
+    "utf16le": 136,
+    "utf8": 4342
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 472,
+   "timeDateStamp": 1219735269
+  },
+  {
+   "bytes": 350360,
+   "certificates": 1,
+   "dir": "_archived/data-enus-backup-enus-mpq/WowError.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 5,
+   "importedFunctions": 186,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "WowError.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "clientPath": "WowError.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4760,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 345600,
+    "sha256": "cc8ca1f6cb166299271bc111eaa0d6d5720b913aeaafbc39a83e67144afce144"
+   },
+   "overlayBytes": 4760,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\BuildServer\\WoW\\1\\work\\WoW-code\\branches\\wow-patch-3_3_5_A-BNet\\WoW\\Bin\\WowError.pdb"
+   ],
+   "resourceCount": 10,
+   "resourcesCommitted": 10,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "964eb9ed647c4614f3a3ecf977955750223ecbc8ff0a3bb4078e4dff779244f8",
+   "stringOccurrences": 2839,
+   "stringStoredBytes": 230289,
+   "strings": 2260,
+   "stringsByEncoding": {
+    "ascii": 1816,
+    "utf16le": 43,
+    "utf8": 401
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 209,
+   "timeDateStamp": 1277448808
+  },
+  {
+   "bytes": 220816,
+   "certificates": 1,
+   "dir": "_archived/data-enus-base-enus-mpq/WowError.exe",
+   "exportedFunctions": 0,
+   "importedDlls": 5,
+   "importedFunctions": 160,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "WowError.exe",
+   "origin": {
+    "alsoIn": [],
+    "archive": "Data/enUS/base-enUS.MPQ",
+    "chainRank": 5,
+    "clientPath": "WowError.exe",
+    "kind": "archive",
+    "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+   },
+   "overlay": {
+    "bytes": 4752,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 216064,
+    "sha256": "c6111db6a43cd88ecd3ecb2f51b31d3a21af4e6b48c8fef508c05e8b02762e02"
+   },
+   "overlayBytes": 4752,
+   "parseNotes": [],
+   "pdbPaths": [
+    "e:\\BuildServer\\bs1\\work\\WoW-code\\branches\\wow-patch-3_0_1-branch\\WoW\\Bin\\WowError.pdb"
+   ],
+   "resourceCount": 10,
+   "resourcesCommitted": 10,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc"
+   ],
+   "sha256": "2b584e45a511a31dff272163be293b5906dc12bcd631abfdd607a11684d36585",
+   "stringOccurrences": 2037,
+   "stringStoredBytes": 172602,
+   "strings": 1689,
+   "stringsByEncoding": {
+    "ascii": 1368,
+    "utf16le": 34,
+    "utf8": 287
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 185,
+   "timeDateStamp": 1219735150
+  }
+ ],
+ "archivedBinaryCount": 20,
  "binaries": [
   {
    "bytes": 7694848,
    "certificates": 0,
+   "dir": "Ascension.exe",
    "exportedFunctions": 1,
    "importedDlls": 17,
    "importedFunctions": 470,
@@ -54,6 +1256,7 @@
   {
    "bytes": 3154744,
    "certificates": 1,
+   "dir": "discord_game_sdk.dll",
    "exportedFunctions": 3,
    "importedDlls": 6,
    "importedFunctions": 120,
@@ -101,8 +1304,19 @@
    "timeDateStamp": 1574880036
   },
   {
+   "alsoInArchives": [
+    {
+     "archive": "Data/enUS/backup-enUS.MPQ",
+     "path": "DivxDecoder.dll"
+    },
+    {
+     "archive": "Data/enUS/base-enUS.MPQ",
+     "path": "DivxDecoder.dll"
+    }
+   ],
    "bytes": 413696,
    "certificates": 0,
+   "dir": "DivxDecoder.dll",
    "exportedFunctions": 4,
    "importedDlls": 1,
    "importedFunctions": 60,
@@ -147,6 +1361,7 @@
   {
    "bytes": 98816,
    "certificates": 0,
+   "dir": "DivxTac.dll",
    "exportedFunctions": 0,
    "importedDlls": 8,
    "importedFunctions": 82,
@@ -194,6 +1409,7 @@
   {
    "bytes": 12659256,
    "certificates": 0,
+   "dir": "Extensions.dll",
    "exportedFunctions": 1,
    "importedDlls": 21,
    "importedFunctions": 384,
@@ -244,6 +1460,7 @@
   {
    "bytes": 364032,
    "certificates": 0,
+   "dir": "MMgr64.exe",
    "exportedFunctions": 0,
    "importedDlls": 15,
    "importedFunctions": 182,
@@ -290,6 +1507,7 @@
   {
    "bytes": 205824,
    "certificates": 0,
+   "dir": "WowError.exe",
    "exportedFunctions": 0,
    "importedDlls": 5,
    "importedFunctions": 152,
@@ -336,21 +1554,27 @@
    "timeDateStamp": 1760214735
   }
  ],
- "binaryCount": 7,
+ "binaryCount": 27,
  "clientDir": "E:\\ascension-live",
+ "clientRootBinaryCount": 7,
  "generatedBy": "python -m tools.extract_binaries",
  "interpretationRule": "Nothing here says what a string means. Field names are the PE/COFF specification's and the Lua language's; every threshold is recorded next to the counts it produced.",
- "luaChunkTotal": 3,
+ "layerSize": {
+  "byteTotal": 19055329,
+  "fileCount": 1377,
+  "rule": "every file under raw/binaries/ counted and summed at write time, excluding the layer's own index.json and _complete.json, which are written after this measurement"
+ },
+ "luaChunkTotal": 7,
  "luaFragmentMinScore": 3,
- "luaFragmentTotal": 40,
+ "luaFragmentTotal": 114,
  "luaMinScore": 3,
  "luaRule": "A run's Lua score is the number of DISTINCT syntax classes in tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and concatenation syntax, comment openers, table constructors and standard library calls. Counting distinct classes rather than occurrences stops one repeated word from carrying English prose over a threshold. The score is recorded on every extracted string, so any reader can re-cut it.",
  "minRunLength": 4,
  "outsideRoot": [],
  "resourceRule": "Every resource leaf is read. Its bytes are committed when the payload measures as text, when it decodes to a structure (RT_VERSION, RT_STRING), or when it is at most 65536 bytes; larger binary payloads are recorded with size and sha256 and their bytes discarded, which is this repo's art-and-sound rule applied by measurement. Nothing is skipped because of its type.",
- "resourceTotal": 41,
- "selectionRule": "Every file in the client root whose bytes parse as a PE image, found by reading the bytes - no name list and no extension test decides it. The whole client tree is swept for further .exe/.dll/.ocx/.sys files and the result is recorded in `outsideRoot`, so 'these are all of them' is a measurement rather than an assumption.",
+ "resourceTotal": 518,
+ "selectionRule": "Every PE image in the client, wherever it sits: the ones loose in the client root AND the ones stored inside the MPQ archives. Both are found by reading bytes - no name list and no extension test decides it - and the archive sweep reads the first sector of every one of the client's ~769,000 members and keeps the ones that parse as a PE (see ARCHIVE_SCAN_RULE). The whole client tree is also swept for further .exe/.dll/.ocx/.sys files outside the root and the result is recorded in `outsideRoot`, so 'these are all of them' is a measurement rather than an assumption.",
  "stringRule": "Every printable run of at least 4 characters in the whole file - headers, sections, gaps and overlay alike - in three encodings: ASCII (bytes 0x20-0x7E), UTF-16LE (printable-ASCII code units) and UTF-8 (kept only when the run contains a multi-byte character, so it never duplicates the ASCII pass). Runs are deduplicated by (encoding, text) and every offset each occurs at is kept, with the PE section that offset lands in or '(unmapped)' when no section covers it. Note what the UTF-8 pass is: machine code contains byte pairs that are well-formed UTF-8 by chance, so most `utf8` runs are not text - they are kept because dropping them would mean dropping every genuinely non-ASCII string with them, and `enc` separates them from the ASCII and UTF-16 passes for anyone who wants only text.",
- "stringTotal": 189848,
- "symbolTotal": 1636
+ "stringTotal": 566861,
+ "symbolTotal": 12366
 }

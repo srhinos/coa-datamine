@@ -1,0 +1,61 @@
+{
+ "bytes": 397312,
+ "certificates": 0,
+ "dir": "_archived/data-enus-base-enus-mpq/Uninstall.exe",
+ "exportedFunctions": 0,
+ "importedDlls": 9,
+ "importedFunctions": 184,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "Uninstall.exe",
+ "origin": {
+  "alsoIn": [
+   {
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "path": "Uninstall.exe"
+   }
+  ],
+  "archive": "Data/enUS/base-enUS.MPQ",
+  "chainRank": 5,
+  "clientPath": "Uninstall.exe",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 0,
+  "offset": 397312
+ },
+ "overlayBytes": 0,
+ "parseNotes": [],
+ "pdbPaths": [
+  "c:\\HQ-WoW\\Tools\\Installer\\Release\\Uninstaller.pdb"
+ ],
+ "resourceCount": 8,
+ "resourcesCommitted": 8,
+ "sectionCount": 4,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc"
+ ],
+ "sha256": "93643e6041cbb07a09f0804a2f2616908f1ee2ac669fc906336f857287609158",
+ "stringOccurrences": 4663,
+ "stringStoredBytes": 319258,
+ "strings": 3179,
+ "stringsByEncoding": {
+  "ascii": 2351,
+  "utf16le": 25,
+  "utf8": 803
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 214,
+ "timeDateStamp": 1110314032
+}

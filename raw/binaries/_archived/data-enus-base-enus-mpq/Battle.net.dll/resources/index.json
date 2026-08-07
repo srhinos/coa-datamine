@@ -1,0 +1,47 @@
+{
+ "commitMaxBytes": 65536,
+ "committed": 2,
+ "count": 2,
+ "decoded": 1,
+ "pathRule": "Every `file` path an index records is relative to THAT index's own directory, so `chunks/0x00b59c00.lua` in lua/index.json is <binary>/lua/chunks/0x00b59c00.lua on disk.",
+ "resources": [
+  {
+   "bytes": 924,
+   "bytesCommitted": true,
+   "bytesRead": 924,
+   "codePage": 1252,
+   "decodedFile": "RT_VERSION/id1-lang1033.json",
+   "file": "RT_VERSION/id1-lang1033.bin",
+   "index": 0,
+   "isText": false,
+   "languageId": 1033,
+   "nameId": 1,
+   "nameString": null,
+   "offset": 204960,
+   "read": true,
+   "rva": 217248,
+   "sha256": "e776e09669f0c6a64a5c8ab0310cdd4621a34f63c0cda9ad2734fd5fe4268a7f",
+   "typeId": 16,
+   "typeName": "RT_VERSION"
+  },
+  {
+   "bytes": 340,
+   "bytesCommitted": true,
+   "bytesRead": 340,
+   "codePage": 1252,
+   "file": "RT_MANIFEST/id2-lang1033.txt",
+   "index": 1,
+   "isText": true,
+   "languageId": 1033,
+   "nameId": 2,
+   "nameString": null,
+   "offset": 205884,
+   "read": true,
+   "rva": 218172,
+   "sha256": "4c7c973b7c4a6d704375147c6853e9031ad06434836858820a611d2032b4e85a",
+   "typeId": 24,
+   "typeName": "RT_MANIFEST"
+  }
+ ],
+ "rule": "Every resource leaf is read. Its bytes are committed when the payload measures as text, when it decodes to a structure (RT_VERSION, RT_STRING), or when it is at most 65536 bytes; larger binary payloads are recorded with size and sha256 and their bytes discarded, which is this repo's art-and-sound rule applied by measurement. Nothing is skipped because of its type."
+}

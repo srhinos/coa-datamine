@@ -1,10 +1,11 @@
 {
- "byClass": {"art":4879,"interface":22,"sound":5},
- "generatedBy": "python -m tools.crack --only resweep",
- "recordTotal": 4906,
- "rule": "MPQ DELETE_MARKER entries: a patch that REMOVES a path carries a block entry with no data and this flag, so the path stops resolving from that archive down. They are archive semantics, not damage, and the previous pipeline recorded every one of them as an unreadable file. Listed here with the archive that deletes the path and its chain rank, so the effect on any path is readable off this layer.",
+ "byArchive": {"Data/enUS/patch-enUS-2.MPQ":2,"Data/enUS/patch-enUS.MPQ":26,"Data/patch-2.MPQ":1234,"Data/patch-3.MPQ":39,"Data/patch.MPQ":3610},
+ "byClass": {"art":4879,"dbc":1,"interface":26,"sound":5},
+ "generatedBy": "python -m tools.crack --only tombstones",
+ "recordTotal": 4911,
+ "rule": "Every MPQ DELETE_MARKER entry in the client, enumerated from each archive's own BLOCK TABLE. A patch that REMOVES a path carries a block entry with this flag and no data; it stops the path resolving from that archive down. Archive semantics, not damage.\n\nThe source matters and is the whole point of this stage. These layers were previously built from the file census's read-FAILURE list, and that list holds one row per PATH - the WINNING copy. A tombstone set by an archive that a higher archive then re-supplies the path from is invisible to it, so the layer held 4,906 of the client's 4,911 and its own rule text claimed all of them. The five it could not see: RaceSelect.lua/.xml (patch-enUS-2) and CharVariations.dbc, SoundOptionsFrame.lua/.xml (patch-enUS). Reading the block tables directly makes the count a measurement of the client instead of a measurement of the census.",
  "shardMaxLines": 5000,
  "shards": [
-  {"firstPath":"Creature/KodobeastPack/KodoBeastPack.m2","lastPath":"world/maps/Kalimdor/Kalimdor_50_16.adt","records":4906,"shard":"_root.json"}
+  {"firstPath":"Creature/KodobeastPack/KodoBeastPack.m2","lastPath":"world/maps/Kalimdor/Kalimdor_50_16.adt","records":4911,"shard":"_root.json"}
  ]
 }

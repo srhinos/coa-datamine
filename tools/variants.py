@@ -53,20 +53,19 @@ LAYOUT
 non-alphanumeric run collapsed to `-`, so it names the archive and nothing else.
 """
 import argparse
+import collections
 import hashlib
 import json
 import re
 import time
 from pathlib import Path
 
-from mpyq import MPQArchive
-
-from tools import config, layerstate, probe_unlistable, sharding
+from tools import config, layerstate, mpq, probe_unlistable, sharding
 from tools.decode_all import OUT_DIR as TABLES_DIR
 from tools.decode_all import decode_table, write_readme, write_text
 from tools.extract_all import OUT_DIR as WINNER_DIR
-from tools.extract_all import (READ_AGREEMENT_RULE, TABLE_DIR, _header_facts,
-                               load_provenance, read_agreed)
+from tools.extract_all import (READ_AGREEMENT_RULE, READER_RULE, TABLE_DIR,
+                               _header_facts, load_provenance, read_agreed)
 from tools.inventory import archive_id, discover_archives
 
 WORK_DIR = config.WORK_DIR / "dbc_variants"
@@ -215,26 +214,23 @@ def build_contexts(meta: dict) -> list:
 # --------------------------------------------------------------------------
 # stage 2 - hash every copy (checkpointed per archive)
 # --------------------------------------------------------------------------
-def archive_fingerprint(a: MPQArchive, aid: str, size: int, stored: list) -> str:
+def archive_fingerprint(a, aid: str, size: int, stored: list) -> str:
     """Content-derived checkpoint key, read from the archive's own hash and
     block tables - no file content is decompressed to compute it."""
     parts = [aid, str(size)]
     for s in stored:
-        e = a.get_hash_table_entry(s)
-        b = None
-        if e is not None and e.block_table_index < 0xFFFFFFFE:
-            b = a.block_table[e.block_table_index]
+        bi = a.block_index_of(s)
+        b = a.block_table[bi] if bi is not None and bi < len(a.block_table) \
+            else None
         parts.append("|".join(str(x) for x in (
-            s.lower(), -1 if b is None else b.offset,
-            -1 if b is None else b.archived_size,
-            -1 if b is None else b.size, -1 if b is None else b.flags)))
+            s.lower(), *((-1, -1, -1, -1) if b is None else b))))
     return hashlib.sha256("\n".join(parts).encode("utf-8")).hexdigest()
 
 
 def hash_archive(aid: str, apath: Path, stored: list, verbose: bool = True):
     """Every copy this archive carries, hashed. Returns (payload, from_cache)."""
     ck = CHECKPOINT_DIR / (slug(aid) + ".json")
-    a = MPQArchive(str(apath), listfile=False)
+    a = mpq.Archive(apath)
     fp = archive_fingerprint(a, aid, apath.stat().st_size, stored)
     if ck.is_file():
         try:
@@ -244,39 +240,35 @@ def hash_archive(aid: str, apath: Path, stored: list, verbose: bool = True):
         # The rule text is part of the key on purpose: a checkpoint written
         # before the two-agreeing-reads rule existed was produced by a weaker
         # measurement and must not be trusted just because the archive matches.
+        # READER_RULE is in the key for the same reason - a checkpoint written
+        # by the previous reader must not survive the move onto this one.
         if old.get("fingerprint") == fp \
                 and old.get("readAgreementRule") == READ_AGREEMENT_RULE \
+                and old.get("readerRule") == READER_RULE \
                 and old.get("fileCount", -1) + len(old.get("failures", [])) == len(stored):
-            a.file.close()
+            a.close()
             return old, True
 
     files, failures = {}, []
     for s in stored:
-        e = a.get_hash_table_entry(s)
-        b = (a.block_table[e.block_table_index]
-             if e is not None and e.block_table_index < 0xFFFFFFFE else None)
-        if b is not None and b.size == 0:
-            # A member the archive itself records as zero bytes. It is a real
-            # entry - it is how a patch blanks a path - but it is not a table
-            # and there is nothing to decode, so it is recorded rather than
-            # counted as a version or swallowed as a read error.
-            failures.append({"path": s, "archive": aid, "stage": "read",
-                             "reason": "the block table records this copy as 0 "
-                                       "bytes: an empty entry, not a table"})
-            continue
+        # No pre-check on the block entry's size here. A zero-byte entry can be
+        # a DELETE_MARKER tombstone or a genuinely empty member, and those are
+        # different client facts; testing `size == 0` reports the first as the
+        # second. The reader already classifies it, so the classification is
+        # read off the member's status rather than re-derived (wrongly) here.
         try:
-            data, sha, reason = read_agreed(a, s)
+            data, sha, reason, status = read_agreed(a, s)
         except Exception as ex:                      # noqa: BLE001 - recorded
-            data, sha, reason = None, None, f"{type(ex).__name__}: {ex}"
+            data, sha, reason, status = None, None, f"{type(ex).__name__}: {ex}", "error"
         if data is None:
             failures.append({"path": s, "archive": aid, "stage": "read",
-                             "reason": reason})
+                             "status": status, "reason": reason})
             continue
         files[s.lower()] = {"sha256": sha, **_header_facts(data)}
         del data
-    a.file.close()
+    a.close()
     payload = {"archive": aid, "fingerprint": fp, "fingerprintRule": FINGERPRINT_RULE,
-               "readAgreementRule": READ_AGREEMENT_RULE,
+               "readAgreementRule": READ_AGREEMENT_RULE, "readerRule": READER_RULE,
                "fileCount": len(files), "failures": failures, "files": files}
     layerstate.atomic_write(ck, json.dumps(payload, ensure_ascii=False, indent=1,
                                            sort_keys=True).encode("utf-8") + b"\n")
@@ -448,16 +440,17 @@ def decode_versions(records: list, meta: dict, out_dir: Path, resume: bool = Tru
             pending.append((r, v, dest))
         if not pending:
             continue
-        a = MPQArchive(str(meta[aid]["path"]), listfile=False)
+        a = mpq.Archive(meta[aid]["path"])
         for r, v, dest in pending:
             stored = r["clientPath"].replace("/", "\\")
             try:
-                data, got, reason = read_agreed(a, stored)
+                data, got, reason, status = read_agreed(a, stored)
             except Exception as e:                   # noqa: BLE001 - recorded
-                data, got, reason = None, None, f"{type(e).__name__}: {e}"
+                data, got, reason, status = None, None, f"{type(e).__name__}: {e}", "error"
             if data is None:
                 failures.append({"table": r["file"], "archive": aid,
-                                 "stage": "extract", "reason": reason})
+                                 "stage": "extract", "status": status,
+                                 "reason": reason})
                 continue
             if got != v["sha256"]:
                 raise VariantError(
@@ -481,7 +474,7 @@ def decode_versions(records: list, meta: dict, out_dir: Path, resume: bool = Tru
             if verbose and (decoded % 25 == 0 or decoded + skipped == total):
                 print(f"  decoded {decoded}/{total - skipped} versions "
                       f"[{time.time()-t0:6.1f}s]", flush=True)
-        a.file.close()
+        a.close()
     if verbose:
         print(f"  versions decoded={decoded} reused={skipped} "
               f"failed={len(failures)}", flush=True)
@@ -605,6 +598,18 @@ def write_records(records: list, out_dir: Path, contexts: list, meta: dict,
         "variantRule": VARIANT_RULE,
         "contextRule": CONTEXT_RULE,
         "fingerprintRule": FINGERPRINT_RULE,
+        "readerRule": READER_RULE,
+        "failureStatusRule": (
+            "`status` is tools/mpq.py's classification of the member, so a copy "
+            "that is NOT a table is reported as what the archive says it is. "
+            "`deleted` is an MPQ DELETE_MARKER tombstone - the patch REMOVES "
+            "the path, which is archive semantics and not a read failure, and "
+            "every one of them is enumerated in raw/recovered/deleted/. "
+            "`empty` is a real entry holding zero bytes, enumerated in "
+            "raw/recovered/empty/. Only `error` and `unstable` are reads that "
+            "actually failed."),
+        "failuresByStatus": dict(sorted(collections.Counter(
+            f.get("status", "error") for f in failures).items())),
         "clientDir": str(config.CLIENT_DIR),
         "tableDir": TABLE_DIR.replace("\\", "/"),
         "contexts": [{"context": c["context"],

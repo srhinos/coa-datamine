@@ -160,6 +160,31 @@ else:
           "every sector of every member",
           census.get("zlib", 0) > 1_000_000 and census.get("bzip2", 0) > 0)
 
+    # ------------------------------------------------------------------
+    # the tombstone layer counts the CLIENT, not the census
+    # ------------------------------------------------------------------
+    # raw/recovered/deleted/ used to be built from the file census's read-failure
+    # list, which holds one row per PATH - the winning copy. A tombstone set by an
+    # archive that a higher archive then re-supplies the path from was invisible
+    # to it, so the layer held 4,906 of the client's 4,911 while its own rule text
+    # claimed "every MPQ DELETE_MARKER tombstone". _forensics.json counted the
+    # block tables directly and said 4,911 in the same commit: the layer
+    # contradicted its own sibling and nothing compared them. This does.
+    forensics = json.loads(
+        (crack.OUT_DIR / "_forensics.json").read_bytes().decode("utf-8"))
+    deleted_ix = json.loads(
+        (crack.DELETED_DIR / "index.json").read_bytes().decode("utf-8"))
+    empty_ix = json.loads(
+        (crack.EMPTY_DIR / "index.json").read_bytes().decode("utf-8"))
+    check("the tombstone layer holds EVERY DELETE_MARKER block entry in the "
+          "client, not just the ones the census could see",
+          deleted_ix["recordTotal"] == forensics["blockEntriesDeleteMarkerTotal"],
+          f"{deleted_ix['recordTotal']} in the layer vs "
+          f"{forensics['blockEntriesDeleteMarkerTotal']} in the block tables")
+    check("the empty-member layer is enumerated, not just counted",
+          empty_ix["recordTotal"] > 0 and (crack.EMPTY_DIR / "records").is_dir(),
+          str(empty_ix["recordTotal"]))
+
     # the recovered set contains no DATA file: the standing claim, now checked
     files_index = json.loads(
         (crack.FILES_DIR / "index.json").read_bytes().decode("utf-8"))
@@ -171,10 +196,48 @@ else:
           by_class.get("dbc", 0) == 0 and by_class.get("content", 0) == 0,
           json.dumps(by_class))
 
-    for layer in (crack.ATTR_DIR, crack.DELETED_DIR, crack.FILES_DIR,
-                  crack.CORRECTIONS_DIR, crack.CONTAINER_DIR):
+    for layer in (crack.ATTR_DIR, crack.DELETED_DIR, crack.EMPTY_DIR,
+                  crack.FILES_DIR, crack.CORRECTIONS_DIR, crack.CONTAINER_DIR):
         check(f"{layer.name}/ carries its completion sentinel",
               layerstate.is_complete(layer))
+
+    # ------------------------------------------------------------------
+    # the committed bytes are the bytes this code writes
+    # ------------------------------------------------------------------
+    # The gap this closes, stated plainly: the layer's CONTENT was deterministic
+    # and its committed BYTES were not. 215 of raw/recovered's 270 files were
+    # committed with CRLF while every writer here emits LF, so re-running the
+    # layer reported 208 files modified and `git diff --ignore-cr-at-eol` was
+    # empty for all of them. Nothing in this file asserted anything about the
+    # bytes, so nothing caught it.
+    #
+    # Re-reading 44.9 GB to prove a rerun is byte-identical is not a test. What
+    # IS testable cheaply is the step that actually broke: feed each committed
+    # shard's own records back through the writer that produced it and require
+    # the bytes to come out identical. A CRLF shard fails on the first
+    # comparison, and so would any drift in the serializer.
+    from tools import inventory
+
+    shards = sorted(p for d in (crack.DELETED_DIR, crack.EMPTY_DIR,
+                                crack.FILES_DIR, crack.CORRECTIONS_DIR)
+                    if (d / "records").is_dir()
+                    for p in (d / "records").glob("*.json"))
+    check("there are record shards to re-serialize", bool(shards))
+    mismatched = []
+    for p in shards:
+        raw_bytes = p.read_bytes()
+        rebuilt = inventory.dump_records(json.loads(raw_bytes.decode("utf-8")))
+        if rebuilt.encode("utf-8") != raw_bytes:
+            mismatched.append(p.name)
+    check(f"every one of the {len(shards)} committed record shards re-serializes "
+          f"to its own bytes, so a rerun writes what is committed",
+          not mismatched, ", ".join(mismatched[:5]))
+
+    stray = [p for p in crack.OUT_DIR.rglob("*")
+             if p.is_file() and p.suffix in (".json", ".jsonl", ".md")
+             and b"\r\n" in p.read_bytes()]
+    check("no CRLF in any generated file under raw/recovered",
+          not stray, ", ".join(p.name for p in stray[:5]))
 
 print(f"\n{'ALL PASS' if not FAILURES else f'{len(FAILURES)} FAILURES: ' + ', '.join(FAILURES)}")
 sys.exit(1 if FAILURES else 0)

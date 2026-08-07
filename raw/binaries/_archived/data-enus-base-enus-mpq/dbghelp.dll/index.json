@@ -1,0 +1,64 @@
+{
+ "bytes": 1039728,
+ "certificates": 1,
+ "dir": "_archived/data-enus-base-enus-mpq/dbghelp.dll",
+ "exportedFunctions": 204,
+ "importedDlls": 4,
+ "importedFunctions": 171,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "dbghelp.dll",
+ "origin": {
+  "alsoIn": [
+   {
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "path": "dbghelp.dll"
+   }
+  ],
+  "archive": "Data/enUS/base-enUS.MPQ",
+  "chainRank": 5,
+  "clientPath": "dbghelp.dll",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 9584,
+  "bytesCommitted": true,
+  "file": "overlay.bin",
+  "offset": 1030144,
+  "sha256": "89802e1f6b05869a3b1c18f983ce04a03bf1c8e2fdc3d0be2011b9b26b9c6cc7"
+ },
+ "overlayBytes": 9584,
+ "parseNotes": [],
+ "pdbPaths": [
+  "dbghelp.pdb"
+ ],
+ "resourceCount": 1,
+ "resourcesCommitted": 1,
+ "sectionCount": 4,
+ "sectionNames": [
+  ".text",
+  ".data",
+  ".rsrc",
+  ".reloc"
+ ],
+ "sha256": "3f9ad6986eb1f3a09eb0b5cad888ba656f9148b3339399076f2541b3bc59213c",
+ "stringOccurrences": 5812,
+ "stringStoredBytes": 506213,
+ "strings": 4930,
+ "stringsByEncoding": {
+  "ascii": 3800,
+  "utf16le": 492,
+  "utf8": 638
+ },
+ "subsystem": "WINDOWS_CUI",
+ "symbols": 393,
+ "timeDateStamp": 1152389492
+}

@@ -1,0 +1,9 @@
+{
+ "generatedBy": "python -m tools.extract_binaries",
+ "layer": "binaries/_archived/data-enus-base-enus-mpq/WowError.exe",
+ "luaRecords": 0,
+ "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
+ "sourceSha256": "2b584e45a511a31dff272163be293b5906dc12bcd631abfdd607a11684d36585",
+ "strings": 1689,
+ "symbols": 185
+}

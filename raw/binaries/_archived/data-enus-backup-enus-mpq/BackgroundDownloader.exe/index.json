@@ -1,0 +1,58 @@
+{
+ "bytes": 2639424,
+ "certificates": 1,
+ "dir": "_archived/data-enus-backup-enus-mpq/BackgroundDownloader.exe",
+ "exportedFunctions": 0,
+ "importedDlls": 15,
+ "importedFunctions": 362,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "BackgroundDownloader.exe",
+ "origin": {
+  "alsoIn": [],
+  "archive": "Data/enUS/backup-enUS.MPQ",
+  "chainRank": 4,
+  "clientPath": "BackgroundDownloader.exe",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 1365568,
+  "bytesCommitted": false,
+  "notCommitted": "1365568 bytes exceeds the 65536-byte commit rule",
+  "offset": 1273856,
+  "sha256": "e0b360b3948b104a627d6472577b669f167caaa5ee21a1abde1ded1259b525b6"
+ },
+ "overlayBytes": 1365568,
+ "parseNotes": [],
+ "pdbPaths": [
+  "d:\\buildserver\\1\\work-tools-sc2-gm\\core-repository\\branches\\tools-sc2-gm\\downloader\\release\\Blizzard Downloader.pdb"
+ ],
+ "resourceCount": 41,
+ "resourcesCommitted": 41,
+ "sectionCount": 4,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".rsrc"
+ ],
+ "sha256": "16dfbb736a0835fc376418f34fcbf0a664382097d3cde951d292e726db4ec4e9",
+ "stringOccurrences": 37325,
+ "stringStoredBytes": 457536,
+ "strings": 27043,
+ "stringsByEncoding": {
+  "ascii": 19135,
+  "utf16le": 136,
+  "utf8": 7772
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 418,
+ "timeDateStamp": 1284739422
+}

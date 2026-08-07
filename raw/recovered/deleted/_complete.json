@@ -1,7 +1,7 @@
 {
- "generatedBy": "python -m tools.crack --only resweep",
+ "generatedBy": "python -m tools.crack --only tombstones",
  "layer": "raw/recovered/deleted",
- "recordTotal": 4906,
+ "recordTotal": 4911,
  "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
  "shardCount": 1
 }

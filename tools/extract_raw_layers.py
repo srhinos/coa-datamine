@@ -195,10 +195,13 @@ Stated as a boundary rather than left as an implication:
    `python -m tools.crack --only verify` checks all **763,928** of them.
    Mismatches: 0.
 4. **The client's own executables are opened too.** `raw/binaries/` holds every
-   printable string, the inlined Lua and the full PE structure of each PE image
-   in the client root - the layer that explains where `listarchive`,
-   `SetDataPath` and the realm hot-swap script actually live, none of which is
-   in any shipped data file.
+   printable string, the inlined Lua and the full PE structure of every PE image
+   in the client - the seven loose in the client root, and the twenty stored
+   INSIDE the MPQ archives under `_archived/` (`Wow.exe`, `Launcher.exe`,
+   `Battle.net.dll`, `Repair.exe` and the rest, found by reading the bytes of
+   every member the archives name). This is the layer that explains where
+   `listarchive`, `SetDataPath` and the realm hot-swap script actually live,
+   none of which is in any shipped data file.
 5. **`Interface\\AddOns` on disk is out of scope** - it is the user's installed
    third-party addons, not client data. It is counted, never extracted, in
    `raw/interface_all/index.json` -> `onDiskInterfaceTree`. The one exception is

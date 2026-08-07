@@ -1,0 +1,61 @@
+{
+ "bytes": 372736,
+ "certificates": 0,
+ "dir": "_archived/data-enus-base-enus-mpq/ijl15.dll",
+ "exportedFunctions": 6,
+ "importedDlls": 1,
+ "importedFunctions": 59,
+ "isPE": true,
+ "luaChunkFiles": [],
+ "luaFragments": 0,
+ "luaPrecompiled": 0,
+ "luaPrecompiledRejected": 0,
+ "luaSourceChunks": 0,
+ "machine": "IMAGE_FILE_MACHINE_I386",
+ "magic": "PE32",
+ "name": "ijl15.dll",
+ "origin": {
+  "alsoIn": [
+   {
+    "archive": "Data/enUS/backup-enUS.MPQ",
+    "chainRank": 4,
+    "path": "ijl15.dll"
+   }
+  ],
+  "archive": "Data/enUS/base-enUS.MPQ",
+  "chainRank": 5,
+  "clientPath": "ijl15.dll",
+  "kind": "archive",
+  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+ },
+ "overlay": {
+  "bytes": 0,
+  "offset": 372736
+ },
+ "overlayBytes": 0,
+ "parseNotes": [],
+ "pdbPaths": [],
+ "resourceCount": 1,
+ "resourcesCommitted": 1,
+ "sectionCount": 6,
+ "sectionNames": [
+  ".text",
+  ".rdata",
+  ".data",
+  ".data1",
+  ".rsrc",
+  ".reloc"
+ ],
+ "sha256": "334aa12f7dee453d1c6cb1b661a3bb3494d3e4cc9c2ff3f9002064c78404e43a",
+ "stringOccurrences": 2569,
+ "stringStoredBytes": 146345,
+ "strings": 1441,
+ "stringsByEncoding": {
+  "ascii": 949,
+  "utf16le": 27,
+  "utf8": 465
+ },
+ "subsystem": "WINDOWS_GUI",
+ "symbols": 81,
+ "timeDateStamp": 969018715
+}

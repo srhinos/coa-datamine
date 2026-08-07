@@ -1,0 +1,9 @@
+{
+ "generatedBy": "python -m tools.extract_binaries",
+ "layer": "binaries/_archived/data-enus-base-enus-mpq/Battle.net.dll",
+ "luaRecords": 0,
+ "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
+ "sourceSha256": "b251a31e3c9851ab0a64d477753eb1226d4e0ae19c66fd6b1411be73a32fc928",
+ "strings": 1400,
+ "symbols": 144
+}

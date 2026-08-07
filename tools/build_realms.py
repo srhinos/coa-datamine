@@ -45,7 +45,7 @@ tools/build_dataset.py's orchestrator, which wires a "realms" stage calling
 this module's build() - see task V3-3)."""
 import json, shutil
 
-from tools import config, dbc, extract_realms
+from tools import config, dbc, extract_realms, layerstate
 
 MIN_NEW_SPELL_COUNT = 10000     # brief's loose pin: realm spells measured ~= +30k vs base
 
@@ -121,6 +121,13 @@ def _missing_ref_resolution(realm_spell_ids: set):
 def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     dbc_dir = config.WORK_REALMS_DIR / realm / "dbc"
     raw_dir = config.RAW_REALMS_DIR / realm / "dbc"
+    # This rmtree-then-rewrite is the same half-written-layer window every other
+    # extractor here guards, and it was the ONLY raw layer without the sentinel:
+    # a run killed between the delete and the last write left a truncated
+    # Spell.csv.gz and four sibling tables missing, and nothing downstream could
+    # tell that tree apart from a finished one. tests/test_dataset.py rewrites
+    # this layer, so the window is reached by the test suite, not just by builds.
+    layerstate.begin(raw_dir.parent)
     if raw_dir.exists():
         shutil.rmtree(raw_dir)
     raw_dir.mkdir(parents=True)
@@ -216,6 +223,14 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     (data_dir / "_meta.json").write_text(
         json.dumps(meta, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
 
+    # Written last, and only when every gate above passed: a realm whose build
+    # raised leaves no sentinel, which is the point.
+    layerstate.finish(raw_dir.parent, {
+        "layer": f"realms/{realm}",
+        "generatedBy": "python -m tools.build_realms",
+        "tableCount": len(table_info),
+        "recordTotal": sum(v["records"] for v in table_info.values()),
+        "mappedTables": sum(1 for v in table_info.values() if v["mapped"])})
     return index
 
 
@@ -237,8 +252,15 @@ def build(skip_extract: bool = False, allow_missing_base: bool = False) -> dict:
         (config.WORK_REALMS_DIR / r / "dbc").is_dir() for r in realms)
     if not (skip_extract and already_cached):
         extract_realms.extract_all()
-    return {realm: build_realm(realm, allow_missing_base=allow_missing_base)
-            for realm in realms}
+    layerstate.begin(config.RAW_REALMS_DIR)
+    out = {realm: build_realm(realm, allow_missing_base=allow_missing_base)
+           for realm in realms}
+    layerstate.finish(config.RAW_REALMS_DIR, {
+        "layer": "realms", "generatedBy": "python -m tools.build_realms",
+        "realmCount": len(out), "realms": sorted(out),
+        "recordTotal": sum(v["records"] for idx in out.values()
+                           for v in idx["tables"].values())})
+    return out
 
 
 if __name__ == "__main__":

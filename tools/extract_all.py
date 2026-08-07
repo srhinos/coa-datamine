@@ -37,9 +37,7 @@ import struct
 import time
 from pathlib import Path
 
-from mpyq import MPQArchive
-
-from tools import config, layerstate, probe_unlistable, sharding
+from tools import config, layerstate, mpq, probe_unlistable, sharding
 from tools.inventory import archive_id, discover_archives
 
 OUT_DIR = config.WORK_DIR / "dbc_all"
@@ -54,6 +52,20 @@ HEADER = struct.Struct("<4s4I")
 
 READ_ATTEMPTS = 3
 
+READER_RULE = (
+    "Members are decoded by tools/mpq.py, this repo's own reader, NOT by mpyq. "
+    "mpyq mis-slices two whole classes of member - one stored with no sector "
+    "offset table, and one whose size is an exact multiple of the sector size - "
+    "and it does it SILENTLY, returning confident wrong bytes; that defect put "
+    "1,186 wrong sha256 values into the file census (see "
+    "raw/recovered/corrections/). No DBC was among them, which is why this path "
+    "was left on mpyq longer than the rest: 'provably harmless today' is not the "
+    "same as 'read by the corrected reader', and only the second one stays true "
+    "when the client changes. Every member here is additionally checked against "
+    "the MD5 its own archive recorded for it by tools/crack.py's verify stage, "
+    "which is an oracle outside this code."
+)
+
 READ_AGREEMENT_RULE = (
     "Every member is read until two consecutive reads of it hash the same, at "
     f"most {READ_ATTEMPTS} times. This is not paranoia about the format: this "
@@ -64,28 +76,54 @@ READ_AGREEMENT_RULE = (
     "single read cannot detect that, and a read-back of the file just written "
     "cannot either, because the damage happens before the hash is taken. Two "
     "agreeing reads can. A member whose reads never agree is recorded as a "
-    "failure rather than written."
+    "failure rather than written. The reads are done by tools/mpq.py - see "
+    "READER_RULE, which is part of this rule because a repeated read only "
+    "guards the memory defect, never a reader defect."
 )
+
+# What a non-`ok` read MEANS, in the archive's own terms. A caller that lumps
+# these together reports MPQ semantics as damage - which is exactly how a patch
+# tombstone came to be recorded as a read failure in raw/tables/_variants.json.
+STATUS_REASON = {
+    "deleted": ("an MPQ DELETE_MARKER tombstone: this archive REMOVES the path "
+                "at its layer and the entry carries no bytes by design. Archive "
+                "semantics, not a failed read - see raw/recovered/deleted/"),
+    "empty": ("the archive records this member as zero bytes: a real entry that "
+              "holds nothing - see raw/recovered/empty/"),
+    "missing": "no live hash slot in this archive resolves this name",
+}
+
+
+def read_reason(member) -> str:
+    """The recorded reason for a member that did not come back `ok`."""
+    known = STATUS_REASON.get(member.status)
+    if known:
+        return known
+    return member.detail or f"read failed with status {member.status!r}"
 
 
 def read_agreed(archive, stored: str, attempts: int = READ_ATTEMPTS):
     """One member's bytes, confirmed by two agreeing reads. Returns
-    (data, sha256, reason) - data/sha are None when there is a reason.
+    (data, sha256, reason, status) - data/sha are None when there is a reason,
+    and `status` is the reader's own classification of the member (see
+    tools.mpq.Member), so a caller records WHAT the archive says rather than
+    re-deriving it from the block entry.
 
-    Only the previous read's HASH is kept between attempts, never its bytes, so
-    verifying a 237 MB member costs one copy of it in memory, not two."""
+    `archive` is a tools.mpq.Archive. Only the previous read's HASH is kept
+    between attempts, never its bytes, so verifying a 237 MB member costs one
+    copy of it in memory, not two."""
     last = None
     for _ in range(attempts):
-        data = archive.read_file(stored)
-        if data is None:
-            return None, None, "read returned no bytes"
-        sha = hashlib.sha256(data).hexdigest()
+        member = archive.read(stored)
+        if not member.ok:
+            return None, None, read_reason(member), member.status
+        sha = hashlib.sha256(member.data).hexdigest()
         if sha == last:
-            return data, sha, None
+            return member.data, sha, None, member.status
         last = sha
-        data = None
+        member = None
     return None, None, (f"{attempts} reads of this member disagreed byte for "
-                        f"byte - see READ_AGREEMENT_RULE")
+                        f"byte - see READ_AGREEMENT_RULE"), "unstable"
 
 
 def _header_facts(data: bytes) -> dict:
@@ -219,7 +257,7 @@ def extract(verbose: bool = True) -> dict:
     seen_names = {}
     done = 0
     for aid in sorted(by_archive):
-        a = MPQArchive(str(path_by_archive[aid]), listfile=False)
+        a = mpq.Archive(path_by_archive[aid])
         for low in sorted(by_archive[aid]):
             c = carriers[low]
             name = c["stored"].rsplit("\\", 1)[-1]
@@ -229,12 +267,12 @@ def extract(verbose: bool = True) -> dict:
                     f"FATAL: two chain paths flatten to one output file name "
                     f"{name!r}: {clash!r} and {low!r}.")
             try:
-                data, sha, reason = read_agreed(a, c["stored"])
+                data, sha, reason, status = read_agreed(a, c["stored"])
             except Exception as e:                   # noqa: BLE001 - recorded, not raised
-                data, sha, reason = None, None, f"{type(e).__name__}: {e}"
+                data, sha, reason, status = None, None, f"{type(e).__name__}: {e}", "error"
             if data is None:
                 failures.append({"table": name, "stage": "extract",
-                                 "reason": reason,
+                                 "reason": reason, "status": status,
                                  "path": c["stored"], "winner": c["archive"]})
                 continue
             (OUT_DIR / name).write_bytes(data)
@@ -245,7 +283,7 @@ def extract(verbose: bool = True) -> dict:
                 **_header_facts(data),
             }
             done += 1
-        a.file.close()
+        a.close()
         if verbose:
             print(f"  read {done:4d}/{len(carriers)} (through {aid})"
                   f"  [{time.time()-t0:5.1f}s]", flush=True)
@@ -256,6 +294,7 @@ def extract(verbose: bool = True) -> dict:
                 "to work/dbc_all/. No wanted list: this is the whole directory. "
                 "Header fields are measured; declaredFieldsAgrees=false marks a "
                 "header whose field count disagrees with recordSize//4.",
+        "readerRule": READER_RULE,
         "readAgreementRule": READ_AGREEMENT_RULE,
         "readAttempts": READ_ATTEMPTS,
         "clientDir": str(config.CLIENT_DIR),
