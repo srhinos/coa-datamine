@@ -1046,7 +1046,7 @@ def build() -> dict:
         files_meta = []
         for tab in sorted(by_tab, key=lambda t: (t is None, t or "")):
             for fname, fmeta, text in _shard_tab(cls, tab, by_tab[tab]):
-                (class_dir / fname).write_text(text, encoding="utf-8")
+                (class_dir / fname).write_text(text, encoding="utf-8", newline="\n")
                 files_meta.append(fmeta)
 
         class_index = {
@@ -1068,7 +1068,7 @@ def build() -> dict:
             "files": files_meta,
         }
         (class_dir / "index.json").write_text(
-            sharding.dump_manifest(class_index), encoding="utf-8")
+            sharding.dump_manifest(class_index), encoding="utf-8", newline="\n")
         index_classes.append({
             "name": cls, "tag": tag,
             "classId": chr_match["id"] if chr_match else None,
@@ -1088,7 +1088,7 @@ def build() -> dict:
         "unmatchedChrClasses": sorted(c["name_enUS"] for c in chr_classes
                                       if _norm(c["name_enUS"]) not in matched_norms),
     }
-    (cdir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    (cdir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
     # [Task W4-8] Realms-bitmask decode attempt (DATAMINE-REQUEST.md Sec 6.2) -
     # see _realms_evidence()'s docstring for the verdict. Evidence-only: does NOT
@@ -1097,14 +1097,14 @@ def build() -> dict:
     realms_evidence = _realms_evidence(cad)
     (cdir / "_realms_evidence.json").write_text(
         json.dumps(realms_evidence, indent=1, sort_keys=True, ensure_ascii=False),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
 
     # [Task W4-14] live/dead summary - totals, the measured false-negative risk,
     # the tab mapping + its evidence, and the payload provenance/caveat.
     summary = _live_summary(live, live_per_class, tab_maps, fn)
     (cdir / "_live_summary.json").write_text(
         json.dumps(summary, indent=1, sort_keys=True, ensure_ascii=False),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
 
     return {"classes": len(index_classes), "entries": total_entries,
             "unresolved_reborn": unresolved_reborn, "unresolved_other": unresolved_other,

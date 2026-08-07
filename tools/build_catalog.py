@@ -50,7 +50,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, sharding
+from tools import config, layerstate, sharding
 
 TABLES_DIR = config.RAW_DIR / "tables"
 CATALOG_DIR = config.RAW_DIR / "_catalog"
@@ -117,6 +117,22 @@ BASELINE_RULE = (
     "dense, meaningless target as a spectacular hit. Values outside the "
     "target's span simply do not count toward inSpan here."
 )
+
+BY_TARGET_RULE = (
+    "`columns` is indexed by SOURCE column and answers 'what does this column "
+    "join to'. `byTarget` is the same candidate set indexed by TARGET table and "
+    "answers 'which columns join to THIS table's f0' - the question an agent "
+    "asks first, and the one that previously required traversing the whole file "
+    "by hand. It introduces no new measurement and applies no extra filter: "
+    "every entry is a candidate already present in `columns`, so the same caps, "
+    "the same containment rule and the same chance baseline govern it. "
+    "`aboveChance` counts the inbound columns whose lift reaches "
+    f"{CHANCE_LIFT}; `aboveChanceStrong` counts those of them that ALSO have at "
+    f"least {MIN_MATCHED_EVIDENCE} matched values, and it is the one to read - a "
+    "column holding two values that happen to be ids clears the chance bar as "
+    "easily as a real reference with a hundred. The rest are listed because "
+    "suppressing a rate is a hidden judgement, not because they are evidence. "
+    "`python -m tools.find --joins-to <Table>` reads this index.")
 
 STRING_RULE = (
     "Every column the decode inferred as a string, with sample values taken "
@@ -517,10 +533,54 @@ def write_joins_json(scan: dict, targets: dict) -> dict:
                            "suppressed rate is a hidden judgement; they are "
                            "not evidence of a relation.",
         "containmentHistogram": hist,
+        "byTargetRule": BY_TARGET_RULE,
+        "byTarget": by_target(scan["joins"]),
         "columns": scan["joins"],
     }
     write_text(CATALOG_DIR / "joins.json", sharding.dump_manifest(payload))
     return payload
+
+
+def by_target(joins: list) -> list:
+    """The same candidates, inverted: target table -> every column that points at
+    its f0.
+
+    `columns` answers "what does THIS column join to". Nothing answered the
+    question an agent actually asks first - "what joins to Spell?" - which had to
+    be hand-derived by traversing the whole file. Same measurements, same caps,
+    no new evidence: this is an index, not a claim."""
+    inv = {}
+    for row in joins:
+        for c in row["candidates"]:
+            inv.setdefault(c["table"], []).append({
+                "table": row["table"], "column": row["column"],
+                "containment": c["containment"], "matched": c["matched"],
+                "lift": c["lift"], "weakEvidence": c["weakEvidence"],
+                "targetDensity": c["targetDensity"],
+                "sourceDistinct": row["sourceDistinct"]})
+    out = []
+    for target in sorted(inv):
+        rows = sorted(inv[target],
+                      key=lambda r: (-r["containment"], r["weakEvidence"],
+                                     -(r["lift"] or 0), r["table"].lower(),
+                                     r["column"]))
+        strong = [r for r in rows if not r["weakEvidence"]
+                  and r["lift"] is not None and r["lift"] >= CHANCE_LIFT]
+        out.append({"target": target, "targetColumn": "f0",
+                    "inboundColumns": len(rows),
+                    "inboundTables": len({r["table"] for r in rows}),
+                    # Two counts, because one of them alone misleads. A column
+                    # can clear the chance bar on two matched values, and this
+                    # layer has already been burned by a spectacular lift with
+                    # no sample size behind it (see JOIN_RULE).
+                    "aboveChance": sum(1 for r in rows
+                                       if r["lift"] is not None
+                                       and r["lift"] >= CHANCE_LIFT),
+                    "aboveChanceStrong": len(strong),
+                    "aboveChanceStrongTables": len({r["table"] for r in strong}),
+                    "weakEvidence": sum(1 for r in rows if r["weakEvidence"]),
+                    "columns": rows})
+    return out
 
 
 def write_strings_json(scan: dict) -> dict:
@@ -597,7 +657,12 @@ def write_catalog_md(layer: dict) -> None:
     L.append("```")
     L.append('python -m tools.find "Tide Lash"      # which table/column holds a string')
     L.append("python -m tools.find --id 133         # every table an integer appears in")
+    L.append("python -m tools.find --joins-to Spell # which columns point at Spell.f0")
     L.append("```")
+    L.append("The first two also scan `raw/content` (the .loc localization store) "
+             "and `raw/cache` (the WDB query caches), because quest and item "
+             "TEXT lives there and not in the DBC - `Quest` and `Item` carry no "
+             "string column at all. Add `--layer tables` to restrict.\n")
     L.append("| file | what it answers |")
     L.append("| --- | --- |")
     L.append("| `raw/_catalog/tables.json` | every column of every table: "
@@ -606,7 +671,8 @@ def write_catalog_md(layer: dict) -> None:
              "columns with sample values - grep it for text |")
     L.append(f"| `raw/_catalog/joins.json` | {jj['columnsWithCandidates']} "
              f"columns with {jj['candidateCount']} candidate joins, each with "
-             "the target's id density and a chance baseline |")
+             "the target's id density and a chance baseline; `byTarget` inverts "
+             f"them over {len(jj['byTarget'])} target tables |")
     L.append("| `raw/tables/index.json` | shard map, byte counts, source archive "
              "per table |")
     L.append("| `raw/README.md` | the other raw layers: content/.loc, Interface, "
@@ -629,10 +695,15 @@ def write_catalog_md(layer: dict) -> None:
     L.append("## Tables\n")
     L.append("Sorted by name. `size` is stored bytes; `key` is the f0 id space "
              "(distinct ids, and the share of its min..max range they occupy). "
-             "`text columns` are the string columns with the most distinct "
-             "values, one real value each.\n")
-    L.append("| table | rows | cols | size | key | shards | text columns |")
-    L.append("| --- | ---: | ---: | ---: | --- | --- | --- |")
+             "`inbound` is how many columns elsewhere in the client join to this "
+             "table's f0, and how many of those beat chance on at least "
+             f"{MIN_MATCHED_EVIDENCE} matched values - `python -m "
+             "tools.find --joins-to <Table>` lists them. `text columns` are the "
+             "string columns with the most distinct values, one real value "
+             "each.\n")
+    inbound = {b["target"]: b for b in jj["byTarget"]}
+    L.append("| table | rows | cols | size | key | inbound | shards | text columns |")
+    L.append("| --- | ---: | ---: | ---: | --- | --- | --- | --- |")
     for t in tj["tables"]:
         cols = sorted(by_table.get(t["table"], []),
                       key=lambda c: (-c["distinctValues"], c["columnIndex"]))
@@ -645,8 +716,11 @@ def write_catalog_md(layer: dict) -> None:
             bits.append(f"`{c['column']}` {md_cell(v)}" if v else f"`{c['column']}`")
         key = (f"{t['keyDistinct']:,} @ {pct(t['keyDensity'])}"
                if t["keyDistinct"] else "-")
+        b = inbound.get(t["table"])
+        inb = (f"{b['inboundColumns']} ({b['aboveChanceStrong']} strong)"
+               if b else "-")
         L.append(f"| **{t['table']}** | {t['rows']:,} | {t['columns']} | "
-                 f"{human_bytes(t['storedBytes'])} | {key} | "
+                 f"{human_bytes(t['storedBytes'])} | {key} | {inb} | "
                  f"`{t['path']}` | {' · '.join(bits) or '-'} |")
     L.append("")
     write_text(CATALOG_MD, "\n".join(L))
@@ -654,6 +728,11 @@ def write_catalog_md(layer: dict) -> None:
 
 # --------------------------------------------------------------------------
 def run(verbose: bool = True) -> dict:
+    # raw/tables left half-written by a crash still has a readable index.json for
+    # the tables that survived; cataloguing it would publish a partial client as
+    # the whole one.
+    layerstate.require_complete(TABLES_DIR, "python -m tools.decode_all")
+    layerstate.begin(CATALOG_DIR)
     layer = layer_index()
     stems = sorted((t["table"] for t in layer["tables"]), key=str.lower)
     infos = {s: colinfo(s) for s in stems}
@@ -671,6 +750,11 @@ def run(verbose: bool = True) -> dict:
     joins = write_joins_json(scan, targets)
     strings = write_strings_json(scan)
     write_catalog_md(layer)
+    layerstate.finish(CATALOG_DIR, {
+        "layer": "raw/_catalog", "generatedBy": "python -m tools.build_catalog",
+        "tableCount": tables["tableCount"], "columnCount": tables["columnCount"],
+        "joinCandidateCount": joins["candidateCount"],
+        "stringColumnCount": strings["columnCount"]})
 
     if verbose:
         print(f"  CATALOG.md, tables.json ({tables['columnCount']:,} columns), "

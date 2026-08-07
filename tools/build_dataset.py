@@ -134,7 +134,7 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     }
     (config.RAW_DIR / "provenance.json").write_text(
         json.dumps(prov, ensure_ascii=False, indent=1, sort_keys=True),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
     return prov
 
 

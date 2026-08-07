@@ -11,15 +11,34 @@ raw/tables/** -text
 # gated on reproducing its output byte for byte. A CRLF rewrite on checkout
 # would invalidate all of it at once, on Windows clones only, silently.
 #
-# Scoped to these paths rather than `raw/**` on purpose: the older raw layers
-# (raw/dbc, raw/provenance.json, raw/realms) are already committed with
-# autocrlf-normalized working trees, and widening the rule would silently
-# rewrite their line endings in a commit that has nothing to do with them.
 raw/content/** -text
 raw/interface/** -text
 raw/interface_all/** -text
 raw/cache/** -text
 raw/README.md -text
+
+# The rest of the generated tree, added after the narrow scope above proved to
+# be the wrong call. `raw/interface/**` was committed under core.autocrlf=true
+# BEFORE it had an attribute here, so git stripped CR on add: 212 of the 1,456
+# files the Interface census points `bytesAt` at no longer hashed to their
+# recorded sha256, and the repo did not contain the client's bytes. Adding the
+# attribute afterwards froze the damage in place instead of undoing it (the fix
+# was to re-extract from the client with the attribute already in force).
+#
+# Every path below writes bytes some index records a sha256 for, so all of them
+# were exposed to exactly that failure. Left un-attributed, `raw/_inventory` and
+# `raw/realms` would have been next. Widening costs nothing: these files are
+# generated LF-only, so with `-text` the index bytes and the working tree agree
+# on every platform instead of only on Linux. `data/**` is the legacy curated
+# tree; it is covered for the same reason, and its committed bytes are unchanged
+# by the widening (they were already LF in the index - only the working-tree
+# copy was being rewritten on checkout).
+raw/_inventory/** -text
+raw/dbc/** -text
+raw/realms/** -text
+raw/talents/** -text
+raw/provenance.json -text
+data/** -text
 
 # The generated search catalog. tools/build_catalog.py must reproduce all four
 # files byte for byte on any platform - tests/test_catalog.py regenerates them

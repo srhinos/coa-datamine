@@ -232,7 +232,7 @@ def build(slug: str = "voljin") -> dict:
         text = sharding.dump_manifest(payload)
         lines = text.count("\n") + 1
         assert lines <= MAX_LINES, (cls_name, lines)
-        (tdir / f"{cls_name}.json").write_text(text, encoding="utf-8")
+        (tdir / f"{cls_name}.json").write_text(text, encoding="utf-8", newline="\n")
         index_classes.append({
             "class": cls_name, "classId": cid, "file": f"{cls_name}.json",
             "tabCount": len(tabs), "nodeCount": len(nodes),
@@ -245,7 +245,7 @@ def build(slug: str = "voljin") -> dict:
         "totalTabAssignments": sum(len(c["tabs"]) for c in classes_meta),
         "distinctTabIds": len({t["tabId"] for c in classes_meta for t in c["tabs"]}),
     }
-    (tdir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    (tdir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
     # ---- 84-vs-72 tab-layer reconciliation (recomputed fresh from data/classes/,
     # not trusted from the older doc figure - see _meta.json for the full writeup) ----
@@ -703,7 +703,7 @@ def build(slug: str = "voljin") -> dict:
     }
     (tdir / "_meta.json").write_text(
         json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
 
     return {
         "classes": len(index_classes), "totalNodes": n,

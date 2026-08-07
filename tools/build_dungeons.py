@@ -116,14 +116,14 @@ def build() -> dict:
         slug = sharding.slugify(d["name"])
         fname = f"{d['id']}-{slug}.json"
         (out_dir / fname).write_text(
-            json.dumps(d, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+            json.dumps(d, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
         index_dungeons.append({
             "id": d["id"], "name": d["name"], "file": fname, "mapId": d["mapId"],
             "isRaid": bool(d["map"]["isRaid"]) if d["map"] else False,
             "levels": d["levels"],
         })
     (out_dir / "index.json").write_text(
-        sharding.dump_manifest({"dungeons": index_dungeons}), encoding="utf-8")
+        sharding.dump_manifest({"dungeons": index_dungeons}), encoding="utf-8", newline="\n")
     return {"dungeons": len(dungeons), "raids": raid_count,
             "encounters": enc_count, "orphanEncounterMaps": orphan,
             "encounterCreatureLinks": links}

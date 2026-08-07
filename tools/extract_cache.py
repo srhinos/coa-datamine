@@ -18,9 +18,11 @@ Every file under `Cache\\WDB\\` is walked and recorded - every extension, every
 subdirectory, including the ones that are not .wdb at all. Decoding is tiered by
 `tools/wdb.py` and each tier is recorded per file:
 
-  schema   recognized magic, and a field schema that consumed every block of the
-           file EXACTLY. Named fields.
-  blocks   recognized WDB header, but no schema closed it. One record per block
+  schema   recognized magic, and a field LAYOUT that consumed every block of the
+           file EXACTLY. Positional f0..fN fields - the layout is measured, the
+           names are not, so the names ship in `_interpretation.json` instead of
+           in the data (see tools/wdb.py's INTERPRETATION_RULE).
+  blocks   recognized WDB header, but no layout closed it. One record per block
            with the body base64-encoded. Lossless.
   flat     no WDB header, but the file matches Ascension's own flat cache shape
            (uint32 count, uint32 hash, count fixed-width records) with the record
@@ -37,7 +39,7 @@ import hashlib
 import json
 import re
 
-from tools import config, rawshard, wdb
+from tools import config, layerstate, rawshard, wdb
 from tools.decode_all import write_text
 
 CACHE_DIR = config.CLIENT_DIR / "Cache" / "WDB"
@@ -64,9 +66,9 @@ def _group_of(rel_parts) -> str:
 def extract_all(verbose: bool = True) -> dict:
     if not CACHE_DIR.is_dir():
         raise SystemExit(f"FATAL: {CACHE_DIR} does not exist")
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for old in sorted(OUT_DIR.rglob("*"), reverse=True):
-        old.unlink() if old.is_file() else old.rmdir()
+    # clear_dir() drops the completion sentinel BEFORE the first unlink, so an
+    # interrupted run leaves a layer that reads as unfinished instead of as small
+    layerstate.clear_dir(OUT_DIR)
 
     files = sorted(p for p in CACHE_DIR.rglob("*") if p.is_file())
     entries, failures = [], []
@@ -92,6 +94,8 @@ def extract_all(verbose: bool = True) -> dict:
             if res["decoded"]:
                 rows, tier = res["records"], "schema"
                 extra = {"fields": res["fields"],
+                         "fieldsAreMeasured": True,
+                         "interpretationAt": "_interpretation.json#" + magic,
                          "schemaSource": wdb.SCHEMA_SOURCE.get(magic)}
             else:
                 extra = {"schemaFailure": res["failure"],
@@ -124,6 +128,9 @@ def extract_all(verbose: bool = True) -> dict:
             out = OUT_DIR / group / name
             frag = rawshard.write_group(
                 out, rows, lambda r, k=key: int(r.get(k, 0)) & 0xFFFFFFFF)
+            # published so a reader (tools/find.py) takes the key field from the
+            # index rather than knowing this layer's shape in advance
+            extra["keyField"] = key
             extra.update({"dir": f"{group}/{name}", "shardCount": frag["shardCount"],
                           "format": frag["format"],
                           "storedBytes": frag["storedBytes"]})
@@ -147,8 +154,11 @@ def extract_all(verbose: bool = True) -> dict:
         "note": "Every file under Cache\\WDB. Decoded records live in "
                 "<group>/<name>/<lo>-<hi>.jsonl[.gz], one record per line, keyed "
                 "by the block entry id (`_entry`) for WDB caches and by f0 for "
-                "the flat Ascension caches. <group> keeps each realm's cache "
-                "separate from the base one - they are different data.",
+                "the flat Ascension caches. Columns are POSITIONAL (f0..fN) in "
+                "every tier: the layout is measured, the field names are not, so "
+                "the names live in _interpretation.json and never in the data. "
+                "<group> keeps each realm's cache separate from the base one - "
+                "they are different data.",
         "clientCacheDir": str(CACHE_DIR),
         "fileCount": len(entries),
         "recordTotal": sum(e.get("records", 0) for e in entries),
@@ -157,6 +167,7 @@ def extract_all(verbose: bool = True) -> dict:
                        for t in ("schema", "blocks", "flat", "raw")},
         "groups": {k: groups[k] for k in sorted(groups)},
         "validationRule": wdb.VALIDATION_RULE,
+        "interpretationRule": wdb.INTERPRETATION_RULE,
         "flatRule": wdb.FLAT_RULE,
         "shardRule": rawshard.SHARD_RULE,
         "compressionRule": rawshard.COMPRESSION_RULE,
@@ -166,7 +177,14 @@ def extract_all(verbose: bool = True) -> dict:
     }
     write_text(OUT_DIR / "index.json",
                json.dumps(index, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
+    write_text(OUT_DIR / "_interpretation.json",
+               json.dumps(wdb.interpretation_index(), ensure_ascii=False,
+                          indent=1, sort_keys=True) + "\n")
     write_text(OUT_DIR / "README.md", _readme(index))
+    layerstate.finish(OUT_DIR, {
+        "layer": "raw/cache", "generatedBy": "python -m tools.extract_cache",
+        "fileCount": index["fileCount"], "recordTotal": index["recordTotal"],
+        "tierCounts": index["tierCounts"]})
     return index
 
 
@@ -211,12 +229,25 @@ MPQ chain for `Spell.dbc`.
 
 ```
 raw/cache/index.json                     every file: header, tier, records, sha256
+raw/cache/_interpretation.json           position -> TrinityCore field name (UNVERIFIED)
 raw/cache/<group>/<name>/<lo>-<hi>.jsonl[.gz]
 ```
+
+Records are positional: `{{"_entry":100248,"f0":4,"f3":"Beaststalker's Belt",...}}`.
+`_entry` is the block header's own entry id. `fN` is field N of the measured
+layout. No field name appears anywhere in the data.
 
 ## How a field layout earns the right to be used
 
 {ix['validationRule']}
+
+## The field names, and why they are not in the data
+
+{ix['interpretationRule']}
+
+`_interpretation.json` maps every position to the name TrinityCore gives it, per
+magic, with the handler it came from. Read a value out of `fN`; use the name to
+form a hypothesis about what `fN` is, then check it.
 
 ## Files with no WDB header
 

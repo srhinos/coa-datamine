@@ -3,12 +3,23 @@ the WDB caches.
 
 What this actually proves, in order of how much it would hurt to get wrong:
 
+[0] THE COMMITTED BYTES ARE THE CLIENT'S BYTES. Every `bytesAt` pointer in the
+    Interface census resolves to a file whose sha256 equals the recorded one -
+    checked FIRST, before anything in this file regenerates anything, because
+    this assertion once passed only as a side effect of an alphabetically
+    earlier test rebuilding raw/interface in the same working tree. Run this
+    file on a pristine checkout and it is the first thing that fails if git (or
+    anything else) rewrote a byte on the way into the repo.
 [1] The .loc decode is CLOSED - every file consumes to EOF, and the record
     counts in the index equal the lines actually on disk. A partial parse would
     show up as a shortfall, not as plausible-looking text.
-[2] The WDB field layouts are EARNED - re-decoded here and cross-checked against
+[2] The WDB field LAYOUTS are EARNED - re-decoded here and cross-checked against
     ground truth an independent source fixes (item 100248's name/ilvl/armor,
     Hogger's rank, real quest titles). A wrong field order survives neither.
+    The check goes through the positional records and resolves positions via
+    raw/cache/_interpretation.json, because the layer ships no field names.
+[6] Every layer carries its completion sentinel, so none of the above was
+    measured over a tree a crash left half-written.
 [3] Nothing is lost between the client and the layer: file counts equal the
     files on disk, shard line counts equal the record counts, and every
     `bytesAt` pointer resolves to a real file whose sha256 matches its record.
@@ -24,12 +35,14 @@ import glob
 import gzip
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, extract_cache, extract_content, extract_interface_all, loc
+from tools import (config, extract_cache, extract_content,
+                   extract_interface_all, layerstate, loc, wdb)
 
 SHARD_MAX = 5000
 
@@ -54,6 +67,42 @@ def snapshot(paths):
             n += 1
     return n, h.hexdigest()
 
+
+# ==========================================================================
+# [0] the committed bytes ARE the client's bytes - FIRST, before any rebuild
+# ==========================================================================
+# This block ran LAST in the original file, as part of [3]. It therefore passed
+# only because tests/test_interface.py sorts before this file and regenerated
+# raw/interface with the true bytes in the same working tree; on a pristine
+# checkout 212 of 1,456 pointers were stale (git had stripped CR on add, before
+# any .gitattributes existed). Order is load-bearing: measure the committed tree
+# BEFORE this file regenerates anything into it.
+_iix = json.loads(
+    (extract_interface_all.OUT_DIR / "index.json").read_text(encoding="utf-8"))
+_stale = []
+_checked = 0
+for _fp in sorted(extract_interface_all.PATHS_DIR.glob("*.jsonl")):
+    for _l in _fp.read_text(encoding="utf-8").splitlines():
+        _r = json.loads(_l)
+        if not _r.get("bytesAt"):
+            continue
+        _checked += 1
+        _p = Path(_r["bytesAt"])
+        if not _p.is_file():
+            _stale.append((_r["path"], "missing"))
+        elif hashlib.sha256(_p.read_bytes()).hexdigest() != _r["sha256"]:
+            _stale.append((_r["path"], "sha256"))
+assert not _stale, (f"{len(_stale)} of {_checked} committed Interface files do "
+                    f"not hash to their recorded sha256 - the repo does not "
+                    f"hold the client's bytes: {_stale[:5]}")
+print(f"[0] committed bytes: {_checked} Interface pointers hash to their record")
+
+# every layer this file reads must be whole, not a crash leftover
+for _d in (config.RAW_CONTENT_DIR, config.RAW_DIR / "cache",
+           config.RAW_INTERFACE_DIR, extract_interface_all.OUT_DIR,
+           config.RAW_DIR / "_inventory"):
+    assert layerstate.is_complete(_d), f"{_d} has no {layerstate.SENTINEL}"
+print(f"[6] sentinels: 5 layers carry {layerstate.SENTINEL}")
 
 # ==========================================================================
 # [1] content + localization
@@ -118,24 +167,65 @@ realm_item = [e for e in kix["files"] if e["path"].startswith("enUS/Rexxar")
 assert realm_item["records"] > base_item["records"], (realm_item, base_item)
 assert realm_item["sha256"] != base_item["sha256"]
 
+# ---- the layer ships NO field names, only positions ----
+# This is the mechanical-extraction rule applied to raw/cache: the exact-
+# consumption gate proves the LAYOUT and cannot prove a NAME (permuting two
+# same-kind same-width fields consumes identically), so names must not reach the
+# data. Checked over every schema-tier record, not a sample.
+POSITIONAL = re.compile(r"^(_entry|f\d+)$")
+for e in kix["files"]:
+    if e["tier"] not in ("schema", "flat"):
+        continue
+    d = config.RAW_DIR / "cache" / e["dir"]
+    for _, rec in read_shards(d):
+        bad = [k for k in rec if not POSITIONAL.match(k)]
+        assert not bad, (e["path"], bad[:6])
+        break                                   # first record settles the shape
+    assert all(POSITIONAL.match(f) for f in e.get("fields", [])), e["path"]
+
+# the names exist, but only in the sidecar, and it is labelled as unverified
+interp = json.loads((config.RAW_DIR / "cache" / "_interpretation.json")
+                    .read_text(encoding="utf-8"))
+assert "INTERPRETATION" in interp["rule"], interp["rule"][:80]
+assert set(interp["magics"]) == set(wdb.SCHEMAS), sorted(interp["magics"])
+
+
+def at(magic: str, name: str) -> str:
+    """The positional field the interpretation gives `name` for `magic`. Ground
+    truth below is checked THROUGH this map, so it still catches a wrong layout
+    while never requiring a name to appear in the data."""
+    hits = [f["field"] for f in interp["magics"][magic]["fields"]
+            if f["name"] == name]
+    assert len(hits) == 1, (magic, name, hits)
+    return hits[0]
+
+
 # ground truth an independent source fixes - a wrong field order fails these
 items = {r["_entry"]: r for _, r in read_shards(
     config.RAW_DIR / "cache" / realm[0] / "itemcache")}
 belt = items[100248]
-assert belt["name0"] == "Beaststalker's Belt", belt["name0"]
-assert (belt["itemLevel"], belt["quality"], belt["armor"]) == (61, 4, 277), belt
-assert belt["statsCount"] == 5 and belt["statType0"] == 3
+assert belt[at("WIDB", "name0")] == "Beaststalker's Belt", belt[at("WIDB", "name0")]
+assert (belt[at("WIDB", "itemLevel")], belt[at("WIDB", "quality")],
+        belt[at("WIDB", "armor")]) == (61, 4, 277), belt
+# the variable-length run: one positional slot holding a flat list, its length
+# equal to the declared count x the two kinds in the run
+stats = belt[at("WIDB", "stats")]
+assert belt[at("WIDB", "statsCount")] == 5, belt[at("WIDB", "statsCount")]
+assert isinstance(stats, list) and len(stats) == 10, stats
+assert stats[0] == 3, stats
 
 npcs = {r["_entry"]: r for _, r in read_shards(
     config.RAW_DIR / "cache" / realm[0] / "creaturecache")}
-assert npcs[448]["name0"] == "Hogger" and npcs[448]["rank"] == 1, npcs[448]
-assert npcs[334]["subname"] == "Warlord of the Blackrock Clan", npcs[334]
-assert 1.0 < npcs[448]["healthModifier"] < 100.0, npcs[448]["healthModifier"]
+assert npcs[448][at("WMOB", "name0")] == "Hogger", npcs[448]
+assert npcs[448][at("WMOB", "rank")] == 1, npcs[448]
+assert npcs[334][at("WMOB", "subname")] == "Warlord of the Blackrock Clan", npcs[334]
+hm = npcs[448][at("WMOB", "healthModifier")]
+assert 1.0 < hm < 100.0, hm
 
 quests = {r["_entry"]: r for _, r in read_shards(
     config.RAW_DIR / "cache" / realm[0] / "questcache")}
-assert quests[170]["title"] == "A New Threat", quests[170]["title"]
-assert "Rockjaw" in quests[170]["objectives"], quests[170]["objectives"]
+assert quests[170][at("WQST", "title")] == "A New Threat", quests[170]
+assert "Rockjaw" in quests[170][at("WQST", "objectives")], quests[170]
 
 # the two headerless Ascension caches decoded flat, with a DERIVED record size
 flat = [e for e in kix["files"] if e["tier"] == "flat"]
@@ -157,6 +247,18 @@ iix = json.loads((extract_interface_all.OUT_DIR / "index.json").read_text(encodi
 inv = extract_interface_all._inventory_interface_records()
 assert iix["pathCount"] == len(inv), (iix["pathCount"], len(inv))
 assert iix["sha256MismatchCount"] == 0, iix["sha256Mismatches"][:5]
+
+# a loose file at the client root beats every archive that carries the path, and
+# the census must report the bytes the CLIENT loads, not the archive's
+loose_recs = [r for r in inv if r.get("source") == "loose"]
+for r in loose_recs:
+    disk = config.CLIENT_DIR / r["diskPath"].replace("/", "\\")
+    assert disk.is_file(), r["path"]
+    assert hashlib.sha256(disk.read_bytes()).hexdigest() == r["sha256"], r["path"]
+    assert r["size"] == disk.stat().st_size, r["path"]
+    assert r["overrides"]["sha256"] != r["sha256"] or not r["differsFromArchive"]
+print(f"      {len(loose_recs)} Interface paths won by a loose file on disk, "
+      f"each hashed against the client")
 
 seen = {}
 for fp in sorted(extract_interface_all.PATHS_DIR.glob("*.jsonl")):

@@ -93,7 +93,7 @@ def build_manastorm() -> dict:
     assert "Rethilgore" in sfk and "Archmage Arugal" in sfk, sfk
 
     (mdir / "manastorm.json").write_text(
-        sharding.dump_manifest({"manastorm": records}), encoding="utf-8")
+        sharding.dump_manifest({"manastorm": records}), encoding="utf-8", newline="\n")
     return {"count": len(records), "dungeonEncounterJoinRate": round(join_rate, 4)}
 
 
@@ -123,7 +123,7 @@ def build_messages() -> dict:
     assert "Manastorm" in golden["text"]
 
     (mdir / "messages.json").write_text(
-        sharding.dump_manifest({"messages": records}), encoding="utf-8")
+        sharding.dump_manifest({"messages": records}), encoding="utf-8", newline="\n")
     return {"count": len(records)}
 
 
@@ -155,7 +155,7 @@ def build_modifiers() -> dict:
 
     (mdir / "index.json").write_text(
         sharding.dump_manifest({"bucketSize": MODIFIER_BUCKET, "count": len(records),
-                                 "buckets": bucket_index}), encoding="utf-8")
+                                 "buckets": bucket_index}), encoding="utf-8", newline="\n")
     return {"count": len(records)}
 
 
@@ -172,7 +172,7 @@ def build_player_group_modifiers() -> dict:
         "ManastormPlayerGroupModifiers id column is not unique"
 
     (mdir / "playerGroupModifiers.json").write_text(
-        sharding.dump_manifest({"playerGroupModifiers": records}), encoding="utf-8")
+        sharding.dump_manifest({"playerGroupModifiers": records}), encoding="utf-8", newline="\n")
     return {"count": len(records)}
 
 
@@ -225,7 +225,7 @@ def build() -> dict:
         ),
     }
     (mdir / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
     return stats
 

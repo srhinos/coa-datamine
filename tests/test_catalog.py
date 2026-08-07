@@ -225,7 +225,8 @@ print(f"[4] samples: {len(layer_str)} string columns catalogued, {verified} "
 # ==========================================================================
 # [5] find.py is exhaustive and correct
 # ==========================================================================
-res = find.find_string("Tide Lash")
+TABLES = ["tables"]
+res = find.find_string("Tide Lash", layers=TABLES)
 cols = {(c["table"], c["column"]): c["rows"] for c in res["columns"]}
 assert cols == {("Spell", "f136"): 5}, cols
 assert {h["text"] for h in res["hits"]} == {"Tide Lash"}
@@ -233,16 +234,16 @@ spell_ids = sorted(h["rowKey"] for h in res["hits"])
 assert len(spell_ids) == 5 and len(set(spell_ids)) == 5, spell_ids
 
 # a tiny table: a scan that skipped small shards would miss this
-res = find.find_string("POWER_TYPE_PYRITE")
+res = find.find_string("POWER_TYPE_PYRITE", layers=TABLES)
 assert ("PowerDisplay", "f2") in {(c["table"], c["column"]) for c in res["columns"]}
 
 # case folding, and its opt-out
-assert find.find_string("tide lash")["hitCount"] == 5
-assert find.find_string("tide lash", ignore_case=False)["hitCount"] == 0
+assert find.find_string("tide lash", layers=TABLES)["hitCount"] == 5
+assert find.find_string("tide lash", ignore_case=False, layers=TABLES)["hitCount"] == 0
 
 # the id path: the spell id resolves in Spell, and the same integer lands in
 # unrelated dense id spaces - which is the whole warning
-res = find.find_id(spell_ids[0])
+res = find.find_id(spell_ids[0], layers=TABLES)
 hit = {(c["table"], c["column"]): c for c in res["columns"]}
 assert ("Spell", "f0") in hit, sorted(hit)
 assert hit[("Spell", "f0")]["isKey"] and hit[("Spell", "f0")]["rows"] == 1
@@ -256,6 +257,89 @@ assert one["hitCount"] == 5
 print(f"[5] find: 'Tide Lash' -> Spell.f136 x5 (ids {spell_ids}); id "
       f"{spell_ids[0]} -> {res['columnCount']} columns in {res['tableCount']} "
       f"tables, {len(dense)} of them dense keys")
+
+
+# ==========================================================================
+# [5b] find reaches the layers where quest and item TEXT actually lives
+# ==========================================================================
+# Quest and Item have ZERO string columns on this client, so a search that read
+# only raw/tables answered "not in the client" for every quest title and item
+# name in the game. These assertions are the regression gate on that.
+quest_cols = {c for t in tables["tables"] if t["table"] in ("Quest", "Item")
+              for c in t["columnDetail"] if c["inferred"] == "string"}
+assert not quest_cols, "premise changed: Quest/Item now have string columns"
+
+# The two layers carry different things, and the split is worth stating: the
+# WDB caches hold what the server sent THIS client in its own locale (English
+# here), while the .loc store holds the TRANSLATIONS. Neither is in the DBC.
+q = find.find_string("A New Threat", layers=["content", "cache"], limit=0)
+assert {c["layer"] for c in q["columns"]} == {"cache"}, q["columns"][:4]
+assert all(c["table"].startswith("wdb:") for c in q["columns"]), q["columns"][:4]
+assert any("questcache" in c["table"] for c in q["columns"]), q["columns"][:4]
+
+it = find.find_string("Beaststalker's Belt", layers=["cache"], limit=0)
+groups = {c["table"] for c in it["columns"]}
+assert groups and all(g.startswith("wdb:") for g in groups), groups
+
+# the .loc side: a translated spell name, which lives only in raw/content
+de = find.find_string("Machtwort: Schild", layers=["content", "cache"], limit=0)
+assert {c["layer"] for c in de["columns"]} == {"content"}, de["columns"][:4]
+assert any(c["table"].startswith("loc:") for c in de["columns"]), de["columns"][:4]
+
+# and the DBC layer cannot answer either question - not because the scan misses
+# it, but because the row that would carry the text does not exist there
+for text in ("A New Threat", "Beaststalker's Belt"):
+    t = find.find_string(text, layers=TABLES, limit=0)
+    assert not [c for c in t["columns"] if c["table"] in ("Quest", "Item")], \
+        (text, t["columns"][:4])
+
+# the variable-length run in raw/cache is a list in one positional slot; an
+# integer inside it has to be findable, or the prefilter is silently lossy
+runs = find.find_id(3, layers=["cache"], limit=0)
+assert runs["columnCount"] > 0, "no cache column contains the integer 3"
+print(f"[5b] find over content+cache: quest title in {len(q['columns'])} WDB "
+      f"columns, item name in {len(it['columns'])}, translated spell name in "
+      f"{len(de['columns'])} .loc groups - none of it reachable from raw/tables")
+
+
+# ==========================================================================
+# [5c] the reverse-join index answers "what joins to X"
+# ==========================================================================
+# This question needed a hand-written traversal of joins.json before byTarget.
+by_target = {b["target"]: b for b in joins["byTarget"]}
+flat = [(r["table"], r["column"], c["table"], c["containment"], c["lift"])
+        for r in joins["columns"] for c in r["candidates"]]
+assert sum(b["inboundColumns"] for b in joins["byTarget"]) == len(flat), \
+    "byTarget must hold exactly the candidates in `columns` - no more, no fewer"
+for b in joins["byTarget"]:
+    want = [f for f in flat if f[2] == b["target"]]
+    assert b["inboundColumns"] == len(want), b["target"]
+    assert b["inboundTables"] == len({f[0] for f in want}), b["target"]
+    assert b["aboveChance"] == sum(1 for f in want
+                                   if f[4] is not None and f[4] >= bc.CHANCE_LIFT), \
+        b["target"]
+    assert b["aboveChanceStrong"] <= b["aboveChance"], b["target"]
+    assert b["aboveChanceStrong"] + b["weakEvidence"] >= b["aboveChance"], b["target"]
+    # ordering is by containment desc, strong evidence first
+    conts = [c["containment"] for c in b["columns"]]
+    assert conts == sorted(conts, reverse=True), b["target"]
+
+spell = find.find_joins_to("Spell")
+assert spell["target"] == "Spell"
+assert spell["inboundColumns"] == by_target["Spell"]["inboundColumns"]
+assert spell["inboundColumns"] > 0
+# case-insensitive, and it reads the generated file rather than re-deriving
+assert find.find_joins_to("spell")["inboundColumns"] == spell["inboundColumns"]
+assert "byTargetRule" in joins and "no new measurement" in joins["byTargetRule"]
+# the number an independent audit derived by hand from joins.json, which is what
+# this index exists to make a one-command answer
+assert (spell["inboundColumns"], spell["inboundTables"]) == (157, 80), spell
+assert (spell["aboveChanceStrong"], spell["aboveChanceStrongTables"]) == (140, 71), spell
+print(f"[5c] byTarget: {len(joins['byTarget'])} target tables index "
+      f"{len(flat)} candidates; Spell.f0 has {spell['inboundColumns']} inbound "
+      f"columns in {spell['inboundTables']} tables, "
+      f"{spell['aboveChanceStrong']} of them in "
+      f"{spell['aboveChanceStrongTables']} tables above chance on real evidence")
 
 
 # ==========================================================================

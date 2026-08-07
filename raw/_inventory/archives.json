@@ -2532,5 +2532,6 @@
  ],
  "clientDir": "E:\\ascension-live",
  "listableCount": 69,
+ "scanCheckpointRule": "Pass 1 opens all 77 archives, hashes each one whole (about 30 GB of reads) and enumerates its listfile against its block table. It is checkpointed per archive into work/inventory_scan/, keyed by the archive file's SIZE and modification time, with the sha256 it computed stored inside. A client patch rewrites the file and moves its mtime, which invalidates the entry; `--rescan` ignores the checkpoints entirely and re-reads every archive, which is the way to prove a run from the bytes alone. Unlike the pass-4 checkpoint this key is not the content hash - computing the content hash IS the cost being avoided - so it is a stat-based assumption and is called one here rather than left implicit.",
  "unlistableCount": 8
 }

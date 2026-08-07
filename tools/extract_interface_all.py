@@ -48,7 +48,7 @@ from pathlib import Path
 
 from mpyq import MPQArchive
 
-from tools import config, inventory
+from tools import config, inventory, layerstate
 from tools.decode_all import write_text
 
 OUT_DIR = config.RAW_DIR / "interface_all"
@@ -126,6 +126,9 @@ def _index_hash_table(arch) -> None:
 
 def _inventory_interface_records() -> list:
     """Every Interface path the inventory recorded, from its committed shards."""
+    # A census half-deleted by a crash still has readable shards; reading them
+    # would silently build this layer over a subset of the client.
+    layerstate.require_complete(inventory.INV_DIR, "python -m tools.inventory")
     if not inventory.FILES_DIR.is_dir():
         raise SystemExit(
             f"FATAL: {inventory.FILES_DIR} is missing. This layer is derived from "
@@ -163,12 +166,10 @@ def _on_disk_census() -> dict:
 
 def extract_all(verbose: bool = True) -> dict:
     t0 = time.time()
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for old in sorted(OUT_DIR.rglob("*"), reverse=True):
-        old.unlink() if old.is_file() else old.rmdir()
+    records = _inventory_interface_records()      # gated on the census sentinel
+    layerstate.clear_dir(OUT_DIR)
     PATHS_DIR.mkdir(parents=True, exist_ok=True)
 
-    records = _inventory_interface_records()
     by_archive = {}
     for r in records:
         by_archive.setdefault(r["winner"], []).append(r)
@@ -181,14 +182,26 @@ def extract_all(verbose: bool = True) -> dict:
     done = 0
 
     for aname in sorted(by_archive):
-        apath = config.CLIENT_DIR / aname.replace("/", "\\")
-        arch = MPQArchive(str(apath), listfile=False)
-        _index_hash_table(arch)
+        # `<disk>` is the inventory's marker for a path a loose file at the
+        # client root overrides. Those bytes come off disk, not out of an
+        # archive - reading the archive copy would record bytes the client will
+        # never load. See inventory.LOOSE_OVERRIDE_RULE.
+        loose_group = aname == inventory.DISK_WINNER
+        arch = None
+        if not loose_group:
+            apath = config.CLIENT_DIR / aname.replace("/", "\\")
+            arch = MPQArchive(str(apath), listfile=False)
+            _index_hash_table(arch)
         for r in by_archive[aname]:
             stored = r["path"].replace("/", "\\")
             rec = {"path": r["path"], "winner": r["winner"], "size": r["size"],
                    "storedBytes": r.get("storedBytes"), "sha256": r.get("sha256"),
                    "flags": r.get("flags", [])}
+            if r.get("source") == "loose":
+                rec["source"] = "loose"
+                rec["diskPath"] = r.get("diskPath")
+                if r.get("overrides"):
+                    rec["overrides"] = r["overrides"]
             if r.get("losers"):
                 rec["losers"] = r["losers"]
             if r.get("readable") is False:
@@ -198,7 +211,9 @@ def extract_all(verbose: bool = True) -> dict:
                 out_records.append(rec)
                 continue
             try:
-                data = arch.read_file(stored)
+                data = ((config.CLIENT_DIR / r["diskPath"].replace("/", "\\")
+                         ).read_bytes() if loose_group
+                        else arch.read_file(stored))
             except Exception as e:
                 data = None
                 rec["readError"] = f"{type(e).__name__}: {e}"
@@ -240,7 +255,8 @@ def extract_all(verbose: bool = True) -> dict:
                 stats["committed"] += 1
                 stats["committedBytes"] += len(data)
             out_records.append(rec)
-        arch.file.close()
+        if arch is not None:
+            arch.file.close()
         done += len(by_archive[aname])
         if verbose:
             print(f"  {aname:28s} {done:6d}/{len(records)} "
@@ -307,12 +323,22 @@ def extract_all(verbose: bool = True) -> dict:
         "shardMaxRecords": inventory.SHARD_MAX,
         "shardCount": len(shards),
         "byExtension": {k: ext[k] for k in sorted(ext)},
+        "looseOverrideRule": inventory.LOOSE_OVERRIDE_RULE,
+        "looseOverrides": sorted(r["path"] for r in out_records
+                                 if r.get("source") == "loose"),
         "onDiskInterfaceTree": _on_disk_census(),
         "shards": shards,
     }
     write_text(OUT_DIR / "index.json",
                json.dumps(index, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
     write_text(OUT_DIR / "README.md", _readme(index))
+    layerstate.finish(OUT_DIR, {
+        "layer": "raw/interface_all",
+        "generatedBy": "python -m tools.extract_interface_all",
+        "pathCount": index["pathCount"], "textCount": index["textCount"],
+        "binaryCount": index["binaryCount"],
+        "unreadableCount": index["unreadableCount"],
+        "sha256MismatchCount": index["sha256MismatchCount"]})
     return index
 
 
@@ -364,6 +390,13 @@ the bytes, or `null` when only the hash is kept.
 | ext | files | MB | text | unreadable |
 | --- | ---: | ---: | ---: | ---: |
 {rows}
+
+## Loose files at the client root that beat the archives
+
+{ix['looseOverrideRule']}
+
+Paths won by a loose file here: {len(ix['looseOverrides'])}
+{chr(10).join('- `' + p + '`' for p in ix['looseOverrides']) or '- none'}
 
 ## Scope: the on-disk `Interface\\` tree
 

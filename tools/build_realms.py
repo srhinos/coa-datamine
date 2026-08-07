@@ -197,7 +197,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     data_dir = config.DATA_REALMS_DIR / realm
     data_dir.mkdir(parents=True, exist_ok=True)
     (data_dir / "index.json").write_text(
-        json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+        json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
 
     meta = {
         "realm": realm,
@@ -214,7 +214,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
         ),
     }
     (data_dir / "_meta.json").write_text(
-        json.dumps(meta, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+        json.dumps(meta, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
 
     return index
 

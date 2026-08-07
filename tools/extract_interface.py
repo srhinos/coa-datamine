@@ -25,11 +25,11 @@ os.sep, matching the extraction destination literally) -> {source, size, sha256}
 a pure function of (archive contents, on-disk APIDocumentation) - no timestamps anywhere,
 matching this repo's determinism rule for everything under raw/.
 """
-import hashlib, json, os, shutil
+import hashlib, json, os
 
 from mpyq import MPQArchive
 
-from tools import config, extract_mpq
+from tools import config, extract_mpq, layerstate
 
 CODE_EXTS = {".lua", ".xml", ".toc", ".txt", ".md"}
 _INTERFACE_PREFIX = "interface\\"
@@ -126,9 +126,10 @@ def _disk_entries() -> dict:
 def extract_all() -> dict:
     config.ensure_dirs()
     out_dir = config.RAW_INTERFACE_DIR
-    if out_dir.exists():
-        shutil.rmtree(out_dir)
-    out_dir.mkdir(parents=True)
+    # The sentinel is dropped before the tree is cleared, so a run killed
+    # mid-extraction leaves a layer that reads as unfinished rather than as a
+    # smaller-but-plausible one.
+    layerstate.clear_dir(out_dir)
 
     carriers, skipped = _collect_archive_carriers()
     winners, multi_archive_collisions = _resolve_archive_winners(carriers)
@@ -158,8 +159,16 @@ def extract_all() -> dict:
         "files": {k: files_meta[k] for k in sorted(files_meta)},
     }
     manifest_path = out_dir / "_manifest.json"
-    manifest_path.write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    # bytes, not Path.write_text(): text mode translates \n to the platform's
+    # newline, which would make this manifest - and the sha256 recorded for it -
+    # depend on the OS that generated it. Same rule every other raw layer uses.
+    manifest_path.write_bytes(
+        json.dumps(manifest, ensure_ascii=False, indent=1,
+                   sort_keys=True).encode("utf-8"))
+    layerstate.finish(out_dir, {
+        "layer": "raw/interface", "generatedBy": "python -m tools.extract_interface",
+        "count": len(files_meta), "archiveSourced": archive_sourced,
+        "diskSourced": len(disk)})
 
     return {
         "count": len(files_meta),

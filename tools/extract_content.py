@@ -36,10 +36,17 @@ single writer so the existing snapshot gate keeps testing the thing it tests.
 import hashlib
 import json
 
-from tools import config, loc, rawshard, snapshot_content
+from tools import config, layerstate, loc, rawshard, snapshot_content
 from tools.decode_all import write_text
 
 LOCALIZATION_DIR = config.RAW_CONTENT_DIR / "localization"
+
+# The two fields a decoded .loc record carries. They are not column names taken
+# from anywhere - the format has exactly two members per record (see tools/loc.py)
+# and these are this module's labels for them, published in the index so readers
+# never have to hardcode them.
+KEY_FIELD = "id"
+TEXT_FIELD = "text"
 
 
 def _rel_parts(path):
@@ -57,6 +64,9 @@ def extract_all(verbose: bool = True) -> dict:
     config.ensure_dirs()
     if not config.CONTENT_DIR.is_dir():
         raise SystemExit(f"FATAL: {config.CONTENT_DIR} does not exist")
+
+    # Invalidate before the first destructive write below, never after the last.
+    layerstate.begin(config.RAW_CONTENT_DIR)
 
     # ---- pass 1: verbatim JSON snapshot (existing single writer) ----
     snap = snapshot_content.snapshot()
@@ -85,9 +95,9 @@ def extract_all(verbose: bool = True) -> dict:
                 failures.append(rec)
                 entries.append(rec)
                 continue
-            texts = [{"id": rid, "text": t} for rid, t in rows]
+            texts = [{KEY_FIELD: rid, TEXT_FIELD: t} for rid, t in rows]
             out = LOCALIZATION_DIR / entity.replace("/", "/") / locale
-            frag = rawshard.write_group(out, texts, lambda r: r["id"])
+            frag = rawshard.write_group(out, texts, lambda r: r[KEY_FIELD])
             rec.update({"kind": "loc", "decoded": True, "records": len(texts),
                         "entity": entity, "locale": locale,
                         "nonEmpty": sum(1 for t in texts if t["text"]),
@@ -96,6 +106,12 @@ def extract_all(verbose: bool = True) -> dict:
                         "storedBytes": frag["storedBytes"]})
             groups[f"{entity}/{locale}"] = {
                 "entity": entity, "locale": locale, "source": "/".join(parts),
+                # This module WRITES the record keys, so it is the only honest
+                # place to say what they are. Naming them here means a consumer
+                # (tools/find.py) reads the key field out of the index instead of
+                # carrying a column name of its own - no reader in this repo is
+                # allowed to know a column's name a priori.
+                "keyField": KEY_FIELD, "textField": TEXT_FIELD,
                 "records": len(texts), "sourceBytes": len(data), **frag}
         elif p.suffix.lower() == ".json" and len(parts) == 1:
             rec.update({"kind": "json", "decoded": True,
@@ -138,6 +154,11 @@ def extract_all(verbose: bool = True) -> dict:
     write_text(config.RAW_CONTENT_DIR / "index.json",
                json.dumps(index, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
     write_text(config.RAW_CONTENT_DIR / "README.md", _readme(index))
+    layerstate.finish(config.RAW_CONTENT_DIR, {
+        "layer": "raw/content", "generatedBy": "python -m tools.extract_content",
+        "fileCount": index["fileCount"], "locCount": index["locCount"],
+        "locRecordTotal": index["locRecordTotal"],
+        "failureCount": index["failureCount"]})
     return index
 
 

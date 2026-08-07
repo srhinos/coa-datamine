@@ -19,8 +19,40 @@ Regenerate: `python -m tools.inventory`. Every file here is written by `tools/in
 - **368 DBC tables**
 - **77 archives** (8 unlistable), 44.9 GB on disk
 - **67.87 GB** uncompressed if everything is extracted
-- unreadable files: 41,053
+- unreadable files: 41,051
 - files in unlistable archives that no harvested name identified: **0**
+- paths a loose file at the client root takes from the archives: **22**
+
+## Loose files at the client root beat the whole MPQ chain
+
+A 3.3.5 client resolves `<clientRoot>\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. The census therefore walks the whole client root, and a loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost. Which loose files are recorded is decided mechanically, by two conditions and no list of names: a loose file is recorded if (1) it lives under `Data\` - the client's data directory, already covered before this rule existed - or (2) its root-relative path is carried by the MPQ chain, which is what makes it an override at all. Everything else on the disk (the user's installed AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) is machine state rather than client content, is not in the archive namespace, and is deliberately outside this census - it is also volatile between launches, so recording it would make a rerun on an unchanged client stop reproducing. `.MPQ` files themselves are skipped here because they are inventoried as archives, with their members as paths.
+
+| path | on-disk bytes | archive bytes | archive winner | same bytes? |
+| --- | ---: | ---: | --- | --- |
+| `DivxDecoder.dll` | 413,696 | 413,696 | Data/enUS/base-enUS.MPQ | yes |
+| `Interface/AddOns/Blizzard_AchievementUI/Blizzard_AchievementUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_AuctionUI/Blizzard_AuctionUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_BindingUI/Blizzard_BindingUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_CombatLog/Blizzard_CombatLog.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_CombatText/Blizzard_CombatText.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_DebugTools/Blizzard_DebugTools.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_GMChatUI/Blizzard_GMChatUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_GuildBankUI/Blizzard_GuildBankUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_InspectUI/Blizzard_InspectUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_ItemSocketingUI/Blizzard_ItemSocketingUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_MacroUI/Blizzard_MacroUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_RaidUI/Blizzard_RaidUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/AddOns/Blizzard_TalentUI/Blizzard_TalentUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
+| `Interface/Tooltips/chatbubble.blp` | 44,884 | 44,900 | Data/patch-A.MPQ | no |
+| `Interface/Tooltips/chatbubblevertical.blp` | 6,660 | 6,692 | Data/patch-A.MPQ | no |
+| `Sound/Spells/Fizzle/FizzleFireA.wav` | 4,454 | 66,194 | Data/common.MPQ | no |
+| `Sound/Spells/Fizzle/FizzleFrostA.wav` | 4,454 | 70,908 | Data/common.MPQ | no |
+| `Sound/Spells/Fizzle/FizzleHolyA.wav` | 4,454 | 77,182 | Data/common.MPQ | no |
+| `Sound/Spells/Fizzle/FizzleNatureA.wav` | 4,454 | 63,042 | Data/common.MPQ | no |
+| `Sound/Spells/Fizzle/FizzleShadowA.wav` | 4,454 | 72,890 | Data/common.MPQ | no |
+| `WowError.exe` | 205,824 | 220,816 | Data/enUS/base-enUS.MPQ | no |
+
+Each of these records the DISK bytes as the winner. The archive copy it displaced is kept in full under `overrides` in the path record - nothing is dropped, it is just no longer reported as the file the client loads.
 
 ## What is not readable, and whether it matters
 
@@ -28,14 +60,14 @@ Regenerate: `python -m tools.inventory`. Every file here is written by `tools/in
 
 | unreadable by class | count |
 | --- | ---: |
-| sound | 35,921 |
+| sound | 35,920 |
 | art | 5,031 |
 | interface | 85 |
-| other | 16 |
+| other | 15 |
 
 | reason | count |
 | --- | ---: |
-| compression mpyq cannot decode | 36,141 |
+| compression mpyq cannot decode | 36,139 |
 | empty override block | 4,912 |
 
 Unreadable files with a DATA extension (dbc/json/lua/xml/toc/txt/loc): `{'lua': 12, 'xml': 12, 'toc': 1}`. Everything else unreadable is binary media (ogg/wav/blp/mp3/avi/...).

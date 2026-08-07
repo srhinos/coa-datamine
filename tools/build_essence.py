@@ -113,7 +113,7 @@ def build() -> dict:
         "classes": classes,
     }
     from tools import sharding
-    (cdir / "essence.json").write_text(sharding.dump_manifest(payload), encoding="utf-8")
+    (cdir / "essence.json").write_text(sharding.dump_manifest(payload), encoding="utf-8", newline="\n")
 
     return {
         "count": len(classes),

@@ -166,7 +166,7 @@ def extract_all() -> dict:
         prov["unlistableProbes"] = probes
 
     (config.WORK_DIR / "extract_provenance.json").write_text(
-        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return prov
 
 

@@ -127,7 +127,7 @@ def main():
         print(f"{name:16s} probed={frag['probedCount']:3d} hits={hit_str}")
     config.WORK_DIR.mkdir(parents=True, exist_ok=True)
     (config.WORK_DIR / "probe_unlistable.json").write_text(
-        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

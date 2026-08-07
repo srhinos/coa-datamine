@@ -1,0 +1,1877 @@
+{
+ "generatedBy": "python -m tools.extract_cache",
+ "magics": {
+  "WGOB": {
+   "fieldCount": 40,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "uint32",
+     "name": "type"
+    },
+    {
+     "field": "f1",
+     "kind": "uint32",
+     "name": "displayId"
+    },
+    {
+     "field": "f2",
+     "kind": "cstring",
+     "name": "name0"
+    },
+    {
+     "field": "f3",
+     "kind": "cstring",
+     "name": "name1"
+    },
+    {
+     "field": "f4",
+     "kind": "cstring",
+     "name": "name2"
+    },
+    {
+     "field": "f5",
+     "kind": "cstring",
+     "name": "name3"
+    },
+    {
+     "field": "f6",
+     "kind": "cstring",
+     "name": "iconName"
+    },
+    {
+     "field": "f7",
+     "kind": "cstring",
+     "name": "castBarCaption"
+    },
+    {
+     "field": "f8",
+     "kind": "cstring",
+     "name": "unk1"
+    },
+    {
+     "field": "f9",
+     "kind": "int32",
+     "name": "data0"
+    },
+    {
+     "field": "f10",
+     "kind": "int32",
+     "name": "data1"
+    },
+    {
+     "field": "f11",
+     "kind": "int32",
+     "name": "data2"
+    },
+    {
+     "field": "f12",
+     "kind": "int32",
+     "name": "data3"
+    },
+    {
+     "field": "f13",
+     "kind": "int32",
+     "name": "data4"
+    },
+    {
+     "field": "f14",
+     "kind": "int32",
+     "name": "data5"
+    },
+    {
+     "field": "f15",
+     "kind": "int32",
+     "name": "data6"
+    },
+    {
+     "field": "f16",
+     "kind": "int32",
+     "name": "data7"
+    },
+    {
+     "field": "f17",
+     "kind": "int32",
+     "name": "data8"
+    },
+    {
+     "field": "f18",
+     "kind": "int32",
+     "name": "data9"
+    },
+    {
+     "field": "f19",
+     "kind": "int32",
+     "name": "data10"
+    },
+    {
+     "field": "f20",
+     "kind": "int32",
+     "name": "data11"
+    },
+    {
+     "field": "f21",
+     "kind": "int32",
+     "name": "data12"
+    },
+    {
+     "field": "f22",
+     "kind": "int32",
+     "name": "data13"
+    },
+    {
+     "field": "f23",
+     "kind": "int32",
+     "name": "data14"
+    },
+    {
+     "field": "f24",
+     "kind": "int32",
+     "name": "data15"
+    },
+    {
+     "field": "f25",
+     "kind": "int32",
+     "name": "data16"
+    },
+    {
+     "field": "f26",
+     "kind": "int32",
+     "name": "data17"
+    },
+    {
+     "field": "f27",
+     "kind": "int32",
+     "name": "data18"
+    },
+    {
+     "field": "f28",
+     "kind": "int32",
+     "name": "data19"
+    },
+    {
+     "field": "f29",
+     "kind": "int32",
+     "name": "data20"
+    },
+    {
+     "field": "f30",
+     "kind": "int32",
+     "name": "data21"
+    },
+    {
+     "field": "f31",
+     "kind": "int32",
+     "name": "data22"
+    },
+    {
+     "field": "f32",
+     "kind": "int32",
+     "name": "data23"
+    },
+    {
+     "field": "f33",
+     "kind": "float32",
+     "name": "size"
+    },
+    {
+     "field": "f34",
+     "kind": "uint32",
+     "name": "questItem0"
+    },
+    {
+     "field": "f35",
+     "kind": "uint32",
+     "name": "questItem1"
+    },
+    {
+     "field": "f36",
+     "kind": "uint32",
+     "name": "questItem2"
+    },
+    {
+     "field": "f37",
+     "kind": "uint32",
+     "name": "questItem3"
+    },
+    {
+     "field": "f38",
+     "kind": "uint32",
+     "name": "questItem4"
+    },
+    {
+     "field": "f39",
+     "kind": "uint32",
+     "name": "questItem5"
+    }
+   ],
+   "source": "3.3.5 gameobject query response"
+  },
+  "WIDB": {
+   "fieldCount": 109,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "uint32",
+     "name": "class"
+    },
+    {
+     "field": "f1",
+     "kind": "uint32",
+     "name": "subclass"
+    },
+    {
+     "field": "f2",
+     "kind": "int32",
+     "name": "soundOverrideSubclass"
+    },
+    {
+     "field": "f3",
+     "kind": "cstring",
+     "name": "name0"
+    },
+    {
+     "field": "f4",
+     "kind": "cstring",
+     "name": "name1"
+    },
+    {
+     "field": "f5",
+     "kind": "cstring",
+     "name": "name2"
+    },
+    {
+     "field": "f6",
+     "kind": "cstring",
+     "name": "name3"
+    },
+    {
+     "field": "f7",
+     "kind": "uint32",
+     "name": "displayId"
+    },
+    {
+     "field": "f8",
+     "kind": "uint32",
+     "name": "quality"
+    },
+    {
+     "field": "f9",
+     "kind": "uint32",
+     "name": "flags"
+    },
+    {
+     "field": "f10",
+     "kind": "uint32",
+     "name": "flags2"
+    },
+    {
+     "field": "f11",
+     "kind": "uint32",
+     "name": "buyPrice"
+    },
+    {
+     "field": "f12",
+     "kind": "uint32",
+     "name": "sellPrice"
+    },
+    {
+     "field": "f13",
+     "kind": "uint32",
+     "name": "inventoryType"
+    },
+    {
+     "field": "f14",
+     "kind": "int32",
+     "name": "allowableClass"
+    },
+    {
+     "field": "f15",
+     "kind": "int32",
+     "name": "allowableRace"
+    },
+    {
+     "field": "f16",
+     "kind": "uint32",
+     "name": "itemLevel"
+    },
+    {
+     "field": "f17",
+     "kind": "uint32",
+     "name": "requiredLevel"
+    },
+    {
+     "field": "f18",
+     "kind": "uint32",
+     "name": "requiredSkill"
+    },
+    {
+     "field": "f19",
+     "kind": "uint32",
+     "name": "requiredSkillRank"
+    },
+    {
+     "field": "f20",
+     "kind": "uint32",
+     "name": "requiredSpell"
+    },
+    {
+     "field": "f21",
+     "kind": "uint32",
+     "name": "requiredHonorRank"
+    },
+    {
+     "field": "f22",
+     "kind": "uint32",
+     "name": "requiredCityRank"
+    },
+    {
+     "field": "f23",
+     "kind": "uint32",
+     "name": "requiredRepFaction"
+    },
+    {
+     "field": "f24",
+     "kind": "uint32",
+     "name": "requiredRepRank"
+    },
+    {
+     "field": "f25",
+     "kind": "int32",
+     "name": "maxCount"
+    },
+    {
+     "field": "f26",
+     "kind": "int32",
+     "name": "stackable"
+    },
+    {
+     "field": "f27",
+     "kind": "uint32",
+     "name": "containerSlots"
+    },
+    {
+     "field": "f28",
+     "kind": "uint32",
+     "name": "statsCount"
+    },
+    {
+     "field": "f29",
+     "kind": "variableRun",
+     "name": "stats",
+     "note": "flat list; length = repeatCount x len(repeatKinds)",
+     "repeatCountFrom": "f28",
+     "repeatKinds": [
+      "u",
+      "i"
+     ]
+    },
+    {
+     "field": "f30",
+     "kind": "uint32",
+     "name": "scalingStatDistribution"
+    },
+    {
+     "field": "f31",
+     "kind": "uint32",
+     "name": "scalingStatValue"
+    },
+    {
+     "field": "f32",
+     "kind": "float32",
+     "name": "damageMin0"
+    },
+    {
+     "field": "f33",
+     "kind": "float32",
+     "name": "damageMax0"
+    },
+    {
+     "field": "f34",
+     "kind": "uint32",
+     "name": "damageType0"
+    },
+    {
+     "field": "f35",
+     "kind": "float32",
+     "name": "damageMin1"
+    },
+    {
+     "field": "f36",
+     "kind": "float32",
+     "name": "damageMax1"
+    },
+    {
+     "field": "f37",
+     "kind": "uint32",
+     "name": "damageType1"
+    },
+    {
+     "field": "f38",
+     "kind": "uint32",
+     "name": "armor"
+    },
+    {
+     "field": "f39",
+     "kind": "uint32",
+     "name": "resistance0"
+    },
+    {
+     "field": "f40",
+     "kind": "uint32",
+     "name": "resistance1"
+    },
+    {
+     "field": "f41",
+     "kind": "uint32",
+     "name": "resistance2"
+    },
+    {
+     "field": "f42",
+     "kind": "uint32",
+     "name": "resistance3"
+    },
+    {
+     "field": "f43",
+     "kind": "uint32",
+     "name": "resistance4"
+    },
+    {
+     "field": "f44",
+     "kind": "uint32",
+     "name": "resistance5"
+    },
+    {
+     "field": "f45",
+     "kind": "uint32",
+     "name": "delay"
+    },
+    {
+     "field": "f46",
+     "kind": "uint32",
+     "name": "ammoType"
+    },
+    {
+     "field": "f47",
+     "kind": "float32",
+     "name": "rangedModRange"
+    },
+    {
+     "field": "f48",
+     "kind": "int32",
+     "name": "spellId0"
+    },
+    {
+     "field": "f49",
+     "kind": "uint32",
+     "name": "spellTrigger0"
+    },
+    {
+     "field": "f50",
+     "kind": "int32",
+     "name": "spellCharges0"
+    },
+    {
+     "field": "f51",
+     "kind": "int32",
+     "name": "spellCooldown0"
+    },
+    {
+     "field": "f52",
+     "kind": "uint32",
+     "name": "spellCategory0"
+    },
+    {
+     "field": "f53",
+     "kind": "int32",
+     "name": "spellCategoryCooldown0"
+    },
+    {
+     "field": "f54",
+     "kind": "int32",
+     "name": "spellId1"
+    },
+    {
+     "field": "f55",
+     "kind": "uint32",
+     "name": "spellTrigger1"
+    },
+    {
+     "field": "f56",
+     "kind": "int32",
+     "name": "spellCharges1"
+    },
+    {
+     "field": "f57",
+     "kind": "int32",
+     "name": "spellCooldown1"
+    },
+    {
+     "field": "f58",
+     "kind": "uint32",
+     "name": "spellCategory1"
+    },
+    {
+     "field": "f59",
+     "kind": "int32",
+     "name": "spellCategoryCooldown1"
+    },
+    {
+     "field": "f60",
+     "kind": "int32",
+     "name": "spellId2"
+    },
+    {
+     "field": "f61",
+     "kind": "uint32",
+     "name": "spellTrigger2"
+    },
+    {
+     "field": "f62",
+     "kind": "int32",
+     "name": "spellCharges2"
+    },
+    {
+     "field": "f63",
+     "kind": "int32",
+     "name": "spellCooldown2"
+    },
+    {
+     "field": "f64",
+     "kind": "uint32",
+     "name": "spellCategory2"
+    },
+    {
+     "field": "f65",
+     "kind": "int32",
+     "name": "spellCategoryCooldown2"
+    },
+    {
+     "field": "f66",
+     "kind": "int32",
+     "name": "spellId3"
+    },
+    {
+     "field": "f67",
+     "kind": "uint32",
+     "name": "spellTrigger3"
+    },
+    {
+     "field": "f68",
+     "kind": "int32",
+     "name": "spellCharges3"
+    },
+    {
+     "field": "f69",
+     "kind": "int32",
+     "name": "spellCooldown3"
+    },
+    {
+     "field": "f70",
+     "kind": "uint32",
+     "name": "spellCategory3"
+    },
+    {
+     "field": "f71",
+     "kind": "int32",
+     "name": "spellCategoryCooldown3"
+    },
+    {
+     "field": "f72",
+     "kind": "int32",
+     "name": "spellId4"
+    },
+    {
+     "field": "f73",
+     "kind": "uint32",
+     "name": "spellTrigger4"
+    },
+    {
+     "field": "f74",
+     "kind": "int32",
+     "name": "spellCharges4"
+    },
+    {
+     "field": "f75",
+     "kind": "int32",
+     "name": "spellCooldown4"
+    },
+    {
+     "field": "f76",
+     "kind": "uint32",
+     "name": "spellCategory4"
+    },
+    {
+     "field": "f77",
+     "kind": "int32",
+     "name": "spellCategoryCooldown4"
+    },
+    {
+     "field": "f78",
+     "kind": "uint32",
+     "name": "bonding"
+    },
+    {
+     "field": "f79",
+     "kind": "cstring",
+     "name": "description"
+    },
+    {
+     "field": "f80",
+     "kind": "uint32",
+     "name": "pageText"
+    },
+    {
+     "field": "f81",
+     "kind": "uint32",
+     "name": "languageId"
+    },
+    {
+     "field": "f82",
+     "kind": "uint32",
+     "name": "pageMaterial"
+    },
+    {
+     "field": "f83",
+     "kind": "uint32",
+     "name": "startQuest"
+    },
+    {
+     "field": "f84",
+     "kind": "uint32",
+     "name": "lockId"
+    },
+    {
+     "field": "f85",
+     "kind": "int32",
+     "name": "material"
+    },
+    {
+     "field": "f86",
+     "kind": "uint32",
+     "name": "sheath"
+    },
+    {
+     "field": "f87",
+     "kind": "uint32",
+     "name": "randomProperty"
+    },
+    {
+     "field": "f88",
+     "kind": "uint32",
+     "name": "randomSuffix"
+    },
+    {
+     "field": "f89",
+     "kind": "uint32",
+     "name": "block"
+    },
+    {
+     "field": "f90",
+     "kind": "uint32",
+     "name": "itemSet"
+    },
+    {
+     "field": "f91",
+     "kind": "uint32",
+     "name": "maxDurability"
+    },
+    {
+     "field": "f92",
+     "kind": "uint32",
+     "name": "area"
+    },
+    {
+     "field": "f93",
+     "kind": "int32",
+     "name": "map"
+    },
+    {
+     "field": "f94",
+     "kind": "uint32",
+     "name": "bagFamily"
+    },
+    {
+     "field": "f95",
+     "kind": "uint32",
+     "name": "totemCategory"
+    },
+    {
+     "field": "f96",
+     "kind": "uint32",
+     "name": "socketColor0"
+    },
+    {
+     "field": "f97",
+     "kind": "uint32",
+     "name": "socketContent0"
+    },
+    {
+     "field": "f98",
+     "kind": "uint32",
+     "name": "socketColor1"
+    },
+    {
+     "field": "f99",
+     "kind": "uint32",
+     "name": "socketContent1"
+    },
+    {
+     "field": "f100",
+     "kind": "uint32",
+     "name": "socketColor2"
+    },
+    {
+     "field": "f101",
+     "kind": "uint32",
+     "name": "socketContent2"
+    },
+    {
+     "field": "f102",
+     "kind": "uint32",
+     "name": "socketBonus"
+    },
+    {
+     "field": "f103",
+     "kind": "uint32",
+     "name": "gemProperties"
+    },
+    {
+     "field": "f104",
+     "kind": "int32",
+     "name": "requiredDisenchantSkill"
+    },
+    {
+     "field": "f105",
+     "kind": "float32",
+     "name": "armorDamageModifier"
+    },
+    {
+     "field": "f106",
+     "kind": "uint32",
+     "name": "duration"
+    },
+    {
+     "field": "f107",
+     "kind": "uint32",
+     "name": "itemLimitCategory"
+    },
+    {
+     "field": "f108",
+     "kind": "uint32",
+     "name": "holidayId"
+    }
+   ],
+   "source": "coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response)"
+  },
+  "WITX": {
+   "fieldCount": 1,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "cstring",
+     "name": "text"
+    }
+   ],
+   "source": "3.3.5 item-text query response"
+  },
+  "WMOB": {
+   "fieldCount": 26,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "cstring",
+     "name": "name0"
+    },
+    {
+     "field": "f1",
+     "kind": "cstring",
+     "name": "name1"
+    },
+    {
+     "field": "f2",
+     "kind": "cstring",
+     "name": "name2"
+    },
+    {
+     "field": "f3",
+     "kind": "cstring",
+     "name": "name3"
+    },
+    {
+     "field": "f4",
+     "kind": "cstring",
+     "name": "subname"
+    },
+    {
+     "field": "f5",
+     "kind": "cstring",
+     "name": "iconName"
+    },
+    {
+     "field": "f6",
+     "kind": "uint32",
+     "name": "typeFlags"
+    },
+    {
+     "field": "f7",
+     "kind": "uint32",
+     "name": "type"
+    },
+    {
+     "field": "f8",
+     "kind": "uint32",
+     "name": "family"
+    },
+    {
+     "field": "f9",
+     "kind": "uint32",
+     "name": "rank"
+    },
+    {
+     "field": "f10",
+     "kind": "uint32",
+     "name": "killCredit0"
+    },
+    {
+     "field": "f11",
+     "kind": "uint32",
+     "name": "killCredit1"
+    },
+    {
+     "field": "f12",
+     "kind": "uint32",
+     "name": "modelId0"
+    },
+    {
+     "field": "f13",
+     "kind": "uint32",
+     "name": "modelId1"
+    },
+    {
+     "field": "f14",
+     "kind": "uint32",
+     "name": "modelId2"
+    },
+    {
+     "field": "f15",
+     "kind": "uint32",
+     "name": "modelId3"
+    },
+    {
+     "field": "f16",
+     "kind": "float32",
+     "name": "healthModifier"
+    },
+    {
+     "field": "f17",
+     "kind": "float32",
+     "name": "manaModifier"
+    },
+    {
+     "field": "f18",
+     "kind": "uint8",
+     "name": "racialLeader"
+    },
+    {
+     "field": "f19",
+     "kind": "uint32",
+     "name": "questItem0"
+    },
+    {
+     "field": "f20",
+     "kind": "uint32",
+     "name": "questItem1"
+    },
+    {
+     "field": "f21",
+     "kind": "uint32",
+     "name": "questItem2"
+    },
+    {
+     "field": "f22",
+     "kind": "uint32",
+     "name": "questItem3"
+    },
+    {
+     "field": "f23",
+     "kind": "uint32",
+     "name": "questItem4"
+    },
+    {
+     "field": "f24",
+     "kind": "uint32",
+     "name": "questItem5"
+    },
+    {
+     "field": "f25",
+     "kind": "uint32",
+     "name": "movementId"
+    }
+   ],
+   "source": "coa-sim-handoff/parsers/wdb2.py, extended past its two float modifiers"
+  },
+  "WNDB": {
+   "fieldCount": 2,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "cstring",
+     "name": "name"
+    },
+    {
+     "field": "f1",
+     "kind": "uint32",
+     "name": "inventoryType"
+    }
+   ],
+   "source": "3.3.5 item-name query response"
+  },
+  "WNPC": {
+   "fieldCount": 80,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "float32",
+     "name": "probability0"
+    },
+    {
+     "field": "f1",
+     "kind": "cstring",
+     "name": "text0_0"
+    },
+    {
+     "field": "f2",
+     "kind": "cstring",
+     "name": "text1_0"
+    },
+    {
+     "field": "f3",
+     "kind": "uint32",
+     "name": "language0"
+    },
+    {
+     "field": "f4",
+     "kind": "uint32",
+     "name": "emoteDelay0_0"
+    },
+    {
+     "field": "f5",
+     "kind": "uint32",
+     "name": "emote0_0"
+    },
+    {
+     "field": "f6",
+     "kind": "uint32",
+     "name": "emoteDelay0_1"
+    },
+    {
+     "field": "f7",
+     "kind": "uint32",
+     "name": "emote0_1"
+    },
+    {
+     "field": "f8",
+     "kind": "uint32",
+     "name": "emoteDelay0_2"
+    },
+    {
+     "field": "f9",
+     "kind": "uint32",
+     "name": "emote0_2"
+    },
+    {
+     "field": "f10",
+     "kind": "float32",
+     "name": "probability1"
+    },
+    {
+     "field": "f11",
+     "kind": "cstring",
+     "name": "text0_1"
+    },
+    {
+     "field": "f12",
+     "kind": "cstring",
+     "name": "text1_1"
+    },
+    {
+     "field": "f13",
+     "kind": "uint32",
+     "name": "language1"
+    },
+    {
+     "field": "f14",
+     "kind": "uint32",
+     "name": "emoteDelay1_0"
+    },
+    {
+     "field": "f15",
+     "kind": "uint32",
+     "name": "emote1_0"
+    },
+    {
+     "field": "f16",
+     "kind": "uint32",
+     "name": "emoteDelay1_1"
+    },
+    {
+     "field": "f17",
+     "kind": "uint32",
+     "name": "emote1_1"
+    },
+    {
+     "field": "f18",
+     "kind": "uint32",
+     "name": "emoteDelay1_2"
+    },
+    {
+     "field": "f19",
+     "kind": "uint32",
+     "name": "emote1_2"
+    },
+    {
+     "field": "f20",
+     "kind": "float32",
+     "name": "probability2"
+    },
+    {
+     "field": "f21",
+     "kind": "cstring",
+     "name": "text0_2"
+    },
+    {
+     "field": "f22",
+     "kind": "cstring",
+     "name": "text1_2"
+    },
+    {
+     "field": "f23",
+     "kind": "uint32",
+     "name": "language2"
+    },
+    {
+     "field": "f24",
+     "kind": "uint32",
+     "name": "emoteDelay2_0"
+    },
+    {
+     "field": "f25",
+     "kind": "uint32",
+     "name": "emote2_0"
+    },
+    {
+     "field": "f26",
+     "kind": "uint32",
+     "name": "emoteDelay2_1"
+    },
+    {
+     "field": "f27",
+     "kind": "uint32",
+     "name": "emote2_1"
+    },
+    {
+     "field": "f28",
+     "kind": "uint32",
+     "name": "emoteDelay2_2"
+    },
+    {
+     "field": "f29",
+     "kind": "uint32",
+     "name": "emote2_2"
+    },
+    {
+     "field": "f30",
+     "kind": "float32",
+     "name": "probability3"
+    },
+    {
+     "field": "f31",
+     "kind": "cstring",
+     "name": "text0_3"
+    },
+    {
+     "field": "f32",
+     "kind": "cstring",
+     "name": "text1_3"
+    },
+    {
+     "field": "f33",
+     "kind": "uint32",
+     "name": "language3"
+    },
+    {
+     "field": "f34",
+     "kind": "uint32",
+     "name": "emoteDelay3_0"
+    },
+    {
+     "field": "f35",
+     "kind": "uint32",
+     "name": "emote3_0"
+    },
+    {
+     "field": "f36",
+     "kind": "uint32",
+     "name": "emoteDelay3_1"
+    },
+    {
+     "field": "f37",
+     "kind": "uint32",
+     "name": "emote3_1"
+    },
+    {
+     "field": "f38",
+     "kind": "uint32",
+     "name": "emoteDelay3_2"
+    },
+    {
+     "field": "f39",
+     "kind": "uint32",
+     "name": "emote3_2"
+    },
+    {
+     "field": "f40",
+     "kind": "float32",
+     "name": "probability4"
+    },
+    {
+     "field": "f41",
+     "kind": "cstring",
+     "name": "text0_4"
+    },
+    {
+     "field": "f42",
+     "kind": "cstring",
+     "name": "text1_4"
+    },
+    {
+     "field": "f43",
+     "kind": "uint32",
+     "name": "language4"
+    },
+    {
+     "field": "f44",
+     "kind": "uint32",
+     "name": "emoteDelay4_0"
+    },
+    {
+     "field": "f45",
+     "kind": "uint32",
+     "name": "emote4_0"
+    },
+    {
+     "field": "f46",
+     "kind": "uint32",
+     "name": "emoteDelay4_1"
+    },
+    {
+     "field": "f47",
+     "kind": "uint32",
+     "name": "emote4_1"
+    },
+    {
+     "field": "f48",
+     "kind": "uint32",
+     "name": "emoteDelay4_2"
+    },
+    {
+     "field": "f49",
+     "kind": "uint32",
+     "name": "emote4_2"
+    },
+    {
+     "field": "f50",
+     "kind": "float32",
+     "name": "probability5"
+    },
+    {
+     "field": "f51",
+     "kind": "cstring",
+     "name": "text0_5"
+    },
+    {
+     "field": "f52",
+     "kind": "cstring",
+     "name": "text1_5"
+    },
+    {
+     "field": "f53",
+     "kind": "uint32",
+     "name": "language5"
+    },
+    {
+     "field": "f54",
+     "kind": "uint32",
+     "name": "emoteDelay5_0"
+    },
+    {
+     "field": "f55",
+     "kind": "uint32",
+     "name": "emote5_0"
+    },
+    {
+     "field": "f56",
+     "kind": "uint32",
+     "name": "emoteDelay5_1"
+    },
+    {
+     "field": "f57",
+     "kind": "uint32",
+     "name": "emote5_1"
+    },
+    {
+     "field": "f58",
+     "kind": "uint32",
+     "name": "emoteDelay5_2"
+    },
+    {
+     "field": "f59",
+     "kind": "uint32",
+     "name": "emote5_2"
+    },
+    {
+     "field": "f60",
+     "kind": "float32",
+     "name": "probability6"
+    },
+    {
+     "field": "f61",
+     "kind": "cstring",
+     "name": "text0_6"
+    },
+    {
+     "field": "f62",
+     "kind": "cstring",
+     "name": "text1_6"
+    },
+    {
+     "field": "f63",
+     "kind": "uint32",
+     "name": "language6"
+    },
+    {
+     "field": "f64",
+     "kind": "uint32",
+     "name": "emoteDelay6_0"
+    },
+    {
+     "field": "f65",
+     "kind": "uint32",
+     "name": "emote6_0"
+    },
+    {
+     "field": "f66",
+     "kind": "uint32",
+     "name": "emoteDelay6_1"
+    },
+    {
+     "field": "f67",
+     "kind": "uint32",
+     "name": "emote6_1"
+    },
+    {
+     "field": "f68",
+     "kind": "uint32",
+     "name": "emoteDelay6_2"
+    },
+    {
+     "field": "f69",
+     "kind": "uint32",
+     "name": "emote6_2"
+    },
+    {
+     "field": "f70",
+     "kind": "float32",
+     "name": "probability7"
+    },
+    {
+     "field": "f71",
+     "kind": "cstring",
+     "name": "text0_7"
+    },
+    {
+     "field": "f72",
+     "kind": "cstring",
+     "name": "text1_7"
+    },
+    {
+     "field": "f73",
+     "kind": "uint32",
+     "name": "language7"
+    },
+    {
+     "field": "f74",
+     "kind": "uint32",
+     "name": "emoteDelay7_0"
+    },
+    {
+     "field": "f75",
+     "kind": "uint32",
+     "name": "emote7_0"
+    },
+    {
+     "field": "f76",
+     "kind": "uint32",
+     "name": "emoteDelay7_1"
+    },
+    {
+     "field": "f77",
+     "kind": "uint32",
+     "name": "emote7_1"
+    },
+    {
+     "field": "f78",
+     "kind": "uint32",
+     "name": "emoteDelay7_2"
+    },
+    {
+     "field": "f79",
+     "kind": "uint32",
+     "name": "emote7_2"
+    }
+   ],
+   "source": "3.3.5 npc-text query response"
+  },
+  "WPTX": {
+   "fieldCount": 2,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "cstring",
+     "name": "text"
+    },
+    {
+     "field": "f1",
+     "kind": "uint32",
+     "name": "nextPageId"
+    }
+   ],
+   "source": "3.3.5 page-text query response"
+  },
+  "WQST": {
+   "fieldCount": 102,
+   "fields": [
+    {
+     "field": "f0",
+     "kind": "uint32",
+     "name": "questId"
+    },
+    {
+     "field": "f1",
+     "kind": "uint32",
+     "name": "method"
+    },
+    {
+     "field": "f2",
+     "kind": "int32",
+     "name": "level"
+    },
+    {
+     "field": "f3",
+     "kind": "uint32",
+     "name": "minLevel"
+    },
+    {
+     "field": "f4",
+     "kind": "int32",
+     "name": "zoneOrSort"
+    },
+    {
+     "field": "f5",
+     "kind": "uint32",
+     "name": "type"
+    },
+    {
+     "field": "f6",
+     "kind": "uint32",
+     "name": "suggestedPlayers"
+    },
+    {
+     "field": "f7",
+     "kind": "uint32",
+     "name": "repObjectiveFaction"
+    },
+    {
+     "field": "f8",
+     "kind": "uint32",
+     "name": "repObjectiveValue"
+    },
+    {
+     "field": "f9",
+     "kind": "uint32",
+     "name": "repObjectiveFaction2"
+    },
+    {
+     "field": "f10",
+     "kind": "uint32",
+     "name": "repObjectiveValue2"
+    },
+    {
+     "field": "f11",
+     "kind": "uint32",
+     "name": "nextQuestInChain"
+    },
+    {
+     "field": "f12",
+     "kind": "uint32",
+     "name": "rewXPId"
+    },
+    {
+     "field": "f13",
+     "kind": "int32",
+     "name": "rewOrReqMoney"
+    },
+    {
+     "field": "f14",
+     "kind": "uint32",
+     "name": "rewMoneyMaxLevel"
+    },
+    {
+     "field": "f15",
+     "kind": "uint32",
+     "name": "rewSpell"
+    },
+    {
+     "field": "f16",
+     "kind": "int32",
+     "name": "rewSpellCast"
+    },
+    {
+     "field": "f17",
+     "kind": "uint32",
+     "name": "rewHonorAddition"
+    },
+    {
+     "field": "f18",
+     "kind": "float32",
+     "name": "rewHonorMultiplier"
+    },
+    {
+     "field": "f19",
+     "kind": "uint32",
+     "name": "srcItemId"
+    },
+    {
+     "field": "f20",
+     "kind": "uint32",
+     "name": "flags"
+    },
+    {
+     "field": "f21",
+     "kind": "uint32",
+     "name": "charTitleId"
+    },
+    {
+     "field": "f22",
+     "kind": "uint32",
+     "name": "playersSlain"
+    },
+    {
+     "field": "f23",
+     "kind": "uint32",
+     "name": "bonusTalents"
+    },
+    {
+     "field": "f24",
+     "kind": "uint32",
+     "name": "rewArenaPoints"
+    },
+    {
+     "field": "f25",
+     "kind": "uint32",
+     "name": "unk0"
+    },
+    {
+     "field": "f26",
+     "kind": "uint32",
+     "name": "rewItemId0"
+    },
+    {
+     "field": "f27",
+     "kind": "uint32",
+     "name": "rewItemCount0"
+    },
+    {
+     "field": "f28",
+     "kind": "uint32",
+     "name": "rewItemId1"
+    },
+    {
+     "field": "f29",
+     "kind": "uint32",
+     "name": "rewItemCount1"
+    },
+    {
+     "field": "f30",
+     "kind": "uint32",
+     "name": "rewItemId2"
+    },
+    {
+     "field": "f31",
+     "kind": "uint32",
+     "name": "rewItemCount2"
+    },
+    {
+     "field": "f32",
+     "kind": "uint32",
+     "name": "rewItemId3"
+    },
+    {
+     "field": "f33",
+     "kind": "uint32",
+     "name": "rewItemCount3"
+    },
+    {
+     "field": "f34",
+     "kind": "uint32",
+     "name": "rewChoiceItemId0"
+    },
+    {
+     "field": "f35",
+     "kind": "uint32",
+     "name": "rewChoiceItemCount0"
+    },
+    {
+     "field": "f36",
+     "kind": "uint32",
+     "name": "rewChoiceItemId1"
+    },
+    {
+     "field": "f37",
+     "kind": "uint32",
+     "name": "rewChoiceItemCount1"
+    },
+    {
+     "field": "f38",
+     "kind": "uint32",
+     "name": "rewChoiceItemId2"
+    },
+    {
+     "field": "f39",
+     "kind": "uint32",
+     "name": "rewChoiceItemCount2"
+    },
+    {
+     "field": "f40",
+     "kind": "uint32",
+     "name": "rewChoiceItemId3"
+    },
+    {
+     "field": "f41",
+     "kind": "uint32",
+     "name": "rewChoiceItemCount3"
+    },
+    {
+     "field": "f42",
+     "kind": "uint32",
+     "name": "rewChoiceItemId4"
+    },
+    {
+     "field": "f43",
+     "kind": "uint32",
+     "name": "rewChoiceItemCount4"
+    },
+    {
+     "field": "f44",
+     "kind": "uint32",
+     "name": "rewChoiceItemId5"
+    },
+    {
+     "field": "f45",
+     "kind": "uint32",
+     "name": "rewChoiceItemCount5"
+    },
+    {
+     "field": "f46",
+     "kind": "uint32",
+     "name": "rewFactionId0"
+    },
+    {
+     "field": "f47",
+     "kind": "uint32",
+     "name": "rewFactionId1"
+    },
+    {
+     "field": "f48",
+     "kind": "uint32",
+     "name": "rewFactionId2"
+    },
+    {
+     "field": "f49",
+     "kind": "uint32",
+     "name": "rewFactionId3"
+    },
+    {
+     "field": "f50",
+     "kind": "uint32",
+     "name": "rewFactionId4"
+    },
+    {
+     "field": "f51",
+     "kind": "int32",
+     "name": "rewFactionValueId0"
+    },
+    {
+     "field": "f52",
+     "kind": "int32",
+     "name": "rewFactionValueId1"
+    },
+    {
+     "field": "f53",
+     "kind": "int32",
+     "name": "rewFactionValueId2"
+    },
+    {
+     "field": "f54",
+     "kind": "int32",
+     "name": "rewFactionValueId3"
+    },
+    {
+     "field": "f55",
+     "kind": "int32",
+     "name": "rewFactionValueId4"
+    },
+    {
+     "field": "f56",
+     "kind": "int32",
+     "name": "rewFactionValueIdOverride0"
+    },
+    {
+     "field": "f57",
+     "kind": "int32",
+     "name": "rewFactionValueIdOverride1"
+    },
+    {
+     "field": "f58",
+     "kind": "int32",
+     "name": "rewFactionValueIdOverride2"
+    },
+    {
+     "field": "f59",
+     "kind": "int32",
+     "name": "rewFactionValueIdOverride3"
+    },
+    {
+     "field": "f60",
+     "kind": "int32",
+     "name": "rewFactionValueIdOverride4"
+    },
+    {
+     "field": "f61",
+     "kind": "uint32",
+     "name": "pointMapId"
+    },
+    {
+     "field": "f62",
+     "kind": "float32",
+     "name": "pointX"
+    },
+    {
+     "field": "f63",
+     "kind": "float32",
+     "name": "pointY"
+    },
+    {
+     "field": "f64",
+     "kind": "uint32",
+     "name": "pointOpt"
+    },
+    {
+     "field": "f65",
+     "kind": "cstring",
+     "name": "title"
+    },
+    {
+     "field": "f66",
+     "kind": "cstring",
+     "name": "objectives"
+    },
+    {
+     "field": "f67",
+     "kind": "cstring",
+     "name": "details"
+    },
+    {
+     "field": "f68",
+     "kind": "cstring",
+     "name": "endText"
+    },
+    {
+     "field": "f69",
+     "kind": "cstring",
+     "name": "completedText"
+    },
+    {
+     "field": "f70",
+     "kind": "int32",
+     "name": "reqNpcOrGo0"
+    },
+    {
+     "field": "f71",
+     "kind": "uint32",
+     "name": "reqNpcOrGoCount0"
+    },
+    {
+     "field": "f72",
+     "kind": "uint32",
+     "name": "reqSourceId0"
+    },
+    {
+     "field": "f73",
+     "kind": "uint32",
+     "name": "reqSourceCount0"
+    },
+    {
+     "field": "f74",
+     "kind": "int32",
+     "name": "reqNpcOrGo1"
+    },
+    {
+     "field": "f75",
+     "kind": "uint32",
+     "name": "reqNpcOrGoCount1"
+    },
+    {
+     "field": "f76",
+     "kind": "uint32",
+     "name": "reqSourceId1"
+    },
+    {
+     "field": "f77",
+     "kind": "uint32",
+     "name": "reqSourceCount1"
+    },
+    {
+     "field": "f78",
+     "kind": "int32",
+     "name": "reqNpcOrGo2"
+    },
+    {
+     "field": "f79",
+     "kind": "uint32",
+     "name": "reqNpcOrGoCount2"
+    },
+    {
+     "field": "f80",
+     "kind": "uint32",
+     "name": "reqSourceId2"
+    },
+    {
+     "field": "f81",
+     "kind": "uint32",
+     "name": "reqSourceCount2"
+    },
+    {
+     "field": "f82",
+     "kind": "int32",
+     "name": "reqNpcOrGo3"
+    },
+    {
+     "field": "f83",
+     "kind": "uint32",
+     "name": "reqNpcOrGoCount3"
+    },
+    {
+     "field": "f84",
+     "kind": "uint32",
+     "name": "reqSourceId3"
+    },
+    {
+     "field": "f85",
+     "kind": "uint32",
+     "name": "reqSourceCount3"
+    },
+    {
+     "field": "f86",
+     "kind": "uint32",
+     "name": "reqItemId0"
+    },
+    {
+     "field": "f87",
+     "kind": "uint32",
+     "name": "reqItemCount0"
+    },
+    {
+     "field": "f88",
+     "kind": "uint32",
+     "name": "reqItemId1"
+    },
+    {
+     "field": "f89",
+     "kind": "uint32",
+     "name": "reqItemCount1"
+    },
+    {
+     "field": "f90",
+     "kind": "uint32",
+     "name": "reqItemId2"
+    },
+    {
+     "field": "f91",
+     "kind": "uint32",
+     "name": "reqItemCount2"
+    },
+    {
+     "field": "f92",
+     "kind": "uint32",
+     "name": "reqItemId3"
+    },
+    {
+     "field": "f93",
+     "kind": "uint32",
+     "name": "reqItemCount3"
+    },
+    {
+     "field": "f94",
+     "kind": "uint32",
+     "name": "reqItemId4"
+    },
+    {
+     "field": "f95",
+     "kind": "uint32",
+     "name": "reqItemCount4"
+    },
+    {
+     "field": "f96",
+     "kind": "uint32",
+     "name": "reqItemId5"
+    },
+    {
+     "field": "f97",
+     "kind": "uint32",
+     "name": "reqItemCount5"
+    },
+    {
+     "field": "f98",
+     "kind": "cstring",
+     "name": "objectiveText0"
+    },
+    {
+     "field": "f99",
+     "kind": "cstring",
+     "name": "objectiveText1"
+    },
+    {
+     "field": "f100",
+     "kind": "cstring",
+     "name": "objectiveText2"
+    },
+    {
+     "field": "f101",
+     "kind": "cstring",
+     "name": "objectiveText3"
+    }
+   ],
+   "source": "3.3.5 quest query response"
+  },
+  "WRDN": {
+   "fieldCount": 0,
+   "fields": [],
+   "source": "3.3.5 name query cache (carries no block on this client)"
+  }
+ },
+ "note": "The unverified NAME half of the WDB layouts. raw/cache shards are positional (f0..fN); this file is the only place a name appears, and it is a hypothesis, not a measurement.",
+ "rule": "The field names below are an INTERPRETATION, not a measurement. They were read off TrinityCore 3.3.5's query-response handlers by a human and mapped onto the positions this layer measured. The measurement is the layout - field count, widths, kinds, and the variable-length runs - which is proven by exact block consumption. The names are not proven by anything: any two same-kind same-width fields can be swapped without changing a single byte of consumption, so `f21` being called `flags` is a claim about what the server meant, verifiable only against an external source. Use the positions for data and treat every name here as a hypothesis to check.",
+ "validationRule": "A field LAYOUT is applied to a WDB file only if it consumes every block of that file exactly: each block declares its own byte length in its header, and the decode must land on that length for all blocks, with no block skipped. One mismatch anywhere disqualifies the layout for the whole file (never per-block), and the file falls back to a lossless base64 block dump with the mismatch recorded. WHAT THIS DOES NOT CATCH, stated so it is not over-trusted: (1) reading a uint32 as a float32 consumes the same bytes and passes; (2) PERMUTING any two same-kind same-width fields consumes the same bytes and passes. Both were measured - removing a field, or moving a string by one position, fail on the first block; a width-preserving swap does not. Because (2) is unfalsifiable from the bytes alone, THIS LAYER SHIPS NO FIELD NAMES: every decoded record is positional (f0..fN), exactly like raw/tables. The TrinityCore-derived names are published separately in raw/cache/_interpretation.json, labelled as the unverified interpretation they are. A reader can therefore never mistake a name for a measurement."
+}

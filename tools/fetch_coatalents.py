@@ -54,7 +54,7 @@ def fetch(slug: str = "voljin", timeout: int = 120) -> dict:
     }
     (config.RAW_TALENTS_DIR / "_fetch.json").write_text(
         json.dumps(prov, ensure_ascii=False, indent=1, sort_keys=True),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
     return prov
 
 

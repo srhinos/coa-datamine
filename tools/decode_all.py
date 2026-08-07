@@ -76,7 +76,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
-from tools import config, sharding
+from tools import config, layerstate, sharding
 from tools.extract_all import OUT_DIR as SRC_DIR
 from tools.extract_all import PROVENANCE, extract, load_provenance
 
@@ -674,14 +674,20 @@ def run(only=None, resume=False, out_dir: Path = None, verbose: bool = True,
     out_dir = out_dir or OUT_DIR
     t0 = time.time()
     prov = load_provenance()
-    if not prov:
+    if not prov or not layerstate.is_complete(SRC_DIR):
+        # An extraction left half-deleted by a crash still has its provenance
+        # file, so trusting that file alone would decode a subset and report it
+        # as the whole client. The sentinel is what distinguishes the two.
         if verbose:
-            print("no extraction found - extracting", flush=True)
+            print("no complete extraction found - extracting", flush=True)
         prov = extract(verbose=verbose)
     sources = {t["table"]: t for t in prov["tables"]}
     census = _census()
 
     out_dir.mkdir(parents=True, exist_ok=True)
+    # The layer stops being trustworthy the moment the first per-table directory
+    # is cleared below, so it is invalidated BEFORE that - not after the run.
+    layerstate.begin(out_dir)
     names = sorted(sources, key=str.lower)
     if only:
         want = {o.lower() for o in only}
@@ -734,6 +740,14 @@ def run(only=None, resume=False, out_dir: Path = None, verbose: bool = True,
             indexes.setdefault(rec["table"], None)
 
     catalog = write_catalog(out_dir, indexes, sources, census, failures, prov)
+    # written LAST: everything above is on disk before the layer claims to be whole
+    layerstate.finish(out_dir, {
+        "layer": "raw/tables", "generatedBy": "python -m tools.decode_all",
+        "tableCount": catalog["tableCount"], "totalRows": catalog["totalRows"],
+        "totalShards": catalog["totalShards"],
+        "failureCount": catalog["failureCount"],
+        "partial": bool(only),
+    })
     catalog["elapsed"] = round(time.time() - t0, 1)
     catalog["skipped"] = skipped
     return catalog

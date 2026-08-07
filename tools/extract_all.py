@@ -39,7 +39,7 @@ from pathlib import Path
 
 from mpyq import MPQArchive
 
-from tools import config, probe_unlistable, sharding
+from tools import config, layerstate, probe_unlistable, sharding
 from tools.inventory import archive_id, discover_archives
 
 OUT_DIR = config.WORK_DIR / "dbc_all"
@@ -164,8 +164,11 @@ def extract(verbose: bool = True) -> dict:
             f"winner for {len(conflicts)} path(s): {conflicts[:5]} - the layer "
             "would be built on the wrong bytes. Structural; investigate.")
 
-    # sole writer of OUT_DIR: a table that vanished from the client must not linger
+    # sole writer of OUT_DIR: a table that vanished from the client must not linger.
+    # The sentinel goes first, so the window in which this directory is unreliable
+    # opens BEFORE the first unlink rather than after the last write.
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    layerstate.begin(OUT_DIR)
     keep = {low.rsplit("\\", 1)[-1].lower() for low in carriers}
     for old in sorted(OUT_DIR.iterdir()):
         if old.is_file() and old.name.lower().endswith(".dbc") \
@@ -242,6 +245,12 @@ def extract(verbose: bool = True) -> dict:
     }
     # bytes, not text: Path.write_text() would translate newlines per platform
     PROVENANCE.write_bytes(sharding.dump_manifest(payload).encode("utf-8"))
+    layerstate.finish(OUT_DIR, {
+        "layer": "work/dbc_all", "generatedBy": "python -m tools.extract_all",
+        "pathCount": payload["pathCount"],
+        "extractedCount": payload["extractedCount"],
+        "failureCount": len(payload["failures"]),
+    })
     return payload
 
 

@@ -8,7 +8,7 @@
    "unreadable": 57
   },
   "blp": {
-   "bytes": 3475418035,
+   "bytes": 3475417987,
    "files": 91514,
    "text": 0,
    "unreadable": 1
@@ -101,7 +101,25 @@
  "bytesCommittedHere": 12,
  "bytesCommittedHereBytes": 60500,
  "bytesInCodeLayer": 1444,
- "bytesRead": 3530756497,
+ "bytesRead": 3530756449,
+ "looseOverrideRule": "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. The census therefore walks the whole client root, and a loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost. Which loose files are recorded is decided mechanically, by two conditions and no list of names: a loose file is recorded if (1) it lives under `Data\\` - the client's data directory, already covered before this rule existed - or (2) its root-relative path is carried by the MPQ chain, which is what makes it an override at all. Everything else on the disk (the user's installed AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) is machine state rather than client content, is not in the archive namespace, and is deliberately outside this census - it is also volatile between launches, so recording it would make a rerun on an unchanged client stop reproducing. `.MPQ` files themselves are skipped here because they are inventoried as archives, with their members as paths.",
+ "looseOverrides": [
+  "Interface/AddOns/Blizzard_AchievementUI/Blizzard_AchievementUI.pub",
+  "Interface/AddOns/Blizzard_AuctionUI/Blizzard_AuctionUI.pub",
+  "Interface/AddOns/Blizzard_BindingUI/Blizzard_BindingUI.pub",
+  "Interface/AddOns/Blizzard_CombatLog/Blizzard_CombatLog.pub",
+  "Interface/AddOns/Blizzard_CombatText/Blizzard_CombatText.pub",
+  "Interface/AddOns/Blizzard_DebugTools/Blizzard_DebugTools.pub",
+  "Interface/AddOns/Blizzard_GMChatUI/Blizzard_GMChatUI.pub",
+  "Interface/AddOns/Blizzard_GuildBankUI/Blizzard_GuildBankUI.pub",
+  "Interface/AddOns/Blizzard_InspectUI/Blizzard_InspectUI.pub",
+  "Interface/AddOns/Blizzard_ItemSocketingUI/Blizzard_ItemSocketingUI.pub",
+  "Interface/AddOns/Blizzard_MacroUI/Blizzard_MacroUI.pub",
+  "Interface/AddOns/Blizzard_RaidUI/Blizzard_RaidUI.pub",
+  "Interface/AddOns/Blizzard_TalentUI/Blizzard_TalentUI.pub",
+  "Interface/Tooltips/chatbubble.blp",
+  "Interface/Tooltips/chatbubblevertical.blp"
+ ],
  "note": "Every path under Interface\\ in the client MPQ chain. Per-path records are in paths/*.jsonl, one compact record per line, sharded by path prefix (a path's shard is a pure function of that path). `bytesAt` says where the committed bytes live, or is null when only the hash is kept.",
  "onDiskInterfaceTree": {
   "addonDirCount": 141,
@@ -270,7 +288,7 @@
    "lastPath": "Interface/Cursor/workorders.blp",
    "prefix": "interface/",
    "records": 3192,
-   "sha256": "18ec9cc2eec7df3b933b3cf067d641d90ef82cdeae3e687c1498b61c810d39a3"
+   "sha256": "ecacce6e8d7cac1a74ffc3b693ffeef58255dbada759e106a635ab178a3f6be2"
   },
   {
    "file": "interface-~def.jsonl",
@@ -315,7 +333,7 @@
    "lastPath": "Interface/UNITPOWERBARALT/WowUI_Vertical_Frame.blp",
    "prefix": "interface/",
    "records": 1985,
-   "sha256": "f9481d9acdd15555a2eb4adc9f53a49c100c5d0f5937a74308be3ef1e57f054f"
+   "sha256": "f9eb204605cba567d771f96d9ac0e50fe0d6d86bef68c5a8f764521a2423d909"
   },
   {
    "file": "interface-g.jsonl",
@@ -1140,6 +1158,6 @@
  "sizeRule": "Bytes are committed for every file measured as text. For binary files the record carries path, uncompressed size and sha256 and the bytes stay in the client. This is a repository-size decision, not a curation decision: the Interface tree is 4.45 GB and is 99% art. Every binary file's sha256 is here, so the exact bytes this census saw can be pulled from the client and verified at any time.",
  "textCount": 1456,
  "textRule": "A file is text if its decompressed bytes contain no NUL and fewer than one C0 control byte per 512 bytes outside tab/newline/CR/FF/VT; an empty file is text. Its encoding is recorded as utf-8 when it decodes strictly as UTF-8 and latin-1 otherwise. The rule reads the bytes - no extension list, no filename pattern, and no judgment about which files matter decides it, so a .blp that really were text would be committed and a .lua that really were binary would not.",
- "totalBytes": 4448646471,
+ "totalBytes": 4448646423,
  "unreadableCount": 85
 }

@@ -334,7 +334,7 @@ def build_specs() -> dict:
         "tabStatusSummary": tab_status_summary,
     }
     (cdir / "specs.json").write_text(
-        json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
     return {
         "count": len(specs), "classesCovered": len(matched_class_ids),
@@ -385,7 +385,7 @@ def build_archetypes() -> dict:
 
     payload = {"archetypes": archetypes}
     (cdir / "archetypes.json").write_text(
-        json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"count": len(archetypes)}
 
 

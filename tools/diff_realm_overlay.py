@@ -138,7 +138,7 @@ def build(realm: str) -> dict:
     result = diff_realm(realm)
     out_dir = config.DATA_REALMS_DIR / realm
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "overlay_diff.json").write_text(sharding.dump_manifest(result), encoding="utf-8")
+    (out_dir / "overlay_diff.json").write_text(sharding.dump_manifest(result), encoding="utf-8", newline="\n")
     return result
 
 

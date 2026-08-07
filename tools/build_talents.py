@@ -62,22 +62,22 @@ def build() -> dict:
         payload = {"class": classes[cid], "classId": cid, "tabs": class_tabs}
         (tdir / f"{cname}.json").write_text(
             json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True),
-            encoding="utf-8")
+            encoding="utf-8", newline="\n")
         files += 1
         tab_counts[cname] = len(class_tabs)
     (tdir / "_pet.json").write_text(
         json.dumps(pet_tabs, ensure_ascii=False, indent=1, sort_keys=True),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
     (tdir / "_unassigned.json").write_text(
         json.dumps(unassigned, ensure_ascii=False, indent=1, sort_keys=True),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
     meta = {"tabs": len(tabs), "talents": talent_count, "classFiles": files,
             "petTabs": len(pet_tabs), "unassignedTabs": len(unassigned),
             "classTabCounts": tab_counts,
             "unresolvedRankSpells": unresolved}
     (tdir / "_meta.json").write_text(
         json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
     return {"tabs": len(tabs), "talents": talent_count, "files": files,
             "unresolvedRankSpells": unresolved}
 

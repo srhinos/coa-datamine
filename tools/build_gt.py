@@ -306,15 +306,15 @@ def build() -> dict:
     level60 = build_level60_slice(cr_doc, class_doc)
 
     (gdir / "combatRatings.json").write_text(
-        sharding.dump_manifest({"ratings": cr_doc["ratings"]}), encoding="utf-8")
+        sharding.dump_manifest({"ratings": cr_doc["ratings"]}), encoding="utf-8", newline="\n")
 
     class_chance_payload = {}
     class_chance_payload.update(class_doc["curves"])
     class_chance_payload.update(class_doc["bases"])
     (gdir / "classChanceCurves.json").write_text(
-        sharding.dump_manifest(class_chance_payload), encoding="utf-8")
+        sharding.dump_manifest(class_chance_payload), encoding="utf-8", newline="\n")
 
-    (gdir / "level60.json").write_text(sharding.dump_manifest(level60), encoding="utf-8")
+    (gdir / "level60.json").write_text(sharding.dump_manifest(level60), encoding="utf-8", newline="\n")
 
     counts = {
         "gtCombatRatings": len(_load_curve_table("gtCombatRatings")),
@@ -433,7 +433,7 @@ def build() -> dict:
         },
     }
     (gdir / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
     return {"combatRatings": len(cr_doc["ratings"]),
             "classTables": {k: len(v) for k, v in class_chance_payload.items()},

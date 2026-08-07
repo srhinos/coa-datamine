@@ -112,7 +112,7 @@ def extract_all() -> dict:
     config.WORK_REALMS_DIR.mkdir(parents=True, exist_ok=True)
     prov = {realm: extract_realm(realm) for realm in config.discover_realms()}
     (config.WORK_REALMS_DIR / "extract_provenance.json").write_text(
-        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return prov
 
 

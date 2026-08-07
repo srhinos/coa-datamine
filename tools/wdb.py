@@ -1,5 +1,28 @@
 """Reader for the client-side WDB query caches under `Cache\\WDB\\<locale>\\`.
 
+WHAT IS MEASURED AND WHAT IS INTERPRETATION - READ THIS FIRST
+-------------------------------------------------------------
+Two different things live in this module and they must never be confused:
+
+  MEASURED      the LAYOUT - how many fields a record has, each field's width,
+                each field's kind (uint32/int32/float32/uint8/cstring), and
+                where the variable-length runs are. A layout is accepted only if
+                it consumes every block of the file exactly, so a wrong width, a
+                deleted field or a moved string fails immediately.
+
+  INTERPRETATION  the NAMES - `armor`, `itemLevel`, `rank`. These come from a
+                human reading TrinityCore's 3.3.5 query-response handlers. The
+                exact-consumption gate CANNOT check them: any permutation of
+                same-kind same-width fields consumes byte-identically, so
+                swapping `requiredSkill` with `requiredSkillRank`, or any two of
+                `_WQST`'s 26 leading uint32s, passes the gate unchanged.
+
+So the decoded records this module emits are POSITIONAL - `f0..fN`, exactly like
+`raw/tables` - and the names ship separately, in a sidecar labelled as the
+interpretation they are. An agent reading a shard sees measurements. An agent
+that wants the names has to open the file that says they are unverified. That is
+the whole point: nothing in the data layer may look like a fact unless it is one.
+
 WHY THIS LAYER EXISTS
 ---------------------
 These files are what the SERVER told this client, cached verbatim from the
@@ -20,31 +43,34 @@ modifiers it stopped at. The rest (`WGOB`, `WNDB`, `WITX`, `WPTX`, `WNPC`,
 `WQST`) follow the matching 3.3.5 query-response opcode handlers. Every one of
 them is generalized here to any .wdb file carrying that magic, in any directory.
 
-WHY A FIELD ORDER IS NOT A HAND LABEL HERE
-------------------------------------------
+HOW A LAYOUT EARNS THE RIGHT TO BE USED
+---------------------------------------
 A struct layout is an assertion, and this repo does not ship assertions. So no
-schema is trusted on its authority: a schema is applied to a file only if it
-consumes EVERY block of that file EXACTLY - the block header declares each
-record's byte length, and a wrong field order, a wrong width or a wrong string
-position lands off that length almost immediately. On this client that check is
-strong rather than nominal: `questcache.wdb` alone has 202 distinct block sizes
-across 257 records and every one closes to the byte. A schema that fails on any
-block is not used at all for that file (never partially), and the file falls back
-to the lossless block dump below with the failure recorded as evidence.
+layout is trusted on its authority: it is applied to a file only if it consumes
+EVERY block of that file EXACTLY - the block header declares each record's byte
+length, and a wrong field order, a wrong width or a wrong string position lands
+off that length almost immediately. On this client that check is strong rather
+than nominal: `questcache.wdb` alone has 202 distinct block sizes across 257
+records and every one closes to the byte. A layout that fails on any block is not
+used at all for that file (never partially), and the file falls back to the
+lossless block dump below with the failure recorded as evidence.
 
-Its limit, so nobody over-trusts it: a same-width reinterpretation (uint32 read
-as float32) consumes the same bytes and passes. Measured, not assumed - deleting
-a field or moving a string by one position both fail on the first block, a
-uint32/float32 swap does not. `tests/test_raw_layers.py` covers that class by
-requiring decoded names, item levels, armor values and creature ranks to match
-what an independent source says they are.
+Its two limits, stated so nobody over-trusts it:
+
+  * a same-width reinterpretation (uint32 read as float32) consumes the same
+    bytes and passes;
+  * a PERMUTATION of same-kind same-width fields consumes the same bytes and
+    passes. This is the larger hole - essentially every uint32/int32 NAME in
+    `_WQST` (26 leading scalars), `_WGOB` (data0..23) and `_WIDB` is unchecked.
+
+Both are name-level errors, and the reason names do not reach the data.
 
 WHAT HAPPENS TO FILES WITH NO SCHEMA
 ------------------------------------
 Nothing is dropped. Three tiers, in order:
 
-1. Recognized magic + schema that closes exactly  -> named fields.
-2. Recognized WDB magic, no schema or schema fails -> per-block records of
+1. Recognized magic + layout that closes exactly  -> positional f0..fN fields.
+2. Recognized WDB magic, no layout or layout fails -> per-block records of
    `{entry, size, bodyBase64}`. Lossless and rerunnable; the bytes are all there.
 3. No WDB header at all -> `sniff_flat()` tries the shape Ascension's own two
    custom caches use (`itemstatcache.wdb`, `questcacheaddon.wdb`):
@@ -67,20 +93,32 @@ FLOAT_ABS_MIN = 1e-20
 FLOAT_ABS_MAX = 1e20
 
 VALIDATION_RULE = (
-    "A field schema is applied to a WDB file only if it consumes every block of "
+    "A field LAYOUT is applied to a WDB file only if it consumes every block of "
     "that file exactly: each block declares its own byte length in its header, "
     "and the decode must land on that length for all blocks, with no block "
-    "skipped. One mismatch anywhere disqualifies the schema for the whole file "
+    "skipped. One mismatch anywhere disqualifies the layout for the whole file "
     "(never per-block), and the file falls back to a lossless base64 block dump "
-    "with the mismatch recorded. Nothing is decoded on the authority of the "
-    "field order alone. WHAT THIS DOES NOT CATCH, stated so it is not "
-    "over-trusted: swapping one fixed-width field for another of the same width "
-    "(reading a uint32 as a float32) consumes the same bytes and passes. It was "
-    "measured - removing one field, or moving a string by one position, both "
-    "fail on the first block; a uint32/float32 swap does not. What catches that "
-    "class is the ground-truth check in tests/test_raw_layers.py, where decoded "
-    "names, item levels, armor values and creature ranks have to match what an "
-    "independent source says they are.")
+    "with the mismatch recorded. WHAT THIS DOES NOT CATCH, stated so it is not "
+    "over-trusted: (1) reading a uint32 as a float32 consumes the same bytes and "
+    "passes; (2) PERMUTING any two same-kind same-width fields consumes the same "
+    "bytes and passes. Both were measured - removing a field, or moving a string "
+    "by one position, fail on the first block; a width-preserving swap does not. "
+    "Because (2) is unfalsifiable from the bytes alone, THIS LAYER SHIPS NO FIELD "
+    "NAMES: every decoded record is positional (f0..fN), exactly like "
+    "raw/tables. The TrinityCore-derived names are published separately in "
+    "raw/cache/_interpretation.json, labelled as the unverified interpretation "
+    "they are. A reader can therefore never mistake a name for a measurement.")
+
+INTERPRETATION_RULE = (
+    "The field names below are an INTERPRETATION, not a measurement. They were "
+    "read off TrinityCore 3.3.5's query-response handlers by a human and mapped "
+    "onto the positions this layer measured. The measurement is the layout - "
+    "field count, widths, kinds, and the variable-length runs - which is proven "
+    "by exact block consumption. The names are not proven by anything: any two "
+    "same-kind same-width fields can be swapped without changing a single byte "
+    "of consumption, so `f21` being called `flags` is a claim about what the "
+    "server meant, verifiable only against an external source. Use the positions "
+    "for data and treat every name here as a hypothesis to check.")
 
 FLAT_RULE = (
     "A file with no WDB header is tried as Ascension's own flat cache shape: "
@@ -139,11 +177,18 @@ def blocks(data: bytes):
 
 
 # --------------------------------------------------------------------------
-# schemas
+# layouts
 # --------------------------------------------------------------------------
-# A schema is a flat list of (name, kind); kind is one of
+# A layout is a flat list of (name, kind). `kind` is one of
 #   u  uint32      i  int32      f  float32      b  uint8      s  cstring (UTF-8)
-# Nothing here is applied without the exact-consumption check in decode_blocks().
+# or a variable-length run written "*<kinds>", whose repeat count is the value of
+# the IMMEDIATELY PRECEDING field (itself a real field in the record). A run
+# decodes to a flat list in one positional slot, so every field after it keeps a
+# stable index no matter how long the run is in a given record.
+#
+# The `name` half is carried only to build raw/cache/_interpretation.json. It
+# never reaches a decoded record - see INTERPRETATION_RULE. Nothing here is
+# applied without the exact-consumption check in decode_blocks().
 
 def _rep(fmt, kind, n, start=0):
     return [(fmt.format(i), kind) for i in range(start, start + n)]
@@ -196,9 +241,11 @@ _WQST = ([("questId", "u"), ("method", "u"), ("level", "i"), ("minLevel", "u"),
          [p for i in range(6) for p in ((f"reqItemId{i}", "u"), (f"reqItemCount{i}", "u"))] +
          _rep("objectiveText{}", "s", 4))
 
-# WIDB is the one block layout with a run-time-sized member (statsCount stats
-# pairs), so it is a callable rather than a flat list. Field order ported from
-# coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response).
+# WIDB is the one layout with a run-time-sized member: `statsCount` stat pairs.
+# It is expressed as the "*u,i" variable run rather than as special-case code, so
+# it goes through the same decoder and the same exact-consumption gate as every
+# other layout. Field order ported from coa-sim-handoff/parsers/wdb_item.py
+# (TrinityCore 3.3.5 item query response).
 _WIDB_HEAD = ([("class", "u"), ("subclass", "u"), ("soundOverrideSubclass", "i")] +
               _rep("name{}", "s", 4) +
               [("displayId", "u"), ("quality", "u"), ("flags", "u"), ("flags2", "u"),
@@ -234,8 +281,11 @@ _WIDB_TAIL = ([("scalingStatDistribution", "u"), ("scalingStatValue", "u")] +
                ("requiredDisenchantSkill", "i"), ("armorDamageModifier", "f"),
                ("duration", "u"), ("itemLimitCategory", "u"), ("holidayId", "u")])
 
+_WIDB = _WIDB_HEAD + [("statsCount", "u"), ("stats", "*u,i")] + _WIDB_TAIL
+
 SCHEMAS = {"WMOB": _WMOB, "WGOB": _WGOB, "WNDB": _WNDB, "WITX": _WITX,
-           "WPTX": _WPTX, "WNPC": _WNPC, "WQST": _WQST, "WRDN": _WRDN}
+           "WPTX": _WPTX, "WNPC": _WNPC, "WQST": _WQST, "WRDN": _WRDN,
+           "WIDB": _WIDB}
 
 SCHEMA_SOURCE = {
     "WIDB": "coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response)",
@@ -275,44 +325,59 @@ class _Cursor:
         return v
 
 
-def _decode_flat_schema(body: bytes, schema) -> tuple:
-    c = _Cursor(body)
-    rec = {}
-    for name, kind in schema:
-        rec[name] = c.take(kind)
-    return rec, c.o
+_FIXED_WIDTH = {"u": 4, "i": 4, "f": 4, "b": 1}
 
 
-def _decode_widb(body: bytes) -> tuple:
+def _decode_layout(body: bytes, layout) -> tuple:
+    """Decode one block positionally. Returns ({f0: v, ...}, bytes consumed)."""
     c = _Cursor(body)
     rec = {}
-    for name, kind in _WIDB_HEAD:
-        rec[name] = c.take(kind)
-    n = c.take("u")
-    rec["statsCount"] = n
-    if n > 32:
-        raise WdbError(f"statsCount={n} exceeds the 32-slot maximum")
-    for i in range(n):
-        rec[f"statType{i}"] = c.take("u")
-        rec[f"statValue{i}"] = c.take("i")
-    for name, kind in _WIDB_TAIL:
-        rec[name] = c.take(kind)
+    prev = None
+    for pos, (_name, kind) in enumerate(layout):
+        if kind[0] == "*":
+            kinds = kind[1:].split(",")
+            if not isinstance(prev, int) or prev < 0:
+                raise WdbError(f"variable run at f{pos} needs a non-negative "
+                               f"count in the preceding field, got {prev!r}")
+            # MEASURED bound, not a semantic one: the run cannot be longer than
+            # the bytes the block itself declares are left. A count that would
+            # overrun is a wrong layout, and saying so here is what stops a bad
+            # count from allocating against a number the file made up.
+            need = prev * sum(_FIXED_WIDTH[k] for k in kinds)
+            left = len(body) - c.o
+            if need > left:
+                raise WdbError(f"variable run at f{pos} declares {prev} "
+                               f"repeats ({need} bytes) but only {left} bytes "
+                               f"remain in the block")
+            run = []
+            for _ in range(prev):
+                for k in kinds:
+                    run.append(c.take(k))
+            rec[f"f{pos}"] = run
+            prev = run
+            continue
+        v = c.take(kind)
+        rec[f"f{pos}"] = v
+        prev = v
     return rec, c.o
 
 
 def decode_blocks(data: bytes, magic: str) -> dict:
-    """Decode every block of a WDB payload under `magic`'s schema.
+    """Decode every block of a WDB payload under `magic`'s layout.
+
+    Records are POSITIONAL (`f0..fN` plus `_entry`, the block header's own entry
+    id). Names live in raw/cache/_interpretation.json - see INTERPRETATION_RULE.
 
     Returns {"decoded": bool, "records": [...], "fields": [...], "failure": {...}}.
     `decoded` is True only when every block consumed exactly its declared size."""
-    if magic != "WIDB" and magic not in SCHEMAS:
+    if magic not in SCHEMAS:
         return {"decoded": False, "records": [], "fields": [],
-                "failure": {"reason": "no schema for this magic", "magic": magic}}
+                "failure": {"reason": "no layout for this magic", "magic": magic}}
+    layout = SCHEMAS[magic]
     out = []
     for entry, size, body in blocks(data):
         try:
-            rec, used = (_decode_widb(body) if magic == "WIDB"
-                         else _decode_flat_schema(body, SCHEMAS[magic]))
+            rec, used = _decode_layout(body, layout)
         except Exception as e:
             return {"decoded": False, "records": [], "fields": [],
                     "failure": {"reason": f"{type(e).__name__}: {e}",
@@ -320,14 +385,36 @@ def decode_blocks(data: bytes, magic: str) -> dict:
                                 "blocksDecodedBefore": len(out)}}
         if used != size:
             return {"decoded": False, "records": [], "fields": [],
-                    "failure": {"reason": "schema did not consume the block exactly",
+                    "failure": {"reason": "layout did not consume the block exactly",
                                 "entry": entry, "blockSize": size, "consumed": used,
                                 "delta": used - size, "blocksDecodedBefore": len(out)}}
         rec["_entry"] = entry
         out.append(rec)
-    fields = ["_entry"] + [n for n, _ in (_WIDB_HEAD if magic == "WIDB"
-                                          else SCHEMAS[magic])]
-    return {"decoded": True, "records": out, "fields": fields, "failure": None}
+    return {"decoded": True, "records": out, "fields": positional_fields(magic),
+            "failure": None}
+
+
+def positional_fields(magic: str) -> list:
+    """The measured shape of a decoded record: one entry per positional slot."""
+    return ["_entry"] + [f"f{i}" for i in range(len(SCHEMAS[magic]))]
+
+
+def interpretation(magic: str) -> list:
+    """Position -> the TrinityCore-derived NAME and kind for that slot. This is
+    the unverified half; see INTERPRETATION_RULE before using any of it."""
+    out = []
+    for i, (name, kind) in enumerate(SCHEMAS[magic]):
+        rec = {"field": f"f{i}", "name": name}
+        if kind[0] == "*":
+            rec.update({"kind": "variableRun",
+                        "repeatKinds": kind[1:].split(","),
+                        "repeatCountFrom": f"f{i-1}",
+                        "note": "flat list; length = repeatCount x len(repeatKinds)"})
+        else:
+            rec["kind"] = {"u": "uint32", "i": "int32", "f": "float32",
+                           "b": "uint8", "s": "cstring"}[kind]
+        out.append(rec)
+    return out
 
 
 def dump_blocks(data: bytes) -> list:
@@ -395,3 +482,20 @@ def sniff_flat(data: bytes) -> dict:
     return {"decoded": True, "declaredCount": count,
             "headerWord2": f"{hash_word:08x}", "recordSize": rs, "columns": width,
             "columnTypes": types, "columnEvidence": evidence, "records": records}
+
+
+def interpretation_index() -> dict:
+    """The whole interpretation sidecar payload: every magic this module has a
+    layout for, its source, and its position->name map."""
+    return {
+        "note": "The unverified NAME half of the WDB layouts. raw/cache shards "
+                "are positional (f0..fN); this file is the only place a name "
+                "appears, and it is a hypothesis, not a measurement.",
+        "rule": INTERPRETATION_RULE,
+        "validationRule": VALIDATION_RULE,
+        "generatedBy": "python -m tools.extract_cache",
+        "magics": {m: {"source": SCHEMA_SOURCE.get(m),
+                       "fieldCount": len(SCHEMAS[m]),
+                       "fields": interpretation(m)}
+                   for m in sorted(SCHEMAS)},
+    }

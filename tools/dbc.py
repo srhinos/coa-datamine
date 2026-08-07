@@ -1459,7 +1459,7 @@ def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Pat
         "string_block_size": strblock_size, "columns": columns,
     }
     (out_dir / f"{table}.colinfo.json").write_text(
-        json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+        json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
     return out
 
 

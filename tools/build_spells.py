@@ -160,7 +160,7 @@ def _write_missing_refs(path, missing_by_source):
         comma = "," if i < len(keys) - 1 else ""
         lines.append(f' "{k}": {arr}{comma}')
     lines.append("}")
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
 def _content(name):
@@ -686,7 +686,7 @@ def _build_charges(out_dir):
         "realmGapFinding": realm_gap_finding,
     }
     (out_dir / "charges.json").write_text(
-        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
     return {
         "attached": attach,
@@ -765,7 +765,7 @@ def _build_stat_suggestions(out_dir):
     # lines (one field per line), over Amendment C's 5,000-line gate; one-compact-
     # record-per-line keeps this file small AND still diffable per row.
     (out_dir / "statSuggestions.json").write_text(
-        sharding.dump_manifest(doc), encoding="utf-8")
+        sharding.dump_manifest(doc), encoding="utf-8", newline="\n")
 
     return {"file": "statSuggestions.json", "recordCount": len(rows),
             "spellIdJoinRate": join_rate}
@@ -980,7 +980,7 @@ def _build_coverage(out_dir):
         ),
     }
     (out_dir / "_coverage.json").write_text(
-        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"totalFields": total_fields, "mappedColumns": mapped,
             "unmappedColumns": total_fields - mapped, "emittedColumns": emitted_count,
             "mappedNotEmittedColumns": mapped - emitted_count}
@@ -1121,7 +1121,7 @@ def _build_enum_evidence(out_dir, records):
     )
     doc["summary"] = summary
     (out_dir / "_enum_evidence.json").write_text(
-        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(doc, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return summary
 
 
@@ -1285,7 +1285,7 @@ def build() -> dict:
         f"talent missing ratio {tal_ratio:.3f} > 0.05 - Talent.dbc ranks must resolve"
 
     index = {"bucketSize": BUCKET_SIZE, "count": len(records), "buckets": bucket_index}
-    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
     _write_missing_refs(out_dir / "_missing_refs.json", missing_by_source)
 
     meta = {
@@ -1351,7 +1351,7 @@ def build() -> dict:
                         "id within a bucket); see index.json and AGENT-GUIDE.md"),
     }
     (out_dir / "_meta.json").write_text(
-        json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"written": len(records), "missing_by_source": missing_by_source,
             "ref_counts": ref_counts, "by_source": by_source,
             "enum_evidence": enum_evidence_summary,

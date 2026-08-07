@@ -9,6 +9,10 @@ alone and with no human judgment encoded anywhere:
     --skip-content-hash) the sha256 of the decompressed bytes;
   * the loose (non-MPQ) files sitting in Data\\ - Content JSON, the enUS Interface
     tree, realm listarchive files;
+  * the loose files ABOVE Data\\, at the client root, that OVERRIDE an archived
+    path - the client reads `<root>\\<path>` before it reads the MPQ chain, so
+    those files, not the archive copies, are what it loads (see
+    LOOSE_OVERRIDE_RULE);
   * how much the full raw extraction would weigh, per class.
 
 NON-NEGOTIABLES this module is built to satisfy
@@ -45,6 +49,7 @@ run between patch-C and patch-E and silently win base files.
 import argparse
 import hashlib
 import json
+import os
 import struct
 import sys
 import time
@@ -54,12 +59,67 @@ from mpyq import (MPQArchive, MPQ_FILE_EXISTS, MPQ_FILE_ENCRYPTED,
                   MPQ_FILE_SINGLE_UNIT, MPQ_FILE_COMPRESS, MPQ_FILE_IMPLODE,
                   MPQ_FILE_SECTOR_CRC)
 
-from tools import config, probe_unlistable
+from tools import config, layerstate, probe_unlistable
 from tools.extract_mpq import chain_rank
 
 INV_DIR = config.RAW_DIR / "_inventory"
 FILES_DIR = INV_DIR / "files"
 SHARD_MAX = 5000            # Amendment C line cap, per shard file
+
+# Per-archive checkpoints. NOT part of the output: these live under work/
+# (gitignored) and hold nothing that is not re-derivable from the client.
+HASH_CACHE_DIR = config.WORK_DIR / "inventory_hashes"
+SCAN_CACHE_DIR = config.WORK_DIR / "inventory_scan"
+
+SCAN_CACHE_RULE = (
+    "Pass 1 opens all 77 archives, hashes each one whole (about 30 GB of reads) "
+    "and enumerates its listfile against its block table. It is checkpointed per "
+    "archive into work/inventory_scan/, keyed by the archive file's SIZE and "
+    "modification time, with the sha256 it computed stored inside. A client "
+    "patch rewrites the file and moves its mtime, which invalidates the entry; "
+    "`--rescan` ignores the checkpoints entirely and re-reads every archive, "
+    "which is the way to prove a run from the bytes alone. Unlike the pass-4 "
+    "checkpoint this key is not the content hash - computing the content hash IS "
+    "the cost being avoided - so it is a stat-based assumption and is called one "
+    "here rather than left implicit.")
+
+HASH_CACHE_RULE = (
+    "Pass 4 decompresses and hashes every winning file in the chain - 637k "
+    "files and ~62 GB - and it is the only pass long enough that finishing it "
+    "in one process is a real assumption rather than a formality. It is "
+    "therefore checkpointed PER ARCHIVE into work/inventory_hashes/, keyed by "
+    "the archive's own sha256: an archive whose checkpoint matches its current "
+    "sha256 is not re-read, so a run interrupted anywhere resumes instead of "
+    "starting over, and repeated runs converge. This changes NOTHING about the "
+    "output - the same client produces the same census with an empty cache or a "
+    "full one, because the key is the archive's content hash and a changed "
+    "archive invalidates its own checkpoint. Delete the directory to force a "
+    "full re-read.")
+
+# The `winner` of a path a loose file on disk takes from the archives. Not an
+# archive id, and it cannot collide with one (archive ids are `<dir>/<name>.MPQ`).
+DISK_WINNER = "<disk>"
+
+LOOSE_OVERRIDE_RULE = (
+    "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in "
+    "the MPQ chain, so a loose file at the client root beats every archive that "
+    "carries the same path - which is how this client ships its own ChatBubble "
+    "textures and its silenced Fizzle sounds. The census therefore walks the "
+    "whole client root, and a loose file whose root-relative path is also an MPQ "
+    "path WINS that path: `source` becomes `loose`, `winner` becomes "
+    f"`{DISK_WINNER}`, `size`/`sha256` are the file's own, and the archive copy "
+    "it displaced is preserved under `overrides` so nothing is lost. Which loose "
+    "files are recorded is decided mechanically, by two conditions and no list "
+    "of names: a loose file is recorded if (1) it lives under `Data\\` - the "
+    "client's data directory, already covered before this rule existed - or (2) "
+    "its root-relative path is carried by the MPQ chain, which is what makes it "
+    "an override at all. Everything else on the disk (the user's installed "
+    "AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) "
+    "is machine state rather than client content, is not in the archive "
+    "namespace, and is deliberately outside this census - it is also volatile "
+    "between launches, so recording it would make a rerun on an unchanged client "
+    "stop reproducing. `.MPQ` files themselves are skipped here because they are "
+    "inventoried as archives, with their members as paths.")
 
 # MPQ hash-table sentinels: 0xFFFFFFFF = slot never used, 0xFFFFFFFE = file
 # deleted (slot kept alive so probe chains still terminate correctly).
@@ -156,6 +216,37 @@ def flag_names(flags: int) -> list:
     return names
 
 
+def _scan_cache_file(archive_id_str: str) -> Path:
+    stem = "".join(c if c.isalnum() or c in "-_" else "-"
+                   for c in archive_id_str.lower())
+    return SCAN_CACHE_DIR / f"{stem}.json"
+
+
+def _scan_key(p: Path) -> list:
+    st = p.stat()
+    return [st.st_size, st.st_mtime_ns]
+
+
+def scan_archive_cached(rec: dict, use_cache: bool = True) -> tuple:
+    """scan_archive() with a per-archive checkpoint. See SCAN_CACHE_RULE."""
+    p = rec["path"]
+    aid = archive_id(p)
+    cf = _scan_cache_file(aid)
+    key = _scan_key(p)
+    if use_cache and cf.is_file():
+        try:
+            d = json.loads(cf.read_bytes().decode("utf-8"))
+        except Exception:
+            d = None
+        if d and d.get("key") == key and d.get("archive", {}).get("id") == aid:
+            return d["archive"], d["entries"]
+    arch, entries = scan_archive(rec)
+    layerstate.atomic_write(cf, json.dumps(
+        {"note": SCAN_CACHE_RULE, "key": key, "archive": arch,
+         "entries": entries}).encode("utf-8"))
+    return arch, entries
+
+
 def scan_archive(rec: dict) -> tuple:
     """Open one archive, census its tables, and enumerate its listfile.
 
@@ -246,6 +337,135 @@ def scan_archive(rec: dict) -> tuple:
     arch["unnamedCount"] = len(exists) - len(entries) - len(meta)
     a.file.close()
     return arch, entries
+
+
+# --------------------------------------------------------------------------
+# pass-4 content-hash checkpoint (see HASH_CACHE_RULE)
+# --------------------------------------------------------------------------
+CHECKPOINT_EVERY = 500       # files hashed between fsyncs (see _hash_archive)
+
+
+def _index_hash_table(arch) -> None:
+    """Replace mpyq's per-lookup LINEAR SCAN of the hash table with a dict built
+    once per archive.
+
+    `MPQArchive.get_hash_table_entry` walks the whole hash table on every call,
+    which makes reading a large archive quadratic: patch-I holds 75,963 winning
+    paths against a hash table of the same order, measured at 6.2 ms per file -
+    about 8 minutes for that one archive, essentially all of it scanning rather
+    than decompressing. tools/extract_interface_all.py already does this; pass 4
+    did not, which is most of why the census took ~25 minutes. The (hash_a,
+    hash_b) pair is exactly what the scan compares, so indexing on it is
+    equivalent - same lookup, same result, same first-match-wins order."""
+    index = {}
+    for e in arch.hash_table:
+        if e.block_table_index < HASH_DELETED:
+            index.setdefault((e.hash_a, e.hash_b), e)
+    arch.get_hash_table_entry = lambda name: index.get(
+        (arch._hash(name, "HASH_A"), arch._hash(name, "HASH_B")))
+
+_CACHE_HITS = set()
+
+
+def _cache_file(archive_id_str: str) -> Path:
+    stem = "".join(c if c.isalnum() or c in "-_" else "-"
+                   for c in archive_id_str.lower())
+    return HASH_CACHE_DIR / f"{stem}.jsonl"
+
+
+def _load_hash_cache(archive_id_str: str, archive_sha: str) -> dict:
+    """Whatever of this archive has already been hashed, for THESE archive
+    bytes. Keyed on the archive's own sha256, so a patched archive can never be
+    served from a stale checkpoint. A trailing line a crash truncated is dropped
+    rather than trusted."""
+    p = _cache_file(archive_id_str)
+    if not p.is_file():
+        return {}
+    out = {}
+    with open(p, "rb") as f:
+        head = f.readline()
+        try:
+            h = json.loads(head.decode("utf-8"))
+        except Exception:
+            return {}
+        if (h.get("archive") != archive_id_str
+                or h.get("archiveSha256") != archive_sha):
+            return {}
+        for raw in f:
+            try:
+                rec = json.loads(raw.decode("utf-8"))
+            except Exception:
+                break            # truncated by a kill; everything before it stands
+            out[rec.pop("_path")] = rec
+    if out:
+        _CACHE_HITS.add(archive_id_str)
+    return out
+
+
+def _hash_archive(archive_path: Path, archive_id_str: str, archive_sha: str,
+                  lows: list, carriers: dict, done: dict, log) -> dict:
+    """Decompress and hash every winning file this archive carries that the
+    checkpoint does not already have, appending each batch to the checkpoint.
+
+    Append-only, FLUSHED after every single file and fsynced every
+    CHECKPOINT_EVERY: a process abort (which is how this host fails - it dies at
+    0xC0000005 rather than raising) loses nothing already written, because the
+    bytes are in the OS by then. Buffering even 500 of them was enough to make a
+    run lose every hash it had just computed and restart from the same line
+    forever. `lows` is sorted, so which files a resumed run still has to do is a
+    function of the input, not of when the kill happened."""
+    todo = [low for low in sorted(lows) if low not in done]
+    if not todo:
+        return done
+    p = _cache_file(archive_id_str)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    fresh = not done
+    ar = MPQArchive(str(archive_path), listfile=False)
+    _index_hash_table(ar)
+    n = 0
+    try:
+        with open(p, "wb" if fresh else "ab") as cache:
+            if fresh:
+                cache.write(json.dumps(
+                    {"note": HASH_CACHE_RULE, "archive": archive_id_str,
+                     "archiveSha256": archive_sha}).encode("utf-8") + b"\n")
+                cache.flush()
+                os.fsync(cache.fileno())
+            for low in todo:
+                e = carriers[low]["e"]
+                try:
+                    data = ar.read_file(e["stored"])
+                except Exception as ex:          # noqa: BLE001 - recorded, not raised
+                    rec = {"sha256": None,
+                           "readError": f"{type(ex).__name__}: {ex}"}
+                else:
+                    if data is None:
+                        rec = {"sha256": None,
+                               "readError": "read_file returned None "
+                                            "(zero-length stored block)"}
+                    else:
+                        rec = {"sha256": hashlib.sha256(data).hexdigest(),
+                               "readBytes": len(data)}
+                        if low.startswith("dbfilesclient\\") and len(data) >= 20:
+                            magic, nrec, nfld, rsz, ssz = struct.unpack_from(
+                                "<4s4I", data, 0)
+                            rec["dbc"] = {"magic": magic.decode("latin-1"),
+                                          "records": nrec, "declaredFields": nfld,
+                                          "recordSize": rsz,
+                                          "stringBlockSize": ssz,
+                                          "actualFields": rsz // 4}
+                done[low] = rec
+                cache.write(json.dumps({"_path": low, **rec}).encode("utf-8") + b"\n")
+                cache.flush()          # out of this process on every file
+                n += 1
+                if n % CHECKPOINT_EVERY == 0:
+                    os.fsync(cache.fileno())
+                    log(f"    {archive_id_str}: {len(done)}/{len(lows)} hashed")
+            cache.flush()
+            os.fsync(cache.fileno())
+    finally:
+        ar.file.close()
+    return done
 
 
 # --------------------------------------------------------------------------
@@ -388,17 +608,27 @@ def dump_records(records: list) -> str:
     return "\n".join(lines) + "\n"
 
 
-def write_json(path: Path, payload) -> None:
+def write_bytes_lf(path: Path, text: str) -> None:
+    """UTF-8, LF, no BOM - written as BYTES. `Path.write_text` translates \\n to
+    the platform's newline, which made every file this module emits depend on the
+    OS that ran it: LF on Linux, CRLF on Windows, for identical client bytes.
+    That is the same class of defect as the one that stripped CR out of
+    raw/interface, and it breaks the byte-for-byte rerun guarantee."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=1, sort_keys=True,
-                               ensure_ascii=False) + "\n", encoding="utf-8")
+    path.write_bytes(text.encode("utf-8"))
+
+
+def write_json(path: Path, payload) -> None:
+    write_bytes_lf(path, json.dumps(payload, indent=1, sort_keys=True,
+                                    ensure_ascii=False) + "\n")
 
 
 # --------------------------------------------------------------------------
 # main
 # --------------------------------------------------------------------------
 
-def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
+def build(skip_content_hash: bool = False, verbose: bool = True,
+          rescan: bool = False) -> dict:
     t0 = time.time()
 
     def log(msg):
@@ -414,7 +644,7 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
     # ---- pass 1: enumerate every archive, resolve the winner of every path ----
     arch_records, carriers = [], {}
     for i, rec in enumerate(archives):
-        arch, entries = scan_archive(rec)
+        arch, entries = scan_archive_cached(rec, use_cache=not rescan)
         arch_records.append(arch)
         for low, e in entries.items():
             cur = carriers.get(low)
@@ -476,51 +706,58 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
                 f"unidentified={live - len(hits)}")
             ar.file.close()
 
-    # ---- pass 3: loose (non-MPQ) files under Data\ ----
-    loose = {}
+    # ---- pass 3: loose (non-MPQ) files, under Data\ and at the client root ----
+    # See LOOSE_OVERRIDE_RULE. Two mechanical conditions, no name list: under
+    # Data\, or shadowing a path the MPQ chain carries.
+    loose, overrides = {}, {}
     data_root = config.CLIENT_DIR / "Data"
-    for p in sorted(data_root.rglob("*")):
+    root = config.CLIENT_DIR
+    for p in sorted(root.rglob("*")):
         if not p.is_file() or p.suffix.lower() == ".mpq":
             continue
-        rel = str(p.relative_to(data_root)).replace("/", "\\")
-        loose[rel.lower()] = {"stored": rel, "size": p.stat().st_size,
-                              "sha256": sha256_file(p), "path": p}
-    log(f"loose files under Data\\: {len(loose)}  [{time.time()-t0:.1f}s]")
+        rel_root = str(p.relative_to(root)).replace("/", "\\")
+        low_root = rel_root.lower()
+        if low_root.startswith("data\\"):
+            rel = str(p.relative_to(data_root)).replace("/", "\\")
+            loose[rel.lower()] = {"stored": rel, "size": p.stat().st_size,
+                                  "sha256": sha256_file(p), "path": p}
+        elif low_root in carriers:
+            overrides[low_root] = {"stored": rel_root, "size": p.stat().st_size,
+                                   "sha256": sha256_file(p), "path": p}
+    log(f"loose files under Data\\: {len(loose)}; loose client-root files that "
+        f"override an archived path: {len(overrides)}  [{time.time()-t0:.1f}s]")
 
     # ---- pass 4: content sha256 for every winning archived file ----
+    # Checkpointed per archive - see HASH_CACHE_RULE. This is the only pass long
+    # enough that "the process survives to the end" is an assumption worth not
+    # making; with the checkpoint a run interrupted at any point resumes.
     read_errors = {}
     if not skip_content_hash:
+        sha_by_id = {a["id"]: a.get("sha256") for a in arch_records}
         by_archive = {}
         for low, c in carriers.items():
             by_archive.setdefault(c["winner"], []).append(low)
-        done = 0
+        done = cached = 0
         for aname in sorted(by_archive):
-            ar = MPQArchive(str(path_by_id[aname]), listfile=False)
-            for low in by_archive[aname]:
+            asha = sha_by_id.get(aname)
+            hits = _load_hash_cache(aname, asha)
+            if len(hits) < len(by_archive[aname]):
+                hits = _hash_archive(path_by_id[aname], aname, asha,
+                                     by_archive[aname], carriers, hits, log)
+            else:
+                cached += 1
+            for low, rec in hits.items():
                 e = carriers[low]["e"]
-                try:
-                    data = ar.read_file(e["stored"])
-                except Exception as ex:
-                    e["sha256"] = None
-                    e["readError"] = f"{type(ex).__name__}: {ex}"
-                    read_errors[e["readError"]] = read_errors.get(e["readError"], 0) + 1
-                    continue
-                if data is None:
-                    e["sha256"] = None
-                    e["readError"] = "read_file returned None (zero-length stored block)"
-                    read_errors[e["readError"]] = read_errors.get(e["readError"], 0) + 1
-                    continue
-                e["sha256"] = hashlib.sha256(data).hexdigest()
-                e["readBytes"] = len(data)
-                if low.startswith("dbfilesclient\\") and len(data) >= 20:
-                    magic, nrec, nfld, rsz, ssz = struct.unpack_from("<4s4I", data, 0)
-                    e["dbc"] = {"magic": magic.decode("latin-1"), "records": nrec,
-                                "declaredFields": nfld, "recordSize": rsz,
-                                "stringBlockSize": ssz, "actualFields": rsz // 4}
+                e.update(rec)
+                if rec.get("readError"):
+                    read_errors[rec["readError"]] = \
+                        read_errors.get(rec["readError"], 0) + 1
             done += len(by_archive[aname])
-            log(f"  hashed {done:7d}/{len(carriers)} (through {aname}) "
+            log(f"  hashed {done:7d}/{len(carriers)} (through {aname})"
+                f"{' [cached]' if aname in _CACHE_HITS else ''} "
                 f"[{time.time()-t0:6.1f}s]")
-            ar.file.close()
+        log(f"  content hashes: {cached}/{len(by_archive)} archives came from "
+            f"the checkpoint  [{time.time()-t0:.1f}s]")
 
     # ---- assemble per-path records ----
     records = []
@@ -539,6 +776,24 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
             r["readError"] = e["readError"]
         if "dbc" in e:
             r["dbc"] = e["dbc"]
+        o = overrides.get(low)
+        if o is not None:
+            # The loose file wins the path. The archive copy it displaced is kept
+            # in full under `overrides` - it is real data about the client, it is
+            # just not what gets loaded, and reporting it as the winner is the
+            # bug this branch fixes.
+            r["overrides"] = {k: v for k, v in r.items()
+                              if k in ("winner", "size", "storedBytes", "sha256",
+                                       "flags", "losers", "readable", "readError",
+                                       "dbc")}
+            r.update({"source": "loose", "winner": DISK_WINNER,
+                      "diskPath": o["stored"].replace("\\", "/"),
+                      "size": o["size"], "sha256": o["sha256"],
+                      "storedBytes": None, "flags": [],
+                      "differsFromArchive": o["sha256"] != r["overrides"].get("sha256")})
+            r.pop("readable", None)
+            r.pop("readError", None)
+            r.pop("dbc", None)
         records.append(r)
     for low in sorted(loose):
         e = loose[low]
@@ -566,6 +821,9 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
     dbc_records = [r for r in records if r["class"] == "dbc"]
 
     # ---- shard + write ----
+    # The sentinel goes before the unlinks: from here until finish() the census
+    # is not readable, and every consumer of it checks (layerstate.RULE).
+    layerstate.begin(INV_DIR)
     if FILES_DIR.exists():
         for old in FILES_DIR.glob("*.json"):
             old.unlink()                      # sole writer: a path that vanished
@@ -590,7 +848,7 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
     for key in sorted(groups):
         fn = names[key]
         rows = [by_path[p] for p in sorted(groups[key])]
-        (FILES_DIR / fn).write_text(dump_records(rows), encoding="utf-8")
+        write_bytes_lf(FILES_DIR / fn, dump_records(rows))
         shards.append({"file": fn, "prefix": key[0].replace("\\", "/"),
                        "kind": key[1], "records": len(rows),
                        "firstPath": rows[0]["path"], "lastPath": rows[-1]["path"]})
@@ -598,6 +856,7 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
 
     write_json(INV_DIR / "archives.json", {
         "clientDir": str(config.CLIENT_DIR),
+        "scanCheckpointRule": SCAN_CACHE_RULE,
         "archiveCount": len(arch_records),
         "listableCount": sum(1 for a in arch_records if a["listable"]),
         "unlistableCount": len(unlistable),
@@ -612,6 +871,16 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
         "recordCount": len(records),
         "mpqPathCount": len(carriers),
         "loosePathCount": len(loose),
+        "looseOverrideRule": LOOSE_OVERRIDE_RULE,
+        "contentHashCheckpointRule": HASH_CACHE_RULE,
+        "looseOverrideCount": len(overrides),
+        "looseOverrides": [
+            {"path": r["path"], "size": r["size"], "sha256": r["sha256"],
+             "differsFromArchive": r["differsFromArchive"],
+             "archiveWinner": r["overrides"]["winner"],
+             "archiveSize": r["overrides"]["size"],
+             "archiveSha256": r["overrides"].get("sha256")}
+            for r in records if r.get("winner") == DISK_WINNER],
         "totalUncompressedBytes": total_bytes,
         "contentHashed": not skip_content_hash,
         "unreadableCount": sum(1 for r in records if r.get("readable") is False),
@@ -669,10 +938,17 @@ def build(skip_content_hash: bool = False, verbose: bool = True) -> dict:
     })
 
     write_catalog()
+    layerstate.finish(INV_DIR, {
+        "layer": "raw/_inventory", "generatedBy": "python -m tools.inventory",
+        "archiveCount": len(arch_records), "recordCount": len(records),
+        "dbcTableCount": len(dbc_records), "shardCount": len(shards),
+        "looseOverrideCount": len(overrides),
+        "contentHashed": not skip_content_hash})
 
     summary = {
         "archives": len(arch_records), "unlistable": len(unlistable),
         "records": len(records), "dbcTables": len(dbc_records),
+        "looseOverrides": len(overrides),
         "totalBytes": total_bytes, "shards": len(shards),
         "oversizeShards": len(oversize), "readErrors": read_errors,
         "unidentified": sum(f.get("unidentifiedLiveEntries", 0) for f in probe.values()),
@@ -724,7 +1000,27 @@ def write_catalog() -> None:
     L.append(f"- **{gb:.2f} GB** uncompressed if everything is extracted")
     L.append(f"- unreadable files: {files['unreadableCount']:,}")
     L.append(f"- files in unlistable archives that no harvested name identified: "
-             f"**{unl['totalUnidentifiedLiveEntries']}**\n")
+             f"**{unl['totalUnidentifiedLiveEntries']}**")
+    L.append(f"- paths a loose file at the client root takes from the archives: "
+             f"**{files['looseOverrideCount']}**\n")
+
+    L.append("## Loose files at the client root beat the whole MPQ chain\n")
+    L.append(files["looseOverrideRule"] + "\n")
+    if files["looseOverrides"]:
+        L.append("| path | on-disk bytes | archive bytes | archive winner | "
+                 "same bytes? |")
+        L.append("| --- | ---: | ---: | --- | --- |")
+        for o in files["looseOverrides"]:
+            L.append(f"| `{o['path']}` | {o['size']:,} | {o['archiveSize']:,} | "
+                     f"{o['archiveWinner']} | "
+                     f"{'no' if o['differsFromArchive'] else 'yes'} |")
+        L.append("\nEach of these records the DISK bytes as the winner. The "
+                 "archive copy it displaced is kept in full under `overrides` in "
+                 "the path record - nothing is dropped, it is just no longer "
+                 "reported as the file the client loads.\n")
+    else:
+        L.append("No loose file at the client root shadows an archived path on "
+                 "this install.\n")
 
     # Readability breakdown, re-derived from the shards themselves so it cannot
     # disagree with them. This is the number that decides whether the DATA layer
@@ -792,7 +1088,7 @@ def write_catalog() -> None:
              f"of that path, so shard contents do not churn when the client "
              f"patches. `files.json` lists each shard's `prefix`, `firstPath` "
              f"and `lastPath`; grepping `files/` directly also works.\n")
-    (INV_DIR / "README.md").write_text("\n".join(L), encoding="utf-8")
+    write_bytes_lf(INV_DIR / "README.md", "\n".join(L))
 
 
 def main():
@@ -800,15 +1096,20 @@ def main():
     ap.add_argument("--skip-content-hash", action="store_true",
                     help="skip decompressing every file for its sha256 "
                          "(fast structural pass only; sha256 fields are omitted)")
+    ap.add_argument("--rescan", action="store_true",
+                    help="ignore the per-archive scan checkpoints in work/ and "
+                         "re-read every archive from the client bytes")
     ap.add_argument("-q", "--quiet", action="store_true")
     args = ap.parse_args()
-    s = build(skip_content_hash=args.skip_content_hash, verbose=not args.quiet)
+    s = build(skip_content_hash=args.skip_content_hash, verbose=not args.quiet,
+              rescan=args.rescan)
 
     print("\n=== INVENTORY ===")
     print(f"archives            {s['archives']} ({s['unlistable']} unlistable)")
     print(f"paths               {s['records']}")
     print(f"DBC tables          {s['dbcTables']}")
     print(f"shards              {s['shards']} (oversize: {s['oversizeShards']})")
+    print(f"loose root overrides{s['looseOverrides']:4d}")
     print(f"read errors         {sum(s['readErrors'].values())} {s['readErrors']}")
     print(f"unidentified files  {s['unidentified']}")
     for k, v in s["byClass"].items():

@@ -80,7 +80,7 @@ def dump_itemstat_sharded() -> tuple:
         "distinctItems": len(item_ilvls), "shards": shard_meta,
     }
     (ITEMSTAT_RAW_DIR / "index.json").write_text(
-        sharding.dump_manifest(manifest), encoding="utf-8")
+        sharding.dump_manifest(manifest), encoding="utf-8", newline="\n")
     return shard_meta, item_ilvls, f.records
 
 
@@ -129,7 +129,7 @@ def build_stats_by_item(item_ilvls: dict) -> dict:
     index = {"bucketSize": CURATED_BUCKET_SIZE, "count": len(item_ilvls),
              "buckets": bucket_index}
     (STATS_BY_ITEM_DIR / "index.json").write_text(
-        sharding.dump_manifest(index), encoding="utf-8")
+        sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
     item_dbc_ids = {row[0] for row in
                     dbc.DBCFile(config.WORK_DBC_DIR / "Item.dbc").iter_rows()}
@@ -167,7 +167,7 @@ def build_stats_by_item(item_ilvls: dict) -> dict:
         ),
     }
     (STATS_BY_ITEM_DIR / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"written": len(item_ilvls), "itemIdJoinRate": join_rate}
 
 

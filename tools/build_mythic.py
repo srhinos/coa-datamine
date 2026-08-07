@@ -235,7 +235,7 @@ def build_challenges() -> dict:
         # dump_manifest (not indent=1): a handful of challenges (e.g. the default
         # "Adventure Mode") aggregate thousands of per-level rule/condition/reward rows -
         # one-record-per-line keeps every challenge file well under the 5,000-line gate.
-        (out_dir / fname).write_text(sharding.dump_manifest(doc), encoding="utf-8")
+        (out_dir / fname).write_text(sharding.dump_manifest(doc), encoding="utf-8", newline="\n")
         index_entries.append({
             "id": cid, "name": c["name_enUS"], "file": fname,
             "difficultyToken": c["difficultyToken"] or None,
@@ -243,7 +243,7 @@ def build_challenges() -> dict:
         })
 
     (out_dir / "index.json").write_text(
-        sharding.dump_manifest({"challenges": index_entries}), encoding="utf-8")
+        sharding.dump_manifest({"challenges": index_entries}), encoding="utf-8", newline="\n")
 
     lookups = {
         "ruleTypes": sorted(rule_types, key=lambda x: x["id"]),
@@ -252,7 +252,7 @@ def build_challenges() -> dict:
         "requirementTypes": sorted(requirement_types, key=lambda x: x["id"]),
     }
     (out_dir / "_lookups.json").write_text(
-        sharding.dump_manifest(lookups), encoding="utf-8")
+        sharding.dump_manifest(lookups), encoding="utf-8", newline="\n")
 
     meta = {
         "count": len(challenges),
@@ -272,7 +272,7 @@ def build_challenges() -> dict:
         ),
     }
     (out_dir / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
     return {"count": len(challenges), "linkTables": link_meta}
 
@@ -299,15 +299,15 @@ def build_keystones() -> dict:
         fname = f"{did}-{sharding.slugify(name)}.json"
         payload = {"dungeonId": did, "dungeonName": name, "levels": levels}
         (out_dir / fname).write_text(
-            json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+            json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
         index_entries.append({"dungeonId": did, "dungeonName": name, "file": fname,
                                "count": len(levels)})
 
     (out_dir / "index.json").write_text(
-        sharding.dump_manifest({"dungeons": index_entries}), encoding="utf-8")
+        sharding.dump_manifest({"dungeons": index_entries}), encoding="utf-8", newline="\n")
     if unresolved:
         (out_dir / "_unresolved.json").write_text(
-            sharding.dump_manifest({"rows": unresolved}), encoding="utf-8")
+            sharding.dump_manifest({"rows": unresolved}), encoding="utf-8", newline="\n")
 
     rate = 1 - (len(unresolved) / total) if total else 0.0
     return {"count": total, "dungeons": len(by_dungeon), "unresolved": len(unresolved),
@@ -355,7 +355,7 @@ def build_affixes() -> dict:
 
     (out_dir / "index.json").write_text(
         sharding.dump_manifest({"bucketSize": AFFIX_BUCKET, "count": len(records),
-                                 "buckets": bucket_index}), encoding="utf-8")
+                                 "buckets": bucket_index}), encoding="utf-8", newline="\n")
     return {"count": len(records)}
 
 
@@ -363,7 +363,7 @@ def build_scaling() -> dict:
     mdir = config.DATA_DIR / "mythic"
     records = sorted(_raw_rows("MythicPlusScaling"), key=lambda x: x["id"])
     (mdir / "scaling.json").write_text(
-        sharding.dump_manifest({"scaling": records}), encoding="utf-8")
+        sharding.dump_manifest({"scaling": records}), encoding="utf-8", newline="\n")
     return {"count": len(records)}
 
 
@@ -383,7 +383,7 @@ def build_timed_dungeons() -> dict:
         })
     records.sort(key=lambda x: x["dungeonId"])
     (mdir / "timedDungeons.json").write_text(
-        sharding.dump_manifest({"timedDungeons": records}), encoding="utf-8")
+        sharding.dump_manifest({"timedDungeons": records}), encoding="utf-8", newline="\n")
     rate = resolved / len(records) if records else 0.0
     return {"count": len(records), "dungeonResolved": resolved,
             "dungeonJoinRate": round(rate, 4)}
@@ -402,7 +402,7 @@ def build_map_difficulty() -> dict:
         })
     records.sort(key=lambda x: x["id"])
     (mdir / "mapDifficulty.json").write_text(
-        sharding.dump_manifest({"mapDifficulty": records}), encoding="utf-8")
+        sharding.dump_manifest({"mapDifficulty": records}), encoding="utf-8", newline="\n")
     return {"count": len(records)}
 
 

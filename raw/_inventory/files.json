@@ -1,5 +1,208 @@
 {
+ "contentHashCheckpointRule": "Pass 4 decompresses and hashes every winning file in the chain - 637k files and ~62 GB - and it is the only pass long enough that finishing it in one process is a real assumption rather than a formality. It is therefore checkpointed PER ARCHIVE into work/inventory_hashes/, keyed by the archive's own sha256: an archive whose checkpoint matches its current sha256 is not re-read, so a run interrupted anywhere resumes instead of starting over, and repeated runs converge. This changes NOTHING about the output - the same client produces the same census with an empty cache or a full one, because the key is the archive's content hash and a changed archive invalidates its own checkpoint. Delete the directory to force a full re-read.",
  "contentHashed": true,
+ "looseOverrideCount": 22,
+ "looseOverrideRule": "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. The census therefore walks the whole client root, and a loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost. Which loose files are recorded is decided mechanically, by two conditions and no list of names: a loose file is recorded if (1) it lives under `Data\\` - the client's data directory, already covered before this rule existed - or (2) its root-relative path is carried by the MPQ chain, which is what makes it an override at all. Everything else on the disk (the user's installed AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) is machine state rather than client content, is not in the archive namespace, and is deliberately outside this census - it is also volatile between launches, so recording it would make a rerun on an unchanged client stop reproducing. `.MPQ` files themselves are skipped here because they are inventoried as archives, with their members as paths.",
+ "looseOverrides": [
+  {
+   "archiveSha256": "ed34d37b575c91a56704218eb9f6abbefda8b7de0e2ed44c96191abd0f9915a5",
+   "archiveSize": 413696,
+   "archiveWinner": "Data/enUS/base-enUS.MPQ",
+   "differsFromArchive": false,
+   "path": "DivxDecoder.dll",
+   "sha256": "ed34d37b575c91a56704218eb9f6abbefda8b7de0e2ed44c96191abd0f9915a5",
+   "size": 413696
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_AchievementUI/Blizzard_AchievementUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_AuctionUI/Blizzard_AuctionUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_BindingUI/Blizzard_BindingUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_CombatLog/Blizzard_CombatLog.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_CombatText/Blizzard_CombatText.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_DebugTools/Blizzard_DebugTools.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_GMChatUI/Blizzard_GMChatUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_GuildBankUI/Blizzard_GuildBankUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_InspectUI/Blizzard_InspectUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_ItemSocketingUI/Blizzard_ItemSocketingUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_MacroUI/Blizzard_MacroUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_RaidUI/Blizzard_RaidUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "archiveSize": 257,
+   "archiveWinner": "Data/patch-B.MPQ",
+   "differsFromArchive": false,
+   "path": "Interface/AddOns/Blizzard_TalentUI/Blizzard_TalentUI.pub",
+   "sha256": "5a2a75be06da4d9e48cefadcbb019c72d09a5a79657d7f64904dfe6f0fe63774",
+   "size": 257
+  },
+  {
+   "archiveSha256": "f457732e9be31292c6530699c3d5296500ee3d7c7dc1efac506adfe4562a92dd",
+   "archiveSize": 44900,
+   "archiveWinner": "Data/patch-A.MPQ",
+   "differsFromArchive": true,
+   "path": "Interface/Tooltips/chatbubble.blp",
+   "sha256": "ea10dfa8e4ec7001a7c4c196f1eb7f8a61d91e417651b2aa5d1d0eafeba74e0f",
+   "size": 44884
+  },
+  {
+   "archiveSha256": "3d3f8359b764e11bdbce9090c9dd585e6da8b81f0fcd8d651555907f81dcc482",
+   "archiveSize": 6692,
+   "archiveWinner": "Data/patch-A.MPQ",
+   "differsFromArchive": true,
+   "path": "Interface/Tooltips/chatbubblevertical.blp",
+   "sha256": "aa1eb16e7e9b76063ab76d34517997c1167a680da2931b220fa948c4c80e9d77",
+   "size": 6660
+  },
+  {
+   "archiveSha256": "f3cc92397c93f8de7e4791a532e4aa1e53cc13ed9d6a54ea3e6af2dadb051412",
+   "archiveSize": 66194,
+   "archiveWinner": "Data/common.MPQ",
+   "differsFromArchive": true,
+   "path": "Sound/Spells/Fizzle/FizzleFireA.wav",
+   "sha256": "788ccfc5646a93f9ea87e1760c055d9e93e5011c59c6bb67c95e09f8e7c379f8",
+   "size": 4454
+  },
+  {
+   "archiveSha256": "c883dc6385f20eb10a98414877fdc68efdd5f4fb001b44c15d1633dd36b82ed9",
+   "archiveSize": 70908,
+   "archiveWinner": "Data/common.MPQ",
+   "differsFromArchive": true,
+   "path": "Sound/Spells/Fizzle/FizzleFrostA.wav",
+   "sha256": "788ccfc5646a93f9ea87e1760c055d9e93e5011c59c6bb67c95e09f8e7c379f8",
+   "size": 4454
+  },
+  {
+   "archiveSha256": "db61f6718b2df0b73a8c632eb3273ff1bb771e58f7ca6d26e3facddd7c1b806a",
+   "archiveSize": 77182,
+   "archiveWinner": "Data/common.MPQ",
+   "differsFromArchive": true,
+   "path": "Sound/Spells/Fizzle/FizzleHolyA.wav",
+   "sha256": "788ccfc5646a93f9ea87e1760c055d9e93e5011c59c6bb67c95e09f8e7c379f8",
+   "size": 4454
+  },
+  {
+   "archiveSha256": null,
+   "archiveSize": 63042,
+   "archiveWinner": "Data/common.MPQ",
+   "differsFromArchive": true,
+   "path": "Sound/Spells/Fizzle/FizzleNatureA.wav",
+   "sha256": "788ccfc5646a93f9ea87e1760c055d9e93e5011c59c6bb67c95e09f8e7c379f8",
+   "size": 4454
+  },
+  {
+   "archiveSha256": "2e7a87370c5d2b361de278e6a9e36d50edbbb3b94077808db200422f78aa14fa",
+   "archiveSize": 72890,
+   "archiveWinner": "Data/common.MPQ",
+   "differsFromArchive": true,
+   "path": "Sound/Spells/Fizzle/FizzleShadowA.wav",
+   "sha256": "788ccfc5646a93f9ea87e1760c055d9e93e5011c59c6bb67c95e09f8e7c379f8",
+   "size": 4454
+  },
+  {
+   "archiveSha256": null,
+   "archiveSize": 220816,
+   "archiveWinner": "Data/enUS/base-enUS.MPQ",
+   "differsFromArchive": true,
+   "path": "WowError.exe",
+   "sha256": "a1a159d1f2e81e933533dcf24d045d701607192107d6f172da3b0d168df4eed6",
+   "size": 205824
+  }
+ ],
  "loosePathCount": 104,
  "mpqPathCount": 637350,
  "note": "Index for raw/_inventory/files/*.json. Per-path records live in the shards; each shard holds one compact JSON record per line, sorted by path, keyed by the path prefix in `prefix`.",
@@ -5129,6 +5332,6 @@
    "records": 319
   }
  ],
- "totalUncompressedBytes": 67870028230,
- "unreadableCount": 41053
+ "totalUncompressedBytes": 67869685244,
+ "unreadableCount": 41051
 }

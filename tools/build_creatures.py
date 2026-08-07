@@ -83,7 +83,7 @@ def build_creatures() -> dict:
                               "minId": recs[0]["id"], "maxId": recs[-1]["id"]})
 
     index = {"bucketSize": CREATURE_BUCKET, "count": len(records), "buckets": bucket_index}
-    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
     meta = {
         "count": len(records),
@@ -123,7 +123,7 @@ def build_creatures() -> dict:
         ),
     }
     (out_dir / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"written": len(records)}
 
 
@@ -161,7 +161,7 @@ def build_quests() -> dict:
                               "minId": recs[0]["id"], "maxId": recs[-1]["id"]})
 
     index = {"bucketSize": QUEST_BUCKET, "count": len(records), "buckets": bucket_index}
-    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
     meta = {
         "count": len(records),
@@ -183,7 +183,7 @@ def build_quests() -> dict:
         ),
     }
     (out_dir / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"written": len(records)}
 
 
@@ -230,12 +230,12 @@ def build_trainers() -> dict:
         fname = f"trainers-{bkt}.json"
         payload = {"bucket": bkt, "count": len(recs), "minId": recs[0]["id"],
                    "maxId": recs[-1]["id"], "entries": recs}
-        (out_dir / fname).write_text(sharding.dump_manifest(payload), encoding="utf-8")
+        (out_dir / fname).write_text(sharding.dump_manifest(payload), encoding="utf-8", newline="\n")
         bucket_index.append({"bucket": bkt, "file": fname, "count": len(recs),
                               "minId": recs[0]["id"], "maxId": recs[-1]["id"]})
 
     index = {"bucketSize": TRAINER_BUCKET, "count": len(records), "buckets": bucket_index}
-    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8")
+    (out_dir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
     meta = {
         "count": len(records),
@@ -267,7 +267,7 @@ def build_trainers() -> dict:
         ),
     }
     (out_dir / "_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return {"written": len(records), "spellJoinRate": join_rate}
 
 
