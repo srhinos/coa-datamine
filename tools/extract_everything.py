@@ -36,7 +36,10 @@ ORDER, AND WHY IT IS THIS ORDER
                           and encrypted members, the expanded containers, and a
                           full MD5 verification of every member against its own
                           archive  [needs 1]
-    7 build_catalog       the search catalog over raw/tables/  [needs 3]
+    7 binaries            the client's own executables - every string, the
+                          inlined Lua, the PE structure. Depends on nothing but
+                          the client
+    8 build_catalog       the search catalog over raw/tables/  [needs 3]
 
 WHY IT REFUSES TO CONTINUE PAST A BAD STAGE
 -------------------------------------------
@@ -63,35 +66,45 @@ import sys
 import time
 
 from tools import (build_catalog, config, crack, decode_all, extract_all,
-                   extract_interface, extract_raw_layers, inventory,
-                   layerstate)
+                   extract_binaries, extract_interface, extract_raw_layers,
+                   inventory, layerstate)
 
-# (name, callable, layer directories the stage must leave complete, what it does)
+# (name, callable, layer directories the stage must leave complete, what it
+# does, the module that runs it alone). The module is here because
+# tools/extract_raw_layers.py generates raw/README.md's regeneration block from
+# this table - the two were maintained separately and had already drifted.
 STAGES = [
     ("inventory", lambda: inventory.build(),
      [config.RAW_DIR / "_inventory"],
-     "census every archive and every path in the client"),
+     "census every archive and every path in the client", "tools.inventory"),
     ("extract_all", lambda: extract_all.extract(),
      [extract_all.OUT_DIR],
-     "pull every DBFilesClient body out of the winning chain"),
+     "pull every DBFilesClient body out of the winning chain",
+     "tools.extract_all"),
     ("decode_all", lambda: decode_all.run(),
      [decode_all.OUT_DIR],
-     "decode every table to raw/tables/, positional f0..fN"),
+     "decode every table to raw/tables/, positional f0..fN",
+     "tools.decode_all"),
     ("extract_interface", lambda: extract_interface.extract_all(),
      [config.RAW_INTERFACE_DIR],
-     "the Interface code layer, as bytes"),
+     "the Interface code layer, as bytes", "tools.extract_interface"),
     ("raw_layers", lambda: extract_raw_layers.main_stages(),
      [config.RAW_CONTENT_DIR, config.RAW_DIR / "interface_all",
       config.RAW_DIR / "cache"],
-     "Data\\Content + .loc, the Interface census, the WDB caches"),
+     "Data\\Content + .loc, the Interface census, the WDB caches",
+     "tools.extract_raw_layers"),
     ("crack", lambda: crack.run(),
      [crack.OUT_DIR, crack.ATTR_DIR, crack.FILES_DIR, crack.DELETED_DIR,
       crack.CORRECTIONS_DIR, crack.CONTAINER_DIR],
      "recover deleted/encrypted/undecodable members, expand containers, and "
-     "verify every member against its archive's own MD5"),
+     "verify every member against its archive's own MD5", "tools.crack"),
+    ("binaries", lambda: extract_binaries.extract(),
+     [extract_binaries.OUT_DIR],
+     "the client's own executables: strings, embedded Lua, PE structure",
+     "tools.extract_binaries"),
     ("build_catalog", lambda: build_catalog.run(),
      [build_catalog.CATALOG_DIR],
-     "the searchable catalog over raw/tables/"),
+     "the searchable catalog over raw/tables/", "tools.build_catalog"),
 ]
 
 NAMES = [s[0] for s in STAGES]
@@ -130,7 +143,7 @@ def _flatten_numbers(obj, prefix="") -> dict:
 def layer_dirs() -> list:
     """Every layer directory any stage claims, in stage order, deduplicated."""
     seen, out = set(), []
-    for _name, _fn, dirs, _what in STAGES:
+    for _name, _fn, dirs, _what, _mod in STAGES:
         for d in dirs:
             if d not in seen:
                 seen.add(d)
@@ -278,7 +291,7 @@ def rel(directory) -> str:
 def print_list() -> None:
     print(f"client: {config.CLIENT_DIR}\n")
     w = max(len(n) for n in NAMES)
-    for name, _fn, dirs, what in STAGES:
+    for name, _fn, dirs, what, _mod in STAGES:
         for d in dirs:
             print(f"  {name:<{w}}  {state(d):<10}  {rel(d):<24}  {what}")
 
@@ -334,7 +347,7 @@ def main(argv=None) -> int:
 
     t0 = time.time()
     ran = []
-    for name, fn, dirs, what in picked:
+    for name, fn, dirs, what, _mod in picked:
         print(f"\n{'=' * 72}\n== {name}: {what}\n{'=' * 72}", flush=True)
         t = time.time()
         fn()
@@ -347,6 +360,13 @@ def main(argv=None) -> int:
         secs = time.time() - t
         ran.append((name, secs))
         print(f"== {name}: complete in {secs:.1f}s", flush=True)
+
+    # raw/README.md indexes the layers that exist ON DISK, and the stage that
+    # writes it (raw_layers) is not the last one to build a layer. Rewriting it
+    # here, after every stage this run touched, is what stops a fresh full
+    # extraction from publishing a catalogue of the tree as it looked in the
+    # middle of that same run.
+    extract_raw_layers.write_root_readme()
 
     print_stage_summary(ran)
     print(f"\ntotal {time.time() - t0:.1f}s")

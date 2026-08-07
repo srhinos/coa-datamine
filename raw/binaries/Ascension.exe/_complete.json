@@ -1,0 +1,9 @@
+{
+ "generatedBy": "python -m tools.extract_binaries",
+ "layer": "binaries/Ascension.exe",
+ "luaRecords": 42,
+ "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
+ "sourceSha256": "5b26e33b2129737af3a0c3164459f4c9b109398dab921f76c6740a8746fbb929",
+ "strings": 36931,
+ "symbols": 518
+}

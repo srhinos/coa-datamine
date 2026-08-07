@@ -1,0 +1,31 @@
+{
+ "byEncoding": {
+  "ascii": 1267,
+  "utf16le": 429,
+  "utf8": 165
+ },
+ "format": "plain",
+ "keyField": "id",
+ "luaScored": 21,
+ "minRunLength": 4,
+ "occurrences": 2134,
+ "oversizeShards": [],
+ "plainBytes": 187780,
+ "rows": 1861,
+ "rule": "Every printable run of at least 4 characters in the whole file - headers, sections, gaps and overlay alike - in three encodings: ASCII (bytes 0x20-0x7E), UTF-16LE (printable-ASCII code units) and UTF-8 (kept only when the run contains a multi-byte character, so it never duplicates the ASCII pass). Runs are deduplicated by (encoding, text) and every offset each occurs at is kept, with the PE section that offset lands in or '(unmapped)' when no section covers it. Note what the UTF-8 pass is: machine code contains byte pairs that are well-formed UTF-8 by chance, so most `utf8` runs are not text - they are kept because dropping them would mean dropping every genuinely non-ASCII string with them, and `enc` separates them from the ASCII and UTF-16 passes for anyone who wants only text.",
+ "shardCount": 1,
+ "shards": [
+  {
+   "file": "s0000-9999.jsonl",
+   "format": "plain",
+   "hi": 9999,
+   "lo": 0,
+   "plainBytes": 187780,
+   "rows": 1861,
+   "sha256": "3b81afb022709885f0f14b0d71f48fe62f64020b8e954c54e59800fcd388258f",
+   "storedBytes": 187780
+  }
+ ],
+ "storedBytes": 187780,
+ "tokenRule": "A run's Lua score is the number of DISTINCT syntax classes in tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and concatenation syntax, comment openers, table constructors and standard library calls. Counting distinct classes rather than occurrences stops one repeated word from carrying English prose over a threshold. The score is recorded on every extracted string, so any reader can re-cut it."
+}

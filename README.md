@@ -34,9 +34,11 @@ python -m tools.find --joins-to Spell   # which columns point at Spell.f0
 `CATALOG.md` is the generated index of all 368 tables - rows, columns, id density,
 inbound joins, sample text - and is the right first read for "where does X live".
 `raw/README.md` covers the non-table layers. `find.py` scans tables **plus** the
-`.loc` store and the WDB caches, because `Quest` and `Item` carry no string column
-at all on this client and a tables-only search reports "not in the client" for
-every quest title in the game.
+`.loc` store, the WDB caches and the client's own executables, because `Quest` and
+`Item` carry no string column at all on this client (a tables-only search reports
+"not in the client" for every quest title in the game) and because some of what the
+client does - `listarchive`, `SetDataPath`, the realm hot-swap script - exists only
+inside `Extensions.dll`.
 
 ## The standing rule
 
@@ -88,8 +90,10 @@ the client), `tables/` (all 368 DBC tables decoded, positional `f0..fN`), `_cata
 (the generated search index behind `CATALOG.md`), `content/` (Content JSON + the
 `.loc` store), `interface/` + `interface_all/` (the client's `Interface\` code tree
 and a census of every path in it), `cache/` (WDB server caches), `dbc/` (raw table
-bodies), `realms/` (realm-overlay diffs), `talents/` (the pinned talent-builder
-capture); `data/` = the curated derived layer; `tools/` = the pipeline; `work/` =
+bodies), `binaries/` (the client's own executables: every string, the inlined Lua,
+the PE structure), `recovered/` (what no previous reader could open), `realms/`
+(realm-overlay diffs), `talents/` (the pinned talent-builder capture); `data/` = the
+curated derived layer; `tools/` = the pipeline; `work/` =
 gitignored scratch. Every layer carries `_complete.json` - a layer without one was
 left half-written by a crash and must not be read.
 

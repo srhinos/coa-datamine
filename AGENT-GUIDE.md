@@ -12,7 +12,17 @@ python -m tools.find "Tide Lash"        # which table/column holds a string
 python -m tools.find --id 133           # every column an integer appears in
 python -m tools.find --joins-to Spell   # which columns point at Spell.f0
 python -m tools.find "Tide Lash" --variant baseChain   # ask the BASE chain instead
+python -m tools.find "listarchive" --layer binaries    # the client's own EXECUTABLES
 ```
+
+> **A miss in the data layers is not "the client does not do this".** `find`
+> also scans `raw/binaries/` - every string, every recovered Lua chunk and every
+> PE symbol of the seven executables in the client root. Ascension's engine
+> extension `Extensions.dll` carries `listarchive`, `SetDataPath`, `realmdata`
+> and an inlined Lua chunk that builds `AscensionRealmHotSwapOverlay`, none of
+> which exists in any `.lua` file or any table in this client. If an answer
+> depends on client BEHAVIOUR rather than client DATA, search there before
+> concluding anything.
 
 > **A table has more than one version, and the default is not always the one you
 > want.** The client carries several copies of most DBC paths and its loader picks
@@ -182,6 +192,10 @@ this repo needs an exemption).
 | `raw/interface/{AddOns,FrameXML,GlueXML,SharedXML,LibraryXML,LCDXML}/**` | every other `.lua`/`.xml`/`.toc`/`.txt`/`.md` file found under the client's `Interface\` tree across every MPQ archive (art/BLPs/sounds/models excluded - this is a code layer, not an art dump); winner per file resolved by the same chain-order rule as the DBCs | large |
 | `raw/dbc/*.csv.gz` | full decoded DBC dumps (every column) | large |
 | `raw/content/*.json` | verbatim client sidecar JSONs | large |
+| `raw/binaries/index.json` | every PE image in the client root (`Extensions.dll`, `Ascension.exe`, `WowError.exe`, `MMgr64.exe`, `DivxTac.dll`, `DivxDecoder.dll`, `discord_game_sdk.dll`), with the rules and thresholds the extraction applied stated next to its counts. **The layer that answers "the client does X but nothing in the data layers mentions X"** - `listarchive`, `SetDataPath`, `realmdata` and the realm hot-swap script live HERE and in no shipped data file | small |
+| `raw/binaries/<name>/strings/` | every printable run in that binary (ASCII, UTF-16LE and UTF-8), >=4 characters, deduplicated, with EVERY file offset it occurs at, the PE section that offset lands in, and a Lua-syntax score. Sharded JSONL, `id`-keyed - reachable from `python -m tools.find "<text>" --layer binaries` | small-medium |
+| `raw/binaries/<name>/lua/` | Lua recovered from the binary: `chunks/*.lua` are multi-line source runs written out verbatim (Extensions.dll's `AscensionRealmHotSwapOverlay` builder; Ascension.exe's two inlined 5.0-compat libraries), `chunks/*.luac` would be precompiled chunks walked to their last byte, and the JSONL records add the single-line FRAGMENTS the DLL concatenates scripts from. A `\x1bLua` magic that does not walk cleanly is recorded as `precompiledRejected` with its reason - Ascension.exe's one hit is its compiler writing the signature, not a chunk | small |
+| `raw/binaries/<name>/pe.json` + `symbols/` + `resources/` | sections (Extensions.dll carries a `.vm_sec`), imports/delay-imports, exports, the resource tree, the debug directory (**PDB build paths**, e.g. `C:\a\Ascension.CustomDLLs\...\Extensions.pdb`), certificates, the Rich header and the overlay. `symbols/` is the same facts as searchable records; `resources/` holds the payloads, with RT_VERSION and RT_STRING decoded to JSON | small |
 | `raw/provenance.json` | source hashes, archive resolution, build stats, top-level `headerMismatches` (must contain only the documented allowlist - today exactly one entry, `spellitemenchantmentcondition.dbc` 31 declared vs 16 actual; any NEW entry fails `tests/test_dataset.py` - see "Manastorm + realm overlays" below) | small |
 | `data/manastorm/manastorm.json` | `Manastorm.dbc` rows (1017, one file - under the 5k-line gate as-is): `{id, mapId, mapName, difficulty, dungeonEncounterId, dungeonEncounterName, raw}` - `mapName` is a 100% join vs `Map.dbc`; `dungeonEncounterId` resolves >=95% (measured 99.51%) via a two-hop chain against `DungeonEncounter.dbc` whose own `mapID`/`difficulty` must agree with this row's (100% match, gated); `raw` is the 5 undecoded columns (f4-f8) | small |
 | `data/manastorm/messages.json` | `ManastormMessages.dbc` rows (291): `{id, iconToken, title, text, raw}` - seasonal unlock-flavor strings (golden: id 1's `text` literally contains the word "Manastorm") | small |

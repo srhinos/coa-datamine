@@ -47,6 +47,13 @@ data/** -text
 raw/_catalog/** -text
 CATALOG.md -text
 
+# The binaries layer. Its shards, its recovered Lua chunks and its resource
+# payloads are all bytes lifted verbatim out of a PE image, every one of them
+# with a sha256 recorded in an index and re-checked against the client by
+# tests/test_binaries.py. A CRLF rewrite on checkout would corrupt the recovered
+# script and break every hash at once, on Windows clones only.
+raw/binaries/** -text
+
 # The recovery layer. Same reasoning again: every shard under it is generated
 # LF-only and carries sha256/md5 values that are checked against bytes, and any
 # recovered member bytes under it are stored verbatim - a CRLF rewrite on

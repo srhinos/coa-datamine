@@ -11,15 +11,16 @@ unchanged client reproduces it byte for byte.
 | layer | what it holds | open first | size | state |
 | --- | --- | --- | --- | --- |
 | `_inventory` | complete census of every file in the client | `raw/_inventory/README.md` | 647 files / 172.5 MB | complete |
-| `tables` | every DBC table, decoded, positional f0..fN | `raw/tables/index.json` | 8,612 files / 138.3 MB | complete |
+| `tables` | every DBC table, decoded, positional f0..fN | `raw/tables/index.json` | 13,067 files / 266.2 MB | complete |
 | `dbc` | raw DBC bodies as extracted from the MPQ chain | `raw/dbc/` | 210 files / 43.8 MB | - |
 | `content` | loose Data\Content: JSON payloads + .loc localization | `raw/content/index.json` | 2,063 files / 76.4 MB / fileCount 82 / locRecordTotal 1,605,624 | complete |
 | `interface` | Interface code layer (.lua/.xml/.toc) as bytes | `raw/interface/_manifest.json` | 1,555 files / 20.7 MB / count 1,553 | complete |
 | `interface_all` | every Interface path: size, sha256, text/binary | `raw/interface_all/index.json` | 112 files / 29.8 MB / pathCount 93,437 | complete |
 | `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.6 MB / fileCount 22 / recordTotal 45,474 | complete |
+| `binaries` | the client's own executables: strings, embedded Lua, PE structure | `raw/binaries/index.json` | 297 files / 4.1 MB | complete |
+| `recovered` | what was still opaque: deleted/encrypted members, the files the old reader could not read, CRC32+MD5+mtime per path, expanded containers | `raw/recovered/README.md` | 270 files / 133.0 MB | complete |
 | `realms` | realm-overlay diff artifacts | `raw/realms/` | 13 files / 14.9 MB | - |
 | `talents` | frozen capture of the external CoA talent builder | `raw/talents/` | 2 files / 11.9 MB | - |
-| `recovered` | what was still opaque: deleted/encrypted members, the 36,139 files the old reader could not read, CRC32+MD5+mtime per path, expanded containers | `raw/recovered/README.md` | 270 files / 127 MB / 763,928 members MD5-verified | complete |
 
 ## Regenerating
 
@@ -27,24 +28,25 @@ One command rebuilds everything, in dependency order, and prints what changed
 since the last run:
 
 ```
-python -m tools.extract_everything                    # all seven stages (hours; reads the whole client)
+python -m tools.extract_everything                    # all 8 stages (hours; reads the whole client)
 python -m tools.extract_everything --list             # the stage list + each layer's current state
 python -m tools.extract_everything --from decode_all  # resume at a stage
 python -m tools.extract_everything --only build_catalog   # rerun exactly one stage
 ```
 
-It is a thin runner over the seven stages, which stay individually runnable. Run
+It is a thin runner over the 8 stages, which stay individually runnable. Run
 them in THIS order if you run them by hand - the order is the contract, because
 three of them consume another's output:
 
 ```
-python -m tools.inventory            # 1 census of every file in the client (~25 min)
-python -m tools.extract_all          # 2 pull DBC bodies out of the MPQ chain
-python -m tools.decode_all           # 3 decode every table to raw/tables/   [needs 2]
-python -m tools.extract_interface    # 4 Interface code layer -> raw/interface/
-python -m tools.extract_raw_layers   # 5 content + Interface census + WDB caches [needs 1]
-python -m tools.crack                # 6 raw/recovered/ + full MD5 verification [needs 1]
-python -m tools.build_catalog        # 7 CATALOG.md + raw/_catalog/            [needs 3]
+python -m tools.inventory           # 1 census every archive and every path in the client
+python -m tools.extract_all         # 2 pull every DBFilesClient body out of the winning chain
+python -m tools.decode_all          # 3 decode every table to raw/tables/, positional f0..fN
+python -m tools.extract_interface   # 4 the Interface code layer, as bytes
+python -m tools.extract_raw_layers  # 5 Data\Content + .loc, the Interface census, the WDB caches
+python -m tools.crack               # 6 recover deleted/encrypted/undecodable members, expand containers, and verify every member against its archive's own MD5
+python -m tools.extract_binaries    # 7 the client's own executables: strings, embedded Lua, PE structure
+python -m tools.build_catalog       # 8 the searchable catalog over raw/tables/
 ```
 
 Each stage writes its own `index.json`/`README.md` describing its own rules. No
@@ -96,7 +98,12 @@ Stated as a boundary rather than left as an implication:
    every archive records an MD5 per member in its `(attributes)` block, and
    `python -m tools.crack --only verify` checks all **763,928** of them.
    Mismatches: 0.
-4. **`Interface\AddOns` on disk is out of scope** - it is the user's installed
+4. **The client's own executables are opened too.** `raw/binaries/` holds every
+   printable string, the inlined Lua and the full PE structure of each PE image
+   in the client root - the layer that explains where `listarchive`,
+   `SetDataPath` and the realm hot-swap script actually live, none of which is
+   in any shipped data file.
+5. **`Interface\AddOns` on disk is out of scope** - it is the user's installed
    third-party addons, not client data. It is counted, never extracted, in
    `raw/interface_all/index.json` -> `onDiskInterfaceTree`. The one exception is
    `AddOns/APIDocumentation`, which is Ascension's own launcher-managed
@@ -124,7 +131,8 @@ Stated as a boundary rather than left as an implication:
 ## Searching it
 
 ```
-python -m tools.find "Tide Lash"        # a string, across tables + .loc + WDB caches
+python -m tools.find "Tide Lash"        # a string, across tables + .loc + WDB caches + binaries
 python -m tools.find --id 133           # every column an integer appears in
 python -m tools.find --joins-to Spell   # every column that points at Spell.f0
+python -m tools.find "listarchive" --layer binaries   # the client's executables only
 ```

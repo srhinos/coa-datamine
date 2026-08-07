@@ -31,11 +31,30 @@ __all__ = ["PLAIN_MAX_TABLE_BYTES", "SHARD_MAX_ROWS", "COMPRESSION_RULE",
            "SHARD_RULE", "line", "write_group"]
 
 
+# Characters that a line-based reader treats as a line break and that
+# `json.dumps(ensure_ascii=False)` nevertheless emits RAW. Everything below
+# U+0020 is already escaped for us; these three are not, and a record carrying
+# one of them would be split across two lines by str.splitlines() - the JSONL
+# contract broken silently, in exactly one record out of millions. Escaping them
+# changes no data (json.loads returns the identical string) and no existing
+# layer's bytes: a scan of every committed shard in raw/content, raw/cache,
+# raw/tables and raw/recovered found zero occurrences. The client's binaries do
+# contain them, which is how this was found.
+_LINE_BREAKERS = {"\u0085": "\\u0085",
+                  "\u2028": "\\u2028",
+                  "\u2029": "\\u2029"}
+
+
 def line(rec: dict) -> str:
     """One compact, key-sorted JSON record - the line format every raw layer
-    uses, so `grep '"id":12345'` behaves the same everywhere."""
-    return json.dumps(rec, ensure_ascii=False, sort_keys=True,
+    uses, so `grep '"id":12345'` behaves the same everywhere. Guaranteed to be
+    ONE line: see _LINE_BREAKERS."""
+    text = json.dumps(rec, ensure_ascii=False, sort_keys=True,
                       separators=(",", ":"))
+    for raw, escaped in _LINE_BREAKERS.items():
+        if raw in text:
+            text = text.replace(raw, escaped)
+    return text
 
 
 def write_group(out_dir: Path, rows: list, key_of, stem: str = "",

@@ -1,0 +1,356 @@
+{
+ "binaries": [
+  {
+   "bytes": 7694848,
+   "certificates": 0,
+   "exportedFunctions": 1,
+   "importedDlls": 17,
+   "importedFunctions": 470,
+   "isPE": true,
+   "luaChunkFiles": [
+    "chunks/0x006363c0.lua",
+    "chunks/0x00643180.lua"
+   ],
+   "luaFragments": 39,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 1,
+   "luaSourceChunks": 2,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Ascension.exe",
+   "overlay": {
+    "bytes": 0,
+    "offset": 7694848
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "d:\\BuildServer\\WoW\\1\\work\\WoW-code\\branches\\wow-patch-3_3_5_A-BNet\\WoW\\Bin\\Wow.pdb"
+   ],
+   "resourceCount": 27,
+   "resourcesCommitted": 26,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".zdata",
+    ".tls",
+    ".rsrc"
+   ],
+   "sha256": "5b26e33b2129737af3a0c3164459f4c9b109398dab921f76c6740a8746fbb929",
+   "stringOccurrences": 48123,
+   "stringStoredBytes": 601871,
+   "strings": 36931,
+   "stringsByEncoding": {
+    "ascii": 31416,
+    "utf16le": 188,
+    "utf8": 5327
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 518,
+   "timeDateStamp": 1277448958
+  },
+  {
+   "bytes": 3154744,
+   "certificates": 1,
+   "exportedFunctions": 3,
+   "importedDlls": 6,
+   "importedFunctions": 120,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "discord_game_sdk.dll",
+   "overlay": {
+    "bytes": 7992,
+    "bytesCommitted": true,
+    "file": "overlay.bin",
+    "offset": 3146752,
+    "sha256": "da2ed1c0ee10b28d219572e6647a9094c7037dd841fd8ae904173f098e425c5c"
+   },
+   "overlayBytes": 7992,
+   "parseNotes": [],
+   "pdbPaths": [
+    "c:\\b\\tyrande-1\\discord\\discord-game-sdk\\target\\i686-pc-windows-msvc\\release\\deps\\discord_game_sdk.pdb"
+   ],
+   "resourceCount": 0,
+   "resourcesCommitted": 0,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".reloc"
+   ],
+   "sha256": "d8e7d9feb3de8482b186ae44fd1c9abb41fe2b3b3d2c7cd3a4d742ebbad30cdf",
+   "stringOccurrences": 22632,
+   "stringStoredBytes": 239825,
+   "strings": 14493,
+   "stringsByEncoding": {
+    "ascii": 9750,
+    "utf16le": 376,
+    "utf8": 4367
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 143,
+   "timeDateStamp": 1574880036
+  },
+  {
+   "bytes": 413696,
+   "certificates": 0,
+   "exportedFunctions": 4,
+   "importedDlls": 1,
+   "importedFunctions": 60,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "DivxDecoder.dll",
+   "overlay": {
+    "bytes": 0,
+    "offset": 413696
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [],
+   "resourceCount": 0,
+   "resourcesCommitted": 0,
+   "sectionCount": 4,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".reloc"
+   ],
+   "sha256": "ed34d37b575c91a56704218eb9f6abbefda8b7de0e2ed44c96191abd0f9915a5",
+   "stringOccurrences": 2688,
+   "stringStoredBytes": 180218,
+   "strings": 1849,
+   "stringsByEncoding": {
+    "ascii": 1301,
+    "utf16le": 2,
+    "utf8": 546
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 76,
+   "timeDateStamp": 1076466304
+  },
+  {
+   "bytes": 98816,
+   "certificates": 0,
+   "exportedFunctions": 0,
+   "importedDlls": 8,
+   "importedFunctions": 82,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "DivxTac.dll",
+   "overlay": {
+    "bytes": 0,
+    "offset": 98816
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "C:\\Users\\Glader\\Documents\\Github\\Ascension.CustomDLLs\\Release\\DivxTac.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 5,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "30c3b677d63ed5814f8f15cb5962aba4c9f7b5f352d484bf9892ce0b77ffca65",
+   "stringOccurrences": 1421,
+   "stringStoredBytes": 136163,
+   "strings": 1118,
+   "stringsByEncoding": {
+    "ascii": 1087,
+    "utf16le": 22,
+    "utf8": 9
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 103,
+   "timeDateStamp": 1633835898
+  },
+  {
+   "bytes": 12659256,
+   "certificates": 0,
+   "exportedFunctions": 1,
+   "importedDlls": 21,
+   "importedFunctions": 384,
+   "isPE": true,
+   "luaChunkFiles": [
+    "chunks/0x00b59c00.lua"
+   ],
+   "luaFragments": 1,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 1,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "Extensions.dll",
+   "overlay": {
+    "bytes": 0,
+    "offset": 12659256
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "C:\\a\\Ascension.CustomDLLs\\Ascension.CustomDLLs\\build\\Release\\Extensions.pdb"
+   ],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".rsrc",
+    ".reloc",
+    ".vm_sec"
+   ],
+   "sha256": "0d5fa9bdd097ea38993c5cd1705510bd299e04d371fe4b070bda22962b2ede08",
+   "stringOccurrences": 148504,
+   "stringStoredBytes": 1840161,
+   "strings": 131428,
+   "stringsByEncoding": {
+    "ascii": 95694,
+    "utf16le": 213,
+    "utf8": 35521
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 411,
+   "timeDateStamp": 1785351217
+  },
+  {
+   "bytes": 364032,
+   "certificates": 0,
+   "exportedFunctions": 0,
+   "importedDlls": 15,
+   "importedFunctions": 182,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_AMD64",
+   "magic": "PE32+",
+   "name": "MMgr64.exe",
+   "overlay": {
+    "bytes": 0,
+    "offset": 364032
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [],
+   "resourceCount": 1,
+   "resourcesCommitted": 1,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".pdata",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "fa9cbcd062edecc05fb116af7afa366b7323d24318e371364951d53d152e38d3",
+   "stringOccurrences": 5219,
+   "stringStoredBytes": 232708,
+   "strings": 2168,
+   "stringsByEncoding": {
+    "ascii": 1892,
+    "utf16le": 16,
+    "utf8": 260
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 200,
+   "timeDateStamp": 1777846817
+  },
+  {
+   "bytes": 205824,
+   "certificates": 0,
+   "exportedFunctions": 0,
+   "importedDlls": 5,
+   "importedFunctions": 152,
+   "isPE": true,
+   "luaChunkFiles": [],
+   "luaFragments": 0,
+   "luaPrecompiled": 0,
+   "luaPrecompiledRejected": 0,
+   "luaSourceChunks": 0,
+   "machine": "IMAGE_FILE_MACHINE_I386",
+   "magic": "PE32",
+   "name": "WowError.exe",
+   "overlay": {
+    "bytes": 0,
+    "offset": 205824
+   },
+   "overlayBytes": 0,
+   "parseNotes": [],
+   "pdbPaths": [
+    "C:\\a\\Asc_WowError\\Asc_WowError\\client\\Release\\WowError.pdb"
+   ],
+   "resourceCount": 11,
+   "resourcesCommitted": 11,
+   "sectionCount": 6,
+   "sectionNames": [
+    ".text",
+    ".rdata",
+    ".data",
+    ".fptable",
+    ".rsrc",
+    ".reloc"
+   ],
+   "sha256": "a1a159d1f2e81e933533dcf24d045d701607192107d6f172da3b0d168df4eed6",
+   "stringOccurrences": 2134,
+   "stringStoredBytes": 187780,
+   "strings": 1861,
+   "stringsByEncoding": {
+    "ascii": 1267,
+    "utf16le": 429,
+    "utf8": 165
+   },
+   "subsystem": "WINDOWS_GUI",
+   "symbols": 185,
+   "timeDateStamp": 1760214735
+  }
+ ],
+ "binaryCount": 7,
+ "clientDir": "E:\\ascension-live",
+ "generatedBy": "python -m tools.extract_binaries",
+ "interpretationRule": "Nothing here says what a string means. Field names are the PE/COFF specification's and the Lua language's; every threshold is recorded next to the counts it produced.",
+ "luaChunkTotal": 3,
+ "luaFragmentMinScore": 3,
+ "luaFragmentTotal": 40,
+ "luaMinScore": 3,
+ "luaRule": "A run's Lua score is the number of DISTINCT syntax classes in tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and concatenation syntax, comment openers, table constructors and standard library calls. Counting distinct classes rather than occurrences stops one repeated word from carrying English prose over a threshold. The score is recorded on every extracted string, so any reader can re-cut it.",
+ "minRunLength": 4,
+ "outsideRoot": [],
+ "resourceRule": "Every resource leaf is read. Its bytes are committed when the payload measures as text, when it decodes to a structure (RT_VERSION, RT_STRING), or when it is at most 65536 bytes; larger binary payloads are recorded with size and sha256 and their bytes discarded, which is this repo's art-and-sound rule applied by measurement. Nothing is skipped because of its type.",
+ "resourceTotal": 41,
+ "selectionRule": "Every file in the client root whose bytes parse as a PE image, found by reading the bytes - no name list and no extension test decides it. The whole client tree is swept for further .exe/.dll/.ocx/.sys files and the result is recorded in `outsideRoot`, so 'these are all of them' is a measurement rather than an assumption.",
+ "stringRule": "Every printable run of at least 4 characters in the whole file - headers, sections, gaps and overlay alike - in three encodings: ASCII (bytes 0x20-0x7E), UTF-16LE (printable-ASCII code units) and UTF-8 (kept only when the run contains a multi-byte character, so it never duplicates the ASCII pass). Runs are deduplicated by (encoding, text) and every offset each occurs at is kept, with the PE section that offset lands in or '(unmapped)' when no section covers it. Note what the UTF-8 pass is: machine code contains byte pairs that are well-formed UTF-8 by chance, so most `utf8` runs are not text - they are kept because dropping them would mean dropping every genuinely non-ASCII string with them, and `enc` separates them from the ASCII and UTF-16 passes for anyone who wants only text.",
+ "stringTotal": 189848,
+ "symbolTotal": 1636
+}

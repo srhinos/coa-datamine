@@ -6,12 +6,14 @@
 
 WHAT GETS SCANNED
 -----------------
-All three raw layers that hold rows, every row of every one of them - not an
+All four raw layers that hold rows, every row of every one of them - not an
 index built over a chosen subset:
 
     tables    raw/tables/       every DBC table, positional f0..fN
     content   raw/content/      the .loc localization store (1.6M records)
     cache     raw/cache/        the WDB query caches, base and per realm
+    binaries  raw/binaries/     every printable run, Lua chunk and PE symbol
+                                in the client's own executables
 
 `content` and `cache` are here because the DBC layer does not contain the text
 an agent usually wants: `Quest` and `Item` have ZERO string columns on this
@@ -20,6 +22,12 @@ own cached query responses. A search that read only raw/tables reported "not in
 the client" for every quest title and item name in the game, which is exactly
 the class of confidently-wrong answer this repo exists to stop. Restrict with
 `--layer tables` when you want the old behaviour.
+
+`binaries` is here for the same reason one layer up: some of what the client
+does exists only in `Extensions.dll` and `Ascension.exe` - `listarchive`,
+`SetDataPath`, `realmdata`, the inlined Lua that builds the realm hot-swap
+overlay - and is in no shipped data file at all, so a search of the data layers
+alone answers "not in the client" about strings the client demonstrably has.
 
 So a hit is ground truth and a miss means these layers do not contain it.
 
@@ -65,7 +73,7 @@ from tools import config, layerstate
 DEFAULT_LIMIT = 50
 CONTEXT_ROWS = 2       # sample rows shown per hit column in --id mode
 
-LAYERS = ("tables", "content", "cache")
+LAYERS = ("tables", "content", "cache", "binaries")
 
 # --variant selectors that are not an archive slug. `winner` is the default and
 # is what every previous version of this tool scanned.
@@ -86,6 +94,12 @@ DEFAULT_KEY = "f0"
 
 CONTENT_DIR = config.RAW_DIR / "content"
 CACHE_DIR = config.RAW_DIR / "cache"
+BINARIES_DIR = config.RAW_DIR / "binaries"
+
+# The record groups every extracted binary carries. Named here rather than
+# discovered by listing directories so a group that failed to write is a missing
+# source (and shows up as one) instead of silently reducing the search.
+BINARY_GROUPS = ("strings", "lua", "symbols")
 
 
 # --------------------------------------------------------------------------
@@ -228,13 +242,36 @@ def _cache_sources() -> list:
     return out
 
 
+def _binary_sources() -> list:
+    """One source per record group of every extracted client binary, named
+    `bin:Extensions.dll/strings` so --table can address one binary's strings and
+    output can name where a hit came from."""
+    ix_path = BINARIES_DIR / "index.json"
+    if not ix_path.is_file() or not layerstate.is_complete(BINARIES_DIR):
+        return []
+    ix = bc.load_json(ix_path)
+    out = []
+    for b in ix.get("binaries", []):
+        for group in BINARY_GROUPS:
+            d = BINARIES_DIR / b["name"] / group
+            if not d.is_dir():
+                continue
+            label = group
+            gix = d / "index.json"
+            key = (bc.load_json(gix).get("keyField", DEFAULT_KEY)
+                   if gix.is_file() else DEFAULT_KEY)
+            out.append(Source("binaries", f'bin:{b["name"]}/{label}',
+                              directory=d, key=key))
+    return out
+
+
 _SOURCES = {}
 
 
 def sources(only=None, layers=None, variant: str = VARIANT_WINNER) -> list:
     if variant not in _SOURCES:
         _SOURCES[variant] = (_table_sources(variant) + _content_sources()
-                             + _cache_sources())
+                             + _cache_sources() + _binary_sources())
     picked = _SOURCES[variant]
     if layers:
         want = set(layers)
