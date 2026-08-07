@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":31,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":182,"maxUnsigned":182,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":31,"rows":31,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":2611,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":30,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2526,"maxUnsigned":2526,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":30,"rows":31,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":2611,"controlCharOffsets":0,"distinctOffsets":30,"meanDecodedLength":86.033,"nonEmptyOffsets":30,"utf8DecodableOffsets":30,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["$funny=$?s48165[${$m1/10}.5]?a66109[${13}][${($m1*3)+17}]\r\n$maybe=$?s48165[${1}.5][${$66109m2*4/$<funny>}.2]\r\n$storm=${0.14*$AP*$<maybe>}\r\n\r\n","$min=$?s54825[${$m1/2}][${$m1}]\r\n$max=$?s54825[${$M1/2}][${$M1}]","$junk=1","$total=${$m1*5}","$mana=$?s55441[${$16191m1+1}][${$16191m1}]"],"width":4}
+ ],
+ "file": "SpellDescriptionVariables.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":31,"sizeReconciles":true,"stringBlockReferencedBytes":2611,"stringBlockSize":2611,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":2879,"losers":["Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS-3.MPQ","Data/enUS/patch-enUS.MPQ"],"sha256":"c0576e466ef6a3473ca79c0ee16f2dff2254aacaed62ccf138e7ecd343f039b5","winner":"Data/patch-S.MPQ"},
+ "table": "SpellDescriptionVariables"
+}

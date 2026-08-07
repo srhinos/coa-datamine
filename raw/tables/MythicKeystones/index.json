@@ -1,0 +1,25 @@
+{
+ "columnWidths": {"byte":0,"int32":3},
+ "columns": 3,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "MythicKeystones.dbc",
+ "format": "plain",
+ "inferredCounts": {"int":3},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 215685,
+ "rows": 6801,
+ "shardCount": 3,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"0000000-0999999.jsonl","format":"plain","hi":999999,"lo":0,"plainBytes":136848,"rows":4400,"sha256":"c1cf73f84704934835de6028ec39d3f253452f8ea76d298f4a336099122958cf","storedBytes":136848},
+  {"file":"1000000-1999999.jsonl","format":"plain","hi":1999999,"lo":1000000,"plainBytes":72224,"rows":2200,"sha256":"37d2be66a359e47d4c66edc0724d8a4244b2dbefe5c7c70ca3ce8bdc2e46ad16","storedBytes":72224},
+  {"file":"2000000-2999999.jsonl","format":"plain","hi":2999999,"lo":2000000,"plainBytes":6613,"rows":201,"sha256":"5363bca7a91d4a821304f28c08658f146cb6cdd47596a60fc43339fd5afa03a6","storedBytes":6613}
+ ],
+ "sourceSha256": "52ada871d42f1aebf4146394ca508038781f0311cfda0e89d26639361955058b",
+ "storedBytes": 215685,
+ "stringBlockSize": 0,
+ "table": "MythicKeystones",
+ "unreferencedStringBytes": 0
+}

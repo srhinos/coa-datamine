@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":205,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":10001,"maxUnsigned":10001,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":205,"rows":205,"string":{"applicable":true,"blockCoverageRate":0.028765,"blockSize":7370,"controlCharOffsets":0,"distinctOffsets":6,"meanDecodedLength":34.333,"nonEmptyOffsets":6,"utf8DecodableOffsets":6,"validOffsetRate":0.029268},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Spells\\Enchantments\\SkullBalls.mdx","Spells\\Enchantments\\RedFlame_Low.mdx","Spells\\Enchantments\\PoisonDrip.mdx","Spells\\Enchantments\\YellowGlow_Low.mdx","Spells\\Enchantments\\Shaman_Fire.mdx"],"width":4},
+  {"evidence":{"distinct":202,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":7333,"maxUnsigned":7333,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":204,"rows":205,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":7370,"controlCharOffsets":0,"distinctOffsets":202,"meanDecodedLength":35.485,"nonEmptyOffsets":202,"utf8DecodableOffsets":202,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["Spells\\Enchantments\\BlueGlow_High.mdx","Spells\\Enchantments\\BlueGlow_Low.mdx","Spells\\Enchantments\\BlueFlame_Low.mdx","SPELLS\\warlock_demonicportal_fire.m2","Spells\\Enchantments\\SkullBalls.mdx"],"width":4}
+ ],
+ "file": "ItemVisualEffects.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":205,"sizeReconciles":true,"stringBlockReferencedBytes":7370,"stringBlockSize":7370,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":9030,"losers":["Data/enUS/locale-enUS.MPQ","Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS.MPQ"],"sha256":"4e22a60173b8fa07aae3ca991d4ffa0210d4399a0e30048cd7082ac75b971551","winner":"Data/patch-M.MPQ"},
+ "table": "ItemVisualEffects"
+}

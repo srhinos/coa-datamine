@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":1144863,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1146045,"maxUnsigned":1146045,"minSigned":3,"minUnsigned":3,"negativeCount":0,"nonZeroCount":1144863,"rows":1144863,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":1241,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":988256,"maxUnsigned":988256,"minSigned":10,"minUnsigned":10,"negativeCount":0,"nonZeroCount":1144863,"rows":1144863,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":3409,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1093509,"maxUnsigned":1093509,"minSigned":81027,"minUnsigned":81027,"negativeCount":0,"nonZeroCount":1144863,"rows":1144863,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":2,"inferred":"int","name":"f2","samples":[],"width":4},
+  {"evidence":{"distinct":100,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":100,"maxUnsigned":100,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":1144863,"rows":1144863,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":3,"inferred":"int","name":"f3","samples":[],"width":4}
+ ],
+ "file": "SpellEnchantSuggestions.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":1144863,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":4},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":18317828,"losers":[],"sha256":"398c52f3b065d693cc7e1c8f56caf49c9733cf3c9b4c7021b4e79e48cc3ae1be","winner":"Data/patch-S.MPQ"},
+ "table": "SpellEnchantSuggestions"
+}

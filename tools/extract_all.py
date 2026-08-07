@@ -1,0 +1,271 @@
+"""Extract EVERY DBFilesClient table in the winning MPQ chain - no wanted list.
+
+This is step 1 of the raw table layer. Step 2 is tools/decode_all.py, which is
+also the single entry point (it runs this module when its input is missing or
+stale). Run either directly:
+
+    python -m tools.extract_all          # extraction only
+    python -m tools.decode_all           # extraction (if needed) + decode
+
+WHAT MAKES THIS DIFFERENT FROM tools/extract_mpq.py
+---------------------------------------------------
+tools/extract_mpq.py extracts config.WANTED_DBCS - a hand-maintained list, which
+is exactly the selective-extraction failure this layer exists to end. This module
+has no list. It takes every path in the chain whose directory is the client's
+table directory, whatever it is called, however many there are.
+
+NON-NEGOTIABLES
+---------------
+COMPLETE    Every table any listable archive names is extracted. The archives
+            that cannot be listed are probed by hash table for every harvested
+            name, and a hit that OUTRANKS the current winner stops the run - a
+            silently-wrong winner is the failure mode being designed out. A file
+            that cannot be read is recorded in the failures list with its error,
+            never dropped.
+MECHANICAL  Chain order is tools/inventory.discover_archives() (the same loader
+            order the census used, realm overlay above the whole base chain). The
+            winner of a path is the last carrier in that order. Nothing here
+            knows any table by name, and no table gets special handling.
+RERUNNABLE  One command, no arguments, no agent. Output is a pure function of
+            the client bytes: no wall-clock time is written, everything is
+            sorted, and the run's identity is the per-file sha256.
+"""
+import argparse
+import hashlib
+import json
+import struct
+import time
+from pathlib import Path
+
+from mpyq import MPQArchive
+
+from tools import config, probe_unlistable, sharding
+from tools.inventory import archive_id, discover_archives
+
+OUT_DIR = config.WORK_DIR / "dbc_all"
+PROVENANCE = OUT_DIR / "_extract.json"
+
+# The client's table directory, lowercased with a trailing separator. This is a
+# LOCATION in the archive namespace, not a table name - the one string this
+# module needs in order to know where tables live.
+TABLE_DIR = "dbfilesclient\\"
+
+HEADER = struct.Struct("<4s4I")
+
+
+def _header_facts(data: bytes) -> dict:
+    """Measured WDBC header + the byte-accurate cross-checks. Nothing here is
+    asserted: a declared field count that disagrees with recordSize//4 is
+    recorded as a disagreement, and the body/string-block reconciliation is
+    reported rather than assumed."""
+    if len(data) < HEADER.size:
+        return {"bytes": len(data), "truncated": True}
+    magic, records, declared, rec_size, str_size = HEADER.unpack_from(data, 0)
+    body_end = HEADER.size + records * rec_size
+    return {
+        "magic": magic.decode("latin-1"),
+        "records": records,
+        "declaredFields": declared,
+        "recordSize": rec_size,
+        "stringBlockSize": str_size,
+        # recordSize is what actually determines the row stride, so it is the
+        # authority; declaredFields is kept as a diagnostic.
+        "actualFields": rec_size // 4,
+        "trailingBytesPerRecord": rec_size % 4,
+        "declaredFieldsAgrees": declared == rec_size // 4,
+        "sizeReconciles": body_end + str_size == len(data),
+        "bytes": len(data),
+    }
+
+
+def resolve_chain(verbose: bool = True):
+    """Walk every archive in chain order and resolve the winner of every path
+    under the table directory. Returns (carriers, archives, unlistable).
+
+    An archive's strength is its POSITION in discover_archives()' output, which
+    is already sorted weakest-first by the loader order - so comparing positions
+    is comparing chain ranks, without this module re-deriving (or having to
+    agree with) how that order is computed."""
+    archives = discover_archives()
+    carriers, unlistable = {}, []
+    t0 = time.time()
+    for i, rec in enumerate(archives):
+        p = rec["path"]
+        aid = archive_id(p)
+        files, reason = probe_unlistable.try_list(p)
+        if files is None:
+            unlistable.append({"archive": aid, "path": p, "reason": reason,
+                               "chainRank": i})
+            if verbose:
+                print(f"  [{i+1:2d}/{len(archives)}] {aid:34s} UNLISTABLE ({reason})",
+                      flush=True)
+            continue
+        found = 0
+        for raw in files:
+            stored = raw.decode("latin-1", "replace").replace("/", "\\")
+            low = stored.lower()
+            if not low.startswith(TABLE_DIR):
+                continue
+            found += 1
+            cur = carriers.get(low)
+            if cur is None:
+                carriers[low] = {"stored": stored, "archive": aid, "path": p,
+                                 "chainRank": i, "losers": []}
+            elif i > cur["chainRank"]:
+                cur["losers"].append(cur["archive"])
+                cur.update({"stored": stored, "archive": aid, "path": p,
+                            "chainRank": i})
+            else:
+                cur["losers"].append(aid)
+        if verbose:
+            print(f"  [{i+1:2d}/{len(archives)}] {aid:34s} tables={found:4d} "
+                  f"union={len(carriers):4d}  [{time.time()-t0:5.1f}s]", flush=True)
+    return carriers, archives, unlistable
+
+
+def probe_unlistable_archives(carriers: dict, unlistable: list, verbose: bool = True):
+    """Test every unlistable archive for every harvested table path. A hit whose
+    archive outranks that path's current winner means the chain walk resolved the
+    wrong file, so it is returned as a conflict and the caller stops."""
+    probes, conflicts = {}, []
+    names = sorted(carriers)
+    for u in unlistable:
+        try:
+            hits = probe_unlistable.probe_paths(u["path"], names)
+        except Exception as e:                       # noqa: BLE001 - recorded, not raised
+            probes[u["archive"]] = {"error": f"{type(e).__name__}: {e}",
+                                    "probedCount": len(names), "hits": []}
+            continue
+        hit = sorted(k for k, v in hits.items() if v)
+        probes[u["archive"]] = {"probedCount": len(names), "hits": hit,
+                                "reason": u["reason"]}
+        for low in hit:
+            if u["chainRank"] > carriers[low]["chainRank"]:
+                conflicts.append({"path": low, "archive": u["archive"],
+                                  "currentWinner": carriers[low]["archive"]})
+        if verbose:
+            print(f"  probe {u['archive']:34s} probed={len(names)} hits={len(hit)}",
+                  flush=True)
+    return probes, conflicts
+
+
+def extract(verbose: bool = True) -> dict:
+    t0 = time.time()
+    if verbose:
+        print(f"client: {config.CLIENT_DIR}", flush=True)
+    carriers, archives, unlistable = resolve_chain(verbose)
+    if not carriers:
+        raise SystemExit(f"FATAL: no paths under {TABLE_DIR!r} in any archive.")
+
+    probes, conflicts = probe_unlistable_archives(carriers, unlistable, verbose)
+    if conflicts:
+        raise SystemExit(
+            "FATAL: an archive with no readable listfile outranks the resolved "
+            f"winner for {len(conflicts)} path(s): {conflicts[:5]} - the layer "
+            "would be built on the wrong bytes. Structural; investigate.")
+
+    # sole writer of OUT_DIR: a table that vanished from the client must not linger
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    keep = {low.rsplit("\\", 1)[-1].lower() for low in carriers}
+    for old in sorted(OUT_DIR.iterdir()):
+        if old.is_file() and old.name.lower().endswith(".dbc") \
+                and old.name.lower() not in keep:
+            old.unlink()
+
+    by_archive = {}
+    for low, c in carriers.items():
+        by_archive.setdefault(c["archive"], []).append(low)
+    path_by_archive = {c["archive"]: c["path"] for c in carriers.values()}
+
+    tables, failures = {}, []
+    seen_names = {}
+    done = 0
+    for aid in sorted(by_archive):
+        a = MPQArchive(str(path_by_archive[aid]), listfile=False)
+        for low in sorted(by_archive[aid]):
+            c = carriers[low]
+            name = c["stored"].rsplit("\\", 1)[-1]
+            clash = seen_names.setdefault(name.lower(), low)
+            if clash != low:
+                raise SystemExit(
+                    f"FATAL: two chain paths flatten to one output file name "
+                    f"{name!r}: {clash!r} and {low!r}.")
+            try:
+                data = a.read_file(c["stored"])
+            except Exception as e:                   # noqa: BLE001 - recorded, not raised
+                failures.append({"table": name, "stage": "extract",
+                                 "reason": f"{type(e).__name__}: {e}",
+                                 "path": c["stored"], "winner": c["archive"]})
+                continue
+            if data is None:
+                failures.append({"table": name, "stage": "extract",
+                                 "reason": "read returned no bytes",
+                                 "path": c["stored"], "winner": c["archive"]})
+                continue
+            (OUT_DIR / name).write_bytes(data)
+            tables[name] = {
+                "table": name, "path": c["stored"].replace("\\", "/"),
+                "winner": c["archive"], "losers": sorted(set(c["losers"])),
+                "sha256": hashlib.sha256(data).hexdigest(),
+                **_header_facts(data),
+            }
+            done += 1
+        a.file.close()
+        if verbose:
+            print(f"  read {done:4d}/{len(carriers)} (through {aid})"
+                  f"  [{time.time()-t0:5.1f}s]", flush=True)
+
+    payload = {
+        "note": "Every path under the client's table directory, resolved through "
+                "the full chain (realm overlay above the base chain) and written "
+                "to work/dbc_all/. No wanted list: this is the whole directory. "
+                "Header fields are measured; declaredFieldsAgrees=false marks a "
+                "header whose field count disagrees with recordSize//4.",
+        "clientDir": str(config.CLIENT_DIR),
+        "tableDir": TABLE_DIR.replace("\\", "/"),
+        "archiveCount": len(archives),
+        "unlistableArchives": sorted(u["archive"] for u in unlistable),
+        "unlistableProbe": probes,
+        "pathCount": len(carriers),
+        "extractedCount": len(tables),
+        "failures": sorted(failures, key=lambda f: f["table"]),
+        "headerDisagreements": sorted(
+            t["table"] for t in tables.values() if not t.get("declaredFieldsAgrees", True)),
+        "nonWdbcMagic": sorted(f'{t["table"]}={t.get("magic")}' for t in tables.values()
+                               if t.get("magic") != "WDBC"),
+        "sizeDisagreements": sorted(t["table"] for t in tables.values()
+                                    if not t.get("sizeReconciles", True)),
+        "unalignedRecordSize": sorted(t["table"] for t in tables.values()
+                                      if t.get("trailingBytesPerRecord")),
+        "totalBytes": sum(t["bytes"] for t in tables.values()),
+        "tables": [tables[k] for k in sorted(tables, key=str.lower)],
+    }
+    # bytes, not text: Path.write_text() would translate newlines per platform
+    PROVENANCE.write_bytes(sharding.dump_manifest(payload).encode("utf-8"))
+    return payload
+
+
+def load_provenance() -> dict:
+    if PROVENANCE.is_file():
+        return json.loads(PROVENANCE.read_text(encoding="utf-8"))
+    return {}
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("-q", "--quiet", action="store_true")
+    args = ap.parse_args()
+    p = extract(verbose=not args.quiet)
+    print("\n=== EXTRACT ===")
+    print(f"paths in chain      {p['pathCount']}")
+    print(f"extracted           {p['extractedCount']}  "
+          f"({p['totalBytes']/1e6:.1f} MB) -> {OUT_DIR}")
+    print(f"failures            {len(p['failures'])}")
+    print(f"header disagreements{len(p['headerDisagreements']):4d} "
+          f"{p['headerDisagreements']}")
+    print(f"unaligned records   {p['unalignedRecordSize']}")
+    print(f"non-WDBC magic      {p['nonWdbcMagic']}")
+
+
+if __name__ == "__main__":
+    main()

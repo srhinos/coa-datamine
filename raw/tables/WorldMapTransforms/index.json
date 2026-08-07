@@ -1,0 +1,23 @@
+{
+ "columnWidths": {"byte":0,"int32":10},
+ "columns": 10,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "WorldMapTransforms.dbc",
+ "format": "plain",
+ "inferredCounts": {"float":6,"int":4},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 1293,
+ "rows": 12,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"00-99.jsonl","format":"plain","hi":99,"lo":0,"plainBytes":1293,"rows":12,"sha256":"98eae8bce36263ff653e24c4683ba7beff39999988f8a2005865ce2608ce2ec1","storedBytes":1293}
+ ],
+ "sourceSha256": "340aa0e2c383f892e4719c91ecce05e7c0302e135c6098594d7eb43ec99f3634",
+ "storedBytes": 1293,
+ "stringBlockSize": 0,
+ "table": "WorldMapTransforms",
+ "unreferencedStringBytes": 0
+}

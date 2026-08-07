@@ -1,0 +1,24 @@
+{
+ "columnWidths": {"byte":0,"int32":31},
+ "columns": 31,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "MysticEnchant.dbc",
+ "format": "gzip",
+ "inferredCounts": {"float":1,"int":19,"string":6,"zero":5},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 2924293,
+ "rows": 7815,
+ "shardCount": 2,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"0000000-0999999.jsonl.gz","format":"gzip","hi":999999,"lo":0,"plainBytes":1766890,"rows":4746,"sha256":"54ea73fe996fd0577e8a6275ce72ad7976431b517695a7bd7ab6ec7c6ff2983b","storedBytes":49324},
+  {"file":"1000000-1999999.jsonl.gz","format":"gzip","hi":1999999,"lo":1000000,"plainBytes":1157403,"rows":3069,"sha256":"2852aa2afdc2cc6cf2086d39fe37e994c07970e32e5aeec72c8380e6d1acdcee","storedBytes":41720}
+ ],
+ "sourceSha256": "8955d89047a5ec6a657d3501377c92a81d75adb10fd8a99aecc2e8106b0fb338",
+ "storedBytes": 91044,
+ "stringBlockSize": 359,
+ "table": "MysticEnchant",
+ "unreferencedStringBytes": 0
+}

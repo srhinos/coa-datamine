@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":7,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":67,"maxUnsigned":67,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":7,"rows":7,"string":{"applicable":true,"blockCoverageRate":0.326087,"blockSize":92,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":14.0,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.285714},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["STATIONERYTEST","STATIONERY_CHR"],"width":4},
+  {"evidence":{"distinct":7,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":46830,"maxUnsigned":46830,"minSigned":8164,"minUnsigned":8164,"negativeCount":0,"nonZeroCount":7,"rows":7,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":92,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":6,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":77,"maxUnsigned":77,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":7,"rows":7,"string":{"applicable":true,"blockCoverageRate":0.98913,"blockSize":92,"controlCharOffsets":0,"distinctOffsets":6,"meanDecodedLength":14.167,"nonEmptyOffsets":6,"utf8DecodableOffsets":6,"validOffsetRate":1.0},"zeroCount":0},"index":2,"inferred":"string","name":"f2","samples":["STATIONERYTEST","GMSTATIONERY","AUCTIONSTATIONERY","STATIONERY_VAL","STATIONERY_CHR"],"width":4},
+  {"evidence":{"distinct":3,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2,"maxUnsigned":2,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":2,"rows":7,"string":{"applicable":true,"blockCoverageRate":0.173913,"blockSize":92,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":7.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":2,"validOffsetRate":0.857143},"zeroCount":5},"index":3,"inferred":"int","name":"f3","samples":["STATIONERYTEST"],"width":4}
+ ],
+ "file": "Stationery.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":7,"sizeReconciles":true,"stringBlockReferencedBytes":92,"stringBlockSize":92,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":3,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":224,"losers":["Data/enUS/locale-enUS.MPQ"],"sha256":"70fec42fc99542b6864df2d2d8a8f65bc966a22cab72724e47a60f4b3ef046cc","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "Stationery"
+}

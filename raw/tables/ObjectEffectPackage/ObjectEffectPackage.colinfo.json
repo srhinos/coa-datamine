@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":30,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":500,"maxUnsigned":500,"minSigned":12,"minUnsigned":12,"negativeCount":0,"nonZeroCount":30,"rows":30,"string":{"applicable":true,"blockCoverageRate":0.12187,"blockSize":599,"controlCharOffsets":0,"distinctOffsets":3,"meanDecodedLength":23.333,"nonEmptyOffsets":3,"utf8DecodableOffsets":3,"validOffsetRate":0.1},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["TeleportTestPackage","Flame Leviathan (Siege Tank)","HordeGunShip (IceCrown)"],"width":4},
+  {"evidence":{"distinct":30,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":576,"maxUnsigned":576,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":29,"rows":30,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":599,"controlCharOffsets":0,"distinctOffsets":30,"meanDecodedLength":18.967,"nonEmptyOffsets":30,"utf8DecodableOffsets":30,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift","Flying Machine Mount","Wintergrasp Catapult","Rocket Mount","SiegeVehicle"],"width":4}
+ ],
+ "file": "ObjectEffectPackage.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":30,"sizeReconciles":true,"stringBlockReferencedBytes":599,"stringBlockSize":599,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":859,"losers":["Data/enUS/locale-enUS.MPQ","Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS-3.MPQ","Data/enUS/patch-enUS.MPQ"],"sha256":"f092e714b8c5b4a3ebd60e5e613f3e78125fbdd1a90ae573e663cbf317a6f953","winner":"Data/patch-M.MPQ"},
+ "table": "ObjectEffectPackage"
+}

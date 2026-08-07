@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":10,"float":{"applicable":false},"maxSigned":11,"maxUnsigned":11,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":208,"rows":208,"string":{"applicable":false},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":1},
+  {"evidence":{"distinct":32,"float":{"applicable":false},"maxSigned":32,"maxUnsigned":32,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":208,"rows":208,"string":{"applicable":false},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":1}
+ ],
+ "file": "CharBaseInfo.dbc",
+ "header": {"actualFields":0,"declaredFields":2,"declaredFieldsAgrees":false,"magic":"WDBC","recordSize":2,"records":208,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":2,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":436,"losers":["Data/enUS/locale-enUS.MPQ"],"sha256":"18c1ee408d507e0145c4c3f25c08b18e0b96583c49f376eabcb2c1d17ab96a07","winner":"Data/patch-M.MPQ"},
+ "table": "CharBaseInfo"
+}

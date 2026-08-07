@@ -1,0 +1,23 @@
+{
+ "columnWidths": {"byte":0,"int32":8},
+ "columns": 8,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "ObjectEffectModifier.dbc",
+ "format": "plain",
+ "inferredCounts": {"float":4,"int":4},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 1063,
+ "rows": 11,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"000-999.jsonl","format":"plain","hi":999,"lo":0,"plainBytes":1063,"rows":11,"sha256":"6cf413283ee4800bd632cd8c4f6030e3f5909ea2259802e9c151dcff1aadefcd","storedBytes":1063}
+ ],
+ "sourceSha256": "4d03f2f3ff8046271d1f51315c5c28a2ecdf1ae6f24f3335433620414df80751",
+ "storedBytes": 1063,
+ "stringBlockSize": 0,
+ "table": "ObjectEffectModifier",
+ "unreferencedStringBytes": 0
+}

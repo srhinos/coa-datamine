@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":4,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":4,"maxUnsigned":4,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":4,"rows":4,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":4,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1500000,"maxUnsigned":1500000,"minSigned":500,"minUnsigned":500,"negativeCount":0,"nonZeroCount":4,"rows":4,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4}
+ ],
+ "file": "StableSlotPrices.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":4,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":52,"losers":["Data/enUS/locale-enUS.MPQ"],"sha256":"8e2aa2ba1d6eaffbd7e5e1baa9b03ba8abce83aa7903319d084317618cd5d3b9","winner":"Data/patch-M.MPQ"},
+ "table": "StableSlotPrices"
+}

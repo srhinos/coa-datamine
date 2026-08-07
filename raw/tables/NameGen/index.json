@@ -1,0 +1,29 @@
+{
+ "columnWidths": {"byte":0,"int32":4},
+ "columns": 4,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "NameGen.dbc",
+ "format": "plain",
+ "inferredCounts": {"int":3,"string":1},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 324351,
+ "rows": 6232,
+ "shardCount": 7,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"0000-0999.jsonl","format":"plain","hi":999,"lo":0,"plainBytes":23161,"rows":465,"sha256":"ffd53f16fff5058bbab11db66ea2d9af33b172f1979151319f2705f8d1ebb371","storedBytes":23161},
+  {"file":"1000-1999.jsonl","format":"plain","hi":1999,"lo":1000,"plainBytes":49438,"rows":973,"sha256":"4781a221324ee30032087ab52f0b5a23d5c6a3bbeb91186752efa7916b067380","storedBytes":49438},
+  {"file":"2000-2999.jsonl","format":"plain","hi":2999,"lo":2000,"plainBytes":52670,"rows":1000,"sha256":"0fbd5c5f010a2c1bba2291227eacc992d3e1b737cecae59fef6625f6a29d6616","storedBytes":52670},
+  {"file":"3000-3999.jsonl","format":"plain","hi":3999,"lo":3000,"plainBytes":51923,"rows":1000,"sha256":"013e0c095b8d95e06586a8bdf99121f5f4b5ba45bbb0c449a241c495e5533e74","storedBytes":51923},
+  {"file":"4000-4999.jsonl","format":"plain","hi":4999,"lo":4000,"plainBytes":51995,"rows":1000,"sha256":"b2c0be41b2a14b560215585707413d6e637b6fe419d0412f7d74e2bf2b226f88","storedBytes":51995},
+  {"file":"5000-5999.jsonl","format":"plain","hi":5999,"lo":5000,"plainBytes":52869,"rows":1000,"sha256":"10b99504c00a6f934c13cc227ae48d70746e30027847a3376e89e0bbbc8355c8","storedBytes":52869},
+  {"file":"6000-6999.jsonl","format":"plain","hi":6999,"lo":6000,"plainBytes":42295,"rows":794,"sha256":"5163bba44c3b7b6486cd771fcc32bea411ac311ecc074d058216f9214f5bcf29","storedBytes":42295}
+ ],
+ "sourceSha256": "8c3aea9dbddd572894c1bd32c237cdd8cd53ab34448885a5684993fb154be4eb",
+ "storedBytes": 324351,
+ "stringBlockSize": 44995,
+ "table": "NameGen",
+ "unreferencedStringBytes": 0
+}

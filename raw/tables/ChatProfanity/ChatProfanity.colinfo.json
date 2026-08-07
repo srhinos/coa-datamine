@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":5233,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":12545,"maxUnsigned":12545,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":5233,"rows":5233,"string":{"applicable":true,"blockCoverageRate":0.133967,"blockSize":39256,"controlCharOffsets":0,"distinctOffsets":419,"meanDecodedLength":4.411,"nonEmptyOffsets":419,"utf8DecodableOffsets":419,"validOffsetRate":0.080069},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["씨 퐁 자 지","씨 퐁 자지","씨 퐁넘","씨 퐁뇬","씨가랭넘"],"width":4},
+  {"evidence":{"distinct":3490,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":39243,"maxUnsigned":39243,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":5233,"rows":5233,"string":{"applicable":true,"blockCoverageRate":0.999975,"blockSize":39256,"controlCharOffsets":0,"distinctOffsets":3490,"meanDecodedLength":5.848,"nonEmptyOffsets":3490,"utf8DecodableOffsets":3490,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["씨 퐁 자 지","씨 퐁 자지","씨 퐁넘","씨 퐁뇬","씨가랭넘"],"width":4},
+  {"evidence":{"distinct":10,"float":{"applicable":true,"finiteRate":0.998379,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":8,"maxUnsigned":4294967295,"minSigned":-1,"minUnsigned":0,"negativeCount":8,"nonZeroCount":4936,"rows":5233,"string":{"applicable":true,"blockCoverageRate":0.000433,"blockSize":39256,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":3.5,"nonEmptyOffsets":1,"utf8DecodableOffsets":2,"validOffsetRate":0.324288},"zeroCount":297},"index":2,"inferred":"int","name":"f2","samples":["씨 퐁 자 지"],"width":4}
+ ],
+ "file": "ChatProfanity.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":5233,"sizeReconciles":true,"stringBlockReferencedBytes":39256,"stringBlockSize":39256,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":102072,"losers":["Data/enUS/locale-enUS.MPQ","Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS-3.MPQ","Data/enUS/patch-enUS.MPQ"],"sha256":"658096282304c2fa68b57e276eb5a07a0021d523ca2e64981fe5df174f613da1","winner":"Data/patch-M.MPQ"},
+ "table": "ChatProfanity"
+}

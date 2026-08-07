@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":21,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":671,"maxUnsigned":671,"minSigned":221,"minUnsigned":221,"negativeCount":0,"nonZeroCount":21,"rows":21,"string":{"applicable":true,"blockCoverageRate":0.051282,"blockSize":1014,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":51.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":1,"validOffsetRate":0.047619},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Interface\\Vehicles\\SeatIndicator\\Vehicle-Bomber.blp"],"width":4},
+  {"evidence":{"distinct":18,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":944,"maxUnsigned":944,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":19,"rows":21,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1014,"controlCharOffsets":0,"distinctOffsets":18,"meanDecodedLength":55.333,"nonEmptyOffsets":18,"utf8DecodableOffsets":18,"validOffsetRate":1.0},"zeroCount":2},"index":1,"inferred":"string","name":"f1","samples":["Interface\\Vehicles\\SeatIndicator\\Vehicle-Demolisher.blp","Interface\\Vehicles\\SeatIndicator\\Vehicle-SiegeEngine.blp","Interface\\Vehicles\\SeatIndicator\\vehicle-motorcycle.blp","Interface\\Vehicles\\SeatIndicator\\vehicle-mammoth.blp","Interface\\Vehicles\\SeatIndicator\\Vehicle-Bomber.blp"],"width":4}
+ ],
+ "file": "VehicleUIIndicator.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":21,"sizeReconciles":true,"stringBlockReferencedBytes":1014,"stringBlockSize":1014,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":1202,"losers":["Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS-3.MPQ"],"sha256":"6cd292356fa4f13d60a28d449ba0cbf443533feb9206877c7f30297bbe4615af","winner":"Data/patch-M.MPQ"},
+ "table": "VehicleUIIndicator"
+}

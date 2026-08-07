@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":29,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":6008,"maxUnsigned":6008,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":29,"rows":29,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":3,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":6,"maxUnsigned":6,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":29,"rows":29,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":19,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":32,"maxUnsigned":32,"minSigned":12,"minUnsigned":12,"negativeCount":0,"nonZeroCount":29,"rows":29,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":2,"inferred":"int","name":"f2","samples":[],"width":4},
+  {"evidence":{"distinct":13,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":13,"maxUnsigned":13,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":29,"rows":29,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":3,"inferred":"int","name":"f3","samples":[],"width":4}
+ ],
+ "file": "CharacterCreationClassGuideSubroleClasses.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":29,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":4},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":484,"losers":[],"sha256":"4b1d2e6f16c35ef0e5b7e31319199f38615cb86affeb6e9ce1188bafbf5a37d1","winner":"Data/patch-M.MPQ"},
+ "table": "CharacterCreationClassGuideSubroleClasses"
+}

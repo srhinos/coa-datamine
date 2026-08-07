@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":6801,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2936002,"maxUnsigned":2936002,"minSigned":60008,"minUnsigned":60008,"negativeCount":0,"nonZeroCount":6801,"rows":6801,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":68,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":3321,"maxUnsigned":3321,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":6800,"rows":6801,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":1},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":101,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":100,"maxUnsigned":100,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":6800,"rows":6801,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":1},"index":2,"inferred":"int","name":"f2","samples":[],"width":4}
+ ],
+ "file": "MythicKeystones.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":6801,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":3},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":81632,"losers":[],"sha256":"52ada871d42f1aebf4146394ca508038781f0311cfda0e89d26639361955058b","winner":"Data/patch-M.MPQ"},
+ "table": "MythicKeystones"
+}

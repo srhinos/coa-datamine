@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":111,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":856,"maxUnsigned":856,"minSigned":33,"minUnsigned":33,"negativeCount":0,"nonZeroCount":111,"rows":111,"string":{"applicable":true,"blockCoverageRate":0.029925,"blockSize":2807,"controlCharOffsets":0,"distinctOffsets":3,"meanDecodedLength":27.0,"nonEmptyOffsets":3,"utf8DecodableOffsets":3,"validOffsetRate":0.027027},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["FlyingMachineMount_Walk","FlyingMachineMount_ShuffleLeft","FlyingMachineMount_JumpStart"],"width":4},
+  {"evidence":{"distinct":111,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2785,"maxUnsigned":2785,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":110,"rows":111,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":2807,"controlCharOffsets":0,"distinctOffsets":111,"meanDecodedLength":24.288,"nonEmptyOffsets":111,"utf8DecodableOffsets":111,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift_always","vr_elevator_lift_accelerating","FlyingMachineMount_Sprint","WintergraspCatapult_Moving","WintergraspCatapult_NotMoving"],"width":4}
+ ],
+ "file": "ObjectEffectGroup.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":111,"sizeReconciles":true,"stringBlockReferencedBytes":2807,"stringBlockSize":2807,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":3715,"losers":["Data/enUS/locale-enUS.MPQ","Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS-3.MPQ","Data/enUS/patch-enUS.MPQ"],"sha256":"5b4b467e6f1f7d296ee90465d7129abe7f9de81ab4465583235381524a9eb6ba","winner":"Data/patch-M.MPQ"},
+ "table": "ObjectEffectGroup"
+}

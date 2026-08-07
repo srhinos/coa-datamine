@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":8268,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":21466,"maxUnsigned":21466,"minSigned":2621,"minUnsigned":2621,"negativeCount":0,"nonZeroCount":8268,"rows":8268,"string":{"applicable":true,"blockCoverageRate":0.233553,"blockSize":35204,"controlCharOffsets":0,"distinctOffsets":731,"meanDecodedLength":8.328,"nonEmptyOffsets":731,"utf8DecodableOffsets":731,"validOffsetRate":0.088413},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["십부랄","십부럴","십세이","십자석","십탱굴이"],"width":4},
+  {"evidence":{"distinct":3148,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":35192,"maxUnsigned":35192,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":8265,"rows":8268,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":35204,"controlCharOffsets":0,"distinctOffsets":3148,"meanDecodedLength":6.814,"nonEmptyOffsets":3148,"utf8DecodableOffsets":3148,"validOffsetRate":1.0},"zeroCount":3},"index":1,"inferred":"string","name":"f1","samples":["18년","18놈","18새끼","\\<chink\\>","\\<pussy"],"width":4},
+  {"evidence":{"distinct":10,"float":{"applicable":true,"finiteRate":0.998942,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":8,"maxUnsigned":4294967295,"minSigned":-1,"minUnsigned":0,"negativeCount":8,"nonZeroCount":7565,"rows":8268,"string":{"applicable":true,"blockCoverageRate":0.000341,"blockSize":35204,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":3.0,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.213353},"zeroCount":703},"index":2,"inferred":"int","name":"f2","samples":["18년","18놈"],"width":4}
+ ],
+ "file": "NamesProfanity.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":8268,"sizeReconciles":true,"stringBlockReferencedBytes":35204,"stringBlockSize":35204,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":134440,"losers":["Data/enUS/locale-enUS.MPQ","Data/enUS/patch-enUS-2.MPQ","Data/enUS/patch-enUS.MPQ"],"sha256":"fbb2371f1afbd74ddaf059cf6816e6fd10eff079f15f0df0fa03b7a39f05bb8d","winner":"Data/patch-M.MPQ"},
+ "table": "NamesProfanity"
+}

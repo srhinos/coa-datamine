@@ -1,0 +1,25 @@
+{
+ "columnWidths": {"byte":0,"int32":24},
+ "columns": 24,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "ItemRandomProperties.dbc",
+ "format": "gzip",
+ "inferredCounts": {"int":20,"string":2,"zero":2},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 2694105,
+ "rows": 10087,
+ "shardCount": 3,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"00000-09999.jsonl.gz","format":"gzip","hi":9999,"lo":0,"plainBytes":1124362,"rows":4276,"sha256":"22e7650cb3868af047354754631e3403bccaef03c6899682ef0a703d16155ffc","storedBytes":31535},
+  {"file":"10000-19999.jsonl.gz","format":"gzip","hi":19999,"lo":10000,"plainBytes":1211151,"rows":4483,"sha256":"9afb4b36dcbf06f23e9165881f1a5e52265592f80908cd913c578aefa26739cc","storedBytes":37450},
+  {"file":"20000-29999.jsonl.gz","format":"gzip","hi":29999,"lo":20000,"plainBytes":358592,"rows":1328,"sha256":"44b14532aedc88996ebcc8d931f4c84b10a6a6a267c102c1ba329c06e8f393e1","storedBytes":11108}
+ ],
+ "sourceSha256": "56c46a3de975cdcc3e5790c7d3d8c193792c4f2b011aa5d6cc4657f5becb2578",
+ "storedBytes": 80093,
+ "stringBlockSize": 3927,
+ "table": "ItemRandomProperties",
+ "unreferencedStringBytes": 0
+}

@@ -1,0 +1,5 @@
+# The raw table layer is byte-exact generated output: every shard's sha256 is
+# recorded in its table index, and `python -m tools.decode_all` must reproduce
+# the working tree byte for byte on any platform. Git's autocrlf would rewrite
+# line endings on checkout and break both. Never translate anything under it.
+raw/tables/** -text

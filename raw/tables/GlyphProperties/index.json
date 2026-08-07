@@ -1,0 +1,23 @@
+{
+ "columnWidths": {"byte":0,"int32":4},
+ "columns": 4,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "GlyphProperties.dbc",
+ "format": "plain",
+ "inferredCounts": {"int":4},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 14093,
+ "rows": 362,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"000-999.jsonl","format":"plain","hi":999,"lo":0,"plainBytes":14093,"rows":362,"sha256":"2b357fdc0c8f581e07a43d75e63404cea9bbb7d073f16358d399fc0768c6a405","storedBytes":14093}
+ ],
+ "sourceSha256": "f1bcd26ffb13499a58409b833cec171f38c01aab85258d59895696f0ea45bf28",
+ "storedBytes": 14093,
+ "stringBlockSize": 0,
+ "table": "GlyphProperties",
+ "unreferencedStringBytes": 0
+}

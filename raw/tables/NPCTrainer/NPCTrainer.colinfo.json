@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":13111,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":13111,"maxUnsigned":13111,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":13111,"rows":13111,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":13073,"float":{"applicable":true,"finiteRate":0.989246,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":13977890,"maxUnsigned":4294767295,"minSigned":-210021,"minUnsigned":143,"negativeCount":141,"nonZeroCount":13111,"rows":13111,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":130,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":34090,"maxUnsigned":34090,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":7560,"rows":13111,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":5551},"index":2,"inferred":"int","name":"f2","samples":[],"width":4},
+  {"evidence":{"distinct":110,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":450,"maxUnsigned":450,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":6485,"rows":13111,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":6626},"index":3,"inferred":"int","name":"f3","samples":[],"width":4}
+ ],
+ "file": "NPCTrainer.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":13111,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":4},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":209796,"losers":[],"sha256":"79f0b0b659c1f081ef415811915e4684f72c8ec1dedc3707e2071f6d6c9dea88","winner":"Data/patch-M.MPQ"},
+ "table": "NPCTrainer"
+}

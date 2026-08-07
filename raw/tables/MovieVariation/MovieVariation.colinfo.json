@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":13,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":107,"maxUnsigned":107,"minSigned":3,"minUnsigned":3,"negativeCount":0,"nonZeroCount":13,"rows":13,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":9,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":19,"maxUnsigned":19,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":13,"rows":13,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":11,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":356950,"maxUnsigned":356950,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":13,"rows":13,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":2,"inferred":"int","name":"f2","samples":[],"width":4}
+ ],
+ "file": "MovieVariation.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":13,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":1,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":3},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":177,"losers":["Data/enUS/locale-enUS.MPQ","Data/enUS/patch-enUS-3.MPQ"],"sha256":"d4fd88bc0cfc78d3a3abbc5fd109b92678be102a7830626882d1ac7b39a797a3","winner":"Data/patch-M.MPQ"},
+ "table": "MovieVariation"
+}

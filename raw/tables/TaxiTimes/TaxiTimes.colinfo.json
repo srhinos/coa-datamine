@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":1,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1,"maxUnsigned":1,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":1,"rows":1,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":1,"float":{"applicable":true,"finiteRate":0.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":0,"maxUnsigned":0,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":0,"rows":1,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":1},"index":1,"inferred":"zero","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":1,"float":{"applicable":true,"finiteRate":0.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":0,"maxUnsigned":0,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":0,"rows":1,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":1},"index":2,"inferred":"zero","name":"f2","samples":[],"width":4},
+  {"evidence":{"distinct":1,"float":{"applicable":true,"finiteRate":0.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":0,"maxUnsigned":0,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":0,"rows":1,"string":{"applicable":false,"blockCoverageRate":0.0,"blockSize":0,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":1},"index":3,"inferred":"zero","name":"f3","samples":[],"width":4}
+ ],
+ "file": "TaxiTimes.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":1,"sizeReconciles":true,"stringBlockReferencedBytes":0,"stringBlockSize":0,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"zero":3},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":36,"losers":[],"sha256":"8a3043154840cfbb28b230abef6b4dc73a63591e57fe725afe618ae1e5bcb978","winner":"Data/patch-M.MPQ"},
+ "table": "TaxiTimes"
+}

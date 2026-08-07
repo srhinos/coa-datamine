@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":3,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":3,"maxUnsigned":3,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":3,"rows":3,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":58,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":3,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":36,"maxUnsigned":36,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":2,"rows":3,"string":{"applicable":true,"blockCoverageRate":0.5,"blockSize":58,"controlCharOffsets":0,"distinctOffsets":3,"meanDecodedLength":8.667,"nonEmptyOffsets":3,"utf8DecodableOffsets":3,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["LoadBow","LoadRifle","LoadThrown"],"width":4},
+  {"evidence":{"distinct":3,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":47,"maxUnsigned":47,"minSigned":8,"minUnsigned":8,"negativeCount":0,"nonZeroCount":3,"rows":3,"string":{"applicable":true,"blockCoverageRate":0.5,"blockSize":58,"controlCharOffsets":0,"distinctOffsets":3,"meanDecodedLength":8.667,"nonEmptyOffsets":3,"utf8DecodableOffsets":3,"validOffsetRate":1.0},"zeroCount":0},"index":2,"inferred":"string","name":"f2","samples":["HoldBow","HoldRifle","HoldThrown"],"width":4}
+ ],
+ "file": "SpellVisualPrecastTransitions.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":3,"sizeReconciles":true,"stringBlockReferencedBytes":58,"stringBlockSize":58,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":2},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":114,"losers":["Data/enUS/locale-enUS.MPQ"],"sha256":"c4b89658b2d2b874fb969f1028376db096aaab196a86580fc9dba0af9d368666","winner":"Data/patch-S.MPQ"},
+ "table": "SpellVisualPrecastTransitions"
+}
