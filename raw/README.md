@@ -19,6 +19,7 @@ unchanged client reproduces it byte for byte.
 | `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.6 MB / fileCount 22 / recordTotal 45,474 | complete |
 | `realms` | realm-overlay diff artifacts | `raw/realms/` | 13 files / 14.9 MB | - |
 | `talents` | frozen capture of the external CoA talent builder | `raw/talents/` | 2 files / 11.9 MB | - |
+| `recovered` | what was still opaque: deleted/encrypted members, the 36,139 files the old reader could not read, CRC32+MD5+mtime per path, expanded containers | `raw/recovered/README.md` | 270 files / 127 MB / 763,928 members MD5-verified | complete |
 
 ## Regenerating
 
@@ -26,13 +27,13 @@ One command rebuilds everything, in dependency order, and prints what changed
 since the last run:
 
 ```
-python -m tools.extract_everything                    # all six stages (hours; reads the whole client)
+python -m tools.extract_everything                    # all seven stages (hours; reads the whole client)
 python -m tools.extract_everything --list             # the stage list + each layer's current state
 python -m tools.extract_everything --from decode_all  # resume at a stage
 python -m tools.extract_everything --only build_catalog   # rerun exactly one stage
 ```
 
-It is a thin runner over the six stages, which stay individually runnable. Run
+It is a thin runner over the seven stages, which stay individually runnable. Run
 them in THIS order if you run them by hand - the order is the contract, because
 three of them consume another's output:
 
@@ -42,7 +43,8 @@ python -m tools.extract_all          # 2 pull DBC bodies out of the MPQ chain
 python -m tools.decode_all           # 3 decode every table to raw/tables/   [needs 2]
 python -m tools.extract_interface    # 4 Interface code layer -> raw/interface/
 python -m tools.extract_raw_layers   # 5 content + Interface census + WDB caches [needs 1]
-python -m tools.build_catalog        # 6 CATALOG.md + raw/_catalog/            [needs 3]
+python -m tools.crack                # 6 raw/recovered/ + full MD5 verification [needs 1]
+python -m tools.build_catalog        # 7 CATALOG.md + raw/_catalog/            [needs 3]
 ```
 
 Each stage writes its own `index.json`/`README.md` describing its own rules. No
@@ -71,10 +73,29 @@ Stated as a boundary rather than left as an implication:
    carries `Data/area-52` and `Cache/WDB/enUS/'Rexxar - Conquest of Azeroth'`.
    A realm not installed here is not in this repo, and since the overlay is
    exactly where the extra live spells come from, that is a real boundary.
-3. **6.4% of files cannot be decompressed** by `mpyq` at all (PKWARE/ADPCM
-   variants it does not implement). They are recorded with `readable: false`
-   and their error. The set is entirely binary media: zero DBC, zero JSON, zero
-   `.loc`, so the DATA layer is 100% reachable today.
+3. **Every file in the client decodes.** The 6.4% that `raw/_inventory` still
+   records as `readable: false` were never a compression problem - they are a
+   defect in `mpyq`, which is not a complete MPQ reader. `tools/mpq.py` is, and
+   `raw/recovered/` is the proof: 36,139 of them decode correctly, 4,906 were
+   MPQ delete tombstones that carry no bytes by design, 6 are genuinely empty,
+   and **0 remain unreadable**. The conclusion the old note reached - zero DBC,
+   zero JSON, zero `.loc`, so the DATA layer is fully reachable - was right, and
+   is now checked rather than inferred: every one of the 36,139 is binary media
+   or an executable.
+
+   The same reader found the reverse problem too. 1,271 members are stored with
+   no sector offset table, `mpyq` mis-reads all of them, and 1,186 of the
+   sha256s in `raw/_inventory` are therefore hashes of bytes that were never in
+   the archive (music, cinematics, one nested archive - again no data file).
+   `raw/recovered/corrections/` lists every one with its true hash.
+   `raw/_inventory` itself is left as its own tool produces it; correcting it
+   means moving `tools/inventory.py` onto `tools/mpq.py` and re-running the
+   census.
+
+   All of this is now verified against an oracle that is not another reader:
+   every archive records an MD5 per member in its `(attributes)` block, and
+   `python -m tools.crack --only verify` checks all **763,928** of them.
+   Mismatches: 0.
 4. **`Interface\AddOns` on disk is out of scope** - it is the user's installed
    third-party addons, not client data. It is counted, never extracted, in
    `raw/interface_all/index.json` -> `onDiskInterfaceTree`. The one exception is

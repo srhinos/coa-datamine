@@ -2084,6 +2084,34 @@ def class_specs_and_roles(class_name):
   `tools/enums335.py`; the 2 `[INFERRED]` names are recorded there but
   deliberately NOT wired, so a numeric fallback in the data never silently
   becomes a guess.
+- **The archives themselves are fully open, and that is now checked against an
+  oracle rather than asserted.** Every MPQ carries an `(attributes)` member
+  holding the MD5 its packer recorded for each block entry, so a decoded file can
+  be checked against the archive instead of against another reader.
+  `python -m tools.crack --only verify` does that for **all 763,928 members** of
+  all 77 archives: **0 mismatches, 0 unreadable**. Consequences worth knowing:
+  - `raw/_inventory` still marks 41,051 paths `readable: false`. That was a
+    defect in `mpyq`, not a compression the client uses. 36,139 decode fine,
+    4,906 are MPQ DELETE tombstones (a patch REMOVING a path - they carry no
+    bytes by design, so they were never failures), 6 are genuinely empty. All
+    36,139 are media or executables: **zero DBC, zero JSON, zero `.loc`**, so no
+    data layer was ever affected. Read them with `tools/mpq.py`.
+  - The reverse case is the one to be careful with: **1,186 sha256 values in
+    `raw/_inventory` are wrong** - hashes of bytes that were never in the
+    archive, because `mpyq` mis-reads members stored without a sector offset
+    table. Again all media (music, cinematics, one nested archive), no data file.
+    `raw/recovered/corrections/` gives every path with its true hash. If you are
+    verifying client bytes against this repo, use that file.
+  - `raw/recovered/attributes/` is a metadata layer nothing else here has:
+    CRC32 + MD5 + modification time for **764,003** path/archive pairs, covering
+    every version of every file including the ones that lose the chain. 529,029
+    carry a timestamp, which is a mechanical way to separate Ascension's own
+    content from Blizzard's.
+  - Deleted entries hold nothing recoverable, and that is a byte-level result,
+    not an inference from the format: every archive's data region is walked
+    against its own block table and **0 bytes** across 44.9 GB are unaccounted
+    for. The client's one encrypted member (patch-P's `(listfile)`) decrypts -
+    to the literal string `(listfile)`.
 - `.loc` localization files (non-enUS) are unparsed; enUS strings come from DBCs.
 - CAD covers *obtainable* abilities; item/proc-granted spells appear only via the
   trigger closure or not at all.
@@ -2287,6 +2315,14 @@ whenever CoA ships new content:
 - `tests/test_mythic.py`: 297 challenges / 6801 keystones (66 resolved dungeons) /
   13409 affixes / 200 scaling rows / 82 timed dungeons / 685 map-difficulty rows;
   every link table's `challengeId` join rate >=80% (lowest: `ChallengeLevels` 84.9%)
+- `tests/test_crack.py`: the recovery layer. Structural, not a snapshot pin -
+  it asserts 0 unaccounted bytes, 0 orphan block entries, 0 MD5 mismatches over
+  the whole client, 0 still-unreadable members, and that the client uses no
+  PKWARE/huffman/sparse/ADPCM sector. It also cross-checks `tools/mpq.py`
+  against `mpyq` on a member the two disagree about and asserts the ARCHIVE'S
+  OWN MD5 backs `tools/mpq.py` - so the test cannot pass by both readers being
+  wrong together. Run `python -m tools.mpq --selftest` for the format-level
+  tests alone (no client needed).
 - `tests/test_interface.py`: `raw/interface/_manifest.json` >=1500 files (measured
   1553: 1444 archive-sourced + 109 disk-sourced `APIDocumentation`), sha256 sample
   check, zero non-code extensions

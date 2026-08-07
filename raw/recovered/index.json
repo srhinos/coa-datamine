@@ -1,0 +1,299 @@
+{
+ "generatedBy": "python -m tools.crack",
+ "layers": {
+  "_forensics.json": "per-archive block/hash census, byte coverage, orphan blocks and the encrypted-member sweep",
+  "attributes/": "CRC32 + modification time + MD5 per path, expanded from every archive's (attributes) member",
+  "containers/": "nested archives and structured blobs, expanded",
+  "deleted/": "every MPQ DELETE_MARKER tombstone and the archive that sets it",
+  "files/": "bytes of files the previous reader could not read, for the classes this repo commits"
+ },
+ "summary": {
+  "agreementChecked": 2601,
+  "agreementDifferExamples": [
+   {
+    "declaredSize": 964732,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 964732,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 3979659,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/Naxxramas/NaxxramasSpiderBoss1.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 1559098,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 1559098,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 7396721,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/BlackTemple/BT_IllidariWalkUni07.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 3795176,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 3795176,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 40065936,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/Terokkar/TF_BoneWalkUni04.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 1608664,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 1608664,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 12524612,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/HowlingFjord/HF_Tusk_KamaguaNight02.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 65778,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 65778,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 20480,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Background Downloader.app/Contents/Resources/star4.tiff",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 9497,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 9497,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 4096,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/Images/BLWidget.jpg",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 18653,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 18653,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 8192,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/Images/CRepeat.jpg",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 10340,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 10340,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 4096,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/Images/TWidget.jpg",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 10253,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 10253,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 4096,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/Images/logo-blizzard.gif",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 53481,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 53481,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 16384,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/Images/splash.jpg",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 10263,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 10263,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 4096,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/Images/titles/readme-mac.jpg",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 25730,
+    "detail": null,
+    "flags": [
+     "COMPRESS",
+     "SECTOR_CRC",
+     "EXISTS"
+    ],
+    "newBytes": 25730,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 8192,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Data/enUS/Documentation/ReadMe/EULA.html",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 1029352,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 1029352,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 2447863,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/CinematicVoices/DeathKnightNarration.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 727899,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 727899,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 1454614,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/UlduarRaidExt/UR_UlduarRaidExtWalk01.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 1363506,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 1363506,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 4962485,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/IcecrownRaid/IR_Sindragosa.mp3",
+    "status": "ok"
+   },
+   {
+    "declaredSize": 409630,
+    "detail": null,
+    "flags": [
+     "EXISTS"
+    ],
+    "newBytes": 409630,
+    "newMatchesArchiveMd5": "ok",
+    "oldBytes": 1198849,
+    "oldMatchesArchiveMd5": "mismatch",
+    "path": "Sound/Music/ZoneMusic/IcecrownRaid/IR_FrozenThrone_06.mp3",
+    "status": "ok"
+   }
+  ],
+  "agreementDiffering": 24,
+  "agreementIdentical": 2577,
+  "agreementRule": "Files BOTH readers accept are compared byte for byte. Without it, 'the new reader reads 36,139 more files' would be compatible with it also reading the other 596,433 differently. Sampled deterministically (sorted paths, fixed stride) so a rerun checks the same members. NOTE that a difference here is not evidence against either reader on its own - which one is right is settled by `md5Verified` below, not by this count.",
+  "agreementSkipped": 93,
+  "attributeRecords": 764003,
+  "attributeRecordsDated": 529029,
+  "attributeRowsUnnamed": 1004,
+  "bytesCommitted": 0,
+  "censusSha256Corrections": 1186,
+  "compressionCensus": {
+   "bzip2": 1,
+   "sectorSize 2048 (header says 16384)": 3,
+   "sectorSize 4096 (header says 16384)": 12,
+   "stored(no sector table)": 1280,
+   "stored(sector not compressed)": 622998,
+   "zlib": 762526
+  },
+  "containerMembers": 21,
+  "containers": 5,
+  "deleteTombstones": 4906,
+  "empty": 6,
+  "encryptedMembers": 1,
+  "encryptedMembersRecovered": 1,
+  "exactSectorMultipleMembers": 675,
+  "exactSectorMultipleReadFailed": 0,
+  "exactSectorMultipleReadOk": 675,
+  "exactSectorMultipleRule": "Members whose size is an exact multiple of the sector size. The old reader computes one sector too many for these. Measured rather than assumed: the extra slice it reads is always empty, so 668 of the 675 still came out byte-correct and 7 raised - the arithmetic is wrong, the output happened not to be. Every one is re-read here and MD5-checked against the archive.",
+  "filesCommitted": 0,
+  "md5ByCheck": {
+   "agreementSample:ok": 2601,
+   "exactMultiple:ok": 675,
+   "noSectorTable:ok": 1271,
+   "resweep:ok": 36139
+  },
+  "md5MismatchExamples": [],
+  "md5Mismatched": 0,
+  "md5MismatchedTotal": 0,
+  "md5NoRecordInArchive": 0,
+  "md5Rule": "THE AUTHORITATIVE CHECK. Every archive carries an `(attributes)` member holding the MD5 the archive itself recorded for each block entry, so a decoded file can be checked against the archive rather than against another reader. Every file re-read here is verified that way. This is what turns 'my reader disagrees with mpyq' into a decided question: where the two disagree, the MD5 says which one reproduced the file the archive was built from. `md5Mismatched` must be 0; anything else is this reader being wrong.",
+  "md5Verified": 40686,
+  "md5VerifiedTotal": 763928,
+  "noSectorTableMembers": 1271,
+  "noSectorTableReadFailed": 0,
+  "noSectorTableReadOk": 1271,
+  "noSectorTableRule": "Members stored with no compression have NO sector offset table - their sectors are contiguous. The old reader read the file's own first bytes as a table and returned a salad of slices of itself, silently: 1,266 of these 1,271 members came out WRONG, and 1,186 of those are chain winners whose (wrong) sha256 the census committed. This is the real silent-corruption class. Every one is re-read here and MD5-checked against the archive; see corrections/ for the paths and their true hashes.",
+  "orphanBlockEntries": 0,
+  "recovered": 36139,
+  "recoveredByClass": {
+   "art": 151,
+   "interface": 58,
+   "other": 15,
+   "sound": 35915
+  },
+  "recoveredDataFiles": 58,
+  "resweptTotal": 41051,
+  "stillUnreadable": 0,
+  "stillUnreadableDetail": [],
+  "unaccountedBytes": 0,
+  "unreadableTotal": 0,
+  "verifiedMembers": 763935
+ }
+}

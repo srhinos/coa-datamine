@@ -32,7 +32,11 @@ ORDER, AND WHY IT IS THIS ORDER
     4 extract_interface   the Interface code layer as bytes -> raw/interface/
     5 raw_layers          content/.loc + the Interface census + the WDB caches
                           [the census needs 1 and reuses 4's bytes]
-    6 build_catalog       the search catalog over raw/tables/  [needs 3]
+    6 crack               everything the old reader could not read, the deleted
+                          and encrypted members, the expanded containers, and a
+                          full MD5 verification of every member against its own
+                          archive  [needs 1]
+    7 build_catalog       the search catalog over raw/tables/  [needs 3]
 
 WHY IT REFUSES TO CONTINUE PAST A BAD STAGE
 -------------------------------------------
@@ -58,7 +62,7 @@ import json
 import sys
 import time
 
-from tools import (build_catalog, config, decode_all, extract_all,
+from tools import (build_catalog, config, crack, decode_all, extract_all,
                    extract_interface, extract_raw_layers, inventory,
                    layerstate)
 
@@ -80,6 +84,11 @@ STAGES = [
      [config.RAW_CONTENT_DIR, config.RAW_DIR / "interface_all",
       config.RAW_DIR / "cache"],
      "Data\\Content + .loc, the Interface census, the WDB caches"),
+    ("crack", lambda: crack.run(),
+     [crack.OUT_DIR, crack.ATTR_DIR, crack.FILES_DIR, crack.DELETED_DIR,
+      crack.CORRECTIONS_DIR, crack.CONTAINER_DIR],
+     "recover deleted/encrypted/undecodable members, expand containers, and "
+     "verify every member against its archive's own MD5"),
     ("build_catalog", lambda: build_catalog.run(),
      [build_catalog.CATALOG_DIR],
      "the searchable catalog over raw/tables/"),

@@ -1,0 +1,10 @@
+{
+ "byClass": {"art":4879,"interface":22,"sound":5},
+ "generatedBy": "python -m tools.crack --only resweep",
+ "recordTotal": 4906,
+ "rule": "MPQ DELETE_MARKER entries: a patch that REMOVES a path carries a block entry with no data and this flag, so the path stops resolving from that archive down. They are archive semantics, not damage, and the previous pipeline recorded every one of them as an unreadable file. Listed here with the archive that deletes the path and its chain rank, so the effect on any path is readable off this layer.",
+ "shardMaxLines": 5000,
+ "shards": [
+  {"firstPath":"Creature/KodobeastPack/KodoBeastPack.m2","lastPath":"world/maps/Kalimdor/Kalimdor_50_16.adt","records":4906,"shard":"_root.json"}
+ ]
+}

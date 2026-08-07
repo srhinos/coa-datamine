@@ -46,3 +46,9 @@ data/** -text
 # Windows clones only, and silently.
 raw/_catalog/** -text
 CATALOG.md -text
+
+# The recovery layer. Same reasoning again: every shard under it is generated
+# LF-only and carries sha256/md5 values that are checked against bytes, and any
+# recovered member bytes under it are stored verbatim - a CRLF rewrite on
+# checkout would corrupt those outright.
+raw/recovered/** -text

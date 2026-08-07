@@ -1,0 +1,10 @@
+{
+ "byClass": {"art":2,"other":1,"sound":1183},
+ "generatedBy": "python -m tools.crack --only verify",
+ "recordTotal": 1186,
+ "rule": "Paths whose sha256 in `raw/_inventory` was computed over bytes that were never in the archive, with the value the corrected reader measures. All of them are members stored with no sector offset table, which the previous reader mis-sliced (see tools/mpq.py). `sha256` here is the true hash and `censusSha256` is what the census still says; both are kept so the correction is checkable rather than a bare assertion. Nothing in the DATA layers is affected: the whole set is music, cinematics and one nested archive, and the classes that matter are untouched - 0 DBC, 0 Interface, 0 Content. `raw/_inventory` is deliberately NOT rewritten here. It is still exactly what its own tool produces, which is the property that makes it checkable; correcting it means moving tools/inventory.py onto this reader and re-running the whole census, which is a change to that layer's owner and needs its own review. Until then these are the true hashes and this file is the record of the disagreement.",
+ "shardMaxLines": 5000,
+ "shards": [
+  {"firstPath":"Data/enUS/Interface/Cinematics/WOW_FotLK_1024.avi","lastPath":"sound/music/zonemusic/OS5.mp3","records":1186,"shard":"_root.json"}
+ ]
+}
