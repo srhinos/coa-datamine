@@ -3,3 +3,20 @@
 # the working tree byte for byte on any platform. Git's autocrlf would rewrite
 # line endings on checkout and break both. Never translate anything under it.
 raw/tables/** -text
+
+# Same reasoning, same guarantee, for the non-DBC raw layers. Each of these
+# records sha256s that are checked against the bytes on disk - the Interface
+# census (`bytesAt` -> sha256, gated by tests/test_raw_layers.py), the .loc and
+# WDB shards, and the shard hashes in each index.json - and each extractor is
+# gated on reproducing its output byte for byte. A CRLF rewrite on checkout
+# would invalidate all of it at once, on Windows clones only, silently.
+#
+# Scoped to these paths rather than `raw/**` on purpose: the older raw layers
+# (raw/dbc, raw/provenance.json, raw/realms) are already committed with
+# autocrlf-normalized working trees, and widening the rule would silently
+# rewrite their line endings in a commit that has nothing to do with them.
+raw/content/** -text
+raw/interface/** -text
+raw/interface_all/** -text
+raw/cache/** -text
+raw/README.md -text
