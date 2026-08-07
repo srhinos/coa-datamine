@@ -15,13 +15,13 @@ Regenerate: `python -m tools.inventory`. Every file here is written by `tools/in
 
 ## Totals
 
-- **637,454 paths** (637,350 in MPQs, 104 loose under `Data\`)
+- **637,590 paths** (637,486 in MPQs, 104 loose under `Data\`)
 - **368 DBC tables**
 - **77 archives** (8 unlistable), 44.9 GB on disk
-- **67.87 GB** uncompressed if everything is extracted
+- **67.88 GB** uncompressed if everything is extracted
 - unreadable files: 41,051
 - files in unlistable archives that no harvested name identified: **0**
-- paths a loose file at the client root takes from the archives: **22**
+- paths a loose file at the client root takes from the archives: **25**
 
 ## Loose files at the client root beat the whole MPQ chain
 
@@ -43,8 +43,11 @@ A 3.3.5 client resolves `<clientRoot>\<path>` on disk BEFORE it looks in the MPQ
 | `Interface/AddOns/Blizzard_MacroUI/Blizzard_MacroUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
 | `Interface/AddOns/Blizzard_RaidUI/Blizzard_RaidUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
 | `Interface/AddOns/Blizzard_TalentUI/Blizzard_TalentUI.pub` | 257 | 257 | Data/patch-B.MPQ | yes |
-| `Interface/Tooltips/chatbubble.blp` | 44,884 | 44,900 | Data/patch-A.MPQ | no |
-| `Interface/Tooltips/chatbubblevertical.blp` | 6,660 | 6,692 | Data/patch-A.MPQ | no |
+| `Interface/Tooltips/ChatBubble-Backdrop.blp` | 12,132 | 12,132 | Data/enUS/locale-enUS.MPQ | no |
+| `Interface/Tooltips/ChatBubble-Background.blp` | 2,564 | 2,564 | Data/enUS/locale-enUS.MPQ | no |
+| `Interface/Tooltips/ChatBubble-Tail.blp` | 2,564 | 2,564 | Data/enUS/locale-enUS.MPQ | no |
+| `Interface/Tooltips/chatbubble.blp` | 44,900 | 44,900 | Data/patch-A.MPQ | no |
+| `Interface/Tooltips/chatbubblevertical.blp` | 6,692 | 6,692 | Data/patch-A.MPQ | no |
 | `Sound/Spells/Fizzle/FizzleFireA.wav` | 4,454 | 66,194 | Data/common.MPQ | no |
 | `Sound/Spells/Fizzle/FizzleFrostA.wav` | 4,454 | 70,908 | Data/common.MPQ | no |
 | `Sound/Spells/Fizzle/FizzleHolyA.wav` | 4,454 | 77,182 | Data/common.MPQ | no |
@@ -95,13 +98,13 @@ These sit ABOVE the entire base chain, so the base copy is NOT what the client u
 
 | class | files | GB |
 | --- | ---: | ---: |
-| art | 486,527 | 53.457 |
+| art | 486,663 | 53.464 |
 | sound | 56,859 | 8.961 |
 | interface | 93,437 | 4.449 |
 | dbc | 368 | 0.836 |
 | content | 82 | 0.094 |
 | other | 181 | 0.074 |
-| **total** | **637,454** | **67.870** |
+| **total** | **637,590** | **67.878** |
 
 `class` is a reporting rollup only - it gates nothing. `categories.json` carries the raw `byTopLevelDir` and `byExtension` censuses it is derived from.
 

@@ -1,0 +1,14 @@
+{
+ "carriedBy": ["Data/enUS/locale-enUS.MPQ","Data/patch-M.MPQ"],
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
+ "copyCount": 2,
+ "file": "ItemGroupSounds.dbc",
+ "note": "Every distinct version of this table in the client. The chain winner is decoded one directory up; every other version is decoded in the subdirectory named by its `slug`, by the same decoder under the same rules.",
+ "table": "ItemGroupSounds",
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":5,"decodedRows":29,"format":"plain","layer":"base","path":"raw/tables/ItemGroupSounds/","realm":null,"rowDelta":0,"rows":29,"sha256":"9df7d8352cd54613b7b5606d2e304ebfe422089b3bdc3814fe921e4c6586994a","shards":1,"slug":"data-patch-m-mpq","sourceBytes":600,"storedBytes":1239},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/locale-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/locale-enUS.MPQ","chainRank":10,"chainWinner":false,"columns":5,"decodedRows":24,"format":"plain","layer":"locale","path":"raw/tables/ItemGroupSounds/variants/data-enus-locale-enus-mpq/","realm":null,"rowDelta":-5,"rows":24,"sha256":"34d370ab0b77017a9d9f083067f5ea2649deadcf7936ebe8aa2e04c7eaa97503","shards":1,"slug":"data-enus-locale-enus-mpq","sourceBytes":501,"storedBytes":1029}
+ ],
+ "versionCount": 2
+}

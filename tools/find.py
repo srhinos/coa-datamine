@@ -29,9 +29,27 @@ substring test; for an integer it is a test for the value in JSON value
 position (`:133,` or `:133}`), which cannot miss an integer field and is
 re-checked against the parsed record, so the shortcut costs no correctness.
 
-Output is one line per hit: table, column, the row's key, and the value. Add
---json for machine-readable output, --table to restrict the scan, --limit to
-cap hits (0 for no cap).
+WHICH VERSION OF A TABLE
+------------------------
+A DBC path is carried by several archives and the chain picks one. Those copies
+are not history - this client's realm overlay sits above the whole base chain,
+so for a path the overlay carries, the chain winner is the OVERLAY's table and a
+character outside that realm reads different bytes. Every hit therefore reports
+the version it came from, and `--variant` chooses which versions are scanned:
+
+    (default)               the chain winner, as the client resolves it
+    --variant baseChain     what the base chain alone selects, no realm overlay
+    --variant realm:<dir>   what that realm's overlay selects
+    --variant overlay       what any realm overlay selects
+    --variant all           every distinct version in the client
+    --variant <slug>        only versions carried by that archive
+
+The context names and slugs come out of `raw/tables/_variants.json`; an
+unknown one lists what is available.
+
+Output is one line per hit: table, version, column, the row's key, and the
+value. Add --json for machine-readable output, --table to restrict the scan,
+--limit to cap hits (0 for no cap).
 """
 import argparse
 import gzip
@@ -48,6 +66,20 @@ DEFAULT_LIMIT = 50
 CONTEXT_ROWS = 2       # sample rows shown per hit column in --id mode
 
 LAYERS = ("tables", "content", "cache")
+
+# --variant selectors that are not an archive slug. `winner` is the default and
+# is what every previous version of this tool scanned.
+VARIANT_WINNER = "winner"
+VARIANT_OVERLAY = "overlay"
+VARIANT_ALL = "all"
+VARIANT_KEYWORDS = (VARIANT_WINNER, VARIANT_OVERLAY, VARIANT_ALL)
+
+# The chain context tools/variants.py records for "base chain, no realm
+# overlay". Restated rather than imported so this module keeps working with no
+# client attached; tests/test_variants.py pins the two together. Any OTHER
+# --variant value is matched against the contexts and archive slugs the layer
+# itself recorded, so no realm and no archive is named in this module.
+BASE_CONTEXT = "baseChain"
 
 # The positional first column. Not a name for anything - `f0` IS the position.
 DEFAULT_KEY = "f0"
@@ -70,22 +102,40 @@ class Source:
     first column, which is what the table layer uses and the only name this
     module can state without asserting anything about content."""
 
-    __slots__ = ("layer", "name", "dir", "stem", "key")
+    __slots__ = ("layer", "name", "dir", "stem", "key", "variant", "archive",
+                 "applies")
 
-    def __init__(self, layer, name, directory=None, stem=None, key=DEFAULT_KEY):
+    def __init__(self, layer, name, directory=None, stem=None, key=DEFAULT_KEY,
+                 variant=None, archive=None, applies=()):
         self.layer = layer
         self.name = name
         self.dir = directory
         self.stem = stem
         self.key = key
+        # Which version of the table this source reads, straight out of
+        # raw/tables/_variants.json. None for the layers that have only one.
+        self.variant = variant
+        self.archive = archive
+        self.applies = list(applies)
+
+    def label(self) -> str:
+        """The version, named the way a reader can act on it: the chain
+        contexts that select it when there are any, else the archive."""
+        if self.variant is None:
+            return ""
+        return ",".join(self.applies) if self.applies else f"({self.archive})"
 
     def lines(self):
         if self.layer == "tables":
-            ix = bc.table_index(self.stem)
+            d = self.dir or (bc.TABLES_DIR / self.stem)
+            ix = bc.load_json(d / "index.json")
             if not ix["rows"]:
                 return
-            for _, line in bc.iter_lines(self.stem, ix):
-                yield line
+            for s in ix["shards"]:
+                with bc.open_shard(d / s["file"]) as f:
+                    for line in f:
+                        if line.strip():
+                            yield line
             return
         for fp in sorted(self.dir.glob("*.jsonl")) + sorted(self.dir.glob("*.jsonl.gz")):
             op = gzip.open if fp.suffix == ".gz" else open
@@ -95,10 +145,53 @@ class Source:
                         yield line
 
 
-def _table_sources() -> list:
+def _table_sources(variant: str = VARIANT_WINNER) -> list:
+    """One source per table, or several when `variant` asks for more than the
+    chain winner. Which versions exist and which chain context selects each is
+    READ OUT of every table's own index (`variants`), never derived here - the
+    module that decoded them is the one that gets to say what they are."""
     layerstate.require_complete(bc.TABLES_DIR, "python -m tools.decode_all")
-    return [Source("tables", t["table"], stem=t["table"])
-            for t in bc.layer_index()["tables"]]
+    out = []
+    for t in bc.layer_index()["tables"]:
+        stem = t["table"]
+        ix = bc.table_index(stem)
+        versions = ix.get("variants")
+        if not versions:
+            # a layer decoded before versions were recorded: winner only
+            out.append(Source("tables", stem, stem=stem))
+            continue
+        for v in versions:
+            if not _wanted(v, variant):
+                continue
+            d = (bc.TABLES_DIR / stem) if v["chainWinner"] else \
+                (bc.TABLES_DIR / stem / "variants" / v["slug"])
+            if not (d / "index.json").is_file():
+                continue
+            out.append(Source("tables", stem, directory=d, stem=stem,
+                              variant=v["slug"], archive=v["archive"],
+                              applies=v["appliesTo"]))
+    if not out and variant not in VARIANT_KEYWORDS:
+        vp = bc.TABLES_DIR / "_variants.json"
+        vj = bc.load_json(vp) if vp.is_file() else {}
+        ctx = sorted(c["context"] for c in vj.get("contexts", []))
+        slugs = sorted({v["slug"] for t in vj.get("tables", [])
+                        for v in t["variants"]})
+        sys.exit(f"no table version named {variant!r}. Use one of "
+                 f"{', '.join(VARIANT_KEYWORDS)}, a chain context "
+                 f"({', '.join(ctx) or 'none recorded'}), or an archive slug "
+                 f"({', '.join(slugs) or 'none recorded'}).")
+    return out
+
+
+def _wanted(v: dict, variant: str) -> bool:
+    if variant == VARIANT_ALL:
+        return True
+    if variant == VARIANT_WINNER:
+        return bool(v["chainWinner"])
+    if variant == VARIANT_OVERLAY:
+        return any(c != BASE_CONTEXT for c in v["appliesTo"])
+    # a chain context recorded by the layer, or an archive slug
+    return variant in v["appliesTo"] or v["slug"] == variant
 
 
 def _content_sources() -> list:
@@ -135,18 +228,19 @@ def _cache_sources() -> list:
     return out
 
 
-_SOURCES = None
+_SOURCES = {}
 
 
-def sources(only=None, layers=None) -> list:
-    global _SOURCES
-    if _SOURCES is None:
-        _SOURCES = (_table_sources() + _content_sources() + _cache_sources())
-    picked = _SOURCES
+def sources(only=None, layers=None, variant: str = VARIANT_WINNER) -> list:
+    if variant not in _SOURCES:
+        _SOURCES[variant] = (_table_sources(variant) + _content_sources()
+                             + _cache_sources())
+    picked = _SOURCES[variant]
     if layers:
         want = set(layers)
         picked = [s for s in picked if s.layer in want]
-    picked = sorted(picked, key=lambda s: (LAYERS.index(s.layer), s.name.lower()))
+    picked = sorted(picked, key=lambda s: (LAYERS.index(s.layer), s.name.lower(),
+                                           s.variant or ""))
     if only:
         want = {o.lower() for o in only}
         chosen = [s for s in picked if s.name.lower() in want]
@@ -174,10 +268,11 @@ def truncate(s: str, n: int) -> str:
 
 # --------------------------------------------------------------------------
 def find_string(query: str, only=None, ignore_case: bool = True,
-                limit: int = DEFAULT_LIMIT, layers=None) -> dict:
+                limit: int = DEFAULT_LIMIT, layers=None,
+                variant: str = VARIANT_WINNER) -> dict:
     needle = query.lower() if ignore_case else query
     hits, counts, truncated = [], {}, False
-    for src in sources(only, layers):
+    for src in sources(only, layers, variant):
         for line in src.lines():
             if needle not in (line.lower() if ignore_case else line):
                 continue
@@ -186,18 +281,27 @@ def find_string(query: str, only=None, ignore_case: bool = True,
                 if not isinstance(v, str):
                     continue
                 if needle in (v.lower() if ignore_case else v):
-                    counts[(src.layer, src.name, k)] = \
-                        counts.get((src.layer, src.name, k), 0) + 1
+                    key = (src.layer, src.name, src.variant or "", k)
+                    e = counts.setdefault(key, {"rows": 0, "src": src})
+                    e["rows"] += 1
                     if limit and len(hits) >= limit:
                         truncated = True
                         continue
                     hits.append({"layer": src.layer, "table": src.name,
+                                 "variant": src.variant,
+                                 "variantArchive": src.archive,
+                                 "appliesTo": src.applies,
                                  "column": k, "rowKey": key_of(rec, src),
                                  "text": v})
-    return {"query": query, "hits": hits, "truncated": truncated,
-            "columns": [{"layer": lay, "table": t, "column": c, "rows": n}
-                        for (lay, t, c), n in sorted(counts.items())],
-            "hitCount": sum(counts.values())}
+    return {"query": query, "variant": variant, "hits": hits,
+            "truncated": truncated,
+            "columns": [{"layer": lay, "table": t, "variant": vr or None,
+                         "variantArchive": e["src"].archive,
+                         "appliesTo": e["src"].applies,
+                         "column": c, "rows": e["rows"]}
+                        for (lay, t, vr, c), e in sorted(
+                            counts.items(), key=lambda kv: kv[0])],
+            "hitCount": sum(e["rows"] for e in counts.values())}
 
 
 def _int_in(v, value: int) -> bool:
@@ -219,23 +323,25 @@ def _needles(value: int) -> tuple:
     return tuple(f"{a}{value}{b}" for a in (":", "[", ",") for b in (",", "}", "]"))
 
 
-def find_id(value: int, only=None, limit: int = DEFAULT_LIMIT, layers=None) -> dict:
+def find_id(value: int, only=None, limit: int = DEFAULT_LIMIT, layers=None,
+            variant: str = VARIANT_WINNER) -> dict:
     needles = _needles(value)
     found = {}
-    for src in sources(only, layers):
+    for src in sources(only, layers, variant):
         for line in src.lines():
             if not any(nd in line for nd in needles):
                 continue
             rec = json.loads(line)
             for k, v in rec.items():
                 if _int_in(v, value):
-                    e = found.setdefault((src.layer, src.name, k),
+                    e = found.setdefault((src.layer, src.name, src.variant or "", k),
                                          {"rows": 0, "samples": [], "src": src})
                     e["rows"] += 1
                     if len(e["samples"]) < CONTEXT_ROWS:
                         e["samples"].append(compact(rec, src))
-    return {"integer": value, "columns": describe(found),
-            "tableCount": len({t for _, t, _ in found}), "columnCount": len(found)}
+    return {"integer": value, "variant": variant, "columns": describe(found),
+            "tableCount": len({t for _, t, _, _ in found}),
+            "columnCount": len(found)}
 
 
 def compact(rec: dict, src: Source = None, keep: int = 6) -> dict:
@@ -257,11 +363,13 @@ def describe(found: dict) -> list:
     a dense space is hit by any integer and proves nothing."""
     cat = load_catalog()
     out = []
-    for (layer, stem, col), e in sorted(found.items()):
+    for (layer, stem, var, col), e in sorted(found.items()):
         t = cat["tables"].get(stem, {})
         c = cat["columns"].get((stem, col), {})
         out.append({
             "layer": layer, "table": stem, "column": col, "rows": e["rows"],
+            "variant": var or None, "variantArchive": e["src"].archive,
+            "appliesTo": e["src"].applies,
             "isKey": col == e["src"].key,
             "inferred": c.get("inferred"),
             "columnDistinct": c.get("distinct"),
@@ -273,7 +381,7 @@ def describe(found: dict) -> list:
             "samples": e["samples"],
         })
     out.sort(key=lambda r: (LAYERS.index(r["layer"]), not r["isKey"],
-                            r["table"].lower(), r["column"]))
+                            r["table"].lower(), r["variant"] or "", r["column"]))
     return out
 
 
@@ -333,21 +441,34 @@ def load_catalog() -> dict:
 
 
 # --------------------------------------------------------------------------
+def _version(rec: dict) -> str:
+    """How a hit names the version it came from: the chain contexts that select
+    it, or the archive when no context does (a shadowed version)."""
+    if not rec.get("variant"):
+        return ""
+    a = rec.get("appliesTo") or []
+    return ",".join(a) if a else f'({rec.get("variantArchive")})'
+
+
 def print_string(res: dict) -> None:
     if not res["columns"]:
-        print(f'no row contains "{res["query"]}"')
+        print(f'no row contains "{res["query"]}" '
+              f'(version scanned: {res["variant"]})')
         return
     print(f'"{res["query"]}": {res["hitCount"]} rows in '
           f'{len(res["columns"])} columns of '
-          f'{len({c["table"] for c in res["columns"]})} tables/groups\n')
+          f'{len({c["table"] for c in res["columns"]})} tables/groups '
+          f'[--variant {res["variant"]}]\n')
     w = max(len(c["table"]) for c in res["columns"])
+    v = max([len(_version(c)) for c in res["columns"]] + [7])
     for c in res["columns"]:
-        print(f'  {c["layer"]:<7} {c["table"]:<{w}}  {c["column"]:<6} '
-              f'{c["rows"]:>7} rows')
+        print(f'  {c["layer"]:<7} {c["table"]:<{w}}  {_version(c):<{v}}  '
+              f'{c["column"]:<6} {c["rows"]:>7} rows')
     print()
     for h in res["hits"]:
-        print(f'  {h["layer"]:<7} {h["table"]:<{w}}  {h["column"]:<6} '
-              f'key={str(h["rowKey"]):<10} {truncate(h["text"], 62)}')
+        print(f'  {h["layer"]:<7} {h["table"]:<{w}}  {_version(h):<{v}}  '
+              f'{h["column"]:<6} key={str(h["rowKey"]):<10} '
+              f'{truncate(h["text"], 62)}')
     if res["truncated"]:
         print("\n  (hit list truncated; counts above are complete - "
               "raise --limit or use --json)")
@@ -356,12 +477,16 @@ def print_string(res: dict) -> None:
 def print_id(res: dict) -> None:
     cols = res["columns"]
     if not cols:
-        print(f'no column contains the integer {res["integer"]}')
+        print(f'no column contains the integer {res["integer"]} '
+              f'(version scanned: {res["variant"]})')
         return
     print(f'id {res["integer"]}: {res["columnCount"]} columns in '
-          f'{res["tableCount"]} tables/groups\n')
+          f'{res["tableCount"]} tables/groups [--variant {res["variant"]}]\n')
     for c in cols:
-        head = f'  [{c["layer"]}] {c["table"]}.{c["column"]}  {c["rows"]} rows'
+        ver = _version(c)
+        head = (f'  [{c["layer"]}] {c["table"]}'
+                + (f' [{ver}]' if ver else "")
+                + f'.{c["column"]}  {c["rows"]} rows')
         if c["isKey"] and c["keyDistinct"]:
             d = c["keyDensity"] or 0
             head += (f'  [KEY: {c["keyDistinct"]:,} ids over '
@@ -417,6 +542,11 @@ def main(argv=None) -> int:
     ap.add_argument("--layer", action="append", choices=LAYERS,
                     help=f"restrict to this layer (repeatable; default all of "
                          f"{', '.join(LAYERS)})")
+    ap.add_argument("--variant", default=VARIANT_WINNER, metavar="WHICH",
+                    help="which version of each table to scan: "
+                         f"{', '.join(VARIANT_KEYWORDS)}, a chain context or "
+                         f"an archive slug from raw/tables/_variants.json "
+                         f"(default {VARIANT_WINNER}: what the chain resolves)")
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT,
                     help=f"max hits listed (default {DEFAULT_LIMIT}, 0 = all)")
     ap.add_argument("-s", "--case-sensitive", action="store_true")
@@ -431,10 +561,11 @@ def main(argv=None) -> int:
         res = find_joins_to(a.joins_to)
         printer = print_joins_to
     elif a.id is not None:
-        res = find_id(a.id, a.table, a.limit, a.layer)
+        res = find_id(a.id, a.table, a.limit, a.layer, a.variant)
         printer = print_id
     else:
-        res = find_string(a.query, a.table, not a.case_sensitive, a.limit, a.layer)
+        res = find_string(a.query, a.table, not a.case_sensitive, a.limit,
+                          a.layer, a.variant)
         printer = print_string
 
     if a.json:

@@ -6,23 +6,53 @@ Regenerate: `python -m tools.decode_all`. Every byte under this directory is wri
 
 - **368 tables** decoded of 368 in the client census
 - **0 failures** (`_failures.json`)
-- **7,467,563 rows** in 7,857 shards
+- **7,467,568 rows** in 7,857 shards
 - **131.8 MB** on disk (1955.4 MB uncompressed)
-- **56,045,520 string-block bytes**: 56,041,258 reached by a decoded record, 4,262 referenced by no column and written out verbatim to `<Table>.strings.json`
+- **56,045,598 string-block bytes**: 56,041,336 reached by a decoded record, 4,262 referenced by no column and written out verbatim to `<Table>.strings.json`
+
+- **987 versions** of those tables: 234 paths are shipped in more than one version by the chain, and all 619 extra versions are decoded too (2,377,659 further rows, 116.0 MB)
 
 ## Layout
 
 ```
 raw/tables/index.json          every table: rows, columns, shards, bytes
 raw/tables/_failures.json      anything not decoded, and why
-raw/tables/<Table>/index.json  shard map: key ranges, format, sha256
+raw/tables/_variants.json      every table shipped in more than one version
+raw/tables/<Table>/index.json  shard map: key ranges, format, sha256,
+                               and `variants`: every version of this table
 raw/tables/<Table>/<Table>.colinfo.json
                                per column: measurement + inferred type
 raw/tables/<Table>/<Table>.strings.json
                                string-block entries no column points at
 raw/tables/<Table>/<lo>-<hi>.jsonl[.gz]
                                one record per line: {"f0":..,"f1":..}
+raw/tables/<Table>/variants/<archive-slug>/
+                               a NON-winning version of the same table,
+                               same files, same rules, same decoder
 ```
+
+## Versions
+
+A path can be carried by several archives, and the chain picks one. The other copies are not history: this client's realm directory sits above the whole base chain, so for a path the overlay carries, the chain winner is the OVERLAY's table and the table a character outside that realm reads is a different file. Every distinct version is therefore decoded, and each one records which chain context selects it.
+
+A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.
+
+One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.
+
+`raw/tables/_variants.json` lists all 234 of them. 10 are contested between the base chain and a realm overlay - the ones where reading the chain winner means reading another realm's table:
+
+| table | base rows | base archive | overlay rows | overlay archive |
+| --- | ---: | --- | ---: | --- |
+| CharacterAdvancement | 10,234 | Data/patch-M.MPQ | 7,820 | Data/area-52/patch-D.MPQ |
+| CharacterAdvancementEssence | 5,600 | Data/patch-M.MPQ | 5,440 | Data/area-52/patch-D.MPQ |
+| Manastorm | 1,017 | Data/patch-M.MPQ | 1,025 | Data/area-52/patch-D.MPQ |
+| ManastormModifiers | 32,768 | Data/patch-M.MPQ | 32,768 | Data/area-52/patch-D.MPQ |
+| SkillLineAbility | 40,981 | Data/patch-M.MPQ | 38,542 | Data/area-52/patch-D.MPQ |
+| Spell | 209,140 | Data/patch-T.MPQ | 238,939 | Data/area-52/patch-D.MPQ |
+| SpellCharges | 400 | Data/patch-S.MPQ | 473 | Data/area-52/patch-D.MPQ |
+| SpellChargesCategory | 105 | Data/patch-S.MPQ | 108 | Data/area-52/patch-D.MPQ |
+| SpellRank | 23,182 | Data/patch-S.MPQ | 19,601 | Data/area-52/patch-D.MPQ |
+| Talent | 2,383 | Data/patch-M.MPQ | 2,368 | Data/area-52/patch-D.MPQ |
 
 ## Reading a record
 

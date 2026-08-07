@@ -2,6 +2,7 @@
  "columnWidths": {"byte":0,"int32":8},
  "columns": 8,
  "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
  "file": "CharHairTextures.dbc",
  "format": "plain",
  "inferredCounts": {"int":8},
@@ -19,5 +20,11 @@
  "storedBytes": 5671,
  "stringBlockSize": 1,
  "table": "CharHairTextures",
- "unreferencedStringBytes": 0
+ "unreferencedStringBytes": 0,
+ "variantCount": 2,
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":8,"decodedRows":93,"format":"plain","layer":"base","path":"raw/tables/CharHairTextures/","realm":null,"rowDelta":0,"rows":93,"sha256":"ae3dc90406f4e0ed406c04f1441f40f4067328bd29ce83d93dca09aff2ef53ab","shards":1,"slug":"data-patch-m-mpq","sourceBytes":2997,"storedBytes":5671},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/locale-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/locale-enUS.MPQ","chainRank":10,"chainWinner":false,"columns":8,"decodedRows":89,"format":"plain","layer":"locale","path":"raw/tables/CharHairTextures/variants/data-enus-locale-enus-mpq/","realm":null,"rowDelta":-4,"rows":89,"sha256":"61bb25999617ffc8007e6046122da09dd585a727fda55ba9aa8a1f52ccc97daa","shards":1,"slug":"data-enus-locale-enus-mpq","sourceBytes":2869,"storedBytes":5421}
+ ]
 }

@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":569,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":770,"maxUnsigned":770,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":569,"rows":569,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":132,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":346,"maxUnsigned":346,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":569,"rows":569,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":148,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2477,"maxUnsigned":2477,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":370,"rows":569,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":1,"validOffsetRate":0.349736},"zeroCount":199},"index":2,"inferred":"int","name":"f2","samples":[],"width":4},
+  {"evidence":{"distinct":5,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":5,"maxUnsigned":5,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":569,"rows":569,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":3,"inferred":"int","name":"f3","samples":[],"width":4}
+ ],
+ "file": "ItemCondExtCosts.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":569,"sizeReconciles":true,"stringBlockReferencedBytes":1,"stringBlockSize":1,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":4},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":9125,"losers":[],"sha256":"54574bef81a9a62fc0e4d552e890435ac389c60a68ea0028ead068423caae800","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "ItemCondExtCosts"
+}

@@ -1,0 +1,15 @@
+{
+ "columnCount": 4,
+ "columns": [
+  {"evidence":{"distinct":130,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":602,"maxUnsigned":602,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":130,"rows":130,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":115,"float":{"applicable":true,"finiteRate":0.976,"plausibleAbsMax":3.046946917863169e-17,"plausibleAbsMin":3.046946917863169e-17,"plausibleRate":0.008},"maxSigned":2147483647,"maxUnsigned":4294967295,"minSigned":-600000,"minUnsigned":0,"negativeCount":2,"nonZeroCount":125,"rows":130,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":1,"validOffsetRate":0.038462},"zeroCount":5},"index":1,"inferred":"int","name":"f1","samples":[],"width":4},
+  {"evidence":{"distinct":7,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":60000,"maxUnsigned":60000,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":9,"rows":130,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":1,"validOffsetRate":0.930769},"zeroCount":121},"index":2,"inferred":"int","name":"f2","samples":[],"width":4},
+  {"evidence":{"distinct":108,"float":{"applicable":true,"finiteRate":0.984375,"plausibleAbsMax":3.046946917863169e-17,"plausibleAbsMin":3.046946917863169e-17,"plausibleRate":0.007812},"maxSigned":2147483647,"maxUnsigned":4294967295,"minSigned":-1,"minUnsigned":0,"negativeCount":1,"nonZeroCount":128,"rows":130,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":1,"validOffsetRate":0.015385},"zeroCount":2},"index":3,"inferred":"int","name":"f3","samples":[],"width":4}
+ ],
+ "file": "SpellDuration.dbc",
+ "header": {"actualFields":4,"declaredFields":4,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":16,"records":130,"sizeReconciles":true,"stringBlockReferencedBytes":1,"stringBlockSize":1,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":4},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":2101,"losers":[],"sha256":"caa2cbec7fa711bba180af10c253ab0d111609ec2bda1c354fef09e54bc279e4","winner":"Data/enUS/patch-enUS-3.MPQ"},
+ "table": "SpellDuration"
+}

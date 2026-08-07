@@ -5,6 +5,10 @@
  "partial": false,
  "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
  "tableCount": 368,
- "totalRows": 7467563,
- "totalShards": 7857
+ "totalRows": 7467568,
+ "totalShards": 7857,
+ "variantCount": 619,
+ "variantFailureCount": 1,
+ "variantRowCount": 2377659,
+ "variantTableCount": 234
 }

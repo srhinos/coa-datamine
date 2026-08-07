@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":3105,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":4038,"maxUnsigned":4038,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":3105,"rows":3105,"string":{"applicable":true,"blockCoverageRate":0.026449,"blockSize":121139,"controlCharOffsets":0,"distinctOffsets":83,"meanDecodedLength":37.602,"nonEmptyOffsets":83,"utf8DecodableOffsets":83,"validOffsetRate":0.026731},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Interface\\Icons\\Trade_Engineering","Interface\\Icons\\Spell_Shadow_BlackPlague","Interface\\Icons\\Spell_Nature_NaturesBlessing","Interface\\Icons\\Spell_Fire_Fire","Interface\\Icons\\Spell_Fire_Fireball"],"width":4},
+  {"evidence":{"distinct":3065,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":121110,"maxUnsigned":121110,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":3105,"rows":3105,"string":{"applicable":true,"blockCoverageRate":0.999992,"blockSize":121139,"controlCharOffsets":0,"distinctOffsets":3065,"meanDecodedLength":38.523,"nonEmptyOffsets":3065,"utf8DecodableOffsets":3065,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Interface\\Icons\\Trade_Engineering","Interface\\Icons\\Spell_Shadow_BlackPlague","Interface\\Icons\\Spell_Nature_NaturesBlessing","Interface\\Icons\\Spell_Fire_Fire","Interface\\Icons\\Spell_Fire_Fireball"],"width":4}
+ ],
+ "file": "SpellIcon.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":3105,"sizeReconciles":true,"stringBlockReferencedBytes":121138,"stringBlockSize":121139,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":145999,"losers":[],"sha256":"82c07c920e5809e043eb7506c1b59fa8e09c90e037ed5e2ba4cb3d394cbc52b1","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "SpellIcon"
+}

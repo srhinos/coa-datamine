@@ -52,6 +52,41 @@ TABLE_DIR = "dbfilesclient\\"
 
 HEADER = struct.Struct("<4s4I")
 
+READ_ATTEMPTS = 3
+
+READ_AGREEMENT_RULE = (
+    "Every member is read until two consecutive reads of it hash the same, at "
+    f"most {READ_ATTEMPTS} times. This is not paranoia about the format: this "
+    "machine has confirmed nondeterministic memory corruption, and it has "
+    "already put a file into this layer that differed from the archive's own "
+    "bytes in 2 places out of 115 MB - same length, valid header, silently "
+    "wrong rows, and a sha256 that faithfully recorded the corruption. A "
+    "single read cannot detect that, and a read-back of the file just written "
+    "cannot either, because the damage happens before the hash is taken. Two "
+    "agreeing reads can. A member whose reads never agree is recorded as a "
+    "failure rather than written."
+)
+
+
+def read_agreed(archive, stored: str, attempts: int = READ_ATTEMPTS):
+    """One member's bytes, confirmed by two agreeing reads. Returns
+    (data, sha256, reason) - data/sha are None when there is a reason.
+
+    Only the previous read's HASH is kept between attempts, never its bytes, so
+    verifying a 237 MB member costs one copy of it in memory, not two."""
+    last = None
+    for _ in range(attempts):
+        data = archive.read_file(stored)
+        if data is None:
+            return None, None, "read returned no bytes"
+        sha = hashlib.sha256(data).hexdigest()
+        if sha == last:
+            return data, sha, None
+        last = sha
+        data = None
+    return None, None, (f"{attempts} reads of this member disagreed byte for "
+                        f"byte - see READ_AGREEMENT_RULE")
+
 
 def _header_facts(data: bytes) -> dict:
     """Measured WDBC header + the byte-accurate cross-checks. Nothing here is
@@ -194,22 +229,19 @@ def extract(verbose: bool = True) -> dict:
                     f"FATAL: two chain paths flatten to one output file name "
                     f"{name!r}: {clash!r} and {low!r}.")
             try:
-                data = a.read_file(c["stored"])
+                data, sha, reason = read_agreed(a, c["stored"])
             except Exception as e:                   # noqa: BLE001 - recorded, not raised
-                failures.append({"table": name, "stage": "extract",
-                                 "reason": f"{type(e).__name__}: {e}",
-                                 "path": c["stored"], "winner": c["archive"]})
-                continue
+                data, sha, reason = None, None, f"{type(e).__name__}: {e}"
             if data is None:
                 failures.append({"table": name, "stage": "extract",
-                                 "reason": "read returned no bytes",
+                                 "reason": reason,
                                  "path": c["stored"], "winner": c["archive"]})
                 continue
             (OUT_DIR / name).write_bytes(data)
             tables[name] = {
                 "table": name, "path": c["stored"].replace("\\", "/"),
                 "winner": c["archive"], "losers": sorted(set(c["losers"])),
-                "sha256": hashlib.sha256(data).hexdigest(),
+                "sha256": sha,
                 **_header_facts(data),
             }
             done += 1
@@ -224,6 +256,8 @@ def extract(verbose: bool = True) -> dict:
                 "to work/dbc_all/. No wanted list: this is the whole directory. "
                 "Header fields are measured; declaredFieldsAgrees=false marks a "
                 "header whose field count disagrees with recordSize//4.",
+        "readAgreementRule": READ_AGREEMENT_RULE,
+        "readAttempts": READ_ATTEMPTS,
         "clientDir": str(config.CLIENT_DIR),
         "tableDir": TABLE_DIR.replace("\\", "/"),
         "archiveCount": len(archives),

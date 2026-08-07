@@ -71,6 +71,11 @@ SAMPLE_CHARS_MD = 46        # sample truncation in CATALOG.md only
 # is fixed, so the choice stays deterministic. Recorded per column as `partial`.
 STRING_COLLECT_CAP = 300000
 
+# The chain context tools/variants.py records for "base chain, no realm
+# overlay". Restated rather than imported so this module needs no client;
+# tests/test_variants.py pins the copies together.
+BASE_CONTEXT = "baseChain"
+
 JOIN_RULE = (
     "For every (source column, target table) pair the rate reported is "
     "containment: the share of the source column's DISTINCT NON-ZERO values "
@@ -171,6 +176,14 @@ def colinfo(stem: str) -> dict:
 
 def table_index(stem: str) -> dict:
     return load_json(TABLES_DIR / stem / "index.json")
+
+
+def variants_index() -> dict:
+    """raw/tables/_variants.json, or an empty stand-in when the layer predates
+    it. Nothing here re-derives which versions exist or which chain context
+    selects one: tools/variants.py measured that and this file copies it."""
+    p = TABLES_DIR / "_variants.json"
+    return load_json(p) if p.is_file() else {}
 
 
 def shard_paths(stem: str, ix: dict = None) -> list:
@@ -445,15 +458,27 @@ def column_record(c: dict) -> dict:
 def write_tables_json(stems: list, infos: dict, layer: dict, targets: dict,
                       keyless: list) -> dict:
     by_table = {t["table"]: t for t in layer["tables"]}
+    vj = variants_index()
     records = []
     for stem in stems:
         ci = infos[stem]
         t = by_table[stem]
         ix = table_index(stem)
+        versions = ix.get("variants") or []
         records.append({
             "table": stem,
             "file": t["file"],
             "winner": t.get("winner"),
+            # Which versions of this table the client ships and which chain
+            # context selects each. Every number below - keyDistinct, the
+            # column detail, the joins - is measured over the CHAIN WINNER
+            # only; a version listed here with `chainWinner` false is a
+            # different table body and is not described by them.
+            "versionCount": len(versions),
+            "versions": [{k: v[k] for k in
+                          ("slug", "archive", "chainRank", "sha256", "rows",
+                           "columns", "chainWinner", "appliesTo", "rowDelta",
+                           "path")} for v in versions],
             "rows": t["rows"],
             "columns": t["columns"],
             "shards": t["shards"],
@@ -485,6 +510,18 @@ def write_tables_json(stems: list, infos: dict, layer: dict, targets: dict,
                       "Every column has a string-hypothesis decode recorded in "
                       "its colinfo, but on an int column those bytes are not "
                       "content and must not be read as any.",
+        "versionRule": (vj.get("variantRule", "") + " " +
+                        vj.get("contextRule", "")).strip() or
+                       "this layer predates the version records",
+        "versionSummary": {
+            "tablesWithMoreThanOneVersion": vj.get("tablesWithVariants", 0),
+            "versionsBeyondChainWinner": vj.get("variantsBeyondWinner", 0),
+            "realmContestedTables": [r["table"] for r in
+                                     vj.get("realmContested", [])],
+            "index": "raw/tables/_variants.json",
+            "search": "python -m tools.find --variant "
+                      + BASE_CONTEXT + "|overlay|all|realm:<dir>|<archive-slug>",
+        },
         "keyRule": "`keyDistinct`/`keyMin`/`keyMax`/`keyDensity` describe the "
                    "table's f0 id space, measured from the decoded rows. "
                    "Density is the share of the integers between min and max "
@@ -627,6 +664,7 @@ def write_catalog_md(layer: dict) -> None:
     tj = load_json(CATALOG_DIR / "tables.json")
     sj = load_json(CATALOG_DIR / "strings.json")
     jj = load_json(CATALOG_DIR / "joins.json")
+    vj = variants_index()
 
     by_table = {}
     for c in sj["columns"]:
@@ -658,6 +696,8 @@ def write_catalog_md(layer: dict) -> None:
     L.append('python -m tools.find "Tide Lash"      # which table/column holds a string')
     L.append("python -m tools.find --id 133         # every table an integer appears in")
     L.append("python -m tools.find --joins-to Spell # which columns point at Spell.f0")
+    L.append('python -m tools.find "Tide Lash" --variant ' + BASE_CONTEXT
+             + '  # ask the base chain')
     L.append("```")
     L.append("The first two also scan `raw/content` (the .loc localization store) "
              "and `raw/cache` (the WDB query caches), because quest and item "
@@ -675,6 +715,10 @@ def write_catalog_md(layer: dict) -> None:
              f"them over {len(jj['byTarget'])} target tables |")
     L.append("| `raw/tables/index.json` | shard map, byte counts, source archive "
              "per table |")
+    if vj.get("tablesWithVariants"):
+        L.append(f"| `raw/tables/_variants.json` | the "
+                 f"{vj['tablesWithVariants']} tables the client ships in more "
+                 f"than one version, and which chain context selects each |")
     L.append("| `raw/README.md` | the other raw layers: content/.loc, Interface, "
              "WDB caches |\n")
     L.append("## Reading a row\n")
@@ -692,6 +736,28 @@ def write_catalog_md(layer: dict) -> None:
              "`lift` near 1.0 is chance. A high `lift` on a small `matched` is "
              "also chance - two values that happen to be ids score what eleven "
              "do. Read both before believing a join.\n")
+    if vj.get("tablesWithVariants"):
+        L.append("## Which version of a table you are reading\n")
+        L.append(f"Every table below is the CHAIN WINNER - the copy the "
+                 f"client's loader resolves. For "
+                 f"{vj['tablesWithVariants']} of the {tj['tableCount']} tables "
+                 f"the client ships more than one version of the same path "
+                 f"({vj['variantsBeyondWinner']} extra versions, all decoded "
+                 f"under `raw/tables/<Table>/variants/<archive-slug>/`), and "
+                 f"for {vj['realmContestedCount']} of them the winner comes "
+                 f"from a REALM OVERLAY: reading it means reading that realm's "
+                 f"table, not the one the base chain gives everyone else. "
+                 f"`python -m tools.find --variant {BASE_CONTEXT}` asks the other "
+                 f"question. Every number in the table below - key density, "
+                 f"joins, column detail - is measured over the winner only.\n")
+        L.append("| table | base chain | rows | realm overlay | rows | delta |")
+        L.append("| --- | --- | ---: | --- | ---: | ---: |")
+        for r in vj["realmContested"]:
+            L.append(f"| **{r['table']}** | {r['baseArchive']} | "
+                     f"{r['baseRows']:,} | {', '.join(r['overlayArchive'])} | "
+                     f"{', '.join(f'{n:,}' for n in r['overlayRows'])} | "
+                     f"{r['rowDeltaBaseMinusWinner']:+,} |")
+        L.append("")
     L.append("## Tables\n")
     L.append("Sorted by name. `size` is stored bytes; `key` is the f0 id space "
              "(distinct ids, and the share of its min..max range they occupy). "
@@ -702,8 +768,9 @@ def write_catalog_md(layer: dict) -> None:
              "string columns with the most distinct values, one real value "
              "each.\n")
     inbound = {b["target"]: b for b in jj["byTarget"]}
-    L.append("| table | rows | cols | size | key | inbound | shards | text columns |")
-    L.append("| --- | ---: | ---: | ---: | --- | --- | --- | --- |")
+    L.append("| table | rows | cols | size | key | inbound | versions | shards "
+             "| text columns |")
+    L.append("| --- | ---: | ---: | ---: | --- | --- | --- | --- | --- |")
     for t in tj["tables"]:
         cols = sorted(by_table.get(t["table"], []),
                       key=lambda c: (-c["distinctValues"], c["columnIndex"]))
@@ -719,8 +786,12 @@ def write_catalog_md(layer: dict) -> None:
         b = inbound.get(t["table"])
         inb = (f"{b['inboundColumns']} ({b['aboveChanceStrong']} strong)"
                if b else "-")
+        n = t.get("versionCount", 0)
+        realm = any(c != BASE_CONTEXT for v in t.get("versions", [])
+                    if v["chainWinner"] for c in v["appliesTo"])
+        ver = "1" if n <= 1 else f"{n}{' realm-won' if realm else ''}"
         L.append(f"| **{t['table']}** | {t['rows']:,} | {t['columns']} | "
-                 f"{human_bytes(t['storedBytes'])} | {key} | {inb} | "
+                 f"{human_bytes(t['storedBytes'])} | {key} | {inb} | {ver} | "
                  f"`{t['path']}` | {' · '.join(bits) or '-'} |")
     L.append("")
     write_text(CATALOG_MD, "\n".join(L))

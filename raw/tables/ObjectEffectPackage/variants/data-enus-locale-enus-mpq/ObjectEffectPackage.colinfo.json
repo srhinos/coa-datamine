@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":6,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":122,"maxUnsigned":122,"minSigned":12,"minUnsigned":12,"negativeCount":0,"nonZeroCount":6,"rows":6,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":109,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":6,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":86,"maxUnsigned":86,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":6,"rows":6,"string":{"applicable":true,"blockCoverageRate":0.990826,"blockSize":109,"controlCharOffsets":0,"distinctOffsets":6,"meanDecodedLength":17.0,"nonEmptyOffsets":6,"utf8DecodableOffsets":6,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift","Flying Machine Mount","Wintergrasp Catapult","Rocket Mount","SiegeVehicle"],"width":4}
+ ],
+ "file": "ObjectEffectPackage.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":6,"sizeReconciles":true,"stringBlockReferencedBytes":108,"stringBlockSize":109,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":177,"losers":[],"sha256":"539fec39f8cd1246d8b4d1c2db25dd75f6681b02f6b5d29b0f6067fa96a787eb","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "ObjectEffectPackage"
+}

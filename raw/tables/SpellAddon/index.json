@@ -2,13 +2,14 @@
  "columnWidths": {"byte":0,"int32":23},
  "columns": 23,
  "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
  "file": "SpellAddon.dbc",
  "format": "plain",
  "inferredCounts": {"int":15,"zero":8},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 1027928,
- "rows": 5602,
+ "plainBytes": 1028115,
+ "rows": 5603,
  "shardCount": 13,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
@@ -25,11 +26,16 @@
   {"file":"0040000-0049999.jsonl","format":"plain","hi":49999,"lo":40000,"plainBytes":188,"rows":1,"sha256":"4538bb05489fd75587d4cc0cb0746e309ebee6b5251392844355daf66b60734b","storedBytes":188},
   {"file":"0200000-0299999.jsonl","format":"plain","hi":299999,"lo":200000,"plainBytes":376,"rows":2,"sha256":"b810e8b12830c5464d571a419962a73971725229c58c4e3944a1a127392d1456","storedBytes":376},
   {"file":"0800000-0899999.jsonl","format":"plain","hi":899999,"lo":800000,"plainBytes":372,"rows":2,"sha256":"5762f6ab83bda3ef761ac07eb4b6505acc39c66610e074027969871987dafd23","storedBytes":372},
-  {"file":"1000000-1999999.jsonl","format":"plain","hi":1999999,"lo":1000000,"plainBytes":59031,"rows":314,"sha256":"35e2de9b0b18e007af1a69f62d2f356717b47f8d4cb1ffdd390498e731bee1a4","storedBytes":59031}
+  {"file":"1000000-1999999.jsonl","format":"plain","hi":1999999,"lo":1000000,"plainBytes":59218,"rows":315,"sha256":"b8b90dbfdee1c04f44dc2f80ab557c16316055b1c85b6cd3d69560f44dee3bbf","storedBytes":59218}
  ],
- "sourceSha256": "5e6d674e7087688cdda34532012e70895bf558974520d5b7aa1a0f2f9ff53815",
- "storedBytes": 1027928,
+ "sourceSha256": "edebc5806a4deb7508688257a059f4737d96ac7e896d2a0b47db78ef8aa5cf34",
+ "storedBytes": 1028115,
  "stringBlockSize": 0,
  "table": "SpellAddon",
- "unreferencedStringBytes": 0
+ "unreferencedStringBytes": 0,
+ "variantCount": 1,
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-S.MPQ","chainRank":58,"chainWinner":true,"columns":23,"decodedRows":5603,"format":"plain","layer":"base","path":"raw/tables/SpellAddon/","realm":null,"rowDelta":0,"rows":5603,"sha256":"edebc5806a4deb7508688257a059f4737d96ac7e896d2a0b47db78ef8aa5cf34","shards":13,"slug":"data-patch-s-mpq","sourceBytes":515496,"storedBytes":1028115}
+ ]
 }

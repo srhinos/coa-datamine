@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":12,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":61,"maxUnsigned":61,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":12,"rows":12,"string":{"applicable":true,"blockCoverageRate":0.078624,"blockSize":407,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":31.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":1,"validOffsetRate":0.083333},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Spells\\Blizzard_Impact_Base.mdx"],"width":4},
+  {"evidence":{"distinct":12,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":374,"maxUnsigned":374,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":12,"rows":12,"string":{"applicable":true,"blockCoverageRate":0.997543,"blockSize":407,"controlCharOffsets":0,"distinctOffsets":12,"meanDecodedLength":32.833,"nonEmptyOffsets":12,"utf8DecodableOffsets":12,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Spells\\Blizzard_Impact_Base.mdx","Spells\\RainOfFire_Impact_Base.mdx","Spells\\CallLightning_Impact.mdx","Spells\\FlamestrikeSmall_Impact_Base.mdx","Spells\\DeathAndDecay_Area_Base.mdx"],"width":4},
+  {"evidence":{"distinct":12,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":11,"maxUnsigned":11,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":11,"rows":12,"string":{"applicable":true,"blockCoverageRate":0.081081,"blockSize":407,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":15.5,"nonEmptyOffsets":1,"utf8DecodableOffsets":2,"validOffsetRate":0.166667},"zeroCount":1},"index":2,"inferred":"int","name":"f2","samples":["Spells\\Blizzard_Impact_Base.mdx"],"width":4}
+ ],
+ "file": "SpellVisualKitAreaModel.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":12,"sizeReconciles":true,"stringBlockReferencedBytes":407,"stringBlockSize":407,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":571,"losers":[],"sha256":"5e200a07fcd1b26be908a0f3eb1c2b29133711bc56db4982a22c6b1c02f4d642","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "SpellVisualKitAreaModel"
+}

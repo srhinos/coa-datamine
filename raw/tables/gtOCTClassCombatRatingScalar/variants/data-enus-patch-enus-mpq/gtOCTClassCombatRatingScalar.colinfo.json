@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":352,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":352,"maxUnsigned":352,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":352,"rows":352,"string":{"applicable":true,"blockCoverageRate":0.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":0,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":0,"validOffsetRate":0.0},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":[],"width":4},
+  {"evidence":{"distinct":4,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":1.2999999523162842,"plausibleAbsMin":1.0,"plausibleRate":1.0},"maxSigned":1067869798,"maxUnsigned":1067869798,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":320,"rows":352,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":1,"validOffsetRate":0.090909},"zeroCount":32},"index":1,"inferred":"float","name":"f1","samples":[],"width":4}
+ ],
+ "file": "gtOCTClassCombatRatingScalar.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":352,"sizeReconciles":true,"stringBlockReferencedBytes":1,"stringBlockSize":1,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"float":1,"int":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":2837,"losers":[],"sha256":"fd6929c294e3489ea59d3e773d0a66b7dff8e367ae04ebb69b9ad48214429c2d","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "gtOCTClassCombatRatingScalar"
+}

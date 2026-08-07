@@ -2,6 +2,7 @@
  "columnWidths": {"byte":0,"int32":4},
  "columns": 4,
  "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
  "file": "SpellCastTimes.dbc",
  "format": "plain",
  "inferredCounts": {"int":4},
@@ -19,5 +20,13 @@
  "storedBytes": 2652,
  "stringBlockSize": 0,
  "table": "SpellCastTimes",
- "unreferencedStringBytes": 0
+ "unreferencedStringBytes": 0,
+ "variantCount": 4,
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-S.MPQ","chainRank":58,"chainWinner":true,"columns":4,"decodedRows":71,"format":"plain","layer":"base","path":"raw/tables/SpellCastTimes/","realm":null,"rowDelta":0,"rows":71,"sha256":"82e5f22dbbd21971947601a50e6df12587953cf5d5af2739785e7b040d049981","shards":1,"slug":"data-patch-s-mpq","sourceBytes":1156,"storedBytes":2652},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/patch-enUS-2.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/patch-enUS-2.MPQ","chainRank":18,"chainWinner":false,"columns":4,"decodedRows":70,"format":"plain","layer":"locale","path":"raw/tables/SpellCastTimes/variants/data-enus-patch-enus-2-mpq/","realm":null,"rowDelta":-1,"rows":70,"sha256":"919ca9b65cb144a3a9cf0ce10d2a25fcc7cdccf33c752ed376e086ff62f8ccec","shards":1,"slug":"data-enus-patch-enus-2-mpq","sourceBytes":1141,"storedBytes":2620},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/patch-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/patch-enUS.MPQ","chainRank":17,"chainWinner":false,"columns":4,"decodedRows":69,"format":"plain","layer":"locale","path":"raw/tables/SpellCastTimes/variants/data-enus-patch-enus-mpq/","realm":null,"rowDelta":-2,"rows":69,"sha256":"5177252d58dd3fbfed00ac3d6fce8c645fc99a38ea9351f13bb5f850109713ba","shards":1,"slug":"data-enus-patch-enus-mpq","sourceBytes":1125,"storedBytes":2586},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/locale-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/locale-enUS.MPQ","chainRank":10,"chainWinner":false,"columns":4,"decodedRows":65,"format":"plain","layer":"locale","path":"raw/tables/SpellCastTimes/variants/data-enus-locale-enus-mpq/","realm":null,"rowDelta":-6,"rows":65,"sha256":"0a7ed977a2138bf9174b79e9f3d939e9ca7f2d76392824d66752d5715ab14dd3","shards":1,"slug":"data-enus-locale-enus-mpq","sourceBytes":1061,"storedBytes":2442}
+ ]
 }

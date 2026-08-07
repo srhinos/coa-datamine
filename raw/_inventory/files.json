@@ -1,7 +1,7 @@
 {
  "contentHashCheckpointRule": "Pass 4 decompresses and hashes every winning file in the chain - 637k files and ~62 GB - and it is the only pass long enough that finishing it in one process is a real assumption rather than a formality. It is therefore checkpointed PER ARCHIVE into work/inventory_hashes/, keyed by the archive's own sha256: an archive whose checkpoint matches its current sha256 is not re-read, so a run interrupted anywhere resumes instead of starting over, and repeated runs converge. This changes NOTHING about the output - the same client produces the same census with an empty cache or a full one, because the key is the archive's content hash and a changed archive invalidates its own checkpoint. Delete the directory to force a full re-read.",
  "contentHashed": true,
- "looseOverrideCount": 22,
+ "looseOverrideCount": 25,
  "looseOverrideRule": "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. The census therefore walks the whole client root, and a loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost. Which loose files are recorded is decided mechanically, by two conditions and no list of names: a loose file is recorded if (1) it lives under `Data\\` - the client's data directory, already covered before this rule existed - or (2) its root-relative path is carried by the MPQ chain, which is what makes it an override at all. Everything else on the disk (the user's installed AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) is machine state rather than client content, is not in the archive namespace, and is deliberately outside this census - it is also volatile between launches, so recording it would make a rerun on an unchanged client stop reproducing. `.MPQ` files themselves are skipped here because they are inventoried as archives, with their members as paths.",
  "looseOverrides": [
   {
@@ -131,13 +131,40 @@
    "size": 257
   },
   {
+   "archiveSha256": "7698ef5b61852a5faa00ee393df66537d5133f3656091cf8004f92e764378d4b",
+   "archiveSize": 12132,
+   "archiveWinner": "Data/enUS/locale-enUS.MPQ",
+   "differsFromArchive": true,
+   "path": "Interface/Tooltips/ChatBubble-Backdrop.blp",
+   "sha256": "06f4afb46b9cc2481ec646715a3eabb41a4f237aab343a7ebb13dfd402c0aa22",
+   "size": 12132
+  },
+  {
+   "archiveSha256": "9dad630e1c3faec7c3c05d02351986569f7a6adadd523a7c00aa20ef7ed478a0",
+   "archiveSize": 2564,
+   "archiveWinner": "Data/enUS/locale-enUS.MPQ",
+   "differsFromArchive": true,
+   "path": "Interface/Tooltips/ChatBubble-Background.blp",
+   "sha256": "5c795ac16e5e4876d2bbd9149161ac7d6f4a51067bbbd038234486928d25716c",
+   "size": 2564
+  },
+  {
+   "archiveSha256": "a7e564964357a0b7a48399192b4fceb131337ab23a11137d952c541af3d72dce",
+   "archiveSize": 2564,
+   "archiveWinner": "Data/enUS/locale-enUS.MPQ",
+   "differsFromArchive": true,
+   "path": "Interface/Tooltips/ChatBubble-Tail.blp",
+   "sha256": "5c795ac16e5e4876d2bbd9149161ac7d6f4a51067bbbd038234486928d25716c",
+   "size": 2564
+  },
+  {
    "archiveSha256": "f457732e9be31292c6530699c3d5296500ee3d7c7dc1efac506adfe4562a92dd",
    "archiveSize": 44900,
    "archiveWinner": "Data/patch-A.MPQ",
    "differsFromArchive": true,
    "path": "Interface/Tooltips/chatbubble.blp",
-   "sha256": "ea10dfa8e4ec7001a7c4c196f1eb7f8a61d91e417651b2aa5d1d0eafeba74e0f",
-   "size": 44884
+   "sha256": "37a0c61a022b6864b6fb548225fc0f82f2c8b673d112eb21a77a0b31f00c30b3",
+   "size": 44900
   },
   {
    "archiveSha256": "3d3f8359b764e11bdbce9090c9dd585e6da8b81f0fcd8d651555907f81dcc482",
@@ -145,8 +172,8 @@
    "archiveWinner": "Data/patch-A.MPQ",
    "differsFromArchive": true,
    "path": "Interface/Tooltips/chatbubblevertical.blp",
-   "sha256": "aa1eb16e7e9b76063ab76d34517997c1167a680da2931b220fa948c4c80e9d77",
-   "size": 6660
+   "sha256": "92f8e1bef4094746d1af7b6d8241370805a441a8bae3e9e5d832063716593a61",
+   "size": 6692
   },
   {
    "archiveSha256": "f3cc92397c93f8de7e4791a532e4aa1e53cc13ed9d6a54ea3e6af2dadb051412",
@@ -204,10 +231,10 @@
   }
  ],
  "loosePathCount": 104,
- "mpqPathCount": 637350,
+ "mpqPathCount": 637486,
  "note": "Index for raw/_inventory/files/*.json. Per-path records live in the shards; each shard holds one compact JSON record per line, sorted by path, keyed by the path prefix in `prefix`.",
  "oversizeShards": [],
- "recordCount": 637454,
+ "recordCount": 637590,
  "shardCount": 640,
  "shardMaxLines": 5000,
  "shards": [
@@ -2177,7 +2204,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/OBJECTCOMPONENTS/Head/helm_cloth_chefhat_a_01_trm00.skin",
    "prefix": "item/objectcomponents/head/helm_cloth_",
-   "records": 893
+   "records": 896
   },
   {
    "file": "item-objectcomponents-head-helm_cloth_~def.json",
@@ -2337,7 +2364,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_mail_common_c_01yellow.blp",
    "prefix": "item/objectcomponents/head/helm_mail_",
-   "records": 646
+   "records": 647
   },
   {
    "file": "item-objectcomponents-head-helm_mail_~def.json",
@@ -2433,7 +2460,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/OBJECTCOMPONENTS/head/helm_plate_common_c_01yellow.blp",
    "prefix": "item/objectcomponents/head/helm_plate_",
-   "records": 926
+   "records": 929
   },
   {
    "file": "item-objectcomponents-head-helm_plate_~def.json",
@@ -2561,7 +2588,7 @@
    "kind": "~jkl",
    "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/lshoulder_slagelementalboss00.skin",
    "prefix": "item/objectcomponents/shoulder/",
-   "records": 1219
+   "records": 1223
   },
   {
    "file": "item-objectcomponents-shoulder-~mno.json",
@@ -2593,7 +2620,7 @@
    "kind": "~stu",
    "lastPath": "ITEM/OBJECTCOMPONENTS/SHOULDER/tesla_particle01.blp",
    "prefix": "item/objectcomponents/shoulder/",
-   "records": 2465
+   "records": 2468
   },
   {
    "file": "item-objectcomponents-shoulder-~vwx.json",
@@ -2729,7 +2756,7 @@
    "kind": "~def",
    "lastPath": "ITEM/TEXTURECOMPONENTS/FOOTTEXTURE/yellow_boot_armor_civilianscholar_b_01_fo_u.blp",
    "prefix": "item/texturecomponents/",
-   "records": 2584
+   "records": 2592
   },
   {
    "file": "item-texturecomponents-~ghi.json",
@@ -2737,7 +2764,7 @@
    "kind": "~ghi",
    "lastPath": "ITEM/TEXTURECOMPONENTS/HANDTEXTURE/yellow_glove_armor_civilianscholar_b_01_ha_u.blp",
    "prefix": "item/texturecomponents/",
-   "records": 2423
+   "records": 2432
   },
   {
    "file": "item-texturecomponents-arm~stu.json",
@@ -2745,7 +2772,7 @@
    "kind": "~stu",
    "lastPath": "ITEM/TEXTURECOMPONENTS/ARMUPPERTEXTURE/yellow_robe_armor_civilianscholar_b_01_au_u.blp",
    "prefix": "item/texturecomponents/arm",
-   "records": 3267
+   "records": 3276
   },
   {
    "file": "item-texturecomponents-armlowertexture-~abc.json",
@@ -2753,7 +2780,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_al_u.blp",
    "prefix": "item/texturecomponents/armlowertexture/",
-   "records": 1463
+   "records": 1472
   },
   {
    "file": "item-texturecomponents-armlowertexture-~def.json",
@@ -2785,7 +2812,7 @@
    "kind": "~mno",
    "lastPath": "ITEM/TEXTURECOMPONENTS/ARMLOWERTEXTURE/oribosquesting_b_01_glove_mail_al_u.blp",
    "prefix": "item/texturecomponents/armlowertexture/",
-   "records": 1105
+   "records": 1111
   },
   {
    "file": "item-texturecomponents-armlowertexture-~other.json",
@@ -2801,7 +2828,7 @@
    "kind": "~pqr",
    "lastPath": "ITEM/TEXTURECOMPONENTS/ArmLowerTexture/Robe_ZulAman_D_01Green_Sleeve_AL_U.blp",
    "prefix": "item/texturecomponents/armlowertexture/",
-   "records": 2414
+   "records": 2426
   },
   {
    "file": "item-texturecomponents-armlowertexture-~stu.json",
@@ -2865,7 +2892,7 @@
    "kind": "~mno",
    "lastPath": "ITEM/TEXTURECOMPONENTS/LEGLOWERTEXTURE/oribosquesting_b_01_pants_mail_ll_u.blp",
    "prefix": "item/texturecomponents/leglowertexture/",
-   "records": 1066
+   "records": 1069
   },
   {
    "file": "item-texturecomponents-leglowertexture-~other.json",
@@ -2881,7 +2908,7 @@
    "kind": "~pqr",
    "lastPath": "ITEM/TEXTURECOMPONENTS/LegLowerTexture/Robe_ZulAman_D_01Green_Robe_LL_U.blp",
    "prefix": "item/texturecomponents/leglowertexture/",
-   "records": 2411
+   "records": 2419
   },
   {
    "file": "item-texturecomponents-leglowertexture-~stu.json",
@@ -2913,7 +2940,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_lu_u.blp",
    "prefix": "item/texturecomponents/leguppertexture/",
-   "records": 1548
+   "records": 1557
   },
   {
    "file": "item-texturecomponents-leguppertexture-~def.json",
@@ -2945,7 +2972,7 @@
    "kind": "~mno",
    "lastPath": "ITEM/TEXTURECOMPONENTS/LEGUPPERTEXTURE/oribosquesting_b_01_pants_mail_lu_u.blp",
    "prefix": "item/texturecomponents/leguppertexture/",
-   "records": 1063
+   "records": 1066
   },
   {
    "file": "item-texturecomponents-leguppertexture-~other.json",
@@ -2961,7 +2988,7 @@
    "kind": "~pqr",
    "lastPath": "ITEM/TEXTURECOMPONENTS/LegUpperTexture/Robe_ZulAman_D_01Green_Robe_LU_U.blp",
    "prefix": "item/texturecomponents/leguppertexture/",
-   "records": 2582
+   "records": 2590
   },
   {
    "file": "item-texturecomponents-leguppertexture-~stu.json",
@@ -2993,7 +3020,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_tl_m.blp",
    "prefix": "item/texturecomponents/torsolowertexture/",
-   "records": 1543
+   "records": 1551
   },
   {
    "file": "item-texturecomponents-torsolowertexture-~def.json",
@@ -3025,7 +3052,7 @@
    "kind": "~mno",
    "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/oribosquesting_b_01_chest_tl_u.blp",
    "prefix": "item/texturecomponents/torsolowertexture/",
-   "records": 1042
+   "records": 1046
   },
   {
    "file": "item-texturecomponents-torsolowertexture-~other.json",
@@ -3041,7 +3068,7 @@
    "kind": "~pqr",
    "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoLowerTexture/rustboltresistance_tabard_tl_m.blp",
    "prefix": "item/texturecomponents/torsolowertexture/",
-   "records": 2408
+   "records": 2416
   },
   {
    "file": "item-texturecomponents-torsolowertexture-~stu.json",
@@ -3073,7 +3100,7 @@
    "kind": "~abc",
    "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/cyan_chest_leather_raiddemonhunteremerald_d_01_be_m_tu_m.blp",
    "prefix": "item/texturecomponents/torsouppertexture/",
-   "records": 1425
+   "records": 1431
   },
   {
    "file": "item-texturecomponents-torsouppertexture-~def.json",
@@ -3105,7 +3132,7 @@
    "kind": "~mno",
    "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/oribosquesting_b_01_chest_tu_u.blp",
    "prefix": "item/texturecomponents/torsouppertexture/",
-   "records": 871
+   "records": 875
   },
   {
    "file": "item-texturecomponents-torsouppertexture-~other.json",
@@ -3121,7 +3148,7 @@
    "kind": "~pqr",
    "lastPath": "ITEM/TEXTURECOMPONENTS/TorsoUpperTexture/rustboltresistance_tabard_tu_m.blp",
    "prefix": "item/texturecomponents/torsouppertexture/",
-   "records": 2150
+   "records": 2158
   },
   {
    "file": "item-texturecomponents-torsouppertexture-~stu.json",
@@ -5332,6 +5359,6 @@
    "records": 319
   }
  ],
- "totalUncompressedBytes": 67869685244,
+ "totalUncompressedBytes": 67877536384,
  "unreadableCount": 41051
 }

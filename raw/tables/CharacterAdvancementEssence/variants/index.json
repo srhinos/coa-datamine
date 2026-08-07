@@ -1,0 +1,14 @@
+{
+ "carriedBy": ["Data/patch-M.MPQ","Data/area-52/patch-D.MPQ"],
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
+ "copyCount": 2,
+ "file": "CharacterAdvancementEssence.dbc",
+ "note": "Every distinct version of this table in the client. The chain winner is decoded one directory up; every other version is decoded in the subdirectory named by its `slug`, by the same decoder under the same rules.",
+ "table": "CharacterAdvancementEssence",
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["realm:area-52"],"appliesToNote":"selected by chain context(s): realm:area-52","archive":"Data/area-52/patch-D.MPQ","chainRank":76,"chainWinner":true,"columns":9,"decodedRows":5440,"format":"plain","layer":"realm","path":"raw/tables/CharacterAdvancementEssence/","realm":"area-52","rowDelta":0,"rows":5440,"sha256":"4ae386343e716fab4ef6c9ec2f78c5da1e6f6b21b11c3eb067602f1c5229f353","shards":7,"slug":"data-area-52-patch-d-mpq","sourceBytes":195860,"storedBytes":384174},
+  {"alsoIn":[],"appliesTo":["baseChain"],"appliesToNote":"selected by chain context(s): baseChain","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":false,"columns":9,"decodedRows":5600,"format":"plain","layer":"base","path":"raw/tables/CharacterAdvancementEssence/variants/data-patch-m-mpq/","realm":null,"rowDelta":160,"rows":5600,"sha256":"ac6715bca5de98692ecc59f3ee08836d27c450bdf4851c17762e490027e175f7","shards":7,"slug":"data-patch-m-mpq","sourceBytes":201620,"storedBytes":397112}
+ ],
+ "versionCount": 2
+}

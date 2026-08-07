@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":17544,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":21731,"maxUnsigned":21731,"minSigned":741,"minUnsigned":741,"negativeCount":0,"nonZeroCount":17544,"rows":17544,"string":{"applicable":true,"blockCoverageRate":0.028059,"blockSize":630450,"controlCharOffsets":0,"distinctOffsets":516,"meanDecodedLength":17.374,"nonEmptyOffsets":516,"utf8DecodableOffsets":516,"validOffsetRate":0.029412},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Кулинария","Первая помощь","Выживание","Плавание","Рукопашный бой"],"width":4},
+  {"evidence":{"distinct":17532,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":630433,"maxUnsigned":630433,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":17544,"rows":17544,"string":{"applicable":true,"blockCoverageRate":0.999998,"blockSize":630450,"controlCharOffsets":0,"distinctOffsets":17532,"meanDecodedLength":18.268,"nonEmptyOffsets":17532,"utf8DecodableOffsets":17532,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Косматый молодой волк","Кролик","Трогг Каменной Челюсти","Двуручные топоры","Посохи"],"width":4}
+ ],
+ "file": "DeclinedWord.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":17544,"sizeReconciles":true,"stringBlockReferencedBytes":630449,"stringBlockSize":630450,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":770822,"losers":[],"sha256":"93d6252d5b3b27bd72a6282368b365a7ed11a12112525ff7b69b5c8e3fc46527","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "DeclinedWord"
+}

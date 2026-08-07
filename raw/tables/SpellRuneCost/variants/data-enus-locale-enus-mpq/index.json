@@ -1,0 +1,23 @@
+{
+ "columnWidths": {"byte":0,"int32":5},
+ "columns": 5,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "SpellRuneCost.dbc",
+ "format": "plain",
+ "inferredCounts": {"int":5},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 11996,
+ "rows": 299,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"0000-9999.jsonl","format":"plain","hi":9999,"lo":0,"plainBytes":11996,"rows":299,"sha256":"5ef1e2a45e9e37404cbf004666e13595cba97d719f719f8b023ce7d911b5e640","storedBytes":11996}
+ ],
+ "sourceSha256": "ae0560c2fe7a047c73ca4d8499bf70453197a3453811f4d2a24a7e2f824b9873",
+ "storedBytes": 11996,
+ "stringBlockSize": 1,
+ "table": "SpellRuneCost",
+ "unreferencedStringBytes": 0
+}

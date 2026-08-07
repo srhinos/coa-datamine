@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":46,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":206,"maxUnsigned":206,"minSigned":33,"minUnsigned":33,"negativeCount":0,"nonZeroCount":46,"rows":46,"string":{"applicable":true,"blockCoverageRate":0.046141,"blockSize":1192,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":26.5,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.043478},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["FlyingMachineMount_Walk","FlyingMachineMount_ShuffleLeft"],"width":4},
+  {"evidence":{"distinct":46,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1159,"maxUnsigned":1159,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":46,"rows":46,"string":{"applicable":true,"blockCoverageRate":0.999161,"blockSize":1192,"controlCharOffsets":0,"distinctOffsets":46,"meanDecodedLength":24.891,"nonEmptyOffsets":46,"utf8DecodableOffsets":46,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift_always","vr_elevator_lift_change_states","FlyingMachineMount_Sprint","WintergraspCatapult_Moving","WintergraspCatapult_NotMoving"],"width":4}
+ ],
+ "file": "ObjectEffectGroup.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":46,"sizeReconciles":true,"stringBlockReferencedBytes":1191,"stringBlockSize":1192,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":1580,"losers":[],"sha256":"e371b73aa22c71492b362356fec25761a8d45489902406f843c4faecd3b62d7e","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "ObjectEffectGroup"
+}

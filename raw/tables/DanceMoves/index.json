@@ -2,6 +2,7 @@
  "columnWidths": {"byte":0,"int32":24},
  "columns": 24,
  "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
  "file": "DanceMoves.dbc",
  "format": "plain",
  "inferredCounts": {"int":6,"string":3,"zero":15},
@@ -19,5 +20,12 @@
  "storedBytes": 6979,
  "stringBlockSize": 694,
  "table": "DanceMoves",
- "unreferencedStringBytes": 0
+ "unreferencedStringBytes": 0,
+ "variantCount": 3,
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/enUS/patch-enUS-3.MPQ","chainRank":19,"chainWinner":true,"columns":24,"decodedRows":24,"format":"plain","layer":"locale","path":"raw/tables/DanceMoves/","realm":null,"rowDelta":0,"rows":24,"sha256":"f5d29ee88b659aa33ce4627ac7b581571a7fc6931081c5c63bfa8a93cffd74ee","shards":1,"slug":"data-enus-patch-enus-3-mpq","sourceBytes":3018,"storedBytes":6979},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/patch-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/patch-enUS.MPQ","chainRank":17,"chainWinner":false,"columns":24,"decodedRows":24,"format":"plain","layer":"locale","path":"raw/tables/DanceMoves/variants/data-enus-patch-enus-mpq/","realm":null,"rowDelta":0,"rows":24,"sha256":"c42df0c56fe3abe8c1d463d39b1cfff4e15cd16b6da9cbb1ef7db014d0be5f29","shards":1,"slug":"data-enus-patch-enus-mpq","sourceBytes":3018,"storedBytes":6979},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/locale-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/locale-enUS.MPQ","chainRank":10,"chainWinner":false,"columns":24,"decodedRows":24,"format":"plain","layer":"locale","path":"raw/tables/DanceMoves/variants/data-enus-locale-enus-mpq/","realm":null,"rowDelta":0,"rows":24,"sha256":"d5921f16d464a3677a2f74c6c8ae6b89148ede888e35d02ea6d2da8b5f60a47b","shards":1,"slug":"data-enus-locale-enus-mpq","sourceBytes":3018,"storedBytes":6979}
+ ]
 }

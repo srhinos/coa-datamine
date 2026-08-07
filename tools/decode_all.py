@@ -529,10 +529,17 @@ class _Sink:
 # --------------------------------------------------------------------------
 
 def decode_table(name: str, source: dict, out_dir: Path,
-                 limit: int = SHARD_MAX_ROWS) -> dict:
+                 limit: int = SHARD_MAX_ROWS, src_dir: Path = None,
+                 dest: Path = None) -> dict:
+    """Decode one table file into one directory.
+
+    `src_dir`/`dest` exist so the SAME decoder can be pointed at a copy of a
+    table that is not the chain winner (tools/variants.py) without any of it
+    being reimplemented: a variant decoded by a second code path would not be
+    comparable to the winner, which is the whole point of decoding it."""
     stem = name[:-4] if name.lower().endswith(".dbc") else name
-    t = Table(SRC_DIR / name)
-    d = out_dir / stem
+    t = Table((src_dir or SRC_DIR) / name)
+    d = dest or (out_dir / stem)
     d.mkdir(parents=True, exist_ok=True)
     for old in sorted(d.iterdir()):        # sole writer of this directory
         if old.is_file():
@@ -670,7 +677,8 @@ def _census() -> dict:
 
 
 def run(only=None, resume=False, out_dir: Path = None, verbose: bool = True,
-        limit: int = SHARD_MAX_ROWS) -> dict:
+        limit: int = SHARD_MAX_ROWS, variants: bool = True) -> dict:
+    default_layer = out_dir is None and not only
     out_dir = out_dir or OUT_DIR
     t0 = time.time()
     prov = load_provenance()
@@ -748,6 +756,24 @@ def run(only=None, resume=False, out_dir: Path = None, verbose: bool = True,
         "failureCount": catalog["failureCount"],
         "partial": bool(only),
     })
+
+    # A decode alone leaves the layer holding ONE version of every path - the
+    # chain winner - which for a path a realm overlay carries is not the table
+    # the base chain reads. Step 2b decodes the rest and writes the `variants`
+    # block into every index above, so the default entry point never produces a
+    # layer that silently drops the other versions. Imported here, not at module
+    # scope, because that module is built on this one. A partial run (--only) or
+    # a scratch --out is a decode of a subset, and a variant pass over a subset
+    # would write a layer-wide record of a layer that is not there.
+    if variants and default_layer:
+        from tools import variants as variants_mod
+        if verbose:
+            print("decoding every non-winning version of every table", flush=True)
+        v = variants_mod.run(out_dir=out_dir, verbose=verbose)
+        catalog["variantTableCount"] = v["tablesWithVariants"]
+        catalog["variantCount"] = v["variantsBeyondWinner"]
+        catalog["variantStoredBytes"] = v["variantStoredBytes"]
+
     catalog["elapsed"] = round(time.time() - t0, 1)
     catalog["skipped"] = skipped
     return catalog
@@ -844,18 +870,54 @@ def write_readme(out_dir: Path) -> None:
              f"{ref:,} reached by a decoded record, "
              f"{cat['unreferencedStringBytes']:,} referenced by no column and "
              f"written out verbatim to `<Table>.strings.json`\n")
+    var_path = out_dir / "_variants.json"
+    var = json.loads(var_path.read_text(encoding="utf-8")) if var_path.is_file() else None
+    if var:
+        L.append(f"- **{var['versionCount']} versions** of those tables: "
+                 f"{var['tablesWithVariants']} paths are shipped in more than "
+                 f"one version by the chain, and all "
+                 f"{var['variantsBeyondWinner']} extra versions are decoded too "
+                 f"({var['variantRowsDecoded']:,} further rows, "
+                 f"{var['variantStoredBytes']/1e6:.1f} MB)\n")
     L.append("## Layout\n")
     L.append("```")
     L.append("raw/tables/index.json          every table: rows, columns, shards, bytes")
     L.append("raw/tables/_failures.json      anything not decoded, and why")
-    L.append("raw/tables/<Table>/index.json  shard map: key ranges, format, sha256")
+    L.append("raw/tables/_variants.json      every table shipped in more than one version")
+    L.append("raw/tables/<Table>/index.json  shard map: key ranges, format, sha256,")
+    L.append("                               and `variants`: every version of this table")
     L.append("raw/tables/<Table>/<Table>.colinfo.json")
     L.append("                               per column: measurement + inferred type")
     L.append("raw/tables/<Table>/<Table>.strings.json")
     L.append("                               string-block entries no column points at")
     L.append("raw/tables/<Table>/<lo>-<hi>.jsonl[.gz]")
     L.append("                               one record per line: {\"f0\":..,\"f1\":..}")
+    L.append("raw/tables/<Table>/variants/<archive-slug>/")
+    L.append("                               a NON-winning version of the same table,")
+    L.append("                               same files, same rules, same decoder")
     L.append("```\n")
+    if var:
+        L.append("## Versions\n")
+        L.append("A path can be carried by several archives, and the chain picks "
+                 "one. The other copies are not history: this client's realm "
+                 "directory sits above the whole base chain, so for a path the "
+                 "overlay carries, the chain winner is the OVERLAY's table and "
+                 "the table a character outside that realm reads is a different "
+                 "file. Every distinct version is therefore decoded, and each "
+                 "one records which chain context selects it.\n")
+        L.append(var["contextRule"] + "\n")
+        L.append(var["variantRule"] + "\n")
+        L.append(f"`raw/tables/_variants.json` lists all {var['tablesWithVariants']} "
+                 f"of them. {var['realmContestedCount']} are contested between "
+                 f"the base chain and a realm overlay - the ones where reading "
+                 f"the chain winner means reading another realm's table:\n")
+        L.append("| table | base rows | base archive | overlay rows | overlay archive |")
+        L.append("| --- | ---: | --- | ---: | --- |")
+        for r in var["realmContested"]:
+            L.append(f"| {r['table']} | {r['baseRows']:,} | {r['baseArchive']} | "
+                     f"{', '.join(f'{n:,}' for n in r['overlayRows'])} | "
+                     f"{', '.join(r['overlayArchive'])} |")
+        L.append("")
     L.append("## Reading a record\n")
     L.append("Keys are positional. `f5` is the value of column 5 under the type "
              "the measurement implies; `f5i` is the raw int when `f5` was "
@@ -904,10 +966,12 @@ def main():
     ap.add_argument("--resume", action="store_true",
                     help="skip tables already decoded from the same bytes")
     ap.add_argument("--out", type=Path, help="write somewhere else than raw/tables")
+    ap.add_argument("--no-variants", action="store_true",
+                    help="decode only the chain winners (see tools/variants.py)")
     ap.add_argument("-q", "--quiet", action="store_true")
     args = ap.parse_args()
     c = run(only=args.only, resume=args.resume, out_dir=args.out,
-            verbose=not args.quiet)
+            verbose=not args.quiet, variants=not args.no_variants)
     print("\n=== DECODE ===")
     print(f"tables        {c['tableCount']} of {c['censusTableCount']} "
           f"(skipped {c['skipped']}, failures {c['failureCount']})")
@@ -916,6 +980,10 @@ def main():
     print(f"size          {c['storedBytes']/1e6:.1f} MB stored / "
           f"{c['plainBytes']/1e6:.1f} MB plain")
     print(f"columns       {c['inferredColumnCounts']}")
+    if "variantCount" in c:
+        print(f"variants      {c['variantCount']} extra versions over "
+              f"{c['variantTableCount']} tables "
+              f"({c['variantStoredBytes']/1e6:.1f} MB)")
     print(f"elapsed       {c['elapsed']}s")
 
 

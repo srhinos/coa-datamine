@@ -2,22 +2,28 @@
  "columnWidths": {"byte":0,"int32":14},
  "columns": 14,
  "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "contextRule": "A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
  "file": "SpellActivationOverlays.dbc",
  "format": "plain",
  "inferredCounts": {"float":4,"int":8,"string":2},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 231114,
- "rows": 1369,
+ "plainBytes": 231284,
+ "rows": 1370,
  "shardCount": 1,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
  "shards": [
-  {"file":"0000-9999.jsonl","format":"plain","hi":9999,"lo":0,"plainBytes":231114,"rows":1369,"sha256":"2219d7a389454a7cdf5a7c3af0064f5af8ea2e7a1c6d516a13b5aaaaf6967cb1","storedBytes":231114}
+  {"file":"0000-9999.jsonl","format":"plain","hi":9999,"lo":0,"plainBytes":231284,"rows":1370,"sha256":"0d85a77323df63f9a41ad86c9b00e6059384610f7fedec88bb40227874384446","storedBytes":231284}
  ],
- "sourceSha256": "873a60d4c56805637f3d56d4f0b74507b046514589f76ed66d3a7c2cfd6acde3",
- "storedBytes": 231114,
+ "sourceSha256": "46c0ee3cb26b9f582aee30ba6284da017087bff6f64cdbb649e6bba590826ec1",
+ "storedBytes": 231284,
  "stringBlockSize": 1937,
  "table": "SpellActivationOverlays",
- "unreferencedStringBytes": 0
+ "unreferencedStringBytes": 0,
+ "variantCount": 1,
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-S.MPQ","chainRank":58,"chainWinner":true,"columns":14,"decodedRows":1370,"format":"plain","layer":"base","path":"raw/tables/SpellActivationOverlays/","realm":null,"rowDelta":0,"rows":1370,"sha256":"46c0ee3cb26b9f582aee30ba6284da017087bff6f64cdbb649e6bba590826ec1","shards":1,"slug":"data-patch-s-mpq","sourceBytes":78677,"storedBytes":231284}
+ ]
 }

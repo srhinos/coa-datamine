@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":27,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":172,"maxUnsigned":172,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":27,"rows":27,"string":{"applicable":true,"blockCoverageRate":0.06971,"blockSize":2037,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":141.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":1,"validOffsetRate":0.037037},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["$funny=$?s48165[${$m1/10}.5]?a66109[${13}][${($m1*3)+17}]\r\n$maybe=$?s48165[${1}.5][${$66109m2*4/$<funny>}.2]\r\n$storm=${0.14*$AP*$<maybe>}\r\n\r\n"],"width":4},
+  {"evidence":{"distinct":26,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1951,"maxUnsigned":1951,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":27,"rows":27,"string":{"applicable":true,"blockCoverageRate":0.999509,"blockSize":2037,"controlCharOffsets":0,"distinctOffsets":26,"meanDecodedLength":77.308,"nonEmptyOffsets":26,"utf8DecodableOffsets":26,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["$funny=$?s48165[${$m1/10}.5]?a66109[${13}][${($m1*3)+17}]\r\n$maybe=$?s48165[${1}.5][${$66109m2*4/$<funny>}.2]\r\n$storm=${0.14*$AP*$<maybe>}\r\n\r\n","$min=$?s54825[${$m1/2}][${$m1}]\r\n$max=$?s54825[${$M1/2}][${$M1}]","$junk=1","$total=${$m1*5}","$mana=$?s55441[${$16191m1+1}][${$16191m1}]"],"width":4}
+ ],
+ "file": "SpellDescriptionVariables.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":27,"sizeReconciles":true,"stringBlockReferencedBytes":2036,"stringBlockSize":2037,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":2273,"losers":[],"sha256":"4fbbba06fb6ac81fc95a6d6f6f84b19456fca773c00a521e3f4cb77e138432d1","winner":"Data/enUS/patch-enUS-2.MPQ"},
+ "table": "SpellDescriptionVariables"
+}

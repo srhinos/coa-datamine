@@ -11,7 +11,23 @@ hand-edit; rerun `python -m tools.extract_everything` (raw layer) or
 python -m tools.find "Tide Lash"        # which table/column holds a string
 python -m tools.find --id 133           # every column an integer appears in
 python -m tools.find --joins-to Spell   # which columns point at Spell.f0
+python -m tools.find "Tide Lash" --variant baseChain   # ask the BASE chain instead
 ```
+
+> **A table has more than one version, and the default is not always the one you
+> want.** The client carries several copies of most DBC paths and its loader picks
+> one; `raw/tables/<Table>/` is that pick. For 10 tables the pick comes from the
+> **realm overlay** `Data\area-52\` - Free-Pick's data - so reading
+> `raw/tables/Spell/` gives you Free-Pick's 238,939-row `Spell`, while a
+> Conquest-of-Azeroth character reads the base chain's 209,140-row one. Every
+> version is decoded: `raw/tables/<Table>/variants/<archive-slug>/`, same shape,
+> same rules, listed under `variants` in that table's `index.json` and all together
+> in `raw/tables/_variants.json`. `--variant baseChain|overlay|all|realm:<dir>|<slug>`
+> chooses, and every hit says which version it came from. **The 10 contested tables
+> are `Spell`, `SkillLineAbility`, `SpellRank`, `Talent`, `CharacterAdvancement`,
+> `CharacterAdvancementEssence`, `SpellCharges`, `SpellChargesCategory`,
+> `Manastorm` and `ManastormModifiers`** - exactly the tables class and spell work
+> depends on.
 
 Then `CATALOG.md` (all 368 tables: rows, columns, id density, inbound joins, sample
 text) and `raw/README.md` (the non-table layers). **`raw/` + `CATALOG.md` is the
