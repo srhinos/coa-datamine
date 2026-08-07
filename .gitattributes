@@ -20,3 +20,10 @@ raw/interface/** -text
 raw/interface_all/** -text
 raw/cache/** -text
 raw/README.md -text
+
+# The generated search catalog. tools/build_catalog.py must reproduce all four
+# files byte for byte on any platform - tests/test_catalog.py regenerates them
+# and compares sha256 - so a CRLF rewrite on checkout would fail the gate on
+# Windows clones only, and silently.
+raw/_catalog/** -text
+CATALOG.md -text
