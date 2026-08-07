@@ -2,7 +2,43 @@
 
 Dataset of Ascension CoA (WoW 3.3.5a custom server) game data for porting work
 (dispel logic, class buffs, raid tooling). Everything below is generated - do not
-hand-edit; rerun `python -m tools.build_dataset` after a client patch instead.
+hand-edit; rerun `python -m tools.extract_everything` (raw layer) or
+`python -m tools.build_dataset` (derived `data/` layer) after a client patch.
+
+## START HERE: search the raw client before you read anything else
+
+```
+python -m tools.find "Tide Lash"        # which table/column holds a string
+python -m tools.find --id 133           # every column an integer appears in
+python -m tools.find --joins-to Spell   # which columns point at Spell.f0
+```
+
+Then `CATALOG.md` (all 368 tables: rows, columns, id density, inbound joins, sample
+text) and `raw/README.md` (the non-table layers). **`raw/` + `CATALOG.md` is the
+ground truth in this repo.** It is the whole client, extracted mechanically: 368
+tables, 7.5M rows, positional columns, measured types, no curation anywhere in it.
+A hit is a fact about the client; a miss means the client does not contain it.
+
+**Everything below this section is a DERIVED view, and derived views here have been
+wrong.** In one session, agents produced three confidently-wrong answers by querying
+whichever layer looked authoritative:
+
+1. the CAD catalog in `data/classes/` - it carries a **dead content generation**
+   (58.9% of entries for captured classes appear in no live tree);
+2. the curated spell closure - seeded *from that catalog*, so it carries only about
+   half of the live abilities;
+3. exact-id joins - CoA abilities exist under at least **three id generations**
+   (catalog id, trainer-taught rank ladder, live talent-node id) with the same name
+   and no join table, so an id that "matches" often is not the same ability.
+
+All three were possible because the extraction was selective and the shape was
+hand-curated. `raw/` is the answer to that: it decides nothing in advance, so the
+complete truth stays reachable. Use the derived layers for the convenience they
+genuinely provide - enrichment, spec rosters, damage models - but when an answer
+matters, confirm it against `raw/` and say which layer you used.
+
+Regenerate the raw layer with one command, no arguments and no agent:
+`python -m tools.extract_everything`. It prints what changed since the last run.
 
 > **Read this before using `data/classes/`.** It is the CAD **catalog** - what the
 > client's character-advancement tables LIST - and a large part of it is not in the

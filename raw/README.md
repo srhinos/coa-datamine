@@ -22,12 +22,14 @@ unchanged client reproduces it byte for byte.
 
 ## Regenerating
 
-One command rebuilds everything, in dependency order:
+One command rebuilds everything, in dependency order, and prints what changed
+since the last run:
 
 ```
-python -m tools.build_raw            # all six stages (hours; reads the whole client)
-python -m tools.build_raw --list     # the stage list + each layer's current state
-python -m tools.build_raw --from decode_all   # resume at a stage
+python -m tools.extract_everything                    # all six stages (hours; reads the whole client)
+python -m tools.extract_everything --list             # the stage list + each layer's current state
+python -m tools.extract_everything --from decode_all  # resume at a stage
+python -m tools.extract_everything --only build_catalog   # rerun exactly one stage
 ```
 
 It is a thin runner over the six stages, which stay individually runnable. Run
