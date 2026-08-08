@@ -109,8 +109,9 @@ strings/inlined Lua/PE structure, and the deleted, encrypted and nested-containe
 members in `raw/recovered/`. Of the 637,590 paths the census records, **4,906 are
 `readable: false` and every one is an MPQ delete tombstone** - a patch entry that
 removes a path and carries no bytes by design. Zero files are genuinely unreadable,
-and all 763,928 members check clean against the MD5 their own archive recorded
-(`python -m tools.crack --only verify`).
+and all 763,928 members check clean against the MD5 their own archive recorded -
+verified during the single pass, not by a separate command, with the counts and
+the per-archive defect census in `raw/recovered/_verify.json`.
 `raw/README.md` covers the non-table layers. `find.py` scans tables **plus** the
 `.loc` store, the WDB caches and the client's own executables, because `Quest` and
 `Item` carry no string column at all on this client (a tables-only search reports

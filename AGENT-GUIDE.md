@@ -74,6 +74,13 @@ run refuses to publish if any archive was opened twice, and
 `datamine.ClientReads` wraps the process's own file opens and fails the run if
 anything reads the live client after the snapshot is sealed.
 
+The launcher patches the archives roughly hourly, so by the time a run finishes
+its snapshot is typically minutes to hours behind the live client. **That is by
+design, not drift to chase.** There is no resume, no incremental cache and no
+convergence loop; the guarantee on offer is internal consistency - one client
+version in, one dataset out - and `raw/_snapshot.json` names exactly which
+version that was. If you need a newer one, rerun the single command.
+
 `datamine.py` does NOT write all of `raw/`. `raw/dbc/`, `raw/realms/`,
 `raw/talents/` and `raw/provenance.json` are the older wanted-list extraction
 behind the curated `data/` tree and are rebuilt by `python -m tools.build_dataset`.
