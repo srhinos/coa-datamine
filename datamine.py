@@ -6,20 +6,37 @@
 WHY THIS FILE EXISTS
 --------------------
 The extraction used to be a chain of stage scripts driven by
-`tools/extract_everything.py`. Measured, not guessed: `tools/` held 48 Python
-files and TEN of them independently opened the MPQ archives. A full run
-therefore walked 44.9 GB of archives roughly a dozen times over, which is why a
-pass took five to six hours - and, worse, why a pass read a MIXTURE of client
-versions, because the launcher patches the archives while the run is going.
+`tools/extract_everything.py`. Measured, not guessed - counting
+`mpq.Archive(` / `MPQArchive(` construction sites across `tools/` at the commit
+before this file existed, `tools/` held 48 Python files and TEN of them
+constructed an MPQ archive object, between them 30 times. A full run therefore
+walked 44.9 GB of archives roughly a dozen times over, which is why a pass took
+five to six hours - and, worse, why a pass read a MIXTURE of client versions,
+because the launcher patches the archives while the run is going.
 
 This file replaces that chain. It does the whole job in two movements:
 
     1. SNAPSHOT   copy every data-bearing file out of the live client into
-                  work/snapshot/, hashing as it copies. Nothing after this
-                  point reads the live client, so the launcher can patch
-                  whenever it likes and the run is unaffected. An hour-stale
-                  snapshot is FINE and is the point: what matters is that one
-                  client version goes in and one dataset comes out.
+                  work/snapshot/, hashing as it copies. Once the snapshot is
+                  complete nothing reads the live client again, so the launcher
+                  can patch whenever it likes and the run is unaffected. An
+                  hour-stale snapshot is FINE and is the point: what matters is
+                  that one client version goes in and one dataset comes out.
+
+                  The snapshot has TWO halves and the second one runs after the
+                  archives are open, which is worth stating precisely rather
+                  than rounding off. `snapshot()` copies all 77 archives, then
+                  `open_all()` opens them from the SNAPSHOT, and only then can
+                  `snapshot_loose()` run - because the rule that decides which
+                  client-root files are archive overrides needs the union of
+                  paths the chain carries, which does not exist until every
+                  listfile has been read. So: the live client is read during
+                  both halves of the snapshot, and never again. Not one byte of
+                  it is read during harvest, emit or publish, which is where
+                  every layer's content actually comes from. That is enforced
+                  by `ClientReads` below, which wraps the process's own file
+                  opens and fails the run if any of them names the client after
+                  the snapshot is sealed.
     2. HARVEST    open each snapshot archive exactly ONCE and, for EVERY live
                   member it names, do ALL of the work for those bytes before
                   moving on - hash it, verify it against the archive's own MD5,
@@ -44,8 +61,30 @@ open, and only then does the content pass run - so the winner of a path is known
 before a single member is decompressed. 77 file handles and ~0.6 GB of tables
 is a trade this machine makes happily against reading 44.9 GB a dozen times.
 
-The claim is checked rather than asserted: every open is counted, and the run
-fails loudly at the end if any archive was opened more than once.
+The claim is checked rather than asserted, and the check is at the only place
+that cannot be bypassed: `tools/mpq.py` increments `mpq.OPEN_LEDGER` on the line
+that opens the file, so an archive opened by ANY code path in this process is
+counted. The run fails before it publishes if the ledger's key set is not
+exactly the snapshot's archives, or if any of them was opened more than once.
+
+That is deliberately not the check this file used to carry. The old one
+incremented a counter once per element of the `scans` list - a list whose keys
+are proven unique two functions earlier - so it counted loop iterations, could
+never fire, and would not have seen a second open from anywhere else. It was a
+restatement, not a test.
+
+WHAT "ONE SCRIPT" MEANS, AND WHAT IT DOES NOT
+---------------------------------------------
+One ENTRY POINT: `python datamine.py`, no arguments, no stage flags, no
+`--from`/`--only`, no resume, no convergence loop and no cache between anything.
+That is the property the directive asked for and it is the property that holds.
+
+It is not one FILE. The import closure is this file plus fourteen modules under
+`tools/` - the emitters, the readers (`mpq`, `pe`, `wdb`, `loc`, `lua51`), the
+decoder and the shared shard/manifest plumbing. Calling that "one script plus a
+couple of helpers" would understate it, and the number is worth stating plainly
+because the thing that made the old pipeline slow was never the file count: it
+was that ten of those files each opened the archives for themselves.
 
 DETERMINISM
 -----------
@@ -67,8 +106,11 @@ FAILURE
 Layers are written into `raw/.staging/` and swapped in only once the whole run
 succeeds, so a failed run never leaves a half-written layer behind.
 """
+import builtins
 import hashlib
+import io
 import json
+import os
 import shutil
 import struct
 import sys
@@ -100,6 +142,34 @@ INSTALL_STATE_DIRS = {"wtf", "screenshots", "errors", "logs"}
 # than the user's own install: Ascension's launcher-managed description of their
 # real API surface.
 APIDOC_PREFIX = "interface/addons/apidocumentation/"
+
+# What the layers say about the user's own install: the RULE, never the numbers.
+# A count of the user's addon directories is install state, and committing
+# install state is what stops a rerun on an unchanged client from reproducing
+# byte-for-byte. The live numbers go to work/_install_census.json, which is
+# gitignored - see _write_install_census().
+INSTALL_STATE_BOUNDARY = {
+    "excluded": ["WTF", "Screenshots", "Errors", "Logs",
+                 "Interface\\AddOns (the user's own installed addons)"],
+    "exception": "Interface\\AddOns\\APIDocumentation IS snapshotted: it is "
+                 "Ascension's own launcher-managed description of their real "
+                 "API surface, so it is client content that happens to be "
+                 "delivered as an addon.",
+    "rule": "None of the excluded directories is client content and all of "
+            "them change between launches, so extracting them would break the "
+            "single-version guarantee and stop a rerun on an unchanged client "
+            "from reproducing byte-for-byte. Their MEASUREMENTS are excluded "
+            "for the same reason: a file count of the user's addon tree is "
+            "install state whichever layer it is written into. The live "
+            "numbers are measured into work/_install_census.json, which is "
+            "not committed, whenever a snapshot is taken.",
+}
+
+INSTALL_CENSUS_NOTE = (
+    "The user's live Interface\\ tree, measured but NOT extracted and NOT "
+    "committed. Deliberately outside raw/: see INSTALL_STATE_BOUNDARY in "
+    "datamine.py. Kept here so the scope boundary stays auditable and a rerun "
+    "can diff it.")
 
 # The two members every MPQ carries that are not part of its own listfile.
 MPQ_META_MEMBERS = ("(listfile)", "(attributes)", "(signature)", "(user data)")
@@ -144,6 +214,41 @@ STATUS_REASON = {
               "holds nothing - see raw/recovered/empty/"),
     "missing": "no live hash slot in this archive resolves this name",
 }
+
+HOST_FAULT_SCOPE = (
+    "WHAT IS ACTUALLY KNOWN ABOUT THIS HOST, restated after one of the original "
+    "pieces of evidence collapsed. Carried here because this file is now the "
+    "long-running process; it used to live in the retired tools/crack.py, and "
+    "AGENT-GUIDE.md cites it.\n\n"
+    "The earlier write-up asserted 'confirmed nondeterministic memory "
+    "corruption' and cited two things: process aborts, and 'physically "
+    "impossible Python errors'. One of the impossible errors - `TypeError: "
+    "slice indices must be integers` - was later traced to an ordinary bug in "
+    "this repo's own code, a missing `[0]` on a `struct.unpack_from` result, "
+    "which returns a tuple. That is a mundane defect with a mundane fix and it "
+    "is NOT evidence of anything about the machine. Retract it.\n\n"
+    "WHAT SURVIVES: long-running processes on this host die at "
+    "STATUS_ACCESS_VIOLATION (0xC0000005) with no Python traceback. Those "
+    "aborts were observed repeatedly and are why the layers are staged and "
+    "swapped rather than written in place. Observed again 2026-08-08: a run "
+    "died at archive 61 of 77 with no traceback and exit 139, and the same "
+    "archive processed cleanly on its own immediately afterwards, through the "
+    "identical code, in a fresh process. But an access violation proves a "
+    "CRASH, not its cause - a CPython or extension-module bug, a stack "
+    "exhaustion, commit-limit pressure or an OS/AV interaction would look the "
+    "same from here, and none was ruled out. Calling it a hardware memory fault "
+    "was a stronger claim than the evidence supported.\n\n"
+    "ALSO SURVIVES, and separately: one member was once written with 2 wrong "
+    "bytes out of 115 MB while its length and header stayed valid. Real, "
+    "single, never reproduced, never root-caused.\n\n"
+    "EVIDENCE THE OTHER WAY, measured by this file: every member of every "
+    "archive is checked against the MD5 the archive itself recorded, 0 "
+    "mismatches across the whole client. A machine corrupting reads at any "
+    "appreciable rate would not produce that.\n\n"
+    "CONCLUSION: keep the defenses - staged output, the swap-on-success "
+    "publish, and the MD5 oracle - because they are cheap, because the aborts "
+    "are real, and because the one corruption incident was never explained. Do "
+    "not repeat the hardware-fault diagnosis as established fact.")
 
 READ_RULE = (
     "Every member is read by tools/mpq.py, this repo's own MPQ reader, and "
@@ -222,6 +327,160 @@ class Progress:
 
 def banner(title: str) -> None:
     print(f"\n{'=' * 78}\n== {title}\n{'=' * 78}", flush=True)
+
+
+# ==========================================================================
+# 0. THE TWO GUARDS
+# ==========================================================================
+class ClientReads:
+    """Counts every file this process opens under the live client, by phase.
+
+    "Nothing reads the client after the snapshot" is the load-bearing claim of
+    the whole design, and until now it was only prose. Prose does not notice a
+    helper three modules down that reaches for `config.CLIENT_DIR` instead of
+    the snapshot - which is precisely the bug that would reintroduce
+    mixed-version reads, silently, in a run that still looks green.
+
+    `builtins.open` and `io.open` are the same object in CPython and are what
+    everything in this repo (and in `shutil`, `pathlib` and `json`) ultimately
+    calls; `os.open` is what the rest use. All three are wrapped. The cost is
+    one path normalisation per open on a run that performs roughly 70,000 of
+    them - unmeasurable against 80 GB of decompression.
+
+    The COUNTS are printed and written to the gitignored work sidecar, never to
+    a committed layer: how many files sit in a user's client root is install
+    state, and baking install state into `raw/` is the very defect this pass
+    exists to remove. What goes in the committed output is the RULE and the
+    outcome of enforcing it, not the machine's own numbers."""
+
+    def __init__(self, root: Path):
+        self.root = os.path.normcase(str(root.resolve()))
+        self.prefix = self.root.rstrip("\\/") + os.sep
+        self.phase = "snapshot: archives"
+        self.by_phase = Counter()
+        self.examples = {}
+        self.sealed = False
+        self._open = builtins.open
+        self._os_open = os.open
+
+    # -- lifecycle ---------------------------------------------------------
+    def install(self) -> "ClientReads":
+        def guarded_open(file, *a, **k):
+            self._note(file)
+            return self._open(file, *a, **k)
+
+        def guarded_os_open(path, *a, **k):
+            self._note(path)
+            return self._os_open(path, *a, **k)
+
+        builtins.open = guarded_open
+        io.open = guarded_open
+        os.open = guarded_os_open
+        return self
+
+    def remove(self) -> None:
+        builtins.open = self._open
+        io.open = self._open
+        os.open = self._os_open
+
+    def seal(self) -> None:
+        """The snapshot is complete. Every read from here on must be of the
+        snapshot, and any that is not is a defect - recorded with the path that
+        caused it, because "something read the client" without saying what is
+        not a finding anyone can act on."""
+        self.sealed = True
+        self.phase = "after the snapshot"
+
+    def enter(self, phase: str) -> None:
+        if not self.sealed:
+            self.phase = phase
+
+    # -- measurement -------------------------------------------------------
+    def _note(self, file) -> None:
+        try:
+            p = os.fspath(file)
+        except TypeError:
+            return                      # already-open fd; nothing was opened
+        if not isinstance(p, str):
+            p = os.fsdecode(p)
+        low = os.path.normcase(os.path.abspath(p))
+        if not (low == self.root or low.startswith(self.prefix)):
+            return
+        self.by_phase[self.phase] += 1
+        if self.sealed and len(self.examples) < 32:
+            self.examples[p] = self.examples.get(p, 0) + 1
+
+    def violations(self) -> dict:
+        return dict(sorted(self.examples.items()))
+
+    def check(self) -> None:
+        n = self.by_phase.get("after the snapshot", 0)
+        if n:
+            raise SystemExit(
+                f"FATAL: {n} read(s) of the LIVE CLIENT after the snapshot was "
+                f"sealed. This run mixes client versions and its layers cannot "
+                f"be said to describe any one of them. Offending paths: "
+                f"{self.violations()}")
+
+
+def check_single_open(scans: list) -> dict:
+    """Every archive was opened exactly once, checked against `mpq.OPEN_LEDGER`
+    - which is incremented inside `mpq.Archive.__init__`, not here.
+
+    Three facts are asserted, and every one of them is about a REAL open rather
+    than about this function's own loop:
+
+      1. NO ledger key names the live client. Opening `E:\\...\\patch-A.MPQ`
+         directly would defeat the snapshot entirely, and no amount of counting
+         archives-per-run would notice.
+      2. Every ledger key under the snapshot is one of THIS run's archives and
+         was opened exactly once.
+      3. Every archive that opened successfully appears in the ledger. An
+         archive whose bytes were read some other way - a hand-rolled reader, a
+         second library - would otherwise pass by being absent.
+
+    Keys that are neither is the NESTED archives: `tools/container.py` writes a
+    container's bytes to `work/containers/nested/` and opens THAT, which is a
+    different file and a legitimate second archive. They are counted and
+    reported, never silently tolerated, and the check still fails if one of them
+    somehow resolves inside the snapshot."""
+    ledger = mpq.open_ledger_snapshot()
+    client = os.path.normcase(str(config.CLIENT_DIR.resolve())).rstrip("\\/") \
+        + os.sep
+    snap = os.path.normcase(str(SNAPSHOT_DIR.resolve())).rstrip("\\/") + os.sep
+
+    expected, opened_ok, failed = {}, set(), []
+    for s in scans:
+        key = os.path.normcase(str(Path(s["snapshot"]).resolve()))
+        expected[key] = s["id"]
+        if s.get("openError"):
+            failed.append(s["id"])
+        else:
+            opened_ok.add(key)
+
+    problems, nested = [], {}
+    for key, n in sorted(ledger.items()):
+        if key.startswith(client):
+            problems.append(f"the LIVE CLIENT archive {key} was opened {n}x - "
+                            f"the snapshot was bypassed")
+        elif key.startswith(snap):
+            if key not in expected:
+                problems.append(f"{key} was opened {n}x but is not one of this "
+                                f"run's archives")
+            elif n != 1:
+                problems.append(f"{expected[key]} was opened {n}x")
+        else:
+            nested[key] = n
+    for key in sorted(opened_ok):
+        if key not in ledger:
+            problems.append(f"{expected[key]} was read without going through "
+                            f"mpq.Archive")
+    if problems:
+        raise SystemExit(
+            "FATAL: the single-traversal guarantee is broken; refusing to "
+            "publish. " + "; ".join(problems))
+    return {"archivesOpened": len(opened_ok), "openFailures": failed,
+            "nestedArchiveOpens": sum(nested.values())}
 
 
 # ==========================================================================
@@ -395,11 +654,7 @@ def _reuse_snapshot(progress_t0: float) -> dict:
           f"[{time.time() - progress_t0:.1f}s]", flush=True)
     return {"files": files, "archives": archives,
             "counts": prov.get("counts", {}),
-            # carried through, not re-measured: re-taking it here would read the
-            # live client and a reused-snapshot run would stop reproducing the
-            # run that took the snapshot
-            "onDiskInterfaceTree": prov.get("onDiskInterfaceTree",
-                                            {"present": False}),
+            "installStateBoundary": INSTALL_STATE_BOUNDARY,
             "reused": True}
 
 
@@ -463,34 +718,46 @@ def snapshot_loose(manifest: dict, mpq_paths: set, prog: Progress) -> dict:
               f"PE images={binaries}")
     manifest["counts"] = {"looseData": loose, "rootOverride": overrides,
                           "cache": cache, "apiDoc": apidoc, "binary": binaries}
-    manifest["onDiskInterfaceTree"] = _on_disk_interface_census()
+    manifest["installStateBoundary"] = INSTALL_STATE_BOUNDARY
+    _write_install_census()
     return manifest
 
 
-def _on_disk_interface_census() -> dict:
-    """Count - never extract - the user's live `Interface\\` tree, so the scope
-    boundary is a visible number rather than an unstated omission.
+def _write_install_census() -> None:
+    """Measure the user's live `Interface\\` tree into the GITIGNORED work
+    sidecar, so the boundary is auditable without being committed.
 
-    Measured HERE, during the snapshot, and carried in the manifest. It is the
-    one fact the layers report about something deliberately NOT snapshotted, and
-    taking it later would mean a layer reading the live client after the
-    snapshot closed - which breaks both the single-version guarantee and the
-    byte-for-byte rerun, since the user's addons change under it."""
+    This used to go straight into `raw/_snapshot.json` and `raw/interface_all/
+    index.json` as `onDiskInterfaceTree`, with a live file count, a byte total
+    and the names of all 145 addon directories. It was defended on the grounds
+    that taking it during the snapshot stops the addons changing under the run -
+    which is true and fixes the wrong axis. The problem is not WHEN the number
+    is taken, it is that a number describing the user's own installed addons is
+    committed AT ALL: it is exactly the WTF/Screenshots/Errors/Logs category
+    this pipeline excludes on purpose, and it moves whenever the user installs
+    anything.
+
+    Measured, not argued: an independent rerun of this pipeline on a bit-
+    identical snapshot of an unchanged client reproduced 19,912 of 19,914 files
+    byte-for-byte. The two that differed were these two, and they differed only
+    because a `.bak` addon directory had appeared between the runs. Two files of
+    noise in the only reproduction signal this pipeline has.
+
+    So the layers now carry the RULE - what is out of scope and why - and the
+    numbers live in `work/`, where a rerun can still diff them."""
     root = config.CLIENT_DIR / "Interface"
     if not root.is_dir():
-        return {"present": False}
+        write_json(config.WORK_DIR / "_install_census.json",
+                   {"note": INSTALL_CENSUS_NOTE, "present": False})
+        return
     files = [p for p in root.rglob("*") if p.is_file()]
     addons = sorted(p.name for p in (root / "AddOns").iterdir() if p.is_dir()) \
         if (root / "AddOns").is_dir() else []
-    return {"present": True, "root": str(root), "fileCount": len(files),
-            "bytes": sum(p.stat().st_size for p in files),
-            "addonDirs": addons, "addonDirCount": len(addons),
-            "takenFromHere": ["AddOns/APIDocumentation"],
-            "note": "Third-party addons the user installed. Not client data, "
-                    "so not extracted; counted here so the boundary is "
-                    "auditable. AddOns/APIDocumentation is the sole exception "
-                    "and IS snapshotted, because it is Ascension's own "
-                    "launcher-managed description of their API."}
+    write_json(config.WORK_DIR / "_install_census.json", {
+        "note": INSTALL_CENSUS_NOTE, "present": True, "root": str(root),
+        "fileCount": len(files),
+        "bytes": sum(p.stat().st_size for p in files),
+        "addonDirs": addons, "addonDirCount": len(addons)})
 
 
 def _looks_like_pe(p: Path) -> bool:
@@ -526,7 +793,9 @@ class Harvest:
         self.archives = []        # per-archive census records, chain order
         self.carriers = {}        # lowercased path -> winner/losers/entry
         self.copies = {}          # lowercased table path -> every carrier
-        self.opens = Counter()    # archive id -> times opened (must all be 1)
+        self.forensics = {}       # archive id -> byte-coverage / block census
+        self.compression = Counter()   # every compression method, per sector
+        self.defects = {}         # archive id -> the two mpyq-defect classes
         self.table_bytes = {}     # (path, archive) -> staged .dbc file
         self.table_misses = {}    # (path, archive) -> why that copy has no bytes
         self.interface = {}       # lowercased Interface path -> record + bytes
@@ -572,6 +841,8 @@ class Harvest:
         self.attributes.clear()
         self.tombstones.clear()
         self.empties.clear()
+        self.forensics.clear()
+        self.defects.clear()
 
 
 def open_all(arch_records: list, prog: Progress) -> list:
@@ -743,10 +1014,14 @@ def harvest(scans: list, carriers: dict, copies: dict, staging: Path,
         a = s["archive"]
         if a is None:
             continue
-        h.opens[s["id"]] += 1
         s["attributes"] = attrs = _read_attributes(a)
         if attrs:
             h.attributes[s["id"]] = attrs
+
+        # Byte-coverage forensics, off the tables that are already in memory.
+        # Cheap here and impossible later: the hash and block tables go away
+        # when this archive closes at the bottom of the loop.
+        h.forensics[s["id"]] = _forensics(s, a, attrs, rank)
 
         # EVERY live member this archive names, not just the ones it wins.
         #
@@ -759,17 +1034,34 @@ def harvest(scans: list, carriers: dict, copies: dict, staging: Path,
         # on a pass that already dominates the run, which is a price worth
         # paying for "every byte in the client was looked at once".
         n_hashed = n_tables = n_iface = n_pe = 0
+        # How each block entry's read went - the input to the two mpyq-defect
+        # class counts below. Recorded as the reads happen; re-reading those
+        # members later to classify them would be a second decompression of
+        # bytes already in hand.
+        #
+        # A bytearray indexed by block, not two sets of ints. The largest
+        # archive here names 91,955 members, and two int sets over that range
+        # cost several MB of small objects at the exact point in the run where
+        # the harvest is already the biggest thing in the process; one byte per
+        # block is 92 KB and needs no allocation per member.
+        read_state = bytearray(len(a.block_table))   # 0 unread, 1 ok, 2 failed
         for low in sorted(s["entries"]):
             e = s["entries"][low]
             stored = e["stored"]
             try:
-                m = a.read(stored)
+                # `seen` is the compression census: tools/mpq.py names the
+                # method used for EVERY sector it expands, so this counts what
+                # the archives actually do rather than what the format allows.
+                m = a.read(stored, seen=h.compression)
             except Exception as ex:                   # noqa: BLE001 - recorded
+                read_state[e["block"]] = 2
                 _record_error(h, carriers, low, s["id"],
                               f"{type(ex).__name__}: {ex}", "error")
                 continue
             data = m.data
-            if not (m.ok or (m.status == "empty" and data is not None)):
+            good = m.ok or (m.status == "empty" and data is not None)
+            read_state[e["block"]] = 1 if good else 2
+            if not good:
                 # A tombstone or an empty member is NOT recorded as a tombstone
                 # or an empty HERE: the block-table sweep below enumerates both
                 # completely, including entries no listfile still names, and
@@ -866,6 +1158,7 @@ def harvest(scans: list, carriers: dict, copies: dict, staging: Path,
         # every block entry this archive marks as a patch tombstone, whether or
         # not the listfile still names it - real archive semantics, not damage
         _sweep_block_semantics(h, s)
+        h.defects[s["id"]] = _defect_classes(s, a, read_state)
         a.close()
         s["archive"] = None
         prog.archive(s["id"], hashed=n_hashed, tables=n_tables,
@@ -924,6 +1217,155 @@ def _verify_md5(h: Harvest, attrs: dict, block: int, aid: str, stored: str,
                                         "readMd5": got.hex()})
 
 
+def _forensics(s: dict, a, attrs: dict, rank: int) -> dict:
+    """Is there anything in this archive that nothing points at?
+
+    Every EXISTS block entry's stored span is merged and subtracted from the
+    archive's data region; what is left is file data physically present that no
+    live block entry claims - which is exactly where a deleted-but-not-compacted
+    file's bytes would still be. Orphan block entries (live data, no hash slot
+    pointing at them) are the other half of the same question.
+
+    Restored after the collapse dropped it. It is not a measurement of the old
+    reader or of the old stage chain - it is a measurement of the ARCHIVES, and
+    it is the evidence behind this dataset's claim that the client's
+    delete-marked slots hide nothing."""
+    header = a.header
+    base = header["offset"]
+    file_size = s["bytes"]
+    data_start = header["header_size"] + base
+    data_end = min(header["hash_table_offset"],
+                   header["block_table_offset"]) + base
+
+    live = deleted = empty_slots = 0
+    referenced = set()
+    for entry in a.hash_table:
+        if entry[4] == mpq.HASH_EMPTY:
+            empty_slots += 1
+        elif entry[4] == mpq.HASH_DELETED:
+            deleted += 1
+        else:
+            live += 1
+            referenced.add(entry[4])
+
+    spans, flags_census = [], Counter()
+    exists = encrypted = tombstones = zero_length = 0
+    for offset, stored, size, flags in a.block_table:
+        flags_census["|".join(mpq.flag_names(flags)) or "0"] += 1
+        if not flags & MPQ_FILE_EXISTS:
+            continue
+        exists += 1
+        encrypted += bool(flags & MPQ_FILE_ENCRYPTED)
+        tombstones += bool(flags & mpq.MPQ_FILE_DELETE_MARKER)
+        zero_length += bool(stored == 0 or size == 0)
+        if stored:
+            spans.append((offset + base, offset + base + stored))
+
+    spans.sort()
+    merged = []
+    for start, end in spans:
+        if merged and start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    gaps, cursor = [], data_start
+    for start, end in merged:
+        if start > cursor:
+            gaps.append([cursor, start])
+        cursor = max(cursor, end)
+    if data_end > cursor:
+        gaps.append([cursor, data_end])
+
+    # a block entry no live hash slot points at is exactly the shape a file
+    # whose NAME was deleted but whose DATA survived would take
+    orphans = [{"block": i, "offset": b[0], "storedBytes": b[1], "size": b[2],
+                "flags": mpq.flag_names(b[3])}
+               for i, b in enumerate(a.block_table)
+               if i not in referenced and b[3] & MPQ_FILE_EXISTS and b[1]]
+
+    return {
+        "id": s["id"], "chainRank": rank, "fileBytes": file_size,
+        "formatVersion": header["format_version"],
+        "sectorSize": a.sector_size,
+        "hashSlots": len(a.hash_table), "hashSlotsLive": live,
+        "hashSlotsDeleteMarked": deleted, "hashSlotsEmpty": empty_slots,
+        "blockEntries": len(a.block_table), "blockEntriesExists": exists,
+        "blockEntriesEncrypted": encrypted,
+        "blockEntriesDeleteMarker": tombstones,
+        "blockEntriesZeroLength": zero_length,
+        "flags": dict(sorted(flags_census.items())),
+        "dataRegionBytes": data_end - data_start,
+        "accountedBytes": sum(e - s_ for s_, e in merged),
+        "unaccountedBytes": sum(e - s_ for s_, e in gaps),
+        "unaccountedRuns": len(gaps),
+        "largestUnaccountedRun": max((e - s_ for s_, e in gaps), default=0),
+        "trailingBytesAfterTables": file_size - max(
+            base + header["hash_table_offset"] + 16 * len(a.hash_table),
+            base + header["block_table_offset"] + 16 * len(a.block_table)),
+        "orphanBlockEntries": orphans[:64],
+        "orphanBlockEntryCount": len(orphans),
+        "encryptedMembers": _recover_encrypted(a),
+        "listfileNames": s.get("listfileLines"),
+        "attributeEntries": (attrs or {}).get("entries", 0),
+        "attributeEntriesMatchBlockTable": (attrs or {}).get(
+            "matchesBlockTable"),
+    }
+
+
+def _recover_encrypted(a) -> list:
+    """Every ENCRYPTED member, read twice: once with its name (which is the
+    decryption key) and once without.
+
+    The second read is the point. An encrypted member whose name is not in any
+    listfile can still be recovered when the sector table gives the key away, so
+    `withoutName` says whether the client's encrypted members are actually
+    protected or merely obscured. This client has one, and it decrypts."""
+    out = []
+    for i, (offset, stored, size, flags) in enumerate(a.block_table):
+        if not (flags & MPQ_FILE_ENCRYPTED and flags & MPQ_FILE_EXISTS):
+            continue
+        name = next((c for c in MPQ_META_MEMBERS
+                     if a.block_index_of(c) == i), None)
+        named = a.read_block(i, name)
+        keyless = a.read_block(i, None)
+        out.append({
+            "block": i, "name": name, "flags": mpq.flag_names(flags),
+            "size": size, "storedBytes": stored,
+            "withName": named.status, "withoutName": keyless.status,
+            "keylessAgrees": bool(named.ok and keyless.ok
+                                  and named.data == keyless.data),
+            "sha256": sha256_bytes(named.data) if named.ok else None,
+            "detail": named.detail,
+            "text": (named.data.decode("latin-1")
+                     if named.ok and named.data and len(named.data) <= 512
+                     and all(32 <= b < 127 or b in (9, 10, 13)
+                             for b in named.data) else None)})
+    return out
+
+
+def _defect_classes(s: dict, a, read_state: bytearray) -> dict:
+    """The two member classes mpyq read silently wrong, enumerated off the block
+    table and scored against what this run's reader actually did. See
+    emit.DEFECT_CLASS_RULE for what the numbers mean."""
+    out = {}
+    for label, test in (
+            ("noSectorTable",
+             lambda f, size: not f & (MPQ_FILE_COMPRESS | MPQ_FILE_IMPLODE)),
+            ("exactSectorMultiple",
+             lambda f, size: size % a.sector_size == 0)):
+        members = [i for i, (off, stored, size, flags)
+                   in enumerate(a.block_table)
+                   if flags & MPQ_FILE_EXISTS and stored and size
+                   and not flags & (MPQ_FILE_SINGLE_UNIT
+                                    | mpq.MPQ_FILE_DELETE_MARKER)
+                   and test(flags, size)]
+        states = Counter(read_state[i] for i in members)
+        out[label] = {"members": len(members), "readOk": states[1],
+                      "readFailed": states[2],
+                      "notNamedByListfile": states[0]}
+    return out
+
+
 def _sweep_block_semantics(h: Harvest, s: dict) -> None:
     """DELETE_MARKER tombstones and zero-length members read straight off the
     block table, so a path a patch REMOVES is recorded as the archive semantic
@@ -955,22 +1397,33 @@ def main(argv=None) -> int:
     print(f"repo:     {config.REPO_ROOT}")
     print(f"snapshot: {SNAPSHOT_DIR}")
 
+    reads = ClientReads(config.CLIENT_DIR).install()
+
     # ---- 1. snapshot ------------------------------------------------------
     t_snap = time.time()
     manifest = snapshot(t0, reuse=reuse)
     snap_archives = time.time() - t_snap
 
     banner("snapshot: opening every archive once")
+    reads.enter("snapshot: opening the snapshot's archives")
     prog = Progress(len(manifest["archives"]), t0)
     scans = open_all(manifest["archives"], prog)
     carriers, copies = resolve_union(scans)
     prog.note(f"union: {len(carriers):,} paths, {len(copies)} table paths, "
               f"{sum(len(c['copies']) for c in copies.values())} table copies")
 
+    # The SECOND half of the snapshot, and it necessarily runs here: the rule
+    # that decides which client-root files override the chain needs the union of
+    # archived paths, which does not exist until every listfile has been read.
+    reads.enter("snapshot: loose files, overrides, cache, PE sniff")
     if not manifest.get("reused"):
         manifest = snapshot_loose(manifest, set(carriers), prog)
     probe = probe_unlistable(scans, carriers, prog)
     snap_secs = time.time() - t_snap
+
+    # From here the live client is off limits, and that is now enforced rather
+    # than described - see ClientReads.
+    reads.seal()
 
     write_json(config.RAW_DIR / SNAPSHOT_JSON, {
         "note": "The exact bytes this dataset was built from.",
@@ -981,8 +1434,8 @@ def main(argv=None) -> int:
         "fileCount": len(manifest["files"]),
         "totalBytes": sum(f["bytes"] for f in manifest["files"].values()),
         "counts": manifest["counts"],
-        "onDiskInterfaceTree": manifest.get("onDiskInterfaceTree",
-                                            {"present": False}),
+        "installStateBoundary": manifest.get("installStateBoundary",
+                                             INSTALL_STATE_BOUNDARY),
         "files": {k: manifest["files"][k] for k in sorted(manifest["files"])},
     })
 
@@ -1001,12 +1454,10 @@ def main(argv=None) -> int:
     # report zero for work that plainly happened
     members_read = sum(1 for c in carriers.values() if c["e"].get("sha256"))
 
-    reopened = {k: v for k, v in h.opens.items() if v != 1}
-    if reopened:
-        raise SystemExit(f"FATAL: {len(reopened)} archive(s) were opened more "
-                         f"than once: {reopened}. The single-traversal "
-                         f"guarantee is broken; refusing to report the run as "
-                         f"one pass.")
+    # early signal: if the traversal opened anything twice, say so before
+    # spending twenty minutes emitting layers derived from it
+    check_single_open(scans)
+    reads.check()
 
     # ---- 3. emit ----------------------------------------------------------
     if STAGING_DIR.exists():
@@ -1017,6 +1468,21 @@ def main(argv=None) -> int:
                            SNAPSHOT_DIR, t0)
 
     # ---- 4. swap ----------------------------------------------------------
+    # Re-run BOTH guards over the whole run, not just the traversal: the emit
+    # phase opens files too (nested containers, the snapshot's PE images), and a
+    # guard that stops watching before the last layer is written is a guard with
+    # a hole in it. Nothing is published until both pass.
+    opens = check_single_open(scans)
+    reads.check()
+    reads.remove()
+    write_json(config.WORK_DIR / "_reads.json", {
+        "note": "Where this run's file opens went, by phase. Deliberately NOT "
+                "committed: how many files sit under a user's client root is "
+                "install state, and install state in raw/ is what stops an "
+                "unchanged client from reproducing byte-for-byte.",
+        "clientReadsByPhase": dict(sorted(reads.by_phase.items())),
+        "clientReadsAfterSnapshot": reads.by_phase.get("after the snapshot", 0),
+        **opens})
     banner("publishing")
     emit.publish(STAGING_DIR, config.RAW_DIR, layers)
     ext_secs = time.time() - t_ext
@@ -1025,10 +1491,14 @@ def main(argv=None) -> int:
     banner("summary")
     total = time.time() - t0
     snap_bytes = sum(f["bytes"] for f in manifest["files"].values())
-    print(f"  archives traversed   {len(scans)} (each opened exactly once)")
+    print(f"  archives traversed   {opens['archivesOpened']} "
+          f"(mpq.OPEN_LEDGER: each opened exactly once; "
+          f"{opens['nestedArchiveOpens']} nested container archive(s) besides)")
     print(f"  snapshot             {len(manifest['files']):,} files, "
           f"{human(snap_bytes)}  [{snap_secs:.1f}s, "
           f"{snap_archives:.1f}s of it archives]")
+    print("  live-client reads    " + ", ".join(
+        f"{k}={v:,}" for k, v in sorted(reads.by_phase.items())) or "none")
     print(f"  members read         {members_read:,}")
     print(f"  bytes decompressed   {human(h.bytes_read)}")
     print(f"  md5 vs archive       checked={h.md5['checked']:,} "

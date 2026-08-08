@@ -1,9 +1,17 @@
 # raw/ - the client, mechanically extracted (generated)
 
-Everything under `raw/` is written by ONE script, `datamine.py`, from a snapshot
-of the client at `E:\ascension-live`. Nothing in it is hand-authored,
-hand-labelled or hand-selected: column names are positional, types are inferred
-by measurement, and no wanted-list decides what is extracted.
+Every layer in the table below is written by ONE script, `datamine.py`, from a
+snapshot of the client at `E:\ascension-live`. Nothing in them is
+hand-authored, hand-labelled or hand-selected: column names are positional,
+types are inferred by measurement, and no wanted-list decides what is extracted.
+
+`raw/` is not exclusively that script's output, and saying otherwise would be a
+lie a reader could act on. `.staging`, `dbc`, `realms`, `talents` and
+`provenance.json` are built by `python -m tools.build_dataset` for the CURATED
+`data/` tree - a wanted-list extraction through `tools/extract_mpq.py`, which
+still reads archives with `mpyq`. They are a different pipeline with different
+rules; nothing in the table below depends on them, and the "no wanted list"
+guarantee is about the table below.
 
 ## Regenerating
 
@@ -25,7 +33,7 @@ walks each archive exactly once, and rebuilds every layer below.
 | `interface_all` | every Interface path: size, sha256, text/binary | `raw/interface_all/index.json` | 112 files / 29.8 MB | complete |
 | `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.8 MB | complete |
 | `binaries` | the client's own executables: strings, Lua, PE structure | `raw/binaries/index.json` | 1,379 files / 19.1 MB | complete |
-| `recovered` | archive forensics: MD5 oracle, tombstones, containers | `raw/recovered/README.md` | 773 files / 36.4 MB | complete |
+| `recovered` | archive forensics: MD5 oracle, tombstones, containers | `raw/recovered/README.md` | 774 files / 36.5 MB | complete |
 | `_catalog` | the searchable catalog: joins, strings, columns | `raw/_catalog/tables.json` | 4 files / 10.8 MB | complete |
 
 ## What this dataset was built from

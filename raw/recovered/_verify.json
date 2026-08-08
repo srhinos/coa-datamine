@@ -1,9 +1,1107 @@
 {
  "checked": 763928,
+ "compressionCensus": {
+  "bzip2": 8,
+  "sectorSize 2048 (header says 16384)": 11,
+  "sectorSize 4096 (header says 16384)": 72,
+  "stored(no sector table)": 1271,
+  "stored(sector not compressed)": 634157,
+  "zlib": 18800696
+ },
+ "compressionCensusNote": "One count per SECTOR expanded, naming the method tools/mpq.py used for it, over every member the traversal read - not a sample. `stored(...)` entries are sectors that were not compressed at all; a `sectorSize N override` entry is a member whose declared sector size did not hold and was re-derived.",
+ "defectClassRule": "The two classes of member the previous reader (mpyq) returned confident WRONG bytes for, counted per archive so the claim in tools/mpq.py's header is a measurement of THIS client rather than a remembered number: a member stored with no sector offset table (neither COMPRESS nor IMPLODE), and a member whose uncompressed size is an exact multiple of the sector size. `readOk`/`readFailed` are how this run's reader did on them. `notNamedByListfile` is the honest residual - block entries in these classes that no listfile names, so the traversal had no path to read them by; they are counted, not read, because reading by block index would mean decompressing bytes a second time.",
+ "defectClassesByArchive": {
+  "Data/area-52/patch-D.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/common-2.MPQ": {
+   "exactSectorMultiple": {
+    "members": 103,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 103
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/common.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 262,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 262
+   }
+  },
+  "Data/enUS/backup-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   }
+  },
+  "Data/enUS/base-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 5,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 5
+   },
+   "noSectorTable": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   }
+  },
+  "Data/enUS/expansion-locale-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/enUS/expansion-speech-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/enUS/lichking-locale-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/enUS/lichking-speech-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   }
+  },
+  "Data/enUS/locale-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 4,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 4
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/enUS/patch-enUS-2.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/enUS/patch-enUS-3.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/enUS/patch-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 6,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 6
+   },
+   "noSectorTable": {
+    "members": 7,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 7
+   }
+  },
+  "Data/enUS/speech-enUS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 16,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 16
+   }
+  },
+  "Data/expansion.MPQ": {
+   "exactSectorMultiple": {
+    "members": 12,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 12
+   },
+   "noSectorTable": {
+    "members": 362,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 362
+   }
+  },
+  "Data/lichking.MPQ": {
+   "exactSectorMultiple": {
+    "members": 17,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 17
+   },
+   "noSectorTable": {
+    "members": 343,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 343
+   }
+  },
+  "Data/patch-2.MPQ": {
+   "exactSectorMultiple": {
+    "members": 6,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 6
+   },
+   "noSectorTable": {
+    "members": 93,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 93
+   }
+  },
+  "Data/patch-3.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 36,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 36
+   }
+  },
+  "Data/patch-4.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-5.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-A.MPQ": {
+   "exactSectorMultiple": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-B.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-C.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CA.MPQ": {
+   "exactSectorMultiple": {
+    "members": 6,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 6
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CB.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CC.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CD.MPQ": {
+   "exactSectorMultiple": {
+    "members": 7,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 7
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CE.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CF.MPQ": {
+   "exactSectorMultiple": {
+    "members": 5,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 5
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CG.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CH.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CHA.MPQ": {
+   "exactSectorMultiple": {
+    "members": 37,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 37
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CI.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CJ.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CK.MPQ": {
+   "exactSectorMultiple": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CL.MPQ": {
+   "exactSectorMultiple": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CM.MPQ": {
+   "exactSectorMultiple": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CN.MPQ": {
+   "exactSectorMultiple": {
+    "members": 6,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 6
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CO.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CP.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CQ.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CR.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CS.MPQ": {
+   "exactSectorMultiple": {
+    "members": 4,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 4
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CT.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CU.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CV.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CW.MPQ": {
+   "exactSectorMultiple": {
+    "members": 5,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 5
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CX.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CY.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CZ.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-CZZ.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-I.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-M.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-N.MPQ": {
+   "exactSectorMultiple": {
+    "members": 21,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 21
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-O.MPQ": {
+   "exactSectorMultiple": {
+    "members": 5,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 5
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-P.mpq": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-Q.MPQ": {
+   "exactSectorMultiple": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-R.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-S.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-T.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-TA.MPQ": {
+   "exactSectorMultiple": {
+    "members": 151,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 151
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-TM.MPQ": {
+   "exactSectorMultiple": {
+    "members": 4,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 4
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-TW.MPQ": {
+   "exactSectorMultiple": {
+    "members": 5,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 5
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-U.MPQ": {
+   "exactSectorMultiple": {
+    "members": 122,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 122
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-V.MPQ": {
+   "exactSectorMultiple": {
+    "members": 11,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 11
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-W.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WA.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WB.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WB1.MPQ": {
+   "exactSectorMultiple": {
+    "members": 1,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 1
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WB2.MPQ": {
+   "exactSectorMultiple": {
+    "members": 3,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 3
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WC.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WC1.MPQ": {
+   "exactSectorMultiple": {
+    "members": 5,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 5
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WC2.MPQ": {
+   "exactSectorMultiple": {
+    "members": 61,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 61
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-WC3.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-X.MPQ": {
+   "exactSectorMultiple": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch-Z.MPQ": {
+   "exactSectorMultiple": {
+    "members": 2,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 2
+   },
+   "noSectorTable": {
+    "members": 0,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 0
+   }
+  },
+  "Data/patch.MPQ": {
+   "exactSectorMultiple": {
+    "members": 26,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 26
+   },
+   "noSectorTable": {
+    "members": 147,
+    "notNamedByListfile": 0,
+    "readFailed": 0,
+    "readOk": 147
+   }
+  }
+ },
+ "exactSectorMultipleMembers": 675,
+ "exactSectorMultipleNotNamedByListfile": 0,
+ "exactSectorMultipleReadFailed": 0,
+ "exactSectorMultipleReadOk": 675,
  "md5Rule": "Every member read by the traversal is checked against the MD5 the archive itself records for it in its `(attributes)` block - an oracle outside this code and outside the reader. `noRecord` counts members whose archive keeps no MD5 for them, which is a property of that archive, not a failure.",
  "mismatched": 0,
  "mismatches": [],
  "noRecordInArchive": 6,
- "note": "Every member the traversal decompressed, checked against the MD5 its own archive records for it.",
+ "noSectorTableMembers": 1271,
+ "noSectorTableNotNamedByListfile": 0,
+ "noSectorTableReadFailed": 0,
+ "noSectorTableReadOk": 1271,
+ "note": "Every member the traversal decompressed, checked against the MD5 its own archive records for it - plus what it took to decompress them and how the two historically mis-read member classes behaved.",
  "ok": 763928
 }

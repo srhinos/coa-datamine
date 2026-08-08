@@ -7,7 +7,12 @@ census of every file in the install. 7.5M rows.
 
 Nothing in `raw/` is hand-authored. Columns are positional (`f0..fN`) because
 nothing here knows what a column means. Types are inferred by measurement and
-shipped with the evidence behind them. No wanted-list decides what gets extracted.
+shipped with the evidence behind them. No wanted-list decides what gets
+extracted - in the layers `datamine.py` writes, which is every layer listed in
+`raw/README.md`. `raw/dbc/`, `raw/realms/`, `raw/talents/` and
+`raw/provenance.json` are the older wanted-list extraction that feeds the
+curated `data/` tree; they are built by `python -m tools.build_dataset` and are
+called out here rather than left for a reader to trip over.
 
 ## Regenerate it
 
@@ -34,8 +39,19 @@ behind the live client is expected and harmless; what matters is that one client
 version goes in and one dataset comes out. `raw/_snapshot.json` records the
 sha256, size and mtime of every file the run was built from.
 
-Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`). Python 3.12,
-standard library only - no third-party packages.
+A full run takes about **20 minutes** on this machine with a cold page cache
+(roughly 17 with the 45.9 GB of archives already cached) - one snapshot copy,
+one traversal, 80.6 GB decompressed exactly once. Both guarantees behind that
+number are enforced in code rather than described: `mpq.OPEN_LEDGER` counts
+every archive open at the line that performs it and the run refuses to publish
+if any archive was opened twice, and `datamine.ClientReads` wraps the process's
+own file opens and fails the run if anything touches the live client after the
+snapshot is sealed.
+
+Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`). Python 3.12.
+`datamine.py` and everything it imports is standard library only. The separate
+`tools.build_dataset` pipeline that produces the curated `data/` tree still
+needs `mpyq`.
 
 ## Where to look first
 
@@ -146,6 +162,11 @@ for "what can a player actually do" questions.
   After regenerating on a patched client, see "Regenerating after a client
   patch" in `AGENT-GUIDE.md` for which test failures are expected
   snapshot-pin drift vs. real pipeline breakage.
+- **The gates on `datamine.py`'s own output** are `tests\test_raw_tables.py`,
+  `test_variants.py`, `test_raw_layers.py`, `test_crack.py` and
+  `test_binaries.py`. They read the published `raw/` layers AND the traversal's
+  staging under `work/`, so run `python datamine.py` before them - a fresh
+  checkout has no `work/` and they will say so rather than pass vacuously.
 
 Layout: `raw/` = the mechanical extraction - `_inventory/` (census of every file in
 the client), `tables/` (all 368 DBC tables decoded, positional `f0..fN`), `_catalog/`

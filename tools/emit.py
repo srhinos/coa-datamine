@@ -86,6 +86,28 @@ MD5_RULE = (
     "code and outside the reader. `noRecord` counts members whose archive keeps "
     "no MD5 for them, which is a property of that archive, not a failure.")
 
+COVERAGE_RULE = (
+    "For each archive, every EXISTS block entry contributes the span "
+    "[offset, offset+archivedSize) and the spans are merged. `unaccountedBytes` "
+    "is what is left of the region between the end of the header and the start "
+    "of the first table once those spans are removed - i.e. file data physically "
+    "present in the archive that no live block entry claims. That is where the "
+    "bytes of a deleted-but-not-compacted file would still be, so it is the "
+    "direct test of whether delete-marked hash slots have anything recoverable "
+    "behind them. It is measured, not argued.")
+
+DEFECT_CLASS_RULE = (
+    "The two classes of member the previous reader (mpyq) returned confident "
+    "WRONG bytes for, counted per archive so the claim in tools/mpq.py's header "
+    "is a measurement of THIS client rather than a remembered number: a member "
+    "stored with no sector offset table (neither COMPRESS nor IMPLODE), and a "
+    "member whose uncompressed size is an exact multiple of the sector size. "
+    "`readOk`/`readFailed` are how this run's reader did on them. "
+    "`notNamedByListfile` is the honest residual - block entries in these "
+    "classes that no listfile names, so the traversal had no path to read them "
+    "by; they are counted, not read, because reading by block index would mean "
+    "decompressing bytes a second time.")
+
 INTERPRETATION_NOTE = (
     "position -> TrinityCore field name, per magic. UNVERIFIED by construction: "
     "a permutation of same-width fields consumes the same bytes, so no name here "
@@ -443,6 +465,13 @@ def emit_inventory(h, manifest: dict, probe: dict, out: Path) -> dict:
                 "measurements it is derived from.",
         "totalUncompressedBytes": total_bytes,
         "totalUncompressedGB": round(total_bytes / 1e9, 3),
+        # GitHub refuses a push whose pack exceeds 2 GB, so "would a full raw
+        # extraction fit in a repository" is the decision this whole layer
+        # exists to inform. Stating the answer and the overrun is the point of
+        # measuring the bytes at all; without them the reader has to know the
+        # limit and do the subtraction.
+        "exceedsTwoGB": total_bytes > 2_000_000_000,
+        "twoGBBudgetOverrunBytes": max(0, total_bytes - 2_000_000_000),
         "byClass": by_class, "byTopLevelDir": by_top, "byExtension": by_ext,
         "dbcTableCount": len(dbc_records),
         "dbcUncompressedBytes": by_class.get("dbc", {}).get("bytes", 0)})
@@ -881,7 +910,23 @@ def _write_table_indexes(tdir: Path, records, indexes, contexts, rank_of,
         "inferenceRule": dbcdecode.INFERENCE_RULE,
         "variantIndex": "_variants.json", "variantRule": VARIANT_RULE,
         "tablesWithVariants": variants["tablesWithVariants"],
+        # Two numbers, one for each question a reader actually has, because ONE
+        # of them was reported alone and got read as the other. `variantCount`
+        # is versions BEYOND the chain winner - what `variants/` subdirectories
+        # hold. `decodedVersionTotal` is every decoded copy of every table,
+        # winners included, and is the number that answers "how many distinct
+        # tables were decoded out of this client". They differ by exactly the
+        # 368 chain winners, and the arithmetic is spelled out rather than left
+        # to be rediscovered.
         "variantCount": variants["variantsBeyondWinner"],
+        "decodedVersionTotal": variants["versionCount"],
+        "versionCountRule": (
+            f"{variants['versionCount']} decoded versions = "
+            f"{len(records)} chain winners (one per table path) + "
+            f"{variants['variantsBeyondWinner']} further versions under "
+            f"variants/. {variants['tablesWithVariants']} table paths ship in "
+            f"more than one version; {len(records) - len(multi)} ship in "
+            f"exactly one."),
         "variantRows": variants["variantRowsDecoded"],
         "variantStoredBytes": variants["variantStoredBytes"],
         "realmContestedTables": [r["table"] for r in variants["realmContested"]],
@@ -1105,7 +1150,7 @@ def override_map(manifest: dict) -> dict:
 
 
 def emit_interface(h, snapshot_dir: Path, work: Path, out: Path,
-                   overrides: dict, on_disk: dict) -> dict:
+                   overrides: dict, boundary: dict) -> dict:
     """Two layers off one set of harvested bytes.
 
     `raw/interface/` is the CODE layer - the .lua/.xml/.toc/.txt/.md the client
@@ -1284,7 +1329,7 @@ def emit_interface(h, snapshot_dir: Path, work: Path, out: Path,
         "looseOverrideRule": LOOSE_OVERRIDE_RULE,
         "looseOverrides": sorted(r["path"] for r in out_records
                                  if r.get("source") == "loose"),
-        "onDiskInterfaceTree": on_disk,
+        "installStateBoundary": boundary,
         "shards": shards}
     write_json(adir / "index.json", index)
     write_bytes_lf(adir / "README.md", f"""# Complete Interface census (generated)
@@ -1613,12 +1658,84 @@ def emit_recovered(h, out: Path) -> dict:
         "byKind": dict(sorted(Counter(c["kind"] for c in expanded).items())),
         "containers": expanded})
 
+    # ---- byte-coverage forensics, per archive ----------------------------
+    # Dropped when the pipeline collapsed and restored here. It is a measurement
+    # of the ARCHIVES, not of the retired reader or the retired stage chain:
+    # what the block tables account for, what they do not, and whether anything
+    # survives behind a delete-marked hash slot. All of it comes off tables the
+    # single traversal already had in memory, so it costs no second read.
+    frows = [h.forensics[k] for k in sorted(h.forensics)]
+    unaccounted = sum(r["unaccountedBytes"] for r in frows)
+    orphans = sum(r["orphanBlockEntryCount"] for r in frows)
+    encrypted = [m for r in frows for m in r["encryptedMembers"]]
+    archive_bytes = sum(r["fileBytes"] for r in frows)
+    delete_marked = sum(r["hashSlotsDeleteMarked"] for r in frows)
+    write_json(rdir / "_forensics.json", {
+        "note": "Every archive walked against its own bytes: what its block "
+                "table accounts for, what nothing points at, and what its "
+                "encrypted members turn out to be.",
+        "rule": COVERAGE_RULE,
+        "archiveCount": len(frows), "archiveBytesTotal": archive_bytes,
+        "unaccountedBytesTotal": unaccounted,
+        "orphanBlockEntriesTotal": orphans,
+        "hashSlotsDeleteMarkedTotal": delete_marked,
+        "blockEntriesDeleteMarkerTotal": sum(
+            r["blockEntriesDeleteMarker"] for r in frows),
+        "encryptedMemberCount": len(encrypted),
+        "encryptedMembersRecovered": sum(1 for m in encrypted
+                                         if m["withName"] == "ok"),
+        "encryptedMembersRecoveredWithoutTheName": sum(
+            1 for m in encrypted if m["withoutName"] == "ok"),
+        "verdict": (
+            f"{unaccounted:,} bytes of the client's {archive_bytes:,} are "
+            f"unaccounted for by a live block entry, and {orphans:,} block "
+            f"entries are unreferenced by any live hash slot. Delete-marked "
+            f"hash slots ({delete_marked:,} of them) therefore have no "
+            f"surviving file data behind them: the archives were COMPACTED, "
+            f"not merely re-indexed. This is a byte-accounted result, not an "
+            f"inference from the format."),
+        "archives": frows})
+
+    # ---- what the reader actually did, per compression method -------------
+    # The compression census and the two defect-class counts are measurements of
+    # the ARCHIVES too. They went missing with the mpyq agreement sample, which
+    # genuinely is moot now - these are not: they say which methods this
+    # client's sectors are stored with, and how the two member classes that
+    # silently broke the old reader behaved under this one.
+    dsum = Counter()
+    per_archive = {}
+    for aid in sorted(h.defects):
+        per_archive[aid] = h.defects[aid]
+        for cls, facts in h.defects[aid].items():
+            for k, v in facts.items():
+                dsum[f"{cls}.{k}"] += v
     write_json(rdir / "_verify.json", {
         "note": "Every member the traversal decompressed, checked against the "
-                "MD5 its own archive records for it.",
+                "MD5 its own archive records for it - plus what it took to "
+                "decompress them and how the two historically mis-read member "
+                "classes behaved.",
         "md5Rule": MD5_RULE, "checked": h.md5["checked"], "ok": h.md5["ok"],
         "mismatched": h.md5["mismatch"], "noRecordInArchive": h.md5["noRecord"],
-        "mismatches": h.md5["mismatches"]})
+        "mismatches": h.md5["mismatches"],
+        "compressionCensusNote":
+            "One count per SECTOR expanded, naming the method tools/mpq.py "
+            "used for it, over every member the traversal read - not a sample. "
+            "`stored(...)` entries are sectors that were not compressed at all; "
+            "a `sectorSize N override` entry is a member whose declared sector "
+            "size did not hold and was re-derived.",
+        "compressionCensus": dict(sorted(h.compression.items())),
+        "defectClassRule": DEFECT_CLASS_RULE,
+        "noSectorTableMembers": dsum["noSectorTable.members"],
+        "noSectorTableReadOk": dsum["noSectorTable.readOk"],
+        "noSectorTableReadFailed": dsum["noSectorTable.readFailed"],
+        "noSectorTableNotNamedByListfile":
+            dsum["noSectorTable.notNamedByListfile"],
+        "exactSectorMultipleMembers": dsum["exactSectorMultiple.members"],
+        "exactSectorMultipleReadOk": dsum["exactSectorMultiple.readOk"],
+        "exactSectorMultipleReadFailed": dsum["exactSectorMultiple.readFailed"],
+        "exactSectorMultipleNotNamedByListfile":
+            dsum["exactSectorMultiple.notNamedByListfile"],
+        "defectClassesByArchive": per_archive})
 
     write_json(rdir / "index.json", {
         "note": "What was not ordinary content, and what the archives say about "
@@ -1631,6 +1748,10 @@ def emit_recovered(h, out: Path) -> dict:
         "containers": len(expanded), "containerCarriers": len(h.containers),
         "containerMembers": members,
         "md5Verified": h.md5["ok"], "md5Mismatched": h.md5["mismatch"],
+        "unaccountedBytes": unaccounted, "orphanBlockEntries": orphans,
+        "encryptedMembers": len(encrypted),
+        "encryptedMembersRecovered": sum(1 for m in encrypted
+                                         if m["withName"] == "ok"),
         "readErrors": dict(sorted(h.read_errors.items()))})
     write_bytes_lf(rdir / "README.md", f"""# Recovered / archive forensics (generated)
 
@@ -1641,8 +1762,11 @@ Regenerate: `python datamine.py`.
 - `deleted/` - **{len(tomb):,}** patch tombstones: paths a patch layer REMOVES.
 - `empty/` - **{len(empt)}** genuinely zero-length members.
 - `containers/` - **{len(h.containers)}** members whose bytes are themselves an archive.
+- `_forensics.json` - every archive walked against its own bytes: **{unaccounted:,}**
+  bytes unaccounted for by a live block entry, **{orphans:,}** orphan block entries,
+  **{len(encrypted)}** encrypted member(s).
 - `_verify.json` - **{h.md5['ok']:,}** members verified against their archive's own MD5,
-  **{h.md5['mismatch']}** mismatched.
+  **{h.md5['mismatch']}** mismatched, plus the per-sector compression census.
 
 ## The tombstone rule
 
@@ -1651,16 +1775,22 @@ Regenerate: `python datamine.py`.
 ## The MD5 rule
 
 {MD5_RULE}
+
+## What the byte accounting proves
+
+{COVERAGE_RULE}
 """)
     layerstate.finish(rdir, {
         "layer": "raw/recovered", "generatedBy": "python datamine.py",
         "deleteTombstones": len(tomb), "emptyMembers": len(empt),
         "attributeRecords": total, "containers": len(expanded),
         "containerMembers": members, "md5Verified": h.md5["ok"],
-        "md5Mismatched": h.md5["mismatch"]})
+        "md5Mismatched": h.md5["mismatch"],
+        "unaccountedBytes": unaccounted, "orphanBlockEntries": orphans})
     return {"tombstones": len(tomb), "empty": len(empt),
             "containers": len(expanded), "containerMembers": members,
-            "md5ok": h.md5["ok"], "md5bad": h.md5["mismatch"]}
+            "md5ok": h.md5["ok"], "md5bad": h.md5["mismatch"],
+            "unaccountedBytes": unaccounted, "orphanBlocks": orphans}
 
 
 # ==========================================================================
@@ -1739,15 +1869,29 @@ def emit_binaries(h, snapshot_dir: Path, work: Path, out: Path) -> dict:
             f"FATAL: {len(archived)} archived PE images collapsed into "
             f"{len(dirs)} directories - one would overwrite another.")
 
+    # Layer-wide rollups and the THRESHOLDS behind them. The rollups are sums
+    # over the per-image records and could be re-derived by a reader; the
+    # thresholds could not - they are decisions this layer made about what
+    # counts as Lua and what counts as a string, and dropping them left the
+    # counts un-interpretable. Both were lost in the collapse; both are back.
+    every = summaries + archived
     index = {
         "note": "Every PE image in the client: the ones loose in the client "
                 "root, and the ones stored INSIDE the MPQ archives (under "
                 "_archived/), found by reading the bytes of every member.",
         "stringRule": eb.STRING_RULE, "resourceRule": eb.RESOURCE_RULE,
+        "luaRule": eb.LUA_RULE,
+        "minRunLength": eb.MIN_RUN,
+        "luaMinScore": eb.LUA_MIN_SCORE,
+        "luaFragmentMinScore": eb.LUA_FRAGMENT_MIN_SCORE,
         "clientRootBinaryCount": len(summaries),
         "archivedBinaryCount": len(archived),
         "binaryCount": len(summaries) + len(archived),
-        "stringTotal": sum(s.get("strings", 0) for s in summaries + archived),
+        "stringTotal": sum(s.get("strings", 0) for s in every),
+        "luaChunkTotal": sum(s.get("luaSourceChunks", 0) for s in every),
+        "luaFragmentTotal": sum(s.get("luaFragments", 0) for s in every),
+        "resourceTotal": sum(s.get("resourceCount", 0) for s in every),
+        "symbolTotal": sum(s.get("symbols", 0) for s in every),
         "binaries": summaries, "archived": archived}
     write_json(bdir / "index.json", index)
     write_bytes_lf(bdir / "README.md", f"""# Client binaries (generated)
@@ -1801,6 +1945,14 @@ def publish(staging: Path, raw: Path, layers: dict) -> None:
     # Staged files that do NOT belong under raw/. CATALOG.md is the repo's
     # front door and lives at the root; it is staged with the layer it describes
     # so the two are published together, never one generation apart.
+    #
+    # There is deliberately no second copy under raw/. The repo carried one, and
+    # because this mapping sends the staged file to the root the raw/ copy was
+    # never rewritten: two runs later it still had the mtime of the run that
+    # created it, byte-identical only by luck, and would have started lying at
+    # the next client patch. A generated file with no generator is worse than no
+    # file. If a raw/-local copy is ever wanted, add it HERE so it is published
+    # with everything else.
     root_files = {"CATALOG.md": config.REPO_ROOT / "CATALOG.md"}
     for f in sorted(staging.iterdir()):
         if not f.is_file():
@@ -1833,7 +1985,7 @@ def emit_all(h, manifest: dict, probe: dict, staging: Path, work: Path,
     print("-- raw/interface + raw/interface_all", flush=True)
     layers["raw/interface"] = emit_interface(
         h, snapshot_dir, work, staging, overrides,
-        manifest.get("onDiskInterfaceTree") or {"present": False})
+        manifest.get("installStateBoundary") or {})
 
     print("-- raw/cache", flush=True)
     layers["raw/cache"] = emit_cache(snapshot_dir, staging)
@@ -1899,12 +2051,23 @@ def emit_root_readme(staging: Path, layers: dict, manifest: dict) -> None:
                     f"{'complete' if layerstate.is_complete(d) else 'no sentinel'} |")
 
     snap_bytes = sum(f["bytes"] for f in manifest["files"].values())
+    other = [d.name for d in sorted(config.RAW_DIR.iterdir())
+             if d.is_dir() and not (staging / d.name).is_dir()] \
+        if config.RAW_DIR.is_dir() else []
     write_bytes_lf(staging / "README.md", f"""# raw/ - the client, mechanically extracted (generated)
 
-Everything under `raw/` is written by ONE script, `datamine.py`, from a snapshot
-of the client at `{config.CLIENT_DIR}`. Nothing in it is hand-authored,
-hand-labelled or hand-selected: column names are positional, types are inferred
-by measurement, and no wanted-list decides what is extracted.
+Every layer in the table below is written by ONE script, `datamine.py`, from a
+snapshot of the client at `{config.CLIENT_DIR}`. Nothing in them is
+hand-authored, hand-labelled or hand-selected: column names are positional,
+types are inferred by measurement, and no wanted-list decides what is extracted.
+
+`raw/` is not exclusively that script's output, and saying otherwise would be a
+lie a reader could act on. {"`" + "`, `".join(other) + "`" if other else "No other directory"} and
+`provenance.json` are built by `python -m tools.build_dataset` for the CURATED
+`data/` tree - a wanted-list extraction through `tools/extract_mpq.py`, which
+still reads archives with `mpyq`. They are a different pipeline with different
+rules; nothing in the table below depends on them, and the "no wanted list"
+guarantee is about the table below.
 
 ## Regenerating
 

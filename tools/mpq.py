@@ -548,6 +548,24 @@ class Member:
                 f"flags={'|'.join(flag_names(self.flags))}>")
 
 
+# Every archive this process actually opened, keyed by resolved path, counted
+# HERE - at the one line that opens the file - and nowhere else.
+#
+# It exists because the caller's own version of this check was vacuous: it
+# incremented a counter once per element of a list whose keys were already
+# proven unique two functions earlier, so it counted LOOP ITERATIONS and could
+# never fire. A second open through any other code path was invisible to it. A
+# ledger at the constructor cannot be fooled that way: an archive opened twice
+# is two increments regardless of who opened it or why, and the key is the
+# resolved path so two spellings of one file are one entry.
+OPEN_LEDGER = collections.Counter()
+
+
+def open_ledger_snapshot() -> dict:
+    """The ledger as a plain dict, path -> times opened."""
+    return dict(OPEN_LEDGER)
+
+
 class Archive:
     """One MPQ file, read correctly.
 
@@ -561,6 +579,11 @@ class Archive:
     def __init__(self, path):
         self.path = Path(path)
         self.file = open(self.path, "rb")
+        # counted the instant the handle exists, BEFORE the header is parsed: an
+        # archive whose bytes are corrupt was still opened, and a caller that
+        # retries it has still opened it twice. Counting after a successful
+        # parse would hide exactly that.
+        OPEN_LEDGER[str(self.path.resolve()).lower()] += 1
         self.header = self._read_header()
         self.base = self.header["offset"]
         self.sector_size = 512 << self.header["sector_size_shift"]

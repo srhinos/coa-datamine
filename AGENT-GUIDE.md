@@ -67,7 +67,18 @@ matters, confirm it against `raw/` and say which layer you used.
 Regenerate the raw layer with one command, no arguments and no agent:
 `python datamine.py`. It snapshots the client first and then walks each archive
 exactly once, so every layer it writes describes ONE client version -
-`raw/_snapshot.json` records the sha256 of every file it was built from.
+`raw/_snapshot.json` records the sha256 of every file it was built from. Both
+halves of that are enforced in code rather than asserted in prose:
+`mpq.OPEN_LEDGER` counts every archive open at the line that performs it and the
+run refuses to publish if any archive was opened twice, and
+`datamine.ClientReads` wraps the process's own file opens and fails the run if
+anything reads the live client after the snapshot is sealed.
+
+`datamine.py` does NOT write all of `raw/`. `raw/dbc/`, `raw/realms/`,
+`raw/talents/` and `raw/provenance.json` are the older wanted-list extraction
+behind the curated `data/` tree and are rebuilt by `python -m tools.build_dataset`.
+The "nothing is hand-selected" guarantee is about the layers listed in
+`raw/README.md`, which is where that split is spelled out.
 
 > **Read this before using `data/classes/`.** It is the CAD **catalog** - what the
 > client's character-advancement tables LIST - and a large part of it is not in the
@@ -2319,7 +2330,8 @@ def class_specs_and_roles(class_name):
 Long passes in this pipeline are checkpointed and several of them re-read their
 own output. That design came out of a real problem, but the problem was described
 more confidently than the evidence supported, so here is the scoped version. The
-authoritative statement lives in `tools/crack.py`'s `HOST_FAULT_SCOPE`.
+authoritative statement lives in `datamine.py`'s `HOST_FAULT_SCOPE`
+(it moved there with the single-script collapse, from the retired `tools/crack.py`).
 
 - **RETRACTED.** The earlier write-up cited "physically impossible Python errors"
   as evidence of machine memory corruption. One of the cited examples -
@@ -2329,15 +2341,21 @@ authoritative statement lives in `tools/crack.py`'s `HOST_FAULT_SCOPE`.
   nothing about the hardware.
 - **SURVIVES: the crashes.** Long-running processes on this host die at
   `STATUS_ACCESS_VIOLATION` (0xC0000005) with no Python traceback. Observed
-  repeatedly; it is why every long pass checkpoints per item and why
-  `tools/layerstate.py` sentinels exist. But an access violation proves a crash,
+  repeatedly - most recently 2026-08-08, when a run died at archive 61 of 77
+  with no traceback and that same archive then processed cleanly on its own,
+  through the identical code, in a fresh process. It is why layers are staged
+  and swapped on success and why `tools/layerstate.py` sentinels exist. But an
+  access violation proves a crash,
   **not its cause** - a CPython or extension-module bug, stack exhaustion, or an
   OS/antivirus interaction all look identical from here, and none was ruled out.
   "Confirmed hardware memory corruption" was a stronger claim than that.
 - **SURVIVES, separately: one silent-corruption incident.** A member was once
-  written with 2 wrong bytes out of 115 MB, same length and valid header (see
-  `tools/extract_all.py`'s `READ_AGREEMENT_RULE`). Real, single, never
-  reproduced, never root-caused.
+  written with 2 wrong bytes out of 115 MB, same length and valid header. The
+  two-agreeing-reads guard written for it lived in `tools/extract_all.py`, which
+  the single-script collapse retired; the replacement is stronger and external -
+  every member is checked against the MD5 its own archive records
+  (`raw/recovered/_verify.json`). Real, single, never reproduced, never
+  root-caused.
 - **Evidence the other way, measured now:** `datamine.py`'s MD5 check
   decodes every member of every archive and checks each against the MD5 the
   archive itself recorded - **763,928 members, 0 mismatches**. A host corrupting

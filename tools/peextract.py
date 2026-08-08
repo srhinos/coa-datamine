@@ -50,6 +50,14 @@ LUA_MIN_SCORE = 3
 # record regardless, so this only decides what the convenience list holds.
 LUA_FRAGMENT_MIN_SCORE = 3
 
+LUA_RULE = (
+    "A run's Lua score is the number of DISTINCT syntax classes in "
+    "tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and "
+    "concatenation syntax, comment openers, table constructors and standard "
+    "library calls. Counting distinct classes rather than occurrences stops one "
+    "repeated word from carrying English prose over a threshold. The score is "
+    "recorded on every extracted string, so any reader can re-cut it.")
+
 # Resource bytes are committed when they are text, when they decode to a
 # structure, or when they are small. Anything larger is recorded (size +
 # sha256) and its bytes discarded - the same recorded-not-committed rule this

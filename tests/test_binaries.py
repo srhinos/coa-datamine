@@ -1,11 +1,11 @@
-"""Gate for tools/pe.py, tools/lua51.py and tools/extract_binaries.py - the
+"""Gate for tools/pe.py, tools/lua51.py and tools/peextract.py - the
 client-binaries layer.
 
 HOW THIS TEST TRIES NOT TO FALSE-GREEN
 --------------------------------------
 The thing under test is a set of FORMAT READERS, and the failure that matters is
 a reader that returns confident, wrong output without raising. Asserting "it
-produced 189,848 strings" cannot see that, because this repo also produced the
+produced 566,861 strings" cannot see that, because this repo also produced the
 number. So every substantive check below is anchored to something that is not
 this code:
 
@@ -23,24 +23,28 @@ this code:
   * REPRODUCTION. One binary is re-extracted into a temp tree and compared file
     by file, by sha256, against what is committed.
 
-The live-client checks skip when the client is not mounted; the layer checks
-skip when raw/binaries has no sentinel.
-"""
-# ---------------------------------------------------------------------------
-# STALE - DOES NOT RUN. This file drives stage modules that no longer exist.
-#
-# The raw pipeline collapsed into `datamine.py` (one snapshot, one traversal);
-# tools/extract_binaries.py were retired with it. The
-# GATES BELOW ARE STILL THE RIGHT GATES - they are what `datamine.py` has to
-# keep true - so this file is kept rather than deleted, and migrating it is
-# tracked work: point the output assertions at the published `raw/` layer, and
-# the reader/decoder assertions at `tools/dbcdecode.py` and `tools/emit.py`.
-#
-# It is left failing on import ON PURPOSE. Deleting it would quietly drop the
-# specification of behaviour this repo has already paid to learn; rewriting it
-# to pass without re-checking what it checks would be worse.
-# ---------------------------------------------------------------------------
+MIGRATED, 2026-08. This drove `tools/extract_binaries.py`, retired by the
+single-script collapse, and it sat failing on import for a commit. The gates are
+the same; the extractor is now `tools/peextract.py` driven from
+`datamine.emit_binaries`, so:
 
+  * `eb.client_binaries()` is gone - the client-root PE set is decided during
+    the snapshot by reading bytes, and the layer's own `binaries` list is what
+    this file checks against the client root;
+  * `eb.extract_one(path, ...)` is `eb.extract_bytes(data, name, dest)`;
+  * the layer covers ARCHIVED PE images too (`_archived/`), which the old
+    extractor never saw, so those are checked against the traversal's staged
+    copies rather than against a file in the client root.
+
+ONE OLD GATE IS DELIBERATELY NOT REVIVED: `index["outsideRoot"]` recorded a
+separate sweep for PE images outside the client root. That sweep is no longer a
+sweep - every member of every archive is read anyway, so an archived PE is found
+by construction and lands in `archived`. Asserting the key exists would be
+asserting a vestige. The property it stood for (images outside the root are
+found) is now checked directly: `archivedBinaryCount` must be non-zero and every
+one of them must reproduce.
+"""
+import gzip
 import hashlib
 import json
 import shutil
@@ -50,9 +54,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, extract_binaries as eb, layerstate, lua51, pe
+from tools import config, emit, layerstate, lua51, pe, peextract as eb
 
 FAILURES = []
+OUT = config.RAW_DIR / "binaries"
+SNAP = config.WORK_DIR / "snapshot"
+STAGED_PE = config.WORK_DIR / "harvest" / "pe"
 
 
 def check(name, condition, detail=""):
@@ -65,6 +72,22 @@ def check(name, condition, detail=""):
 
 def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def load(p: Path):
+    return json.loads(p.read_bytes().decode("utf-8"))
+
+
+def shard_rows(d: Path, index: dict) -> list:
+    rows = []
+    for shard in index["shards"]:
+        fp = d / shard["file"]
+        raw = fp.read_bytes()
+        check(f"{d.parent.name}/{d.name}: shard {shard['file']} matches its "
+              f"recorded sha256", sha(raw) == shard["sha256"])
+        text = (gzip.decompress(raw) if fp.suffix == ".gz" else raw).decode("utf-8")
+        rows.extend(json.loads(l) for l in text.splitlines() if l.strip())
+    return rows
 
 
 # ==================== 1. the readers' own format tests ====================
@@ -80,25 +103,32 @@ check("the score is a count of the classes it lists",
       lua51.score("local x = nil\nreturn x") == len(
           lua51.classes("local x = nil\nreturn x")))
 
-# ==================== 2. against the live client ====================
-CLIENT = config.CLIENT_DIR
-if not CLIENT.is_dir():
-    print(f"\nclient not mounted at {CLIENT} - skipping live checks")
+# ==================== 2. against the client's own bytes ====================
+# The SNAPSHOT, not the live client: the layer was built from the snapshot, so
+# comparing it to a client the launcher may have patched since would fail for a
+# reason that is not a defect. The snapshot's own sha256s are in
+# raw/_snapshot.json and are what makes it the client's bytes.
+if not SNAP.is_dir():
+    print(f"\nno snapshot at {SNAP} - skipping byte-level checks "
+          f"(run `python datamine.py`)")
+    SOURCE = {}
 else:
-    print(f"\nlive client at {CLIENT}")
-    binaries = eb.client_binaries()
-    check("the client root holds PE images", len(binaries) >= 2, str(len(binaries)))
+    print(f"\nclient bytes from the snapshot at {SNAP}")
+    SOURCE = {p.name: p for p in sorted(SNAP.iterdir())
+              if p.is_file() and p.read_bytes()[:2] == b"MZ"}
+    check("the snapshot holds PE images at the client root", len(SOURCE) >= 2,
+          str(len(SOURCE)))
     check("selection is by bytes, not by extension: every pick starts MZ and "
           "carries a PE signature",
-          all(pe.is_pe(p.read_bytes()[:0x400]) for p in binaries))
+          all(pe.is_pe(p.read_bytes()[:0x400]) for p in SOURCE.values()))
 
-    for p in binaries:
+    for name, p in SOURCE.items():
         parsed = pe.parse(p.read_bytes())
-        check(f"{p.name} parses with no unreadable structure",
+        check(f"{name} parses with no unreadable structure",
               parsed["isPE"] and not parsed["notes"], str(parsed["notes"]))
 
     # The magic-versus-chunk distinction, on the real file that has the trap.
-    asc = next((p for p in binaries if p.name.lower() == "ascension.exe"), None)
+    asc = SOURCE.get("Ascension.exe")
     if asc is not None:
         cands = lua51.find_chunks(asc.read_bytes())
         check("Ascension.exe carries the Lua signature", len(cands) >= 1)
@@ -108,47 +138,59 @@ else:
               str([c.get("reason") for c in cands]))
 
 # ==================== 3. the committed layer ====================
-OUT = eb.OUT_DIR
 if not layerstate.is_complete(OUT):
     print(f"\n{OUT} has no sentinel - skipping layer checks")
-elif not CLIENT.is_dir():
-    print("\nclient not mounted - skipping layer-versus-client checks")
+elif not SOURCE:
+    print("\nno snapshot - skipping layer-versus-client checks")
 else:
     print(f"\ncommitted layer at {OUT}")
-    index = json.loads((OUT / "index.json").read_text(encoding="utf-8"))
-    check("the index names every client-root PE",
-          {b["name"] for b in index["binaries"]} ==
-          {p.name for p in eb.client_binaries()})
-    check("the sweep for binaries elsewhere in the client is recorded",
-          "outsideRoot" in index)
+    index = load(OUT / "index.json")
+    check("the index names every client-root PE the snapshot holds",
+          {b["name"] for b in index["binaries"]} == set(SOURCE))
+    check("images stored INSIDE the archives are in the layer too - the old "
+          "extractor could not see them at all",
+          index["archivedBinaryCount"] > 0 and
+          len(index["archived"]) == index["archivedBinaryCount"],
+          str(index["archivedBinaryCount"]))
     check("every threshold the layer applied is written down next to the counts",
           all(k in index for k in ("minRunLength", "luaMinScore",
                                    "luaFragmentMinScore", "stringRule",
-                                   "selectionRule", "resourceRule")))
+                                   "luaRule", "resourceRule")),
+          str(sorted(k for k in ("minRunLength", "luaMinScore",
+                                 "luaFragmentMinScore", "stringRule",
+                                 "luaRule", "resourceRule") if k not in index)))
+    check("the thresholds in the index are the ones the extractor actually used",
+          index["minRunLength"] == eb.MIN_RUN
+          and index["luaMinScore"] == eb.LUA_MIN_SCORE
+          and index["luaFragmentMinScore"] == eb.LUA_FRAGMENT_MIN_SCORE)
+
+    # Layer-wide rollups: a reader must be able to answer "how much Lua did this
+    # client's binaries yield" without summing 27 records by hand, and the sums
+    # must be the records'.
+    every = index["binaries"] + index["archived"]
+    check("the layer's rollups equal the sum of the per-image records",
+          index["stringTotal"] == sum(b["strings"] for b in every)
+          and index["luaChunkTotal"] == sum(b["luaSourceChunks"] for b in every)
+          and index["luaFragmentTotal"] == sum(b["luaFragments"] for b in every)
+          and index["resourceTotal"] == sum(b["resourceCount"] for b in every)
+          and index["symbolTotal"] == sum(b["symbols"] for b in every),
+          json.dumps({k: index[k] for k in
+                      ("stringTotal", "luaChunkTotal", "luaFragmentTotal",
+                       "resourceTotal", "symbolTotal")}))
 
     for entry in index["binaries"]:
         name = entry["name"]
-        src = CLIENT / name
-        if not src.is_file():
+        src = SOURCE.get(name)
+        if src is None:
             continue
         data = src.read_bytes()
         check(f"{name}: the committed sha256 is the client's file",
               sha(data) == entry["sha256"])
+        bdir = OUT / entry["dir"]
 
         # -- strings are re-read from the client at their own offsets --------
-        six = json.loads((OUT / name / "strings" / "index.json")
-                         .read_text(encoding="utf-8"))
-        rows = []
-        for shard in six["shards"]:
-            fp = OUT / name / "strings" / shard["file"]
-            if fp.suffix == ".gz":
-                import gzip
-                text = gzip.decompress(fp.read_bytes()).decode("utf-8")
-            else:
-                text = fp.read_text(encoding="utf-8")
-            check(f"{name}: shard {shard['file']} matches its recorded sha256",
-                  sha(fp.read_bytes()) == shard["sha256"])
-            rows.extend(json.loads(l) for l in text.splitlines() if l.strip())
+        six = load(bdir / "strings" / "index.json")
+        rows = shard_rows(bdir / "strings", six)
         check(f"{name}: shard rows total the index's count",
               len(rows) == six["rows"], f"{len(rows)} vs {six['rows']}")
 
@@ -184,67 +226,77 @@ else:
               all(r["len"] >= eb.MIN_RUN for r in rows))
 
         # -- recovered Lua is the client's bytes, verbatim -------------------
-        lix = json.loads((OUT / name / "lua" / "index.json")
-                         .read_text(encoding="utf-8"))
-        lrows = []
-        for shard in lix["shards"]:
-            fp = OUT / name / "lua" / shard["file"]
-            if fp.suffix == ".gz":
-                import gzip
-                text = gzip.decompress(fp.read_bytes()).decode("utf-8")
-            else:
-                text = fp.read_text(encoding="utf-8")
-            lrows.extend(json.loads(l) for l in text.splitlines() if l.strip())
-        for r in lrows:
+        lix = load(bdir / "lua" / "index.json")
+        for r in shard_rows(bdir / "lua", lix):
             if r["kind"] not in ("sourceChunk", "precompiled"):
                 continue
-            fp = OUT / name / "lua" / r["file"]
-            got = fp.read_bytes()
+            got = (bdir / "lua" / r["file"]).read_bytes()
             check(f"{name}: {r['file']} is the client's bytes at {r['off']:#x}",
                   got == data[r["off"]:r["off"] + r["bytes"]]
                   and sha(got) == r["sha256"])
         check(f"{name}: every chunk file the index lists exists",
-              all((OUT / name / "lua" / f["file"]).is_file()
+              all((bdir / "lua" / f["file"]).is_file()
                   for f in lix["chunkFiles"]))
 
         # -- the overlay, which no section table entry accounts for ----------
         ov = entry.get("overlay") or {}
         if ov.get("bytesCommitted"):
-            got = (OUT / name / ov["file"]).read_bytes()
+            got = (bdir / ov["file"]).read_bytes()
             check(f"{name}: the overlay is the client's trailing bytes",
                   got == data[ov["offset"]:ov["offset"] + ov["bytes"]]
                   and sha(got) == ov["sha256"])
 
         # -- resources are the client's bytes too ----------------------------
-        rix = json.loads((OUT / name / "resources" / "index.json")
-                         .read_text(encoding="utf-8"))
+        rix = load(bdir / "resources" / "index.json")
         for r in rix["resources"]:
             if not r.get("bytesCommitted") or not r.get("file"):
                 continue
-            got = (OUT / name / "resources" / r["file"]).read_bytes()
+            got = (bdir / "resources" / r["file"]).read_bytes()
             check(f"{name}: resource {r['file']} matches the client",
                   got == data[r["offset"]:r["offset"] + r["bytes"]]
                   and sha(got) == r["sha256"])
 
+    # -- archived images: their bytes came out of an archive, so the check is
+    #    against what the traversal staged rather than against a file on disk
+    if STAGED_PE.is_dir():
+        staged = {sha(p.read_bytes()): p for p in sorted(STAGED_PE.iterdir())
+                  if p.is_file()}
+        missing = [a["name"] for a in index["archived"]
+                   if a["sha256"] not in staged]
+        check(f"every one of the {len(index['archived'])} archived PE images is "
+              f"the bytes the traversal staged for it", not missing,
+              str(missing[:4]))
+    else:
+        print(f"  SKIP  {STAGED_PE} absent - archived-image byte check skipped")
+
     # -- reproduction: re-extract the smallest binary and compare -------------
-    smallest = min(eb.client_binaries(), key=lambda p: p.stat().st_size)
+    smallest_name = min(index["binaries"], key=lambda b: b["bytes"])["name"]
+    smallest = SOURCE[smallest_name]
     tmp = Path(tempfile.mkdtemp(prefix="coa-bin-"))
     try:
-        eb.extract_one(smallest, tmp, verbose=False)
-        committed = OUT / smallest.name
+        prev_root = eb.OUT_ROOT
+        eb.OUT_ROOT = tmp
+        try:
+            eb.extract_bytes(smallest.read_bytes(), smallest_name,
+                             tmp / smallest_name, verbose=False)
+        finally:
+            eb.OUT_ROOT = prev_root
+        committed = OUT / smallest_name
+        produced_root = tmp / smallest_name
         diffs = []
-        for produced in sorted(tmp.rglob("*")):
+        for produced in sorted(produced_root.rglob("*")):
             if not produced.is_file():
                 continue
-            rel = produced.relative_to(tmp / smallest.name)
+            rel = produced.relative_to(produced_root)
             other = committed / rel
             if not other.is_file() or sha(other.read_bytes()) != \
                     sha(produced.read_bytes()):
                 diffs.append(str(rel))
-        extra = [str(p.relative_to(committed)) for p in sorted(committed.rglob("*"))
-                 if p.is_file() and not (tmp / smallest.name /
-                                         p.relative_to(committed)).is_file()]
-        check(f"re-extracting {smallest.name} reproduces the committed tree byte "
+        extra = [str(p.relative_to(committed))
+                 for p in sorted(committed.rglob("*"))
+                 if p.is_file()
+                 and not (produced_root / p.relative_to(committed)).is_file()]
+        check(f"re-extracting {smallest_name} reproduces the committed tree byte "
               f"for byte", not diffs and not extra, str((diffs + extra)[:4]))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

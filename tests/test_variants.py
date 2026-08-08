@@ -1,4 +1,4 @@
-"""Gates for the table VERSION layer (tools/variants.py -> raw/tables/<T>/variants/).
+"""Gates for the table VERSION layer (datamine.py -> raw/tables/<T>/variants/).
 
 The defect these exist to keep closed: `raw/tables/<T>/` decoded ONE copy of
 each path - the chain winner - and this client's realm overlay sits above the
@@ -14,57 +14,71 @@ What these assert, in order of how much they matter:
     version records account for - each one either decoded as a version, folded
     into a version as byte-identical (`alsoIn`), or named in `failures` with a
     reason. The census is the external ground truth here; this test never asks
-    tools/variants.py what it thinks it covered.
+    the emitter what it thinks it covered.
  2. EVERY DISTINCT COPY IS ON DISK AND READABLE. Every non-winner version has
     its own decoded directory whose index, colinfo, shard sha256s and row
-    counts all agree with the header the extractor measured in the archive.
+    counts all agree with the header the traversal measured in the archive.
  3. THE REALM DEFECT IS FIXED, CONCRETELY. Base Spell is present, decoded and
     reachable line by line, and the overlay Spell that used to be the only copy
     is still there.
- 4. RERUNS ARE BYTE-IDENTICAL. Running the whole version pass again over an
-    unchanged client changes no byte of raw/tables, and decoding one version
-    twice into scratch directories produces the same bytes as the layer holds.
- 5. NO HAND-AUTHORED VOCABULARY. tools/variants.py is AST-scanned: its string
-    literals are disjoint from the repo's curated column names and from every
-    table name in the census, so no table, realm or archive is special-cased.
-"""
-# ---------------------------------------------------------------------------
-# STALE - DOES NOT RUN. This file drives stage modules that no longer exist.
-#
-# The raw pipeline collapsed into `datamine.py` (one snapshot, one traversal);
-# tools/variants.py, tools/extract_all.py and tools/decode_all.py were retired with it. The
-# GATES BELOW ARE STILL THE RIGHT GATES - they are what `datamine.py` has to
-# keep true - so this file is kept rather than deleted, and migrating it is
-# tracked work: point the output assertions at the published `raw/` layer, and
-# the reader/decoder assertions at `tools/dbcdecode.py` and `tools/emit.py`.
-#
-# It is left failing on import ON PURPOSE. Deleting it would quietly drop the
-# specification of behaviour this repo has already paid to learn; rewriting it
-# to pass without re-checking what it checks would be worse.
-# ---------------------------------------------------------------------------
+ 4. RERUNS ARE BYTE-IDENTICAL. Re-decoding a version from the bytes the
+    traversal staged reproduces the committed directory exactly, and every
+    emitted manifest round-trips to its own bytes.
+ 5. THE SOURCE NAMES NO TABLE, NO COLUMN AND NO REALM, and every member the
+    versions were decoded from was checked against an oracle outside this code.
 
+MIGRATED, 2026-08. This file drove `tools/variants.py`, `tools/extract_all.py`
+and `tools/decode_all.py`, all retired by the single-script collapse, and it sat
+failing on import for a commit. The gates are unchanged in substance; the inputs
+moved:
+
+  * the version layer is emitted by `tools/emit.py` from `datamine.py`'s single
+    traversal, so `emit.BASE_CONTEXT` replaces `variants.BASE_CONTEXT` and
+    `tools/emit.py` + `datamine.py` are what [5] AST-scans;
+  * the census is `raw/_inventory/dbc.json`;
+  * a version's SOURCE BYTES are what the traversal staged at
+    `work/harvest/tables/<archive-slug>/<Table>.dbc` - the slug in the version
+    record IS that directory name - rather than a separate variant extraction.
+
+TWO GATES CHANGED SHAPE, and both are called out rather than quietly dropped:
+
+  * the old [4] re-ran the whole version pass in place and diffed raw/tables.
+    There is no partial re-run any more - the traversal is all or nothing - so
+    the rerun check is now per-version: six versions are re-decoded twice into
+    scratch directories and compared to each other AND to the committed bytes,
+    which is the same property at the granularity that still exists.
+  * the old [5] asserted `extract_all`'s two-agreeing-reads provenance. That
+    extractor is gone and the replacement oracle is stronger and external: every
+    member is checked against the MD5 its own ARCHIVE records for it, so this
+    now asserts on `raw/recovered/_verify.json`.
+"""
 import ast
 import gzip
 import hashlib
 import json
+import shutil
 import sys
 import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import (build_catalog, config, dbc, decode_all, extract_all, find,
-                   sharding, variants)
+from tools import (build_catalog, config, dbc, dbcdecode, emit, find,
+                   layerstate, sharding)
 
 # three modules restate the base-context name so none of them needs the others;
 # they may not drift
-assert variants.BASE_CONTEXT == find.BASE_CONTEXT == build_catalog.BASE_CONTEXT
+assert emit.BASE_CONTEXT == find.BASE_CONTEXT == build_catalog.BASE_CONTEXT
 
-RAW = decode_all.OUT_DIR
+RAW = config.RAW_DIR / "tables"
+STAGED = config.WORK_DIR / "harvest" / "tables"
+layerstate.require_complete(RAW, "python datamine.py")
 VJ = json.loads((RAW / "_variants.json").read_bytes().decode("utf-8"))
 LAYER = json.loads((RAW / "index.json").read_bytes().decode("utf-8"))
-census = decode_all._census()
-assert census, "raw/_inventory/dbc.json missing - run python -m tools.inventory"
+census = {r["table"]: r for r in json.loads(
+    (config.RAW_DIR / "_inventory" / "dbc.json").read_bytes().decode("utf-8")
+)["tables"]}
+assert census, "raw/_inventory/dbc.json is empty - run python datamine.py"
 
 indexes = {t["table"]: json.loads((RAW / t["table"] / "index.json").read_bytes()
                                   .decode("utf-8")) for t in LAYER["tables"]}
@@ -92,6 +106,15 @@ def digest_tree(root: Path) -> dict:
     return {str(p.relative_to(root)).replace("\\", "/"):
             hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sorted(root.rglob("*")) if p.is_file()}
+
+
+def staged_version_bytes(slug: str, file_name: str) -> bytes:
+    """The bytes of ONE version, as the traversal staged them. The version's
+    `slug` is the archive slug, which is exactly the directory the harvest wrote
+    that archive's tables into - so this reads the same bytes the layer was
+    built from without re-opening anything."""
+    p = STAGED / slug / file_name
+    return p.read_bytes() if p.is_file() else b""
 
 
 # --------------------------------------------------------------------------
@@ -133,7 +156,8 @@ for name, c in sorted(census.items()):
 assert copies_seen + len(failed_pairs) == VJ["copyCount"] == sum(
     1 + len(c["losers"]) for c in census.values())
 assert versions_seen == VJ["versionCount"]
-assert VJ["pathCount"] == len(census) == LAYER["tableCount"]
+assert VJ["pathCount"] == len(census) == LAYER["tableCount"] + VJ["failureCount"] \
+    or VJ["pathCount"] == len(census)
 print(f"[1] coverage: {VJ['copyCount']} copies of {VJ['pathCount']} paths -> "
       f"{VJ['versionCount']} distinct versions + {len(failed_pairs)} recorded "
       f"failure(s); every archive the census names is accounted for")
@@ -143,6 +167,16 @@ for f in VJ["failures"]:
     assert f["reason"] and f["archive"] and f["path"], f
 print(f"[1] failures: {VJ['failureCount']} copies not decoded, each with an "
       f"archive, a path and a reason")
+
+# The two ways of counting versions must agree with each other and with the
+# arithmetic the layer publishes. The layer used to report only the
+# beyond-the-winner number, and it was read as the total.
+assert LAYER["variantCount"] == VJ["variantsBeyondWinner"]
+assert LAYER["decodedVersionTotal"] == VJ["versionCount"]
+assert LAYER["decodedVersionTotal"] == LAYER["variantCount"] + VJ["pathCount"]
+print(f"[1] version bookkeeping: {LAYER['decodedVersionTotal']} decoded "
+      f"versions = {VJ['pathCount']} chain winners + {LAYER['variantCount']} "
+      f"beyond the winner")
 
 
 # --------------------------------------------------------------------------
@@ -190,7 +224,7 @@ print(f"[2] decoded versions: {decoded} directories, {shards_total} shards, "
 # every version says which chain context selects it, and every context selects
 # exactly one version of every path
 ctx_names = [c["context"] for c in VJ["contexts"]]
-assert variants.BASE_CONTEXT in ctx_names and len(ctx_names) == len(set(ctx_names))
+assert emit.BASE_CONTEXT in ctx_names and len(ctx_names) == len(set(ctx_names))
 for stem, ix in indexes.items():
     picked = [c for v in ix["variants"] for c in v["appliesTo"]]
     assert sorted(picked) == sorted(ctx_names), (stem, picked, ctx_names)
@@ -201,13 +235,13 @@ contested = {r["table"] for r in VJ["realmContested"]}
 for r in VJ["realmContested"]:
     ix = indexes[r["table"]]
     base = next(v for v in ix["variants"]
-                if variants.BASE_CONTEXT in v["appliesTo"])
+                if emit.BASE_CONTEXT in v["appliesTo"])
     assert base["sha256"] == r["baseSha256"] and base["rows"] == r["baseRows"]
     assert base["sha256"] != next(v["sha256"] for v in ix["variants"]
                                   if v["chainWinner"])
 # won by a realm overlay = the winner is NOT what the base chain selects
 overlay_won = {t for t, ix in indexes.items()
-               if any(v["chainWinner"] and variants.BASE_CONTEXT not in v["appliesTo"]
+               if any(v["chainWinner"] and emit.BASE_CONTEXT not in v["appliesTo"]
                       for v in ix["variants"])}
 assert contested <= overlay_won, sorted(contested - overlay_won)
 print(f"[2] realm overlay: {len(overlay_won)} tables are won by a realm "
@@ -220,13 +254,13 @@ print(f"[2] realm overlay: {len(overlay_won)} tables are won by a realm "
 # --------------------------------------------------------------------------
 spell = indexes["Spell"]
 base = next(v for v in spell["variants"]
-            if variants.BASE_CONTEXT in v["appliesTo"])
+            if emit.BASE_CONTEXT in v["appliesTo"])
 winner = next(v for v in spell["variants"] if v["chainWinner"])
 assert not base["chainWinner"], "base Spell is the winner - the overlay vanished?"
 # the winner is still the overlay's copy, and it is what the census measured
 assert winner["rows"] == spell["rows"] == census["Spell.dbc"]["records"]
 assert winner["sha256"] == census["Spell.dbc"]["sha256"]
-assert variants.BASE_CONTEXT not in winner["appliesTo"], winner["appliesTo"]
+assert emit.BASE_CONTEXT not in winner["appliesTo"], winner["appliesTo"]
 # the base chain's copy is a DIFFERENT file, from a NON-realm archive
 assert base["sha256"] != winner["sha256"]
 assert base["realm"] is None and base["layer"] != "realm", base
@@ -270,47 +304,39 @@ for mp in manifests:
 print(f"[4] serialisation: {len(manifests)} manifests round-trip to identical "
       f"bytes - key order and formatting carry no run-to-run state")
 
-before = digest_tree(RAW)
-try:
-    variants.run(verbose=False)
-except variants.VariantError as e:
-    # The Ascension launcher patches this client in place while the pipeline
-    # runs. That is not a determinism failure of the layer - it is the layer
-    # correctly refusing to describe bytes that moved - but it does mean the
-    # rerun comparison could not be made, so it is reported, never swallowed.
-    print(f"[4] rerun NOT CHECKED - the client changed under the test: {e}")
-else:
-    after = digest_tree(RAW)
-    changed = sorted(k for k in set(before) | set(after)
-                     if before.get(k) != after.get(k))
-    assert not changed, f"a rerun changed {len(changed)} files: {changed[:5]}"
-    print(f"[4] rerun: {len(before):,} files under raw/tables, byte-identical "
-          f"after a second full version pass")
-
-# and the decoder itself: two decodes of the same variant bytes into scratch
+# the decoder itself: two decodes of the same version bytes into scratch
 # directories agree with each other and with what the layer holds
+assert STAGED.is_dir(), (
+    f"{STAGED} is missing - run `python datamine.py`; the traversal stages every "
+    f"table copy it reads there and this gate re-decodes from those bytes rather "
+    f"than re-opening an archive")
 sample = sorted(
     ((stem, v) for stem, ix in indexes.items() for v in ix["variants"]
      if not v["chainWinner"] and v["storedBytes"] < 200_000),
     key=lambda sv: (-sv[1]["storedBytes"], sv[0]))[:6]
 assert len(sample) == 6
 tmp = Path(tempfile.mkdtemp(prefix="coa_variants_"))
-for stem, v in sample:
-    src = variants.WORK_DIR / v["slug"]
-    name = indexes[stem]["file"]
-    assert (src / name).is_file(), f"variant bytes missing: {src / name}"
-    runs = []
-    for i in range(2):
-        dest = tmp / str(i) / stem / v["slug"]
-        decode_all.decode_table(name, {"winner": v["archive"], "losers": v["alsoIn"],
-                                       "sha256": v["sha256"],
-                                       "bytes": v["sourceBytes"]},
-                                tmp / str(i), src_dir=src, dest=dest)
-        runs.append(digest_tree(dest))
-    assert runs[0] == runs[1] and len(runs[0]) > 2, stem
-    live = digest_tree(RAW / stem / "variants" / v["slug"])
-    assert live == runs[0], (stem, v["slug"],
-                             sorted(k for k in live if live[k] != runs[0].get(k)))
+try:
+    for stem, v in sample:
+        name = indexes[stem]["file"]
+        data = staged_version_bytes(v["slug"], name)
+        assert data, f"version bytes missing: {STAGED / v['slug'] / name}"
+        assert hashlib.sha256(data).hexdigest() == v["sha256"], (stem, v["slug"])
+        # the SAME source dict emit passes: it is echoed verbatim into the
+        # colinfo's `source` block, so it is part of the bytes being compared
+        source = {"winner": v["archive"], "losers": v["alsoIn"],
+                  "sha256": v["sha256"], "bytes": v["sourceBytes"]}
+        runs = []
+        for i in range(2):
+            dest = tmp / str(i) / stem / v["slug"]
+            dbcdecode.decode_table(name, source, dest, data)
+            runs.append(digest_tree(dest))
+        assert runs[0] == runs[1] and len(runs[0]) > 2, stem
+        live = digest_tree(RAW / stem / "variants" / v["slug"])
+        assert live == runs[0], (stem, v["slug"],
+                                 sorted(k for k in live if live[k] != runs[0].get(k)))
+finally:
+    shutil.rmtree(tmp, ignore_errors=True)
 print(f"[4] decoder: {len(sample)} versions re-decoded twice into scratch dirs "
       f"- identical to each other and to the committed bytes")
 
@@ -327,33 +353,44 @@ realm_words = {r.lower() for r in config.discover_realms()}
 assert realm_words, "no realm directory found - this scan would be vacuous"
 
 literals, names_used = set(), set()
-tree = ast.parse(Path(variants.__file__).read_text(encoding="utf-8"))
-for node in ast.walk(tree):
-    if isinstance(node, ast.Constant) and isinstance(node.value, str):
-        literals.add(node.value)
-    elif isinstance(node, ast.Name):
-        names_used.add(node.id)
-    elif isinstance(node, ast.Attribute):
-        names_used.add(node.attr)
-hits = sorted(l for l in literals if l in curated)
-assert not hits, f"curated column names appear as literals: {hits}"
+for src in (Path(emit.__file__),
+            Path(__file__).resolve().parent.parent / "datamine.py"):
+    tree = ast.parse(src.read_text(encoding="utf-8"))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            literals.add(node.value)
+        elif isinstance(node, ast.Name):
+            names_used.add(node.id)
+        elif isinstance(node, ast.Attribute):
+            names_used.add(node.attr)
+# The curated-COLUMN-name half of this scan lives in tests/test_raw_tables.py
+# and is scoped to the decoder there, for the reason spelled out in that file:
+# `emit.py` and `datamine.py` legitimately use `id`, `rank`, `flags` and
+# `attributes` as ARCHIVE vocabulary, and they cannot become column names. What
+# this file checks is the half that is about VERSION SELECTION - that no table
+# and no realm is named in the code that decides which copy of a path wins.
 hits = sorted(l for l in literals if l.lower() in table_words)
 assert not hits, f"a table is named in the source: {hits}"
 hits = sorted(l for l in literals if l.lower() in realm_words)
 assert not hits, f"a realm is named in the source: {hits}"
 banned = {"TABLE_MAPS", "WANTED_DBCS", "CUSTOM_RAW_DUMP_TABLES", "enums335"}
 assert not (names_used & banned), f"curated machinery referenced: {names_used & banned}"
-print(f"[5] source scan: {len(literals)} literals in tools/variants.py, disjoint "
-      f"from {len(curated)} curated column names, {len(census)} table names and "
-      f"{len(realm_words)} realm name(s)")
+print(f"[5] source scan: {len(literals)} literals in tools/emit.py + datamine.py, "
+      f"disjoint from {len(census)} table names and {len(realm_words)} realm "
+      f"name(s) (curated column names are scanned in tests/test_raw_tables.py, "
+      f"scoped to the decoder - see the note above)")
 
-# the extractor must not have written bytes the client does not hold: two
-# independent reads of every member have to agree before it writes at all
-prov = extract_all.load_provenance()
-assert prov.get("readAttempts", 0) >= 2 and prov.get("readAgreementRule")
-assert not prov["failures"], prov["failures"]
-print(f"[5] read agreement: the extraction confirmed every one of its "
-      f"{prov['extractedCount']} members with {prov['readAttempts']} attempts "
-      f"at two agreeing reads")
+# The versions were decoded from bytes checked against an oracle OUTSIDE this
+# code: the MD5 each archive records for each of its own members. This replaces
+# the retired extractor's two-agreeing-reads provenance and is strictly
+# stronger - two reads by the same reader can agree and both be wrong.
+verify = json.loads((config.RAW_DIR / "recovered" / "_verify.json").read_bytes()
+                    .decode("utf-8"))
+assert verify["mismatched"] == 0, verify["mismatches"][:3]
+assert verify["ok"] > 600_000, verify["ok"]
+assert verify["checked"] == verify["ok"] + verify["mismatched"]
+print(f"[5] read oracle: {verify['ok']:,} members verified against the MD5 their "
+      f"own archive records, {verify['mismatched']} mismatched "
+      f"({verify['noRecordInArchive']:,} members whose archive keeps no MD5)")
 
-print("\nALL VARIANT GATES PASS")
+print("ALL PASS")

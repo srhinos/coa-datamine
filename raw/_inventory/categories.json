@@ -427,7 +427,9 @@
  },
  "dbcTableCount": 368,
  "dbcUncompressedBytes": 835946435,
+ "exceedsTwoGB": true,
  "note": "Byte volumes are UNCOMPRESSED sizes from the MPQ block table - what a full raw extraction writes to disk. `class` is a reporting rollup; byTopLevelDir and byExtension are the raw measurements it is derived from.",
  "totalUncompressedBytes": 67877536408,
- "totalUncompressedGB": 67.878
+ "totalUncompressedGB": 67.878,
+ "twoGBBudgetOverrunBytes": 65877536408
 }
