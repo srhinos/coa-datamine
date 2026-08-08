@@ -1,11 +1,71 @@
 {
- "byArchive": {"Data/patch-4.MPQ":1,"Data/patch-5.MPQ":1,"Data/patch-B.MPQ":5,"Data/patch-C.MPQ":1,"Data/patch-CZZ.MPQ":1,"Data/patch-W.MPQ":1,"Data/patch-WB.MPQ":1,"Data/patch-WC.MPQ":1,"Data/patch-WC3.MPQ":1},
- "byClass": {"art":1,"interface":5,"other":7},
- "generatedBy": "python -m tools.crack --only tombstones",
- "recordTotal": 13,
- "rule": "Every block entry the archive marks EXISTS, does not mark DELETE_MARKER, and records as ZERO BYTES: a real member that holds nothing. Enumerated from the block tables for the same reason as the tombstones - the census sees 6 of the client's 13, because it only ever sees the winning copy of a path.\n\nThis distinction is not bookkeeping. A tombstone REMOVES a path; an empty member REPLACES it with nothing, and the client goes on resolving it. Five of the six the census sees are Interface code that patch-B blanks this way - RaceSelect.lua/.xml, SoundOptionsFrame.lua/.xml and SharedXML/AnimationTemplates.lua - which is a fact about what Ascension disabled, and it was previously reduced to the integer 6 in a summary. The remaining seven are the zero-byte `(listfile)` members of the stub archives that carry no listfile at all.",
- "shardMaxLines": 5000,
- "shards": [
-  {"firstPath":"(listfile)","lastPath":"world/Bronzebeard/scadeald/fence/bzb_earthen_rowboat01.m2","records":13,"shard":"_root.json"}
- ]
+ "count": 13,
+ "entries": [
+  {
+   "archive": "Data/patch-4.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-5.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-B.MPQ",
+   "block": 1263,
+   "path": "Interface\\GlueXML\\RaceSelect.lua"
+  },
+  {
+   "archive": "Data/patch-B.MPQ",
+   "block": 1264,
+   "path": "Interface\\GlueXML\\RaceSelect.xml"
+  },
+  {
+   "archive": "Data/patch-B.MPQ",
+   "block": 1265,
+   "path": "Interface\\GlueXML\\SoundOptionsFrame.lua"
+  },
+  {
+   "archive": "Data/patch-B.MPQ",
+   "block": 1266,
+   "path": "Interface\\GlueXML\\SoundOptionsFrame.xml"
+  },
+  {
+   "archive": "Data/patch-B.MPQ",
+   "block": 1267,
+   "path": "Interface\\SharedXML\\AnimationTemplates.lua"
+  },
+  {
+   "archive": "Data/patch-C.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-CZZ.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-W.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-WB.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-WC.MPQ",
+   "block": 0,
+   "path": null
+  },
+  {
+   "archive": "Data/patch-WC3.MPQ",
+   "block": 8899,
+   "path": "world\\Bronzebeard\\scadeald\\fence\\bzb_earthen_rowboat01.m2"
+  }
+ ],
+ "note": "Members the archive records as zero bytes: real entries that hold nothing. Distinct from a tombstone, which carries no bytes by design, and from a failed read."
 }

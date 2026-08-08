@@ -31,6 +31,22 @@ What this actually proves, in order of how much it would hurt to get wrong:
     than re-run here; its own run cross-verifies every sha256 against the
     inventory, which is the stronger check anyway.)
 """
+# ---------------------------------------------------------------------------
+# STALE - DOES NOT RUN. This file drives stage modules that no longer exist.
+#
+# The raw pipeline collapsed into `datamine.py` (one snapshot, one traversal);
+# tools/extract_content.py, tools/extract_cache.py,
+# tools/extract_interface_all.py and tools/inventory.py were retired with it. The
+# GATES BELOW ARE STILL THE RIGHT GATES - they are what `datamine.py` has to
+# keep true - so this file is kept rather than deleted, and migrating it is
+# tracked work: point the output assertions at the published `raw/` layer, and
+# the reader/decoder assertions at `tools/dbcdecode.py` and `tools/emit.py`.
+#
+# It is left failing on import ON PURPOSE. Deleting it would quietly drop the
+# specification of behaviour this repo has already paid to learn; rewriting it
+# to pass without re-checking what it checks would be worse.
+# ---------------------------------------------------------------------------
+
 import glob
 import gzip
 import hashlib

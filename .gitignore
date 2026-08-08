@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .superpowers/
 docs/
+
+# datamine.py stages layers here and swaps them into raw/ only on success;
+# a failed run leaves this behind and it must never be committed.
+raw/.staging/
+raw/.*.old/

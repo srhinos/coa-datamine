@@ -525,7 +525,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -556,7 +556,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -752,7 +752,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -1674,7 +1674,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -1822,14 +1822,17 @@
    ],
    "declaredInListarchive": true,
    "dir": "Data",
-   "fileCount": 0,
+   "fileCount": 1,
    "formatVersion": 0,
    "hashSlotsDeleteMarked": 1350,
    "hashSlotsUsed": 2,
    "hashTableEntries": 8192,
    "id": "Data/patch-P.mpq",
    "layer": "base",
-   "listable": false,
+   "listable": true,
+   "listfileLines": 1,
+   "listfileUnresolved": [],
+   "listfileUnresolvedCount": 0,
    "metaMembers": [
     "(listfile)",
     "(attributes)"
@@ -1837,8 +1840,7 @@
    "realm": null,
    "sha256": "12fe249b91420b432c0300969081be3b66a35e8c4231e64226b1b492cad3013a",
    "uncompressedBytes": 28188,
-   "unlistableReason": "NotImplementedError: Encryption is not supported yet.",
-   "unnamedCount": 0
+   "unnamedCount": -1
   },
   {
    "archive": "patch-Q.MPQ",
@@ -2165,7 +2167,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -2229,7 +2231,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -2326,7 +2328,7 @@
    "realm": null,
    "sha256": "168410bc1e79b6ccc326ac114913cd6492433b35db36ae88d45b25a95dd6b4f0",
    "uncompressedBytes": 64,
-   "unlistableReason": "AttributeError: 'NoneType' object has no attribute 'splitlines'",
+   "unlistableReason": "no readable (listfile) member",
    "unnamedCount": 0
   },
   {
@@ -2531,7 +2533,6 @@
   }
  ],
  "clientDir": "E:\\ascension-live",
- "listableCount": 69,
- "scanCheckpointRule": "Pass 1 opens all 77 archives, hashes each one whole (about 30 GB of reads) and enumerates its listfile against its block table. It is checkpointed per archive into work/inventory_scan/, keyed by the archive file's SIZE and modification time, with the sha256 it computed stored inside. A client patch rewrites the file and moves its mtime, which invalidates the entry; `--rescan` ignores the checkpoints entirely and re-reads every archive, which is the way to prove a run from the bytes alone. Unlike the pass-4 checkpoint this key is not the content hash - computing the content hash IS the cost being avoided - so it is a stat-based assumption and is called one here rather than left implicit.",
- "unlistableCount": 8
+ "listableCount": 70,
+ "unlistableCount": 7
 }

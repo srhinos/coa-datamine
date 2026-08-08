@@ -20,10 +20,7 @@
  "origin": {
   "alsoIn": [],
   "archive": "Data/enUS/base-enUS.MPQ",
-  "chainRank": 5,
-  "clientPath": "Wow.exe",
-  "kind": "archive",
-  "rule": "One extraction per DISTINCT sha256, not one per carrying archive - the same rule tools/variants.py applies to tables. Byte-identical copies are ONE version, extracted under the HIGHEST-ranked archive that carries those bytes with the others listed in `alsoIn`. A version whose bytes are already extracted as a loose client-root binary is not extracted twice either; it is recorded against that binary in `alsoInArchives`. Chain rank is position in tools/inventory.discover_archives(), the same loader order every other layer here uses."
+  "clientPath": "Wow.exe"
  },
  "overlay": {
   "bytes": 4752,

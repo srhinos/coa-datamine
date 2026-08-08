@@ -1,18 +1,17 @@
 """Shared shard writer for the raw JSONL layers (localization, WDB caches).
 
-Deliberately thin: it reuses `tools/decode_all.py`'s already-proven pieces
-rather than re-implementing them, so every raw layer in this repo shards,
-compresses and hashes by exactly the same rules and an agent only has to learn
-them once.
+Deliberately thin: it reuses `tools/dbcdecode.py`'s already-proven pieces rather
+than re-implementing them, so every raw layer in this repo shards, compresses and
+hashes by exactly the same rules and an agent only has to learn them once.
 
-  * range planning        decode_all.plan_shards - fixed decimal-prefix ranges
+  * range planning        dbcdecode.plan_shards - fixed decimal-prefix ranges
                           over an unsigned key, split only where a range exceeds
                           the row cap. A record's shard is a function of the
                           record's own key, so it never moves because a
                           neighbouring range grew (which is what count-chunking
                           does, and why it is banned here).
-  * plain shard writing   decode_all.write_plain  - bytes, LF, sha256 recorded.
-  * compression           decode_all.compress_shard - deflate level 9 with the
+  * plain shard writing   dbcdecode.write_plain  - bytes, LF, sha256 recorded.
+  * compression           dbcdecode.compress_shard - deflate level 9 with the
                           gzip mtime and name fields zeroed, so a rerun over an
                           unchanged client is byte-identical.
 
@@ -23,9 +22,9 @@ plain .jsonl and greppable, or all of them are .jsonl.gz.
 import json
 from pathlib import Path
 
-from tools.decode_all import (PLAIN_MAX_TABLE_BYTES, SHARD_MAX_ROWS,
-                              COMPRESSION_RULE, SHARD_RULE,
-                              compress_shard, plan_shards, write_plain)
+from tools.dbcdecode import (PLAIN_MAX_TABLE_BYTES, SHARD_MAX_ROWS,
+                             COMPRESSION_RULE, SHARD_RULE,
+                             compress_shard, plan_shards, write_plain)
 
 __all__ = ["PLAIN_MAX_TABLE_BYTES", "SHARD_MAX_ROWS", "COMPRESSION_RULE",
            "SHARD_RULE", "line", "write_group"]

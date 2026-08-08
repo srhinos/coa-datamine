@@ -28,6 +28,21 @@ What these assert, in order of how much they matter:
     literals are disjoint from the repo's curated column names and from every
     table name in the census, so no table, realm or archive is special-cased.
 """
+# ---------------------------------------------------------------------------
+# STALE - DOES NOT RUN. This file drives stage modules that no longer exist.
+#
+# The raw pipeline collapsed into `datamine.py` (one snapshot, one traversal);
+# tools/variants.py, tools/extract_all.py and tools/decode_all.py were retired with it. The
+# GATES BELOW ARE STILL THE RIGHT GATES - they are what `datamine.py` has to
+# keep true - so this file is kept rather than deleted, and migrating it is
+# tracked work: point the output assertions at the published `raw/` layer, and
+# the reader/decoder assertions at `tools/dbcdecode.py` and `tools/emit.py`.
+#
+# It is left failing on import ON PURPOSE. Deleting it would quietly drop the
+# specification of behaviour this repo has already paid to learn; rewriting it
+# to pass without re-checking what it checks would be worse.
+# ---------------------------------------------------------------------------
+
 import ast
 import gzip
 import hashlib

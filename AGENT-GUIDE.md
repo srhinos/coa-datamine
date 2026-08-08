@@ -2,8 +2,9 @@
 
 Dataset of Ascension CoA (WoW 3.3.5a custom server) game data for porting work
 (dispel logic, class buffs, raid tooling). Everything below is generated - do not
-hand-edit; rerun `python -m tools.extract_everything` (raw layer) or
-`python -m tools.build_dataset` (derived `data/` layer) after a client patch.
+hand-edit; rerun `python datamine.py` (raw layer, ONE script, one pass over
+the client) or `python -m tools.build_dataset` (derived `data/` layer) after a
+client patch.
 
 ## START HERE: search the raw client before you read anything else
 
@@ -64,7 +65,9 @@ genuinely provide - enrichment, spec rosters, damage models - but when an answer
 matters, confirm it against `raw/` and say which layer you used.
 
 Regenerate the raw layer with one command, no arguments and no agent:
-`python -m tools.extract_everything`. It prints what changed since the last run.
+`python datamine.py`. It snapshots the client first and then walks each archive
+exactly once, so every layer it writes describes ONE client version -
+`raw/_snapshot.json` records the sha256 of every file it was built from.
 
 > **Read this before using `data/classes/`.** It is the CAD **catalog** - what the
 > client's character-advancement tables LIST - and a large part of it is not in the
@@ -2127,7 +2130,7 @@ def class_specs_and_roles(class_name):
   oracle rather than asserted.** Every MPQ carries an `(attributes)` member
   holding the MD5 its packer recorded for each block entry, so a decoded file can
   be checked against the archive instead of against another reader.
-  `python -m tools.crack --only verify` does that for **all 763,928 members** of
+  `datamine.py` does that for **every member it decompresses** in
   all 77 archives: **0 mismatches, 0 unreadable**. Consequences worth knowing:
   - `raw/_inventory` still marks 41,051 paths `readable: false`. That was a
     defect in `mpyq`, not a compression the client uses. 36,139 decode fine,
@@ -2335,7 +2338,7 @@ authoritative statement lives in `tools/crack.py`'s `HOST_FAULT_SCOPE`.
   written with 2 wrong bytes out of 115 MB, same length and valid header (see
   `tools/extract_all.py`'s `READ_AGREEMENT_RULE`). Real, single, never
   reproduced, never root-caused.
-- **Evidence the other way, measured now:** `python -m tools.crack --only verify`
+- **Evidence the other way, measured now:** `datamine.py`'s MD5 check
   decodes every member of every archive and checks each against the MD5 the
   archive itself recorded - **763,928 members, 0 mismatches**. A host corrupting
   reads at any appreciable rate would not produce that.

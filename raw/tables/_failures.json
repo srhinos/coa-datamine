@@ -1,5 +1,9 @@
 {
- "count": 0,
- "failures": [],
- "note": "Every table the census names is either decoded or listed here with its reason. An empty list means zero silent drops."
+ "byStatus": {"deleted":1},
+ "count": 1,
+ "failures": [
+  {"archive":"Data/enUS/patch-enUS.MPQ","path":"DBFilesClient\\CharVariations.dbc","reason":"an MPQ DELETE_MARKER tombstone: this archive REMOVES the path at its layer and the entry carries no bytes by design. Archive semantics, not a failed read - see raw/recovered/deleted/","stage":"read","status":"deleted","table":"CharVariations.dbc"}
+ ],
+ "note": "Every table the client names is either decoded or listed here with its reason. An empty list means zero silent drops.",
+ "statusRule": "`status` is the reader's classification of the member, so a copy that is not a table is reported as what the archive says it is. `deleted` is an MPQ DELETE_MARKER tombstone - the patch REMOVES the path, which is archive semantics and NOT a read failure, and every one is enumerated in raw/recovered/deleted/. `empty` is a real entry holding zero bytes. Only `error` is a read that actually failed."
 }

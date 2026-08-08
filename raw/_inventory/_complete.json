@@ -2,10 +2,10 @@
  "archiveCount": 77,
  "contentHashed": true,
  "dbcTableCount": 368,
- "generatedBy": "python -m tools.inventory",
+ "generatedBy": "python datamine.py",
  "layer": "raw/_inventory",
  "looseOverrideCount": 25,
- "recordCount": 637590,
+ "recordCount": 637591,
  "rule": "A raw layer is trustworthy only while it carries `_complete.json`. Every extractor removes that file BEFORE it deletes anything and writes it back LAST, after all of its output, so a layer left half-written by a crash is detectable rather than silently readable. Readers and tests refuse a layer that has no sentinel. The sentinel holds no timestamp, so it does not affect byte-for-byte reproduction.",
  "shardCount": 640
 }

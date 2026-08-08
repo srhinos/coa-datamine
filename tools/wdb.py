@@ -493,7 +493,7 @@ def interpretation_index() -> dict:
                 "appears, and it is a hypothesis, not a measurement.",
         "rule": INTERPRETATION_RULE,
         "validationRule": VALIDATION_RULE,
-        "generatedBy": "python -m tools.extract_cache",
+        "generatedBy": "python datamine.py",
         "magics": {m: {"source": SCHEMA_SOURCE.get(m),
                        "fieldCount": len(SCHEMAS[m]),
                        "fields": interpretation(m)}

@@ -26,6 +26,21 @@ this code:
 The live-client checks skip when the client is not mounted; the layer checks
 skip when raw/binaries has no sentinel.
 """
+# ---------------------------------------------------------------------------
+# STALE - DOES NOT RUN. This file drives stage modules that no longer exist.
+#
+# The raw pipeline collapsed into `datamine.py` (one snapshot, one traversal);
+# tools/extract_binaries.py were retired with it. The
+# GATES BELOW ARE STILL THE RIGHT GATES - they are what `datamine.py` has to
+# keep true - so this file is kept rather than deleted, and migrating it is
+# tracked work: point the output assertions at the published `raw/` layer, and
+# the reader/decoder assertions at `tools/dbcdecode.py` and `tools/emit.py`.
+#
+# It is left failing on import ON PURPOSE. Deleting it would quietly drop the
+# specification of behaviour this repo has already paid to learn; rewriting it
+# to pass without re-checking what it checks would be worse.
+# ---------------------------------------------------------------------------
+
 import hashlib
 import json
 import shutil

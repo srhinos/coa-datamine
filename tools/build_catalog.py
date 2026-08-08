@@ -1,12 +1,17 @@
 """Generate the searchable catalog over the raw table layer.
 
-Step 3 of the raw table layer. Step 1 is tools/extract_all.py (MPQ chain ->
-work/), step 2 is tools/decode_all.py (-> raw/tables/, positional f0..fN). This
-step reads *only* what step 2 wrote and adds no facts of its own: every number
-below is either copied from a decode measurement or computed from the decoded
-values. Nothing here knows what a table means, and nothing here may learn.
+Pure analysis over an already-decoded table layer. It never opens an archive and
+never reads the client - `datamine.py` did that once, decoded `raw/tables/` to
+positional f0..fN, and then hands the finished layer here. This step adds no
+facts of its own: every number below is either copied from a decode measurement
+or computed from the decoded values. Nothing here knows what a table means, and
+nothing here may learn.
 
-Regenerate: `python -m tools.build_catalog`.
+Driven by `datamine.py` as the last thing it does, against the STAGED table
+layer, so the catalog and the tables it describes are published together and the
+catalog can never describe a previous generation of the data.
+
+Regenerate: `python datamine.py`.
 
 What it writes
 --------------
@@ -527,7 +532,7 @@ def write_tables_json(stems: list, infos: dict, layer: dict, targets: dict,
                    "Density is the share of the integers between min and max "
                    "that are real ids - the closer to 1.0, the more readily "
                    "any column of small integers will appear to join to it.",
-        "generatedBy": "python -m tools.build_catalog",
+        "generatedBy": "python datamine.py",
         "tableCount": len(records),
         "columnCount": sum(len(r["columnDetail"]) for r in records),
         "tablesWithoutIntegerKey": sorted(keyless, key=lambda r: r["table"]),
@@ -546,7 +551,7 @@ def write_joins_json(scan: dict, targets: dict) -> dict:
                 "reading a rate, and `baselineRule` before believing one.",
         "rule": JOIN_RULE,
         "baselineRule": BASELINE_RULE,
-        "generatedBy": "python -m tools.build_catalog",
+        "generatedBy": "python datamine.py",
         "caps": {"minContainment": MIN_CONTAINMENT,
                  "minSourceDistinct": MIN_SOURCE_DISTINCT,
                  "candidatesPerColumn": TOP_K,
@@ -624,7 +629,7 @@ def write_strings_json(scan: dict) -> dict:
     payload = {
         "note": "Every string column in the client, with real values from it.",
         "rule": STRING_RULE,
-        "generatedBy": "python -m tools.build_catalog",
+        "generatedBy": "python datamine.py",
         "samplesPerColumn": STRING_SAMPLES,
         "columnCount": len(scan["strings"]),
         "tableCount": len({r["table"] for r in scan["strings"]}),
@@ -672,8 +677,8 @@ def write_catalog_md(layer: dict) -> None:
 
     L = ["# Client data catalog (generated)\n"]
     L.append("**Generated file - never hand-edit.** Every line below is written "
-             "by `python -m tools.build_catalog` from `raw/tables/`, which "
-             "`python -m tools.decode_all` writes from the client's MPQ chain. "
+             "by `python datamine.py`, which walks the client in one pass and "
+             "decodes `raw/tables/` from it. "
              "An edit here is overwritten on the next run and, worse, becomes a "
              "hand-authored fact in a layer whose whole point is that it "
              "contains none.\n")
@@ -798,11 +803,26 @@ def write_catalog_md(layer: dict) -> None:
 
 
 # --------------------------------------------------------------------------
-def run(verbose: bool = True) -> dict:
-    # raw/tables left half-written by a crash still has a readable index.json for
-    # the tables that survived; cataloguing it would publish a partial client as
-    # the whole one.
-    layerstate.require_complete(TABLES_DIR, "python -m tools.decode_all")
+def run(verbose: bool = True, tables_dir=None, catalog_dir=None,
+        catalog_md=None) -> dict:
+    """Build the searchable catalog over a decoded table layer.
+
+    The three directories are parameters rather than fixed globals so
+    `datamine.py` can build the catalog into its STAGING tree, alongside the
+    table layer it was derived from, and publish both together. Nothing here
+    reads the client - this stage is pure analysis over already-decoded
+    tables - which is why it is the one layer that can safely run last."""
+    global TABLES_DIR, CATALOG_DIR, CATALOG_MD
+    if tables_dir is not None:
+        TABLES_DIR = Path(tables_dir)
+    if catalog_dir is not None:
+        CATALOG_DIR = Path(catalog_dir)
+    if catalog_md is not None:
+        CATALOG_MD = Path(catalog_md)
+    # a table layer left half-written by a crash still has a readable index.json
+    # for the tables that survived; cataloguing it would publish a partial
+    # client as the whole one.
+    layerstate.require_complete(TABLES_DIR, "python datamine.py")
     layerstate.begin(CATALOG_DIR)
     layer = layer_index()
     stems = sorted((t["table"] for t in layer["tables"]), key=str.lower)
@@ -822,7 +842,7 @@ def run(verbose: bool = True) -> dict:
     strings = write_strings_json(scan)
     write_catalog_md(layer)
     layerstate.finish(CATALOG_DIR, {
-        "layer": "raw/_catalog", "generatedBy": "python -m tools.build_catalog",
+        "layer": "raw/_catalog", "generatedBy": "python datamine.py",
         "tableCount": tables["tableCount"], "columnCount": tables["columnCount"],
         "joinCandidateCount": joins["candidateCount"],
         "stringColumnCount": strings["columnCount"]})

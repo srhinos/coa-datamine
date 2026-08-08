@@ -12,16 +12,30 @@ shipped with the evidence behind them. No wanted-list decides what gets extracte
 ## Regenerate it
 
 ```
-python -m tools.extract_everything
+python datamine.py
 ```
 
-One command, no arguments, no LLM, no manual step. Run it after any client patch.
-It rebuilds every raw layer in dependency order and ends by printing what changed
-since the last run - per-table row deltas, tables added and removed, tables whose
-winning archive moved. On an unchanged client it reproduces the tree byte for byte
-and says so. `--list` shows stage state, `--from <stage>` resumes, `--only <stage>`
-reruns one. Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`);
-Python 3.12 + `pip install mpyq`.
+ONE script. No arguments, no stages, no order to get right, no LLM, no manual
+step. Run it after any client patch.
+
+It works in two movements. First it SNAPSHOTS the client - every archive, the
+loose `Data\` files, the client-root files that override an archived path,
+`Cache\WDB` and the client's own executables - into `work/snapshot/`, hashing as
+it copies. Then it opens each snapshot archive exactly ONCE and, for every
+member whose bytes are needed, does all of the work for those bytes before
+moving on: hash it, verify it against the archive's own MD5, decode it, classify
+it, stage it. Nothing after the snapshot reads the live client.
+
+That matters because the launcher patches the archives roughly hourly. The
+previous pipeline was a chain of stage scripts, ten of which independently
+opened the archives, so a run walked 44.9 GB about a dozen times over and read a
+MIXTURE of client versions along the way. The snapshot being minutes or hours
+behind the live client is expected and harmless; what matters is that one client
+version goes in and one dataset comes out. `raw/_snapshot.json` records the
+sha256, size and mtime of every file the run was built from.
+
+Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`). Python 3.12,
+standard library only - no third-party packages.
 
 ## Where to look first
 

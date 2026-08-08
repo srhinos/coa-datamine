@@ -164,7 +164,7 @@ def _table_sources(variant: str = VARIANT_WINNER) -> list:
     chain winner. Which versions exist and which chain context selects each is
     READ OUT of every table's own index (`variants`), never derived here - the
     module that decoded them is the one that gets to say what they are."""
-    layerstate.require_complete(bc.TABLES_DIR, "python -m tools.decode_all")
+    layerstate.require_complete(bc.TABLES_DIR, "python datamine.py")
     out = []
     for t in bc.layer_index()["tables"]:
         stem = t["table"]
@@ -431,7 +431,7 @@ def find_joins_to(target: str) -> dict:
     p = bc.CATALOG_DIR / "joins.json"
     if not p.exists():
         sys.exit("raw/_catalog/joins.json is missing - run "
-                 "`python -m tools.build_catalog`")
+                 "`python datamine.py`")
     jj = bc.load_json(p)
     index = {b["target"].lower(): b for b in jj["byTarget"]}
     b = index.get(target.lower())

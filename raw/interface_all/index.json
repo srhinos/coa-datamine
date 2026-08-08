@@ -1,14 +1,14 @@
 {
- "binaryCount": 91896,
+ "binaryCount": 91954,
  "byExtension": {
   "avi": {
    "bytes": 917533066,
    "files": 57,
    "text": 0,
-   "unreadable": 57
+   "unreadable": 0
   },
   "blp": {
-   "bytes": 3475417987,
+   "bytes": 3475418035,
    "files": 91514,
    "text": 0,
    "unreadable": 1
@@ -22,8 +22,8 @@
   "lua": {
    "bytes": 13767847,
    "files": 930,
-   "text": 918,
-   "unreadable": 12
+   "text": 921,
+   "unreadable": 9
   },
   "m2": {
    "bytes": 20955865,
@@ -77,13 +77,13 @@
    "bytes": 496056,
    "files": 10,
    "text": 0,
-   "unreadable": 1
+   "unreadable": 0
   },
   "xml": {
    "bytes": 5873424,
    "files": 432,
-   "text": 420,
-   "unreadable": 12
+   "text": 422,
+   "unreadable": 10
   },
   "xsd": {
    "bytes": 48821,
@@ -100,9 +100,8 @@
  },
  "bytesCommittedHere": 12,
  "bytesCommittedHereBytes": 60500,
- "bytesInCodeLayer": 1444,
- "bytesRead": 3530756449,
- "looseOverrideRule": "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. The census therefore walks the whole client root, and a loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost. Which loose files are recorded is decided mechanically, by two conditions and no list of names: a loose file is recorded if (1) it lives under `Data\\` - the client's data directory, already covered before this rule existed - or (2) its root-relative path is carried by the MPQ chain, which is what makes it an override at all. Everything else on the disk (the user's installed AddOns, WTF settings, Logs, Screenshots, the WDB caches that raw/cache owns) is machine state rather than client content, is not in the archive namespace, and is deliberately outside this census - it is also volatile between launches, so recording it would make a rerun on an unchanged client stop reproducing. `.MPQ` files themselves are skipped here because they are inventoried as archives, with their members as paths.",
+ "bytesInCodeLayer": 1449,
+ "looseOverrideRule": "A 3.3.5 client resolves `<clientRoot>\\<path>` on disk BEFORE it looks in the MPQ chain, so a loose file at the client root beats every archive that carries the same path - which is how this client ships its own ChatBubble textures and its silenced Fizzle sounds. A loose file whose root-relative path is also an MPQ path WINS that path: `source` becomes `loose`, `winner` becomes `<disk>`, `size`/`sha256` are the file's own, and the archive copy it displaced is preserved under `overrides` so nothing is lost.",
  "looseOverrides": [
   "Interface/AddOns/Blizzard_AchievementUI/Blizzard_AchievementUI.pub",
   "Interface/AddOns/Blizzard_AuctionUI/Blizzard_AuctionUI.pub",
@@ -117,15 +116,20 @@
   "Interface/AddOns/Blizzard_MacroUI/Blizzard_MacroUI.pub",
   "Interface/AddOns/Blizzard_RaidUI/Blizzard_RaidUI.pub",
   "Interface/AddOns/Blizzard_TalentUI/Blizzard_TalentUI.pub",
+  "Interface/Tooltips/ChatBubble-Backdrop.blp",
+  "Interface/Tooltips/ChatBubble-Background.blp",
+  "Interface/Tooltips/ChatBubble-Tail.blp",
   "Interface/Tooltips/chatbubble.blp",
   "Interface/Tooltips/chatbubblevertical.blp"
  ],
- "note": "Every path under Interface\\ in the client MPQ chain. Per-path records are in paths/*.jsonl, one compact record per line, sharded by path prefix (a path's shard is a pure function of that path). `bytesAt` says where the committed bytes live, or is null when only the hash is kept.",
+ "note": "Every path under Interface\\ in the client MPQ chain. Per-path records are in paths/*.jsonl, one compact record per line, sharded by path prefix. `bytesAt` says where the committed bytes live, or is null when only the hash is kept.",
  "onDiskInterfaceTree": {
-  "addonDirCount": 141,
+  "addonDirCount": 145,
   "addonDirs": [
    "!!KTProbe",
    "!KalielsTracker",
+   "!KalielsTracker.bak-20260807-180747",
+   "!KalielsTracker.bak-20260807-182957",
    "APIDocumentation",
    "AllStats",
    "AscensionLogsCompanion",
@@ -220,9 +224,8 @@
    "Dominos_Totems",
    "Dominos_XP",
    "Grid2",
+   "Grid2AoeHeals",
    "Grid2Options",
-   "Grid2StatusRaidDebuffs",
-   "Grid2StatusRaidDebuffsOptions",
    "HidingBar",
    "HidingBar_Options",
    "Leatrix_Maps",
@@ -238,6 +241,8 @@
    "ShadowedUF_Options",
    "ShadowedUnitFrames",
    "SignalFire",
+   "Sorted",
+   "Sorted.bak-20260807-121112",
    "SortedProbe",
    "TipTac",
    "TipTacItemRef",
@@ -263,12 +268,13 @@
    "YABB.bak-r6",
    "YABB.bak-r7",
    "YABB.bak-r8",
+   "_backup-Sorted-335-r1",
    "pfQuest",
    "pfQuest-ascension"
   ],
-  "bytes": 460058894,
-  "fileCount": 4592,
-  "note": "Third-party addons the user installed. Not client data, so not extracted; counted here so the boundary is auditable. AddOns/APIDocumentation is the sole exception and is extracted by tools/extract_interface.py.",
+  "bytes": 504123688,
+  "fileCount": 5462,
+  "note": "Third-party addons the user installed. Not client data, so not extracted; counted here so the boundary is auditable. AddOns/APIDocumentation is the sole exception and IS snapshotted, because it is Ascension's own launcher-managed description of their API.",
   "present": true,
   "root": "E:\\ascension-live\\Interface",
   "takenFromHere": [
@@ -276,8 +282,6 @@
   ]
  },
  "pathCount": 93437,
- "sha256MismatchCount": 0,
- "sha256Mismatches": [],
  "shardCount": 97,
  "shardMaxRecords": 5000,
  "shards": [
@@ -288,7 +292,7 @@
    "lastPath": "Interface/Cursor/workorders.blp",
    "prefix": "interface/",
    "records": 3192,
-   "sha256": "ecacce6e8d7cac1a74ffc3b693ffeef58255dbada759e106a635ab178a3f6be2"
+   "sha256": "6241e9b3228b6461aab3c5c5a93cd535476d845e334a126cdef0dac2e1adeb61"
   },
   {
    "file": "interface-~def.jsonl",
@@ -297,7 +301,7 @@
    "lastPath": "Interface/FullScreenTextures/OutOfControl.blp",
    "prefix": "interface/",
    "records": 856,
-   "sha256": "239b4d68b8ca772920bb8f66b60ebba74f0a4c523ea45fb8e927f3325d47547a"
+   "sha256": "d2fd99dfb16ba1e63b154975ece4c1f7dc3bc07037a6ae8119bf7a604e863013"
   },
   {
    "file": "interface-~jkl.jsonl",
@@ -333,7 +337,7 @@
    "lastPath": "Interface/UNITPOWERBARALT/WowUI_Vertical_Frame.blp",
    "prefix": "interface/",
    "records": 1985,
-   "sha256": "f9eb204605cba567d771f96d9ac0e50fe0d6d86bef68c5a8f764521a2423d909"
+   "sha256": "7450ae45452765beaa61640540487f3c1311c3cf811299749108e4900861b781"
   },
   {
    "file": "interface-g.jsonl",
@@ -342,7 +346,7 @@
    "lastPath": "Interface/GuildFrame/GuildFrame.blp",
    "prefix": "interface/g",
    "records": 2471,
-   "sha256": "ee7940350243136c56d3f3cced065004f623c017ec48af28874fb435b44929d0"
+   "sha256": "a5073b7827ce1de7e3f02972c7380365a03d5e24d01d425da2a87e2d0f97099f"
   },
   {
    "file": "interface-h.jsonl",
@@ -981,7 +985,7 @@
    "lastPath": "Interface/icons/inv_ursocpet.blp",
    "prefix": "interface/icons/inv_",
    "records": 4276,
-   "sha256": "ba76ea8f1f9509540a0649b5c9fe80df450d19a4fbe9847a7d58a52adedd480d"
+   "sha256": "89655d6db78313b4724c05a95fc303c04c7c0bbd341a23bff3bf138f76e5ae29"
   },
   {
    "file": "interface-icons-inv_~vwx.jsonl",
@@ -1156,8 +1160,8 @@
   }
  ],
  "sizeRule": "Bytes are committed for every file measured as text. For binary files the record carries path, uncompressed size and sha256 and the bytes stay in the client. This is a repository-size decision, not a curation decision: the Interface tree is 4.45 GB and is 99% art. Every binary file's sha256 is here, so the exact bytes this census saw can be pulled from the client and verified at any time.",
- "textCount": 1456,
- "textRule": "A file is text if its decompressed bytes contain no NUL and fewer than one C0 control byte per 512 bytes outside tab/newline/CR/FF/VT; an empty file is text. Its encoding is recorded as utf-8 when it decodes strictly as UTF-8 and latin-1 otherwise. The rule reads the bytes - no extension list, no filename pattern, and no judgment about which files matter decides it, so a .blp that really were text would be committed and a .lua that really were binary would not.",
- "totalBytes": 4448646423,
- "unreadableCount": 85
+ "textCount": 1461,
+ "textRule": "A file is text if its decompressed bytes contain no NUL and fewer than one C0 control byte per 512 bytes outside tab/newline/CR/FF/VT; an empty file is text. Its encoding is recorded as utf-8 when it decodes strictly as UTF-8 and latin-1 otherwise. The rule reads the bytes - no extension list, no filename pattern, and no judgment about which files matter decides it.",
+ "totalBytes": 4448646471,
+ "unreadableCount": 22
 }

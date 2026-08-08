@@ -447,7 +447,7 @@
   {"column":"f4","columnIndex":4,"distinctOffsets":11,"distinctValues":11,"exhaustive":true,"hasEmpty":false,"partial":false,"path":"raw/tables/ZoneStory/*.jsonl","rows":20,"samples":["campaign_dracthyrawaken","campaign_emeralddream","campaign_fey","campaign_necrolord","campaign_ohnplains","campaign_oribos","campaign_revendreth","campaign_thaldraszus","campaign_venthyr","campaign_walkingshore","campaign_zaralekcavern"],"table":"ZoneStory"}
  ],
  "distinctValueTotal": 1351489,
- "generatedBy": "python -m tools.build_catalog",
+ "generatedBy": "python datamine.py",
  "note": "Every string column in the client, with real values from it.",
  "rule": "Every column the decode inferred as a string, with sample values taken from its distinct values in sorted order - all of them when the column has at most 25 (then `exhaustive` is true and a grep of this file is authoritative for that column), otherwise evenly spaced across the sorted distinct values so the samples span the range instead of clustering at its start. Samples are examples, not an index: to find an arbitrary string anywhere in the client, run `python -m tools.find \"<text>\"`, which scans every shard.",
  "samplesPerColumn": 25,

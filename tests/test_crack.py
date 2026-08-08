@@ -21,6 +21,21 @@ So the assertions below are anchored to two oracles that are NOT this code:
 The live-client checks are skipped when the client is not mounted, so the
 format-level tests still run anywhere; the layer checks are skipped when
 raw/recovered has no sentinel."""
+# ---------------------------------------------------------------------------
+# STALE - DOES NOT RUN. This file drives stage modules that no longer exist.
+#
+# The raw pipeline collapsed into `datamine.py` (one snapshot, one traversal);
+# tools/crack.py and tools/inventory.py were retired with it. The
+# GATES BELOW ARE STILL THE RIGHT GATES - they are what `datamine.py` has to
+# keep true - so this file is kept rather than deleted, and migrating it is
+# tracked work: point the output assertions at the published `raw/` layer, and
+# the reader/decoder assertions at `tools/dbcdecode.py` and `tools/emit.py`.
+#
+# It is left failing on import ON PURPOSE. Deleting it would quietly drop the
+# specification of behaviour this repo has already paid to learn; rewriting it
+# to pass without re-checking what it checks would be worse.
+# ---------------------------------------------------------------------------
+
 import hashlib
 import json
 import struct

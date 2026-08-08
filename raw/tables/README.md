@@ -1,15 +1,14 @@
 # Raw client tables (generated)
 
-Regenerate: `python -m tools.decode_all`. Every byte under this directory is written by `tools/decode_all.py` from `tools/extract_all.py`'s extraction of the MPQ chain. Nothing is hand-authored, no table is treated specially, and no table is left out.
+Regenerate: `python datamine.py`. Every byte under this directory is decoded from the snapshot in `work/snapshot/`. Nothing is hand-authored, no table is treated specially, and no table is left out.
 
 ## Totals
 
-- **368 tables** decoded of 368 in the client census
-- **0 failures** (`_failures.json`)
+- **368 tables** decoded of 368 table paths in the client
+- **1 failures** (`_failures.json`)
 - **7,467,569 rows** in 7,857 shards
 - **131.8 MB** on disk (1955.4 MB uncompressed)
 - **56,045,598 string-block bytes**: 56,041,336 reached by a decoded record, 4,262 referenced by no column and written out verbatim to `<Table>.strings.json`
-
 - **987 versions** of those tables: 234 paths are shipped in more than one version by the chain, and all 619 extra versions are decoded too (2,377,659 further rows, 116.0 MB)
 
 ## Layout
@@ -18,28 +17,22 @@ Regenerate: `python -m tools.decode_all`. Every byte under this directory is wri
 raw/tables/index.json          every table: rows, columns, shards, bytes
 raw/tables/_failures.json      anything not decoded, and why
 raw/tables/_variants.json      every table shipped in more than one version
-raw/tables/<Table>/index.json  shard map: key ranges, format, sha256,
-                               and `variants`: every version of this table
+raw/tables/<Table>/index.json  shard map + `variants`: every version
 raw/tables/<Table>/<Table>.colinfo.json
                                per column: measurement + inferred type
-raw/tables/<Table>/<Table>.strings.json
-                               string-block entries no column points at
 raw/tables/<Table>/<lo>-<hi>.jsonl[.gz]
                                one record per line: {"f0":..,"f1":..}
 raw/tables/<Table>/variants/<archive-slug>/
-                               a NON-winning version of the same table,
-                               same files, same rules, same decoder
+                               a NON-winning version, same rules
 ```
 
 ## Versions
 
-A path can be carried by several archives, and the chain picks one. The other copies are not history: this client's realm directory sits above the whole base chain, so for a path the overlay carries, the chain winner is the OVERLAY's table and the table a character outside that realm reads is a different file. Every distinct version is therefore decoded, and each one records which chain context selects it.
+A chain context is a set of archives a running client actually loads, enumerated from the client's own directory layout rather than from a list: `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.
 
-A chain context is a set of archives a running client actually loads. It is enumerated from the client's own directory layout, not from a list: the context called `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's own `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it; chain rank is position in tools/inventory.discover_archives(), the same loader order the census and the extractor use. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.
+One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.
 
-One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner - the copy tools/decode_all.py already decoded - keeps its place at raw/tables/<T>/ and is listed here with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.
-
-`raw/tables/_variants.json` lists all 234 of them. 10 are contested between the base chain and a realm overlay - the ones where reading the chain winner means reading another realm's table:
+`_variants.json` lists all 234 of them. 10 are contested between the base chain and a realm overlay - the ones where reading the chain winner means reading another realm's table:
 
 | table | base rows | base archive | overlay rows | overlay archive |
 | --- | ---: | --- | ---: | --- |
@@ -78,11 +71,6 @@ Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep 
 
 The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.
 
-| tables written | count |
-| --- | ---: |
-| gzip | 58 |
-| plain | 310 |
-
 ## Largest tables
 
 | table | rows | columns | shards | MB stored |
@@ -102,4 +90,10 @@ The decision is per table, so a table is never half-readable: when a table's who
 | Creature | 127,178 | 23 | 128 | 2.8 |
 | GameObjectDisplayInfo | 120,869 | 19 | 134 | 1.7 |
 | GameObjectDisplayInfoAddon | 106,834 | 2 | 112 | 0.5 |
+
+## Failures
+
+| table | stage | reason |
+| --- | --- | --- |
+| CharVariations.dbc | read | an MPQ DELETE_MARKER tombstone: this archive REMOVES the path at its layer and the entry carries no bytes by design. Archive semantics, not a failed read - see raw/recovered/deleted/ |
 
