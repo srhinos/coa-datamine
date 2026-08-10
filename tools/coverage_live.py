@@ -60,8 +60,8 @@ Because `indeterminate` is a genuine unknown rather than a soft yes, the strict
 live figure is a LOWER bound on live coverage and the live-or-indeterminate
 figure is the UPPER bound. Both are reported.
 
-Run:  python -m analysis.coverage_live            (from the repo root)
-      python analysis/coverage_live.py --no-write (report only)
+Run:  python -m tools.coverage_live            (from the repo root)
+      python tools/coverage_live.py --no-write (report only)
 
 Deterministic: no network, no cache, no randomness. Output is written to
 data/spells/_coverage_live.json.
@@ -686,7 +686,7 @@ def main(write=True):
         return out
 
     doc = {
-        "_generatedBy": "analysis/coverage_live.py",
+        "_generatedBy": "tools/coverage_live.py",
         "_task": "Recompute the damage-model coverage figure over castable (live) content.",
         "_note": ("Unrelated to data/spells/_coverage.json, which measures Spell.dbc "
                   "COLUMN coverage. This file measures how much of a CoA class's "

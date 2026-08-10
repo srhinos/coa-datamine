@@ -1,5 +1,5 @@
 {
- "_generatedBy": "analysis/coverage_live.py",
+ "_generatedBy": "tools/coverage_live.py",
  "_note": "Unrelated to data/spells/_coverage.json, which measures Spell.dbc COLUMN coverage. This file measures how much of a CoA class's damaging/healing effect output a simulator can model.",
  "_task": "Recompute the damage-model coverage figure over castable (live) content.",
  "cadFigureOverstates": "The CAD-denominator figure (80.5% modelable, 278 holes, 101 distinct pairs) OVERSTATES the size of the problem for a simulator, because it counts effect slots on catalog entries no player can cast. 65 of its 101 distinct hole pairs (64%) sit on entries with no live builder node and no evidence of any other acquisition path - dead content. Use the live figure; the CAD figure is historical.",

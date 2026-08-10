@@ -1627,7 +1627,7 @@
  },
  "curationRule": "The curated data/ layer is a pure function of the raw layer produced by the same run of the same script, from the same snapshot. Its .dbc inputs are written out of the bytes this run's single traversal already staged (tools/curate.py materialize_inputs), never by reopening an archive and never by reading the live client - which is enforced, not asserted: ClientReads stays armed through curation and fails the run on any read of the client after the snapshot was sealed.",
  "entryPointRule": "datamine.py is the only entry point, and that is now a property of the code rather than a convention: no builder under tools/ has a __main__ any more, so `python -m tools.build_spells` cannot rewrite part of data/ from whatever happens to be on disk, and neither can the four retired client-reading extractors (extract_mpq, extract_realms, extract_interface, snapshot_content) - the STAGES were retired from the pipeline last pass, the MODULES kept their CLIs, and that was the surviving surface for exactly the two-pipeline drift this change set out to kill. They remain importable, because the test suite rebuilds individual layers on purpose. tests/test_dataset.py enforces the absence rather than trusting it.",
- "generatedUtc": "2026-08-10T06:18:37+00:00",
+ "generatedUtc": "2026-08-10T21:11:07+00:00",
  "headerMismatches": [
   {
    "actualFields": 16,

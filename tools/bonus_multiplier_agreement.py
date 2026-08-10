@@ -2,7 +2,7 @@
 `EffectBonusMultiplier` (f229-231, emitted as `effects[].bonusMultiplierStock`)
 contradicts CoA's own tooltip-authored coefficient far more often than it agrees.
 
-Run: python -m analysis.w4_3_bonus_multiplier_agreement   (from repo root)
+Run: python -m tools.bonus_multiplier_agreement   (from repo root)
 
 Method: for every Spell.dbc effect slot carrying a nonzero f229-231 value, look for
 a `${...}` formula block in that spell's description/tooltip text that references

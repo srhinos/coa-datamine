@@ -203,6 +203,8 @@ curated derived layer; `tools/` = the pipeline; `work/` =
 gitignored scratch. Every layer carries `_complete.json` - a layer without one was
 left half-written by a crash and must not be read.
 
-Spec: `docs/superpowers/specs/2026-07-17-coa-datamine-design.md`,
-`docs/superpowers/specs/2026-07-23-coa-datamine-v2-design.md`,
-`docs/superpowers/plans/2026-08-01-coa-datamine-v3.md`.
+The published record of how this was built - the rules, the goldens behind every
+named column, the disproven hypotheses and the honest limits - is `AGENT-GUIDE.md`
+plus each dataset's own `_meta.json`. Working notes and per-change plans are kept
+out of the tree deliberately: anything a future run or an outside audit needs is in
+those two places or it is not a claim this repo makes.

@@ -61,7 +61,7 @@ for k, v in meta["missing_ref_counts_by_source"].items():
     assert v == len(stats["missing_by_source"][k])
 
 # Single-writer survival gate. build() rmtree's data/spells/ because its shard set
-# changes between runs, which silently destroyed analysis/coverage_live.py's
+# changes between runs, which silently destroyed tools/coverage_live.py's
 # _coverage_live.json on every rebuild until it was noticed missing. build() now
 # carries build_spells.FOREIGN_FILES across that delete; this asserts it, and the
 # `stats` call at the top of this file IS the rebuild that would have deleted them.

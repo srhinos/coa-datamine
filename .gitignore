@@ -4,6 +4,11 @@ __pycache__/
 .superpowers/
 docs/
 
+# One-off workstream residue: kept on disk for future debugging, not published.
+# Anything a future datamining run or a methodology audit actually needs lives in
+# tools/ (maintained, referenced from AGENT-GUIDE.md) instead.
+analysis/
+
 # datamine.py stages layers here and swaps them into raw/ only on success;
 # a failed run leaves this behind and it must never be committed.
 raw/.staging/

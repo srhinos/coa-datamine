@@ -34,7 +34,7 @@ BUCKET_SIZE = 10000
 # Add a name here when a new module starts writing into data/spells/, and add it
 # to tests/test_spells.py's survival gate at the same time.
 FOREIGN_FILES = (
-    "_coverage_live.json",      # analysis/coverage_live.py (task W4-14)
+    "_coverage_live.json",      # tools/coverage_live.py
 )
 
 # [Task W4-4] Formula-reference closure (DATAMINE-REQUEST.md Sec 1.6): CoA authors
@@ -1334,7 +1334,7 @@ def build() -> dict:
     # shard SET changes between runs. It also used to destroy every file under
     # data/spells/ that this module does not write - the same bug already fixed
     # for build_realms vs overlay_diff.json and build_classes vs specs.json, and
-    # it really happened: analysis/coverage_live.py's _coverage_live.json was
+    # it really happened: tools/coverage_live.py's _coverage_live.json was
     # silently deleted by a rebuild and stayed missing until a later audit noticed
     # the file was gone. Foreign files are now carried across the rmtree by name,
     # and tests/test_spells.py gates their survival.
