@@ -1,0 +1,391 @@
+{
+ "byEncoding": {
+  "ascii": 33643,
+  "utf16le": 133,
+  "utf8": 2657
+ },
+ "format": "gzip",
+ "keyField": "id",
+ "luaScored": 740,
+ "minRunLength": 4,
+ "occurrences": 45577,
+ "oversizeShards": [],
+ "plainBytes": 3821810,
+ "rows": 36433,
+ "rule": "Every printable run of at least 4 characters in the whole file - headers, sections, gaps and overlay alike - in three encodings: ASCII (bytes 0x20-0x7E), UTF-16LE (printable-ASCII code units) and UTF-8 (kept only when the run contains a multi-byte character, so it never duplicates the ASCII pass). Runs are deduplicated by (encoding, text) and every offset each occurs at is kept, with the PE section that offset lands in or '(unmapped)' when no section covers it. Note what the UTF-8 pass is: machine code contains byte pairs that are well-formed UTF-8 by chance, so most `utf8` runs are not text - they are kept because dropping them would mean dropping every genuinely non-ASCII string with them, and `enc` separates them from the ASCII and UTF-16 passes for anyone who wants only text.",
+ "shardCount": 37,
+ "shards": [
+  {
+   "file": "s00000-00999.jsonl.gz",
+   "format": "gzip",
+   "hi": 999,
+   "lo": 0,
+   "plainBytes": 102741,
+   "rows": 1000,
+   "sha256": "7892b7d577cf050f922e9cc6390b43efc153d912748be28fb87391be3b00b0b6",
+   "storedBytes": 18327
+  },
+  {
+   "file": "s01000-01999.jsonl.gz",
+   "format": "gzip",
+   "hi": 1999,
+   "lo": 1000,
+   "plainBytes": 96293,
+   "rows": 1000,
+   "sha256": "7fd7f9429f218e0157fe7f39e91dbf66d9393aaa6545a23aee91bbaed5bde916",
+   "storedBytes": 13526
+  },
+  {
+   "file": "s02000-02999.jsonl.gz",
+   "format": "gzip",
+   "hi": 2999,
+   "lo": 2000,
+   "plainBytes": 95504,
+   "rows": 1000,
+   "sha256": "0d7e3085e9660f18140c91b9e4cc7925f74c080a688780f68abf4e6238ae3da4",
+   "storedBytes": 13400
+  },
+  {
+   "file": "s03000-03999.jsonl.gz",
+   "format": "gzip",
+   "hi": 3999,
+   "lo": 3000,
+   "plainBytes": 111203,
+   "rows": 1000,
+   "sha256": "24d39591b899a086916e091e687e1ac7ead5024471656d689509a5f69c6b0823",
+   "storedBytes": 19768
+  },
+  {
+   "file": "s04000-04999.jsonl.gz",
+   "format": "gzip",
+   "hi": 4999,
+   "lo": 4000,
+   "plainBytes": 133580,
+   "rows": 1000,
+   "sha256": "c479b331e95d58ebec2fb875cfc427bba787f45d7f42b8f79dd68b5d6462eaa0",
+   "storedBytes": 25991
+  },
+  {
+   "file": "s05000-05999.jsonl.gz",
+   "format": "gzip",
+   "hi": 5999,
+   "lo": 5000,
+   "plainBytes": 108869,
+   "rows": 1000,
+   "sha256": "409cac277db380d2e967bfc49f5497a3d83b5e9a1fa3dd909df8dd442707c4ff",
+   "storedBytes": 17104
+  },
+  {
+   "file": "s06000-06999.jsonl.gz",
+   "format": "gzip",
+   "hi": 6999,
+   "lo": 6000,
+   "plainBytes": 107480,
+   "rows": 1000,
+   "sha256": "711673c805f4e1cc68e8823c3a6965b2be275e480be3a8526cb34a0b79d8fbbe",
+   "storedBytes": 18290
+  },
+  {
+   "file": "s07000-07999.jsonl.gz",
+   "format": "gzip",
+   "hi": 7999,
+   "lo": 7000,
+   "plainBytes": 100191,
+   "rows": 1000,
+   "sha256": "1badf6e3663fcf2339db3d3f93d17cddc41775e80bd9434aa52fa46368991625",
+   "storedBytes": 15912
+  },
+  {
+   "file": "s08000-08999.jsonl.gz",
+   "format": "gzip",
+   "hi": 8999,
+   "lo": 8000,
+   "plainBytes": 99424,
+   "rows": 1000,
+   "sha256": "4f8e84ce1353f8773fea33fde13e733f5f9a8375e11803aab99a1ae3ed5b76d0",
+   "storedBytes": 15189
+  },
+  {
+   "file": "s09000-09999.jsonl.gz",
+   "format": "gzip",
+   "hi": 9999,
+   "lo": 9000,
+   "plainBytes": 112287,
+   "rows": 1000,
+   "sha256": "2ce4a1e68d5a5a0e39cc41b818c20704e2bfd3462300a96906c7d86821114af0",
+   "storedBytes": 20593
+  },
+  {
+   "file": "s10000-10999.jsonl.gz",
+   "format": "gzip",
+   "hi": 10999,
+   "lo": 10000,
+   "plainBytes": 123418,
+   "rows": 1000,
+   "sha256": "73ecc53ff606da295f9769431051e57ffce7527f933046f015a9c0fbb674f0b2",
+   "storedBytes": 18251
+  },
+  {
+   "file": "s11000-11999.jsonl.gz",
+   "format": "gzip",
+   "hi": 11999,
+   "lo": 11000,
+   "plainBytes": 113562,
+   "rows": 1000,
+   "sha256": "acfefbf0d1cade454c532bc4d6961e11194352a20902a20209dab887240f1b7e",
+   "storedBytes": 16685
+  },
+  {
+   "file": "s12000-12999.jsonl.gz",
+   "format": "gzip",
+   "hi": 12999,
+   "lo": 12000,
+   "plainBytes": 101661,
+   "rows": 1000,
+   "sha256": "7d6b940d097c78ee2e3fa67f35c3cf7388b59846e61212d45bd7ef6defdff75c",
+   "storedBytes": 15137
+  },
+  {
+   "file": "s13000-13999.jsonl.gz",
+   "format": "gzip",
+   "hi": 13999,
+   "lo": 13000,
+   "plainBytes": 104450,
+   "rows": 1000,
+   "sha256": "74f1dba2acfaff94ffec8b2a80f3eb89b9ea582a4a70bb8a72455f45cd57d709",
+   "storedBytes": 18629
+  },
+  {
+   "file": "s14000-14999.jsonl.gz",
+   "format": "gzip",
+   "hi": 14999,
+   "lo": 14000,
+   "plainBytes": 105929,
+   "rows": 1000,
+   "sha256": "b3acf1521d275399714c39a21063a847c899ec7c627dd44f53de2caef55af16c",
+   "storedBytes": 19665
+  },
+  {
+   "file": "s15000-15999.jsonl.gz",
+   "format": "gzip",
+   "hi": 15999,
+   "lo": 15000,
+   "plainBytes": 103614,
+   "rows": 1000,
+   "sha256": "c9a6aa48b0469bc4e3026971c73bd0f89d21db44585fb55a3690ab78007424b5",
+   "storedBytes": 19003
+  },
+  {
+   "file": "s16000-16999.jsonl.gz",
+   "format": "gzip",
+   "hi": 16999,
+   "lo": 16000,
+   "plainBytes": 106072,
+   "rows": 1000,
+   "sha256": "7d779298066e023d3fd294331693e996eaf904cf0c2c97ba5609af481f208ac8",
+   "storedBytes": 19845
+  },
+  {
+   "file": "s17000-17999.jsonl.gz",
+   "format": "gzip",
+   "hi": 17999,
+   "lo": 17000,
+   "plainBytes": 103205,
+   "rows": 1000,
+   "sha256": "860825ad4025861684b86c4e0591369f4c0d7d7da7c93894e4a694665c2b9862",
+   "storedBytes": 17674
+  },
+  {
+   "file": "s18000-18999.jsonl.gz",
+   "format": "gzip",
+   "hi": 18999,
+   "lo": 18000,
+   "plainBytes": 101446,
+   "rows": 1000,
+   "sha256": "98ed86da431dc673b967e61634e90ea12e430f27e7c63961633df4ab11e86e5b",
+   "storedBytes": 16145
+  },
+  {
+   "file": "s19000-19999.jsonl.gz",
+   "format": "gzip",
+   "hi": 19999,
+   "lo": 19000,
+   "plainBytes": 101892,
+   "rows": 1000,
+   "sha256": "8c65baee4eb97c80d68be03544ee8291903662bdbc8364a02755a03867bac5ee",
+   "storedBytes": 17285
+  },
+  {
+   "file": "s20000-20999.jsonl.gz",
+   "format": "gzip",
+   "hi": 20999,
+   "lo": 20000,
+   "plainBytes": 105316,
+   "rows": 1000,
+   "sha256": "bd71f843d3d142b2414a90d1f67c786abbfcd6f07904ca15b4ec53679cfca611",
+   "storedBytes": 19769
+  },
+  {
+   "file": "s21000-21999.jsonl.gz",
+   "format": "gzip",
+   "hi": 21999,
+   "lo": 21000,
+   "plainBytes": 102502,
+   "rows": 1000,
+   "sha256": "86f5c1d100dc5967176e87fc07210a9a8e5734dee5b883d3a9d514817eef4478",
+   "storedBytes": 16586
+  },
+  {
+   "file": "s22000-22999.jsonl.gz",
+   "format": "gzip",
+   "hi": 22999,
+   "lo": 22000,
+   "plainBytes": 102355,
+   "rows": 1000,
+   "sha256": "c150a947d6a9bc726f107df07040baa31655112722b2d45e2e1f62d4e4f1533d",
+   "storedBytes": 16554
+  },
+  {
+   "file": "s23000-23999.jsonl.gz",
+   "format": "gzip",
+   "hi": 23999,
+   "lo": 23000,
+   "plainBytes": 106589,
+   "rows": 1000,
+   "sha256": "70405f78d8ded56e58ea47759d845071eb660b5d85b7d542fbd6bbbbb05f927b",
+   "storedBytes": 17938
+  },
+  {
+   "file": "s24000-24999.jsonl.gz",
+   "format": "gzip",
+   "hi": 24999,
+   "lo": 24000,
+   "plainBytes": 101947,
+   "rows": 1000,
+   "sha256": "aba1bfe15135c181ffda836626c4064ad8ae795c54f9c8c5775f3576be191792",
+   "storedBytes": 16901
+  },
+  {
+   "file": "s25000-25999.jsonl.gz",
+   "format": "gzip",
+   "hi": 25999,
+   "lo": 25000,
+   "plainBytes": 102061,
+   "rows": 1000,
+   "sha256": "7a1dbfa416d88e15f9c608ecaddb93c59a92fa5e82b36337a63f4905f0d780f4",
+   "storedBytes": 17080
+  },
+  {
+   "file": "s26000-26999.jsonl.gz",
+   "format": "gzip",
+   "hi": 26999,
+   "lo": 26000,
+   "plainBytes": 99295,
+   "rows": 1000,
+   "sha256": "8e0499022adf55f443784913c130968c442a0b9ff5bcf30dbd6530e64295b892",
+   "storedBytes": 14250
+  },
+  {
+   "file": "s27000-27999.jsonl.gz",
+   "format": "gzip",
+   "hi": 27999,
+   "lo": 27000,
+   "plainBytes": 101894,
+   "rows": 1000,
+   "sha256": "3a80add28f1ae86ac4f9322655d99929d49975df1136a81990790d45bf53bde7",
+   "storedBytes": 15516
+  },
+  {
+   "file": "s28000-28999.jsonl.gz",
+   "format": "gzip",
+   "hi": 28999,
+   "lo": 28000,
+   "plainBytes": 107194,
+   "rows": 1000,
+   "sha256": "65062133c0b4478c3ab11a009530d7cbb0311bb849b6ae13fdd3ca1dcbdccf21",
+   "storedBytes": 19824
+  },
+  {
+   "file": "s29000-29999.jsonl.gz",
+   "format": "gzip",
+   "hi": 29999,
+   "lo": 29000,
+   "plainBytes": 100537,
+   "rows": 1000,
+   "sha256": "c9289dcc54d57706b52dea19781e1b777867d074beb77a156617d88c94a5848d",
+   "storedBytes": 14594
+  },
+  {
+   "file": "s30000-30999.jsonl.gz",
+   "format": "gzip",
+   "hi": 30999,
+   "lo": 30000,
+   "plainBytes": 101613,
+   "rows": 1000,
+   "sha256": "9723304b492bc3dec2a8f7d467df0496f8dc4a416720a5a1a1a5b98c04087cb8",
+   "storedBytes": 15562
+  },
+  {
+   "file": "s31000-31999.jsonl.gz",
+   "format": "gzip",
+   "hi": 31999,
+   "lo": 31000,
+   "plainBytes": 101911,
+   "rows": 1000,
+   "sha256": "dc6761a6f0dce5d79bb29e4d14dc73f5d420a741e11caf677d82bc3822606933",
+   "storedBytes": 16800
+  },
+  {
+   "file": "s32000-32999.jsonl.gz",
+   "format": "gzip",
+   "hi": 32999,
+   "lo": 32000,
+   "plainBytes": 103416,
+   "rows": 1000,
+   "sha256": "c3a1beb03fd1263792033eaf5d6ec1d74865f27f04fbb2707ebf6d70fc8a4e13",
+   "storedBytes": 18372
+  },
+  {
+   "file": "s33000-33999.jsonl.gz",
+   "format": "gzip",
+   "hi": 33999,
+   "lo": 33000,
+   "plainBytes": 98414,
+   "rows": 1000,
+   "sha256": "024fc2d924a5c77f4db46f2feadab9d3c4de81824fd8a0640b42e9535ee82e5e",
+   "storedBytes": 14911
+  },
+  {
+   "file": "s34000-34999.jsonl.gz",
+   "format": "gzip",
+   "hi": 34999,
+   "lo": 34000,
+   "plainBytes": 101157,
+   "rows": 1000,
+   "sha256": "3215f445c74f84387afeca56f6d3f59258592df830d9e859a6e3ad8d20c99ff8",
+   "storedBytes": 17366
+  },
+  {
+   "file": "s35000-35999.jsonl.gz",
+   "format": "gzip",
+   "hi": 35999,
+   "lo": 35000,
+   "plainBytes": 101133,
+   "rows": 1000,
+   "sha256": "ccba6c691c7989298343b92eca56b68ea351de01fb9e0b90ff7492c46ea18df1",
+   "storedBytes": 17310
+  },
+  {
+   "file": "s36000-36999.jsonl.gz",
+   "format": "gzip",
+   "hi": 36999,
+   "lo": 36000,
+   "plainBytes": 51655,
+   "rows": 433,
+   "sha256": "582f71e3e7855f7055ce0ff2b256e9e149f3bf14bd4810f15f364c03f1aab158",
+   "storedBytes": 8770
+  }
+ ],
+ "storedBytes": 634522,
+ "tokenRule": "A run's Lua score is the number of DISTINCT syntax classes in tools/lua51.py TOKEN_CLASSES that match it - keywords, method-call and concatenation syntax, comment openers, table constructors and standard library calls. Counting distinct classes rather than occurrences stops one repeated word from carrying English prose over a threshold. The score is recorded on every extracted string, so any reader can re-cut it."
+}

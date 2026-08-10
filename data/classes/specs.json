@@ -5,6 +5,12 @@
    2,
    3
   ],
+  "Bloodmage": [
+   25,
+   26,
+   27,
+   99
+  ],
   "Chronomancer": [
    31,
    32,
@@ -26,6 +32,11 @@
    92,
    93
   ],
+  "Felsworn": [
+   7,
+   8,
+   9
+  ],
   "Guardian": [
    19,
    20,
@@ -38,6 +49,11 @@
    70,
    71,
    72
+  ],
+  "Knight of Xoroth": [
+   16,
+   17,
+   18
   ],
   "Mage": [
    85,
@@ -59,6 +75,12 @@
    77,
    78
   ],
+  "Primalist": [
+   58,
+   59,
+   60,
+   95
+  ],
   "Pyromancer": [
    37,
    38,
@@ -78,6 +100,11 @@
    73,
    74,
    75
+  ],
+  "Runemaster": [
+   61,
+   62,
+   63
   ],
   "Shaman": [
    82,
@@ -101,10 +128,21 @@
    48,
    98
   ],
+  "Templar": [
+   22,
+   23,
+   24
+  ],
   "Tinker": [
    49,
    50,
    51
+  ],
+  "Venomancer": [
+   52,
+   53,
+   54,
+   101
   ],
   "Warlock": [
    88,
@@ -286,6 +324,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Tactics",
+    "liveTab": "Headhunting",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "TACTICS"
   },
   {
@@ -302,6 +347,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Brutality",
+    "liveTab": "Brutality",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "BRUTALITY"
   },
   {
@@ -318,6 +370,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Ancestry",
+    "liveTab": "Ancestry",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "ANCESTRY"
   },
   {
@@ -334,6 +393,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Shadowhunting",
+    "liveTab": "Shadowhunting",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "SHADOWHUNTING"
   },
   {
@@ -350,6 +416,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": "Spirit",
+   "tabStatus": {
+    "cadTab": "Voodoo",
+    "liveTab": "Voodoo",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "VOODOO"
   },
   {
@@ -366,12 +439,19 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Brewing",
+    "liveTab": "Brewing",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "BREWING"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 14,
+   "className": "Felsworn",
    "classToken": "DEMONHUNTER",
    "description": "Empower yourself with unbound fel sorcery to rain ruin from afar, incinerating foes with volatile blasts and relentless demonic assault.",
    "difficulty": "Medium",
@@ -382,12 +462,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": "Spirit",
+   "tabStatus": {
+    "cadTab": "Felblood",
+    "liveTab": "Infernal",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "FELBLOOD"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 14,
+   "className": "Felsworn",
    "classToken": "DEMONHUNTER",
    "description": "Empower your weapons with fel magic and engage in close quarters combat with enemies.",
    "difficulty": "Normal",
@@ -398,12 +485,19 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Slaying",
+    "liveTab": "Slayer",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "SLAYING"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 14,
+   "className": "Felsworn",
    "classToken": "DEMONHUNTER",
    "description": "Bolster your demon form, heft twin colossal blades, and use your hulking mass to dominate the battlefield as an unbreakable tank.",
    "difficulty": "Normal",
@@ -414,6 +508,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Demonology",
+    "liveTab": "Tyrant",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DEMONOLOGY"
   },
   {
@@ -430,6 +531,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Boltslinger",
+    "liveTab": "Boltslinger",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "BOLTSLINGER"
   },
   {
@@ -446,6 +554,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Darkness",
+    "liveTab": "Houndmaster",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DARKNESS"
   },
   {
@@ -462,6 +577,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Inquisition",
+    "liveTab": "Inquisition",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "INQUISITION"
   },
   {
@@ -478,6 +600,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Wind",
+    "liveTab": "Wind",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "WIND"
   },
   {
@@ -494,6 +623,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Gifts",
+    "liveTab": "Maelstrom",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "GIFTS"
   },
   {
@@ -510,12 +646,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Lightning",
+    "liveTab": "Lightning",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "LIGHTNING"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 17,
+   "className": "Knight of Xoroth",
    "classToken": "FLESHWARDEN",
    "description": "Beckon forth hellfire from the distant world of Xoroth to incinerate enemies with powerful burst attacks as an effective melee fire hybrid.",
    "difficulty": "Medium",
@@ -526,12 +669,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Hellfire",
+    "liveTab": "Hellfire",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "HELLFIRE"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 17,
+   "className": "Knight of Xoroth",
    "classToken": "FLESHWARDEN",
    "description": "Command an army of Xorothian demons to both augment your own prowess in battle, and defend your allies, as a juggernaut from hell.",
    "difficulty": "Hard",
@@ -542,12 +692,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Defiance",
+    "liveTab": "Defiance",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DEFIANCE"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 17,
+   "className": "Knight of Xoroth",
    "classToken": "FLESHWARDEN",
    "description": "Butcher your enemies with savage slashes and brutal cleaves, tearing through flesh as a relentless, blood-soaked juggernaut.",
    "difficulty": "Normal",
@@ -558,6 +715,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "War",
+    "liveTab": "War",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "WAR"
   },
   {
@@ -574,6 +738,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Gladiator",
+    "liveTab": "Gladiator",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "GLADIATOR"
   },
   {
@@ -590,6 +761,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Inspiration",
+    "liveTab": "Inspiration",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "INSPIRATION"
   },
   {
@@ -606,12 +784,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Protection",
+    "liveTab": "Vanguard",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "PROTECTION"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 19,
+   "className": "Templar",
    "classToken": "MONK",
    "description": "Guard allies with disciplined martial mastery, parrying blows and staggering incoming damage before answering with decisive counterattacks.",
    "difficulty": "Hard",
@@ -622,12 +807,19 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Discipline",
+    "liveTab": "Oathkeeper",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DISCIPLINE"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 19,
+   "className": "Templar",
    "classToken": "MONK",
    "description": "Overwhelm enemies in a chain of zealous strikes of growing potency that shatter even the most steadfast defenses.",
    "difficulty": "Normal",
@@ -638,12 +830,19 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Fighting",
+    "liveTab": "Zealot",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "FIGHTING"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 19,
+   "className": "Templar",
    "classToken": "MONK",
    "description": "Cleave through enemies in a tempest of righteous steel, unleashing your oaths to crush multiple foes at once.",
    "difficulty": "Medium",
@@ -654,12 +853,19 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Runes",
+    "liveTab": "Crusader",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "RUNES"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 20,
+   "className": "Bloodmage",
    "classToken": "SONOFARUGAL",
    "description": "Weave flesh and blood into empowering rites, bolstering allies with potent boons while mending wounds in critical moments.",
    "difficulty": "Medium",
@@ -670,12 +876,19 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": "HEALTH",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Fleshweaver",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "FLESHWEAVER"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 20,
+   "className": "Bloodmage",
    "classToken": "SONOFARUGAL",
    "description": "Embrace the Curse of the Vampyr as a shadow caster, feeding an insatiable thirst that empowers your blood magic at ever-rising cost.",
    "difficulty": "Hard",
@@ -686,12 +899,19 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": "HEALTH",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Blood",
+    "liveTab": "Sanguine",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "BLOOD"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 20,
+   "className": "Bloodmage",
    "classToken": "SONOFARUGAL",
    "description": "Utilize an enhanced cursed form to weave in and out of battle as both a melee damage dealer and a caster simultaneously.",
    "difficulty": "Hard",
@@ -702,6 +922,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "HEALTH",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Ferocity",
+    "liveTab": "Accursed",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "FEROCITY"
   },
   {
@@ -718,6 +945,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Archery",
+    "liveTab": "Archery",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "ARCHERY"
   },
   {
@@ -734,6 +968,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Survival",
+    "liveTab": "Farstrider",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "SURVIVAL"
   },
   {
@@ -750,6 +991,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Dueling",
+    "liveTab": "Brigand",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DUELING"
   },
   {
@@ -766,6 +1014,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Displacement",
+    "liveTab": "Time",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DISPLACEMENT"
   },
   {
@@ -782,6 +1037,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Duality",
+    "liveTab": "Infinite",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DUALITY"
   },
   {
@@ -798,6 +1060,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Time",
+    "liveTab": "Artificer",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "TIME"
   },
   {
@@ -814,6 +1083,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RUNIC_POWER",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Death",
+    "liveTab": "Death",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DEATH"
   },
   {
@@ -830,6 +1106,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RUNIC_POWER",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Animation",
+    "liveTab": "Animation",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "ANIMATION"
   },
   {
@@ -846,6 +1129,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RUNIC_POWER",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Rime",
+    "liveTab": "Rime",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "RIME"
   },
   {
@@ -862,6 +1152,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Destruction",
+    "liveTab": "Flameweaving",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DESTRUCTION"
   },
   {
@@ -878,6 +1175,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Incineration",
+    "liveTab": "Incineration",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "INCINERATION"
   },
   {
@@ -894,6 +1198,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Draconic",
+    "liveTab": "Draconic",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DRACONIC"
   },
   {
@@ -910,6 +1221,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": "Strength",
+   "tabStatus": {
+    "cadTab": "Influence",
+    "liveTab": "Heretic",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "INFLUENCE"
   },
   {
@@ -926,6 +1244,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Corruption",
+    "liveTab": "Corruption",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "CORRUPTION"
   },
   {
@@ -942,6 +1267,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Godblade",
+    "liveTab": "Godblade",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "GODBLADE"
   },
   {
@@ -958,6 +1290,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Tides",
+    "liveTab": "Moon Priest",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "TIDES"
   },
   {
@@ -974,6 +1313,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Moonbow",
+    "liveTab": "Sentinel",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "MOONBOW"
   },
   {
@@ -990,6 +1336,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "ENERGY",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Warden",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "HYDROMANCY"
   },
   {
@@ -1006,6 +1359,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Piety",
+    "liveTab": "Piety",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "PIETY"
   },
   {
@@ -1022,6 +1382,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Valkyrie",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "VALKYR"
   },
   {
@@ -1038,6 +1405,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Seraphim",
+    "liveTab": "Seraphim",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "SERAPHIM"
   },
   {
@@ -1054,6 +1428,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Firearms",
+    "liveTab": "Demolition",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "FIREARMS"
   },
   {
@@ -1070,6 +1451,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Mechanics",
+    "liveTab": "Mechanics",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "MECHANICS"
   },
   {
@@ -1086,12 +1474,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Invention",
+    "liveTab": "Invention",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "INVENTION"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 29,
+   "className": "Venomancer",
    "classToken": "PROPHET",
    "description": "Harden your form with a regenerating chitinous exoskeleton, fortifying your weak points to endure punishing enemy assaults.",
    "difficulty": "Normal",
@@ -1102,12 +1497,19 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Fortitude",
+    "liveTab": "Fortitude",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "FORTITUDE"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 29,
+   "className": "Venomancer",
    "classToken": "PROPHET",
    "description": "Take on the form of a spider to strike down foes from the shadows with powerful Nature and Shadow magic.",
    "difficulty": "Medium",
@@ -1118,12 +1520,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RAGE",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Stalking",
+    "liveTab": "Stalking",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "STALKING"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 29,
+   "className": "Venomancer",
    "classToken": "PROPHET",
    "description": "Weave together poisons and fungal blights that rot your enemies from within, leaving behind volatile growths that erupt in their wake.",
    "difficulty": "Hard",
@@ -1134,6 +1543,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RAGE",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Venom",
+    "liveTab": "Venom",
+    "match": "cadTabMapping:sameName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "VENOM"
   },
   {
@@ -1150,6 +1566,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Soul",
+    "liveTab": "Soul",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "SOUL"
   },
   {
@@ -1166,6 +1589,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Reaping",
+    "liveTab": "Harvest",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "REAPING"
   },
   {
@@ -1182,12 +1612,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Domination",
+    "liveTab": "Domination",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "DOMINATION"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 31,
+   "className": "Primalist",
    "classToken": "WILDWALKER",
    "description": "Invoke untamed nature into restorative surges, healing wounds and fortifying allies with bark, bloom, and primal vigor.",
    "difficulty": "Medium",
@@ -1198,12 +1635,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Intellect",
+   "tabStatus": {
+    "cadTab": "Life",
+    "liveTab": "Life",
+    "match": "cadTabMapping:sameName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "LIFE"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 31,
+   "className": "Primalist",
    "classToken": "WILDWALKER",
    "description": "Walk with the animal spirits of Azeroth as a proud totem warrior, mauling foes and invoking the fury of the wild.",
    "difficulty": "Normal",
@@ -1214,12 +1658,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": "RAGE",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Primal",
+    "liveTab": "Primal",
+    "match": "cadTabMapping:sameName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "PRIMAL"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 31,
+   "className": "Primalist",
    "classToken": "WILDWALKER",
    "description": "Move stone and turn the earth wielding two powerful weapons to defend you and your allies from harm.",
    "difficulty": "Medium",
@@ -1230,12 +1681,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Mountain King",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "MOUNTAINKING"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 32,
+   "className": "Runemaster",
    "classToken": "SPIRITMAGE",
    "description": "Wield two one-handed weapons and use them in conjunction with powerful engravings to pummel your foes with wild primordial magic.",
    "difficulty": "Normal",
@@ -1246,12 +1704,19 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Runic",
+    "liveTab": "Runic",
+    "match": "cadTabMapping:sameName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "RUNIC"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 32,
+   "className": "Runemaster",
    "classToken": "SPIRITMAGE",
    "description": "Invoke frost, flame, and arcane glyphs in rapid succession, bombarding foes with layered elemental power and primordial force.",
    "difficulty": "Hard",
@@ -1262,12 +1727,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": "Spirit",
+   "tabStatus": {
+    "cadTab": "Arcane",
+    "liveTab": "Arcane",
+    "match": "cadTabMapping:sameName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "ARCANE"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 32,
+   "className": "Runemaster",
    "classToken": "SPIRITMAGE",
    "description": "Bring destruction upon your enemies with grace while wielding a two-handed weapon and powerful devastating magical attacks.",
    "difficulty": "Medium",
@@ -1278,6 +1750,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Riftblade",
+    "liveTab": "Riftblade",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "RIFTBLADE"
   },
   {
@@ -1294,6 +1773,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Arms",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "ARMS"
   },
   {
@@ -1310,6 +1796,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Fury",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "FURY"
   },
   {
@@ -1326,6 +1819,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Protection",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "PROTECTION"
   },
   {
@@ -1342,6 +1842,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Holy",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "HOLY"
   },
   {
@@ -1358,6 +1865,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Protection",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "PROTECTION"
   },
   {
@@ -1374,6 +1888,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Retribution",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "RETRIBUTION"
   },
   {
@@ -1390,6 +1911,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "BeastMastery",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "BEASTMASTERY"
   },
   {
@@ -1406,6 +1934,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Marksmanship",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "MARKSMANSHIP"
   },
   {
@@ -1422,6 +1957,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Survival",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "SURVIVAL"
   },
   {
@@ -1438,6 +1980,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Assassination",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "ASSASSINATION"
   },
   {
@@ -1454,6 +2003,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Combat",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "COMBAT"
   },
   {
@@ -1470,6 +2026,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Subtlety",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "SUBTLETY"
   },
   {
@@ -1486,6 +2049,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Discipline",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "DISCIPLINE"
   },
   {
@@ -1502,6 +2072,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Holy",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "HOLY"
   },
   {
@@ -1518,6 +2095,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Shadow",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "SHADOW"
   },
   {
@@ -1534,6 +2118,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Blood",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "BLOOD"
   },
   {
@@ -1550,6 +2141,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Frost",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "FROST"
   },
   {
@@ -1566,6 +2164,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Unholy",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "UNHOLY"
   },
   {
@@ -1582,6 +2187,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Elemental",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "ELEMENTAL"
   },
   {
@@ -1598,6 +2210,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Enhancement",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "ENHANCEMENT"
   },
   {
@@ -1614,6 +2233,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Restoration",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "RESTORATION"
   },
   {
@@ -1630,6 +2256,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Arcane",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "ARCANE"
   },
   {
@@ -1646,6 +2279,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Fire",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "FIRE"
   },
   {
@@ -1662,6 +2302,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Frost",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "FROST"
   },
   {
@@ -1678,6 +2325,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Affliction",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "AFFLICTION"
   },
   {
@@ -1694,6 +2348,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Destruction",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "DESTRUCTION"
   },
   {
@@ -1710,6 +2371,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Demonology",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "DEMONOLOGY"
   },
   {
@@ -1726,6 +2394,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Balance",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "BALANCE"
   },
   {
@@ -1742,6 +2417,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Feral",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "FERAL"
   },
   {
@@ -1758,6 +2440,13 @@
    "primaryStat": "Spirit",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Restoration",
+    "liveTab": null,
+    "match": "tabToken",
+    "renamed": null,
+    "status": "noLiveGeometry"
+   },
    "tabToken": "RESTORATION"
   },
   {
@@ -1774,12 +2463,19 @@
    "primaryStat": "Strength",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": null,
+    "match": null,
+    "renamed": null,
+    "status": "noCadClass"
+   },
    "tabToken": "HERO"
   },
   {
    "armorType": "Plate",
-   "classId": null,
-   "className": null,
+   "classId": 31,
+   "className": "Primalist",
    "classToken": "WILDWALKER",
    "description": "Summon the power of the earth from the depths of Azeroth to unleash devastating magic upon enemies.",
    "difficulty": "Hard",
@@ -1790,6 +2486,13 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RAGE",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Geomancy",
+    "liveTab": "Geomancy",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "GEOMANCY"
   },
   {
@@ -1806,6 +2509,13 @@
    "primaryStat": "Strength",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Dreadnought",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "BULWARK"
   },
   {
@@ -1822,6 +2532,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "RAGE",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Black Knight",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "WITCHKNIGHT"
   },
   {
@@ -1838,12 +2555,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": "Blessings",
+    "liveTab": "Blessings",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "BLESSINGS"
   },
   {
    "armorType": "Leather",
-   "classId": null,
-   "className": null,
+   "classId": 20,
+   "className": "Bloodmage",
    "classToken": "SONOFARUGAL",
    "description": "Transform into a monstrosity that is able to attract the attention of devastingly powerful foes.",
    "difficulty": "Normal",
@@ -1854,6 +2578,13 @@
    "primaryStat": "Agility",
    "secondaryPowerType": "HEALTH",
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "Packleader",
+    "liveTab": "Eternal",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "PACKLEADER"
   },
   {
@@ -1870,12 +2601,19 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": null,
    "secondaryStat": "Stamina",
+   "tabStatus": {
+    "cadTab": "AstralWarfare",
+    "liveTab": "Moon Guard",
+    "match": "specName",
+    "renamed": true,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "ASTRALWARFARE"
   },
   {
    "armorType": "Mail",
-   "classId": null,
-   "className": null,
+   "classId": 29,
+   "className": "Venomancer",
    "classToken": "PROPHET",
    "description": "Master the art of rejuvenation through poisons and venom, creating a delicate balance between life and death.",
    "difficulty": "Normal",
@@ -1886,7 +2624,185 @@
    "primaryStat": "Intellect",
    "secondaryPowerType": "RAGE",
    "secondaryStat": null,
+   "tabStatus": {
+    "cadTab": null,
+    "liveTab": "Vizier",
+    "match": "specName",
+    "renamed": false,
+    "status": "inLiveBuilder"
+   },
    "tabToken": "VIZIER"
   }
- ]
+ ],
+ "tabStatusSummary": {
+  "cadOnly": [],
+  "counts": {
+   "inLiveBuilder": 70,
+   "noCadClass": 1,
+   "noLiveGeometry": 30
+  },
+  "renameNote": "25 of the 70 inLiveBuilder specs have a live tree name DIFFERENT from their CAD tab name - CAD tab names and live tab names are different generations of the same tree slots (Starcaller CAD 'Tides' is live 'Moon Priest'). The mapping and its per-pair evidence live in data/classes/_live_summary.json's tabMapping.",
+  "renamedInLiveBuilder": [
+   [
+    1,
+    "Barbarian",
+    "Tactics",
+    "Headhunting"
+   ],
+   [
+    7,
+    "Felsworn",
+    "Felblood",
+    "Infernal"
+   ],
+   [
+    8,
+    "Felsworn",
+    "Slaying",
+    "Slayer"
+   ],
+   [
+    9,
+    "Felsworn",
+    "Demonology",
+    "Tyrant"
+   ],
+   [
+    11,
+    "Witch Hunter",
+    "Darkness",
+    "Houndmaster"
+   ],
+   [
+    14,
+    "Stormbringer",
+    "Gifts",
+    "Maelstrom"
+   ],
+   [
+    21,
+    "Guardian",
+    "Protection",
+    "Vanguard"
+   ],
+   [
+    22,
+    "Templar",
+    "Discipline",
+    "Oathkeeper"
+   ],
+   [
+    23,
+    "Templar",
+    "Fighting",
+    "Zealot"
+   ],
+   [
+    24,
+    "Templar",
+    "Runes",
+    "Crusader"
+   ],
+   [
+    26,
+    "Bloodmage",
+    "Blood",
+    "Sanguine"
+   ],
+   [
+    27,
+    "Bloodmage",
+    "Ferocity",
+    "Accursed"
+   ],
+   [
+    29,
+    "Ranger",
+    "Survival",
+    "Farstrider"
+   ],
+   [
+    30,
+    "Ranger",
+    "Dueling",
+    "Brigand"
+   ],
+   [
+    31,
+    "Chronomancer",
+    "Displacement",
+    "Time"
+   ],
+   [
+    32,
+    "Chronomancer",
+    "Duality",
+    "Infinite"
+   ],
+   [
+    33,
+    "Chronomancer",
+    "Time",
+    "Artificer"
+   ],
+   [
+    37,
+    "Pyromancer",
+    "Destruction",
+    "Flameweaving"
+   ],
+   [
+    40,
+    "Cultist",
+    "Influence",
+    "Heretic"
+   ],
+   [
+    43,
+    "Starcaller",
+    "Tides",
+    "Moon Priest"
+   ],
+   [
+    44,
+    "Starcaller",
+    "Moonbow",
+    "Sentinel"
+   ],
+   [
+    49,
+    "Tinker",
+    "Firearms",
+    "Demolition"
+   ],
+   [
+    56,
+    "Reaper",
+    "Reaping",
+    "Harvest"
+   ],
+   [
+    99,
+    "Bloodmage",
+    "Packleader",
+    "Eternal"
+   ],
+   [
+    100,
+    "Starcaller",
+    "AstralWarfare",
+    "Moon Guard"
+   ]
+  ],
+  "sec11Correction": "DATAMINE-REQUEST.md Sec 11 cited '7 of 70 specs have no CAD tab' (presumably unreleased); task W4-9 found 5 of the 7 had shipped in the live builder. Task W4-14 resolves all 7 by MECHANISM rather than a pinned token table: a spec's own `name` is the live-generation label, so VALKYR->Valkyrie, WITCHKNIGHT->Black Knight, HYDROMANCY->Warden and BULWARK->Dreadnought all resolve by name against the live tab list (the last two being W4-9's 'unmatchedExtraTabs', now attributed). 0 specs remain unreleased by this re-derivation.",
+  "statusMeanings": {
+   "cadOnly": "the tree exists only in the CAD catalog - no live tab maps to it",
+   "inLiveBuilder": "this spec's tree is in the live builder payload (liveTab names it; renamed=true means the CAD tab is called something else)",
+   "noCadClass": "class has no data/classes/ directory at all (structural)",
+   "noLiveGeometry": "class has a CAD tab layer but no builder capture - liveness NOT claimed",
+   "unreleased": "named by neither layer"
+  },
+  "supersedes": "task W4-11e's states (live/shippedExternal/unreleased/noTabLayer). 'live' there meant only 'a CAD tab with this token exists' - a claim about the catalog, not the game - and covered 93/101 specs including Starcaller/TIDES, whose tree does not exist in game.",
+  "unreleased": []
+ }
 }

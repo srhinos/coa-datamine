@@ -1,0 +1,621 @@
+{
+ "class": "SunCleric",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 28293,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_7xp_inscription_talenttome01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:chromieswisdom",
+     "abilityName": "Chromie's Wisdom",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Bless",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 35,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801523,
+     "name": "Chromie's Wisdom",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28341,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:sunlight",
+     "abilityName": "Sunlight",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92136
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Blessings Sun Cleric",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500209,
+     "name": "Sunlight",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28295,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:chainsoflight",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Chains of Light",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 18,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801524,
+     "name": "Chains of Light",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 29083,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_artifact_bulwarkoforder",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7397,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:gleamingvigil",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704585
+     ]
+    },
+    "matchedSpellId": 704585,
+    "reason": "liveDirect"
+   },
+   "name": "Gleaming Vigil",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704585,
+     "name": "Gleaming Vigil",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 29082,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_paladin_clarityofpurpose",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6564,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:twilight",
+     "abilityName": "Twilight",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704579
+     ]
+    },
+    "matchedSpellId": 704579,
+    "reason": "liveDirect"
+   },
+   "name": "Moment of Silence",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704579,
+     "name": "Twilight",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28340,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:sunriseandsunset",
+     "abilityName": "Sunrise and Sunset",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92135
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Piety Sun Cleric",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500207,
+     "name": "Sunrise and Sunset",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28288,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_paladin_toweroflight",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:rayofillumination",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ray of Illumination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 40,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801428,
+     "name": "Ray of Illumination",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 29080,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "classicon_paladin",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29506,
+    "builderTab": "Blessings",
+    "identity": {
+     "abilityKey": "c27:angelic",
+     "abilityName": "Angelic",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704582,
+      707771
+     ]
+    },
+    "matchedSpellId": 704582,
+    "reason": "liveDirect"
+   },
+   "name": "Seraph's Hammer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704582,
+     "name": "Angelic",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28342,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:valkyriesuncleric",
+     "abilityName": "Valkyrie Sun Cleric",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Seraphim Sun Cleric",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500210,
+     "name": "Valkyrie Sun Cleric",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 29084,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_shield_1h_hyrja_d_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34011,
+    "builderTab": "Seraphim",
+    "identity": {
+     "abilityKey": "c27:shiningshield",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704586
+     ]
+    },
+    "matchedSpellId": 704586,
+    "reason": "liveDirect"
+   },
+   "name": "Shining Shield",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704586,
+     "name": "Shining Shield",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28294,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsspell_paladin_inquisition",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33988,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:solarinvocationconquest",
+     "abilityName": "Solar Invocation: Conquest",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800764
+     ]
+    },
+    "matchedSpellId": 800764,
+    "reason": "liveDirect"
+   },
+   "name": "Solar Conquest",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800764,
+     "name": "Solar Invocation: Conquest",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 29081,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "buff_forcesoforder",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34032,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:solarguardian",
+     "abilityName": "Solar Guardian",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704581
+     ]
+    },
+    "matchedSpellId": 704581,
+    "reason": "liveDirect"
+   },
+   "name": "Solar Crash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704581,
+     "name": "Solar Guardian",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28997,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsspell_priest_divinestar",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:sunwalkersgrace",
+     "abilityName": "Sunwalker's Grace",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Sunset",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 2,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704395,
+     "name": "Sunwalker's Grace",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28998,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsspell_priest_divinestar",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:dawn",
+     "abilityName": "Dawn",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Sunset",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 2,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804584,
+     "name": "Dawn",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Seraphim",
+ "type": "Ability"
+}

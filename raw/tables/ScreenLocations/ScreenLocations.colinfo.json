@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":12,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":12,"maxUnsigned":12,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":12,"rows":12,"string":{"applicable":true,"blockCoverageRate":0.06,"blockSize":150,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":3.5,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.166667},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Left","Top"],"width":4},
+  {"evidence":{"distinct":12,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":129,"maxUnsigned":129,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":11,"rows":12,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":150,"controlCharOffsets":0,"distinctOffsets":12,"meanDecodedLength":11.5,"nonEmptyOffsets":12,"utf8DecodableOffsets":12,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["Center","Left","Top","TopRight","TopLeft"],"width":4}
+ ],
+ "file": "ScreenLocations.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":12,"sizeReconciles":true,"stringBlockReferencedBytes":150,"stringBlockSize":150,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":266,"losers":[],"sha256":"5886ddd194592394a1bd4c3b88f7e2f4f19c4b0d557c97096b283efdbdff5589","winner":"Data/patch-M.MPQ"},
+ "table": "ScreenLocations"
+}

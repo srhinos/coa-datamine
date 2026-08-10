@@ -1,0 +1,264 @@
+{
+ "class": "SunCleric",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 20194,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:hitratingalpha",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20191,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:mail",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Mail",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 8737,
+     "name": "Mail",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20192,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:shield",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Shield",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 9116,
+     "name": "Shield",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20048,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_holy_rebuke",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33979,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:solarprayer",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806479
+     ]
+    },
+    "matchedSpellId": 806479,
+    "reason": "liveDirect"
+   },
+   "name": "Solar Prayer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806479,
+     "name": "Solar Prayer",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20193,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsSpell_Holy_HolySmite",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33983,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:sunsworn",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802935
+     ]
+    },
+    "matchedSpellId": 802935,
+    "reason": "liveDirect"
+   },
+   "name": "Sunsworn",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 13,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 802935,
+     "name": "Sunsworn",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20190,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:wands",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Wands",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 5009,
+     "name": "Wands",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Seraphim",
+ "type": "Ability"
+}

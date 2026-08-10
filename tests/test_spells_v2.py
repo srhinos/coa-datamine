@@ -25,7 +25,10 @@ index = json.loads((sdir / "index.json").read_text(encoding="utf-8"))
 # ---- v1 gates unchanged ----
 assert stats["written"] == meta["count"] > 15000
 assert index["count"] == meta["count"]
-assert meta["schemaVersion"] == 2
+# 3 = the live-seed pass: the closure is seeded from live truth and every record
+# carries live + liveEvidence. The v2 enrichment gates below are unchanged by it -
+# they are about columns, not about which ids are in the set.
+assert meta["schemaVersion"] == 3
 
 # ---- read every record once: golden lookup + omit-when-absent + line/order checks ----
 golden_ids = {10, 17, 331, 86543}
@@ -104,10 +107,14 @@ assert cov["charges"]["categoryLinkJoinRate"] == 1.0
 assert cov["charges"]["file"] == "charges.json"
 
 charges_doc = json.loads((sdir / "charges.json").read_text(encoding="utf-8"))
-assert set(charges_doc) == {"_note", "categories", "charges"}
+assert set(charges_doc) == {"_note", "categories", "charges", "realmGapFinding"}
 assert "below the 90% attach bar" in charges_doc["_note"]
-assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 400
-assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 105
+# snapshot pins: SpellCharges/SpellChargesCategory row counts. 400/105 -> 406/106
+# on the 2026-08-09 snapshot (the client patched - raw/dbc/SpellCharges.csv.gz
+# changed bytes); unrelated to the live-seed reseed, which does not touch this
+# standalone layer.
+assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 406
+assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 106
 # deterministic ascending order by "ref"
 refs = [c["ref"] for c in charges_doc["charges"]]
 assert refs == sorted(refs) and len(set(refs)) == len(refs)
@@ -120,6 +127,34 @@ spot = next(c for c in charges_doc["charges"] if c["ref"] == 52)
 assert spot["resolvedSpellName"] == "Overcharged: Manaforge Coruu"
 # and at least one row legitimately fails to resolve (the 87.78% finding, not 100%)
 assert any(c["resolvedSpellName"] is None for c in charges_doc["charges"])
+
+# ---- [Task W4-11f] SpellCharges join-gap investigation: non-joining refs are
+# realm-overlay content, not dead - re-derived fresh against a live area-52 dump
+# (raw/realms/area-52/dbc/Spell.csv.gz), not copied from any prior report ----
+rgf = charges_doc["realmGapFinding"]
+non_joining_rows = [c for c in charges_doc["charges"] if c["resolvedSpellName"] is None]
+assert rgf["nonJoiningCount"] == len(non_joining_rows)
+assert "area-52" in rgf["byRealm"]
+assert rgf["byRealm"]["area-52"]["resolvedCount"] == rgf["resolvedByAnyRealm"]
+# every non-joining row that resolved in area-52 carries realmResolvedIn; every
+# joining row carries neither key at all (only non-joining rows get it)
+for c in charges_doc["charges"]:
+    if c["resolvedSpellName"] is None:
+        assert "realmResolvedIn" in c
+    else:
+        assert "realmResolvedIn" not in c
+resolved_refs = {c["ref"] for c in non_joining_rows if c["realmResolvedIn"]}
+assert len(resolved_refs) == rgf["resolvedByAnyRealm"]
+# today's live finding: ALL non-joining refs resolve in area-52 (0 proven dead) -
+# so the join rate is NOT legitimately raised past the base 88.5%, "attached" stays
+# False. A future client patch could change this (fewer/more realm-resolved refs),
+# which is exactly why this is re-derived at every build, not hardcoded.
+assert rgf["provenDeadCount"] == 0
+assert rgf["adjustedJoinRate"] == cov["charges"]["spellIdJoinRate"]
+assert cov["charges"]["realmGapFinding"] == {
+    "nonJoiningCount": rgf["nonJoiningCount"], "resolvedByAnyRealm": rgf["resolvedByAnyRealm"],
+    "provenDeadCount": rgf["provenDeadCount"], "adjustedJoinRate": rgf["adjustedJoinRate"],
+}
 
 # ---- SpellAlternativePowerType: hypothesis (negative Spell.powerType indexes this
 # table) disproven - powerType==-2 is the pre-existing "Health" sentinel, unrelated ----

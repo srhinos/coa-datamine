@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":16330,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":32546,"maxUnsigned":32546,"minSigned":1681,"minUnsigned":1681,"negativeCount":0,"nonZeroCount":16330,"rows":16330,"string":{"applicable":true,"blockCoverageRate":0.478828,"blockSize":33866,"controlCharOffsets":0,"distinctOffsets":1317,"meanDecodedLength":10.79,"nonEmptyOffsets":1317,"utf8DecodableOffsets":1317,"validOffsetRate":0.080649},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["\\<fandral\\>","\\<lightbringer\\>","\\<sargeras\\>","\\<stormrage\\>","\\<sylvanas\\>"],"width":4},
+  {"evidence":{"distinct":2819,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":33853,"maxUnsigned":33853,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":16330,"rows":16330,"string":{"applicable":true,"blockCoverageRate":0.99997,"blockSize":33866,"controlCharOffsets":0,"distinctOffsets":2819,"meanDecodedLength":10.201,"nonEmptyOffsets":2819,"utf8DecodableOffsets":2819,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["18년","18놈","18새끼","\\<callist[aeo]\\>","\\<cesario\\>"],"width":4},
+  {"evidence":{"distinct":10,"float":{"applicable":true,"finiteRate":0.999156,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":8,"maxUnsigned":4294967295,"minSigned":-1,"minUnsigned":0,"negativeCount":12,"nonZeroCount":14210,"rows":16330,"string":{"applicable":true,"blockCoverageRate":0.000384,"blockSize":33866,"controlCharOffsets":0,"distinctOffsets":3,"meanDecodedLength":2.0,"nonEmptyOffsets":2,"utf8DecodableOffsets":3,"validOffsetRate":0.405634},"zeroCount":2120},"index":2,"inferred":"int","name":"f2","samples":["18년","18놈"],"width":4}
+ ],
+ "file": "NamesReserved.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":16330,"sizeReconciles":true,"stringBlockReferencedBytes":33866,"stringBlockSize":33866,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":229846,"losers":[],"sha256":"15dde575cec3b083123913f110b6e3cc3e9f2c6d494d49bb16cc6d394dab7eaa","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "NamesReserved"
+}

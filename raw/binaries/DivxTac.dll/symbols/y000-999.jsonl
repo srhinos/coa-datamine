@@ -1,0 +1,103 @@
+{"bytes":30720,"detail":"CNT_CODE,MEM_EXECUTE,MEM_READ","id":0,"kind":"section","name":".text","off":1024,"rva":4096,"sha256":"73cf54655c3046bc99ab47ac57bdfc97999f17df6d364946eb665875c74fdf87"}
+{"bytes":65024,"detail":"CNT_INITIALIZED_DATA,MEM_READ","id":1,"kind":"section","name":".rdata","off":31744,"rva":36864,"sha256":"3ac6af4b6fbe6a4dea310ac94600612bd4874151fa40c31ecb3d6b50f93073a2"}
+{"bytes":512,"detail":"CNT_INITIALIZED_DATA,MEM_READ,MEM_WRITE","id":2,"kind":"section","name":".data","off":96768,"rva":102400,"sha256":"2a25003799f163476d41780c5e11b6e23dd1dd271991b5246c8ffd9f509363f4"}
+{"bytes":512,"detail":"CNT_INITIALIZED_DATA,MEM_READ","id":3,"kind":"section","name":".rsrc","off":97280,"rva":106496,"sha256":"dd421a980720ce948077e697a144b539781f50557204d34f87707edb375eab5a"}
+{"bytes":1024,"detail":"CNT_INITIALIZED_DATA,MEM_DISCARDABLE,MEM_READ","id":4,"kind":"section","name":".reloc","off":97792,"rva":110592,"sha256":"781c30f0cbbfc6d8f4cc953227d2aa807ff756b985b4c5446e766a94cc830578"}
+{"detail":"KERNEL32.dll!DisableThreadLibraryCalls","dll":"KERNEL32.dll","hint":289,"id":5,"kind":"import","name":"DisableThreadLibraryCalls","ordinal":null}
+{"detail":"KERNEL32.dll!GetLastError","dll":"KERNEL32.dll","hint":612,"id":6,"kind":"import","name":"GetLastError","ordinal":null}
+{"detail":"KERNEL32.dll!DeviceIoControl","dll":"KERNEL32.dll","hint":288,"id":7,"kind":"import","name":"DeviceIoControl","ordinal":null}
+{"detail":"KERNEL32.dll!CreateFileA","dll":"KERNEL32.dll","hint":198,"id":8,"kind":"import","name":"CreateFileA","ordinal":null}
+{"detail":"KERNEL32.dll!VerifyVersionInfoW","dll":"KERNEL32.dll","hint":1481,"id":9,"kind":"import","name":"VerifyVersionInfoW","ordinal":null}
+{"detail":"KERNEL32.dll!VerSetConditionMask","dll":"KERNEL32.dll","hint":1477,"id":10,"kind":"import","name":"VerSetConditionMask","ordinal":null}
+{"detail":"KERNEL32.dll!WideCharToMultiByte","dll":"KERNEL32.dll","hint":1538,"id":11,"kind":"import","name":"WideCharToMultiByte","ordinal":null}
+{"detail":"KERNEL32.dll!GetProcAddress","dll":"KERNEL32.dll","hint":689,"id":12,"kind":"import","name":"GetProcAddress","ordinal":null}
+{"detail":"KERNEL32.dll!CreateEventW","dll":"KERNEL32.dll","hint":194,"id":13,"kind":"import","name":"CreateEventW","ordinal":null}
+{"detail":"KERNEL32.dll!WaitForSingleObjectEx","dll":"KERNEL32.dll","hint":1500,"id":14,"kind":"import","name":"WaitForSingleObjectEx","ordinal":null}
+{"detail":"KERNEL32.dll!ResetEvent","dll":"KERNEL32.dll","hint":1224,"id":15,"kind":"import","name":"ResetEvent","ordinal":null}
+{"detail":"KERNEL32.dll!SetEvent","dll":"KERNEL32.dll","hint":1304,"id":16,"kind":"import","name":"SetEvent","ordinal":null}
+{"detail":"KERNEL32.dll!DeleteCriticalSection","dll":"KERNEL32.dll","hint":275,"id":17,"kind":"import","name":"DeleteCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!InitializeCriticalSectionAndSpinCount","dll":"KERNEL32.dll","hint":866,"id":18,"kind":"import","name":"InitializeCriticalSectionAndSpinCount","ordinal":null}
+{"detail":"KERNEL32.dll!LeaveCriticalSection","dll":"KERNEL32.dll","hint":961,"id":19,"kind":"import","name":"LeaveCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!EnterCriticalSection","dll":"KERNEL32.dll","hint":308,"id":20,"kind":"import","name":"EnterCriticalSection","ordinal":null}
+{"detail":"KERNEL32.dll!CloseHandle","dll":"KERNEL32.dll","hint":137,"id":21,"kind":"import","name":"CloseHandle","ordinal":null}
+{"detail":"KERNEL32.dll!GetModuleHandleW","dll":"KERNEL32.dll","hint":635,"id":22,"kind":"import","name":"GetModuleHandleW","ordinal":null}
+{"detail":"KERNEL32.dll!IsDebuggerPresent","dll":"KERNEL32.dll","hint":898,"id":23,"kind":"import","name":"IsDebuggerPresent","ordinal":null}
+{"detail":"KERNEL32.dll!InitializeSListHead","dll":"KERNEL32.dll","hint":870,"id":24,"kind":"import","name":"InitializeSListHead","ordinal":null}
+{"detail":"KERNEL32.dll!GetSystemTimeAsFileTime","dll":"KERNEL32.dll","hint":748,"id":25,"kind":"import","name":"GetSystemTimeAsFileTime","ordinal":null}
+{"detail":"KERNEL32.dll!GetCurrentThreadId","dll":"KERNEL32.dll","hint":543,"id":26,"kind":"import","name":"GetCurrentThreadId","ordinal":null}
+{"detail":"KERNEL32.dll!GetCurrentProcessId","dll":"KERNEL32.dll","hint":539,"id":27,"kind":"import","name":"GetCurrentProcessId","ordinal":null}
+{"detail":"KERNEL32.dll!QueryPerformanceCounter","dll":"KERNEL32.dll","hint":1103,"id":28,"kind":"import","name":"QueryPerformanceCounter","ordinal":null}
+{"detail":"KERNEL32.dll!IsProcessorFeaturePresent","dll":"KERNEL32.dll","hint":905,"id":29,"kind":"import","name":"IsProcessorFeaturePresent","ordinal":null}
+{"detail":"KERNEL32.dll!TerminateProcess","dll":"KERNEL32.dll","hint":1424,"id":30,"kind":"import","name":"TerminateProcess","ordinal":null}
+{"detail":"KERNEL32.dll!GetCurrentProcess","dll":"KERNEL32.dll","hint":538,"id":31,"kind":"import","name":"GetCurrentProcess","ordinal":null}
+{"detail":"KERNEL32.dll!SetUnhandledExceptionFilter","dll":"KERNEL32.dll","hint":1393,"id":32,"kind":"import","name":"SetUnhandledExceptionFilter","ordinal":null}
+{"detail":"KERNEL32.dll!UnhandledExceptionFilter","dll":"KERNEL32.dll","hint":1457,"id":33,"kind":"import","name":"UnhandledExceptionFilter","ordinal":null}
+{"detail":"KERNEL32.dll!Sleep","dll":"KERNEL32.dll","hint":1409,"id":34,"kind":"import","name":"Sleep","ordinal":null}
+{"detail":"MSVCP140.dll!?_Xlength_error@std@@YAXPBD@Z","dll":"MSVCP140.dll","hint":654,"id":35,"kind":"import","name":"?_Xlength_error@std@@YAXPBD@Z","ordinal":null}
+{"detail":"MSVCP140.dll!_Thrd_sleep","dll":"MSVCP140.dll","hint":1462,"id":36,"kind":"import","name":"_Thrd_sleep","ordinal":null}
+{"detail":"MSVCP140.dll!_Cnd_do_broadcast_at_thread_exit","dll":"MSVCP140.dll","hint":1358,"id":37,"kind":"import","name":"_Cnd_do_broadcast_at_thread_exit","ordinal":null}
+{"detail":"MSVCP140.dll!_Query_perf_counter","dll":"MSVCP140.dll","hint":1424,"id":38,"kind":"import","name":"_Query_perf_counter","ordinal":null}
+{"detail":"MSVCP140.dll!_Query_perf_frequency","dll":"MSVCP140.dll","hint":1425,"id":39,"kind":"import","name":"_Query_perf_frequency","ordinal":null}
+{"detail":"MSVCP140.dll!_Xtime_get_ticks","dll":"MSVCP140.dll","hint":1484,"id":40,"kind":"import","name":"_Xtime_get_ticks","ordinal":null}
+{"detail":"MSVCP140.dll!_Thrd_detach","dll":"MSVCP140.dll","hint":1456,"id":41,"kind":"import","name":"_Thrd_detach","ordinal":null}
+{"detail":"MSVCP140.dll!?_Throw_Cpp_error@std@@YAXH@Z","dll":"MSVCP140.dll","hint":629,"id":42,"kind":"import","name":"?_Throw_Cpp_error@std@@YAXH@Z","ordinal":null}
+{"detail":"MSVCP140.dll!?_Throw_C_error@std@@YAXH@Z","dll":"MSVCP140.dll","hint":628,"id":43,"kind":"import","name":"?_Throw_C_error@std@@YAXH@Z","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__CxxExceptionFilter","dll":"VCRUNTIME140.dll","hint":13,"id":44,"kind":"import","name":"__CxxExceptionFilter","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__CxxRegisterExceptionObject","dll":"VCRUNTIME140.dll","hint":19,"id":45,"kind":"import","name":"__CxxRegisterExceptionObject","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__CxxDetectRethrow","dll":"VCRUNTIME140.dll","hint":12,"id":46,"kind":"import","name":"__CxxDetectRethrow","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__CxxUnregisterExceptionObject","dll":"VCRUNTIME140.dll","hint":20,"id":47,"kind":"import","name":"__CxxUnregisterExceptionObject","ordinal":null}
+{"detail":"VCRUNTIME140.dll!strstr","dll":"VCRUNTIME140.dll","hint":76,"id":48,"kind":"import","name":"strstr","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__FrameUnwindFilter","dll":"VCRUNTIME140.dll","hint":22,"id":49,"kind":"import","name":"__FrameUnwindFilter","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__CxxQueryExceptionSize","dll":"VCRUNTIME140.dll","hint":18,"id":50,"kind":"import","name":"__CxxQueryExceptionSize","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__std_type_info_destroy_list","dll":"VCRUNTIME140.dll","hint":37,"id":51,"kind":"import","name":"__std_type_info_destroy_list","ordinal":null}
+{"detail":"VCRUNTIME140.dll!_except_handler4_common","dll":"VCRUNTIME140.dll","hint":53,"id":52,"kind":"import","name":"_except_handler4_common","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__current_exception_context","dll":"VCRUNTIME140.dll","hint":29,"id":53,"kind":"import","name":"__current_exception_context","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__current_exception","dll":"VCRUNTIME140.dll","hint":28,"id":54,"kind":"import","name":"__current_exception","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__std_exception_copy","dll":"VCRUNTIME140.dll","hint":33,"id":55,"kind":"import","name":"__std_exception_copy","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__std_exception_destroy","dll":"VCRUNTIME140.dll","hint":34,"id":56,"kind":"import","name":"__std_exception_destroy","ordinal":null}
+{"detail":"VCRUNTIME140.dll!memset","dll":"VCRUNTIME140.dll","hint":72,"id":57,"kind":"import","name":"memset","ordinal":null}
+{"detail":"VCRUNTIME140.dll!__CxxFrameHandler3","dll":"VCRUNTIME140.dll","hint":16,"id":58,"kind":"import","name":"__CxxFrameHandler3","ordinal":null}
+{"detail":"VCRUNTIME140.dll!_CxxThrowException","dll":"VCRUNTIME140.dll","hint":1,"id":59,"kind":"import","name":"_CxxThrowException","ordinal":null}
+{"detail":"VCRUNTIME140.dll!memmove","dll":"VCRUNTIME140.dll","hint":71,"id":60,"kind":"import","name":"memmove","ordinal":null}
+{"detail":"api-ms-win-crt-stdio-l1-1-0.dll!__stdio_common_vsprintf_s","dll":"api-ms-win-crt-stdio-l1-1-0.dll","hint":15,"id":61,"kind":"import","name":"__stdio_common_vsprintf_s","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!tolower","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":151,"id":62,"kind":"import","name":"tolower","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!isspace","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":110,"id":63,"kind":"import","name":"isspace","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!isprint","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":108,"id":64,"kind":"import","name":"isprint","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!iswalnum","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":112,"id":65,"kind":"import","name":"iswalnum","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!strcpy_s","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":137,"id":66,"kind":"import","name":"strcpy_s","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!isalnum","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":100,"id":67,"kind":"import","name":"isalnum","ordinal":null}
+{"detail":"api-ms-win-crt-string-l1-1-0.dll!strncmp","dll":"api-ms-win-crt-string-l1-1-0.dll","hint":142,"id":68,"kind":"import","name":"strncmp","ordinal":null}
+{"detail":"api-ms-win-crt-heap-l1-1-0.dll!_callnewh","dll":"api-ms-win-crt-heap-l1-1-0.dll","hint":8,"id":69,"kind":"import","name":"_callnewh","ordinal":null}
+{"detail":"api-ms-win-crt-heap-l1-1-0.dll!free","dll":"api-ms-win-crt-heap-l1-1-0.dll","hint":24,"id":70,"kind":"import","name":"free","ordinal":null}
+{"detail":"api-ms-win-crt-heap-l1-1-0.dll!malloc","dll":"api-ms-win-crt-heap-l1-1-0.dll","hint":25,"id":71,"kind":"import","name":"malloc","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!terminate","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":106,"id":72,"kind":"import","name":"terminate","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!abort","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":87,"id":73,"kind":"import","name":"abort","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_beginthreadex","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":21,"id":74,"kind":"import","name":"_beginthreadex","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_cexit","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":23,"id":75,"kind":"import","name":"_cexit","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_crt_atexit","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":31,"id":76,"kind":"import","name":"_crt_atexit","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_execute_onexit_table","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":36,"id":77,"kind":"import","name":"_execute_onexit_table","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_register_onexit_function","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":62,"id":78,"kind":"import","name":"_register_onexit_function","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_initialize_onexit_table","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":54,"id":79,"kind":"import","name":"_initialize_onexit_table","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_initialize_narrow_environment","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":53,"id":80,"kind":"import","name":"_initialize_narrow_environment","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_configure_narrow_argv","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":25,"id":81,"kind":"import","name":"_configure_narrow_argv","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_seh_filter_dll","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":65,"id":82,"kind":"import","name":"_seh_filter_dll","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_initterm_e","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":57,"id":83,"kind":"import","name":"_initterm_e","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_initterm","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":56,"id":84,"kind":"import","name":"_initterm","ordinal":null}
+{"detail":"api-ms-win-crt-runtime-l1-1-0.dll!_invalid_parameter_noinfo_noreturn","dll":"api-ms-win-crt-runtime-l1-1-0.dll","hint":59,"id":85,"kind":"import","name":"_invalid_parameter_noinfo_noreturn","ordinal":null}
+{"detail":"mscoree.dll!_CorDllMain","dll":"mscoree.dll","hint":118,"id":86,"kind":"import","name":"_CorDllMain","ordinal":null}
+{"bytes":145,"detail":"RT_MANIFEST/2","id":87,"kind":"resource","language":1033,"name":"2","off":97376,"type":"RT_MANIFEST"}
+{"bytes":98,"detail":"C:\\Users\\Glader\\Documents\\Github\\Ascension.CustomDLLs\\Release\\DivxTac.pdb","guid":"30DE1764-FADE-4952-A2EF-F280A4C9E9B2","id":88,"kind":"debug","name":"CODEVIEW","off":92756,"pdb":"C:\\Users\\Glader\\Documents\\Github\\Ascension.CustomDLLs\\Release\\DivxTac.pdb"}
+{"bytes":20,"detail":"VC_FEATURE","guid":null,"id":89,"kind":"debug","name":"VC_FEATURE","off":92856,"pdb":null}
+{"bytes":964,"detail":"POGO","guid":null,"id":90,"kind":"debug","name":"POGO","off":92876,"pdb":null}
+{"buildNumber":30729,"count":8,"detail":"productId 147 build 30729 x8","id":91,"kind":"richHeaderEntry","off":128,"productId":147}
+{"buildNumber":21022,"count":2,"detail":"productId 147 build 21022 x2","id":92,"kind":"richHeaderEntry","off":128,"productId":147}
+{"buildNumber":30034,"count":28,"detail":"productId 261 build 30034 x28","id":93,"kind":"richHeaderEntry","off":128,"productId":261}
+{"buildNumber":30034,"count":10,"detail":"productId 260 build 30034 x10","id":94,"kind":"richHeaderEntry","off":128,"productId":260}
+{"buildNumber":30034,"count":2,"detail":"productId 259 build 30034 x2","id":95,"kind":"richHeaderEntry","off":128,"productId":259}
+{"buildNumber":30034,"count":4,"detail":"productId 257 build 30034 x4","id":96,"kind":"richHeaderEntry","off":128,"productId":257}
+{"buildNumber":30037,"count":7,"detail":"productId 265 build 30037 x7","id":97,"kind":"richHeaderEntry","off":128,"productId":265}
+{"buildNumber":27412,"count":3,"detail":"productId 257 build 27412 x3","id":98,"kind":"richHeaderEntry","off":128,"productId":257}
+{"buildNumber":0,"count":147,"detail":"productId 1 build 0 x147","id":99,"kind":"richHeaderEntry","off":128,"productId":1}
+{"buildNumber":30037,"count":5,"detail":"productId 261 build 30037 x5","id":100,"kind":"richHeaderEntry","off":128,"productId":261}
+{"buildNumber":30037,"count":1,"detail":"productId 255 build 30037 x1","id":101,"kind":"richHeaderEntry","off":128,"productId":255}
+{"buildNumber":30037,"count":1,"detail":"productId 258 build 30037 x1","id":102,"kind":"richHeaderEntry","off":128,"productId":258}

@@ -1,0 +1,32 @@
+{
+ "columnWidths": {"byte":0,"int32":37},
+ "columns": 37,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "contextRule": "A chain context is a set of archives a running client actually loads, enumerated from the client's own directory layout rather than from a list: `baseChain` is every archive in the base and locale directories - what a character reads when no realm overlay applies - and there is one further context per realm directory found, holding that same base set plus the archives that realm's `listarchive` declares. A version APPLIES TO a context when its archive is the highest-ranked carrier of that path inside it. A version that is the highest-ranked carrier in no context at all is still decoded - it is real client data - and is marked shadowed.",
+ "file": "ChatChannels.dbc",
+ "format": "plain",
+ "inferredCounts": {"int":34,"string":2,"zero":1},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 2628,
+ "rows": 7,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"00-99.jsonl","format":"plain","hi":99,"lo":0,"plainBytes":2628,"rows":7,"sha256":"c8692da9f46a8d090917118f716967685a1ab4825e3521d30adf8afc96966e75","storedBytes":2628}
+ ],
+ "sourceSha256": "b44af7aa0be962d956f7e9b9a4c16c4cb6253dc1a5e1fc71a2047553a712390c",
+ "storedBytes": 2628,
+ "stringBlockSize": 79,
+ "table": "ChatChannels",
+ "unreferencedStringBytes": 0,
+ "variantCount": 4,
+ "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
+ "variants": [
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":37,"decodedRows":7,"format":"plain","layer":"base","path":"raw/tables/ChatChannels/","realm":null,"rowDelta":0,"rows":7,"sha256":"b44af7aa0be962d956f7e9b9a4c16c4cb6253dc1a5e1fc71a2047553a712390c","shards":1,"slug":"data-patch-m-mpq","sourceBytes":1135,"storedBytes":2628},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/patch-enUS-3.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/patch-enUS-3.MPQ","chainRank":19,"chainWinner":false,"columns":37,"decodedRows":6,"format":"plain","layer":"locale","path":"raw/tables/ChatChannels/variants/data-enus-patch-enus-3-mpq/","realm":null,"rowDelta":-1,"rows":6,"sha256":"4088979141d38b6f413b62a28ffe61b53d0484becb75d6d73e747c54c889ddaf","shards":1,"slug":"data-enus-patch-enus-3-mpq","sourceBytes":1046,"storedBytes":2122},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/patch-enUS-2.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/patch-enUS-2.MPQ","chainRank":18,"chainWinner":false,"columns":37,"decodedRows":6,"format":"plain","layer":"locale","path":"raw/tables/ChatChannels/variants/data-enus-patch-enus-2-mpq/","realm":null,"rowDelta":-1,"rows":6,"sha256":"8abc7580a2f238e630b6d0dd87804c27b35098dac630614666358d2c6c3fe0c5","shards":1,"slug":"data-enus-patch-enus-2-mpq","sourceBytes":1046,"storedBytes":2117},
+  {"alsoIn":[],"appliesTo":[],"appliesToNote":"shadowed: Data/enUS/locale-enUS.MPQ carries these bytes but is outranked in every chain context, so no client selects them","archive":"Data/enUS/locale-enUS.MPQ","chainRank":10,"chainWinner":false,"columns":37,"decodedRows":6,"format":"plain","layer":"locale","path":"raw/tables/ChatChannels/variants/data-enus-locale-enus-mpq/","realm":null,"rowDelta":-1,"rows":6,"sha256":"6cb6088a64388e25ddd9e0629a73fa5884e650094d660b2ba0fe66711ea926e1","shards":1,"slug":"data-enus-locale-enus-mpq","sourceBytes":1046,"storedBytes":2117}
+ ]
+}

@@ -1,4 +1,6 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Brewing","Class","Shadowhunting","Voodoo"],
  "class": "WitchDoctor",
  "classId": 13,
  "entryCount": 403,
@@ -6,10 +8,22 @@
  "files": [
   {"cadIdRange":null,"count":92,"file":"Brewing.json","tab":"Brewing","type":null},
   {"cadIdRange":null,"count":65,"file":"Class.json","tab":"Class","type":null},
-  {"cadIdRange":null,"count":146,"file":"Shadowhunting.json","tab":"Shadowhunting","type":null},
-  {"cadIdRange":null,"count":100,"file":"Voodoo.json","tab":"Voodoo","type":null}
+  {"cadIdRange":[4000,6000],"count":1,"file":"Shadowhunting.Ability-4000.json","tab":"Shadowhunting","type":"Ability"},
+  {"cadIdRange":[6000,8000],"count":35,"file":"Shadowhunting.Ability-6000.json","tab":"Shadowhunting","type":"Ability"},
+  {"cadIdRange":[8000,10000],"count":7,"file":"Shadowhunting.Ability-8000.json","tab":"Shadowhunting","type":"Ability"},
+  {"cadIdRange":[18000,20000],"count":49,"file":"Shadowhunting.Ability-18000.json","tab":"Shadowhunting","type":"Ability"},
+  {"cadIdRange":[20000,22000],"count":8,"file":"Shadowhunting.Ability-20000.json","tab":"Shadowhunting","type":"Ability"},
+  {"cadIdRange":[28000,30000],"count":5,"file":"Shadowhunting.Ability-28000.json","tab":"Shadowhunting","type":"Ability"},
+  {"cadIdRange":null,"count":41,"file":"Shadowhunting.Talent.json","tab":"Shadowhunting","type":"Talent"},
+  {"cadIdRange":null,"count":61,"file":"Voodoo.Ability.json","tab":"Voodoo","type":"Ability"},
+  {"cadIdRange":null,"count":39,"file":"Voodoo.Talent.json","tab":"Voodoo","type":"Talent"}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":205,"live":143,"liveViaRank":0,"unknown":55},
+ "liveCountsByReason": {"deadCatalog":205,"indeterminate":55,"liveDirect":143},
+ "liveTabs": ["Shadowhunting","Voodoo","Brewing","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 55
 }

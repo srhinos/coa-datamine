@@ -1,14 +1,25 @@
 {
+ "aliases": [],
+ "catalogTabs": ["BeastMastery","Marksmanship","Survival"],
  "class": "Hunter",
  "classId": 3,
  "entryCount": 296,
  "entryCounts": {"Ability":126,"Talent":144,"TalentAbility":26},
  "files": [
-  {"cadIdRange":null,"count":104,"file":"BeastMastery.json","tab":"BeastMastery","type":null},
+  {"cadIdRange":null,"count":52,"file":"BeastMastery.Ability.json","tab":"BeastMastery","type":"Ability"},
+  {"cadIdRange":null,"count":46,"file":"BeastMastery.Talent.json","tab":"BeastMastery","type":"Talent"},
+  {"cadIdRange":null,"count":6,"file":"BeastMastery.TalentAbility.json","tab":"BeastMastery","type":"TalentAbility"},
   {"cadIdRange":null,"count":87,"file":"Marksmanship.json","tab":"Marksmanship","type":null},
-  {"cadIdRange":null,"count":105,"file":"Survival.json","tab":"Survival","type":null}
+  {"cadIdRange":null,"count":44,"file":"Survival.Ability.json","tab":"Survival","type":"Ability"},
+  {"cadIdRange":null,"count":51,"file":"Survival.Talent.json","tab":"Survival","type":"Talent"},
+  {"cadIdRange":null,"count":10,"file":"Survival.TalentAbility.json","tab":"Survival","type":"TalentAbility"}
  ],
+ "hasLiveGeometry": false,
+ "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":296},
+ "liveCountsByReason": {"unknownNoGeometry":296},
+ "liveTabs": null,
  "realmHint": "Area 52 - Free-Pick /shared",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "vanilla",
  "unresolvedCount": 0
 }

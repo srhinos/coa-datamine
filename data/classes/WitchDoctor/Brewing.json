@@ -7,6 +7,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6015,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:mojofishbones",
+     "abilityName": "Mojo: Fish Bones",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705850
+     ]
+    },
+    "matchedSpellId": 705850,
+    "reason": "liveDirect"
+   },
    "name": "Alchemical Invigoration",
    "quality": "Poor",
    "qualityCost": 1,
@@ -32,6 +52,25 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "ability_monk_chibrew",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:allcureelixir",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Allcure Elixir",
    "quality": "Normal",
    "qualityCost": 1,
@@ -57,6 +96,26 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "inv_hand_1h_trollshaman_c_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6051,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c13:swiftidol",
+     "abilityName": "Swift Idol",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804226
+     ]
+    },
+    "matchedSpellId": 804226,
+    "reason": "liveDirect"
+   },
    "name": "Army of the Loa",
    "quality": "Normal",
    "qualityCost": 1,
@@ -82,6 +141,26 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "InterfaceIconsinv_hand_1h_trollshaman_c_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6051,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c13:swiftidol",
+     "abilityName": "Swift Idol",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804226
+     ]
+    },
+    "matchedSpellId": 804226,
+    "reason": "liveDirect"
+   },
    "name": "Army of the Loa",
    "quality": "Normal",
    "qualityCost": 1,
@@ -107,6 +186,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:brewlobber",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Brew Lobber",
    "quality": "Poor",
    "qualityCost": 1,
@@ -132,6 +225,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:brewsplash",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Brew Splash",
    "quality": "Poor",
    "qualityCost": 1,
@@ -157,6 +264,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7133,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:tikisplash",
+     "abilityName": "Tiki Splash",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500053
+     ]
+    },
+    "matchedSpellId": 500053,
+    "reason": "liveDirect"
+   },
    "name": "Brewing Witch Doctor",
    "quality": "Normal",
    "qualityCost": 1,
@@ -182,6 +309,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Ability_Hunter_CobraStrikes",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:cobrasting",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Cobra Sting",
    "quality": "Normal",
    "qualityCost": 1,
@@ -192,7 +334,43 @@
      "dispel": null,
      "id": 500019,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500019
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501214
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501215
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501216
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501217
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501218
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501219
+      }
+     ],
      "schools": []
     }
    ],
@@ -205,6 +383,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Ability_Hunter_CobraStrikes",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:cobrasting",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Cobra Sting",
    "quality": "Normal",
    "qualityCost": 1,
@@ -215,7 +408,43 @@
      "dispel": null,
      "id": 500019,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500019
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501214
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501215
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501216
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501217
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501218
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501219
+      }
+     ],
      "schools": []
     }
    ],
@@ -228,6 +457,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:cobrasting",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Cobra Sting",
    "quality": "Normal",
    "qualityCost": 1,
@@ -238,7 +482,43 @@
      "dispel": null,
      "id": 500019,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500019
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501214
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501215
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501216
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501217
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501218
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501219
+      }
+     ],
      "schools": []
     }
    ],
@@ -251,6 +531,26 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "Trade_Engineering",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4005,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:cauldronbrewer",
+     "abilityName": "Cauldron Brewer",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92085
+     ]
+    },
+    "matchedSpellId": 92085,
+    "reason": "liveDirect"
+   },
    "name": "Conquest of Azeroth Specialization - Witch Doctor (Brewing)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -276,6 +576,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "achievement_zulgurub_jindo",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:danceoftheloa",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dance of the Loa",
    "quality": "Normal",
    "qualityCost": 1,
@@ -301,6 +615,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "achievement_boss_jinrokhthebreaker",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:direrage",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dire Rage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -324,6 +653,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "achievement_boss_jinrokhthebreaker",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:direrage",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dire Rage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -347,6 +691,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:direrage",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dire Rage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -370,6 +729,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6023,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:discipleofsseratus",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300660
+     ]
+    },
+    "matchedSpellId": 300660,
+    "reason": "liveDirect"
+   },
    "name": "Disciple of Sseratus",
    "quality": "Poor",
    "qualityCost": 1,
@@ -395,6 +773,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ivn_helm_armor_zandalaritroll_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:drakkaribarrier",
+     "classId": 13,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Drakkari Barrier",
    "quality": "Normal",
    "qualityCost": 1,
@@ -466,6 +859,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ivn_helm_armor_zandalaritroll_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:drakkaribarrier",
+     "classId": 13,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Drakkari Barrier",
    "quality": "Normal",
    "qualityCost": 1,
@@ -537,6 +945,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:drakkaribarrier",
+     "classId": 13,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Drakkari Barrier",
    "quality": "Normal",
    "qualityCost": 1,
@@ -608,6 +1031,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_potione_4",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:flaskofmana",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Flask of Mana",
    "quality": "Normal",
    "qualityCost": 1,
@@ -631,6 +1069,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_potione_4",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:flaskofmana",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Flask of Mana",
    "quality": "Normal",
    "qualityCost": 1,
@@ -654,6 +1107,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:flaskofmana",
+     "abilityName": null,
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Flask of Mana",
    "quality": "Normal",
    "qualityCost": 1,
@@ -677,6 +1145,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Potion_18",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29753,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:arcanebrew",
+     "abilityName": "Arcane Brew",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801689
+     ]
+    },
+    "matchedSpellId": 801689,
+    "reason": "liveDirect"
+   },
    "name": "Flask of Shadows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -702,6 +1190,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "INV_Potion_18",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29753,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:arcanebrew",
+     "abilityName": "Arcane Brew",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801689
+     ]
+    },
+    "matchedSpellId": 801689,
+    "reason": "liveDirect"
+   },
    "name": "Flask of Shadows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -727,6 +1235,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29753,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:arcanebrew",
+     "abilityName": "Arcane Brew",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801689
+     ]
+    },
+    "matchedSpellId": 801689,
+    "reason": "liveDirect"
+   },
    "name": "Flask of Shadows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -752,6 +1280,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Potion_31",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6031,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c13:amphibimorph",
+     "abilityName": "Amphibimorph",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500952
+     ]
+    },
+    "matchedSpellId": 500952,
+    "reason": "liveDirect"
+   },
    "name": "Flask of Transmogrification",
    "quality": "Normal",
    "qualityCost": 1,
@@ -777,6 +1325,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "INV_Potion_31",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6031,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c13:amphibimorph",
+     "abilityName": "Amphibimorph",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500952
+     ]
+    },
+    "matchedSpellId": 500952,
+    "reason": "liveDirect"
+   },
    "name": "Flask of Transmogrification",
    "quality": "Normal",
    "qualityCost": 1,
@@ -802,6 +1370,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6031,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c13:amphibimorph",
+     "abilityName": "Amphibimorph",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500952
+     ]
+    },
+    "matchedSpellId": 500952,
+    "reason": "liveDirect"
+   },
    "name": "Flask of Transmogrification",
    "quality": "Normal",
    "qualityCost": 1,
@@ -827,6 +1415,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_potion_100",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6026,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:masterofconcoctions",
+     "abilityName": "Master of Concoctions",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801690
+     ]
+    },
+    "matchedSpellId": 801690,
+    "reason": "liveDirect"
+   },
    "name": "Flask of the Alchemist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -852,6 +1460,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_potion_100",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6026,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:masterofconcoctions",
+     "abilityName": "Master of Concoctions",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801690
+     ]
+    },
+    "matchedSpellId": 801690,
+    "reason": "liveDirect"
+   },
    "name": "Flask of the Alchemist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -877,6 +1505,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6026,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:masterofconcoctions",
+     "abilityName": "Master of Concoctions",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801690
+     ]
+    },
+    "matchedSpellId": 801690,
+    "reason": "liveDirect"
+   },
    "name": "Flask of the Alchemist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -902,6 +1550,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6498,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:freshingredients",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705856,
+      707858
+     ]
+    },
+    "matchedSpellId": 705856,
+    "reason": "liveDirect"
+   },
    "name": "Fresh Ingredients",
    "quality": "Poor",
    "qualityCost": 1,
@@ -945,6 +1612,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "spell_shadow_unsummonbuilding",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:hexbreak",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Hexbreak",
    "quality": "Normal",
    "qualityCost": 1,
@@ -970,6 +1656,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:senjinsdisciple",
+     "abilityName": "Sen'jin's Disciple",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Flasks",
    "quality": "Poor",
    "qualityCost": 1,
@@ -995,6 +1696,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29310,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:basebeastblood",
+     "abilityName": "Base: Beast Blood",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705870
+     ]
+    },
+    "matchedSpellId": 705870,
+    "reason": "liveDirect"
+   },
    "name": "Improved Healing Ward",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1020,6 +1741,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:potionslinger",
+     "abilityName": "Potion Slinger",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Praise",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1045,6 +1781,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6016,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:mojofrogshrooms",
+     "abilityName": "Mojo: Frog Shrooms",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705851
+     ]
+    },
+    "matchedSpellId": 705851,
+    "reason": "liveDirect"
+   },
    "name": "Improved Revitalize",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1079,6 +1835,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:truebrew",
+     "abilityName": "True Brew",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Voodoo Cauldron",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1104,6 +1875,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Misc_Herb_16",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6021,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientbloodthistle",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801664
+     ]
+    },
+    "matchedSpellId": 801664,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Bloodthistle",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1135,6 +1925,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "InterfaceIconsINV_Misc_Herb_16",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6021,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientbloodthistle",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801664
+     ]
+    },
+    "matchedSpellId": 801664,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Bloodthistle",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1166,6 +1975,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6021,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientbloodthistle",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801664
+     ]
+    },
+    "matchedSpellId": 801664,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Bloodthistle",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1197,6 +2025,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Misc_Bone_02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29741,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientfrogbones",
+     "abilityName": "Ingredient: Frog Bones",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801663
+     ]
+    },
+    "matchedSpellId": 801663,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Fishbones",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1222,6 +2070,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "INV_Misc_Bone_02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29741,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientfrogbones",
+     "abilityName": "Ingredient: Frog Bones",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801663
+     ]
+    },
+    "matchedSpellId": 801663,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Fishbones",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1247,6 +2115,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29741,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientfrogbones",
+     "abilityName": "Ingredient: Frog Bones",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801663
+     ]
+    },
+    "matchedSpellId": 801663,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Fishbones",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1272,6 +2160,24 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "INV_DRINK_14",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:ingredientfishoil",
+     "abilityName": "Ingredient: Fish Oil",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
+   },
    "name": "Ingredient: Frog Venom",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1297,6 +2203,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Mushroom_07",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12645,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientjungleshrooms",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801660
+     ]
+    },
+    "matchedSpellId": 801660,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Jungle Shrooms",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1328,6 +2253,25 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "INV_Mushroom_07",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12645,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:ingredientjungleshrooms",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801660
+     ]
+    },
+    "matchedSpellId": 801660,
+    "reason": "liveDirect"
+   },
    "name": "Ingredient: Jungle Shrooms",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1359,6 +2303,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:junglefever",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Jungle Fever",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1384,6 +2342,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "achievement_zone_stranglethorn_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:junglefever",
+     "abilityName": "Jungle Fever",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Jungle Lineage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1409,6 +2382,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "achievement_zone_stranglethorn_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:junglefever",
+     "abilityName": "Jungle Fever",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Jungle Lineage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1434,6 +2422,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29736,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:brewmaster",
+     "abilityName": "Brewmaster",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704512,
+      707856
+     ]
+    },
+    "matchedSpellId": 704512,
+    "reason": "liveDirect"
+   },
    "name": "Legacy of Zandalar",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1468,6 +2477,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_misc_food_cooked_jadewitchbrew",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6022,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:splashonem",
+     "abilityName": "Splash On 'Em",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802219
+     ]
+    },
+    "matchedSpellId": 802219,
+    "reason": "liveDirect"
+   },
    "name": "Loa's Blood Potions",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1493,6 +2522,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6022,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:splashonem",
+     "abilityName": "Splash On 'Em",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802219
+     ]
+    },
+    "matchedSpellId": 802219,
+    "reason": "liveDirect"
+   },
    "name": "Loa's Blood Potions",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1518,6 +2567,25 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "inv_misc_potion_special",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:loasbrew",
+     "classId": 13,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Loa's Brew",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1594,6 +2662,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Achievement_Dungeon_Gundrak_Normal",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29754,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:basecrystalwater",
+     "abilityName": "Base: Crystal Water",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500962
+     ]
+    },
+    "matchedSpellId": 500962,
+    "reason": "liveDirect"
+   },
    "name": "Mark of Mojo",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1620,6 +2708,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Achievement_Dungeon_Gundrak_Normal",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29754,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:basecrystalwater",
+     "abilityName": "Base: Crystal Water",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500962
+     ]
+    },
+    "matchedSpellId": 500962,
+    "reason": "liveDirect"
+   },
    "name": "Mark of Mojo",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1646,6 +2754,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29754,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:basecrystalwater",
+     "abilityName": "Base: Crystal Water",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500962
+     ]
+    },
+    "matchedSpellId": 500962,
+    "reason": "liveDirect"
+   },
    "name": "Mark of Mojo",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1672,6 +2800,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:medicineman",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Medicine Man",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1706,6 +2848,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_alchemy_80_elixir01green",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:masterbrewer",
+     "abilityName": "Master Brewer",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Mixologist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1731,6 +2891,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:masterbrewer",
+     "abilityName": "Master Brewer",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Mixologist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1756,6 +2934,27 @@
    "expansion": 0,
    "flags": 1,
    "icon": "spell_volatilefiregreen",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30823,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:mojobeam",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500950
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500950,
+    "reason": "liveDirect"
+   },
    "name": "Mojo Beam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1812,6 +3011,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "spell_volatilefiregreen",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30823,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:mojobeam",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500950
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500950,
+    "reason": "liveDirect"
+   },
    "name": "Mojo Beam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1868,6 +3088,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30823,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:mojobeam",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500950
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500950,
+    "reason": "liveDirect"
+   },
    "name": "Mojo Beam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1924,6 +3165,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6020,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:junglebooms",
+     "abilityName": "Jungle Booms",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705859
+     ]
+    },
+    "matchedSpellId": 705859,
+    "reason": "liveDirect"
+   },
    "name": "Mojo Madness",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1949,6 +3210,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:quickvoodoo",
+     "abilityName": "Quick Voodoo",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Poisonous Puddles",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1974,6 +3250,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29740,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:mastermixologist",
+     "abilityName": "Master Mixologist",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705864
+     ]
+    },
+    "matchedSpellId": 705864,
+    "reason": "liveDirect"
+   },
    "name": "Potion Master",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1999,6 +3295,26 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "INV_Potion_99",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12646,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:potiontoss",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801661
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 801661,
+    "reason": "liveDirect"
+   },
    "name": "Potion Toss",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2024,6 +3340,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_druid_replenish",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:soothingjuju",
+     "abilityName": "Soothing Juju",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Praise",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2049,6 +3380,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_druid_replenish",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:soothingjuju",
+     "abilityName": "Soothing Juju",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Praise",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2074,6 +3420,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:soothingjuju",
+     "abilityName": "Soothing Juju",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Praise",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2099,6 +3460,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:regenerator",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Regenerator",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2124,6 +3499,35 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_ember_green",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:revitalize",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog",
+    "rejectedRankMatch": {
+     "distinctChainNames": [
+      "asceticabdication",
+      "fearmonger",
+      "icehide",
+      "mirage",
+      "miragegameobjectsummon",
+      "miragereturn",
+      "revitalize",
+      "umbralglaive",
+      "warcry"
+     ],
+     "spellId": 801667,
+     "wouldHaveMatched": 501136
+    }
+   },
    "name": "Revitalize",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2215,6 +3619,35 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_ember_green",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:revitalize",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog",
+    "rejectedRankMatch": {
+     "distinctChainNames": [
+      "asceticabdication",
+      "fearmonger",
+      "icehide",
+      "mirage",
+      "miragegameobjectsummon",
+      "miragereturn",
+      "revitalize",
+      "umbralglaive",
+      "warcry"
+     ],
+     "spellId": 801667,
+     "wouldHaveMatched": 501136
+    }
+   },
    "name": "Revitalize",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2306,6 +3739,35 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:revitalize",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog",
+    "rejectedRankMatch": {
+     "distinctChainNames": [
+      "asceticabdication",
+      "fearmonger",
+      "icehide",
+      "mirage",
+      "miragegameobjectsummon",
+      "miragereturn",
+      "revitalize",
+      "umbralglaive",
+      "warcry"
+     ],
+     "spellId": 801667,
+     "wouldHaveMatched": 501136
+    }
+   },
    "name": "Revitalize",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2397,6 +3859,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4715,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:loasblessing",
+     "abilityName": "Loa's Blessing",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705848
+     ]
+    },
+    "matchedSpellId": 705848,
+    "reason": "liveDirect"
+   },
    "name": "Serpent Swiftness",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2422,6 +3904,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Ability_Hunter_SnakeTrap",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29736,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:brewmaster",
+     "abilityName": "Brewmaster",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704512,
+      707856
+     ]
+    },
+    "matchedSpellId": 704512,
+    "reason": "liveDirect"
+   },
    "name": "Serpentbind",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2447,6 +3950,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Ability_Creature_Cursed_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:shrinkally",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shrink Ally",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2472,6 +3989,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Ability_Creature_Cursed_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:shrinkally",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shrink Ally",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2497,6 +4028,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:shrinkally",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shrink Ally",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2522,6 +4067,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_staff_2h_snakeman_c_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:snakeoil",
+     "abilityName": "Snake Oil",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Snake Charmer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2547,6 +4107,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_staff_2h_snakeman_c_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:snakeoil",
+     "abilityName": "Snake Oil",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Snake Charmer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2572,6 +4147,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:snakeoil",
+     "abilityName": "Snake Oil",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Snake Charmer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2597,6 +4187,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:datruevoodooshuffle",
+     "abilityName": "Da True Voodoo Shuffle",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Snake Pit",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2622,6 +4227,27 @@
    "expansion": 0,
    "flags": 1,
    "icon": "INV_Potion_93",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:spiritinabottle",
+     "abilityName": "Spirit in a Bottle",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Snakeblood Brew",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2688,6 +4314,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "INV_Potion_93",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:spiritinabottle",
+     "abilityName": "Spirit in a Bottle",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Snakeblood Brew",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2754,6 +4401,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:spiritinabottle",
+     "abilityName": "Spirit in a Bottle",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Snakeblood Brew",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2820,6 +4488,26 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "trade_alchemy_dpotion_a27",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:greaterresourcefulwuju",
+     "abilityName": "Greater Resourceful Wuju",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Voodoo Alchemy",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2845,6 +4533,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_enchanting_70_pet_cauldron",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30333,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:voodoocauldron",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804684
+     ]
+    },
+    "matchedSpellId": 804684,
+    "reason": "liveDirect"
+   },
    "name": "Voodoo Cauldron",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2870,6 +4577,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_enchanting_70_pet_cauldron",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30333,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:voodoocauldron",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804684
+     ]
+    },
+    "matchedSpellId": 804684,
+    "reason": "liveDirect"
+   },
    "name": "Voodoo Cauldron",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2895,6 +4621,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30333,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:voodoocauldron",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804684
+     ]
+    },
+    "matchedSpellId": 804684,
+    "reason": "liveDirect"
+   },
    "name": "Voodoo Cauldron",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2920,6 +4665,22 @@
    "expansion": 0,
    "flags": 0,
    "icon": "InterfaceIconsAbility_Creature_Poison_06",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:voodooward",
+     "abilityName": "Voodoo Ward",
+     "classId": 13,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Voodoo Puddle",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2967,6 +4728,22 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:voodooward",
+     "abilityName": "Voodoo Ward",
+     "classId": 13,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Voodoo Puddle",
    "quality": "Normal",
    "qualityCost": 1,

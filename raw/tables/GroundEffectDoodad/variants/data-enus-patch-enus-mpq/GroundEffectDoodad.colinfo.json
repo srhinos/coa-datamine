@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":576,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":707,"maxUnsigned":707,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":576,"rows":576,"string":{"applicable":true,"blockCoverageRate":0.079416,"blockSize":7530,"controlCharOffsets":0,"distinctOffsets":46,"meanDecodedLength":12.0,"nonEmptyOffsets":46,"utf8DecodableOffsets":46,"validOffsetRate":0.079861},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["ElwFlo01.mdl","ElwFlo02.mdl","ElwFlo03.mdl","ElwGra01.mdl","ElwGra02.mdl"],"width":4},
+  {"evidence":{"distinct":563,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":7517,"maxUnsigned":7517,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":576,"rows":576,"string":{"applicable":true,"blockCoverageRate":0.999867,"blockSize":7530,"controlCharOffsets":0,"distinctOffsets":563,"meanDecodedLength":12.373,"nonEmptyOffsets":563,"utf8DecodableOffsets":563,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["ElwFlo01.mdl","ElwFlo02.mdl","ElwFlo03.mdl","ElwGra01.mdl","ElwGra02.mdl"],"width":4},
+  {"evidence":{"distinct":2,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1,"maxUnsigned":1,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":26,"rows":576,"string":{"applicable":true,"blockCoverageRate":0.001859,"blockSize":7530,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":6.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":2,"validOffsetRate":1.0},"zeroCount":550},"index":2,"inferred":"string","name":"f2","samples":["ElwFlo01.mdl"],"width":4}
+ ],
+ "file": "GroundEffectDoodad.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":576,"sizeReconciles":true,"stringBlockReferencedBytes":7530,"stringBlockSize":7530,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":2},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":14462,"losers":[],"sha256":"3bc35e1d0b52b222175e2263408109dfc22012ccfac843b01c57020aced3287d","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "GroundEffectDoodad"
+}

@@ -1,0 +1,1569 @@
+{
+ "class": "Reaper",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 30114,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:ghostclaw",
+     "abilityName": "Ghost Claw",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Bolstered Form",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Curse",
+     "id": 803994,
+     "name": "Ghost Claw",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34521,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:spiritualpressure",
+     "abilityName": "Spiritual Pressure",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Confidence",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300566,
+     "name": "Spiritual Pressure",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30718,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:counterscythe",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Counterscythe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805714,
+     "name": "Counterscythe",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30116,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:darkdeal",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Dark Deal",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803996,
+     "name": "Dark Deal",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 31206,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4272,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:soulslip",
+     "abilityName": "Soul Slip",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500286
+     ]
+    },
+    "matchedSpellId": 500286,
+    "reason": "liveDirect"
+   },
+   "name": "Domination Reaper",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500286,
+     "name": "Soul Slip",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30119,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7271,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c30:dominion",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      803999
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 803999,
+    "reason": "liveDirect"
+   },
+   "name": "Dominion",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803999,
+     "name": "Dominion",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34472,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34516,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:spiritrealm",
+     "abilityName": "Spirit Realm",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705404
+     ]
+    },
+    "matchedSpellId": 705404,
+    "reason": "liveDirect"
+   },
+   "name": "Dread Locks",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705404,
+     "name": "Spirit Realm",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34515,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:dread",
+     "abilityName": "Dread",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Dreadshell",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300557,
+     "name": "Dread",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34516,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:dreadwarden",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Dreadwarden",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300559,
+     "name": "Dreadwarden",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30533,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30533,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:eaterofsouls",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805181
+     ]
+    },
+    "matchedSpellId": 805181,
+    "reason": "liveDirect"
+   },
+   "name": "Eater of Souls",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805181,
+     "name": "Eater of Souls",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34520,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34521,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:soulsight",
+     "abilityName": "Soulsight",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300565
+     ]
+    },
+    "matchedSpellId": 300565,
+    "reason": "liveDirect"
+   },
+   "name": "Foresight",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300565,
+     "name": "Soulsight",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 31290,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6778,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c30:ghastlyform",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704357
+     ]
+    },
+    "matchedSpellId": 704357,
+    "reason": "liveDirect"
+   },
+   "name": "Ghastly Form",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704357,
+     "name": "Ghastly Form",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34523,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6779,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:hardbargain",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300569
+     ]
+    },
+    "matchedSpellId": 300569,
+    "reason": "liveDirect"
+   },
+   "name": "Hard Bargain",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300569,
+     "name": "Hard Bargain",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34474,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34474,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:harnessedlife",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705406
+     ]
+    },
+    "matchedSpellId": 705406,
+    "reason": "liveDirect"
+   },
+   "name": "Harnessed Life",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705406,
+     "name": "Harnessed Life",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 29693,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6766,
+    "builderTab": "Harvest",
+    "identity": {
+     "abilityKey": "c30:hungeringscythe",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801335
+     ]
+    },
+    "matchedSpellId": 801335,
+    "reason": "liveDirect"
+   },
+   "name": "Hungering Scythe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801335,
+     "name": "Hungering Scythe",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801335
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 502708
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 502709
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 502710
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 502711
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 502712
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 502713
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 502714
+      }
+     ],
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34514,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:improveddarkdeal",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Improved Dark Deal",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300555,
+     "name": "Improved Dark Deal",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34522,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:improvedsoulshroud",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Improved Soulshroud",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300568,
+     "name": "Improved Soulshroud",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30721,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9322,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c30:jailersbargain",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805718
+     ]
+    },
+    "matchedSpellId": 805718,
+    "reason": "liveDirect"
+   },
+   "name": "Jailer's Bargain",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805718,
+     "name": "Jailer's Bargain",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 29249,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:lament",
+     "abilityName": null,
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Lament",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 500366,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500366
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 502715
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 502716
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 502717
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 502718
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 502719
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 502720
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 502721
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 502722
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30550,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29246,
+    "builderTab": "Harvest",
+    "identity": {
+     "abilityKey": "c30:mawknight",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805204,
+      807888
+     ]
+    },
+    "matchedSpellId": 805204,
+    "reason": "liveDirect"
+   },
+   "name": "Maw Knight",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805204,
+     "name": "Maw Knight",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34518,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:mawdrinker",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Mawdrinker",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300561,
+     "name": "Mawdrinker",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30120,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:reaperspact",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Reaper's Pact",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804001,
+     "name": "Reaper's Pact",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34519,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:wraithkingshunger",
+     "abilityName": "Wraith King's Hunger",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Regenerative Wounds",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 300563,
+     "name": "Wraith King's Hunger",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30720,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 8293,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:requiem",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805717
+     ]
+    },
+    "matchedSpellId": 805717,
+    "reason": "liveDirect"
+   },
+   "name": "Requiem",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805717,
+     "name": "Requiem",
+     "ranks": null,
+     "schools": [
+      "Frost",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 29604,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:emeraldveil",
+     "abilityName": "Emerald Veil",
+     "classId": 30,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Soul Slip",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800939,
+     "name": "Emerald Veil",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30722,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30119,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:soulsplinters",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805719
+     ]
+    },
+    "matchedSpellId": 805719,
+    "reason": "liveDirect"
+   },
+   "name": "Soul Splinters",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805719,
+     "name": "Soul Splinters",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30719,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30550,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:spectralwarden",
+     "abilityName": "Spectral Warden",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805716
+     ]
+    },
+    "matchedSpellId": 805716,
+    "reason": "liveDirect"
+   },
+   "name": "Soul Tap",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805716,
+     "name": "Spectral Warden",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30716,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:soulshroud",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Soulshroud",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805711,
+     "name": "Soulshroud",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 31289,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6768,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:soultaker",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704356
+     ]
+    },
+    "matchedSpellId": 704356,
+    "reason": "liveDirect"
+   },
+   "name": "Soultaker",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704356,
+     "name": "Soultaker",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34473,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:soultwister",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Soultwister",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705405,
+     "name": "Soultwister",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30717,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:soulwardensresolve",
+     "abilityName": null,
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Soulwarden's Resolve",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 805713,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 30110,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:spectralwaltz",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Spectral Waltz",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803988,
+     "name": "Spectral Waltz",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34517,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7946,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:dreadknight",
+     "abilityName": "Dreadknight",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300560,
+      301352
+     ]
+    },
+    "matchedSpellId": 300560,
+    "reason": "liveDirect"
+   },
+   "name": "Spread the Murder",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 300560,
+     "name": "Dreadknight",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34471,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30116,
+    "builderTab": "Domination",
+    "identity": {
+     "abilityKey": "c30:soulstorm",
+     "abilityName": "Soulstorm",
+     "classId": 30,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705403
+     ]
+    },
+    "matchedSpellId": 705403,
+    "reason": "liveDirect"
+   },
+   "name": "Wake Up, It's Dread Time",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705403,
+     "name": "Soulstorm",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 34496,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c30:wakeupitsdreadtime",
+     "abilityName": "Wake Up, It's Dread Time",
+     "classId": 30,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Withering Blast",
+   "quality": "Poor",
+   "qualityCost": 1,
+   "realms": "100679750",
+   "requiredLevel": 0,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 705429,
+     "name": "Wake Up, It's Dread Time",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Domination",
+   "type": "Talent"
+  }
+ ],
+ "tab": "Domination",
+ "type": "Talent"
+}

@@ -1,0 +1,6183 @@
+{
+ "bytes": 348160,
+ "certificates": [],
+ "coff": {
+  "characteristics": 8462,
+  "characteristicsFlags": [
+   "EXECUTABLE_IMAGE",
+   "LINE_NUMS_STRIPPED",
+   "LOCAL_SYMS_STRIPPED",
+   "32BIT_MACHINE",
+   "DLL"
+  ],
+  "machine": 332,
+  "machineName": "IMAGE_FILE_MACHINE_I386",
+  "numberOfSections": 5,
+  "numberOfSymbols": 0,
+  "pointerToSymbolTable": 0,
+  "sizeOfOptionalHeader": 224,
+  "timeDateStamp": 1045831340
+ },
+ "debug": [
+  {
+   "addressOfRawData": 236420,
+   "codeView": {
+    "age": 2,
+    "guid": "630C7917-5C19-42C0-99C9-BC4ED019C609",
+    "pdb": "msvcr71.pdb",
+    "signature": "RSDS"
+   },
+   "majorVersion": 0,
+   "minorVersion": 0,
+   "pointerToRawData": 236420,
+   "sizeOfData": 36,
+   "timeDateStamp": 1045831340,
+   "type": 2,
+   "typeName": "CODEVIEW"
+  },
+  {
+   "addressOfRawData": 236416,
+   "majorVersion": 543,
+   "minorVersion": 1493,
+   "pointerToRawData": 236416,
+   "sizeOfData": 4,
+   "timeDateStamp": 1045831340,
+   "type": 10,
+   "typeName": "RESERVED10"
+  }
+ ],
+ "directories": {
+  "architecture": {
+   "index": 7,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "basereloc": {
+   "index": 5,
+   "size": 11108,
+   "virtualAddress": 339968
+  },
+  "boundImport": {
+   "index": 11,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "comDescriptor": {
+   "index": 14,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "debug": {
+   "index": 6,
+   "size": 56,
+   "virtualAddress": 236360
+  },
+  "delayImport": {
+   "index": 13,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "exception": {
+   "index": 3,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "export": {
+   "index": 0,
+   "size": 17376,
+   "virtualAddress": 240756
+  },
+  "globalptr": {
+   "index": 8,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "iat": {
+   "index": 12,
+   "size": 620,
+   "virtualAddress": 237568
+  },
+  "import": {
+   "index": 1,
+   "size": 40,
+   "virtualAddress": 299672
+  },
+  "loadConfig": {
+   "index": 10,
+   "size": 72,
+   "virtualAddress": 299128
+  },
+  "reserved": {
+   "index": 15,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "resource": {
+   "index": 2,
+   "size": 952,
+   "virtualAddress": 335872
+  },
+  "security": {
+   "index": 4,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "tls": {
+   "index": 9,
+   "size": 0,
+   "virtualAddress": 0
+  }
+ },
+ "dos": {
+  "e_lfanew": 240,
+  "stubBytes": 176
+ },
+ "exports": {
+  "functionCount": 837,
+  "functions": [
+   {
+    "forwarder": null,
+    "name": "??0__non_rtti_object@@QAE@ABV0@@Z",
+    "ordinal": 1,
+    "rva": 101222
+   },
+   {
+    "forwarder": null,
+    "name": "??0__non_rtti_object@@QAE@PBD@Z",
+    "ordinal": 2,
+    "rva": 101198
+   },
+   {
+    "forwarder": null,
+    "name": "??0bad_cast@@AAE@PBQBD@Z",
+    "ordinal": 3,
+    "rva": 101114
+   },
+   {
+    "forwarder": null,
+    "name": "??0bad_cast@@QAE@ABQBD@Z",
+    "ordinal": 4,
+    "rva": 101114
+   },
+   {
+    "forwarder": null,
+    "name": "??0bad_cast@@QAE@ABV0@@Z",
+    "ordinal": 5,
+    "rva": 101082
+   },
+   {
+    "forwarder": null,
+    "name": "??0bad_cast@@QAE@PBD@Z",
+    "ordinal": 6,
+    "rva": 101057
+   },
+   {
+    "forwarder": null,
+    "name": "??0bad_typeid@@QAE@ABV0@@Z",
+    "ordinal": 7,
+    "rva": 101163
+   },
+   {
+    "forwarder": null,
+    "name": "??0bad_typeid@@QAE@PBD@Z",
+    "ordinal": 8,
+    "rva": 101138
+   },
+   {
+    "forwarder": null,
+    "name": "??0exception@@QAE@ABQBD@Z",
+    "ordinal": 9,
+    "rva": 100887
+   },
+   {
+    "forwarder": null,
+    "name": "??0exception@@QAE@ABV0@@Z",
+    "ordinal": 10,
+    "rva": 100948
+   },
+   {
+    "forwarder": null,
+    "name": "??0exception@@QAE@XZ",
+    "ordinal": 11,
+    "rva": 100870
+   },
+   {
+    "forwarder": null,
+    "name": "??1__non_rtti_object@@UAE@XZ",
+    "ordinal": 12,
+    "rva": 101187
+   },
+   {
+    "forwarder": null,
+    "name": "??1bad_cast@@UAE@XZ",
+    "ordinal": 13,
+    "rva": 101106
+   },
+   {
+    "forwarder": null,
+    "name": "??1bad_typeid@@UAE@XZ",
+    "ordinal": 14,
+    "rva": 101187
+   },
+   {
+    "forwarder": null,
+    "name": "??1exception@@UAE@XZ",
+    "ordinal": 15,
+    "rva": 101022
+   },
+   {
+    "forwarder": null,
+    "name": "??1type_info@@UAE@XZ",
+    "ordinal": 16,
+    "rva": 101542
+   },
+   {
+    "forwarder": null,
+    "name": "??2@YAPAXI@Z",
+    "ordinal": 17,
+    "rva": 133436
+   },
+   {
+    "forwarder": null,
+    "name": "??3@YAXPAX@Z",
+    "ordinal": 18,
+    "rva": 133450
+   },
+   {
+    "forwarder": null,
+    "name": "??4__non_rtti_object@@QAEAAV0@ABV0@@Z",
+    "ordinal": 19,
+    "rva": 101524
+   },
+   {
+    "forwarder": null,
+    "name": "??4bad_cast@@QAEAAV0@ABV0@@Z",
+    "ordinal": 20,
+    "rva": 101524
+   },
+   {
+    "forwarder": null,
+    "name": "??4bad_typeid@@QAEAAV0@ABV0@@Z",
+    "ordinal": 21,
+    "rva": 101524
+   },
+   {
+    "forwarder": null,
+    "name": "??4exception@@QAEAAV0@ABV0@@Z",
+    "ordinal": 22,
+    "rva": 101493
+   },
+   {
+    "forwarder": null,
+    "name": "??8type_info@@QBEHABV0@@Z",
+    "ordinal": 23,
+    "rva": 101612
+   },
+   {
+    "forwarder": null,
+    "name": "??9type_info@@QBEHABV0@@Z",
+    "ordinal": 24,
+    "rva": 101639
+   },
+   {
+    "forwarder": null,
+    "name": "??_7__non_rtti_object@@6B@",
+    "ordinal": 25,
+    "rva": 258136
+   },
+   {
+    "forwarder": null,
+    "name": "??_7bad_cast@@6B@",
+    "ordinal": 26,
+    "rva": 239872
+   },
+   {
+    "forwarder": null,
+    "name": "??_7bad_typeid@@6B@",
+    "ordinal": 27,
+    "rva": 239904
+   },
+   {
+    "forwarder": null,
+    "name": "??_7exception@@6B@",
+    "ordinal": 28,
+    "rva": 239840
+   },
+   {
+    "forwarder": null,
+    "name": "??_Fbad_cast@@QAEXXZ",
+    "ordinal": 29,
+    "rva": 101321
+   },
+   {
+    "forwarder": null,
+    "name": "??_Fbad_typeid@@QAEXXZ",
+    "ordinal": 30,
+    "rva": 101407
+   },
+   {
+    "forwarder": null,
+    "name": "??_U@YAPAXI@Z",
+    "ordinal": 31,
+    "rva": 133455
+   },
+   {
+    "forwarder": null,
+    "name": "??_V@YAXPAX@Z",
+    "ordinal": 32,
+    "rva": 133457
+   },
+   {
+    "forwarder": null,
+    "name": "__uncaught_exception",
+    "ordinal": 33,
+    "rva": 102192
+   },
+   {
+    "forwarder": null,
+    "name": "?_query_new_handler@@YAP6AHI@ZXZ",
+    "ordinal": 34,
+    "rva": 34777
+   },
+   {
+    "forwarder": null,
+    "name": "?_query_new_mode@@YAHXZ",
+    "ordinal": 35,
+    "rva": 34877
+   },
+   {
+    "forwarder": null,
+    "name": "?_set_new_handler@@YAP6AHI@ZP6AHI@Z@Z",
+    "ordinal": 36,
+    "rva": 34741
+   },
+   {
+    "forwarder": null,
+    "name": "?_set_new_mode@@YAHH@Z",
+    "ordinal": 37,
+    "rva": 34848
+   },
+   {
+    "forwarder": null,
+    "name": "?_set_se_translator@@YAP6AXIPAU_EXCEPTION_POINTERS@@@ZP6AXI0@Z@Z",
+    "ordinal": 38,
+    "rva": 104838
+   },
+   {
+    "forwarder": null,
+    "name": "?before@type_info@@QBEHABV1@@Z",
+    "ordinal": 39,
+    "rva": 101667
+   },
+   {
+    "forwarder": null,
+    "name": "?name@type_info@@QBEPBDXZ",
+    "ordinal": 40,
+    "rva": 104863
+   },
+   {
+    "forwarder": null,
+    "name": "?raw_name@type_info@@QBEPBDXZ",
+    "ordinal": 41,
+    "rva": 101698
+   },
+   {
+    "forwarder": null,
+    "name": "?set_new_handler@@YAP6AXXZP6AXXZ@Z",
+    "ordinal": 42,
+    "rva": 34810
+   },
+   {
+    "forwarder": null,
+    "name": "?set_terminate@@YAP6AXXZP6AXXZ@Z",
+    "ordinal": 43,
+    "rva": 104788
+   },
+   {
+    "forwarder": null,
+    "name": "?set_unexpected@@YAP6AXXZP6AXXZ@Z",
+    "ordinal": 44,
+    "rva": 104813
+   },
+   {
+    "forwarder": null,
+    "name": "?swprintf@@YAHPAGIPBGZZ",
+    "ordinal": 45,
+    "rva": 159487
+   },
+   {
+    "forwarder": null,
+    "name": "?swprintf@@YAHPA_WIPB_WZZ",
+    "ordinal": 46,
+    "rva": 173532
+   },
+   {
+    "forwarder": null,
+    "name": "?terminate@@YAXXZ",
+    "ordinal": 47,
+    "rva": 105025
+   },
+   {
+    "forwarder": null,
+    "name": "?unexpected@@YAXXZ",
+    "ordinal": 48,
+    "rva": 105082
+   },
+   {
+    "forwarder": null,
+    "name": "?vswprintf@@YAHPAGIPBGPAD@Z",
+    "ordinal": 49,
+    "rva": 159492
+   },
+   {
+    "forwarder": null,
+    "name": "?vswprintf@@YAHPA_WIPB_WPAD@Z",
+    "ordinal": 50,
+    "rva": 159492
+   },
+   {
+    "forwarder": null,
+    "name": "?what@exception@@UBEPBDXZ",
+    "ordinal": 51,
+    "rva": 101044
+   },
+   {
+    "forwarder": null,
+    "name": "$I10_OUTPUT",
+    "ordinal": 52,
+    "rva": 204308
+   },
+   {
+    "forwarder": null,
+    "name": "_CIacos",
+    "ordinal": 53,
+    "rva": 14641
+   },
+   {
+    "forwarder": null,
+    "name": "_CIasin",
+    "ordinal": 54,
+    "rva": 14844
+   },
+   {
+    "forwarder": null,
+    "name": "_CIatan",
+    "ordinal": 55,
+    "rva": 15110
+   },
+   {
+    "forwarder": null,
+    "name": "_CIatan2",
+    "ordinal": 56,
+    "rva": 15332
+   },
+   {
+    "forwarder": null,
+    "name": "_CIcos",
+    "ordinal": 57,
+    "rva": 15342
+   },
+   {
+    "forwarder": null,
+    "name": "_CIcosh",
+    "ordinal": 58,
+    "rva": 15556
+   },
+   {
+    "forwarder": null,
+    "name": "_CIexp",
+    "ordinal": 59,
+    "rva": 15635
+   },
+   {
+    "forwarder": null,
+    "name": "_CIfmod",
+    "ordinal": 60,
+    "rva": 15724
+   },
+   {
+    "forwarder": null,
+    "name": "_CIlog",
+    "ordinal": 61,
+    "rva": 15827
+   },
+   {
+    "forwarder": null,
+    "name": "_CIlog10",
+    "ordinal": 62,
+    "rva": 16161
+   },
+   {
+    "forwarder": null,
+    "name": "_CIpow",
+    "ordinal": 63,
+    "rva": 16495
+   },
+   {
+    "forwarder": null,
+    "name": "_CIsin",
+    "ordinal": 64,
+    "rva": 17080
+   },
+   {
+    "forwarder": null,
+    "name": "_CIsinh",
+    "ordinal": 65,
+    "rva": 15546
+   },
+   {
+    "forwarder": null,
+    "name": "_CIsqrt",
+    "ordinal": 66,
+    "rva": 17254
+   },
+   {
+    "forwarder": null,
+    "name": "_CItan",
+    "ordinal": 67,
+    "rva": 17440
+   },
+   {
+    "forwarder": null,
+    "name": "_CItanh",
+    "ordinal": 68,
+    "rva": 15566
+   },
+   {
+    "forwarder": null,
+    "name": "_CRT_RTC_INIT",
+    "ordinal": 69,
+    "rva": 50707
+   },
+   {
+    "forwarder": null,
+    "name": "_CxxThrowException",
+    "ordinal": 70,
+    "rva": 105145
+   },
+   {
+    "forwarder": null,
+    "name": "_EH_prolog",
+    "ordinal": 71,
+    "rva": 13368
+   },
+   {
+    "forwarder": null,
+    "name": "_Getdays",
+    "ordinal": 72,
+    "rva": 67491
+   },
+   {
+    "forwarder": null,
+    "name": "_Getmonths",
+    "ordinal": 73,
+    "rva": 67618
+   },
+   {
+    "forwarder": null,
+    "name": "_Gettnames",
+    "ordinal": 74,
+    "rva": 67767
+   },
+   {
+    "forwarder": null,
+    "name": "_HUGE",
+    "ordinal": 75,
+    "rva": 313548
+   },
+   {
+    "forwarder": null,
+    "name": "_Strftime",
+    "ordinal": 76,
+    "rva": 70456
+   },
+   {
+    "forwarder": null,
+    "name": "_XcptFilter",
+    "ordinal": 77,
+    "rva": 49911
+   },
+   {
+    "forwarder": null,
+    "name": "__CppXcptFilter",
+    "ordinal": 78,
+    "rva": 50267
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxCallUnwindDtor",
+    "ordinal": 79,
+    "rva": 102592
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxCallUnwindVecDtor",
+    "ordinal": 80,
+    "rva": 102638
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxDetectRethrow",
+    "ordinal": 81,
+    "rva": 102374
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxExceptionFilter",
+    "ordinal": 82,
+    "rva": 103525
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxFrameHandler",
+    "ordinal": 83,
+    "rva": 105335
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxLongjmpUnwind",
+    "ordinal": 84,
+    "rva": 105389
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxQueryExceptionSize",
+    "ordinal": 85,
+    "rva": 102588
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxRegisterExceptionObject",
+    "ordinal": 86,
+    "rva": 102211
+   },
+   {
+    "forwarder": null,
+    "name": "__CxxUnregisterExceptionObject",
+    "ordinal": 87,
+    "rva": 102430
+   },
+   {
+    "forwarder": null,
+    "name": "__DestructExceptionObject",
+    "ordinal": 88,
+    "rva": 102092
+   },
+   {
+    "forwarder": null,
+    "name": "__RTCastToVoid",
+    "ordinal": 89,
+    "rva": 106501
+   },
+   {
+    "forwarder": null,
+    "name": "__RTDynamicCast",
+    "ordinal": 90,
+    "rva": 107151
+   },
+   {
+    "forwarder": null,
+    "name": "__RTtypeid",
+    "ordinal": 91,
+    "rva": 106208
+   },
+   {
+    "forwarder": null,
+    "name": "__STRINGTOLD",
+    "ordinal": 92,
+    "rva": 206038
+   },
+   {
+    "forwarder": null,
+    "name": "___lc_codepage_func",
+    "ordinal": 93,
+    "rva": 59158
+   },
+   {
+    "forwarder": null,
+    "name": "___lc_collate_cp_func",
+    "ordinal": 94,
+    "rva": 59183
+   },
+   {
+    "forwarder": null,
+    "name": "___lc_handle_func",
+    "ordinal": 95,
+    "rva": 59208
+   },
+   {
+    "forwarder": null,
+    "name": "___mb_cur_max_func",
+    "ordinal": 96,
+    "rva": 59152
+   },
+   {
+    "forwarder": null,
+    "name": "___setlc_active_func",
+    "ordinal": 97,
+    "rva": 50294
+   },
+   {
+    "forwarder": null,
+    "name": "___unguarded_readlc_active_add_func",
+    "ordinal": 98,
+    "rva": 50300
+   },
+   {
+    "forwarder": null,
+    "name": "__argc",
+    "ordinal": 99,
+    "rva": 313576
+   },
+   {
+    "forwarder": null,
+    "name": "__argv",
+    "ordinal": 100,
+    "rva": 313580
+   },
+   {
+    "forwarder": null,
+    "name": "__badioinfo",
+    "ordinal": 101,
+    "rva": 308280
+   },
+   {
+    "forwarder": null,
+    "name": "__buffer_overrun",
+    "ordinal": 102,
+    "rva": 55036
+   },
+   {
+    "forwarder": null,
+    "name": "__crtCompareStringA",
+    "ordinal": 103,
+    "rva": 81822
+   },
+   {
+    "forwarder": null,
+    "name": "__crtCompareStringW",
+    "ordinal": 104,
+    "rva": 78887
+   },
+   {
+    "forwarder": null,
+    "name": "__crtGetLocaleInfoW",
+    "ordinal": 105,
+    "rva": 62344
+   },
+   {
+    "forwarder": null,
+    "name": "__crtGetStringTypeW",
+    "ordinal": 106,
+    "rva": 80261
+   },
+   {
+    "forwarder": null,
+    "name": "__crtLCMapStringA",
+    "ordinal": 107,
+    "rva": 5038
+   },
+   {
+    "forwarder": null,
+    "name": "__crtLCMapStringW",
+    "ordinal": 108,
+    "rva": 79660
+   },
+   {
+    "forwarder": null,
+    "name": "__dllonexit",
+    "ordinal": 109,
+    "rva": 49301
+   },
+   {
+    "forwarder": null,
+    "name": "__doserrno",
+    "ordinal": 110,
+    "rva": 40665
+   },
+   {
+    "forwarder": null,
+    "name": "__fpecode",
+    "ordinal": 111,
+    "rva": 53328
+   },
+   {
+    "forwarder": null,
+    "name": "__getmainargs",
+    "ordinal": 112,
+    "rva": 36680
+   },
+   {
+    "forwarder": null,
+    "name": "__initenv",
+    "ordinal": 113,
+    "rva": 313592
+   },
+   {
+    "forwarder": null,
+    "name": "__iob_func",
+    "ordinal": 114,
+    "rva": 36891
+   },
+   {
+    "forwarder": null,
+    "name": "__isascii",
+    "ordinal": 115,
+    "rva": 74059
+   },
+   {
+    "forwarder": null,
+    "name": "__iscsym",
+    "ordinal": 116,
+    "rva": 74106
+   },
+   {
+    "forwarder": null,
+    "name": "__iscsymf",
+    "ordinal": 117,
+    "rva": 74080
+   },
+   {
+    "forwarder": null,
+    "name": "__lc_clike",
+    "ordinal": 118,
+    "rva": 308448
+   },
+   {
+    "forwarder": null,
+    "name": "__lc_codepage",
+    "ordinal": 119,
+    "rva": 313652
+   },
+   {
+    "forwarder": null,
+    "name": "__lc_collate_cp",
+    "ordinal": 120,
+    "rva": 313656
+   },
+   {
+    "forwarder": null,
+    "name": "__lc_handle",
+    "ordinal": 121,
+    "rva": 313628
+   },
+   {
+    "forwarder": null,
+    "name": "__lconv_init",
+    "ordinal": 122,
+    "rva": 154054
+   },
+   {
+    "forwarder": null,
+    "name": "__mb_cur_max",
+    "ordinal": 123,
+    "rva": 308316
+   },
+   {
+    "forwarder": null,
+    "name": "__p___argc",
+    "ordinal": 124,
+    "rva": 36819
+   },
+   {
+    "forwarder": null,
+    "name": "__p___argv",
+    "ordinal": 125,
+    "rva": 36825
+   },
+   {
+    "forwarder": null,
+    "name": "__p___initenv",
+    "ordinal": 126,
+    "rva": 36879
+   },
+   {
+    "forwarder": null,
+    "name": "__p___mb_cur_max",
+    "ordinal": 127,
+    "rva": 36909
+   },
+   {
+    "forwarder": null,
+    "name": "__p___wargv",
+    "ordinal": 128,
+    "rva": 36831
+   },
+   {
+    "forwarder": null,
+    "name": "__p___winitenv",
+    "ordinal": 129,
+    "rva": 36885
+   },
+   {
+    "forwarder": null,
+    "name": "__p__acmdln",
+    "ordinal": 130,
+    "rva": 36801
+   },
+   {
+    "forwarder": null,
+    "name": "__p__amblksiz",
+    "ordinal": 131,
+    "rva": 36813
+   },
+   {
+    "forwarder": null,
+    "name": "__p__commode",
+    "ordinal": 132,
+    "rva": 36837
+   },
+   {
+    "forwarder": null,
+    "name": "__p__daylight",
+    "ordinal": 133,
+    "rva": 36843
+   },
+   {
+    "forwarder": null,
+    "name": "__p__dstbias",
+    "ordinal": 134,
+    "rva": 36849
+   },
+   {
+    "forwarder": null,
+    "name": "__p__environ",
+    "ordinal": 135,
+    "rva": 36855
+   },
+   {
+    "forwarder": null,
+    "name": "__p__fileinfo",
+    "ordinal": 136,
+    "rva": 36873
+   },
+   {
+    "forwarder": null,
+    "name": "__p__fmode",
+    "ordinal": 137,
+    "rva": 36867
+   },
+   {
+    "forwarder": null,
+    "name": "__p__iob",
+    "ordinal": 138,
+    "rva": 36891
+   },
+   {
+    "forwarder": null,
+    "name": "__p__mbcasemap",
+    "ordinal": 139,
+    "rva": 36903
+   },
+   {
+    "forwarder": null,
+    "name": "__p__mbctype",
+    "ordinal": 140,
+    "rva": 36897
+   },
+   {
+    "forwarder": null,
+    "name": "__p__osver",
+    "ordinal": 141,
+    "rva": 36915
+   },
+   {
+    "forwarder": null,
+    "name": "__p__pctype",
+    "ordinal": 142,
+    "rva": 36921
+   },
+   {
+    "forwarder": null,
+    "name": "__p__pgmptr",
+    "ordinal": 143,
+    "rva": 36933
+   },
+   {
+    "forwarder": null,
+    "name": "__p__pwctype",
+    "ordinal": 144,
+    "rva": 36927
+   },
+   {
+    "forwarder": null,
+    "name": "__p__timezone",
+    "ordinal": 145,
+    "rva": 36945
+   },
+   {
+    "forwarder": null,
+    "name": "__p__tzname",
+    "ordinal": 146,
+    "rva": 36951
+   },
+   {
+    "forwarder": null,
+    "name": "__p__wcmdln",
+    "ordinal": 147,
+    "rva": 36807
+   },
+   {
+    "forwarder": null,
+    "name": "__p__wenviron",
+    "ordinal": 148,
+    "rva": 36861
+   },
+   {
+    "forwarder": null,
+    "name": "__p__winmajor",
+    "ordinal": 149,
+    "rva": 36957
+   },
+   {
+    "forwarder": null,
+    "name": "__p__winminor",
+    "ordinal": 150,
+    "rva": 36963
+   },
+   {
+    "forwarder": null,
+    "name": "__p__winver",
+    "ordinal": 151,
+    "rva": 36969
+   },
+   {
+    "forwarder": null,
+    "name": "__p__wpgmptr",
+    "ordinal": 152,
+    "rva": 36939
+   },
+   {
+    "forwarder": null,
+    "name": "__pctype_func",
+    "ordinal": 153,
+    "rva": 49889
+   },
+   {
+    "forwarder": null,
+    "name": "__pioinfo",
+    "ordinal": 154,
+    "rva": 313696
+   },
+   {
+    "forwarder": null,
+    "name": "__pwctype_func",
+    "ordinal": 155,
+    "rva": 49883
+   },
+   {
+    "forwarder": null,
+    "name": "__pxcptinfoptrs",
+    "ordinal": 156,
+    "rva": 53337
+   },
+   {
+    "forwarder": null,
+    "name": "__security_error_handler",
+    "ordinal": 157,
+    "rva": 54693
+   },
+   {
+    "forwarder": null,
+    "name": "__set_app_type",
+    "ordinal": 158,
+    "rva": 34923
+   },
+   {
+    "forwarder": null,
+    "name": "__set_buffer_overrun_handler",
+    "ordinal": 159,
+    "rva": 55020
+   },
+   {
+    "forwarder": null,
+    "name": "__setlc_active",
+    "ordinal": 160,
+    "rva": 314496
+   },
+   {
+    "forwarder": null,
+    "name": "__setusermatherr",
+    "ordinal": 161,
+    "rva": 34933
+   },
+   {
+    "forwarder": null,
+    "name": "__threadhandle",
+    "ordinal": 162,
+    "rva": 38573
+   },
+   {
+    "forwarder": null,
+    "name": "__threadid",
+    "ordinal": 163,
+    "rva": 38567
+   },
+   {
+    "forwarder": null,
+    "name": "__toascii",
+    "ordinal": 164,
+    "rva": 74072
+   },
+   {
+    "forwarder": null,
+    "name": "__unDName",
+    "ordinal": 165,
+    "rva": 125119
+   },
+   {
+    "forwarder": null,
+    "name": "__unDNameEx",
+    "ordinal": 166,
+    "rva": 125279
+   },
+   {
+    "forwarder": null,
+    "name": "__unguarded_readlc_active",
+    "ordinal": 167,
+    "rva": 314500
+   },
+   {
+    "forwarder": null,
+    "name": "__wargv",
+    "ordinal": 168,
+    "rva": 313584
+   },
+   {
+    "forwarder": null,
+    "name": "__wcserror",
+    "ordinal": 169,
+    "rva": 154099
+   },
+   {
+    "forwarder": null,
+    "name": "__wgetmainargs",
+    "ordinal": 170,
+    "rva": 36590
+   },
+   {
+    "forwarder": null,
+    "name": "__winitenv",
+    "ordinal": 171,
+    "rva": 313600
+   },
+   {
+    "forwarder": null,
+    "name": "_abnormal_termination",
+    "ordinal": 172,
+    "rva": 9656
+   },
+   {
+    "forwarder": null,
+    "name": "_access",
+    "ordinal": 173,
+    "rva": 92432
+   },
+   {
+    "forwarder": null,
+    "name": "_acmdln",
+    "ordinal": 174,
+    "rva": 313616
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdiv_m16i",
+    "ordinal": 175,
+    "rva": 19270
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdiv_m32",
+    "ordinal": 176,
+    "rva": 19118
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdiv_m32i",
+    "ordinal": 177,
+    "rva": 19322
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdiv_m64",
+    "ordinal": 178,
+    "rva": 19194
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdiv_r",
+    "ordinal": 179,
+    "rva": 17897
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdivr_m16i",
+    "ordinal": 180,
+    "rva": 19526
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdivr_m32",
+    "ordinal": 181,
+    "rva": 19374
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdivr_m32i",
+    "ordinal": 182,
+    "rva": 19578
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fdivr_m64",
+    "ordinal": 183,
+    "rva": 19450
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fpatan",
+    "ordinal": 184,
+    "rva": 21079
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fprem",
+    "ordinal": 185,
+    "rva": 20190
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fprem1",
+    "ordinal": 186,
+    "rva": 20886
+   },
+   {
+    "forwarder": null,
+    "name": "_adj_fptan",
+    "ordinal": 187,
+    "rva": 21082
+   },
+   {
+    "forwarder": null,
+    "name": "_adjust_fdiv",
+    "ordinal": 188,
+    "rva": 313664
+   },
+   {
+    "forwarder": null,
+    "name": "_aexit_rtn",
+    "ordinal": 189,
+    "rva": 308268
+   },
+   {
+    "forwarder": null,
+    "name": "_aligned_free",
+    "ordinal": 190,
+    "rva": 133585
+   },
+   {
+    "forwarder": null,
+    "name": "_aligned_malloc",
+    "ordinal": 191,
+    "rva": 133606
+   },
+   {
+    "forwarder": null,
+    "name": "_aligned_offset_malloc",
+    "ordinal": 192,
+    "rva": 133462
+   },
+   {
+    "forwarder": null,
+    "name": "_aligned_offset_realloc",
+    "ordinal": 193,
+    "rva": 133625
+   },
+   {
+    "forwarder": null,
+    "name": "_aligned_realloc",
+    "ordinal": 194,
+    "rva": 133962
+   },
+   {
+    "forwarder": null,
+    "name": "_amsg_exit",
+    "ordinal": 195,
+    "rva": 36750
+   },
+   {
+    "forwarder": null,
+    "name": "_assert",
+    "ordinal": 196,
+    "rva": 48316
+   },
+   {
+    "forwarder": null,
+    "name": "_atodbl",
+    "ordinal": 197,
+    "rva": 207043
+   },
+   {
+    "forwarder": null,
+    "name": "_atoi64",
+    "ordinal": 198,
+    "rva": 73229
+   },
+   {
+    "forwarder": null,
+    "name": "_atoldbl",
+    "ordinal": 199,
+    "rva": 207104
+   },
+   {
+    "forwarder": null,
+    "name": "_beep",
+    "ordinal": 200,
+    "rva": 89178
+   },
+   {
+    "forwarder": null,
+    "name": "_beginthread",
+    "ordinal": 201,
+    "rva": 37940
+   },
+   {
+    "forwarder": null,
+    "name": "_beginthreadex",
+    "ordinal": 202,
+    "rva": 38282
+   },
+   {
+    "forwarder": null,
+    "name": "_c_exit",
+    "ordinal": 203,
+    "rva": 36134
+   },
+   {
+    "forwarder": null,
+    "name": "_cabs",
+    "ordinal": 204,
+    "rva": 210492
+   },
+   {
+    "forwarder": null,
+    "name": "_callnewh",
+    "ordinal": 205,
+    "rva": 34783
+   },
+   {
+    "forwarder": null,
+    "name": "_cexit",
+    "ordinal": 206,
+    "rva": 30445
+   },
+   {
+    "forwarder": null,
+    "name": "_cgets",
+    "ordinal": 207,
+    "rva": 134993
+   },
+   {
+    "forwarder": null,
+    "name": "_cgetws",
+    "ordinal": 208,
+    "rva": 135242
+   },
+   {
+    "forwarder": null,
+    "name": "_chdir",
+    "ordinal": 209,
+    "rva": 92502
+   },
+   {
+    "forwarder": null,
+    "name": "_chdrive",
+    "ordinal": 210,
+    "rva": 93054
+   },
+   {
+    "forwarder": null,
+    "name": "_chgsign",
+    "ordinal": 211,
+    "rva": 210554
+   },
+   {
+    "forwarder": null,
+    "name": "_chkesp",
+    "ordinal": 212,
+    "rva": 154030
+   },
+   {
+    "forwarder": null,
+    "name": "_chmod",
+    "ordinal": 213,
+    "rva": 93196
+   },
+   {
+    "forwarder": null,
+    "name": "_chsize",
+    "ordinal": 214,
+    "rva": 136270
+   },
+   {
+    "forwarder": null,
+    "name": "_clearfp",
+    "ordinal": 215,
+    "rva": 72639
+   },
+   {
+    "forwarder": null,
+    "name": "_close",
+    "ordinal": 216,
+    "rva": 77005
+   },
+   {
+    "forwarder": null,
+    "name": "_commit",
+    "ordinal": 217,
+    "rva": 76644
+   },
+   {
+    "forwarder": null,
+    "name": "_commode",
+    "ordinal": 218,
+    "rva": 313660
+   },
+   {
+    "forwarder": null,
+    "name": "_control87",
+    "ordinal": 219,
+    "rva": 72656
+   },
+   {
+    "forwarder": null,
+    "name": "_controlfp",
+    "ordinal": 220,
+    "rva": 72706
+   },
+   {
+    "forwarder": null,
+    "name": "_copysign",
+    "ordinal": 221,
+    "rva": 210521
+   },
+   {
+    "forwarder": null,
+    "name": "_cprintf",
+    "ordinal": 222,
+    "rva": 161663
+   },
+   {
+    "forwarder": null,
+    "name": "_cputs",
+    "ordinal": 223,
+    "rva": 136421
+   },
+   {
+    "forwarder": null,
+    "name": "_cputws",
+    "ordinal": 224,
+    "rva": 136694
+   },
+   {
+    "forwarder": null,
+    "name": "_creat",
+    "ordinal": 225,
+    "rva": 136862
+   },
+   {
+    "forwarder": null,
+    "name": "_cscanf",
+    "ordinal": 226,
+    "rva": 164906
+   },
+   {
+    "forwarder": null,
+    "name": "_ctime64",
+    "ordinal": 227,
+    "rva": 197642
+   },
+   {
+    "forwarder": null,
+    "name": "_cwait",
+    "ordinal": 228,
+    "rva": 127272
+   },
+   {
+    "forwarder": null,
+    "name": "_cwprintf",
+    "ordinal": 229,
+    "rva": 167048
+   },
+   {
+    "forwarder": null,
+    "name": "_cwscanf",
+    "ordinal": 230,
+    "rva": 170534
+   },
+   {
+    "forwarder": null,
+    "name": "_daylight",
+    "ordinal": 231,
+    "rva": 313220
+   },
+   {
+    "forwarder": null,
+    "name": "_dstbias",
+    "ordinal": 232,
+    "rva": 313224
+   },
+   {
+    "forwarder": null,
+    "name": "_dup",
+    "ordinal": 233,
+    "rva": 137120
+   },
+   {
+    "forwarder": null,
+    "name": "_dup2",
+    "ordinal": 234,
+    "rva": 137620
+   },
+   {
+    "forwarder": null,
+    "name": "_ecvt",
+    "ordinal": 235,
+    "rva": 82880
+   },
+   {
+    "forwarder": null,
+    "name": "_endthread",
+    "ordinal": 236,
+    "rva": 37733
+   },
+   {
+    "forwarder": null,
+    "name": "_endthreadex",
+    "ordinal": 237,
+    "rva": 38085
+   },
+   {
+    "forwarder": null,
+    "name": "_environ",
+    "ordinal": 238,
+    "rva": 313588
+   },
+   {
+    "forwarder": null,
+    "name": "_eof",
+    "ordinal": 239,
+    "rva": 137821
+   },
+   {
+    "forwarder": null,
+    "name": "_errno",
+    "ordinal": 240,
+    "rva": 40656
+   },
+   {
+    "forwarder": null,
+    "name": "_except_handler2",
+    "ordinal": 241,
+    "rva": 13536
+   },
+   {
+    "forwarder": null,
+    "name": "_except_handler3",
+    "ordinal": 242,
+    "rva": 9229
+   },
+   {
+    "forwarder": null,
+    "name": "_execl",
+    "ordinal": 243,
+    "rva": 127415
+   },
+   {
+    "forwarder": null,
+    "name": "_execle",
+    "ordinal": 244,
+    "rva": 127435
+   },
+   {
+    "forwarder": null,
+    "name": "_execlp",
+    "ordinal": 245,
+    "rva": 127468
+   },
+   {
+    "forwarder": null,
+    "name": "_execlpe",
+    "ordinal": 246,
+    "rva": 127485
+   },
+   {
+    "forwarder": null,
+    "name": "_execv",
+    "ordinal": 247,
+    "rva": 127518
+   },
+   {
+    "forwarder": null,
+    "name": "_execve",
+    "ordinal": 248,
+    "rva": 127619
+   },
+   {
+    "forwarder": null,
+    "name": "_execvp",
+    "ordinal": 249,
+    "rva": 127939
+   },
+   {
+    "forwarder": null,
+    "name": "_execvpe",
+    "ordinal": 250,
+    "rva": 127958
+   },
+   {
+    "forwarder": null,
+    "name": "_exit",
+    "ordinal": 251,
+    "rva": 36117
+   },
+   {
+    "forwarder": null,
+    "name": "_expand",
+    "ordinal": 252,
+    "rva": 133985
+   },
+   {
+    "forwarder": null,
+    "name": "_fcloseall",
+    "ordinal": 253,
+    "rva": 34250
+   },
+   {
+    "forwarder": null,
+    "name": "_fcvt",
+    "ordinal": 254,
+    "rva": 82815
+   },
+   {
+    "forwarder": null,
+    "name": "_fdopen",
+    "ordinal": 255,
+    "rva": 170551
+   },
+   {
+    "forwarder": null,
+    "name": "_fgetchar",
+    "ordinal": 256,
+    "rva": 170806
+   },
+   {
+    "forwarder": null,
+    "name": "_fgetwchar",
+    "ordinal": 257,
+    "rva": 170820
+   },
+   {
+    "forwarder": null,
+    "name": "_filbuf",
+    "ordinal": 258,
+    "rva": 170834
+   },
+   {
+    "forwarder": null,
+    "name": "_fileinfo",
+    "ordinal": 259,
+    "rva": 308276
+   },
+   {
+    "forwarder": null,
+    "name": "_filelength",
+    "ordinal": 260,
+    "rva": 138077
+   },
+   {
+    "forwarder": null,
+    "name": "_filelengthi64",
+    "ordinal": 261,
+    "rva": 138289
+   },
+   {
+    "forwarder": null,
+    "name": "_fileno",
+    "ordinal": 262,
+    "rva": 171059
+   },
+   {
+    "forwarder": null,
+    "name": "_findclose",
+    "ordinal": 263,
+    "rva": 89193
+   },
+   {
+    "forwarder": null,
+    "name": "_findfirst",
+    "ordinal": 264,
+    "rva": 89325
+   },
+   {
+    "forwarder": null,
+    "name": "_findfirst64",
+    "ordinal": 265,
+    "rva": 89864
+   },
+   {
+    "forwarder": null,
+    "name": "_findfirsti64",
+    "ordinal": 266,
+    "rva": 90377
+   },
+   {
+    "forwarder": null,
+    "name": "_findnext",
+    "ordinal": 267,
+    "rva": 89546
+   },
+   {
+    "forwarder": null,
+    "name": "_findnext64",
+    "ordinal": 268,
+    "rva": 90123
+   },
+   {
+    "forwarder": null,
+    "name": "_findnexti64",
+    "ordinal": 269,
+    "rva": 90627
+   },
+   {
+    "forwarder": null,
+    "name": "_finite",
+    "ordinal": 270,
+    "rva": 211524
+   },
+   {
+    "forwarder": null,
+    "name": "_flsbuf",
+    "ordinal": 271,
+    "rva": 66164
+   },
+   {
+    "forwarder": null,
+    "name": "_flushall",
+    "ordinal": 272,
+    "rva": 34238
+   },
+   {
+    "forwarder": null,
+    "name": "_fmode",
+    "ordinal": 273,
+    "rva": 313624
+   },
+   {
+    "forwarder": null,
+    "name": "_fpclass",
+    "ordinal": 274,
+    "rva": 211591
+   },
+   {
+    "forwarder": null,
+    "name": "_fpieee_flt",
+    "ordinal": 275,
+    "rva": 213013
+   },
+   {
+    "forwarder": null,
+    "name": "_fpreset",
+    "ordinal": 276,
+    "rva": 72235
+   },
+   {
+    "forwarder": null,
+    "name": "_fputchar",
+    "ordinal": 277,
+    "rva": 171067
+   },
+   {
+    "forwarder": null,
+    "name": "_fputwchar",
+    "ordinal": 278,
+    "rva": 171086
+   },
+   {
+    "forwarder": null,
+    "name": "_fsopen",
+    "ordinal": 279,
+    "rva": 171105
+   },
+   {
+    "forwarder": null,
+    "name": "_fstat",
+    "ordinal": 280,
+    "rva": 138533
+   },
+   {
+    "forwarder": null,
+    "name": "_fstat64",
+    "ordinal": 281,
+    "rva": 139233
+   },
+   {
+    "forwarder": null,
+    "name": "_fstati64",
+    "ordinal": 282,
+    "rva": 140001
+   },
+   {
+    "forwarder": null,
+    "name": "_ftime",
+    "ordinal": 283,
+    "rva": 197667
+   },
+   {
+    "forwarder": null,
+    "name": "_ftime64",
+    "ordinal": 284,
+    "rva": 197914
+   },
+   {
+    "forwarder": null,
+    "name": "_ftol",
+    "ordinal": 285,
+    "rva": 21085
+   },
+   {
+    "forwarder": null,
+    "name": "_fullpath",
+    "ordinal": 286,
+    "rva": 93261
+   },
+   {
+    "forwarder": null,
+    "name": "_futime",
+    "ordinal": 287,
+    "rva": 198183
+   },
+   {
+    "forwarder": null,
+    "name": "_futime64",
+    "ordinal": 288,
+    "rva": 198564
+   },
+   {
+    "forwarder": null,
+    "name": "_gcvt",
+    "ordinal": 289,
+    "rva": 82955
+   },
+   {
+    "forwarder": null,
+    "name": "_get_heap_handle",
+    "ordinal": 290,
+    "rva": 41003
+   },
+   {
+    "forwarder": null,
+    "name": "_get_osfhandle",
+    "ordinal": 291,
+    "rva": 78019
+   },
+   {
+    "forwarder": null,
+    "name": "_get_sbh_threshold",
+    "ordinal": 292,
+    "rva": 41009
+   },
+   {
+    "forwarder": null,
+    "name": "_getch",
+    "ordinal": 293,
+    "rva": 141547
+   },
+   {
+    "forwarder": null,
+    "name": "_getche",
+    "ordinal": 294,
+    "rva": 141606
+   },
+   {
+    "forwarder": null,
+    "name": "_getcwd",
+    "ordinal": 295,
+    "rva": 93721
+   },
+   {
+    "forwarder": null,
+    "name": "_getdcwd",
+    "ordinal": 296,
+    "rva": 93791
+   },
+   {
+    "forwarder": null,
+    "name": "_getdiskfree",
+    "ordinal": 297,
+    "rva": 90872
+   },
+   {
+    "forwarder": null,
+    "name": "_getdllprocaddr",
+    "ordinal": 298,
+    "rva": 128321
+   },
+   {
+    "forwarder": null,
+    "name": "_getdrive",
+    "ordinal": 299,
+    "rva": 92825
+   },
+   {
+    "forwarder": null,
+    "name": "_getdrives",
+    "ordinal": 300,
+    "rva": 90954
+   },
+   {
+    "forwarder": null,
+    "name": "_getmaxstdio",
+    "ordinal": 301,
+    "rva": 171467
+   },
+   {
+    "forwarder": null,
+    "name": "_getmbcp",
+    "ordinal": 302,
+    "rva": 47432
+   },
+   {
+    "forwarder": null,
+    "name": "_getpid",
+    "ordinal": 303,
+    "rva": 93862
+   },
+   {
+    "forwarder": null,
+    "name": "_getsystime",
+    "ordinal": 304,
+    "rva": 198951
+   },
+   {
+    "forwarder": null,
+    "name": "_getw",
+    "ordinal": 305,
+    "rva": 171473
+   },
+   {
+    "forwarder": null,
+    "name": "_getwch",
+    "ordinal": 306,
+    "rva": 142187
+   },
+   {
+    "forwarder": null,
+    "name": "_getwche",
+    "ordinal": 307,
+    "rva": 142247
+   },
+   {
+    "forwarder": null,
+    "name": "_getws",
+    "ordinal": 308,
+    "rva": 171598
+   },
+   {
+    "forwarder": null,
+    "name": "_global_unwind2",
+    "ordinal": 309,
+    "rva": 9486
+   },
+   {
+    "forwarder": null,
+    "name": "_gmtime64",
+    "ordinal": 310,
+    "rva": 199147
+   },
+   {
+    "forwarder": null,
+    "name": "_heapadd",
+    "ordinal": 311,
+    "rva": 134310
+   },
+   {
+    "forwarder": null,
+    "name": "_heapchk",
+    "ordinal": 312,
+    "rva": 134325
+   },
+   {
+    "forwarder": null,
+    "name": "_heapmin",
+    "ordinal": 313,
+    "rva": 134530
+   },
+   {
+    "forwarder": null,
+    "name": "_heapset",
+    "ordinal": 314,
+    "rva": 134525
+   },
+   {
+    "forwarder": null,
+    "name": "_heapused",
+    "ordinal": 315,
+    "rva": 134697
+   },
+   {
+    "forwarder": null,
+    "name": "_heapwalk",
+    "ordinal": 316,
+    "rva": 134711
+   },
+   {
+    "forwarder": null,
+    "name": "_hypot",
+    "ordinal": 317,
+    "rva": 210463
+   },
+   {
+    "forwarder": null,
+    "name": "_i64toa",
+    "ordinal": 318,
+    "rva": 73012
+   },
+   {
+    "forwarder": null,
+    "name": "_i64tow",
+    "ordinal": 319,
+    "rva": 83300
+   },
+   {
+    "forwarder": null,
+    "name": "_initterm",
+    "ordinal": 320,
+    "rva": 7358
+   },
+   {
+    "forwarder": null,
+    "name": "_inp",
+    "ordinal": 321,
+    "rva": 13475
+   },
+   {
+    "forwarder": null,
+    "name": "_inpd",
+    "ordinal": 322,
+    "rva": 13492
+   },
+   {
+    "forwarder": null,
+    "name": "_inpw",
+    "ordinal": 323,
+    "rva": 13484
+   },
+   {
+    "forwarder": null,
+    "name": "_iob",
+    "ordinal": 324,
+    "rva": 308456
+   },
+   {
+    "forwarder": null,
+    "name": "_isatty",
+    "ordinal": 325,
+    "rva": 76832
+   },
+   {
+    "forwarder": null,
+    "name": "_isctype",
+    "ordinal": 326,
+    "rva": 74799
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbalnum",
+    "ordinal": 327,
+    "rva": 146744
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbalpha",
+    "ordinal": 328,
+    "rva": 146764
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbgraph",
+    "ordinal": 329,
+    "rva": 146784
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbkalnum",
+    "ordinal": 330,
+    "rva": 146693
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbkana",
+    "ordinal": 331,
+    "rva": 146875
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbkprint",
+    "ordinal": 332,
+    "rva": 146710
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbkpunct",
+    "ordinal": 333,
+    "rva": 146727
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbblead",
+    "ordinal": 334,
+    "rva": 146841
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbprint",
+    "ordinal": 335,
+    "rva": 146804
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbpunct",
+    "ordinal": 336,
+    "rva": 146824
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbbtrail",
+    "ordinal": 337,
+    "rva": 146858
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcalnum",
+    "ordinal": 338,
+    "rva": 146914
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcalpha",
+    "ordinal": 339,
+    "rva": 147063
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcdigit",
+    "ordinal": 340,
+    "rva": 147212
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcgraph",
+    "ordinal": 341,
+    "rva": 147344
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbchira",
+    "ordinal": 342,
+    "rva": 147493
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbckata",
+    "ordinal": 343,
+    "rva": 147532
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcl0",
+    "ordinal": 344,
+    "rva": 147620
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcl1",
+    "ordinal": 345,
+    "rva": 147694
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcl2",
+    "ordinal": 346,
+    "rva": 147776
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbclegal",
+    "ordinal": 347,
+    "rva": 147858
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbclower",
+    "ordinal": 348,
+    "rva": 147915
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcprint",
+    "ordinal": 349,
+    "rva": 148053
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcpunct",
+    "ordinal": 350,
+    "rva": 148202
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcspace",
+    "ordinal": 351,
+    "rva": 148347
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcsymbol",
+    "ordinal": 352,
+    "rva": 147576
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbcupper",
+    "ordinal": 353,
+    "rva": 148479
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbslead",
+    "ordinal": 354,
+    "rva": 148678
+   },
+   {
+    "forwarder": null,
+    "name": "_ismbstrail",
+    "ordinal": 355,
+    "rva": 148717
+   },
+   {
+    "forwarder": null,
+    "name": "_isnan",
+    "ordinal": 356,
+    "rva": 211545
+   },
+   {
+    "forwarder": null,
+    "name": "_itoa",
+    "ordinal": 357,
+    "rva": 72796
+   },
+   {
+    "forwarder": null,
+    "name": "_itow",
+    "ordinal": 358,
+    "rva": 83123
+   },
+   {
+    "forwarder": null,
+    "name": "_j0",
+    "ordinal": 359,
+    "rva": 214636
+   },
+   {
+    "forwarder": null,
+    "name": "_j1",
+    "ordinal": 360,
+    "rva": 214879
+   },
+   {
+    "forwarder": null,
+    "name": "_jn",
+    "ordinal": 361,
+    "rva": 215154
+   },
+   {
+    "forwarder": null,
+    "name": "_kbhit",
+    "ordinal": 362,
+    "rva": 141665
+   },
+   {
+    "forwarder": null,
+    "name": "_lfind",
+    "ordinal": 363,
+    "rva": 154279
+   },
+   {
+    "forwarder": null,
+    "name": "_loaddll",
+    "ordinal": 364,
+    "rva": 128368
+   },
+   {
+    "forwarder": null,
+    "name": "_local_unwind2",
+    "ordinal": 365,
+    "rva": 9552
+   },
+   {
+    "forwarder": null,
+    "name": "_localtime64",
+    "ordinal": 366,
+    "rva": 199696
+   },
+   {
+    "forwarder": null,
+    "name": "_lock",
+    "ordinal": 367,
+    "rva": 8474
+   },
+   {
+    "forwarder": null,
+    "name": "_locking",
+    "ordinal": 368,
+    "rva": 142560
+   },
+   {
+    "forwarder": null,
+    "name": "_logb",
+    "ordinal": 369,
+    "rva": 210614
+   },
+   {
+    "forwarder": null,
+    "name": "_longjmpex",
+    "ordinal": 370,
+    "rva": 13710
+   },
+   {
+    "forwarder": null,
+    "name": "_lrotl",
+    "ordinal": 371,
+    "rva": 154329
+   },
+   {
+    "forwarder": null,
+    "name": "_lrotr",
+    "ordinal": 372,
+    "rva": 154358
+   },
+   {
+    "forwarder": null,
+    "name": "_lsearch",
+    "ordinal": 373,
+    "rva": 154387
+   },
+   {
+    "forwarder": null,
+    "name": "_lseek",
+    "ordinal": 374,
+    "rva": 77276
+   },
+   {
+    "forwarder": null,
+    "name": "_lseeki64",
+    "ordinal": 375,
+    "rva": 77578
+   },
+   {
+    "forwarder": null,
+    "name": "_ltoa",
+    "ordinal": 376,
+    "rva": 72838
+   },
+   {
+    "forwarder": null,
+    "name": "_ltow",
+    "ordinal": 377,
+    "rva": 83182
+   },
+   {
+    "forwarder": null,
+    "name": "_makepath",
+    "ordinal": 378,
+    "rva": 154450
+   },
+   {
+    "forwarder": null,
+    "name": "_mbbtombc",
+    "ordinal": 379,
+    "rva": 148792
+   },
+   {
+    "forwarder": null,
+    "name": "_mbbtype",
+    "ordinal": 380,
+    "rva": 149086
+   },
+   {
+    "forwarder": null,
+    "name": "_mbcasemap",
+    "ordinal": 381,
+    "rva": 314240
+   },
+   {
+    "forwarder": null,
+    "name": "_mbccpy",
+    "ordinal": 382,
+    "rva": 149125
+   },
+   {
+    "forwarder": null,
+    "name": "_mbcjistojms",
+    "ordinal": 383,
+    "rva": 149160
+   },
+   {
+    "forwarder": null,
+    "name": "_mbcjmstojis",
+    "ordinal": 384,
+    "rva": 149258
+   },
+   {
+    "forwarder": null,
+    "name": "_mbclen",
+    "ordinal": 385,
+    "rva": 149428
+   },
+   {
+    "forwarder": null,
+    "name": "_mbctohira",
+    "ordinal": 386,
+    "rva": 149458
+   },
+   {
+    "forwarder": null,
+    "name": "_mbctokata",
+    "ordinal": 387,
+    "rva": 149508
+   },
+   {
+    "forwarder": null,
+    "name": "_mbctolower",
+    "ordinal": 388,
+    "rva": 149543
+   },
+   {
+    "forwarder": null,
+    "name": "_mbctombb",
+    "ordinal": 389,
+    "rva": 148893
+   },
+   {
+    "forwarder": null,
+    "name": "_mbctoupper",
+    "ordinal": 390,
+    "rva": 149676
+   },
+   {
+    "forwarder": null,
+    "name": "_mbctype",
+    "ordinal": 391,
+    "rva": 313952
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsbtype",
+    "ordinal": 392,
+    "rva": 149872
+   },
+   {
+    "forwarder": null,
+    "name": "_mbscat",
+    "ordinal": 393,
+    "rva": 9810
+   },
+   {
+    "forwarder": null,
+    "name": "_mbschr",
+    "ordinal": 394,
+    "rva": 81671
+   },
+   {
+    "forwarder": null,
+    "name": "_mbscmp",
+    "ordinal": 395,
+    "rva": 47926
+   },
+   {
+    "forwarder": null,
+    "name": "_mbscoll",
+    "ordinal": 396,
+    "rva": 149911
+   },
+   {
+    "forwarder": null,
+    "name": "_mbscpy",
+    "ordinal": 397,
+    "rva": 5962
+   },
+   {
+    "forwarder": null,
+    "name": "_mbscspn",
+    "ordinal": 398,
+    "rva": 150093
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsdec",
+    "ordinal": 399,
+    "rva": 48074
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsdup",
+    "ordinal": 400,
+    "rva": 66507
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsicmp",
+    "ordinal": 401,
+    "rva": 47448
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsicoll",
+    "ordinal": 402,
+    "rva": 150132
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsinc",
+    "ordinal": 403,
+    "rva": 150195
+   },
+   {
+    "forwarder": null,
+    "name": "_mbslen",
+    "ordinal": 404,
+    "rva": 150223
+   },
+   {
+    "forwarder": null,
+    "name": "_mbslwr",
+    "ordinal": 405,
+    "rva": 150291
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbcat",
+    "ordinal": 406,
+    "rva": 150424
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbcmp",
+    "ordinal": 407,
+    "rva": 150632
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbcnt",
+    "ordinal": 408,
+    "rva": 150901
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbcoll",
+    "ordinal": 409,
+    "rva": 150940
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbcpy",
+    "ordinal": 410,
+    "rva": 47779
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbicmp",
+    "ordinal": 411,
+    "rva": 151018
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbicoll",
+    "ordinal": 412,
+    "rva": 81593
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnbset",
+    "ordinal": 413,
+    "rva": 151385
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsncat",
+    "ordinal": 414,
+    "rva": 151509
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnccnt",
+    "ordinal": 415,
+    "rva": 151697
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsncmp",
+    "ordinal": 416,
+    "rva": 151775
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsncoll",
+    "ordinal": 417,
+    "rva": 151940
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsncpy",
+    "ordinal": 418,
+    "rva": 152046
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnextc",
+    "ordinal": 419,
+    "rva": 152182
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnicmp",
+    "ordinal": 420,
+    "rva": 152223
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnicoll",
+    "ordinal": 421,
+    "rva": 152549
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsninc",
+    "ordinal": 422,
+    "rva": 152655
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsnset",
+    "ordinal": 423,
+    "rva": 152685
+   },
+   {
+    "forwarder": null,
+    "name": "_mbspbrk",
+    "ordinal": 424,
+    "rva": 48277
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsrchr",
+    "ordinal": 425,
+    "rva": 152911
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsrev",
+    "ordinal": 426,
+    "rva": 153018
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsset",
+    "ordinal": 427,
+    "rva": 153129
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsspn",
+    "ordinal": 428,
+    "rva": 153337
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsspnp",
+    "ordinal": 429,
+    "rva": 153509
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsstr",
+    "ordinal": 430,
+    "rva": 153548
+   },
+   {
+    "forwarder": null,
+    "name": "_mbstok",
+    "ordinal": 431,
+    "rva": 153726
+   },
+   {
+    "forwarder": null,
+    "name": "_mbstrlen",
+    "ordinal": 432,
+    "rva": 83424
+   },
+   {
+    "forwarder": null,
+    "name": "_mbsupr",
+    "ordinal": 433,
+    "rva": 153897
+   },
+   {
+    "forwarder": null,
+    "name": "_memccpy",
+    "ordinal": 434,
+    "rva": 14049
+   },
+   {
+    "forwarder": null,
+    "name": "_memicmp",
+    "ordinal": 435,
+    "rva": 194199
+   },
+   {
+    "forwarder": null,
+    "name": "_mkdir",
+    "ordinal": 436,
+    "rva": 93868
+   },
+   {
+    "forwarder": null,
+    "name": "_mktemp",
+    "ordinal": 437,
+    "rva": 142731
+   },
+   {
+    "forwarder": null,
+    "name": "_mktime64",
+    "ordinal": 438,
+    "rva": 200814
+   },
+   {
+    "forwarder": null,
+    "name": "_msize",
+    "ordinal": 439,
+    "rva": 8354
+   },
+   {
+    "forwarder": null,
+    "name": "_nextafter",
+    "ordinal": 440,
+    "rva": 210849
+   },
+   {
+    "forwarder": null,
+    "name": "_onexit",
+    "ordinal": 441,
+    "rva": 7519
+   },
+   {
+    "forwarder": null,
+    "name": "_open",
+    "ordinal": 442,
+    "rva": 143670
+   },
+   {
+    "forwarder": null,
+    "name": "_open_osfhandle",
+    "ordinal": 443,
+    "rva": 78658
+   },
+   {
+    "forwarder": null,
+    "name": "_osplatform",
+    "ordinal": 444,
+    "rva": 313556
+   },
+   {
+    "forwarder": null,
+    "name": "_osver",
+    "ordinal": 445,
+    "rva": 313560
+   },
+   {
+    "forwarder": null,
+    "name": "_outp",
+    "ordinal": 446,
+    "rva": 13499
+   },
+   {
+    "forwarder": null,
+    "name": "_outpd",
+    "ordinal": 447,
+    "rva": 13525
+   },
+   {
+    "forwarder": null,
+    "name": "_outpw",
+    "ordinal": 448,
+    "rva": 13512
+   },
+   {
+    "forwarder": null,
+    "name": "_pclose",
+    "ordinal": 449,
+    "rva": 172685
+   },
+   {
+    "forwarder": null,
+    "name": "_pctype",
+    "ordinal": 450,
+    "rva": 308320
+   },
+   {
+    "forwarder": null,
+    "name": "_pgmptr",
+    "ordinal": 451,
+    "rva": 313604
+   },
+   {
+    "forwarder": null,
+    "name": "_pipe",
+    "ordinal": 452,
+    "rva": 143840
+   },
+   {
+    "forwarder": null,
+    "name": "_popen",
+    "ordinal": 453,
+    "rva": 171720
+   },
+   {
+    "forwarder": null,
+    "name": "_purecall",
+    "ordinal": 454,
+    "rva": 154594
+   },
+   {
+    "forwarder": null,
+    "name": "_putch",
+    "ordinal": 455,
+    "rva": 144414
+   },
+   {
+    "forwarder": null,
+    "name": "_putenv",
+    "ordinal": 456,
+    "rva": 154821
+   },
+   {
+    "forwarder": null,
+    "name": "_putw",
+    "ordinal": 457,
+    "rva": 172828
+   },
+   {
+    "forwarder": null,
+    "name": "_putwch",
+    "ordinal": 458,
+    "rva": 136798
+   },
+   {
+    "forwarder": null,
+    "name": "_putws",
+    "ordinal": 459,
+    "rva": 172956
+   },
+   {
+    "forwarder": null,
+    "name": "_pwctype",
+    "ordinal": 460,
+    "rva": 308324
+   },
+   {
+    "forwarder": null,
+    "name": "_read",
+    "ordinal": 461,
+    "rva": 144952
+   },
+   {
+    "forwarder": null,
+    "name": "_resetstkoflw",
+    "ordinal": 462,
+    "rva": 75784
+   },
+   {
+    "forwarder": null,
+    "name": "_rmdir",
+    "ordinal": 463,
+    "rva": 93912
+   },
+   {
+    "forwarder": null,
+    "name": "_rmtmp",
+    "ordinal": 464,
+    "rva": 34548
+   },
+   {
+    "forwarder": null,
+    "name": "_rotl",
+    "ordinal": 465,
+    "rva": 154329
+   },
+   {
+    "forwarder": null,
+    "name": "_rotr",
+    "ordinal": 466,
+    "rva": 154358
+   },
+   {
+    "forwarder": null,
+    "name": "_safe_fdiv",
+    "ordinal": 467,
+    "rva": 19630
+   },
+   {
+    "forwarder": null,
+    "name": "_safe_fdivr",
+    "ordinal": 468,
+    "rva": 19651
+   },
+   {
+    "forwarder": null,
+    "name": "_safe_fprem",
+    "ordinal": 469,
+    "rva": 21067
+   },
+   {
+    "forwarder": null,
+    "name": "_safe_fprem1",
+    "ordinal": 470,
+    "rva": 21073
+   },
+   {
+    "forwarder": null,
+    "name": "_scalb",
+    "ordinal": 471,
+    "rva": 210592
+   },
+   {
+    "forwarder": null,
+    "name": "_scprintf",
+    "ordinal": 472,
+    "rva": 173187
+   },
+   {
+    "forwarder": null,
+    "name": "_scwprintf",
+    "ordinal": 473,
+    "rva": 173347
+   },
+   {
+    "forwarder": null,
+    "name": "_searchenv",
+    "ordinal": 474,
+    "rva": 154884
+   },
+   {
+    "forwarder": null,
+    "name": "_seh_longjmp_unwind",
+    "ordinal": 475,
+    "rva": 9459
+   },
+   {
+    "forwarder": null,
+    "name": "_set_SSE2_enable",
+    "ordinal": 476,
+    "rva": 216495
+   },
+   {
+    "forwarder": null,
+    "name": "_set_error_mode",
+    "ordinal": 477,
+    "rva": 34883
+   },
+   {
+    "forwarder": null,
+    "name": "_set_purecall_handler",
+    "ordinal": 478,
+    "rva": 154614
+   },
+   {
+    "forwarder": null,
+    "name": "_set_sbh_threshold",
+    "ordinal": 479,
+    "rva": 45705
+   },
+   {
+    "forwarder": null,
+    "name": "_set_security_error_handler",
+    "ordinal": 480,
+    "rva": 55020
+   },
+   {
+    "forwarder": null,
+    "name": "_seterrormode",
+    "ordinal": 481,
+    "rva": 90960
+   },
+   {
+    "forwarder": null,
+    "name": "_setjmp",
+    "ordinal": 482,
+    "rva": 13715
+   },
+   {
+    "forwarder": null,
+    "name": "_setjmp3",
+    "ordinal": 483,
+    "rva": 13771
+   },
+   {
+    "forwarder": null,
+    "name": "_setmaxstdio",
+    "ordinal": 484,
+    "rva": 171216
+   },
+   {
+    "forwarder": null,
+    "name": "_setmbcp",
+    "ordinal": 485,
+    "rva": 7068
+   },
+   {
+    "forwarder": null,
+    "name": "_setmode",
+    "ordinal": 486,
+    "rva": 145231
+   },
+   {
+    "forwarder": null,
+    "name": "_setsystime",
+    "ordinal": 487,
+    "rva": 199042
+   },
+   {
+    "forwarder": null,
+    "name": "_sleep",
+    "ordinal": 488,
+    "rva": 89161
+   },
+   {
+    "forwarder": null,
+    "name": "_snprintf",
+    "ordinal": 489,
+    "rva": 173396
+   },
+   {
+    "forwarder": null,
+    "name": "_snscanf",
+    "ordinal": 490,
+    "rva": 173483
+   },
+   {
+    "forwarder": null,
+    "name": "_snwprintf",
+    "ordinal": 491,
+    "rva": 173532
+   },
+   {
+    "forwarder": null,
+    "name": "_snwscanf",
+    "ordinal": 492,
+    "rva": 173644
+   },
+   {
+    "forwarder": null,
+    "name": "_sopen",
+    "ordinal": 493,
+    "rva": 143755
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnl",
+    "ordinal": 494,
+    "rva": 128402
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnle",
+    "ordinal": 495,
+    "rva": 128426
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnlp",
+    "ordinal": 496,
+    "rva": 128463
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnlpe",
+    "ordinal": 497,
+    "rva": 128485
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnv",
+    "ordinal": 498,
+    "rva": 128522
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnve",
+    "ordinal": 499,
+    "rva": 128628
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnvp",
+    "ordinal": 500,
+    "rva": 128957
+   },
+   {
+    "forwarder": null,
+    "name": "_spawnvpe",
+    "ordinal": 501,
+    "rva": 128980
+   },
+   {
+    "forwarder": null,
+    "name": "_splitpath",
+    "ordinal": 502,
+    "rva": 155169
+   },
+   {
+    "forwarder": null,
+    "name": "_stat",
+    "ordinal": 503,
+    "rva": 94143
+   },
+   {
+    "forwarder": null,
+    "name": "_stat64",
+    "ordinal": 504,
+    "rva": 95091
+   },
+   {
+    "forwarder": null,
+    "name": "_stati64",
+    "ordinal": 505,
+    "rva": 95997
+   },
+   {
+    "forwarder": null,
+    "name": "_statusfp",
+    "ordinal": 506,
+    "rva": 72623
+   },
+   {
+    "forwarder": null,
+    "name": "_strcmpi",
+    "ordinal": 507,
+    "rva": 67036
+   },
+   {
+    "forwarder": null,
+    "name": "_strdate",
+    "ordinal": 508,
+    "rva": 200827
+   },
+   {
+    "forwarder": null,
+    "name": "_strdup",
+    "ordinal": 509,
+    "rva": 66507
+   },
+   {
+    "forwarder": null,
+    "name": "_strerror",
+    "ordinal": 510,
+    "rva": 155497
+   },
+   {
+    "forwarder": null,
+    "name": "_stricmp",
+    "ordinal": 511,
+    "rva": 67036
+   },
+   {
+    "forwarder": null,
+    "name": "_stricoll",
+    "ordinal": 512,
+    "rva": 194326
+   },
+   {
+    "forwarder": null,
+    "name": "_strlwr",
+    "ordinal": 513,
+    "rva": 194412
+   },
+   {
+    "forwarder": null,
+    "name": "_strncoll",
+    "ordinal": 514,
+    "rva": 194688
+   },
+   {
+    "forwarder": null,
+    "name": "_strnicmp",
+    "ordinal": 515,
+    "rva": 67364
+   },
+   {
+    "forwarder": null,
+    "name": "_strnicoll",
+    "ordinal": 516,
+    "rva": 194809
+   },
+   {
+    "forwarder": null,
+    "name": "_strnset",
+    "ordinal": 517,
+    "rva": 14140
+   },
+   {
+    "forwarder": null,
+    "name": "_strrev",
+    "ordinal": 518,
+    "rva": 14183
+   },
+   {
+    "forwarder": null,
+    "name": "_strset",
+    "ordinal": 519,
+    "rva": 14236
+   },
+   {
+    "forwarder": null,
+    "name": "_strtime",
+    "ordinal": 520,
+    "rva": 200939
+   },
+   {
+    "forwarder": null,
+    "name": "_strtoi64",
+    "ordinal": 521,
+    "rva": 84138
+   },
+   {
+    "forwarder": null,
+    "name": "_strtoui64",
+    "ordinal": 522,
+    "rva": 84161
+   },
+   {
+    "forwarder": null,
+    "name": "_strupr",
+    "ordinal": 523,
+    "rva": 194930
+   },
+   {
+    "forwarder": null,
+    "name": "_swab",
+    "ordinal": 524,
+    "rva": 84184
+   },
+   {
+    "forwarder": null,
+    "name": "_sys_errlist",
+    "ordinal": 525,
+    "rva": 313368
+   },
+   {
+    "forwarder": null,
+    "name": "_sys_nerr",
+    "ordinal": 526,
+    "rva": 313544
+   },
+   {
+    "forwarder": null,
+    "name": "_tell",
+    "ordinal": 527,
+    "rva": 145382
+   },
+   {
+    "forwarder": null,
+    "name": "_telli64",
+    "ordinal": 528,
+    "rva": 145399
+   },
+   {
+    "forwarder": null,
+    "name": "_tempnam",
+    "ordinal": 529,
+    "rva": 173769
+   },
+   {
+    "forwarder": null,
+    "name": "_time64",
+    "ordinal": 530,
+    "rva": 201042
+   },
+   {
+    "forwarder": null,
+    "name": "_timezone",
+    "ordinal": 531,
+    "rva": 313216
+   },
+   {
+    "forwarder": null,
+    "name": "_tolower",
+    "ordinal": 532,
+    "rva": 74438
+   },
+   {
+    "forwarder": null,
+    "name": "_toupper",
+    "ordinal": 533,
+    "rva": 84227
+   },
+   {
+    "forwarder": null,
+    "name": "_tzname",
+    "ordinal": 534,
+    "rva": 313232
+   },
+   {
+    "forwarder": null,
+    "name": "_tzset",
+    "ordinal": 535,
+    "rva": 72120
+   },
+   {
+    "forwarder": null,
+    "name": "_ui64toa",
+    "ordinal": 536,
+    "rva": 73061
+   },
+   {
+    "forwarder": null,
+    "name": "_ui64tow",
+    "ordinal": 537,
+    "rva": 83362
+   },
+   {
+    "forwarder": null,
+    "name": "_ultoa",
+    "ordinal": 538,
+    "rva": 72877
+   },
+   {
+    "forwarder": null,
+    "name": "_ultow",
+    "ordinal": 539,
+    "rva": 83241
+   },
+   {
+    "forwarder": null,
+    "name": "_umask",
+    "ordinal": 540,
+    "rva": 155661
+   },
+   {
+    "forwarder": null,
+    "name": "_ungetch",
+    "ordinal": 541,
+    "rva": 141482
+   },
+   {
+    "forwarder": null,
+    "name": "_ungetwch",
+    "ordinal": 542,
+    "rva": 142307
+   },
+   {
+    "forwarder": null,
+    "name": "_unlink",
+    "ordinal": 543,
+    "rva": 96902
+   },
+   {
+    "forwarder": null,
+    "name": "_unloaddll",
+    "ordinal": 544,
+    "rva": 128379
+   },
+   {
+    "forwarder": null,
+    "name": "_unlock",
+    "ordinal": 545,
+    "rva": 8508
+   },
+   {
+    "forwarder": null,
+    "name": "_utime",
+    "ordinal": 546,
+    "rva": 198509
+   },
+   {
+    "forwarder": null,
+    "name": "_utime64",
+    "ordinal": 547,
+    "rva": 198896
+   },
+   {
+    "forwarder": null,
+    "name": "_vscprintf",
+    "ordinal": 548,
+    "rva": 174317
+   },
+   {
+    "forwarder": null,
+    "name": "_vscwprintf",
+    "ordinal": 549,
+    "rva": 174475
+   },
+   {
+    "forwarder": null,
+    "name": "_vsnprintf",
+    "ordinal": 550,
+    "rva": 174523
+   },
+   {
+    "forwarder": null,
+    "name": "_vsnwprintf",
+    "ordinal": 551,
+    "rva": 159492
+   },
+   {
+    "forwarder": null,
+    "name": "_waccess",
+    "ordinal": 552,
+    "rva": 96904
+   },
+   {
+    "forwarder": null,
+    "name": "_wasctime",
+    "ordinal": 553,
+    "rva": 201128
+   },
+   {
+    "forwarder": null,
+    "name": "_wchdir",
+    "ordinal": 554,
+    "rva": 96974
+   },
+   {
+    "forwarder": null,
+    "name": "_wchmod",
+    "ordinal": 555,
+    "rva": 97298
+   },
+   {
+    "forwarder": null,
+    "name": "_wcmdln",
+    "ordinal": 556,
+    "rva": 313612
+   },
+   {
+    "forwarder": null,
+    "name": "_wcreat",
+    "ordinal": 557,
+    "rva": 145418
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsdup",
+    "ordinal": 558,
+    "rva": 66876
+   },
+   {
+    "forwarder": null,
+    "name": "_wcserror",
+    "ordinal": 559,
+    "rva": 155683
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsicmp",
+    "ordinal": 560,
+    "rva": 66642
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsicoll",
+    "ordinal": 561,
+    "rva": 195206
+   },
+   {
+    "forwarder": null,
+    "name": "_wcslwr",
+    "ordinal": 562,
+    "rva": 195363
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsncoll",
+    "ordinal": 563,
+    "rva": 195650
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsnicmp",
+    "ordinal": 564,
+    "rva": 195771
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsnicoll",
+    "ordinal": 565,
+    "rva": 67141
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsnset",
+    "ordinal": 566,
+    "rva": 195963
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsrev",
+    "ordinal": 567,
+    "rva": 196004
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsset",
+    "ordinal": 568,
+    "rva": 196054
+   },
+   {
+    "forwarder": null,
+    "name": "_wcstoi64",
+    "ordinal": 569,
+    "rva": 85065
+   },
+   {
+    "forwarder": null,
+    "name": "_wcstoui64",
+    "ordinal": 570,
+    "rva": 85088
+   },
+   {
+    "forwarder": null,
+    "name": "_wcsupr",
+    "ordinal": 571,
+    "rva": 196079
+   },
+   {
+    "forwarder": null,
+    "name": "_wctime",
+    "ordinal": 572,
+    "rva": 201348
+   },
+   {
+    "forwarder": null,
+    "name": "_wctime64",
+    "ordinal": 573,
+    "rva": 201373
+   },
+   {
+    "forwarder": null,
+    "name": "_wctype",
+    "ordinal": 574,
+    "rva": 239320
+   },
+   {
+    "forwarder": null,
+    "name": "_wenviron",
+    "ordinal": 575,
+    "rva": 313596
+   },
+   {
+    "forwarder": null,
+    "name": "_wexecl",
+    "ordinal": 576,
+    "rva": 129341
+   },
+   {
+    "forwarder": null,
+    "name": "_wexecle",
+    "ordinal": 577,
+    "rva": 129361
+   },
+   {
+    "forwarder": null,
+    "name": "_wexeclp",
+    "ordinal": 578,
+    "rva": 129394
+   },
+   {
+    "forwarder": null,
+    "name": "_wexeclpe",
+    "ordinal": 579,
+    "rva": 129411
+   },
+   {
+    "forwarder": null,
+    "name": "_wexecv",
+    "ordinal": 580,
+    "rva": 129444
+   },
+   {
+    "forwarder": null,
+    "name": "_wexecve",
+    "ordinal": 581,
+    "rva": 129545
+   },
+   {
+    "forwarder": null,
+    "name": "_wexecvp",
+    "ordinal": 582,
+    "rva": 129862
+   },
+   {
+    "forwarder": null,
+    "name": "_wexecvpe",
+    "ordinal": 583,
+    "rva": 129881
+   },
+   {
+    "forwarder": null,
+    "name": "_wfdopen",
+    "ordinal": 584,
+    "rva": 174609
+   },
+   {
+    "forwarder": null,
+    "name": "_wfindfirst",
+    "ordinal": 585,
+    "rva": 90971
+   },
+   {
+    "forwarder": null,
+    "name": "_wfindfirst64",
+    "ordinal": 586,
+    "rva": 91408
+   },
+   {
+    "forwarder": null,
+    "name": "_wfindfirsti64",
+    "ordinal": 587,
+    "rva": 91929
+   },
+   {
+    "forwarder": null,
+    "name": "_wfindnext",
+    "ordinal": 588,
+    "rva": 91192
+   },
+   {
+    "forwarder": null,
+    "name": "_wfindnext64",
+    "ordinal": 589,
+    "rva": 91671
+   },
+   {
+    "forwarder": null,
+    "name": "_wfindnexti64",
+    "ordinal": 590,
+    "rva": 92183
+   },
+   {
+    "forwarder": null,
+    "name": "_wfopen",
+    "ordinal": 591,
+    "rva": 174963
+   },
+   {
+    "forwarder": null,
+    "name": "_wfreopen",
+    "ordinal": 592,
+    "rva": 174982
+   },
+   {
+    "forwarder": null,
+    "name": "_wfsopen",
+    "ordinal": 593,
+    "rva": 174871
+   },
+   {
+    "forwarder": null,
+    "name": "_wfullpath",
+    "ordinal": 594,
+    "rva": 97363
+   },
+   {
+    "forwarder": null,
+    "name": "_wgetcwd",
+    "ordinal": 595,
+    "rva": 97779
+   },
+   {
+    "forwarder": null,
+    "name": "_wgetdcwd",
+    "ordinal": 596,
+    "rva": 97849
+   },
+   {
+    "forwarder": null,
+    "name": "_wgetenv",
+    "ordinal": 597,
+    "rva": 155886
+   },
+   {
+    "forwarder": null,
+    "name": "_winmajor",
+    "ordinal": 598,
+    "rva": 313568
+   },
+   {
+    "forwarder": null,
+    "name": "_winminor",
+    "ordinal": 599,
+    "rva": 313572
+   },
+   {
+    "forwarder": null,
+    "name": "_winver",
+    "ordinal": 600,
+    "rva": 313564
+   },
+   {
+    "forwarder": null,
+    "name": "_wmakepath",
+    "ordinal": 601,
+    "rva": 155949
+   },
+   {
+    "forwarder": null,
+    "name": "_wmkdir",
+    "ordinal": 602,
+    "rva": 97920
+   },
+   {
+    "forwarder": null,
+    "name": "_wmktemp",
+    "ordinal": 603,
+    "rva": 145440
+   },
+   {
+    "forwarder": null,
+    "name": "_wopen",
+    "ordinal": 604,
+    "rva": 146365
+   },
+   {
+    "forwarder": null,
+    "name": "_wperror",
+    "ordinal": 605,
+    "rva": 156126
+   },
+   {
+    "forwarder": null,
+    "name": "_wpgmptr",
+    "ordinal": 606,
+    "rva": 313608
+   },
+   {
+    "forwarder": null,
+    "name": "_wpopen",
+    "ordinal": 607,
+    "rva": 175167
+   },
+   {
+    "forwarder": null,
+    "name": "_wputenv",
+    "ordinal": 608,
+    "rva": 156573
+   },
+   {
+    "forwarder": null,
+    "name": "_wremove",
+    "ordinal": 609,
+    "rva": 97964
+   },
+   {
+    "forwarder": null,
+    "name": "_wrename",
+    "ordinal": 610,
+    "rva": 98008
+   },
+   {
+    "forwarder": null,
+    "name": "_write",
+    "ordinal": 611,
+    "rva": 76473
+   },
+   {
+    "forwarder": null,
+    "name": "_wrmdir",
+    "ordinal": 612,
+    "rva": 98054
+   },
+   {
+    "forwarder": null,
+    "name": "_wsearchenv",
+    "ordinal": 613,
+    "rva": 156636
+   },
+   {
+    "forwarder": null,
+    "name": "_wsetlocale",
+    "ordinal": 614,
+    "rva": 156945
+   },
+   {
+    "forwarder": null,
+    "name": "_wsopen",
+    "ordinal": 615,
+    "rva": 146450
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnl",
+    "ordinal": 616,
+    "rva": 130218
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnle",
+    "ordinal": 617,
+    "rva": 130242
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnlp",
+    "ordinal": 618,
+    "rva": 130279
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnlpe",
+    "ordinal": 619,
+    "rva": 130301
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnv",
+    "ordinal": 620,
+    "rva": 130338
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnve",
+    "ordinal": 621,
+    "rva": 130444
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnvp",
+    "ordinal": 622,
+    "rva": 130767
+   },
+   {
+    "forwarder": null,
+    "name": "_wspawnvpe",
+    "ordinal": 623,
+    "rva": 130790
+   },
+   {
+    "forwarder": null,
+    "name": "_wsplitpath",
+    "ordinal": 624,
+    "rva": 157250
+   },
+   {
+    "forwarder": null,
+    "name": "_wstat",
+    "ordinal": 625,
+    "rva": 98430
+   },
+   {
+    "forwarder": null,
+    "name": "_wstat64",
+    "ordinal": 626,
+    "rva": 99195
+   },
+   {
+    "forwarder": null,
+    "name": "_wstati64",
+    "ordinal": 627,
+    "rva": 100031
+   },
+   {
+    "forwarder": null,
+    "name": "_wstrdate",
+    "ordinal": 628,
+    "rva": 201398
+   },
+   {
+    "forwarder": null,
+    "name": "_wstrtime",
+    "ordinal": 629,
+    "rva": 201523
+   },
+   {
+    "forwarder": null,
+    "name": "_wsystem",
+    "ordinal": 630,
+    "rva": 131111
+   },
+   {
+    "forwarder": null,
+    "name": "_wtempnam",
+    "ordinal": 631,
+    "rva": 176216
+   },
+   {
+    "forwarder": null,
+    "name": "_wtmpnam",
+    "ordinal": 632,
+    "rva": 176865
+   },
+   {
+    "forwarder": null,
+    "name": "_wtof",
+    "ordinal": 633,
+    "rva": 85111
+   },
+   {
+    "forwarder": null,
+    "name": "_wtoi",
+    "ordinal": 634,
+    "rva": 85421
+   },
+   {
+    "forwarder": null,
+    "name": "_wtoi64",
+    "ordinal": 635,
+    "rva": 85423
+   },
+   {
+    "forwarder": null,
+    "name": "_wtol",
+    "ordinal": 636,
+    "rva": 85326
+   },
+   {
+    "forwarder": null,
+    "name": "_wunlink",
+    "ordinal": 637,
+    "rva": 98006
+   },
+   {
+    "forwarder": null,
+    "name": "_wutime",
+    "ordinal": 638,
+    "rva": 201642
+   },
+   {
+    "forwarder": null,
+    "name": "_wutime64",
+    "ordinal": 639,
+    "rva": 201697
+   },
+   {
+    "forwarder": null,
+    "name": "_y0",
+    "ordinal": 640,
+    "rva": 215592
+   },
+   {
+    "forwarder": null,
+    "name": "_y1",
+    "ordinal": 641,
+    "rva": 215892
+   },
+   {
+    "forwarder": null,
+    "name": "_yn",
+    "ordinal": 642,
+    "rva": 216208
+   },
+   {
+    "forwarder": null,
+    "name": "abort",
+    "ordinal": 643,
+    "rva": 53116
+   },
+   {
+    "forwarder": null,
+    "name": "abs",
+    "ordinal": 644,
+    "rva": 157763
+   },
+   {
+    "forwarder": null,
+    "name": "acos",
+    "ordinal": 645,
+    "rva": 14661
+   },
+   {
+    "forwarder": null,
+    "name": "asctime",
+    "ordinal": 646,
+    "rva": 201752
+   },
+   {
+    "forwarder": null,
+    "name": "asin",
+    "ordinal": 647,
+    "rva": 14864
+   },
+   {
+    "forwarder": null,
+    "name": "atan",
+    "ordinal": 648,
+    "rva": 15047
+   },
+   {
+    "forwarder": null,
+    "name": "atan2",
+    "ordinal": 649,
+    "rva": 15322
+   },
+   {
+    "forwarder": null,
+    "name": "atexit",
+    "ordinal": 650,
+    "rva": 7569
+   },
+   {
+    "forwarder": null,
+    "name": "atof",
+    "ordinal": 651,
+    "rva": 85565
+   },
+   {
+    "forwarder": null,
+    "name": "atoi",
+    "ordinal": 652,
+    "rva": 73224
+   },
+   {
+    "forwarder": null,
+    "name": "atol",
+    "ordinal": 653,
+    "rva": 73088
+   },
+   {
+    "forwarder": null,
+    "name": "bsearch",
+    "ordinal": 654,
+    "rva": 157597
+   },
+   {
+    "forwarder": null,
+    "name": "calloc",
+    "ordinal": 655,
+    "rva": 9047
+   },
+   {
+    "forwarder": null,
+    "name": "ceil",
+    "ordinal": 656,
+    "rva": 21124
+   },
+   {
+    "forwarder": null,
+    "name": "clearerr",
+    "ordinal": 657,
+    "rva": 177052
+   },
+   {
+    "forwarder": null,
+    "name": "clock",
+    "ordinal": 658,
+    "rva": 202019
+   },
+   {
+    "forwarder": null,
+    "name": "cos",
+    "ordinal": 659,
+    "rva": 15362
+   },
+   {
+    "forwarder": null,
+    "name": "cosh",
+    "ordinal": 660,
+    "rva": 15526
+   },
+   {
+    "forwarder": null,
+    "name": "ctime",
+    "ordinal": 661,
+    "rva": 202086
+   },
+   {
+    "forwarder": null,
+    "name": "difftime",
+    "ordinal": 662,
+    "rva": 202111
+   },
+   {
+    "forwarder": null,
+    "name": "div",
+    "ordinal": 663,
+    "rva": 157737
+   },
+   {
+    "forwarder": null,
+    "name": "exit",
+    "ordinal": 664,
+    "rva": 36100
+   },
+   {
+    "forwarder": null,
+    "name": "exp",
+    "ordinal": 665,
+    "rva": 15576
+   },
+   {
+    "forwarder": null,
+    "name": "fabs",
+    "ordinal": 666,
+    "rva": 216515
+   },
+   {
+    "forwarder": null,
+    "name": "fclose",
+    "ordinal": 667,
+    "rva": 66083
+   },
+   {
+    "forwarder": null,
+    "name": "feof",
+    "ordinal": 668,
+    "rva": 177153
+   },
+   {
+    "forwarder": null,
+    "name": "ferror",
+    "ordinal": 669,
+    "rva": 177164
+   },
+   {
+    "forwarder": null,
+    "name": "fflush",
+    "ordinal": 670,
+    "rva": 63220
+   },
+   {
+    "forwarder": null,
+    "name": "fgetc",
+    "ordinal": 671,
+    "rva": 177175
+   },
+   {
+    "forwarder": null,
+    "name": "fgetpos",
+    "ordinal": 672,
+    "rva": 177255
+   },
+   {
+    "forwarder": null,
+    "name": "fgets",
+    "ordinal": 673,
+    "rva": 177289
+   },
+   {
+    "forwarder": null,
+    "name": "fgetwc",
+    "ordinal": 674,
+    "rva": 177667
+   },
+   {
+    "forwarder": null,
+    "name": "fgetws",
+    "ordinal": 675,
+    "rva": 177735
+   },
+   {
+    "forwarder": null,
+    "name": "floor",
+    "ordinal": 676,
+    "rva": 21407
+   },
+   {
+    "forwarder": null,
+    "name": "fmod",
+    "ordinal": 677,
+    "rva": 15714
+   },
+   {
+    "forwarder": null,
+    "name": "fopen",
+    "ordinal": 678,
+    "rva": 171197
+   },
+   {
+    "forwarder": null,
+    "name": "fprintf",
+    "ordinal": 679,
+    "rva": 63300
+   },
+   {
+    "forwarder": null,
+    "name": "fputc",
+    "ordinal": 680,
+    "rva": 177863
+   },
+   {
+    "forwarder": null,
+    "name": "fputs",
+    "ordinal": 681,
+    "rva": 177951
+   },
+   {
+    "forwarder": null,
+    "name": "fputwc",
+    "ordinal": 682,
+    "rva": 178278
+   },
+   {
+    "forwarder": null,
+    "name": "fputws",
+    "ordinal": 683,
+    "rva": 178352
+   },
+   {
+    "forwarder": null,
+    "name": "fread",
+    "ordinal": 684,
+    "rva": 178695
+   },
+   {
+    "forwarder": null,
+    "name": "free",
+    "ordinal": 685,
+    "rva": 8529
+   },
+   {
+    "forwarder": null,
+    "name": "freopen",
+    "ordinal": 686,
+    "rva": 178771
+   },
+   {
+    "forwarder": null,
+    "name": "frexp",
+    "ordinal": 687,
+    "rva": 216692
+   },
+   {
+    "forwarder": null,
+    "name": "fscanf",
+    "ordinal": 688,
+    "rva": 178873
+   },
+   {
+    "forwarder": null,
+    "name": "fseek",
+    "ordinal": 689,
+    "rva": 179090
+   },
+   {
+    "forwarder": null,
+    "name": "fsetpos",
+    "ordinal": 690,
+    "rva": 179163
+   },
+   {
+    "forwarder": null,
+    "name": "ftell",
+    "ordinal": 691,
+    "rva": 179541
+   },
+   {
+    "forwarder": null,
+    "name": "fwprintf",
+    "ordinal": 692,
+    "rva": 179606
+   },
+   {
+    "forwarder": null,
+    "name": "fwrite",
+    "ordinal": 693,
+    "rva": 179963
+   },
+   {
+    "forwarder": null,
+    "name": "fwscanf",
+    "ordinal": 694,
+    "rva": 180039
+   },
+   {
+    "forwarder": null,
+    "name": "getc",
+    "ordinal": 695,
+    "rva": 177175
+   },
+   {
+    "forwarder": null,
+    "name": "getchar",
+    "ordinal": 696,
+    "rva": 170818
+   },
+   {
+    "forwarder": null,
+    "name": "getenv",
+    "ordinal": 697,
+    "rva": 79597
+   },
+   {
+    "forwarder": null,
+    "name": "gets",
+    "ordinal": 698,
+    "rva": 180113
+   },
+   {
+    "forwarder": null,
+    "name": "getwc",
+    "ordinal": 699,
+    "rva": 177733
+   },
+   {
+    "forwarder": null,
+    "name": "getwchar",
+    "ordinal": 700,
+    "rva": 170832
+   },
+   {
+    "forwarder": null,
+    "name": "gmtime",
+    "ordinal": 701,
+    "rva": 202128
+   },
+   {
+    "forwarder": null,
+    "name": "is_wctype",
+    "ordinal": 702,
+    "rva": 75005
+   },
+   {
+    "forwarder": null,
+    "name": "isalnum",
+    "ordinal": 703,
+    "rva": 73812
+   },
+   {
+    "forwarder": null,
+    "name": "isalpha",
+    "ordinal": 704,
+    "rva": 73396
+   },
+   {
+    "forwarder": null,
+    "name": "iscntrl",
+    "ordinal": 705,
+    "rva": 74001
+   },
+   {
+    "forwarder": null,
+    "name": "isdigit",
+    "ordinal": 706,
+    "rva": 73575
+   },
+   {
+    "forwarder": null,
+    "name": "isgraph",
+    "ordinal": 707,
+    "rva": 73938
+   },
+   {
+    "forwarder": null,
+    "name": "isleadbyte",
+    "ordinal": 708,
+    "rva": 85621
+   },
+   {
+    "forwarder": null,
+    "name": "islower",
+    "ordinal": 709,
+    "rva": 73517
+   },
+   {
+    "forwarder": null,
+    "name": "isprint",
+    "ordinal": 710,
+    "rva": 73875
+   },
+   {
+    "forwarder": null,
+    "name": "ispunct",
+    "ordinal": 711,
+    "rva": 73754
+   },
+   {
+    "forwarder": null,
+    "name": "isspace",
+    "ordinal": 712,
+    "rva": 73696
+   },
+   {
+    "forwarder": null,
+    "name": "isupper",
+    "ordinal": 713,
+    "rva": 73459
+   },
+   {
+    "forwarder": null,
+    "name": "iswalnum",
+    "ordinal": 714,
+    "rva": 85746
+   },
+   {
+    "forwarder": null,
+    "name": "iswalpha",
+    "ordinal": 715,
+    "rva": 85642
+   },
+   {
+    "forwarder": null,
+    "name": "iswascii",
+    "ordinal": 716,
+    "rva": 85811
+   },
+   {
+    "forwarder": null,
+    "name": "iswcntrl",
+    "ordinal": 717,
+    "rva": 85797
+   },
+   {
+    "forwarder": null,
+    "name": "iswctype",
+    "ordinal": 718,
+    "rva": 74924
+   },
+   {
+    "forwarder": null,
+    "name": "iswdigit",
+    "ordinal": 719,
+    "rva": 85687
+   },
+   {
+    "forwarder": null,
+    "name": "iswgraph",
+    "ordinal": 720,
+    "rva": 85780
+   },
+   {
+    "forwarder": null,
+    "name": "iswlower",
+    "ordinal": 721,
+    "rva": 85673
+   },
+   {
+    "forwarder": null,
+    "name": "iswprint",
+    "ordinal": 722,
+    "rva": 85763
+   },
+   {
+    "forwarder": null,
+    "name": "iswpunct",
+    "ordinal": 723,
+    "rva": 85732
+   },
+   {
+    "forwarder": null,
+    "name": "iswspace",
+    "ordinal": 724,
+    "rva": 85718
+   },
+   {
+    "forwarder": null,
+    "name": "iswupper",
+    "ordinal": 725,
+    "rva": 85659
+   },
+   {
+    "forwarder": null,
+    "name": "iswxdigit",
+    "ordinal": 726,
+    "rva": 85701
+   },
+   {
+    "forwarder": null,
+    "name": "isxdigit",
+    "ordinal": 727,
+    "rva": 73633
+   },
+   {
+    "forwarder": null,
+    "name": "labs",
+    "ordinal": 728,
+    "rva": 157763
+   },
+   {
+    "forwarder": null,
+    "name": "ldexp",
+    "ordinal": 729,
+    "rva": 216864
+   },
+   {
+    "forwarder": null,
+    "name": "ldiv",
+    "ordinal": 730,
+    "rva": 157737
+   },
+   {
+    "forwarder": null,
+    "name": "localeconv",
+    "ordinal": 731,
+    "rva": 55942
+   },
+   {
+    "forwarder": null,
+    "name": "localtime",
+    "ordinal": 732,
+    "rva": 202391
+   },
+   {
+    "forwarder": null,
+    "name": "log",
+    "ordinal": 733,
+    "rva": 15764
+   },
+   {
+    "forwarder": null,
+    "name": "log10",
+    "ordinal": 734,
+    "rva": 16098
+   },
+   {
+    "forwarder": null,
+    "name": "longjmp",
+    "ordinal": 735,
+    "rva": 13894
+   },
+   {
+    "forwarder": null,
+    "name": "malloc",
+    "ordinal": 736,
+    "rva": 5865
+   },
+   {
+    "forwarder": null,
+    "name": "mblen",
+    "ordinal": 737,
+    "rva": 85823
+   },
+   {
+    "forwarder": null,
+    "name": "mbstowcs",
+    "ordinal": 738,
+    "rva": 86211
+   },
+   {
+    "forwarder": null,
+    "name": "mbtowc",
+    "ordinal": 739,
+    "rva": 86446
+   },
+   {
+    "forwarder": null,
+    "name": "memchr",
+    "ordinal": 740,
+    "rva": 14269
+   },
+   {
+    "forwarder": null,
+    "name": "memcmp",
+    "ordinal": 741,
+    "rva": 12852
+   },
+   {
+    "forwarder": null,
+    "name": "memcpy",
+    "ordinal": 742,
+    "rva": 11963
+   },
+   {
+    "forwarder": null,
+    "name": "memmove",
+    "ordinal": 743,
+    "rva": 10638
+   },
+   {
+    "forwarder": null,
+    "name": "memset",
+    "ordinal": 744,
+    "rva": 4642
+   },
+   {
+    "forwarder": null,
+    "name": "mktime",
+    "ordinal": 745,
+    "rva": 203223
+   },
+   {
+    "forwarder": null,
+    "name": "modf",
+    "ordinal": 746,
+    "rva": 21694
+   },
+   {
+    "forwarder": null,
+    "name": "perror",
+    "ordinal": 747,
+    "rva": 157774
+   },
+   {
+    "forwarder": null,
+    "name": "pow",
+    "ordinal": 748,
+    "rva": 16432
+   },
+   {
+    "forwarder": null,
+    "name": "printf",
+    "ordinal": 749,
+    "rva": 180251
+   },
+   {
+    "forwarder": null,
+    "name": "putc",
+    "ordinal": 750,
+    "rva": 177863
+   },
+   {
+    "forwarder": null,
+    "name": "putchar",
+    "ordinal": 751,
+    "rva": 171084
+   },
+   {
+    "forwarder": null,
+    "name": "puts",
+    "ordinal": 752,
+    "rva": 180353
+   },
+   {
+    "forwarder": null,
+    "name": "putwc",
+    "ordinal": 753,
+    "rva": 178350
+   },
+   {
+    "forwarder": null,
+    "name": "putwchar",
+    "ordinal": 754,
+    "rva": 171103
+   },
+   {
+    "forwarder": null,
+    "name": "qsort",
+    "ordinal": 755,
+    "rva": 158047
+   },
+   {
+    "forwarder": null,
+    "name": "raise",
+    "ordinal": 756,
+    "rva": 53763
+   },
+   {
+    "forwarder": null,
+    "name": "rand",
+    "ordinal": 757,
+    "rva": 158697
+   },
+   {
+    "forwarder": null,
+    "name": "realloc",
+    "ordinal": 758,
+    "rva": 75007
+   },
+   {
+    "forwarder": null,
+    "name": "remove",
+    "ordinal": 759,
+    "rva": 96860
+   },
+   {
+    "forwarder": null,
+    "name": "rename",
+    "ordinal": 760,
+    "rva": 100824
+   },
+   {
+    "forwarder": null,
+    "name": "rewind",
+    "ordinal": 761,
+    "rva": 180514
+   },
+   {
+    "forwarder": null,
+    "name": "scanf",
+    "ordinal": 762,
+    "rva": 180651
+   },
+   {
+    "forwarder": null,
+    "name": "setbuf",
+    "ordinal": 763,
+    "rva": 180735
+   },
+   {
+    "forwarder": null,
+    "name": "setlocale",
+    "ordinal": 764,
+    "rva": 52770
+   },
+   {
+    "forwarder": null,
+    "name": "setvbuf",
+    "ordinal": 765,
+    "rva": 63394
+   },
+   {
+    "forwarder": null,
+    "name": "signal",
+    "ordinal": 766,
+    "rva": 53346
+   },
+   {
+    "forwarder": null,
+    "name": "sin",
+    "ordinal": 767,
+    "rva": 17100
+   },
+   {
+    "forwarder": null,
+    "name": "sinh",
+    "ordinal": 768,
+    "rva": 15516
+   },
+   {
+    "forwarder": null,
+    "name": "sprintf",
+    "ordinal": 769,
+    "rva": 173099
+   },
+   {
+    "forwarder": null,
+    "name": "sqrt",
+    "ordinal": 770,
+    "rva": 17274
+   },
+   {
+    "forwarder": null,
+    "name": "srand",
+    "ordinal": 771,
+    "rva": 158684
+   },
+   {
+    "forwarder": null,
+    "name": "sscanf",
+    "ordinal": 772,
+    "rva": 180772
+   },
+   {
+    "forwarder": null,
+    "name": "strcat",
+    "ordinal": 773,
+    "rva": 9810
+   },
+   {
+    "forwarder": null,
+    "name": "strchr",
+    "ordinal": 774,
+    "rva": 10257
+   },
+   {
+    "forwarder": null,
+    "name": "strcmp",
+    "ordinal": 775,
+    "rva": 11456
+   },
+   {
+    "forwarder": null,
+    "name": "strcoll",
+    "ordinal": 776,
+    "rva": 196366
+   },
+   {
+    "forwarder": null,
+    "name": "strcpy",
+    "ordinal": 777,
+    "rva": 5962
+   },
+   {
+    "forwarder": null,
+    "name": "strcspn",
+    "ordinal": 778,
+    "rva": 12784
+   },
+   {
+    "forwarder": null,
+    "name": "strerror",
+    "ordinal": 779,
+    "rva": 158731
+   },
+   {
+    "forwarder": null,
+    "name": "strftime",
+    "ordinal": 780,
+    "rva": 70506
+   },
+   {
+    "forwarder": null,
+    "name": "strlen",
+    "ordinal": 781,
+    "rva": 6101
+   },
+   {
+    "forwarder": null,
+    "name": "strncat",
+    "ordinal": 782,
+    "rva": 11654
+   },
+   {
+    "forwarder": null,
+    "name": "strncmp",
+    "ordinal": 783,
+    "rva": 10581
+   },
+   {
+    "forwarder": null,
+    "name": "strncpy",
+    "ordinal": 784,
+    "rva": 9923
+   },
+   {
+    "forwarder": null,
+    "name": "strpbrk",
+    "ordinal": 785,
+    "rva": 11591
+   },
+   {
+    "forwarder": null,
+    "name": "strrchr",
+    "ordinal": 786,
+    "rva": 14440
+   },
+   {
+    "forwarder": null,
+    "name": "strspn",
+    "ordinal": 787,
+    "rva": 14485
+   },
+   {
+    "forwarder": null,
+    "name": "strstr",
+    "ordinal": 788,
+    "rva": 10447
+   },
+   {
+    "forwarder": null,
+    "name": "strtod",
+    "ordinal": 789,
+    "rva": 86489
+   },
+   {
+    "forwarder": null,
+    "name": "strtok",
+    "ordinal": 790,
+    "rva": 196460
+   },
+   {
+    "forwarder": null,
+    "name": "strtol",
+    "ordinal": 791,
+    "rva": 87078
+   },
+   {
+    "forwarder": null,
+    "name": "strtoul",
+    "ordinal": 792,
+    "rva": 87101
+   },
+   {
+    "forwarder": null,
+    "name": "strxfrm",
+    "ordinal": 793,
+    "rva": 196641
+   },
+   {
+    "forwarder": null,
+    "name": "swprintf",
+    "ordinal": 794,
+    "rva": 173236
+   },
+   {
+    "forwarder": null,
+    "name": "swscanf",
+    "ordinal": 795,
+    "rva": 180824
+   },
+   {
+    "forwarder": null,
+    "name": "system",
+    "ordinal": 796,
+    "rva": 131273
+   },
+   {
+    "forwarder": null,
+    "name": "tan",
+    "ordinal": 797,
+    "rva": 17460
+   },
+   {
+    "forwarder": null,
+    "name": "tanh",
+    "ordinal": 798,
+    "rva": 15536
+   },
+   {
+    "forwarder": null,
+    "name": "time",
+    "ordinal": 799,
+    "rva": 203236
+   },
+   {
+    "forwarder": null,
+    "name": "tmpfile",
+    "ordinal": 800,
+    "rva": 181232
+   },
+   {
+    "forwarder": null,
+    "name": "tmpnam",
+    "ordinal": 801,
+    "rva": 181046
+   },
+   {
+    "forwarder": null,
+    "name": "tolower",
+    "ordinal": 802,
+    "rva": 74646
+   },
+   {
+    "forwarder": null,
+    "name": "toupper",
+    "ordinal": 803,
+    "rva": 84436
+   },
+   {
+    "forwarder": null,
+    "name": "towlower",
+    "ordinal": 804,
+    "rva": 74364
+   },
+   {
+    "forwarder": null,
+    "name": "towupper",
+    "ordinal": 805,
+    "rva": 87221
+   },
+   {
+    "forwarder": null,
+    "name": "ungetc",
+    "ordinal": 806,
+    "rva": 181622
+   },
+   {
+    "forwarder": null,
+    "name": "ungetwc",
+    "ordinal": 807,
+    "rva": 181962
+   },
+   {
+    "forwarder": null,
+    "name": "vfprintf",
+    "ordinal": 808,
+    "rva": 182032
+   },
+   {
+    "forwarder": null,
+    "name": "vfwprintf",
+    "ordinal": 809,
+    "rva": 182125
+   },
+   {
+    "forwarder": null,
+    "name": "vprintf",
+    "ordinal": 810,
+    "rva": 182218
+   },
+   {
+    "forwarder": null,
+    "name": "vsprintf",
+    "ordinal": 811,
+    "rva": 174230
+   },
+   {
+    "forwarder": null,
+    "name": "vswprintf",
+    "ordinal": 812,
+    "rva": 174365
+   },
+   {
+    "forwarder": null,
+    "name": "vwprintf",
+    "ordinal": 813,
+    "rva": 182313
+   },
+   {
+    "forwarder": null,
+    "name": "wcscat",
+    "ordinal": 814,
+    "rva": 66550
+   },
+   {
+    "forwarder": null,
+    "name": "wcschr",
+    "ordinal": 815,
+    "rva": 67330
+   },
+   {
+    "forwarder": null,
+    "name": "wcscmp",
+    "ordinal": 816,
+    "rva": 66922
+   },
+   {
+    "forwarder": null,
+    "name": "wcscoll",
+    "ordinal": 817,
+    "rva": 196813
+   },
+   {
+    "forwarder": null,
+    "name": "wcscpy",
+    "ordinal": 818,
+    "rva": 66592
+   },
+   {
+    "forwarder": null,
+    "name": "wcscspn",
+    "ordinal": 819,
+    "rva": 196899
+   },
+   {
+    "forwarder": null,
+    "name": "wcsftime",
+    "ordinal": 820,
+    "rva": 203293
+   },
+   {
+    "forwarder": null,
+    "name": "wcslen",
+    "ordinal": 821,
+    "rva": 66620
+   },
+   {
+    "forwarder": null,
+    "name": "wcsncat",
+    "ordinal": 822,
+    "rva": 196966
+   },
+   {
+    "forwarder": null,
+    "name": "wcsncmp",
+    "ordinal": 823,
+    "rva": 197027
+   },
+   {
+    "forwarder": null,
+    "name": "wcsncpy",
+    "ordinal": 824,
+    "rva": 66815
+   },
+   {
+    "forwarder": null,
+    "name": "wcspbrk",
+    "ordinal": 825,
+    "rva": 66972
+   },
+   {
+    "forwarder": null,
+    "name": "wcsrchr",
+    "ordinal": 826,
+    "rva": 197080
+   },
+   {
+    "forwarder": null,
+    "name": "wcsspn",
+    "ordinal": 827,
+    "rva": 197128
+   },
+   {
+    "forwarder": null,
+    "name": "wcsstr",
+    "ordinal": 828,
+    "rva": 197198
+   },
+   {
+    "forwarder": null,
+    "name": "wcstod",
+    "ordinal": 829,
+    "rva": 87288
+   },
+   {
+    "forwarder": null,
+    "name": "wcstok",
+    "ordinal": 830,
+    "rva": 197292
+   },
+   {
+    "forwarder": null,
+    "name": "wcstol",
+    "ordinal": 831,
+    "rva": 88146
+   },
+   {
+    "forwarder": null,
+    "name": "wcstombs",
+    "ordinal": 832,
+    "rva": 88625
+   },
+   {
+    "forwarder": null,
+    "name": "wcstoul",
+    "ordinal": 833,
+    "rva": 88169
+   },
+   {
+    "forwarder": null,
+    "name": "wcsxfrm",
+    "ordinal": 834,
+    "rva": 197457
+   },
+   {
+    "forwarder": null,
+    "name": "wctomb",
+    "ordinal": 835,
+    "rva": 74228
+   },
+   {
+    "forwarder": null,
+    "name": "wprintf",
+    "ordinal": 836,
+    "rva": 182408
+   },
+   {
+    "forwarder": null,
+    "name": "wscanf",
+    "ordinal": 837,
+    "rva": 182510
+   }
+  ],
+  "name": "MSVCR71.dll",
+  "nameCount": 837,
+  "ordinalBase": 1,
+  "present": true,
+  "timeDateStamp": 1045831340
+ },
+ "imports": [
+  {
+   "dll": "KERNEL32.dll",
+   "firstThunk": 237568,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 357,
+     "name": "GetModuleFileNameA",
+     "ordinal": null
+    },
+    {
+     "hint": 358,
+     "name": "GetModuleFileNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 171,
+     "name": "ExitProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 393,
+     "name": "GetProcAddress",
+     "ordinal": null
+    },
+    {
+     "hint": 359,
+     "name": "GetModuleHandleA",
+     "ordinal": null
+    },
+    {
+     "hint": 817,
+     "name": "TerminateProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 303,
+     "name": "GetCurrentProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 886,
+     "name": "WriteFile",
+     "ordinal": null
+    },
+    {
+     "hint": 414,
+     "name": "GetStdHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 306,
+     "name": "GetCurrentThreadId",
+     "ordinal": null
+    },
+    {
+     "hint": 253,
+     "name": "GetCommandLineA",
+     "ordinal": null
+    },
+    {
+     "hint": 456,
+     "name": "GetVersionExA",
+     "ordinal": null
+    },
+    {
+     "hint": 118,
+     "name": "DeleteCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 557,
+     "name": "LeaveCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 139,
+     "name": "EnterCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 172,
+     "name": "ExitThread",
+     "ordinal": null
+    },
+    {
+     "hint": 44,
+     "name": "CloseHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 346,
+     "name": "GetLastError",
+     "ordinal": null
+    },
+    {
+     "hint": 684,
+     "name": "ResumeThread",
+     "ordinal": null
+    },
+    {
+     "hint": 101,
+     "name": "CreateThread",
+     "ordinal": null
+    },
+    {
+     "hint": 822,
+     "name": "TlsAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 766,
+     "name": "SetLastError",
+     "ordinal": null
+    },
+    {
+     "hint": 305,
+     "name": "GetCurrentThread",
+     "ordinal": null
+    },
+    {
+     "hint": 823,
+     "name": "TlsFree",
+     "ordinal": null
+    },
+    {
+     "hint": 825,
+     "name": "TlsSetValue",
+     "ordinal": null
+    },
+    {
+     "hint": 824,
+     "name": "TlsGetValue",
+     "ordinal": null
+    },
+    {
+     "hint": 206,
+     "name": "FindNextFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 197,
+     "name": "FindFirstFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 193,
+     "name": "FindClose",
+     "ordinal": null
+    },
+    {
+     "hint": 207,
+     "name": "FindNextFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 200,
+     "name": "FindFirstFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 495,
+     "name": "HeapAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 501,
+     "name": "HeapFree",
+     "ordinal": null
+    },
+    {
+     "hint": 322,
+     "name": "GetEnvironmentVariableA",
+     "ordinal": null
+    },
+    {
+     "hint": 499,
+     "name": "HeapDestroy",
+     "ordinal": null
+    },
+    {
+     "hint": 497,
+     "name": "HeapCreate",
+     "ordinal": null
+    },
+    {
+     "hint": 856,
+     "name": "VirtualFree",
+     "ordinal": null
+    },
+    {
+     "hint": 853,
+     "name": "VirtualAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 505,
+     "name": "HeapReAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 532,
+     "name": "IsBadWritePtr",
+     "ordinal": null
+    },
+    {
+     "hint": 762,
+     "name": "SetHandleCount",
+     "ordinal": null
+    },
+    {
+     "hint": 336,
+     "name": "GetFileType",
+     "ordinal": null
+    },
+    {
+     "hint": 412,
+     "name": "GetStartupInfoA",
+     "ordinal": null
+    },
+    {
+     "hint": 235,
+     "name": "GetACP",
+     "ordinal": null
+    },
+    {
+     "hint": 380,
+     "name": "GetOEMCP",
+     "ordinal": null
+    },
+    {
+     "hint": 241,
+     "name": "GetCPInfo",
+     "ordinal": null
+    },
+    {
+     "hint": 558,
+     "name": "LoadLibraryA",
+     "ordinal": null
+    },
+    {
+     "hint": 593,
+     "name": "MultiByteToWideChar",
+     "ordinal": null
+    },
+    {
+     "hint": 254,
+     "name": "GetCommandLineW",
+     "ordinal": null
+    },
+    {
+     "hint": 227,
+     "name": "FreeEnvironmentStringsA",
+     "ordinal": null
+    },
+    {
+     "hint": 319,
+     "name": "GetEnvironmentStrings",
+     "ordinal": null
+    },
+    {
+     "hint": 228,
+     "name": "FreeEnvironmentStringsW",
+     "ordinal": null
+    },
+    {
+     "hint": 873,
+     "name": "WideCharToMultiByte",
+     "ordinal": null
+    },
+    {
+     "hint": 321,
+     "name": "GetEnvironmentStringsW",
+     "ordinal": null
+    },
+    {
+     "hint": 514,
+     "name": "InitializeCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 689,
+     "name": "RtlUnwind",
+     "ordinal": null
+    },
+    {
+     "hint": 834,
+     "name": "UnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 544,
+     "name": "LCMapStringA",
+     "ordinal": null
+    },
+    {
+     "hint": 545,
+     "name": "LCMapStringW",
+     "ordinal": null
+    },
+    {
+     "hint": 415,
+     "name": "GetStringTypeA",
+     "ordinal": null
+    },
+    {
+     "hint": 418,
+     "name": "GetStringTypeW",
+     "ordinal": null
+    },
+    {
+     "hint": 712,
+     "name": "SetConsoleCtrlHandler",
+     "ordinal": null
+    },
+    {
+     "hint": 519,
+     "name": "InterlockedExchange",
+     "ordinal": null
+    },
+    {
+     "hint": 861,
+     "name": "VirtualQuery",
+     "ordinal": null
+    },
+    {
+     "hint": 638,
+     "name": "QueryPerformanceCounter",
+     "ordinal": null
+    },
+    {
+     "hint": 446,
+     "name": "GetTickCount",
+     "ordinal": null
+    },
+    {
+     "hint": 304,
+     "name": "GetCurrentProcessId",
+     "ordinal": null
+    },
+    {
+     "hint": 428,
+     "name": "GetSystemTimeAsFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 745,
+     "name": "SetEnvironmentVariableA",
+     "ordinal": null
+    },
+    {
+     "hint": 746,
+     "name": "SetEnvironmentVariableW",
+     "ordinal": null
+    },
+    {
+     "hint": 450,
+     "name": "GetUserDefaultLCID",
+     "ordinal": null
+    },
+    {
+     "hint": 349,
+     "name": "GetLocaleInfoA",
+     "ordinal": null
+    },
+    {
+     "hint": 161,
+     "name": "EnumSystemLocalesA",
+     "ordinal": null
+    },
+    {
+     "hint": 541,
+     "name": "IsValidLocale",
+     "ordinal": null
+    },
+    {
+     "hint": 539,
+     "name": "IsValidCodePage",
+     "ordinal": null
+    },
+    {
+     "hint": 350,
+     "name": "GetLocaleInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 447,
+     "name": "GetTimeFormatA",
+     "ordinal": null
+    },
+    {
+     "hint": 307,
+     "name": "GetDateFormatA",
+     "ordinal": null
+    },
+    {
+     "hint": 449,
+     "name": "GetTimeZoneInformation",
+     "ordinal": null
+    },
+    {
+     "hint": 507,
+     "name": "HeapSize",
+     "ordinal": null
+    },
+    {
+     "hint": 859,
+     "name": "VirtualProtect",
+     "ordinal": null
+    },
+    {
+     "hint": 424,
+     "name": "GetSystemInfo",
+     "ordinal": null
+    },
+    {
+     "hint": 219,
+     "name": "FlushFileBuffers",
+     "ordinal": null
+    },
+    {
+     "hint": 753,
+     "name": "SetFilePointer",
+     "ordinal": null
+    },
+    {
+     "hint": 780,
+     "name": "SetStdHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 50,
+     "name": "CompareStringA",
+     "ordinal": null
+    },
+    {
+     "hint": 51,
+     "name": "CompareStringW",
+     "ordinal": null
+    },
+    {
+     "hint": 809,
+     "name": "Sleep",
+     "ordinal": null
+    },
+    {
+     "hint": 26,
+     "name": "Beep",
+     "ordinal": null
+    },
+    {
+     "hint": 184,
+     "name": "FileTimeToSystemTime",
+     "ordinal": null
+    },
+    {
+     "hint": 183,
+     "name": "FileTimeToLocalFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 313,
+     "name": "GetDiskFreeSpaceA",
+     "ordinal": null
+    },
+    {
+     "hint": 353,
+     "name": "GetLogicalDrives",
+     "ordinal": null
+    },
+    {
+     "hint": 747,
+     "name": "SetErrorMode",
+     "ordinal": null
+    },
+    {
+     "hint": 328,
+     "name": "GetFileAttributesA",
+     "ordinal": null
+    },
+    {
+     "hint": 301,
+     "name": "GetCurrentDirectoryA",
+     "ordinal": null
+    },
+    {
+     "hint": 740,
+     "name": "SetCurrentDirectoryA",
+     "ordinal": null
+    },
+    {
+     "hint": 751,
+     "name": "SetFileAttributesA",
+     "ordinal": null
+    },
+    {
+     "hint": 339,
+     "name": "GetFullPathNameA",
+     "ordinal": null
+    },
+    {
+     "hint": 317,
+     "name": "GetDriveTypeA",
+     "ordinal": null
+    },
+    {
+     "hint": 66,
+     "name": "CreateDirectoryA",
+     "ordinal": null
+    },
+    {
+     "hint": 671,
+     "name": "RemoveDirectoryA",
+     "ordinal": null
+    },
+    {
+     "hint": 120,
+     "name": "DeleteFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 331,
+     "name": "GetFileAttributesW",
+     "ordinal": null
+    },
+    {
+     "hint": 302,
+     "name": "GetCurrentDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 741,
+     "name": "SetCurrentDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 752,
+     "name": "SetFileAttributesW",
+     "ordinal": null
+    },
+    {
+     "hint": 340,
+     "name": "GetFullPathNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 69,
+     "name": "CreateDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 121,
+     "name": "DeleteFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 589,
+     "name": "MoveFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 672,
+     "name": "RemoveDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 318,
+     "name": "GetDriveTypeW",
+     "ordinal": null
+    },
+    {
+     "hint": 586,
+     "name": "MoveFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 643,
+     "name": "RaiseException",
+     "ordinal": null
+    },
+    {
+     "hint": 529,
+     "name": "IsBadReadPtr",
+     "ordinal": null
+    },
+    {
+     "hint": 797,
+     "name": "SetUnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 526,
+     "name": "IsBadCodePtr",
+     "ordinal": null
+    },
+    {
+     "hint": 324,
+     "name": "GetExitCodeProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 869,
+     "name": "WaitForSingleObject",
+     "ordinal": null
+    },
+    {
+     "hint": 229,
+     "name": "FreeLibrary",
+     "ordinal": null
+    },
+    {
+     "hint": 92,
+     "name": "CreateProcessA",
+     "ordinal": null
+    },
+    {
+     "hint": 95,
+     "name": "CreateProcessW",
+     "ordinal": null
+    },
+    {
+     "hint": 511,
+     "name": "HeapValidate",
+     "ordinal": null
+    },
+    {
+     "hint": 496,
+     "name": "HeapCompact",
+     "ordinal": null
+    },
+    {
+     "hint": 512,
+     "name": "HeapWalk",
+     "ordinal": null
+    },
+    {
+     "hint": 644,
+     "name": "ReadConsoleA",
+     "ordinal": null
+    },
+    {
+     "hint": 727,
+     "name": "SetConsoleMode",
+     "ordinal": null
+    },
+    {
+     "hint": 288,
+     "name": "GetConsoleMode",
+     "ordinal": null
+    },
+    {
+     "hint": 534,
+     "name": "IsDBCSLeadByteEx",
+     "ordinal": null
+    },
+    {
+     "hint": 271,
+     "name": "GetConsoleCP",
+     "ordinal": null
+    },
+    {
+     "hint": 654,
+     "name": "ReadConsoleW",
+     "ordinal": null
+    },
+    {
+     "hint": 744,
+     "name": "SetEndOfFile",
+     "ordinal": null
+    },
+    {
+     "hint": 875,
+     "name": "WriteConsoleA",
+     "ordinal": null
+    },
+    {
+     "hint": 290,
+     "name": "GetConsoleOutputCP",
+     "ordinal": null
+    },
+    {
+     "hint": 885,
+     "name": "WriteConsoleW",
+     "ordinal": null
+    },
+    {
+     "hint": 136,
+     "name": "DuplicateHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 332,
+     "name": "GetFileInformationByHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 620,
+     "name": "PeekNamedPipe",
+     "ordinal": null
+    },
+    {
+     "hint": 645,
+     "name": "ReadConsoleInputA",
+     "ordinal": null
+    },
+    {
+     "hint": 618,
+     "name": "PeekConsoleInputA",
+     "ordinal": null
+    },
+    {
+     "hint": 378,
+     "name": "GetNumberOfConsoleInputEvents",
+     "ordinal": null
+    },
+    {
+     "hint": 648,
+     "name": "ReadConsoleInputW",
+     "ordinal": null
+    },
+    {
+     "hint": 575,
+     "name": "LockFile",
+     "ordinal": null
+    },
+    {
+     "hint": 835,
+     "name": "UnlockFile",
+     "ordinal": null
+    },
+    {
+     "hint": 74,
+     "name": "CreateFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 91,
+     "name": "CreatePipe",
+     "ordinal": null
+    },
+    {
+     "hint": 656,
+     "name": "ReadFile",
+     "ordinal": null
+    },
+    {
+     "hint": 77,
+     "name": "CreateFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 757,
+     "name": "SetFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 566,
+     "name": "LocalFileTimeToFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 814,
+     "name": "SystemTimeToFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 348,
+     "name": "GetLocalTime",
+     "ordinal": null
+    },
+    {
+     "hint": 769,
+     "name": "SetLocalTime",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 299712,
+   "originalFirstThunk": 299728,
+   "timeDateStamp": 0
+  }
+ ],
+ "isPE": true,
+ "notes": [],
+ "optional": {
+  "addressOfEntryPoint": 8863,
+  "baseOfCode": 4096,
+  "baseOfData": 237568,
+  "checkSum": 389609,
+  "dllCharacteristics": 0,
+  "dllCharacteristicsFlags": [],
+  "fileAlignment": 4096,
+  "imageBase": 2083782656,
+  "loaderFlags": 0,
+  "magic": 267,
+  "magicName": "PE32",
+  "majorImageVersion": 0,
+  "majorLinkerVersion": 7,
+  "majorOperatingSystemVersion": 4,
+  "majorSubsystemVersion": 4,
+  "minorImageVersion": 0,
+  "minorLinkerVersion": 10,
+  "minorOperatingSystemVersion": 0,
+  "minorSubsystemVersion": 0,
+  "numberOfRvaAndSizes": 16,
+  "sectionAlignment": 4096,
+  "sizeOfCode": 233472,
+  "sizeOfHeaders": 4096,
+  "sizeOfHeapCommit": 4096,
+  "sizeOfHeapReserve": 1048576,
+  "sizeOfImage": 352256,
+  "sizeOfInitializedData": 114688,
+  "sizeOfStackCommit": 4096,
+  "sizeOfStackReserve": 1048576,
+  "sizeOfUninitializedData": 0,
+  "subsystem": 2,
+  "subsystemName": "WINDOWS_GUI",
+  "win32VersionValue": 0
+ },
+ "overlay": {
+  "bytes": 0,
+  "offset": 348160
+ },
+ "peHeaderOffset": 240,
+ "resources": [
+  {
+   "codePage": 0,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 16,
+     "name": null
+    },
+    {
+     "id": 1,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 1,
+   "nameString": null,
+   "offset": 331872,
+   "rva": 335968,
+   "size": 856,
+   "typeId": 16,
+   "typeName": "RT_VERSION"
+  }
+ ],
+ "rich": {
+  "checksumOffset": 212,
+  "entries": [
+   {
+    "buildNumber": 9210,
+    "count": 3,
+    "productId": 25
+   },
+   {
+    "buildNumber": 0,
+    "count": 155,
+    "productId": 1
+   },
+   {
+    "buildNumber": 3052,
+    "count": 23,
+    "productId": 96
+   },
+   {
+    "buildNumber": 3052,
+    "count": 77,
+    "productId": 15
+   },
+   {
+    "buildNumber": 3052,
+    "count": 527,
+    "productId": 95
+   },
+   {
+    "buildNumber": 3052,
+    "count": 1,
+    "productId": 92
+   },
+   {
+    "buildNumber": 3052,
+    "count": 1,
+    "productId": 94
+   },
+   {
+    "buildNumber": 3052,
+    "count": 1,
+    "productId": 90
+   }
+  ],
+  "key": 3904132014,
+  "offset": 128,
+  "present": true,
+  "sha256": "1b1c8a6f57e0c80937060291823d635cefc98ceb29955117437118a516fc4071"
+ },
+ "sections": [
+  {
+   "bytesRead": 233472,
+   "characteristics": 1610612768,
+   "characteristicsFlags": [
+    "CNT_CODE",
+    "MEM_EXECUTE",
+    "MEM_READ"
+   ],
+   "entropy": 6.755844,
+   "index": 0,
+   "name": ".text",
+   "nameBytesHex": "2e74657874000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 4096,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.323473,
+   "sha256": "32617199316d46ec8cccab0621030b4e2eef5a53dd6ee2707233beddca896d2d",
+   "sizeOfRawData": 233472,
+   "virtualAddress": 4096,
+   "virtualSize": 232360
+  },
+  {
+   "bytesRead": 69632,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 6.010845,
+   "index": 1,
+   "name": ".rdata",
+   "nameBytesHex": "2e72646174610000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 237568,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.426743,
+   "sha256": "c3d1fb31bbd0dbb22dd17e79e7fb65e9bdfe706e6a14fb0ae24e2e8b2f30d150",
+   "sizeOfRawData": 69632,
+   "virtualAddress": 237568,
+   "virtualSize": 65600
+  },
+  {
+   "bytesRead": 24576,
+   "characteristics": 3221225536,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 2.480597,
+   "index": 2,
+   "name": ".data",
+   "nameBytesHex": "2e64617461000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 307200,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.126587,
+   "sha256": "70dbc00cf1ff432a7b451bfff63d66f0f90a8fa55557928308da4acd57a33ff2",
+   "sizeOfRawData": 24576,
+   "virtualAddress": 307200,
+   "virtualSize": 26656
+  },
+  {
+   "bytesRead": 4096,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 1.030901,
+   "index": 3,
+   "name": ".rsrc",
+   "nameBytesHex": "2e72737263000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 331776,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.085449,
+   "sha256": "58bdd528c8c7a3dd13a325fba6befb21bb809c02b07ed9c3df295ad5e80f93d8",
+   "sizeOfRawData": 4096,
+   "virtualAddress": 335872,
+   "virtualSize": 952
+  },
+  {
+   "bytesRead": 12288,
+   "characteristics": 1107296320,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_DISCARDABLE",
+    "MEM_READ"
+   ],
+   "entropy": 6.422728,
+   "index": 4,
+   "name": ".reloc",
+   "nameBytesHex": "2e72656c6f630000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 335872,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.59318,
+   "sha256": "1d3fba62289eff90ab8eb9027195ef80bf1591c8204de3c3381ea22ff38488b8",
+   "sizeOfRawData": 12288,
+   "virtualAddress": 339968,
+   "virtualSize": 11108
+  }
+ ]
+}

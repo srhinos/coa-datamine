@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":36,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1141,"maxUnsigned":1141,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":36,"rows":36,"string":{"applicable":true,"blockCoverageRate":0.277391,"blockSize":1150,"controlCharOffsets":0,"distinctOffsets":36,"meanDecodedLength":7.861,"nonEmptyOffsets":36,"utf8DecodableOffsets":36,"validOffsetRate":1.0},"zeroCount":0},"index":0,"inferred":"string","name":"f0","samples":["HeadSlot","NeckSlot","ShoulderSlot","ShirtSlot","ChestSlot"],"width":4},
+  {"evidence":{"distinct":17,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1001,"maxUnsigned":1001,"minSigned":10,"minUnsigned":10,"negativeCount":0,"nonZeroCount":36,"rows":36,"string":{"applicable":true,"blockCoverageRate":0.721739,"blockSize":1150,"controlCharOffsets":0,"distinctOffsets":17,"meanDecodedLength":47.824,"nonEmptyOffsets":17,"utf8DecodableOffsets":17,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["interface\\paperdoll\\UI-PaperDoll-Slot-Head.blp","interface\\paperdoll\\UI-PaperDoll-Slot-Neck.blp","interface\\paperdoll\\UI-PaperDoll-Slot-Shoulder.blp","interface\\paperdoll\\UI-PaperDoll-Slot-Shirt.blp","interface\\paperdoll\\UI-PaperDoll-Slot-Chest.blp"],"width":4},
+  {"evidence":{"distinct":36,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":75,"maxUnsigned":75,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":35,"rows":36,"string":{"applicable":true,"blockCoverageRate":0.090435,"blockSize":1150,"controlCharOffsets":0,"distinctOffsets":4,"meanDecodedLength":25.0,"nonEmptyOffsets":3,"utf8DecodableOffsets":4,"validOffsetRate":0.111111},"zeroCount":1},"index":2,"inferred":"int","name":"f2","samples":["HeadSlot","interface\\paperdoll\\UI-PaperDoll-Slot-Head.blp","interface\\paperdoll\\UI-PaperDoll-Slot-Neck.blp"],"width":4}
+ ],
+ "file": "PaperDollItemFrame.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":36,"sizeReconciles":true,"stringBlockReferencedBytes":1150,"stringBlockSize":1150,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":2},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":1602,"losers":[],"sha256":"43c40ee0a4ea5bd9046056a18062e01ef7aafeea62fb2c5022421ef760642817","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "PaperDollItemFrame"
+}

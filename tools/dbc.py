@@ -84,11 +84,32 @@ def _spell_columns():
         ("manaCostPerLevel", 43, "u"), ("manaPerSecond", 44, "u"),
         ("rangeIndex", 46, "u"), ("speed", 47, "f"), ("stackAmount", 49, "u"),
         ("equippedItemClass", 68, "i"),
+        # [Task W4-3] f69/f70: weapon-subtype/slot gating, adjacent to the already-
+        # mapped f68 equippedItemClass triple (coa-sim-handoff/DATAMINE-REQUEST.md
+        # Sec 1.4). Re-derived CoA fill (6,038-row "CoA class set", see
+        # build_spells.py's _coa_class_spell_ids docstring): f69 734/6038=12.16%,
+        # f70 87/6038=1.44% - both exact matches to the doc.
+        ("equippedItemSubClassMask", 69, "u"),
+        ("equippedItemInventoryTypeMask", 70, "u"),
     ]
     for slot in range(3):
         cols += [
             (f"effect{slot+1}", 71 + slot, "u"),
             (f"effectDieSides{slot+1}", 74 + slot, "i"),
+            # [Task W4-3] f77-79 EffectRealPointsPerLevel - IEEE-754 float BIT
+            # PATTERNS, not integers (DATAMINE-REQUEST.md Sec 1.5 trap 3): stock
+            # Frostbolt 116 slot 2 f78=1056964608=0x3F000000=0.5f, re-derived and
+            # golden-matched exactly. Backing store for the "$ppl" formula token -
+            # the single highest-value column this repo was dropping. Re-derived
+            # CoA fill on the 6,038-row "CoA class set" (build_spells.
+            # _coa_class_spell_ids()) is 2012/6038=33.3223%, an EXACT match to the
+            # doc's 2,012/6,038=33.32% (same numerator AND denominator - this
+            # build's snapshot is unchanged from the doc's on this measure). The
+            # doc's separate "61.1% of build-reachable slots" figure uses a
+            # different, narrower population (level-60-reachable damaging/healing
+            # slots only, via rank selection - see DATAMINE-REQUEST.md Sec 1.2) that
+            # this task did not re-derive; not repeated here unverified.
+            (f"effectRealPointsPerLevel{slot+1}", 77 + slot, "f"),
             (f"effectBasePoints{slot+1}", 80 + slot, "i"),
             (f"effectMechanic{slot+1}", 83 + slot, "u"),
             (f"effectImplicitTargetA{slot+1}", 86 + slot, "u"),
@@ -101,6 +122,23 @@ def _spell_columns():
             (f"effectMiscValue{slot+1}", 110 + slot, "i"),
             (f"effectMiscValueB{slot+1}", 113 + slot, "i"),
             (f"effectTriggerSpell{slot+1}", 116 + slot, "u"),
+            # [Task W4-3] f119-121 EffectPointsPerComboPoint (float, combo-point
+            # scaling - Ranger has combo points). Re-derived CoA fill 20/6038=
+            # 0.3312%, exact match to the doc's 0.33%.
+            (f"effectPointsPerComboPoint{slot+1}", 119 + slot, "f"),
+            # [Task W4-3] f122-130 EffectSpellClassMask - three u32 words (a 96-bit
+            # mask) per effect slot, "which spells a talent modifies" (DATAMINE-
+            # REQUEST.md Sec 1.4). Re-derived: 1728/6038=28.6187% of the CoA class
+            # set carry a nonzero mask on any slot, an exact match to the doc's
+            # 28.62% "overall". Golden: Improved Fireball (11069) slot 1 is an
+            # ADD_FLAT_MODIFIER aura with classMask=[1,0,0] - bit 0 of word A -
+            # and stock Fireball (133, same spellFamilyName=3 Mage) carries
+            # spellFamilyFlags1=1 (also bit 0) - the mask selects Fireball by its
+            # own family-flag bit, the exact mechanism the doc describes. Emitted
+            # in build_spells.py as effects[].spellClassMask: [a,b,c].
+            (f"effectSpellClassMaskA{slot+1}", 122 + slot * 3, "u"),
+            (f"effectSpellClassMaskB{slot+1}", 123 + slot * 3, "u"),
+            (f"effectSpellClassMaskC{slot+1}", 124 + slot * 3, "u"),
         ]
     cols += [
         ("spellIconID", 133, "u"), ("activeIconID", 134, "u"),
@@ -109,9 +147,44 @@ def _spell_columns():
         ("manaCostPercentage", 204, "u"), ("startRecoveryCategory", 205, "u"),
         ("startRecoveryTime", 206, "u"), ("maxTargetLevel", 207, "u"),
         ("spellFamilyName", 208, "u"), ("spellFamilyFlags1", 209, "u"),
-        ("spellFamilyFlags2", 210, "u"), ("maxAffectedTargets", 212, "u"),
+        ("spellFamilyFlags2", 210, "u"),
+        # [Task W4-3] f211 SpellFamilyFlags3 - the curated table only exposed
+        # flags1/2, silently truncating the family mask's top 32 bits (of 96
+        # total). Re-derived CoA fill 730/6038=12.0901%, exact match to the doc's
+        # 12.09%. Emitted alongside flags1/2 as family.flags3.
+        ("spellFamilyFlags3", 211, "u"),
+        ("maxAffectedTargets", 212, "u"),
         ("dmgClass", 213, "u"), ("preventionType", 214, "u"),
+    ]
+    for slot in range(3):
+        # [Task W4-3] f216-218 EffectDamageMultiplier (float, chain-damage
+        # falloff per jump). Re-derived: gating on populated-effect slots and
+        # comparing against the 1.0f default (0x3F800000), 507/6038=8.3968% of
+        # the CoA class set carry a non-default value on >=1 slot - within the
+        # doc's stated ~0.4pp of its 8.00% "non-default" figure (methodology-
+        # sensitive: literal raw-value comparison, not effect-gated, over-counts
+        # empty slots whose raw field is 0, not 1.0).
+        cols.append((f"effectDamageMultiplier{slot+1}", 216 + slot, "f"))
+    cols += [
         ("schoolMask", 225, "u"), ("runeCostID", 226, "u"),
+        # [Task W4-3] f227 SpellMissileID - pairs with the SpellMissile.dbc ask
+        # (out of this task's scope). Re-derived: exactly 8/6038=0.1325% of the
+        # CoA class set carry a nonzero value, an exact match to the doc's
+        # "0.13% (8 spells)" - including the literal count of 8.
+        ("spellMissileID", 227, "u"),
+    ]
+    for slot in range(3):
+        # [Task W4-3] f229-231 EffectBonusMultiplier - the untouched Blizzard-
+        # 2008 column, correct for STOCK/Reborn content only and CONTRADICTED by
+        # CoA's own authored tooltip formulas (DATAMINE-REQUEST.md Sec 2: stock
+        # agreement 0/37, CoA agreement re-derived below). Re-derived CoA fill
+        # 619/6038=10.2517%, exact match to the doc's 10.25%. Golden: Flash Heal
+        # (2061) f229 raw 1062115213 decodes to 0.8069999814... ~ 0.807, matching
+        # the doc's cited value exactly. Emitted in build_spells.py as
+        # effects[].bonusMultiplierStock (name flags the stock-only caveat), NOT
+        # unioned with the tooltip-parsed coefficient - see AGENT-GUIDE.md.
+        cols.append((f"effectBonusMultiplier{slot+1}", 229 + slot, "f"))
+    cols += [
         ("spellDescriptionVariableID", 232, "u"), ("spellDifficultyID", 233, "u"),
     ]
     return cols
@@ -119,6 +192,28 @@ def _spell_columns():
 
 TABLE_MAPS = {
     "Spell": {"expected_fields": 234, "columns": _spell_columns()},
+    # [Task W4-5] f55 filename - an internal uppercase class token, DISTINCT from
+    # name_enUS (the display name). Golden-proven by re-deriving DATAMINE-REQUEST.md
+    # Sec 11's three "silently dropped" CoA class dirs directly against
+    # work/dbc/ChrClasses.dbc: id14 name_enUS="Felsworn" filename="DEMONHUNTER",
+    # id19 "Templar"->"MONK", id20 "Bloodmage"->"SONOFARUGAL" - exact match. Doubly
+    # cross-checked against raw/interface/FrameXML/Data/CharacterAdvancement.lua's
+    # own `ClassRemap` table (`data.Class = ClassRemap[data.Class]`, applied to every
+    # CharacterAdvancementData entry at load time): every one of its ~32
+    # CAD-class-name -> token pairs equals this column's value for the matched
+    # ChrClasses row, including the four cases where the token is NOT a trivial
+    # uppercase of the display name (Runemaster->SPIRITMAGE, Primalist->WILDWALKER,
+    # Venomancer->PROPHET, "Knight of Xoroth"->FLESHWARDEN) - build_classes.py
+    # surfaces those four as `aliases`. Content sanity check (not just id/string
+    # matching): the DemonHunter CAD dir's own tab names (Class/Demonology/Felblood/
+    # Slaying) match ChrSpecs rows whose classToken=="DEMONHUNTER" tabToken-for-
+    # tabToken (FELBLOOD/SLAYING/DEMONOLOGY) - real content agreement, not a
+    # coincidental string join. This is also THE fix for ChrSpecs' 24 previously-
+    # unmatched classToken rows (tools/build_classmeta.py's by_norm join used only
+    # name_enUS): every one of those 24 rows carries a token from this exact
+    # filename set (DEMONHUNTER x3, MONK x3, SONOFARUGAL x4, FLESHWARDEN x3,
+    # PROPHET x4, WILDWALKER x4, SPIRITMAGE x3) - joining on filename as a fallback
+    # resolves all 24, taking specs.json's ChrClasses coverage from 25/32 to 32/32.
     "ChrClasses": {"expected_fields": 60, "columns": [
         ("id", 0, "u"), ("powerType", 2, "u"), ("petNameToken", 3, "s"),
         ("name_enUS", 4, "s"), ("filename", 55, "s"), ("spellClassSet", 56, "u"),
@@ -363,6 +458,37 @@ TABLE_MAPS = {
     # provable meaning of their own - left raw. f5-f10 are always 0 - left raw.
     "ChrClassesRoles": {"expected_fields": 11, "columns": [
         ("id", 0, "u"), ("roleMask", 1, "u"), ("specialAbilitySpellId", 4, "u"),
+    ]},
+    # [Task W4-5] CharacterAdvancementEssence (5600x9, coa-sim-handoff/DATAMINE-
+    # REQUEST.md Sec 7 + Sec 13 item 9). f0 ascending-unique row id (not carried).
+    # Golden-proven against work/dbc/CharacterAdvancementEssence.dbc directly (not
+    # copied from the doc): f1=level (1-80, dense per class), f2=classId (1-32,
+    # matches ChrClasses.dbc exactly). f7/f8 identified by the doc's own classless
+    # golden - f8=51 at level 60 for classId 1-9/11 is the classic 51-talent-point
+    # number, which only lines up if f7=Ability Essence and f8=Talent Essence:
+    #   - classId 1-9,11 (the 10 non-Hero "classless" ids) @ level 60: f7=60,f8=51 -
+    #     EXACT match to the doc's "classless classId 1-11 at L60 = (60,51)".
+    #   - classId 10 (Hero) @ level 60: f7=100,f8=51 - EXACT match to the doc's
+    #     "Hero classId 10 = 100/51".
+    #   - All 21 CoA-custom classId 12-32 share ONE identical curve: L10 (1,0) ->
+    #     L20 (6,5) -> L30 (11,10) -> L40 (16,15) -> L50 (21,20) -> L60 (26,25) ->
+    #     L70 (31,30) -> L80 (36,35) - EXACT match to the doc's cited curve.
+    # f3-f6 are 4 unnamed per-row flag columns (8 distinct combos observed, values
+    # 0/1 each) - left UNMAPPED (raw, not exposed via iter_named): for every class
+    # except Hero, all flag combos present for a given (classId, level) carry the
+    # IDENTICAL f7/f8 pair (verified: e.g. classId 12 level 60 reads (26,25) under
+    # both its flags(0,0,0,0) and flags(0,0,0,1) rows), so the flags are immaterial
+    # there. classId 10 (Hero) is the one exception - its 8 flag combos carry
+    # DIFFERENT f7/f8 pairs at the same level (level 60: (100,51)/(100,71)/(60,25)/
+    # (44,51) across combos) - an unresolved finding (Hero has no matched CAD class
+    # at all, see data/classes/index.json's unmatchedChrClasses, so this is inert
+    # for every real CoA character either way). tools/build_essence.py's canonical
+    # curve always selects the flags-(0,0,0,0) row, which is present EXACTLY ONCE
+    # for every (classId, level) pair (2,560/2,560 = 32 classes x 80 levels,
+    # verified) - a safe, deterministic, and doc-golden-reproducing selection rule.
+    "CharacterAdvancementEssence": {"expected_fields": 9, "columns": [
+        ("id", 0, "u"), ("level", 1, "u"), ("classId", 2, "u"),
+        ("abilityEssence", 7, "u"), ("talentEssence", 8, "u"),
     ]},
     # CharacterCreationArchetypes (56x157, "Choose your Archetype"-style character-
     # creation flavor presets, class-agnostic - no classId column exists in this
@@ -894,6 +1020,306 @@ TABLE_MAPS = {
     "ManastormPlayerGroupModifiers": {"expected_fields": 5, "columns": [
         ("id", 0, "u"),
     ]},
+    # v4 (task W4-2): gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+    # Sec 1.1 + Sec 13 item 1) - full re-derivation log in
+    # .superpowers/sdd/task-w4-2-report.md. Every table below is a genuinely
+    # single-column, ALL-FLOAT WDBC (record_size==4, one f32 per row - "value" is the
+    # only column and needs no per-column proof, same bar every other "f"-kind column
+    # in this file already clears). What actually needed proving is which ROW POSITION
+    # maps to which class/rating/level - a function of row index, not field index, so
+    # it lives here as a block comment rather than in a single column's tuple.
+    #
+    # PROVEN layout (independently re-derived against a FRESH 2026-08-06 extraction -
+    # not trusted from coa-sim-handoff's 2026-08-05 snapshot, since the live client
+    # patches independently of that capture):
+    #   idx = (classId - 1) * 100 + (level - 1)   gtChanceToMeleeCrit / gtChanceToSpellCrit /
+    #                                              gtRegenMPPerSpt / gtOCTRegenMP /
+    #                                              gtRegenHPPerSpt / gtOCTRegenHP (3200 rows =
+    #                                              32 classes x 100 levels; classId is the real
+    #                                              ChrClasses.dbc id, 1-32, Ascension's 21-custom
+    #                                              expansion of the stock 11-class table)
+    #   idx = classId - 1                          gtChanceToMeleeCritBase / gtChanceToSpellCritBase
+    #                                              (32 rows, one flat value per class, no level dim -
+    #                                              the brief's "*Base = 32 rows" golden, reproduced:
+    #                                              both tables' f.records == 32 on this extraction)
+    #   idx = cr * 100 + (level - 1)               gtCombatRatings (3200 rows = 32 RATING slots x
+    #                                              100 levels - the "class" position holds a RATING
+    #                                              index, not a ChrClasses id; matches TrinityCore's
+    #                                              sGtCombatRatingsStore.LookupEntry(cr*GT_MAX_LEVEL+
+    #                                              level-1) convention)
+    #   Every 100-level block's slot 99 ("level 100") holds the START of the block's NEXT
+    #   rating/class curve, not a real level-100 value - reverified at 3 fresh block boundaries
+    #   (gtCombatRatings blocks 0->1, 1->2, 15->16: slot 99 of block N == slot 0 of block N+1,
+    #   exact float equality, not just close). build_gt.py only ever curates levels 1-99
+    #   (indices 0-98) for this reason - the "level-100-slot trap."
+    #
+    # Goldens reproduced fresh on THIS task's extraction (sample; full log in the report):
+    #   - gtCombatRatings, level 80, 13/14 exact vs published WotLK constants: DEFENSE(cr1)
+    #     4.9185, DODGE(cr2)=PARRY(cr3) 45.2502, HIT_MELEE(cr5)=HIT_RANGED(cr6) 32.79,
+    #     HIT_SPELL(cr7) 26.232, CRIT_MELEE/RANGED/SPELL(cr8-10) 45.906, HASTE_MELEE/RANGED/
+    #     SPELL(cr17-19) 32.79, EXPERTISE(cr23) 8.1975 - all exact to 4dp. The 14th checked,
+    #     ARMOR_PENETRATION(cr24), is the one miss: 11.55 vs published 15.39 at level 80 (4.20
+    #     at level 60) - not a layout artifact (every neighboring rating matches exactly), an
+    #     [INFERRED] Ascension rebalance or pre-3.3.3 revision; see build_gt.py's _meta.json
+    #     "armorPenetrationAnomaly" caveat.
+    #   - gtChanceToMeleeCrit, agi-per-1%-crit @60/@80: Warrior/DeathKnight/KnightOfXoroth/
+    #     Guardian/Reaper 19.88/62.5; Paladin/Cultist/SunCleric 19.65/52.08; Mage/Pyromancer/
+    #     Stormbringer 22.62/51.02; Priest/Chronomancer 21.93/52.08; Warlock/Necromancer
+    #     21.01/50.51 (bit-identical raw floats between the two classes at every level - the
+    #     brief's CoA archetype-clone spot check); Hunter/WitchHunter/Tinker 33.22/83.33;
+    #     Barbarian 26.83 (original, not a clone); Primalist 18.71 (original) - the published
+    #     83.33/62.50/52.08 @80 trio lands on Hunter/Warrior/Paladin respectively.
+    #   - gtChanceToSpellCrit: Warrior/Rogue/DeathKnight/Barbarian/Guardian (pure-physical) =
+    #     0 at every level; Paladin/Hunter/Priest/Shaman/Mage/Warlock/Hero converge to the
+    #     canonical WotLK constants 80.00 int/1% @70 and 166.67 int/1% @80 exactly.
+    #
+    # cr-index identity for gtCombatRatings' 32 rating slots (0-31): 17 pinned to a published
+    # name (see the goldens above), 15 stay unnamed "cr<N>" per the empirical rule - a value
+    # coincidence is not proof (this file's own repeated trap). Three evidence tiers among the
+    # 17 named:
+    #   - 13 have an independent PUBLISHED level-80 anchor (cr1,2,3,5,6,7,8,9,10,17,18,19,23 -
+    #     DEFENSE/DODGE/PARRY/HIT_MELEE/HIT_RANGED/HIT_SPELL/CRIT_MELEE/CRIT_RANGED/CRIT_SPELL/
+    #     HASTE_MELEE/HASTE_RANGED/HASTE_SPELL/EXPERTISE) plus cr24 ARMOR_PENETRATION (named
+    #     despite failing the value match - its ROW IDENTITY is certain, only its number is
+    #     anomalous, see above).
+    #   - 2 (cr4 BLOCK 5.0/7.8846/16.395, cr0 WEAPON_SKILL 2.5/3.9423/8.1975) match only the
+    #     level-60 value DATAMINE-REQUEST.md Sec 1.1 quotes - no independent lvl70/80 anchor
+    #     was published for either. BLOCK's curve is UNIQUE among all 32 slots (safe to pin on
+    #     a unique exact match). WEAPON_SKILL's curve is NOT unique - cr0/20/21/22/23 are
+    #     bit-identical (a real structural group: WEAPON_SKILL + WEAPON_SKILL_MAINHAND/OFFHAND/
+    #     RANGED + EXPERTISE all share one curve in stock WotLK). cr0 is named WEAPON_SKILL on
+    #     the well-established convention that combat rating index 0 is always weapon skill
+    #     (TrinityCore/MaNGOS-era `CR_WEAPON_SKILL = 0`) and cr23 is named EXPERTISE because it
+    #     sits immediately before the independently-identified cr24 ARMOR_PENETRATION, matching
+    #     that same well-known enum's tail order - cr20/21/22 (presumably the MAINHAND/OFFHAND/
+    #     RANGED weapon-skill sub-ratings) have no independent value to tell them apart from
+    #     each other and stay unnamed cr20/cr21/cr22.
+    #   - 1: cr14 CRIT_TAKEN_MELEE ("Resilience" in-game). [Review fix pass, 2026-08-06]
+    #     DATAMINE-REQUEST.md Sec 1.1's level-60 table lists RESILIENCE=85.00, and cr14's
+    #     level-60 value is exactly 85.0. This was FIRST left unpinned (a single-level match
+    #     alone is the exact false-positive shape this file warns about elsewhere - Creature.
+    #     subname, DungeonEncounterExtra, SpellAddon f20-22) until a second, independent check
+    #     was run: cr14's level-60 value is UNIQUE across all 32 slots - the SAME evidentiary
+    #     tier already used to pin cr4 BLOCK from a level-60-only match, above. And in WotLK
+    #     mechanics the Resilience gear stat is not surfaced through a dedicated CR_RESILIENCE
+    #     slot at all - it drives CR_CRIT_TAKEN_MELEE/RANGED/SPELL (cr14/15/16 in the same
+    #     TrinityCore CombatRating enum already trusted for cr0-24), so cr14 is pinned with the
+    #     canonical enum name CRIT_TAKEN_MELEE rather than RESILIENCE. cr15/cr16 were checked
+    #     for the SAME individual-distinguishability bar and FAILED it: bit-identical to each
+    #     other at every one of the 99 curated levels (diverge only at the excluded level-100
+    #     slot) - no evidence says which is RANGED vs SPELL, so both stay unnamed cr15/cr16
+    #     rather than an arbitrary guess (the same discipline already applied to cr20/21/22).
+    #   - cr11/12/13 (10.0/10.0/8.0 @60, identical to HIT_MELEE/RANGED/SPELL) are structurally
+    #     HIT_TAKEN_MELEE/RANGED/SPELL and cr25-31 are nonzero-but-unpublished/all-zero curves -
+    #     none independently named, all raw signed-int-derived floats in curated output.
+    "gtCombatRatings": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToMeleeCrit": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToMeleeCritBase": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToSpellCrit": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtChanceToSpellCritBase": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtRegenMPPerSpt": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtOCTRegenMP": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtRegenHPPerSpt": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    "gtOCTRegenHP": {"expected_fields": 1, "columns": [("value", 0, "f")]},
+    # gtOCTClassCombatRatingScalar (1024x2) - Sec 1.1 warning 1: NOT covered by the
+    # class-major proof above, a different shape (1024 records x 2 fields). f0 decodes as
+    # an ASCENDING-UNIQUE row id 1-1024 (verified: row i's f0 == i+1 for every row on this
+    # extraction), not a (class,cr) composite - so the brief's inferred TrinityCore
+    # convention `(class-1)*32 + cr + 1` is only a hypothesis about what f0's VALUE would
+    # be if the table were laid out that way, and it is NOT independently distinguishable
+    # from "f0 is just this table's own positional PK" with the evidence available (both
+    # produce an ascending-unique 1..1024 sequence - indistinguishable from row order
+    # alone). f1 is the real scalar (float, e.g. row 0 decodes to 1.0). Left UNMAPPED
+    # (dump_unmapped raw f0/f1 + colinfo.json) per the brief's explicit instruction -
+    # no named curve output, only raw + evidence sidecar; see build_gt.py's _meta.json
+    # "octClassCombatRatingScalar" note for the same finding in the curated layer.
+    #
+    # gtNPCManaCostScaler (100x1) - extracted per Sec 1.1's own "may be worth taking"
+    # note, but its semantics (single 100-level curve, no class dimension at all - NPC
+    # mana-cost scaling, not player-facing) were never asked for in this task's brief
+    # and are out of scope for build_gt.py's curated output. Left UNMAPPED (raw + colinfo)
+    # so no semantic claim is made beyond "extracted, available for a future task."
+
+    # v5 (task W4-10): simulation-adjacent spell support tables (coa-sim-handoff/
+    # DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17). Full re-derivation log in
+    # .superpowers/sdd/task-w4-10-report.md. Of the 12 WANTED_DBCS_V5 tables, only
+    # SpellAffect and SpellStatSuggestions get proven column names below - the other
+    # 9 (SpellDifficulty, SummonProperties, SpellMissile, SpellShapeshiftForm,
+    # SpellFocusObject, CreatureSpellData, GlyphProperties, GlyphSlot,
+    # SpellItemEnchantmentCondition) were explicitly out of this task's curation scope
+    # (brief: "CURATION ONLY WHERE PROVEN: SpellAffect... SpellStatSuggestions...") -
+    # they ship raw f0..fN + colinfo.json evidence only, no TABLE_MAPS entry, so a
+    # future task has the evidence trail without an unverified semantic claim. One
+    # honest flag found in passing: SpellItemEnchantmentCondition's WDBC header
+    # DECLARES 31 fields (the real stock-WotLK 1+5*6 operand-condition shape) but its
+    # record_size only supports 16 (extract_mpq.py's headerMismatches caught this on
+    # base-table extraction - previously only ever seen on realm-overlay tables, see
+    # DBCFile's docstring) - DBCFile.fields (record_size//4) is what this pipeline
+    # trusts for row layout, so the raw dump is a true 16-column read, not a mistake;
+    # left unmapped rather than guessing which 16 of the stock 31 survived. Also
+    # observed in passing, not acted on (out of scope): SpellShapeshiftForm's own f2
+    # is bijective (61/61) and 100% string-likely ("Cat Form"/"Tree of Life"/"Travel
+    # Form" samples) - an obvious future id/name lookup pair, not named here because
+    # this task's curation scope was explicitly SpellAffect + SpellStatSuggestions
+    # + the SpellRank/SpellRankData.json comparison only.
+    #
+    # SpellAffect (36779x3, no strings) - DATAMINE-REQUEST.md Sec 9's own text carries
+    # the adversarial verifier's explicit refusal to confirm it ("I did not re-extract
+    # [it]... treat its unverified assertions as unconfirmed rather than established").
+    # This task re-extracted fresh (2026-08-06, not the coa-sim-handoff snapshot) and
+    # independently re-ran EVERY numeric claim in that subsection against this build's
+    # own work/dbc/Spell.dbc + work/dbc/SpellAffect.dbc + data/classes/ (the same
+    # class-tag machinery build_spells._coa_class_spell_ids() uses, generalized here to
+    # all 4 tags: vanilla/reborn/coa-custom/meta) - full log in the task report. Every
+    # claim reproduced, with two honest caveats noted below. VERDICT: Sec 9's account of
+    # this table is CONFIRMED, and it is NOT a CoA table (Bronzebeard/Area-52 legacy
+    # content) - EffectSpellClassMask (already mapped, task W4-3) remains the primary
+    # CoA talent-targeting channel.
+    #   - f1 join vs live Spell.dbc ids: 36779/36779 = 100.0000% exact (doc: "100.0%").
+    #   - raw UNSIGNED f2 join: 34371/36779 = 93.4528% (doc: "93.5%" - matches at the
+    #     doc's own precision). Negative f2 rows: 2407/36779 = 6.5445% (doc: "2,407 rows
+    #     = 6.5%" - EXACT count match).
+    #   - abs(SIGNED f2) join: 36778/36779 = 99.9973%, ONE ROW SHORT of the doc's flat
+    #     "100.0%" - row f0=354941 carries f2=83998 (abs), which does not resolve
+    #     against ANY live Spell.dbc id (a single removed/renumbered id, the same class
+    #     of historical churn this file already documents elsewhere - e.g. SpellTags'
+    #     86.26% raw rate). Named anyway: 99.9973% clears every bar this file uses
+    #     elsewhere, and the doc's "100.0%" was evidently rounded/approximate, not
+    #     literally exact - correcting that rounding here rather than repeating it.
+    #   - Golden 324 "Lightning Shield r1" -> f2=978816 "Assault and Battery": EXACT
+    #     match to the doc.
+    #   - Golden 2565 "Shield Block" -> f2 in {47294,47295,47296} "Critical Block r1-3":
+    #     EXACT match to the doc.
+    #   - Golden 12043 "Presence of Mind" -> the doc quotes "81328-81332 'Blizzard
+    #     (Hailstorm) r1-5'"; this build's f1=12043 rows actually span f2=81328..81336
+    #     (9 ids, all "Blizzard (Hailstorm)") PLUS a second, entirely separate block
+    #     f2=281800..281808 (9 ids, "Hailstorm") the doc's text never mentions at all -
+    #     the SEMANTIC finding holds (Presence of Mind's row set is real and thematically
+    #     coherent) but the doc's quoted id range is narrower than what is actually on
+    #     this row set; not a re-derivation failure, a transcription gap in the source
+    #     doc, corrected here rather than propagated.
+    #   - CoA-coverage-is-low finding: doc says "[o]f the 1,295 CoA spells carrying an
+    #     ADD_FLAT/PCT_MODIFIER aura, only 5 appear as f1 and 10 as |f2|." This build's
+    #     own CoA-custom-tag spell set carries the modifier aura (107/108, both proven
+    #     names in this file's AURA_NAMES) on 1269 spells (not 1295 - ordinary content
+    #     drift between snapshots, the same class of drift already seen throughout this
+    #     file, e.g. Spell.dbc's own 209125->209130 row-count drift) - but the two
+    #     headline counts reproduce EXACTLY: f1 hits = 5 (ids 92123, 92131, 300357,
+    #     800274, 805378), |f2| hits = 10 (502582-502590, 801708).
+    #   - Id-band overlap, re-derived against ALL FOUR data/classes/ tags, not just
+    #     coa-custom: f1 ∩ vanilla-tagged spell ids = 209, f1 ∩ reborn-tagged = 277,
+    #     f1 ∩ coa-custom-tagged = 5 - EXACT match to the doc's "f1 ∩ stock = 209, f1 ∩
+    #     Reborn = 277" (id band sizes: vanilla 4454, reborn 14107, coa-custom 6436 -
+    #     the 6,436 figure is itself an exact match to the doc's own headline CoA-set
+    #     size, corroborating the tag machinery is sound).
+    #   - Distinct |f2| values: 10684, of which 158 land in the 500k-600k CoA custom-
+    #     class id band - EXACT match to the doc's "158 of 10,684."
+    # f2 kept SIGNED ("i" kind, not abs'd) per this file's existing convention
+    # (NPCTrainer.spellId) of preserving a sentinel/exclusion sign rather than erasing
+    # it - the doc's own reading is that negative f2 carries "apparently exclusion
+    # semantics," unconfirmed beyond the sign's mere presence.
+    "SpellAffect": {"expected_fields": 3, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"), ("affectedSpellId", 2, "i"),
+    ]},
+    # SpellStatSuggestions (1121x4, no strings) - DATAMINE-REQUEST.md Sec 5.2's "cheap
+    # win": f0 ascending-unique 1..1121 (own row id). f1 golden-proven spellId: join
+    # vs live Spell.dbc ids 1120/1121 = 99.9108% (comfortably clears this file's 90%
+    # bar), and row id=1 decodes to (1, 10, 3, 1) - an EXACT match to the doc's own
+    # cited sample "(1, 10, 3, 1)... spell 10 is Blizzard", re-derived fresh (not
+    # copied) against this build's own work/dbc/SpellStatSuggestions.dbc.
+    # f2/f3 CHARACTERIZED, NOT proven, left unmapped/raw per the empirical-mapping
+    # rule: f3 is a constant 1 on every one of the 1121 rows - zero information, not a
+    # real column. f2 takes exactly 4 values (0/1/3/4, skipping 2) with counts
+    # {0:249, 1:298, 3:384, 4:190} - suggestive of a primary-stat CATEGORY (a golden
+    # spot check lines up thematically: Heroic Strike/Warrior->0, Sinister Strike/
+    # Rogue->1, Fireball/Frostbolt/Shadow Bolt/Lightning Bolt (all caster direct-
+    # damage)->3, Rejuvenation (heal)->4). Cross-validated against the ALREADY-SHIPPED
+    # raw/content/SpellToStatSuggestionData.json (2447 rows of per-spell Strength/
+    # Agility/Intellect/SpiritScore weights - a DIFFERENT, larger table, not this DBC
+    # in JSON form) over their 1078-spell overlap: trying all 24 permutations of
+    # {0,1,3,4} -> {STR,AGI,INT,SPI}, the best-fit mapping (0=STR, 1=AGI, 3=INT,
+    # 4=SPI - the same one the golden spot check suggests) agrees with that JSON's
+    # per-spell DOMINANT score on only 792/1078 = 73.5% of rows - well above the 25%
+    # random-4-way baseline (real signal) but short of this file's naming bar, so f2
+    # stays unnamed/raw ("statCategoryRaw" in data/spells/statSuggestions.json's
+    # per-row output, explicitly flagged unconfirmed there - see build_spells.py's
+    # _build_stat_suggestions()).
+    "SpellStatSuggestions": {"expected_fields": 4, "columns": [
+        ("id", 0, "u"), ("spellId", 1, "u"),
+    ]},
+    # SpellRank (23182x4, no strings) - compared against the ALREADY-INTEGRATED
+    # raw/content/SpellRankData.json (13311 rows of {firstSpellId, level, rank,
+    # spellId}, the sole rank-chain source build_spells.py's closure/rankChain/
+    # rankAt60 logic reads today - see _initial_refs/_rank_at_60_map/_record there).
+    # NOT identical coverage - re-derived directly, this table is neither a strict
+    # superset nor subset of the JSON: f0 ascending-unique 1..23182 (own row id). f1
+    # golden-proven firstSpellId: 100.0000% (23182/23182) join vs live Spell.dbc ids,
+    # and on rows where f3(rank)==1 (a chain's own first rank), f1==f2 on 3504/3507 =
+    # 99.9% of rows - the expected self-referential-root shape for a real firstSpellId
+    # column. f2 golden-proven spellId: 99.9784% (23177/23182) join vs live Spell.dbc
+    # ids. f3 golden-proven rank: range 1-25, matching SpellRankData.json's own "rank"
+    # field range exactly.
+    #   Coverage diff vs SpellRankData.json (9945-row overlap by spellId): firstSpellId
+    #   agrees on 9901/9945 = 99.56% of overlapping rows; rank agrees on only 9380/9945
+    #   = 94.32%, 565 mismatches - NOT a clean off-by-one: the diff histogram is +1 x266
+    #   (47.08% of the 565, the largest single bucket but under half), +2 x109, +3 x61,
+    #   +4 x37, +5 x41, +6 x20, +7 x4, +8 x5, +9..+14 x6 total, and a handful of
+    #   negatives (-1 x10, -2 x1, -5 x5) - e.g. spellId 8492: this table's rank=3 vs
+    #   JSON's rank=2 (+1), but plenty of others land at +2 or higher. Unexplained, left
+    #   as an open finding rather than guessed at. This
+    #   table carries 13237 spellId rows ABSENT from SpellRankData.json entirely, 99.96%
+    #   of which (13232/13237) are real, live Spell.dbc ids - i.e. this DBC has
+    #   meaningfully MORE real rank-chain coverage than the JSON currently wired into
+    #   the pipeline. SpellRankData.json in turn carries 3366 spellId rows absent from
+    #   this table (the "stale orphan rank chains" already documented in
+    #   build_spells.py's dataNotes).
+    # Named here for raw-dump clarity only (same precedent as SpellCharges/
+    # SpellChargesCategory above) - deliberately NOT wired into build_spells.py's
+    # closure/rankChain/rankAt60 logic by this task: SpellRankData.json remains the
+    # pipeline's single source of truth for rank chains, changing that is a
+    # dedicated REAL-WORK task (re-deriving every downstream pinned count), not a
+    # config-add. See AGENT-GUIDE.md's Honest limits for the pointer.
+    "SpellRank": {"expected_fields": 4, "columns": [
+        ("id", 0, "u"), ("firstSpellId", 1, "u"), ("spellId", 2, "u"), ("rank", 3, "u"),
+    ]},
+    # ItemStat (task W4-11b, 1,513,931 rows x 39 fields, no strings, 236MB body - too
+    # large for a single raw/dbc/ file, see dbc.CUSTOM_RAW_DUMP_TABLES and
+    # tools/build_items.py's sharded raw/dbc/itemstat/ dumper). DATAMINE-REQUEST.md
+    # Sec 8.2 + Sec 4 trap 8 flagged this table's keying as a prior audit's misread
+    # (f0 IS a unique monotonic row id, NOT the item id - trap 8's join=1.000 false
+    # positive is specifically about mistaking f0 for the key against Item.dbc's
+    # low ids). Only f1/f2 are named here - the letter's explicit scope; f3-f38's
+    # documented stat-pair/armor/damage/level-ramp layout (used below only to CHECK
+    # the golden, never independently named) stays raw pending a future task.
+    #
+    # Fresh re-derivation (2026-08-06, item 100248 "Beaststalker's Belt", NOT copied
+    # from the source doc) against a live wdb_item.py parse of
+    # E:\ascension-live\Cache\WDB\enUS\itemcache.wdb (8,393,618 bytes - byte-identical
+    # to the doc's own cited size, same client snapshot):
+    #   itemcache.wdb: itemLevel=61 armor=277 stats=[(3,13),(5,8),(7,9),(31,10),(38,17)]
+    #   ItemStat row f1=100248 f2=61: armor(f27)=277 pairs=[(3,13),(5,8),(7,9),(31,9),(38,17)]
+    # ARMOR EXACT, 4/5 stat pairs exact, statType 31 differs by exactly 1 (9 vs 10) -
+    # reproduces Sec 8.2's own "armor exact, 4 of 5 stats exact, hit differs by 1"
+    # claim verbatim. The f2=60 row (armor=271, pairs mostly halved) does NOT match,
+    # confirming f2 is a real per-row axis, not noise.
+    #
+    # f1 (itemId): 20,267 distinct values over 1,513,931 rows. Join vs live Item.dbc
+    # ids: 19,651/20,267 = 96.9606% (doc: 96.96%, exact match to 4sf). max(f1) =
+    # 9,200,579 vs Item.dbc's own max id 9,200,842 (doc's exact cross-reference,
+    # reproduced exactly). This alone is the trap-8-shaped false-positive risk the
+    # doc itself flags (Item.dbc's id space is only ~6% dense) - the row-BLOCK
+    # structure below is the real proof, not the join rate.
+    #
+    # f2 (ownItemLevel): 75 distinct values table-wide, EXACT match to the doc's cited
+    # set - dense 1-65, then sparse {86,88,91,94,96,98,99,101,103,105}. Per-item row-
+    # count histogram (grouping all 1,513,931 rows by f1): {75: 20171, 11: 48, 12: 44,
+    # 13: 2, 16: 1, 8: 1} - EXACT match to the doc's histogram, and it sums to exactly
+    # 20,267 (the distinct-f1 count above). Item 100248 itself is a 75-row item (full
+    # ladder) with f2 running 1..65 then the same 10-value sparse tail, confirming the
+    # per-item shape matches the global column shape.
+    "ItemStat": {"expected_fields": 39, "columns": [
+        ("itemId", 1, "u"), ("ownItemLevel", 2, "u"),
+    ]},
 }
 
 
@@ -1033,18 +1459,100 @@ def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Pat
         "string_block_size": strblock_size, "columns": columns,
     }
     (out_dir / f"{table}.colinfo.json").write_text(
-        json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+        json.dumps(colinfo, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
     return out
+
+
+def write_colinfo(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Path:
+    """Refresh ONLY the colinfo.json evidence sidecar for `table`, leaving any
+    CSV beside it alone.
+
+    dump_unmapped() writes the sidecar as a by-product of writing the raw
+    f0..fN dump, so a table that later gained a TABLE_MAPS entry stops going
+    through it and its committed sidecar freezes. 40 mapped tables were in
+    exactly that state - their .csv.gz regenerated on every build while their
+    .colinfo.json still described an older client, which is how a test came to
+    pin `SpellAffect.records == 36779` against a CSV holding 36,781 rows.
+    Calling this from dump_all() for any table that already HAS a sidecar keeps
+    the evidence as fresh as the data it describes, without inventing sidecars
+    for tables that never had one or re-dumping a named-header CSV as f0..fN."""
+    out_dir = out_dir if out_dir is not None else config.RAW_DBC_DIR
+    d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
+    f = DBCFile(d / f"{table}.dbc")
+    n = f.fields
+    strblock_size = len(f._strings)
+    records = f.records
+
+    distinct = [set() for _ in range(n)]
+    mins, maxs = [None] * n, [None] * n
+    zeros, strlike = [0] * n, [0] * n
+    samples = [[] for _ in range(n)]
+    for row in f.iter_rows():
+        for i in range(n):
+            v = row[i]
+            distinct[i].add(v)
+            if mins[i] is None or v < mins[i]:
+                mins[i] = v
+            if maxs[i] is None or v > maxs[i]:
+                maxs[i] = v
+            if v == 0:
+                zeros[i] += 1
+            if strblock_size > 0 and (
+                    v == 0 or (0 < v < strblock_size and f._strings[v - 1] == 0)):
+                strlike[i] += 1
+                if len(samples[i]) < 3:
+                    s = f.string(v)
+                    if s and s not in samples[i]:
+                        samples[i].append(s)
+
+    columns = []
+    for i in range(n):
+        likelihood = round(strlike[i] / records, 4) if records else 0.0
+        columns.append({
+            "index": i,
+            "distinct": len(distinct[i]),
+            "min": mins[i],
+            "max": maxs[i],
+            "pct_zero": round(zeros[i] / records, 4) if records else 0.0,
+            "string_likelihood": likelihood,
+            "samples": samples[i][:3] if likelihood >= 0.9 else [],
+        })
+
+    p = out_dir / f"{table}.colinfo.json"
+    p.write_text(json.dumps(
+        {"table": table, "records": records, "fields": n,
+         "string_block_size": strblock_size, "columns": columns},
+        indent=1, sort_keys=True, ensure_ascii=False),
+        encoding="utf-8", newline="\n")
+    return p
+
+
+# Tables whose raw dump does not fit the "one raw/dbc/<Table>.csv.gz file" shape
+# every other table uses - task W4-11b: ItemStat.dbc's body is 236MB (1,513,931
+# rows), hostile as a single committed file. dump_all() skips these entirely
+# (whether or not they also carry a TABLE_MAPS entry, e.g. ItemStat now does); the
+# owning module writes its own sharded raw evidence instead
+# (tools/build_items.py -> raw/dbc/itemstat/itemstat-<f1//50000>.csv.gz + index.json).
+CUSTOM_RAW_DUMP_TABLES = {"ItemStat"}
 
 
 def dump_all():
     config.ensure_dirs()
     for table in sorted(TABLE_MAPS):
+        if table in CUSTOM_RAW_DUMP_TABLES:
+            continue
         p = dump_table(table)
+        # A mapped table keeps whatever colinfo sidecar it was given while it
+        # was still unmapped. Refresh it here so it can never describe an older
+        # client than the CSV next to it - see write_colinfo().
+        if (config.RAW_DBC_DIR / f"{table}.colinfo.json").is_file():
+            write_colinfo(table)
+            print(f"dumped {p.name} (+ colinfo)")
+            continue
         print(f"dumped {p.name}")
     for name in sorted(config.WANTED_DBCS):
         table = Path(name).stem
-        if table in TABLE_MAPS:
+        if table in TABLE_MAPS or table in CUSTOM_RAW_DUMP_TABLES:
             continue
         p = dump_unmapped(table)
         print(f"dumped {p.name} (unmapped)")

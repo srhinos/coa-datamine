@@ -1,15 +1,23 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Class","Discipline","Fighting","Runes"],
  "class": "Monk",
- "classId": null,
+ "classId": 19,
  "entryCount": 377,
  "entryCounts": {"Ability":252,"Talent":116,"TalentAbility":9},
  "files": [
   {"cadIdRange":null,"count":63,"file":"Class.json","tab":"Class","type":null},
   {"cadIdRange":null,"count":91,"file":"Discipline.json","tab":"Discipline","type":null},
-  {"cadIdRange":null,"count":138,"file":"Fighting.json","tab":"Fighting","type":null},
+  {"cadIdRange":null,"count":99,"file":"Fighting.Ability.json","tab":"Fighting","type":"Ability"},
+  {"cadIdRange":null,"count":39,"file":"Fighting.Talent.json","tab":"Fighting","type":"Talent"},
   {"cadIdRange":null,"count":85,"file":"Runes.json","tab":"Runes","type":null}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":162,"live":158,"liveViaRank":3,"unknown":54},
+ "liveCountsByReason": {"deadCatalog":162,"indeterminate":54,"liveDirect":158,"liveViaRank":3},
+ "liveTabs": ["Zealot","Oathkeeper","Crusader","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 9
 }

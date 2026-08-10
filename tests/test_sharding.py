@@ -31,7 +31,37 @@ ALLOWLIST = {
 # "Regenerating after a client patch" contract (small delta = content churn).
 # 2026-08-01 rebuild after a further client patch: writer now produces 27470 against
 # the patched work/dbc snapshot (+31 vs. 27439) - re-pinned per the same contract.
-PRE_SPELL_COUNT = 27474
+# 2026-08-06 (task W4-1, incidental): a live client patch landed mid-task -
+# work/dbc/Spell.dbc went 209,125 -> 209,130 BASE rows (confirmed via file mtime,
+# unrelated to this task's enum-table changes, which touch only names/lookups, never
+# the referenced-id closure) - writer now produces 27475 (+1 vs. 27474). Re-pinned
+# per the same contract; every other invariant in this file (class entry counts,
+# dungeon count) was checked and is unchanged by the same patch.
+# 2026-08-06 (task W4-4, intentional): the writer now also closes over formula/
+# directive spell-id references embedded in description/tooltip text (depth-capped
+# at 2 - DATAMINE-REQUEST.md Sec 1.6), adding 1,476 new "formula"-tagged records on
+# top of the prior 27,475 (re-derived fresh, within this task's own +/-20% gate of
+# the doc's cited +1,843 - see AGENT-GUIDE.md and data/spells/_meta.json's
+# formulaClosure block for the full count breakdown). This is a real, intentional
+# widening of the writer's output, not client drift - re-pinned accordingly.
+# 2026-08-07 (scrub/variants task): the Ascension launcher live-patched the client
+# again DURING the preceding phases - base Spell.dbc moved 209,130 -> 209,135 ->
+# 209,140 and SpellAffect 36,779 -> 36,780 -> 36,781 across three rewrites. The
+# writer now produces 28,957 against the current snapshot (+6 vs. 28,951). Re-pinned
+# per AGENT-GUIDE's "Regenerating after a client patch" contract; the class entry
+# counts and dungeon count below were re-derived at the same time and are UNCHANGED,
+# which is what makes this a content-churn delta rather than a writer regression.
+# 2026-08-09 (live-seed pass, INTENTIONAL): the closure is no longer seeded from
+# the CAD catalog. It is seeded from LIVE truth - every live talent-node spell id,
+# plus every trainer/rank-ladder/catalog id the ability identity layer joins to one
+# - because the catalog seed reached only 1,963 of the 3,932 ids the live trees
+# reference (49.9%) while 1,966 of the missing ones sat in raw/tables/Spell the
+# whole time. That is a deliberate widening of the writer's output, not client
+# drift: 28,957 -> 32,820 (+3,863), and data/spells/_meta.json's liveCoverage now
+# gates live-node coverage at exactly 1.0. Re-pinned accordingly. The class entry
+# counts and dungeon count below are re-derived against the same 2026-08-09
+# snapshot in the same pass.
+PRE_SPELL_COUNT = 32820
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,
@@ -46,7 +76,10 @@ PRE_CLASS_ENTRY_COUNTS = {
     "Venomancer": 404, "Warlock": 302, "Warrior": 294, "WitchDoctor": 403,
     "WitchHunter": 392, "_other": 62,
 }
-PRE_DUNGEON_COUNT = 431
+# 2026-08-09 client patch: LFGDungeons lost one row, 431 -> 430. Snapshot-pin
+# drift, not a writer change - the class entry counts above were re-derived in the
+# same pass and are unchanged.
+PRE_DUNGEON_COUNT = 430
 
 # rebuild the curated layer fresh (work/dbc + raw/content already extracted/dumped -
 # do NOT re-extract; each build() is a few seconds at most)
@@ -88,13 +121,19 @@ meta = json.loads((sdir / "_meta.json").read_text(encoding="utf-8"))
 assert meta["count"] == PRE_SPELL_COUNT
 assert "missing_refs_by_source" not in meta, "full missing-ref lists must move out of _meta.json"
 missing = json.loads((sdir / "_missing_refs.json").read_text(encoding="utf-8"))
-assert set(missing) == {"cad_other", "cad_reborn", "talent", "rank"}
+# [Task W4-4] "formula" joins the source set - report-only bucket for formula-
+# referenced ids that don't resolve to a live Spell.dbc row (see build_spells.py).
+# "live" joined the buckets in the live-seed pass: ids that reached the closure
+# through live truth and no catalog/talent/rank row at all (its miss list is
+# gated at empty by build_spells itself - every live-node id must resolve).
+assert set(missing) == {"cad_other", "cad_reborn", "talent", "rank", "live",
+                        "formula"}
 for k, v in meta["missing_ref_counts_by_source"].items():
     assert len(missing[k]) == v
 # each source's array really is on one line (the amendment's compactness requirement)
 raw_lines = (sdir / "_missing_refs.json").read_text(encoding="utf-8").splitlines()
 array_lines = [ln for ln in raw_lines if ln.strip().startswith('"') and "[" in ln]
-assert len(array_lines) == 4
+assert len(array_lines) == len(meta["missing_ref_counts_by_source"]) == 6
 
 # ---- classes: per-class index completeness + count invariance ----
 cdir = config.DATA_DIR / "classes"

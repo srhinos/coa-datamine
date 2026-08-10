@@ -1,0 +1,225 @@
+{
+ "class": "WitchDoctor",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 28300,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7133,
+    "builderTab": "Brewing",
+    "identity": {
+     "abilityKey": "c13:tikisplash",
+     "abilityName": "Tiki Splash",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500053
+     ]
+    },
+    "matchedSpellId": 500053,
+    "reason": "liveDirect"
+   },
+   "name": "Brewing Witch Doctor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500053,
+     "name": "Tiki Splash",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Shadowhunting",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28259,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6525,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c13:gonksblessing",
+     "abilityName": "Gonk's Blessing",
+     "classId": 13,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806469
+     ]
+    },
+    "matchedSpellId": 806469,
+    "reason": "liveDirect"
+   },
+   "name": "Guile of Gonk",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 40,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806469,
+     "name": "Gonk's Blessing",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Shadowhunting",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28301,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:hexdoctor",
+     "abilityName": "Hex Doctor",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Shadowhunting Witch Doctor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500054,
+     "name": "Hex Doctor",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Shadowhunting",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28370,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_deathknight_roilingblood",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:lethargyjinx",
+     "abilityName": "Lethargy Jinx",
+     "classId": 13,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Slowness Jinx",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "Curse",
+     "id": 802065,
+     "name": "Lethargy Jinx",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Shadowhunting",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28299,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c13:puppeteersthreads",
+     "abilityName": "Puppeteer's Threads",
+     "classId": 13,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92084
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Voodoo Witch Doctor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500052,
+     "name": "Puppeteer's Threads",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Shadowhunting",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Shadowhunting",
+ "type": "Ability"
+}

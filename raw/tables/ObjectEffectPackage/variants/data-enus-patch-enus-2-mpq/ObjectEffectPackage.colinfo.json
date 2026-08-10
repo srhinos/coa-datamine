@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":27,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":482,"maxUnsigned":482,"minSigned":12,"minUnsigned":12,"negativeCount":0,"nonZeroCount":27,"rows":27,"string":{"applicable":true,"blockCoverageRate":0.080439,"blockSize":547,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":21.0,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.074074},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["TeleportTestPackage","HordeGunShip (IceCrown)"],"width":4},
+  {"evidence":{"distinct":27,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":527,"maxUnsigned":527,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":27,"rows":27,"string":{"applicable":true,"blockCoverageRate":0.998172,"blockSize":547,"controlCharOffsets":0,"distinctOffsets":27,"meanDecodedLength":19.222,"nonEmptyOffsets":27,"utf8DecodableOffsets":27,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift","Flying Machine Mount","Wintergrasp Catapult","Rocket Mount","SiegeVehicle"],"width":4}
+ ],
+ "file": "ObjectEffectPackage.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":27,"sizeReconciles":true,"stringBlockReferencedBytes":546,"stringBlockSize":547,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":783,"losers":[],"sha256":"255007a897d21eda2cd05cdec63ee662c3318c4e102e4dacfb5823745418ca18","winner":"Data/enUS/patch-enUS-2.MPQ"},
+ "table": "ObjectEffectPackage"
+}

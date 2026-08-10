@@ -20,6 +20,18 @@ unresolved" spell ids exist as an id in the REALM's own Spell.dbc - id-set membe
 only, report-only, no threshold), spellIdRange, and newSpellCount (realm Spell.dbc
 ids absent from the base client's Spell.dbc).
 
+[Review fix pass] missingRefResolution needs data/spells/_missing_refs.json. If that
+file is absent, build_realm RAISES by default rather than shipping an empty dict that
+reads as a measured zero (the silent degrade task W4-13 observed under a concurrent
+run). allow_missing_base=True instead writes missingRefResolution: null plus a
+`degraded` key naming the cause - the escape hatch for a caller that rebuilds this
+layer alone (the test suite does), never used by datamine.py's curation stage.
+
+This module has no __main__, and neither does any other builder: `python -m
+tools.build_realms` used to be a second way to rewrite part of data/ from whatever
+happened to be on disk, which is the drift class the single-entry-point rule exists
+to close. tests/test_dataset.py enforces the absence.
+
 [Task V3-2 finding] CharacterAdvancement.dbc's WDBC header declares FieldCount 179,
 but its record_size only fits 173 int32 fields (692/4) - the byte-accurate value
 tools/dbc.py's DBCFile now derives .fields from (see its docstring). Surfaced here as
@@ -34,13 +46,37 @@ AGENT-GUIDE.md.
 Amendment D (single-writer ownership): this module is the SOLE writer under
 raw/realms/ and data/realms/ - nothing else in this repo touches these paths. It
 does NOT touch raw/provenance.json (the base pipeline's top-level file, owned by
-tools/build_dataset.py's orchestrator, which wires a "realms" stage calling
+datamine.py's curation stage, which wires a "realms" stage calling
 this module's build() - see task V3-3)."""
 import json, shutil
 
-from tools import config, dbc, extract_realms
+from tools import coa_live, config, dbc, extract_realms, layerstate
 
 MIN_NEW_SPELL_COUNT = 10000     # brief's loose pin: realm spells measured ~= +30k vs base
+
+# [Task W4-13] Stamped onto every data/realms/<realm>/_meta.json so a consumer reading
+# only the dataset cannot mistake this layer for "the realm overlay" or for CoA data.
+# Evidence: .superpowers/sdd/task-w4-13-realm-report.md; summary in AGENT-GUIDE.md's
+# "Realm overlays" section.
+DELIVERY_MECHANISM = (
+    "area-52 is Free-Pick's overlay, NOT 'the realm overlay' - it is the only "
+    "realm-scoped data set the client has, for any realm. Data\\area-52\\ is written "
+    "by the LAUNCHER's patcher as part of the ordinary ascension-live product update "
+    "plan: across every patcher log on a reference install, 181 distinct Data/ paths "
+    "were ever written and exactly 2 of them are realm-scoped, both area-52, and "
+    "those writes PRECEDE any Area 52 session on that install by about two weeks. "
+    "Playing a realm does NOT materialize a Data\\<realm>\\ directory: a reference "
+    "install with sessions across 7 realms, including both Conquest of Azeroth "
+    "realms, still has exactly one, and a whole-install search finds exactly one "
+    "listarchive file. NOTE that Rexxar and Vol'jin are two realms of the SAME game "
+    "mode (Conquest of Azeroth, gameMode=11), not two content sets - there is no "
+    "per-realm CoA split to capture. CONSEQUENCE: CoA realms read the BASE chain, "
+    "base is what this dataset is built on, and the base-vs-area-52 Spell.dbc "
+    "dispute measured in overlay_diff.json is a Free-Pick-vs-base divergence, NOT a "
+    "CoA authority question. HONEST LIMIT: client files cannot observe SMSG traffic "
+    "- if CoA overrides are served server-side over the wire, nothing on disk would "
+    "show it, and only an in-game /dump on a CoA character can settle that half."
+)
 
 
 def _base_record_count(table: str):
@@ -55,16 +91,30 @@ def _base_record_count(table: str):
     return dbc.DBCFile(p).records
 
 
-def _missing_ref_resolution(realm_spell_ids: set) -> dict:
+def _missing_ref_resolution(realm_spell_ids: set):
     """Report-only evidence (no threshold, honest number either way): for each
     bucket in the base client's data/spells/_missing_refs.json (ids referenced by
     CAD/talent/rank chains but absent from the base Spell.dbc snapshot), how many
     of those ids exist as a real id in THIS realm's own Spell.dbc - id-set
     membership only, cheap, and the direct evidence for "the missing spells live
-    in a realm overlay". Returns {} if the base file doesn't exist on disk yet."""
+    in a realm overlay".
+
+    [Review fix pass] Returns (None, reason) instead of {} when the base file is
+    absent. It USED to return a bare {}, which build_realm then shipped as an
+    empty `missingRefResolution` in a published index.json - an evidence file
+    with no evidence, indistinguishable from a measured zero. Task W4-13 saw
+    exactly that happen for real (a concurrent build_spells rmtree of
+    data/spells/ removed _missing_refs.json mid-run) and the response was
+    documentation only. The degrade is now recorded in the output itself: a
+    consumer sees `missingRefResolution: null` plus a `degraded` key naming the
+    cause, and can never mistake it for a real measurement.
+    """
     p = config.DATA_DIR / "spells" / "_missing_refs.json"
     if not p.is_file():
-        return {}
+        return None, (f"data/spells/_missing_refs.json is absent ({p}) - the spells "
+                      "stage has not run, or its output was removed mid-run (see "
+                      "AGENT-GUIDE.md's one-at-a-time rule). missingRefResolution "
+                      "was NOT measured on this build; it is null, not zero.")
     missing_by_source = json.loads(p.read_text(encoding="utf-8"))
     return {
         source: {
@@ -72,12 +122,55 @@ def _missing_ref_resolution(realm_spell_ids: set) -> dict:
             "resolvedInRealm": sum(1 for i in ids if i in realm_spell_ids),
         }
         for source, ids in missing_by_source.items()
+    }, None
+
+
+MAX_LISTED_MISSING = 100
+
+
+def _live_node_coverage(realm_spell_ids: set):
+    """Which LIVE talent-node spell ids this realm's own Spell.dbc does not have.
+
+    The curated layer reads the BASE variant, and the reason is measured rather
+    than asserted: all 3,932 live-node ids resolve there and only 3,929 resolve in
+    area-52's overlay. That is the proof behind curate.BASE_VARIANT_RULE, but it
+    is also a fact a REALM-scoped consumer needs in its own file - reading
+    data/realms/<realm>/ alone, nothing else says that a handful of live CoA
+    abilities have no Spell row on this realm. Derived from raw/talents (the same
+    frozen capture the identity layer uses), so this stays a function of raw."""
+    live_ids = {int(sid) for cl in coa_live.live_index()["byClassId"].values()
+                for sid in cl["spellNodes"]}
+    missing = sorted(live_ids - realm_spell_ids)
+    out = {
+        "note": ("Live talent-node spell ids (raw/talents capture) that have no "
+                 "row in THIS realm's Spell.dbc. The curated layer is built from "
+                 "the base variant, where all of them resolve - see "
+                 "tools/curate.py BASE_VARIANT_RULE."),
+        "liveNodeIds": len(live_ids),
+        "resolvedInRealm": len(live_ids) - len(missing),
+        "missingInRealmCount": len(missing),
     }
+    if len(missing) <= MAX_LISTED_MISSING:
+        out["missingInRealm"] = missing
+    else:
+        out["missingInRealm"] = None
+        out["missingInRealmElided"] = (
+            f"{len(missing)} ids, past the {MAX_LISTED_MISSING}-id listing cap - "
+            "the realm is missing live content wholesale, which is a finding in "
+            "itself rather than a list to paste into an index file.")
+    return out
 
 
-def build_realm(realm: str) -> dict:
+def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     dbc_dir = config.WORK_REALMS_DIR / realm / "dbc"
     raw_dir = config.RAW_REALMS_DIR / realm / "dbc"
+    # This rmtree-then-rewrite is the same half-written-layer window every other
+    # extractor here guards, and it was the ONLY raw layer without the sentinel:
+    # a run killed between the delete and the last write left a truncated
+    # Spell.csv.gz and four sibling tables missing, and nothing downstream could
+    # tell that tree apart from a finished one. tests/test_dataset.py rewrites
+    # this layer, so the window is reached by the test suite, not just by builds.
+    layerstate.begin(raw_dir.parent)
     if raw_dir.exists():
         shutil.rmtree(raw_dir)
     raw_dir.mkdir(parents=True)
@@ -123,25 +216,45 @@ def build_realm(realm: str) -> dict:
         f"realm {realm}: newSpellCount {new_spell_count} <= {MIN_NEW_SPELL_COUNT} - "
         "overlay evidence weaker than the pinned expectation, re-verify before trusting")
 
+    # [Review fix pass] Fail loudly by default rather than publishing an evidence
+    # file with no evidence. allow_missing_base=True is the standalone-run escape
+    # hatch (a caller rebuilding this layer alone against a repo whose spells stage
+    # has not run yet) and stamps the degrade INTO index.json so it is visible in the
+    # committed data, not just in a console line nobody kept.
+    missing_ref_resolution, degraded = _missing_ref_resolution(realm_spell_ids)
+    if degraded and not allow_missing_base:
+        raise RuntimeError(f"realm {realm}: {degraded} Pass allow_missing_base=True "
+                           "to publish an explicitly-degraded index.json instead.")
+
     index = {
         "realm": realm,
         "tables": table_info,
         "spellIdRange": [min(realm_spell_ids), max(realm_spell_ids)],
         "newSpellCount": new_spell_count,
-        "missingRefResolution": _missing_ref_resolution(realm_spell_ids),
+        "missingRefResolution": missing_ref_resolution,
+        "liveNodeCoverage": _live_node_coverage(realm_spell_ids),
     }
+    if degraded:
+        index["degraded"] = degraded
 
+    # [Task W4-5 fix] Used to shutil.rmtree() the whole realm dir here before
+    # rewriting - harmless while this module was the ONLY writer under
+    # data/realms/<realm>/, but tools/diff_realm_overlay.py now also owns one file
+    # there (overlay_diff.json) and a wholesale rmtree would silently destroy it on
+    # every rebuild (the same class of bug the specs.json/archetypes.json survival
+    # gate exists to catch for build_classes vs. build_classmeta). This module still
+    # owns index.json/_meta.json exclusively and always rewrites them fully - it
+    # just no longer nukes files it doesn't own to do so.
     data_dir = config.DATA_REALMS_DIR / realm
-    if data_dir.exists():
-        shutil.rmtree(data_dir)
-    data_dir.mkdir(parents=True)
+    data_dir.mkdir(parents=True, exist_ok=True)
     (data_dir / "index.json").write_text(
-        json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+        json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
 
     meta = {
         "realm": realm,
         "mappedTables": sorted(t for t, v in table_info.items() if v["mapped"]),
         "unmappedTables": sorted(t for t, v in table_info.items() if not v["mapped"]),
+        "deliveryMechanism": DELIVERY_MECHANISM,
         "futureMilestone": (
             "Full realm spell/class curation (per-record enrichment of realm-only "
             "spells, mapping realm CharacterAdvancement/SpellRank data onto classes "
@@ -152,28 +265,58 @@ def build_realm(realm: str) -> dict:
         ),
     }
     (data_dir / "_meta.json").write_text(
-        json.dumps(meta, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+        json.dumps(meta, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8", newline="\n")
 
+    # Written last, and only when every gate above passed: a realm whose build
+    # raised leaves no sentinel, which is the point.
+    layerstate.finish(raw_dir.parent, {
+        "layer": f"realms/{realm}",
+        "generatedBy": "tools/build_realms.py (via tools.curate.run)",
+        "tableCount": len(table_info),
+        "recordTotal": sum(v["records"] for v in table_info.values()),
+        "mappedTables": sum(1 for v in table_info.values() if v["mapped"])})
     return index
 
 
-def build(skip_extract: bool = False) -> dict:
+def build(skip_extract: bool = False, allow_missing_base: bool = False,
+          realms: list = None) -> dict:
     """skip_extract mirrors the base pipeline's --skip-extract convention (task
     V3-3 orchestrator wiring): reuse an already-populated work/realms/<realm>/dbc/
     for every discovered realm instead of re-reading MPQ archives. Falls back to a
     real extract if any discovered realm has no cached dbc dir yet (first run,
-    or a newly-appeared realm directory)."""
+    or a newly-appeared realm directory).
+
+    allow_missing_base [review fix pass]: publish an explicitly-degraded
+    index.json (missingRefResolution: null + a `degraded` reason) when
+    data/spells/_missing_refs.json is absent, instead of raising. Off in the
+    pipeline - tools/curate.py always runs the spells stage first, so a
+    missing base file there means something went wrong and should be loud.
+
+    realms [live-seed pass]: the realm list, supplied by the caller. The
+    curation stage passes the realms the SNAPSHOT's own archive layout revealed, alongside the
+    work/realms/<r>/dbc trees it already materialized out of the harvest - so the
+    pipeline neither rescans the live client directory (config.discover_realms
+    stats the real install) nor reopens a realm archive. None keeps the
+    standalone behaviour: discover from disk, extract if not cached."""
     config.ensure_dirs()
-    realms = config.discover_realms()
+    from_snapshot = realms is not None
+    if realms is None:
+        realms = config.discover_realms()
     already_cached = realms and all(
         (config.WORK_REALMS_DIR / r / "dbc").is_dir() for r in realms)
-    if not (skip_extract and already_cached):
+    if from_snapshot and not already_cached:
+        raise SystemExit(
+            "FATAL: build_realms was handed a snapshot realm list but "
+            f"work/realms/<realm>/dbc is not populated for all of {realms} - "
+            "tools.curate.materialize_inputs must run first.")
+    if not (from_snapshot or (skip_extract and already_cached)):
         extract_realms.extract_all()
-    return {realm: build_realm(realm) for realm in realms}
-
-
-if __name__ == "__main__":
-    for realm, idx in build().items():
-        print(f"realm {realm}: newSpellCount={idx['newSpellCount']} "
-              f"spellIdRange={idx['spellIdRange']} "
-              f"missingRefResolution={idx['missingRefResolution']}")
+    layerstate.begin(config.RAW_REALMS_DIR)
+    out = {realm: build_realm(realm, allow_missing_base=allow_missing_base)
+           for realm in realms}
+    layerstate.finish(config.RAW_REALMS_DIR, {
+        "layer": "realms", "generatedBy": "tools/build_realms.py (via tools.curate.run)",
+        "realmCount": len(out), "realms": sorted(out),
+        "recordTotal": sum(v["records"] for idx in out.values()
+                           for v in idx["tables"].values())})
+    return out

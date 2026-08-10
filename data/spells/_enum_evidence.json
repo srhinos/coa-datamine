@@ -1,0 +1,2406 @@
+{
+ "_note": "57 of 224 unnamed-at-repo-start effect/aura ids (4 W4-1 bug fixes not counted here) carry a golden-verified name wired into enums335.py; the remaining 167 are bucket-classified per enum-triage.md's aggregate analysis but have no individually-cited golden that survived independent re-derivation, so they stay numeric (EFFECT_<n>/AURA_<n>) rather than being asserted. 'sidecarNamedIds' (59) is slightly higher than 'wiredIds' (57): a few bucket-C [INFERRED] auras carry a documentation-only name here without being wired into enums335.py, since bucket C is explicitly uncertain. 'occurrences.raw' counts every slot carrying that id across this build's CoA-referenced closure; 'occurrences.filtered' additionally excludes inert template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and aura occurrences are gated on the carrying effect being aura-applying per trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5.",
+ "auras": {
+  "1": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 5,
+    "raw": 5
+   }
+  },
+  "102": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "111": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 5,
+    "raw": 5
+   }
+  },
+  "112": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    11170
+   ],
+   "name": "OVERRIDE_CLASS_SCRIPTS",
+   "occurrences": {
+    "filtered": 381,
+    "raw": 413
+   }
+  },
+  "114": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 1
+   }
+  },
+  "115": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 12,
+    "raw": 12
+   }
+  },
+  "117": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 10,
+    "raw": 10
+   }
+  },
+  "118": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    12294
+   ],
+   "name": "MOD_HEALING_PCT",
+   "occurrences": {
+    "filtered": 250,
+    "raw": 360
+   }
+  },
+  "120": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 1
+   }
+  },
+  "122": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 60,
+    "raw": 62
+   }
+  },
+  "127": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 11,
+    "raw": 11
+   }
+  },
+  "128": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 2
+   }
+  },
+  "145": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 5,
+    "raw": 5
+   }
+  },
+  "146": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "147": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 13
+   }
+  },
+  "148": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "149": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    11083
+   ],
+   "name": "REDUCE_PUSHBACK",
+   "occurrences": {
+    "filtered": 102,
+    "raw": 104
+   }
+  },
+  "150": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 47,
+    "raw": 47
+   }
+  },
+  "151": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "152": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "156": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "158": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "163": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    10041
+   ],
+   "name": "MOD_CRIT_DAMAGE_BONUS",
+   "occurrences": {
+    "filtered": 138,
+    "raw": 140
+   }
+  },
+  "164": {
+   "bucket": "unknown",
+   "confidence": "unclassified",
+   "goldenSpells": [
+    803451
+   ],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "166": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    9199
+   ],
+   "name": "MOD_ATTACK_POWER_PCT",
+   "occurrences": {
+    "filtered": 107,
+    "raw": 109
+   }
+  },
+  "167": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 48,
+    "raw": 48
+   }
+  },
+  "168": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 20,
+    "raw": 21
+   }
+  },
+  "169": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "17": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 19,
+    "raw": 20
+   }
+  },
+  "171": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "172": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 20,
+    "raw": 20
+   }
+  },
+  "174": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    14901,
+    15031
+   ],
+   "name": "MOD_SPELL_DAMAGE_OF_STAT_PERCENT",
+   "occurrences": {
+    "filtered": 143,
+    "raw": 144
+   }
+  },
+  "175": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    14901,
+    15031
+   ],
+   "name": "MOD_SPELL_HEALING_OF_STAT_PERCENT",
+   "occurrences": {
+    "filtered": 106,
+    "raw": 109
+   }
+  },
+  "178": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 26,
+    "raw": 42
+   }
+  },
+  "179": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 28,
+    "raw": 28
+   }
+  },
+  "182": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 22,
+    "raw": 22
+   }
+  },
+  "184": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 33,
+    "raw": 33
+   }
+  },
+  "185": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 41,
+    "raw": 41
+   }
+  },
+  "186": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 71,
+    "raw": 73
+   }
+  },
+  "187": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 63,
+    "raw": 63
+   }
+  },
+  "188": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 19
+   }
+  },
+  "19": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 5,
+    "raw": 7
+   }
+  },
+  "191": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "192": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    2825
+   ],
+   "name": "MOD_MELEE_RANGED_HASTE",
+   "occurrences": {
+    "filtered": 165,
+    "raw": 169
+   }
+  },
+  "193": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 23,
+    "raw": 30
+   }
+  },
+  "195": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "197": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 35,
+    "raw": 89
+   }
+  },
+  "199": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "2": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "201": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 6,
+    "raw": 6
+   }
+  },
+  "202": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 4
+   }
+  },
+  "206": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "207": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 22,
+    "raw": 22
+   }
+  },
+  "208": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "209": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "210": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "211": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 14,
+    "raw": 14
+   }
+  },
+  "212": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    34501
+   ],
+   "name": "MOD_RANGED_ATTACK_POWER_OF_STAT_PERCENT",
+   "occurrences": {
+    "filtered": 49,
+    "raw": 49
+   }
+  },
+  "213": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 10,
+    "raw": 10
+   }
+  },
+  "214": {
+   "bucket": "C",
+   "confidence": "inferred",
+   "goldenSpells": [
+    27900,
+    806386
+   ],
+   "name": "MOD_PERIODIC_DAMAGE_TAKEN_PCT [INFERRED]",
+   "occurrences": {
+    "filtered": 22,
+    "raw": 24
+   }
+  },
+  "216": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    1714
+   ],
+   "name": "HASTE_SPELLS",
+   "occurrences": {
+    "filtered": 191,
+    "raw": 206
+   }
+  },
+  "218": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 7,
+    "raw": 7
+   }
+  },
+  "219": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 23,
+    "raw": 23
+   }
+  },
+  "220": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    21853
+   ],
+   "name": "MOD_RATING_FROM_STAT",
+   "occurrences": {
+    "filtered": 123,
+    "raw": 132
+   }
+  },
+  "222": {
+   "bucket": "C",
+   "confidence": "uncertain",
+   "goldenSpells": [
+    44586
+   ],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 0
+   }
+  },
+  "225": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 6
+   }
+  },
+  "227": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    15407
+   ],
+   "name": "PERIODIC_TRIGGER_SPELL_WITH_VALUE",
+   "occurrences": {
+    "filtered": 302,
+    "raw": 313
+   }
+  },
+  "229": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 51,
+    "raw": 53
+   }
+  },
+  "230": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 20,
+    "raw": 20
+   }
+  },
+  "232": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    12300,
+    9453
+   ],
+   "name": "MECHANIC_DURATION_MOD",
+   "occurrences": {
+    "filtered": 291,
+    "raw": 292
+   }
+  },
+  "234": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 52,
+    "raw": 52
+   }
+  },
+  "235": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 13
+   }
+  },
+  "236": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "237": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 21,
+    "raw": 27
+   }
+  },
+  "238": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 13
+   }
+  },
+  "239": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "240": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    10024
+   ],
+   "name": "MOD_EXPERTISE",
+   "occurrences": {
+    "filtered": 126,
+    "raw": 130
+   }
+  },
+  "241": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 12,
+    "raw": 13
+   }
+  },
+  "243": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 7,
+    "raw": 7
+   }
+  },
+  "245": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 19,
+    "raw": 19
+   }
+  },
+  "246": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 30,
+    "raw": 30
+   }
+  },
+  "248": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 6
+   }
+  },
+  "249": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "253": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 16,
+    "raw": 17
+   }
+  },
+  "254": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 7
+   }
+  },
+  "255": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 44,
+    "raw": 49
+   }
+  },
+  "256": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 6
+   }
+  },
+  "259": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 14
+   }
+  },
+  "261": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 1
+   }
+  },
+  "262": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 19,
+    "raw": 29
+   }
+  },
+  "263": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 6,
+    "raw": 22
+   }
+  },
+  "267": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "268": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    34501
+   ],
+   "name": "MOD_ATTACK_POWER_OF_STAT_PERCENT",
+   "occurrences": {
+    "filtered": 42,
+    "raw": 46
+   }
+  },
+  "271": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    17364
+   ],
+   "name": "MOD_DAMAGE_FROM_CASTER",
+   "occurrences": {
+    "filtered": 317,
+    "raw": 751
+   }
+  },
+  "272": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 2
+   }
+  },
+  "274": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 11,
+    "raw": 11
+   }
+  },
+  "275": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 9,
+    "raw": 13
+   }
+  },
+  "276": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "277": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "278": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 15
+   }
+  },
+  "279": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "280": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    2457,
+    12308
+   ],
+   "name": "MOD_ARMOR_PENETRATION_PCT",
+   "occurrences": {
+    "filtered": 95,
+    "raw": 101
+   }
+  },
+  "281": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "283": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 21,
+    "raw": 47
+   }
+  },
+  "284": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 12,
+    "raw": 22
+   }
+  },
+  "285": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    48978
+   ],
+   "name": "MOD_ATTACK_POWER_OF_ARMOR",
+   "occurrences": {
+    "filtered": 29,
+    "raw": 29
+   }
+  },
+  "286": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    58435,
+    63503
+   ],
+   "name": "ABILITY_PERIODIC_CRIT",
+   "occurrences": {
+    "filtered": 35,
+    "raw": 55
+   }
+  },
+  "287": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "290": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    14138,
+    14139,
+    14140
+   ],
+   "name": "MOD_CRIT_PCT",
+   "occurrences": {
+    "filtered": 217,
+    "raw": 225
+   }
+  },
+  "292": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "294": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 10,
+    "raw": 10
+   }
+  },
+  "301": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 25,
+    "raw": 25
+   }
+  },
+  "303": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    16858
+   ],
+   "name": "MOD_DAMAGE_DONE_VERSUS_AURASTATE",
+   "occurrences": {
+    "filtered": 25,
+    "raw": 28
+   }
+  },
+  "305": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 9,
+    "raw": 9
+   }
+  },
+  "308": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    23552
+   ],
+   "name": "MOD_CRIT_CHANCE_FOR_CASTER",
+   "occurrences": {
+    "filtered": 6,
+    "raw": 55
+   }
+  },
+  "312": {
+   "bucket": "C",
+   "confidence": "inferred",
+   "goldenSpells": [
+    92116,
+    804749
+   ],
+   "name": "IGNORE_MIN_RANGE [INFERRED]",
+   "occurrences": {
+    "filtered": 1,
+    "raw": 2
+   }
+  },
+  "313": {
+   "bucket": "C",
+   "confidence": "uncertain",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 6,
+    "raw": 19
+   }
+  },
+  "316": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 7,
+    "raw": 13
+   }
+  },
+  "317": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    705128,
+    60448
+   ],
+   "name": "COA_MOD_ABSORB_AND_HEAL_RECEIVED_PCT",
+   "occurrences": {
+    "filtered": 21,
+    "raw": 22
+   }
+  },
+  "318": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "319": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    74410
+   ],
+   "name": "COA_MOD_HEALING_RECEIVED_PCT",
+   "occurrences": {
+    "filtered": 17,
+    "raw": 17
+   }
+  },
+  "32": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 191,
+    "raw": 191
+   }
+  },
+  "320": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 1
+   }
+  },
+  "327": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    92132
+   ],
+   "name": "COA_MOD_STAT_FROM_STAT",
+   "occurrences": {
+    "filtered": 4,
+    "raw": 5
+   }
+  },
+  "328": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    300351
+   ],
+   "name": "COA_MOD_MAX_MANA_FROM_STAT",
+   "occurrences": {
+    "filtered": 10,
+    "raw": 10
+   }
+  },
+  "330": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    16454,
+    503298
+   ],
+   "name": "COA_MOD_CRIT_CHANCE_AGAINST_TARGET",
+   "occurrences": {
+    "filtered": 15,
+    "raw": 47
+   }
+  },
+  "333": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    12814,
+    11237
+   ],
+   "name": "COA_MOD_HIT_CHANCE_ALL_PCT",
+   "occurrences": {
+    "filtered": 159,
+    "raw": 164
+   }
+  },
+  "336": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    805756
+   ],
+   "name": "COA_BLOCK_TARGETING_IN_AREA",
+   "occurrences": {
+    "filtered": 0,
+    "raw": 8
+   }
+  },
+  "337": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "338": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    15280
+   ],
+   "name": "COA_MOD_IGNORE_ARMOR_PCT",
+   "occurrences": {
+    "filtered": 6,
+    "raw": 18
+   }
+  },
+  "340": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 2
+   }
+  },
+  "341": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 7,
+    "raw": 9
+   }
+  },
+  "344": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    1160
+   ],
+   "name": "COA_MOD_ATTACK_POWER_FLAT",
+   "occurrences": {
+    "filtered": 111,
+    "raw": 112
+   }
+  },
+  "345": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    1459,
+    1460,
+    1461
+   ],
+   "name": "COA_MOD_SPELL_POWER_FLAT",
+   "occurrences": {
+    "filtered": 132,
+    "raw": 147
+   }
+  },
+  "347": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    805306
+   ],
+   "name": "COA_NEXT_CAST_ATTACH_TRIGGER",
+   "occurrences": {
+    "filtered": 5,
+    "raw": 11
+   }
+  },
+  "348": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "350": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 6,
+    "raw": 6
+   }
+  },
+  "351": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "353": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 12,
+    "raw": 22
+   }
+  },
+  "354": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    300557,
+    500283
+   ],
+   "name": "COA_SCRIPTED_PASSIVE_WITH_VALUE",
+   "occurrences": {
+    "filtered": 169,
+    "raw": 170
+   }
+  },
+  "357": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "360": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    300343
+   ],
+   "name": "COA_MOD_HEALING_DONE_VERSUS_AURASTATE",
+   "occurrences": {
+    "filtered": 4,
+    "raw": 5
+   }
+  },
+  "365": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "44": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 13
+   }
+  },
+  "45": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "50": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 14,
+    "raw": 14
+   }
+  },
+  "58": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 11,
+    "raw": 12
+   }
+  },
+  "59": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "68": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 16
+   }
+  },
+  "71": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    300240
+   ],
+   "name": "MOD_SPELL_CRIT_CHANCE_SCHOOL",
+   "occurrences": {
+    "filtered": 128,
+    "raw": 130
+   }
+  },
+  "75": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 5
+   }
+  },
+  "83": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 8,
+    "raw": 8
+   }
+  },
+  "86": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 27,
+    "raw": 27
+   }
+  },
+  "88": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 19,
+    "raw": 19
+   }
+  },
+  "91": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 9,
+    "raw": 9
+   }
+  },
+  "92": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 3
+   }
+  },
+  "93": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 1
+   }
+  },
+  "98": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  }
+ },
+ "effects": {
+  "104": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 10,
+    "raw": 10
+   }
+  },
+  "105": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 28,
+    "raw": 28
+   }
+  },
+  "106": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "108": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    1604,
+    8146,
+    11641
+   ],
+   "name": "DISPEL_MECHANIC",
+   "occurrences": {
+    "filtered": 49,
+    "raw": 54
+   }
+  },
+  "109": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "114": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    355,
+    6795
+   ],
+   "name": "ATTACK_ME",
+   "occurrences": {
+    "filtered": 27,
+    "raw": 28
+   }
+  },
+  "118": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "119": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 171,
+    "raw": 173
+   }
+  },
+  "124": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 6
+   }
+  },
+  "125": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 13,
+    "raw": 13
+   }
+  },
+  "128": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    31634
+   ],
+   "name": "APPLY_AREA_AURA_FRIEND",
+   "occurrences": {
+    "filtered": 28,
+    "raw": 40
+   }
+  },
+  "129": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    30708
+   ],
+   "name": "APPLY_AREA_AURA_ENEMY",
+   "occurrences": {
+    "filtered": 26,
+    "raw": 36
+   }
+  },
+  "130": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 14,
+    "raw": 14
+   }
+  },
+  "131": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 4
+   }
+  },
+  "140": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    17607,
+    7853
+   ],
+   "name": "FORCE_CAST",
+   "occurrences": {
+    "filtered": 35,
+    "raw": 68
+   }
+  },
+  "141": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    41065
+   ],
+   "name": "FORCE_CAST_WITH_VALUE",
+   "occurrences": {
+    "filtered": 19,
+    "raw": 22
+   }
+  },
+  "143": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 37,
+    "raw": 41
+   }
+  },
+  "144": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "145": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 6
+   }
+  },
+  "146": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "148": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    43509
+   ],
+   "name": "TRIGGER_MISSILE_SPELL_WITH_VALUE",
+   "occurrences": {
+    "filtered": 25,
+    "raw": 25
+   }
+  },
+  "149": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    44357
+   ],
+   "name": "CHARGE_DEST",
+   "occurrences": {
+    "filtered": 20,
+    "raw": 21
+   }
+  },
+  "155": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 11,
+    "raw": 11
+   }
+  },
+  "164": {
+   "bucket": "A",
+   "confidence": "verified",
+   "goldenSpells": [
+    16193
+   ],
+   "name": "REMOVE_AURA",
+   "occurrences": {
+    "filtered": 98,
+    "raw": 149
+   }
+  },
+  "165": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    270151
+   ],
+   "name": "COA_MODIFY_COOLDOWN",
+   "occurrences": {
+    "filtered": 223,
+    "raw": 260
+   }
+  },
+  "166": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 20,
+    "raw": 23
+   }
+  },
+  "168": {
+   "bucket": "B",
+   "confidence": "unresolved",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 15,
+    "raw": 120
+   }
+  },
+  "169": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    281493
+   ],
+   "name": "COA_SPREAD_AURA",
+   "occurrences": {
+    "filtered": 38,
+    "raw": 45
+   }
+  },
+  "170": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    283989
+   ],
+   "name": "COA_SPREAD_AURA",
+   "occurrences": {
+    "filtered": 0,
+    "raw": 0
+   }
+  },
+  "171": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "173": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    47422
+   ],
+   "name": "COA_REFRESH_AURA",
+   "occurrences": {
+    "filtered": 19,
+    "raw": 19
+   }
+  },
+  "174": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 8,
+    "raw": 8
+   }
+  },
+  "175": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    300177,
+    300900
+   ],
+   "name": "COA_MODIFY_AURA_STACKS",
+   "occurrences": {
+    "filtered": 64,
+    "raw": 131
+   }
+  },
+  "176": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    92763
+   ],
+   "name": "COA_MODIFY_AURA_STACKS_2",
+   "occurrences": {
+    "filtered": 4,
+    "raw": 5
+   }
+  },
+  "177": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    271752
+   ],
+   "name": "COA_MODIFY_AURA_DURATION",
+   "occurrences": {
+    "filtered": 99,
+    "raw": 102
+   }
+  },
+  "178": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 29,
+    "raw": 29
+   }
+  },
+  "181": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 4
+   }
+  },
+  "183": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    92709
+   ],
+   "name": "COA_TRIGGER_SPELL_DELAYED",
+   "occurrences": {
+    "filtered": 86,
+    "raw": 96
+   }
+  },
+  "184": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    278095
+   ],
+   "name": "COA_TRIGGER_RANDOM_SPELL",
+   "occurrences": {
+    "filtered": 3,
+    "raw": 4
+   }
+  },
+  "187": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    283146,
+    284871
+   ],
+   "name": "COA_RESTORE_SPELL_CHARGES",
+   "occurrences": {
+    "filtered": 26,
+    "raw": 26
+   }
+  },
+  "190": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    300240,
+    300748
+   ],
+   "name": "COA_APPLY_AURA_TO_SUMMONS",
+   "occurrences": {
+    "filtered": 102,
+    "raw": 146
+   }
+  },
+  "192": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 57,
+    "raw": 58
+   }
+  },
+  "193": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "195": {
+   "bucket": "B",
+   "confidence": "verified",
+   "goldenSpells": [
+    290199,
+    300368
+   ],
+   "name": "COA_RESET_COOLDOWN",
+   "occurrences": {
+    "filtered": 61,
+    "raw": 66
+   }
+  },
+  "197": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 6,
+    "raw": 6
+   }
+  },
+  "198": {
+   "bucket": "B",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "22": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "23": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "25": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 10,
+    "raw": 10
+   }
+  },
+  "26": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "42": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 18,
+    "raw": 27
+   }
+  },
+  "43": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 2
+   }
+  },
+  "47": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "50": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 26,
+    "raw": 30
+   }
+  },
+  "55": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 4,
+    "raw": 4
+   }
+  },
+  "59": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "60": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 15,
+    "raw": 15
+   }
+  },
+  "69": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 1,
+    "raw": 1
+   }
+  },
+  "71": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 0,
+    "raw": 2
+   }
+  },
+  "72": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "79": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 13
+   }
+  },
+  "85": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  },
+  "90": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 2,
+    "raw": 2
+   }
+  },
+  "93": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 6,
+    "raw": 10
+   }
+  },
+  "94": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 16,
+    "raw": 16
+   }
+  },
+  "97": {
+   "bucket": "A",
+   "confidence": "undocumented",
+   "goldenSpells": [],
+   "name": null,
+   "occurrences": {
+    "filtered": 3,
+    "raw": 3
+   }
+  }
+ },
+ "summary": {
+  "auraIds": 158,
+  "byBucket": {
+   "A": 173,
+   "B": 46,
+   "C": 4,
+   "unknown": 1
+  },
+  "classifiedIds": 224,
+  "effectIds": 66,
+  "numericFallbackIds": 167,
+  "sidecarNamedIds": 59,
+  "wiredIds": 57
+ }
+}

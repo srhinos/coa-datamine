@@ -1,0 +1,61 @@
+# The raw table layer is byte-exact generated output: every shard's sha256 is
+# recorded in its table index, and `python -m tools.decode_all` must reproduce
+# the working tree byte for byte on any platform. Git's autocrlf would rewrite
+# line endings on checkout and break both. Never translate anything under it.
+raw/tables/** -text
+
+# Same reasoning, same guarantee, for the non-DBC raw layers. Each of these
+# records sha256s that are checked against the bytes on disk - the Interface
+# census (`bytesAt` -> sha256, gated by tests/test_raw_layers.py), the .loc and
+# WDB shards, and the shard hashes in each index.json - and each extractor is
+# gated on reproducing its output byte for byte. A CRLF rewrite on checkout
+# would invalidate all of it at once, on Windows clones only, silently.
+#
+raw/content/** -text
+raw/interface/** -text
+raw/interface_all/** -text
+raw/cache/** -text
+raw/README.md -text
+
+# The rest of the generated tree, added after the narrow scope above proved to
+# be the wrong call. `raw/interface/**` was committed under core.autocrlf=true
+# BEFORE it had an attribute here, so git stripped CR on add: 212 of the 1,456
+# files the Interface census points `bytesAt` at no longer hashed to their
+# recorded sha256, and the repo did not contain the client's bytes. Adding the
+# attribute afterwards froze the damage in place instead of undoing it (the fix
+# was to re-extract from the client with the attribute already in force).
+#
+# Every path below writes bytes some index records a sha256 for, so all of them
+# were exposed to exactly that failure. Left un-attributed, `raw/_inventory` and
+# `raw/realms` would have been next. Widening costs nothing: these files are
+# generated LF-only, so with `-text` the index bytes and the working tree agree
+# on every platform instead of only on Linux. `data/**` is the legacy curated
+# tree; it is covered for the same reason, and its committed bytes are unchanged
+# by the widening (they were already LF in the index - only the working-tree
+# copy was being rewritten on checkout).
+raw/_inventory/** -text
+raw/dbc/** -text
+raw/realms/** -text
+raw/talents/** -text
+raw/provenance.json -text
+data/** -text
+
+# The generated search catalog. tools/build_catalog.py must reproduce all four
+# files byte for byte on any platform - tests/test_catalog.py regenerates them
+# and compares sha256 - so a CRLF rewrite on checkout would fail the gate on
+# Windows clones only, and silently.
+raw/_catalog/** -text
+CATALOG.md -text
+
+# The binaries layer. Its shards, its recovered Lua chunks and its resource
+# payloads are all bytes lifted verbatim out of a PE image, every one of them
+# with a sha256 recorded in an index and re-checked against the client by
+# tests/test_binaries.py. A CRLF rewrite on checkout would corrupt the recovered
+# script and break every hash at once, on Windows clones only.
+raw/binaries/** -text
+
+# The recovery layer. Same reasoning again: every shard under it is generated
+# LF-only and carries sha256/md5 values that are checked against bytes, and any
+# recovered member bytes under it are stored verbatim - a CRLF rewrite on
+# checkout would corrupt those outright.
+raw/recovered/** -text

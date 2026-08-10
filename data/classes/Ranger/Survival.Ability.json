@@ -1,0 +1,4935 @@
+{
+ "class": "Ranger",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 18355,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsachievement_boss_edwinvancleef",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:adaptationbrigand",
+     "abilityName": "Adaptation: Brigand",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Adaptation: Bandit",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 11,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800089,
+     "name": "Adaptation: Brigand",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18757,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsAbility_Hunter_SteadyShot",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34157,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c21:pinpointaccuracy",
+     "abilityName": "Pinpoint Accuracy",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801468
+     ]
+    },
+    "matchedSpellId": 801468,
+    "reason": "liveDirect"
+   },
+   "name": "Adaptation: Bowman",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 11,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801468,
+     "name": "Pinpoint Accuracy",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19811,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_bow_2h_crossbow_panstart_a_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:adaptationfarstrider",
+     "abilityName": "Adaptation: Farstrider",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Adaptation: Crossbowman",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805736,
+     "name": "Adaptation: Farstrider",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28323,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:skirmisher",
+     "abilityName": "Skirmisher",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92115
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Archery Ranger",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500022,
+     "name": "Skirmisher",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7756,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "INV_Weapon_Bow_02",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:autoshot",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Auto Shot",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 75,
+     "name": "Auto Shot",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20142,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:autoshot",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Auto Shot",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 75,
+     "name": "Auto Shot",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28278,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_karoz_leap",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34184,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:backstep",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800685
+     ]
+    },
+    "matchedSpellId": 800685,
+    "reason": "liveDirect"
+   },
+   "name": "Backstep",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800685,
+     "name": "Backstep",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19870,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_rogue_unfairadvantage",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 11255,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:battleprowess",
+     "abilityName": "Battle Prowess",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805888
+     ]
+    },
+    "matchedSpellId": 805888,
+    "reason": "liveDirect"
+   },
+   "name": "Battleweaver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805888,
+     "name": "Battle Prowess",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7983,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_weapon_shortblade_98",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30932,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:woodlandarrow",
+     "abilityName": "Woodland Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806368
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 806368,
+    "reason": "liveDirect"
+   },
+   "name": "Blade of the Sin'dorei",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806368,
+     "name": "Woodland Arrow",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20022,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_weapon_shortblade_98",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30932,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:woodlandarrow",
+     "abilityName": "Woodland Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806368
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 806368,
+    "reason": "liveDirect"
+   },
+   "name": "Blade of the Sin'dorei",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806368,
+     "name": "Woodland Arrow",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7229,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_D3clusterarrow",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 19631,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:emeraldarrow",
+     "abilityName": "Emerald Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804712
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804712,
+    "reason": "liveDirect"
+   },
+   "name": "Blast Arrow",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804712,
+     "name": "Emerald Arrow",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19420,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3clusterarrow",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 19631,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:emeraldarrow",
+     "abilityName": "Emerald Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804712
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804712,
+    "reason": "liveDirect"
+   },
+   "name": "Blast Arrow",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804712,
+     "name": "Emerald Arrow",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18173,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_AimedShot_Green",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:searingquiver",
+     "abilityName": "Searing Quiver",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Burning Quiver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500103,
+     "name": "Searing Quiver",
+     "ranks": null,
+     "schools": [
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 4030,
+   "expansion": 0,
+   "flags": 8194,
+   "icon": "Trade_Engineering",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4030,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:dreamflowers",
+     "abilityName": "Dream Flowers",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92117
+     ]
+    },
+    "matchedSpellId": 92117,
+    "reason": "liveDirect"
+   },
+   "name": "Conquest of Azeroth Specialization - Ranger (Survival)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "4294967295",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 92117,
+     "name": "Dream Flowers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7980,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_hunter_pathfinding2",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:coordination",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      520621
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Coordination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806362,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20019,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_hunter_pathfinding2",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:coordination",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      520621
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Coordination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806362,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18350,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsAbility_Rogue_HonorAmongstThieves",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29331,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c21:briarveil",
+     "abilityName": "Briar Veil",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800084
+     ]
+    },
+    "matchedSpellId": 800084,
+    "reason": "liveDirect"
+   },
+   "name": "Counterblades",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 14,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800084,
+     "name": "Briar Veil",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6272,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Misc_Map02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:readmap",
+     "abilityName": "Read Map",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Leather Map",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800272,
+     "name": "Read Map",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18447,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Misc_Map02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:readmap",
+     "abilityName": "Read Map",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Leather Map",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800272,
+     "name": "Read Map",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6269,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Drink_Milk_02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:waterskin",
+     "abilityName": "Waterskin",
+     "classId": 21,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Leather Waterskin",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800269,
+     "name": "Waterskin",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 800269
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501748
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501749
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501750
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501751
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501752
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501753
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501754
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501755
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501756
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18444,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Drink_Milk_02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:waterskin",
+     "abilityName": "Waterskin",
+     "classId": 21,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Leather Waterskin",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800269,
+     "name": "Waterskin",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 800269
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501748
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501749
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501750
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501751
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501752
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501753
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501754
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501755
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501756
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6268,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Chest_Wolf",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:craftmakeshiftleatherarmor",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Armor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800268,
+     "name": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 800268
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 501738
+      },
+      {
+       "level": 16,
+       "rank": 3,
+       "spellId": 501739
+      },
+      {
+       "level": 23,
+       "rank": 4,
+       "spellId": 501740
+      },
+      {
+       "level": 30,
+       "rank": 5,
+       "spellId": 501741
+      },
+      {
+       "level": 37,
+       "rank": 6,
+       "spellId": 501742
+      },
+      {
+       "level": 45,
+       "rank": 7,
+       "spellId": 501743
+      },
+      {
+       "level": 52,
+       "rank": 8,
+       "spellId": 501744
+      },
+      {
+       "level": 59,
+       "rank": 9,
+       "spellId": 501745
+      },
+      {
+       "level": 66,
+       "rank": 10,
+       "spellId": 501746
+      },
+      {
+       "level": 74,
+       "rank": 11,
+       "spellId": 501747
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18443,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Chest_Wolf",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:craftmakeshiftleatherarmor",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Armor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800268,
+     "name": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 800268
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 501738
+      },
+      {
+       "level": 16,
+       "rank": 3,
+       "spellId": 501739
+      },
+      {
+       "level": 23,
+       "rank": 4,
+       "spellId": 501740
+      },
+      {
+       "level": 30,
+       "rank": 5,
+       "spellId": 501741
+      },
+      {
+       "level": 37,
+       "rank": 6,
+       "spellId": 501742
+      },
+      {
+       "level": 45,
+       "rank": 7,
+       "spellId": 501743
+      },
+      {
+       "level": 52,
+       "rank": 8,
+       "spellId": 501744
+      },
+      {
+       "level": 59,
+       "rank": 9,
+       "spellId": 501745
+      },
+      {
+       "level": 66,
+       "rank": 10,
+       "spellId": 501746
+      },
+      {
+       "level": 74,
+       "rank": 11,
+       "spellId": 501747
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6270,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Boots_Mail_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:ridersharness",
+     "abilityName": "Rider's Harness",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Boots",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800270,
+     "name": "Rider's Harness",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18445,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Boots_Mail_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:ridersharness",
+     "abilityName": "Rider's Harness",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Boots",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800270,
+     "name": "Rider's Harness",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6271,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Shoulder_08",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:craftmakeshiftleatherpauldrons",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Pauldrons",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800271,
+     "name": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 800271
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 501757
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 501758
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 501759
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 501760
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 501761
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 501762
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 501763
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18446,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Shoulder_08",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:craftmakeshiftleatherpauldrons",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Pauldrons",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800271,
+     "name": null,
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 800271
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 501757
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 501758
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 501759
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 501760
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 501761
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 501762
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 501763
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6273,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Hunter_WildQuiver",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:knottedcord",
+     "abilityName": "Knotted Cord",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Quiver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800274,
+     "name": "Knotted Cord",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18448,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Hunter_WildQuiver",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:knottedcord",
+     "abilityName": "Knotted Cord",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Craft: Makeshift Leather Quiver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800274,
+     "name": "Knotted Cord",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 8540,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "INV_Weapon_Crossbow_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:crossbows",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Crossbows",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 5011,
+     "name": "Crossbows",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20144,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:crossbows",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Crossbows",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 5011,
+     "name": "Crossbows",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7259,
+   "expansion": 0,
+   "flags": 32769,
+   "icon": "ability_hunter_traplauncher",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:forestwoodkey",
+     "abilityName": "Forestwood Key",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Disarm Trap",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804759,
+     "name": "Forestwood Key",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19449,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_hunter_traplauncher",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:forestwoodkey",
+     "abilityName": "Forestwood Key",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Disarm Trap",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 22,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804759,
+     "name": "Forestwood Key",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19427,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_skyreach_dismount",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29144,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c21:cripplingshot",
+     "abilityName": "Crippling Shot",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804725
+     ]
+    },
+    "matchedSpellId": 804725,
+    "reason": "liveDirect"
+   },
+   "name": "Dismounting Shot",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 28,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804725,
+     "name": "Crippling Shot",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7228,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_rogue_preparation",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:diversion",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Diversion",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 804711,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19419,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_rogue_preparation",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:diversion",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Diversion",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 804711,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19098,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_bastion_rogue",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:dueling",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Dueling",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 803110,
+     "name": "Dueling",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28324,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:ravager",
+     "abilityName": "Ravager",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92116
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Dueling Ranger",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500024,
+     "name": "Ravager",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19097,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_rogue_rollthebones02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5430,
+    "builderTab": "Brigand",
+    "identity": {
+     "abilityKey": "c21:assault",
+     "abilityName": "Assault",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      803108
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 803108,
+    "reason": "liveDirect"
+   },
+   "name": "Duelist Strike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803108,
+     "name": "Assault",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 803108
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 503099
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 503100
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 503101
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 503102
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 503103
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 503104
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 503105
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6558,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "ability_hunter_camouflage",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:elude",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow",
+     "liveNodeTriggerSpell"
+    ]
+   },
+   "name": "Elude",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 13,
+   "spells": [
+    {
+     "dispel": "Stealth",
+     "id": 801345,
+     "name": "Elude",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18737,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_hunter_camouflage",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:elude",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow",
+     "liveNodeTriggerSpell"
+    ]
+   },
+   "name": "Elude",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 7,
+   "spells": [
+    {
+     "dispel": "Stealth",
+     "id": 801345,
+     "name": "Elude",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18437,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_hunter_exoticmunitions_incendiary",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:poisonquiver",
+     "abilityName": "Poison Quiver",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Envenom Munitions",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800260,
+     "name": "Poison Quiver",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19102,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_axe_1h_draenorquest95_b_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:venomblade",
+     "abilityName": "Venom Blade",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Exploit",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "Poison",
+     "id": 803116,
+     "name": "Venom Blade",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7975,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_skyreach_swarm",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:falcondive",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Falcon Dive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806341,
+     "name": "Falcon Dive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20014,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_skyreach_swarm",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:falcondive",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Falcon Dive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806341,
+     "name": "Falcon Dive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7231,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_skyreach_castdown",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34181,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:falconscall",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804715
+     ]
+    },
+    "matchedSpellId": 804715,
+    "reason": "liveDirect"
+   },
+   "name": "Falcon's Call",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804715,
+     "name": "Falcon's Call",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19422,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_skyreach_castdown",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34181,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:falconscall",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804715
+     ]
+    },
+    "matchedSpellId": 804715,
+    "reason": "liveDirect"
+   },
+   "name": "Falcon's Call",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804715,
+     "name": "Falcon's Call",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18441,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsAbility_Hunter_MasterMarksman",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:woodsmansadaptation",
+     "abilityName": "Woodsman's Adaptation",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Falcon's Focus",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800266,
+     "name": "Woodsman's Adaptation",
+     "ranks": null,
+     "schools": [
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7977,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "artifactability_survivalhunter_eaglesbite",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:falconstrike",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      573060
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Falconstrike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806345,
+     "name": "Falconstrike",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20016,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "artifactability_survivalhunter_eaglesbite",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:falconstrike",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      573060
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Falconstrike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806345,
+     "name": "Falconstrike",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28277,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_Whirlwind_Orange",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:farstriderranger",
+     "abilityName": "Farstrider Ranger",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Farstrider",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800243,
+     "name": "Farstrider Ranger",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28325,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:farstriderranger",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Farstrider Ranger",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500027,
+     "name": "Farstrider Ranger",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18153,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_rapidfire",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rapidbarrage",
+     "abilityName": "Rapid Barrage",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hail of Arrows",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500072,
+     "name": "Rapid Barrage",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 8541,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "_D3spiketrap",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:hitratingalpha",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20145,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:hitratingalpha",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6490,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_misc_2h_harpoon_b_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:javelintoss",
+     "abilityName": "Javelin Toss",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Impale",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801081,
+     "name": "Javelin Toss",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18669,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_misc_2h_harpoon_b_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:javelintoss",
+     "abilityName": "Javelin Toss",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Impale",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801081,
+     "name": "Javelin Toss",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7209,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "ability_racial_returntocamp",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:campsite",
+     "abilityName": "Campsite",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Make Camp",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 22,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804682,
+     "name": "Campsite",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19399,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_racial_returntocamp",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:campsite",
+     "abilityName": "Campsite",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Make Camp",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 17,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804682,
+     "name": "Campsite",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 8539,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "Ability_Parry",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:parry",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Parry",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 3124,
+     "name": "Parry",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20143,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:parry",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Parry",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 3124,
+     "name": "Parry",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28363,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_hunter_traplauncher",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:pathfinder",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706284
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Pathfinder",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500336,
+     "name": "Pathfinder",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18155,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_hunter_focusfire",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:quickshot",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Quick Shot",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500074,
+     "name": "Quick Shot",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6913,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_hunter_posthaste",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangergeneralscommand",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger General's Command",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 803118,
+     "name": "Ranger General's Command",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19104,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_hunter_posthaste",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangergeneralscommand",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger General's Command",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 803118,
+     "name": "Ranger General's Command",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6180,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Misc_Horn_04",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangershornofcoordination",
+     "abilityName": "Ranger's Horn of Coordination",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger's Horn of Alacrity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800087,
+     "name": "Ranger's Horn of Coordination",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18353,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "INV_Misc_Horn_04",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangershornofcoordination",
+     "abilityName": "Ranger's Horn of Coordination",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger's Horn of Alacrity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800087,
+     "name": "Ranger's Horn of Coordination",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6181,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Misc_Horn_02",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:hornofperseverance",
+     "abilityName": "Horn of Perseverance",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ranger's Horn of Coordination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800088,
+     "name": "Horn of Perseverance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18354,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "INV_Misc_Horn_02",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:hornofperseverance",
+     "abilityName": "Horn of Perseverance",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ranger's Horn of Coordination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800088,
+     "name": "Horn of Perseverance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7978,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_misc_horn_05",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:hornofendurance",
+     "abilityName": "Horn of Endurance",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ranger's Horn of Endurance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806359,
+     "name": "Horn of Endurance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20017,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_misc_horn_05",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:hornofendurance",
+     "abilityName": "Horn of Endurance",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ranger's Horn of Endurance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 29,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806359,
+     "name": "Horn of Endurance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7979,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_misc_trinket6oih_horn2",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangershornofmagic",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger's Horn of Magic",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806361,
+     "name": "Ranger's Horn of Magic",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20018,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_misc_trinket6oih_horn2",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangershornofmagic",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger's Horn of Magic",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 27,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806361,
+     "name": "Ranger's Horn of Magic",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6274,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Misc_Horn_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangershornunused",
+     "abilityName": "Ranger's Horn-unused",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger's Horn of Perseverance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800278,
+     "name": "Ranger's Horn-unused",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800278
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501764
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501765
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501766
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501767
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501768
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501769
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501770
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501771
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18449,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "INV_Misc_Horn_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:rangershornunused",
+     "abilityName": "Ranger's Horn-unused",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ranger's Horn of Perseverance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800278,
+     "name": "Ranger's Horn-unused",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800278
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501764
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501765
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501766
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501767
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501768
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501769
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501770
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501771
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20147,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30930,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:hornofalacrity",
+     "abilityName": "Horn of Alacrity",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806360
+     ]
+    },
+    "matchedSpellId": 806360,
+    "reason": "liveDirect"
+   },
+   "name": "Ranger's Horn of Triumph",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 24,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806360,
+     "name": "Horn of Alacrity",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6179,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "INV_Misc_Horn_03",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6955,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:hornofwar",
+     "abilityName": "Horn of War",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800086
+     ]
+    },
+    "matchedSpellId": 800086,
+    "reason": "liveDirect"
+   },
+   "name": "Ranger's Horn of War",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 19,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800086,
+     "name": "Horn of War",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18352,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "INV_Misc_Horn_03",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6955,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:hornofwar",
+     "abilityName": "Horn of War",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800086
+     ]
+    },
+    "matchedSpellId": 800086,
+    "reason": "liveDirect"
+   },
+   "name": "Ranger's Horn of War",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800086,
+     "name": "Horn of War",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18357,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_ironmaidens_bladerush",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:ravageunused",
+     "abilityName": "Ravage (UNUSED)",
+     "classId": 21,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Ravage",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800091,
+     "name": "Ravage (UNUSED)",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800091
+      },
+      {
+       "level": 21,
+       "rank": 2,
+       "spellId": 501735
+      },
+      {
+       "level": 41,
+       "rank": 3,
+       "spellId": 501736
+      },
+      {
+       "level": 61,
+       "rank": 4,
+       "spellId": 501737
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18351,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_skyreach_flying_charge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:reposition",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Reposition",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 15,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800085,
+     "name": "Reposition",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7976,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_ironmaidens_impale",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30929,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:whipvinearrow",
+     "abilityName": "Whipvine Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806342
+     ]
+    },
+    "matchedSpellId": 806342,
+    "reason": "liveDirect"
+   },
+   "name": "Ripyank",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806342,
+     "name": "Whipvine Arrow",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20015,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_ironmaidens_impale",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30929,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:whipvinearrow",
+     "abilityName": "Whipvine Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806342
+     ]
+    },
+    "matchedSpellId": 806342,
+    "reason": "liveDirect"
+   },
+   "name": "Ripyank",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806342,
+     "name": "Whipvine Arrow",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18960,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_hunter_resistanceisfutile",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:skullpiercer",
+     "abilityName": "Skullpiercer",
+     "classId": 21,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Skullpiercer Shot",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 3,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 802036,
+     "name": "Skullpiercer",
+     "ranks": [
+      {
+       "level": 9,
+       "rank": 1,
+       "spellId": 802036
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501715
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501716
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501717
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501718
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501719
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501720
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501721
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501722
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501723
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19101,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\rogue_subterfuge",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34188,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c21:snatch",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      803115
+     ]
+    },
+    "matchedSpellId": 803115,
+    "reason": "liveDirect"
+   },
+   "name": "Snatch",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803115,
+     "name": "Snatch",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18439,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3multishot",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:huntingquiver",
+     "abilityName": "Hunting Quiver",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Spray Quiver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 23,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800262,
+     "name": "Hunting Quiver",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7760,
+   "expansion": 0,
+   "flags": 10241,
+   "icon": "Ability_Warlock_Avoidance",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:spreadshotpassive",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Spread Shot Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805278,
+     "name": "Spread Shot Passive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20146,
+   "expansion": 0,
+   "flags": 10754,
+   "icon": "InterfaceIconsAbility_Warlock_Avoidance",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:spreadshotpassive",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Spread Shot Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805278,
+     "name": "Spread Shot Passive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7200,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "inv_glove_armor_gnome_d_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:stickyfingers",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Sticky Fingers",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804669,
+     "name": "Sticky Fingers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19390,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsinv_glove_armor_gnome_d_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:stickyfingers",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Sticky Fingers",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 19,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804669,
+     "name": "Sticky Fingers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 4327,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_monk_explodingjadeblossom",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30352,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c21:survivalpotion",
+     "abilityName": "Survival Potion",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802839
+     ]
+    },
+    "matchedSpellId": 802839,
+    "reason": "liveDirect"
+   },
+   "name": "Survival Expertise",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 802839,
+     "name": "Survival Potion",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19066,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_monk_explodingjadeblossom",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30352,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c21:survivalpotion",
+     "abilityName": "Survival Potion",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802839
+     ]
+    },
+    "matchedSpellId": 802839,
+    "reason": "liveDirect"
+   },
+   "name": "Survival Expertise",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 26,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 802839,
+     "name": "Survival Potion",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18438,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsINV_Misc_Ammo_Arrow_03",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:lightquiver",
+     "abilityName": "Light Quiver",
+     "classId": 21,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Swift Quiver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 18,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800261,
+     "name": "Light Quiver",
+     "ranks": null,
+     "schools": [
+      "Frost"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6213,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Rogue_WrongfullyAccused",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34185,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:forestherald",
+     "abilityName": "Forest Herald",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800150
+     ]
+    },
+    "matchedSpellId": 800150,
+    "reason": "liveDirect"
+   },
+   "name": "Take Cover",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800150,
+     "name": "Forest Herald",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18386,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Ability_Rogue_WrongfullyAccused",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34185,
+    "builderTab": "Farstrider",
+    "identity": {
+     "abilityKey": "c21:forestherald",
+     "abilityName": "Forest Herald",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800150
+     ]
+    },
+    "matchedSpellId": 800150,
+    "reason": "liveDirect"
+   },
+   "name": "Take Cover",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800150,
+     "name": "Forest Herald",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18152,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_ammo_arrow_03",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34148,
+    "builderTab": "Archery",
+    "identity": {
+     "abilityKey": "c21:neurotoxinarrow",
+     "abilityName": "Neurotoxin Arrow",
+     "classId": 21,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500071
+     ]
+    },
+    "matchedSpellId": 500071,
+    "reason": "liveDirect"
+   },
+   "name": "Throatcutter Shot",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 12,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500071,
+     "name": "Neurotoxin Arrow",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7982,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Hunter_HuntingParty",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:warband",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Warband",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806367,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20021,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Ability_Hunter_HuntingParty",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:warband",
+     "abilityName": null,
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Warband",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806367,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7981,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_hunter_pathfinding",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:dreamflowers",
+     "abilityName": "Dream Flowers",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92117
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Wayfinder",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806365,
+     "name": "Dream Flowers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20020,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_hunter_pathfinding",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:dreamflowers",
+     "abilityName": "Dream Flowers",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92117
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Wayfinder",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806365,
+     "name": "Dream Flowers",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18349,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_hunter_raptorstrike",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:wildstrike",
+     "classId": 21,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Wild Strike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 5,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800083,
+     "name": "Wild Strike",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800083
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 501724
+      },
+      {
+       "level": 14,
+       "rank": 3,
+       "spellId": 501725
+      },
+      {
+       "level": 21,
+       "rank": 4,
+       "spellId": 501726
+      },
+      {
+       "level": 28,
+       "rank": 5,
+       "spellId": 501727
+      },
+      {
+       "level": 34,
+       "rank": 6,
+       "spellId": 501728
+      },
+      {
+       "level": 41,
+       "rank": 7,
+       "spellId": 501729
+      },
+      {
+       "level": 48,
+       "rank": 8,
+       "spellId": 501730
+      },
+      {
+       "level": 54,
+       "rank": 9,
+       "spellId": 501731
+      },
+      {
+       "level": 61,
+       "rank": 10,
+       "spellId": 501732
+      },
+      {
+       "level": 68,
+       "rank": 11,
+       "spellId": 501733
+      },
+      {
+       "level": 74,
+       "rank": 12,
+       "spellId": 501734
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19284,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsinv_bow_1h_draenorcrafted_d_01_a_horde",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:adventurer",
+     "abilityName": "Adventurer",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Wildmaster",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804331,
+     "name": "Adventurer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6267,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "INV_Misc_Bag_07",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:bushcraft",
+     "abilityName": "Bushcraft",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Wildsman's Satchel",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800267,
+     "name": "Bushcraft",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18442,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsINV_Misc_Bag_07",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c21:bushcraft",
+     "abilityName": "Bushcraft",
+     "classId": 21,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Wildsman's Satchel",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 40,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800267,
+     "name": "Bushcraft",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Survival",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Survival",
+ "type": "Ability"
+}

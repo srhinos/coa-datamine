@@ -1,15 +1,23 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Class","Gifts","Lightning","Wind"],
  "class": "Stormbringer",
  "classId": 16,
  "entryCount": 368,
  "entryCounts": {"Ability":244,"Talent":117,"TalentAbility":7},
  "files": [
   {"cadIdRange":null,"count":60,"file":"Class.json","tab":"Class","type":null},
-  {"cadIdRange":null,"count":137,"file":"Gifts.json","tab":"Gifts","type":null},
+  {"cadIdRange":null,"count":97,"file":"Gifts.Ability.json","tab":"Gifts","type":"Ability"},
+  {"cadIdRange":null,"count":40,"file":"Gifts.Talent.json","tab":"Gifts","type":"Talent"},
   {"cadIdRange":null,"count":90,"file":"Lightning.json","tab":"Lightning","type":null},
   {"cadIdRange":null,"count":81,"file":"Wind.json","tab":"Wind","type":null}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":138,"live":167,"liveViaRank":0,"unknown":63},
+ "liveCountsByReason": {"deadCatalog":138,"indeterminate":63,"liveDirect":167},
+ "liveTabs": ["Lightning","Wind","Maelstrom","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 14
 }

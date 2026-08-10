@@ -17,9 +17,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools import config
-from tools import build_classes, build_classmeta
+from tools import build_classes, build_classmeta, build_coatalents, build_spells
 
+# [Task W4-11e] build_classmeta now reads data/talents/coa/_meta.json (the W4-9
+# sec11UnreleasedSpecsShipped finding, for specs.json's tabStatus reconciliation) -
+# matches tools/curate.py's real stage order (spells -> classes -> coatalents ->
+# ... -> classmeta), not the old classes-then-classmeta-only shape this test used.
+build_spells.build()
 build_classes.build()
+build_coatalents.build()
 stats = build_classmeta.build()
 
 cdir = config.DATA_DIR / "classes"
@@ -56,9 +62,12 @@ assert by_id[85]["armorType"] == "Cloth"     # Mage Arcane
 assert by_id[73]["armorType"] == "Leather"   # Rogue Assassination
 assert by_id[70]["armorType"] == "Mail"      # Hunter Beast Mastery
 
-# unmatched class token (DemonHunter is not one of the 32 ChrClasses ground-truth rows)
-assert by_id[7]["classId"] is None and by_id[7]["className"] is None
+# [Task W4-5] DEMONHUNTER classToken now resolves via the filename fallback join -
+# it's not a display name, it's ChrClasses id14's `filename` column (display name
+# "Felsworn"). Previously null/null before that fallback existed.
+assert by_id[7]["classId"] == 14 and by_id[7]["className"] == "Felsworn"
 assert by_id[7]["classToken"] == "DEMONHUNTER"
+assert by_id[7]["tabToken"] == "FELBLOOD"
 
 # f63 shipped raw (role hypothesis disproven - see report/tools/dbc.py comments)
 assert set(by_id[k]["f63"] for k in by_id) <= {1, 2, 3}

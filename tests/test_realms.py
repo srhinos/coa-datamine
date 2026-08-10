@@ -17,8 +17,22 @@ fixture): CharacterAdvancement 7820x179(declared), CharacterAdvancementEssence
 5440x9, Manastorm 1025x9, ManastormMessages 291x39, ManastormModifiers 32768x15,
 ManastormPlayerGroupModifiers 15x5, SkillLineAbility 38542x14, Spell 238925x234,
 SpellCharges 473x2, SpellChargesCategory 108x3, SpellRank 19601x4, Talent 2368x23.
-CharacterAdvancement/CharacterAdvancementEssence/SpellRank have no base TABLE_MAPS
-entry at all (colinfo-only, deliberate, per the brief) - the other 9 do.
+CharacterAdvancement/SpellRank have no base TABLE_MAPS entry at all (colinfo-only,
+deliberate, per the brief) - the other 10 do.
+
+[Task W4-5 UPDATE] CharacterAdvancementEssence gained a real TABLE_MAPS column
+proof (id/level/classId/abilityEssence/talentEssence, see tools/dbc.py) - it moved
+from UNMAPPED_TABLES to MAPPED_TABLES below. This is the one *intended* change to
+this file's expectations from that task; everything else here is unchanged.
+
+[Task W4-10 UPDATE] SpellRank ALSO gained a real TABLE_MAPS column proof
+(id/firstSpellId/spellId/rank, raw-dump-clarity naming only, NOT wired into
+build_spells.py's rank-chain pipeline - see tools/dbc.py) - same move,
+UNMAPPED_TABLES -> MAPPED_TABLES, and unlike CharacterAdvancementEssence's own
+move, SpellRank ALSO gained a base config.WANTED_DBCS entry in the same task
+(WANTED_DBCS_V5), so it now carries baseRecords/delta like every other mapped
+table - CharacterAdvancement is the only table left with neither a TABLE_MAPS
+entry nor a base WANTED_DBCS entry at all.
 
 [Finding, discovered running this test] CharacterAdvancement.dbc's WDBC header
 DECLARES FieldCount 179, but its record_size (692 bytes) only fits 173 int32
@@ -50,7 +64,7 @@ EXPECTED = {
     "CharacterAdvancement": (7820, 179), "CharacterAdvancementEssence": (5440, 9),
     "Manastorm": (1025, 9), "ManastormMessages": (291, 39),
     "ManastormModifiers": (32768, 15), "ManastormPlayerGroupModifiers": (15, 5),
-    "SkillLineAbility": (38542, 14), "Spell": (238939, 234),
+    "SkillLineAbility": (38542, 14), "Spell": (238942, 234),   # 2026-08-09 re-pin
     "SpellCharges": (473, 2), "SpellChargesCategory": (108, 3),
     "SpellRank": (19601, 4), "Talent": (2368, 23),
 }
@@ -66,7 +80,7 @@ for table, (recs, fields) in EXPECTED.items():
     assert p.stat().st_size == 20 + r2 * recsize + strsize
 
 saved = json.loads((config.WORK_REALMS_DIR / "extract_provenance.json").read_text(encoding="utf-8"))
-assert saved[REALM]["files"]["Spell.dbc"]["records"] == 238939
+assert saved[REALM]["files"]["Spell.dbc"]["records"] == 238942
 
 # byte-true field count per table (record_size/4) - what dbc.DBCFile.fields actually
 # reports; disagrees with the header's DECLARED field count for CharacterAdvancement
@@ -82,8 +96,9 @@ idx = results[REALM]
 
 MAPPED_TABLES = {"Spell", "SkillLineAbility", "Talent", "SpellCharges",
                   "SpellChargesCategory", "Manastorm", "ManastormMessages",
-                  "ManastormModifiers", "ManastormPlayerGroupModifiers"}
-UNMAPPED_TABLES = {"CharacterAdvancement", "CharacterAdvancementEssence", "SpellRank"}
+                  "ManastormModifiers", "ManastormPlayerGroupModifiers",
+                  "CharacterAdvancementEssence", "SpellRank"}
+UNMAPPED_TABLES = {"CharacterAdvancement"}
 assert set(idx["tables"]) == MAPPED_TABLES | UNMAPPED_TABLES, set(idx["tables"])
 
 raw_dir = config.RAW_REALMS_DIR / REALM / "dbc"
@@ -91,7 +106,7 @@ for table in MAPPED_TABLES:
     info = idx["tables"][table]
     assert info["mapped"] is True, (table, info)
     assert info["records"] == EXPECTED[table][0] and info["fields"] == TRUE_FIELDS[table]
-    assert "declaredFields" not in info, (table, info)     # all 9 mapped tables self-consistent
+    assert "declaredFields" not in info, (table, info)     # all 11 mapped tables self-consistent
     assert (raw_dir / f"{table}.csv.gz").is_file()
     assert not (raw_dir / f"{table}.colinfo.json").exists()
     # baseRecords/delta populated: every mapped table here also has a base
@@ -106,15 +121,18 @@ for table in UNMAPPED_TABLES:
     assert (raw_dir / f"{table}.colinfo.json").is_file()
 
 # "mapped" (has a base TABLE_MAPS column proof) and "has a base WANTED_DBCS entry to
-# diff against" are independent axes. CharacterAdvancementEssence.dbc IS in base
-# config.WANTED_DBCS (task V2-3) but has no TABLE_MAPS proof either side of the
-# overlay - it still gets a real baseRecords/delta. CharacterAdvancement/SpellRank
-# have no base DBC of this name AT ALL (realm-only tables) - null/null for real.
-ess = idx["tables"]["CharacterAdvancementEssence"]
-assert isinstance(ess["baseRecords"], int), ess
-assert ess["delta"] == ess["records"] - ess["baseRecords"], ess
+# diff against" are independent axes - CharacterAdvancement has no base DBC of this
+# name AT ALL (realm-only table), so both are null/null for real, not just unmapped.
+# [Task W4-5] Before that task, CharacterAdvancementEssence.dbc was the
+# axis-independence example (base entry present, mapped false) - it moved to
+# MAPPED_TABLES above once tools/dbc.py gained its column proof. [Task W4-10]
+# SpellRank made the SAME move AND gained a base WANTED_DBCS entry in the same
+# task (WANTED_DBCS_V5) - it now carries real baseRecords/delta like the other 10
+# originally-mapped tables, leaving CharacterAdvancement as the sole table on
+# neither axis.
 assert "CharacterAdvancementEssence.dbc" in config.WANTED_DBCS
-for table in ("CharacterAdvancement", "SpellRank"):
+assert "SpellRank.dbc" in config.WANTED_DBCS
+for table in ("CharacterAdvancement",):
     info = idx["tables"][table]
     assert info["baseRecords"] is None and info["delta"] is None, (table, info)
     assert f"{table}.dbc" not in config.WANTED_DBCS
@@ -134,7 +152,7 @@ for table in MAPPED_TABLES:
 # matching field count
 spell_rows = {r["id"]: r for r in dbc.iter_named("Spell", dbc_dir=config.WORK_REALMS_DIR / REALM / "dbc")}
 assert spell_rows[17]["name_enUS"] == "Power Word: Shield", spell_rows[17]
-assert len(spell_rows) == 238939
+assert len(spell_rows) == 238942
 
 # overlay evidence: newSpellCount / spellIdRange
 assert idx["newSpellCount"] > 10000, idx["newSpellCount"]      # brief's loose pin, ~+30k expected
@@ -162,5 +180,16 @@ assert meta["realm"] == REALM
 assert set(meta["mappedTables"]) == MAPPED_TABLES
 assert set(meta["unmappedTables"]) == UNMAPPED_TABLES
 assert "futureMilestone" in meta and "curation" in meta["futureMilestone"].lower()
+
+# [Task W4-13] The dataset must state the delivery mechanism itself, so a consumer
+# reading only data/realms/ cannot mistake Free-Pick's overlay for "the realm overlay"
+# or for CoA data - and must keep the SMSG limit honest. Discovery finding only exactly
+# one realm after weeks of CoA play is the CORRECT answer, not a pending capture.
+assert config.discover_realms() == [REALM], config.discover_realms()
+dm = meta["deliveryMechanism"]
+assert "Free-Pick's overlay" in dm and "NOT 'the realm overlay'" in dm, dm
+assert "LAUNCHER" in dm and "does NOT materialize" in dm, dm
+assert "CoA realms read the BASE chain" in dm, dm
+assert "SMSG" in dm and "/dump" in dm, dm
 
 print("ALL PASS")

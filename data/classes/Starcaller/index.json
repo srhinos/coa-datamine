@@ -1,16 +1,28 @@
 {
+ "aliases": [],
+ "catalogTabs": ["AstralWarfare","Class","Moonbow","Tides"],
  "class": "Starcaller",
  "classId": 26,
  "entryCount": 416,
  "entryCounts": {"Ability":286,"Talent":125,"TalentAbility":5},
  "files": [
-  {"cadIdRange":null,"count":129,"file":"AstralWarfare.Ability.json","tab":"AstralWarfare","type":"Ability"},
+  {"cadIdRange":[4000,6000],"count":1,"file":"AstralWarfare.Ability-4000.json","tab":"AstralWarfare","type":"Ability"},
+  {"cadIdRange":[6000,8000],"count":42,"file":"AstralWarfare.Ability-6000.json","tab":"AstralWarfare","type":"Ability"},
+  {"cadIdRange":[8000,10000],"count":11,"file":"AstralWarfare.Ability-8000.json","tab":"AstralWarfare","type":"Ability"},
+  {"cadIdRange":[18000,20000],"count":60,"file":"AstralWarfare.Ability-18000.json","tab":"AstralWarfare","type":"Ability"},
+  {"cadIdRange":[20000,22000],"count":11,"file":"AstralWarfare.Ability-20000.json","tab":"AstralWarfare","type":"Ability"},
+  {"cadIdRange":[28000,30000],"count":4,"file":"AstralWarfare.Ability-28000.json","tab":"AstralWarfare","type":"Ability"},
   {"cadIdRange":null,"count":48,"file":"AstralWarfare.Talent.json","tab":"AstralWarfare","type":"Talent"},
   {"cadIdRange":null,"count":59,"file":"Class.json","tab":"Class","type":null},
   {"cadIdRange":null,"count":95,"file":"Moonbow.json","tab":"Moonbow","type":null},
   {"cadIdRange":null,"count":85,"file":"Tides.json","tab":"Tides","type":null}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":156,"live":174,"liveViaRank":0,"unknown":86},
+ "liveCountsByReason": {"deadCatalog":156,"indeterminate":86,"liveDirect":174},
+ "liveTabs": ["Moon Guard","Sentinel","Moon Priest","Warden","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 11
 }

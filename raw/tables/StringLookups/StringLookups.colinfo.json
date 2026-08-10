@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":9,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":9,"maxUnsigned":9,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":9,"rows":9,"string":{"applicable":true,"blockCoverageRate":0.09589,"blockSize":292,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":27.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":1,"validOffsetRate":0.111111},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Interface\\Cursor\\Cursor.mdx"],"width":4},
+  {"evidence":{"distinct":9,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":249,"maxUnsigned":249,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":9,"rows":9,"string":{"applicable":true,"blockCoverageRate":0.996575,"blockSize":292,"controlCharOffsets":0,"distinctOffsets":9,"meanDecodedLength":31.333,"nonEmptyOffsets":9,"utf8DecodableOffsets":9,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Interface\\Cursor\\Cursor.mdx","Interface\\InventoryItems\\InventoryArtGeometry.mdx","Interface\\Icons","Textures\\Expoint","Interface\\Buttons\\TalkToMe.mdx"],"width":4}
+ ],
+ "file": "StringLookups.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":9,"sizeReconciles":true,"stringBlockReferencedBytes":291,"stringBlockSize":292,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":384,"losers":[],"sha256":"06b2aef8087125463554e30d1fac1ebeedceed491fd0e7947081b3aacf41ce30","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "StringLookups"
+}

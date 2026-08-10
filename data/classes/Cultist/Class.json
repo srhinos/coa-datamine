@@ -7,6 +7,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:wrathoftheblackempire",
+     "abilityName": "Wrath of the Black Empire",
+     "classId": 25,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Abyssal Doom",
    "quality": "Normal",
    "qualityCost": 1,
@@ -73,6 +93,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:abyssalreconstruction",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Abyssal Reconstruction",
    "quality": "Normal",
    "qualityCost": 1,
@@ -83,7 +118,53 @@
      "dispel": null,
      "id": 800429,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800429
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 502185
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 502186
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 502187
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 502188
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 502189
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 502190
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 502191
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 502192
+      }
+     ],
      "schools": []
     }
    ],
@@ -96,6 +177,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7608,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:abyssalward",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804670
+     ]
+    },
+    "matchedSpellId": 804670,
+    "reason": "liveDirect"
+   },
    "name": "Abyssal Ward",
    "quality": "Normal",
    "qualityCost": 1,
@@ -121,6 +221,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:heresy",
+     "abilityName": "Heresy",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Beamsplitter",
    "quality": "Poor",
    "qualityCost": 1,
@@ -146,6 +261,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:bendwill",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bend Will",
    "quality": "Normal",
    "qualityCost": 1,
@@ -169,6 +299,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:bladeoftheempire",
+     "classId": 25,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Blade of the Empire",
    "quality": "Normal",
    "qualityCost": 1,
@@ -255,6 +404,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:brokenmind",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Broken Mind",
    "quality": "Poor",
    "qualityCost": 1,
@@ -280,6 +443,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30520,
+    "builderTab": "Dreadnought",
+    "identity": {
+     "abilityKey": "c25:crushingdissonance",
+     "abilityName": "Crushing Dissonance",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804056
+     ]
+    },
+    "matchedSpellId": 804056,
+    "reason": "liveDirect"
+   },
    "name": "Confuse",
    "quality": "Normal",
    "qualityCost": 1,
@@ -305,6 +488,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:cosmicooze",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Cosmic Ooze",
    "quality": "Normal",
    "qualityCost": 1,
@@ -330,6 +527,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30036,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:darkward",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706181
+     ]
+    },
+    "matchedSpellId": 706181,
+    "reason": "liveDirect"
+   },
    "name": "Darkward",
    "quality": "Poor",
    "qualityCost": 1,
@@ -364,6 +579,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12982,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:devourcurse",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800402
+     ]
+    },
+    "matchedSpellId": 800402,
+    "reason": "liveDirect"
+   },
    "name": "Devour Curse",
    "quality": "Normal",
    "qualityCost": 1,
@@ -389,6 +623,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31123,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:doomsayer",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704880
+     ]
+    },
+    "matchedSpellId": 704880,
+    "reason": "liveDirect"
+   },
    "name": "Doomsayer",
    "quality": "Poor",
    "qualityCost": 1,
@@ -414,6 +667,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33953,
+    "builderTab": "Corruption",
+    "identity": {
+     "abilityKey": "c25:horrorboltvolley",
+     "abilityName": "Horrorbolt Volley",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704892
+     ]
+    },
+    "matchedSpellId": 704892,
+    "reason": "liveDirect"
+   },
    "name": "Dual Nightmare",
    "quality": "Poor",
    "qualityCost": 1,
@@ -439,6 +712,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:presenceofyshaarj",
+     "abilityName": "Presence of Y'Shaarj",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Edict of Gluttony",
    "quality": "Normal",
    "qualityCost": 1,
@@ -464,6 +757,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:presenceofnzoth",
+     "abilityName": "Presence of N'Zoth",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Edict of Wrath",
    "quality": "Normal",
    "qualityCost": 1,
@@ -489,6 +802,28 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29265,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:voidshield",
+     "abilityName": "Void Shield",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500715
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500715,
+    "reason": "liveDirect"
+   },
    "name": "Eldritch Armor",
    "quality": "Normal",
    "qualityCost": 1,
@@ -540,6 +875,21 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchblast",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Eldritch Blast",
    "quality": "Normal",
    "qualityCost": 1,
@@ -550,7 +900,53 @@
      "dispel": null,
      "id": 800411,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800411
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 502158
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 502159
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 502160
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 502161
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 502162
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 502163
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 502164
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 502165
+      }
+     ],
      "schools": []
     }
    ],
@@ -563,6 +959,26 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchmending",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Eldritch Mending",
    "quality": "Normal",
    "qualityCost": 1,
@@ -639,6 +1055,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchritual",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Eldritch Ritual",
    "quality": "Normal",
    "qualityCost": 1,
@@ -664,6 +1099,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchsmite",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Eldritch Smite",
    "quality": "Normal",
    "qualityCost": 1,
@@ -689,6 +1138,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:bloodpact",
+     "abilityName": "Blood Pact",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Eldritch Strike",
    "quality": "Normal",
    "qualityCost": 1,
@@ -714,6 +1178,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchswiftness",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Eldritch Swiftness",
    "quality": "Poor",
    "qualityCost": 1,
@@ -748,6 +1226,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29263,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:empirecommander",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704887,
+      707781,
+      712470
+     ]
+    },
+    "matchedSpellId": 704887,
+    "reason": "liveDirect"
+   },
    "name": "Empire Commander",
    "quality": "Poor",
    "qualityCost": 1,
@@ -773,6 +1272,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7555,
+    "builderTab": "Godblade",
+    "identity": {
+     "abilityKey": "c25:empiresgrasp",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500704
+     ]
+    },
+    "matchedSpellId": 500704,
+    "reason": "liveDirect"
+   },
    "name": "Empire's Grasp",
    "quality": "Normal",
    "qualityCost": 1,
@@ -798,6 +1316,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:enslave",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Enslave",
    "quality": "Normal",
    "qualityCost": 1,
@@ -824,6 +1356,25 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:entropicslam",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Entropic Slam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -849,6 +1400,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6276,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:eternalgrasp",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704878,
+      704879
+     ]
+    },
+    "matchedSpellId": 704878,
+    "reason": "liveDirect"
+   },
    "name": "Eternal Grasp",
    "quality": "Poor",
    "qualityCost": 1,
@@ -883,6 +1454,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33965,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:lostinthevoid",
+     "abilityName": "Lost in the Void",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704881
+     ]
+    },
+    "matchedSpellId": 704881,
+    "reason": "liveDirect"
+   },
    "name": "Fallen Templar",
    "quality": "Poor",
    "qualityCost": 1,
@@ -908,6 +1499,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:feardrinker",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Feardrinker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -931,6 +1537,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:gazeofcthun",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Gaze of C'Thun",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1007,6 +1633,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6959,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:giftofcthun",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706189
+     ]
+    },
+    "matchedSpellId": 706189,
+    "reason": "liveDirect"
+   },
    "name": "Gift of C'thun",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1032,6 +1677,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:corruptionlevel15passive",
+     "abilityName": "Corruption - Level 15 Passive",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Herald of C'thun",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1057,6 +1717,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9298,
+    "builderTab": "Godblade",
+    "identity": {
+     "abilityKey": "c25:voidstrength",
+     "abilityName": "Void Strength",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805121
+     ]
+    },
+    "matchedSpellId": 805121,
+    "reason": "liveDirect"
+   },
    "name": "Herald of N'zoth",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1082,6 +1762,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9299,
+    "builderTab": "Dreadnought",
+    "identity": {
+     "abilityKey": "c25:strengthofthesha",
+     "abilityName": "Strength of the Sha",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804286
+     ]
+    },
+    "matchedSpellId": 804286,
+    "reason": "liveDirect"
+   },
    "name": "Herald of Y'shaarj",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1107,6 +1807,24 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:heraldofthedepths",
+     "abilityName": "Herald of the Depths",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92131
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Herald of Yogg-Saron",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1132,6 +1850,20 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:hitratingalpha",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hit Rating (Alpha)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1158,6 +1890,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:horrorbolt",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Horrorbolt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1249,6 +2001,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6283,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:empiresblessing",
+     "abilityName": "Empire's Blessing",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704895
+     ]
+    },
+    "matchedSpellId": 704895,
+    "reason": "liveDirect"
+   },
    "name": "Impenetrable Barrier",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1283,6 +2055,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:heraldoftheoldgods",
+     "abilityName": "Herald of the Old Gods",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Gaze of C'thun",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1317,6 +2104,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6275,
+    "builderTab": "Dreadnought",
+    "identity": {
+     "abilityKey": "c25:innerdarkness",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706182
+     ]
+    },
+    "matchedSpellId": 706182,
+    "reason": "liveDirect"
+   },
    "name": "Inner Darkness",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1342,6 +2148,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:lightbreaker",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Lightbreaker",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1367,6 +2187,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6278,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:dismay",
+     "abilityName": "Dismay",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704885
+     ]
+    },
+    "matchedSpellId": 704885,
+    "reason": "liveDirect"
+   },
    "name": "Lost Chapter",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1392,6 +2232,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:mail",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Mail",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1417,6 +2277,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:embracethevoid",
+     "abilityName": "Embrace the Void",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Masochism",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1442,6 +2317,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33967,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:improvedsermonofdread",
+     "abilityName": "Improved Sermon of Dread",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706177
+     ]
+    },
+    "matchedSpellId": 706177,
+    "reason": "liveDirect"
+   },
    "name": "Mental Expansion",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1476,6 +2371,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6557,
+    "builderTab": "Corruption",
+    "identity": {
+     "abilityKey": "c25:momentofclarity",
+     "abilityName": "Moment of Clarity",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706179,
+      707783
+     ]
+    },
+    "matchedSpellId": 706179,
+    "reason": "liveDirect"
+   },
    "name": "Piercing Entropy",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1499,6 +2415,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:polearms",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Polearms",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1524,6 +2460,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:restoresanity",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Restore Sanity",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1549,6 +2504,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:ritualcodex",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ritual Codex",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1574,6 +2543,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:ritualofawakening",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Ritual of Awakening",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1599,6 +2587,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:voidblessing",
+     "abilityName": "Void Blessing",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Saronite Prayer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1624,6 +2627,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:satiate",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Satiate",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1649,6 +2671,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7465,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:eyesofeternity",
+     "abilityName": "Eyes of Eternity",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706188
+     ]
+    },
+    "matchedSpellId": 706188,
+    "reason": "liveDirect"
+   },
    "name": "Satiating Gaze",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1674,6 +2716,23 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:shield",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Shield",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1699,6 +2758,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:staves",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Staves",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1724,6 +2803,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:tentacleofcthun",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Tentacle of C'Thun",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1749,6 +2847,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchtentacle",
+     "abilityName": "Eldritch Tentacle",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Tentacle of N'Zoth",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1774,6 +2890,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:testofpride",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Test of Pride",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1799,6 +2930,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7627,
+    "builderTab": "Dreadnought",
+    "identity": {
+     "abilityKey": "c25:twilightguardian",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704889
+     ]
+    },
+    "matchedSpellId": 704889,
+    "reason": "liveDirect"
+   },
    "name": "Twilight Guardian",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1824,6 +2974,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:twilightinitiate",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Twilight Initiate",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1849,6 +3013,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6666,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:twistedsanity",
+     "abilityName": "Twisted Sanity",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706187
+     ]
+    },
+    "matchedSpellId": 706187,
+    "reason": "liveDirect"
+   },
    "name": "Twisted Zeal",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1874,6 +3058,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:twohandedaxes",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Two-Handed Axes",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1899,6 +3103,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:veiledknight",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Veiled Knight",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1933,6 +3151,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:perpetualisolation",
+     "abilityName": "Perpetual Isolation",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Vile Portents",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1967,6 +3200,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:visionofdoom",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      520388
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Vision of Doom",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1992,6 +3245,23 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:wands",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Wands",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2017,6 +3287,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:whisperofyoggsaron",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Whisper of Yogg-Saron",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2027,7 +3312,23 @@
      "dispel": null,
      "id": 800369,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800369
+      },
+      {
+       "level": 28,
+       "rank": 2,
+       "spellId": 502284
+      },
+      {
+       "level": 54,
+       "rank": 3,
+       "spellId": 502285
+      }
+     ],
      "schools": []
     }
    ],
@@ -2040,6 +3341,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30323,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:wickedthoughts",
+     "abilityName": "Wicked Thoughts",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706190
+     ]
+    },
+    "matchedSpellId": 706190,
+    "reason": "liveDirect"
+   },
    "name": "Wicked Intentions",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2065,6 +3386,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:wrathful",
+     "abilityName": "Wrathful",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Wrathful Slam",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2099,6 +3435,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:writhingmass",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Writhing Mass",
    "quality": "Poor",
    "qualityCost": 1,

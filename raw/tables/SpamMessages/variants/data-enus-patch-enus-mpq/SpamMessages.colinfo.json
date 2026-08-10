@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":135,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":139,"maxUnsigned":139,"minSigned":4,"minUnsigned":4,"negativeCount":0,"nonZeroCount":135,"rows":135,"string":{"applicable":true,"blockCoverageRate":0.009253,"blockSize":13941,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":63.5,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.014815},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["(w\\s*w\\s*w\\s*\\.)?\\s*g\\s*m\\s*w\\s*o\\s*r\\s*k\\s*e\\s*r\\s*(\\.\\s*c\\s*o\\s*m\\s*)","(w\\s*w\\s*w\\s*\\.)?\\s*z\\s*l\\s*y\\s*w\\s*y\\s*(\\.\\s*c\\s*o\\s*m)"],"width":4},
+  {"evidence":{"distinct":135,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":13779,"maxUnsigned":13779,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":135,"rows":135,"string":{"applicable":true,"blockCoverageRate":0.999928,"blockSize":13941,"controlCharOffsets":0,"distinctOffsets":135,"meanDecodedLength":102.259,"nonEmptyOffsets":135,"utf8DecodableOffsets":135,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["(w\\s*w\\s*w\\s*\\.)?\\s*i\\s*t\\s*e\\s*m\\s*b\\s*a\\s*y\\s*(\\.\\s*c\\s*a)","(w\\s*w\\s*w\\s*\\.)?\\s*g\\s*m\\s*w\\s*o\\s*r\\s*k\\s*e\\s*r\\s*(\\.\\s*c\\s*o\\s*m\\s*)","(w\\s*w\\s*w\\s*\\.)?\\s*z\\s*l\\s*y\\s*w\\s*y\\s*(\\.\\s*c\\s*o\\s*m)","(w\\s*w\\s*w\\s*\\.)?\\s*w\\s*o\\s*w\\s*s\\s*u\\s*p\\s*p\\s*l\\s*i\\s*e\\s*r\\s*(\\.\\s*c\\s*o\\s*m)","(w\\s*w\\s*w\\s*\\.)?\\s*g\\s*a\\s*m\\s*e\\s*b\\s*m\\s*o\\s*(\\.\\s*c\\s*o\\s*m)"],"width":4}
+ ],
+ "file": "SpamMessages.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":135,"sizeReconciles":true,"stringBlockReferencedBytes":13940,"stringBlockSize":13941,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":15041,"losers":[],"sha256":"7d399226565f9029086624f8dfb8ce500158165fa64fc24d8b2d99dee551afb3","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "SpamMessages"
+}

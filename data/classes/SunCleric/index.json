@@ -1,15 +1,29 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Blessings","Class","Piety","Seraphim"],
  "class": "SunCleric",
  "classId": 27,
  "entryCount": 414,
  "entryCounts": {"Ability":278,"Talent":131,"TalentAbility":5},
  "files": [
-  {"cadIdRange":null,"count":107,"file":"Blessings.json","tab":"Blessings","type":null},
+  {"cadIdRange":null,"count":62,"file":"Blessings.Ability.json","tab":"Blessings","type":"Ability"},
+  {"cadIdRange":null,"count":45,"file":"Blessings.Talent.json","tab":"Blessings","type":"Talent"},
   {"cadIdRange":null,"count":61,"file":"Class.json","tab":"Class","type":null},
   {"cadIdRange":null,"count":91,"file":"Piety.json","tab":"Piety","type":null},
-  {"cadIdRange":null,"count":155,"file":"Seraphim.json","tab":"Seraphim","type":null}
+  {"cadIdRange":[4000,6000],"count":1,"file":"Seraphim.Ability-4000.json","tab":"Seraphim","type":"Ability"},
+  {"cadIdRange":[6000,8000],"count":31,"file":"Seraphim.Ability-6000.json","tab":"Seraphim","type":"Ability"},
+  {"cadIdRange":[8000,10000],"count":2,"file":"Seraphim.Ability-8000.json","tab":"Seraphim","type":"Ability"},
+  {"cadIdRange":[18000,20000],"count":52,"file":"Seraphim.Ability-18000.json","tab":"Seraphim","type":"Ability"},
+  {"cadIdRange":[20000,22000],"count":6,"file":"Seraphim.Ability-20000.json","tab":"Seraphim","type":"Ability"},
+  {"cadIdRange":[28000,30000],"count":14,"file":"Seraphim.Ability-28000.json","tab":"Seraphim","type":"Ability"},
+  {"cadIdRange":null,"count":49,"file":"Seraphim.Talent.json","tab":"Seraphim","type":"Talent"}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":126,"live":209,"liveViaRank":0,"unknown":79},
+ "liveCountsByReason": {"deadCatalog":126,"indeterminate":79,"liveDirect":209},
+ "liveTabs": ["Seraphim","Piety","Valkyrie","Blessings","Class","None"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 20
 }

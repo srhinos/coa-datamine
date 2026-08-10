@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":23,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":421,"maxUnsigned":421,"minSigned":12,"minUnsigned":12,"negativeCount":0,"nonZeroCount":23,"rows":23,"string":{"applicable":true,"blockCoverageRate":0.044346,"blockSize":451,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":19.0,"nonEmptyOffsets":1,"utf8DecodableOffsets":1,"validOffsetRate":0.043478},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["TeleportTestPackage"],"width":4},
+  {"evidence":{"distinct":23,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":434,"maxUnsigned":434,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":23,"rows":23,"string":{"applicable":true,"blockCoverageRate":0.997783,"blockSize":451,"controlCharOffsets":0,"distinctOffsets":23,"meanDecodedLength":18.565,"nonEmptyOffsets":23,"utf8DecodableOffsets":23,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift","Flying Machine Mount","Wintergrasp Catapult","Rocket Mount","SiegeVehicle"],"width":4}
+ ],
+ "file": "ObjectEffectPackage.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":23,"sizeReconciles":true,"stringBlockReferencedBytes":450,"stringBlockSize":451,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":655,"losers":[],"sha256":"31a29a0e6aee789ad077eeab08901d8713b1db4106f15e470f8617f3b4b08f74","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "ObjectEffectPackage"
+}

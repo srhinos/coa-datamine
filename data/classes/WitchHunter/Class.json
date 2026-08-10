@@ -7,6 +7,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:theduskwoodmenace",
+     "abilityName": "The Duskwood Menace",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Acrobat",
    "quality": "Poor",
    "qualityCost": 1,
@@ -32,6 +47,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:agilesteps",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Agile Steps",
    "quality": "Poor",
    "qualityCost": 1,
@@ -75,6 +104,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34556,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:alchemicalresearch",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705498,
+      707862
+     ]
+    },
+    "matchedSpellId": 705498,
+    "reason": "liveDirect"
+   },
    "name": "Alchemical Research",
    "quality": "Poor",
    "qualityCost": 1,
@@ -100,6 +149,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:hunterinthenight",
+     "abilityName": "Hunter in the Night",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ballista",
    "quality": "Poor",
    "qualityCost": 1,
@@ -134,6 +198,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:bladestance",
+     "abilityName": "Blade Stance",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Blazing Blade",
    "quality": "Normal",
    "qualityCost": 1,
@@ -159,6 +238,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:bolathrow",
+     "abilityName": "Bola Throw",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Bola Shot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -225,6 +325,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:bows",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Bows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -250,6 +370,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6457,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:brimminghatred",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705496
+     ]
+    },
+    "matchedSpellId": 705496,
+    "reason": "liveDirect"
+   },
    "name": "Brimming Hatred",
    "quality": "Poor",
    "qualityCost": 1,
@@ -275,6 +414,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30748,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:deadandgone",
+     "abilityName": "Dead and Gone",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705524
+     ]
+    },
+    "matchedSpellId": 705524,
+    "reason": "liveDirect"
+   },
    "name": "Charged Bolts",
    "quality": "Poor",
    "qualityCost": 1,
@@ -300,6 +459,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:charmingconversation",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Charming Conversation",
    "quality": "Normal",
    "qualityCost": 1,
@@ -325,6 +503,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7633,
+    "builderTab": "Black Knight",
+    "identity": {
+     "abilityKey": "c15:witchingidol",
+     "abilityName": "Witching Idol",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804051
+     ]
+    },
+    "matchedSpellId": 804051,
+    "reason": "liveDirect"
+   },
    "name": "Cleansing Aura",
    "quality": "Normal",
    "qualityCost": 1,
@@ -350,6 +548,20 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:coilingshot",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Coiling Shot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -375,6 +587,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34561,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:crossbowfrenzy",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705499
+     ]
+    },
+    "matchedSpellId": 705499,
+    "reason": "liveDirect"
+   },
    "name": "Crossbow Frenzy",
    "quality": "Poor",
    "qualityCost": 1,
@@ -400,6 +631,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:crossbows",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Crossbows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -425,6 +676,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7456,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:daringescape",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500086
+     ]
+    },
+    "matchedSpellId": 500086,
+    "reason": "liveDirect"
+   },
    "name": "Daring Escape",
    "quality": "Normal",
    "qualityCost": 1,
@@ -450,6 +720,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7078,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:twilightfrenzy",
+     "abilityName": "Twilight Frenzy",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805751
+     ]
+    },
+    "matchedSpellId": 805751,
+    "reason": "liveDirect"
+   },
    "name": "Darken the Skies",
    "quality": "Normal",
    "qualityCost": 1,
@@ -476,6 +766,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:darkslayersregalia",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Darkslayer's Regalia",
    "quality": "Poor",
    "qualityCost": 1,
@@ -501,6 +805,21 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:dawnblade",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dawn Blade",
    "quality": "Normal",
    "qualityCost": 1,
@@ -527,6 +846,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:deathmark",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Death Mark",
    "quality": "Poor",
    "qualityCost": 1,
@@ -552,6 +885,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:crossbowstance",
+     "abilityName": "Crossbow Stance",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Dual Crossbows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -577,6 +925,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:enhancedbolts",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Enhanced Bolts",
    "quality": "Poor",
    "qualityCost": 1,
@@ -602,6 +964,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7077,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:escapeartist",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705490
+     ]
+    },
+    "matchedSpellId": 705490,
+    "reason": "liveDirect"
+   },
    "name": "Escape Artist",
    "quality": "Poor",
    "qualityCost": 1,
@@ -627,6 +1008,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7852,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:evasive",
+     "abilityName": "Evasive",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805767
+     ]
+    },
+    "matchedSpellId": 805767,
+    "reason": "liveDirect"
+   },
    "name": "Evasive Movements",
    "quality": "Normal",
    "qualityCost": 1,
@@ -652,6 +1053,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4324,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:slingingbolts",
+     "abilityName": "Slinging Bolts",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804404
+     ]
+    },
+    "matchedSpellId": 804404,
+    "reason": "liveDirect"
+   },
    "name": "Expert Killer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -677,6 +1098,25 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:darkslayer",
+     "abilityName": "Darkslayer",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
+   },
    "name": "Flintlock Shot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -702,6 +1142,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7482,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:justasip",
+     "abilityName": "Just A Sip",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705533
+     ]
+    },
+    "matchedSpellId": 705533,
+    "reason": "liveDirect"
+   },
    "name": "Fury",
    "quality": "Poor",
    "qualityCost": 1,
@@ -727,6 +1187,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:guns",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Guns",
    "quality": "Normal",
    "qualityCost": 1,
@@ -752,6 +1232,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34587,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:trickster",
+     "abilityName": "Trickster",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705526
+     ]
+    },
+    "matchedSpellId": 705526,
+    "reason": "liveDirect"
+   },
    "name": "Heartseeker",
    "quality": "Poor",
    "qualityCost": 1,
@@ -777,6 +1277,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:heartstopbolt",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Heartstop Bolt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -802,6 +1316,20 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:hitratingalpha",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hit Rating (Alpha)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -828,6 +1356,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:hunt",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802006
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Hunt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -853,6 +1401,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:infiltrate",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Infiltrate",
    "quality": "Normal",
    "qualityCost": 1,
@@ -878,6 +1445,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:guardstrike",
+     "abilityName": "Guard Strike",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Muzzle",
    "quality": "Normal",
    "qualityCost": 1,
@@ -903,6 +1490,20 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:punishingbolt",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Punishing Bolt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -928,6 +1529,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:pureblade",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Pure Blade",
    "quality": "Poor",
    "qualityCost": 1,
@@ -953,6 +1568,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6614,
+    "builderTab": "Inquisition",
+    "identity": {
+     "abilityKey": "c15:pyrotonic",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802277
+     ]
+    },
+    "matchedSpellId": 802277,
+    "reason": "liveDirect"
+   },
    "name": "Pyro Tonic",
    "quality": "Normal",
    "qualityCost": 1,
@@ -978,6 +1612,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7416,
+    "builderTab": "Houndmaster",
+    "identity": {
+     "abilityKey": "c15:defenderofdarkshire",
+     "abilityName": "Defender of Darkshire",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705531
+     ]
+    },
+    "matchedSpellId": 705531,
+    "reason": "liveDirect"
+   },
    "name": "Quickness",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1003,6 +1657,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34558,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:regenerativeelixirs",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705528
+     ]
+    },
+    "matchedSpellId": 705528,
+    "reason": "liveDirect"
+   },
    "name": "Regenerative Elixirs",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1028,6 +1701,21 @@
    "expansion": 0,
    "flags": 40960,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:repeater",
+     "abilityName": null,
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Repeater",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1051,6 +1739,21 @@
    "expansion": 0,
    "flags": 10754,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:repeaterpassivedepreacated",
+     "abilityName": "Repeater Passive DEPREACATED",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Repeater Passive",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1076,6 +1779,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7458,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:arbalestmastery",
+     "abilityName": "Arbalest Mastery",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      706240
+     ]
+    },
+    "matchedSpellId": 706240,
+    "reason": "liveDirect"
+   },
    "name": "Repeater Volley",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1110,6 +1833,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:saberslash",
+     "abilityName": null,
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Saber Slash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1133,6 +1871,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:shadewalker",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shadewalker",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1158,6 +1910,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31006,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:slayersmark",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804068
+     ]
+    },
+    "matchedSpellId": 804068,
+    "reason": "liveDirect"
+   },
    "name": "Slayer's Mark",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1183,6 +1954,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29988,
+    "builderTab": "Inquisition",
+    "identity": {
+     "abilityKey": "c15:smiteevil",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802004
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 802004,
+    "reason": "liveDirect"
+   },
    "name": "Smite Evil",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1208,6 +1999,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:stoicism",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Stoicism",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1233,6 +2043,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:studentofdarkness",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Student of Darkness",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1267,6 +2091,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:surgingtonic",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Surging Tonic",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1292,6 +2135,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6325,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:tonicsupply",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705497
+     ]
+    },
+    "matchedSpellId": 705497,
+    "reason": "liveDirect"
+   },
    "name": "Tonic Supply",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1317,6 +2179,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:torment",
+     "abilityName": null,
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Torment",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1327,7 +2204,53 @@
      "dispel": null,
      "id": 500084,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500084
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501356
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501357
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501358
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501359
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501360
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501361
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501362
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501363
+      }
+     ],
      "schools": []
     }
    ],
@@ -1340,6 +2263,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:trapper",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      681180
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Trapper",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1365,6 +2308,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:vampirehunt",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Vampire Hunt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1390,6 +2347,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7590,
+    "builderTab": "Black Knight",
+    "identity": {
+     "abilityKey": "c15:calmunderpressure",
+     "abilityName": "Calm Under Pressure",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705519
+     ]
+    },
+    "matchedSpellId": 705519,
+    "reason": "liveDirect"
+   },
    "name": "Vampiric Lineage",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1424,6 +2401,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29986,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:vampirictonic",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802276
+     ]
+    },
+    "matchedSpellId": 802276,
+    "reason": "liveDirect"
+   },
    "name": "Vampiric Tonic",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1449,6 +2445,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29150,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:vault",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500085
+     ]
+    },
+    "matchedSpellId": 500085,
+    "reason": "liveDirect"
+   },
    "name": "Vault",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1474,6 +2489,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34595,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c15:vengefulintent",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705534
+     ]
+    },
+    "matchedSpellId": 705534,
+    "reason": "liveDirect"
+   },
    "name": "Vengeful Intent",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1499,6 +2533,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:viciousmockery",
+     "classId": 15,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Vicious Mockery",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1555,6 +2609,20 @@
    "expansion": 0,
    "flags": 40961,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:weaponswapping",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Weapon Swapping",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1580,6 +2648,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31160,
+    "builderTab": "Boltslinger",
+    "identity": {
+     "abilityKey": "c15:witchbane",
+     "classId": 15,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800165
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800165,
+    "reason": "liveDirect"
+   },
    "name": "Witchbane",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1605,6 +2693,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:musketstance",
+     "abilityName": "Musket Stance",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Witchblast Musket",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1630,6 +2733,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c15:pursuerofevil",
+     "abilityName": "Pursuer of Evil",
+     "classId": 15,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "You Can Run",
    "quality": "Poor",
    "qualityCost": 1,

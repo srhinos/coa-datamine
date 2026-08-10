@@ -1,0 +1,24 @@
+{
+ "columnWidths": {"byte":0,"int32":39},
+ "columns": 39,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "SpellVisualKit.dbc",
+ "format": "gzip",
+ "inferredCounts": {"float":12,"int":23,"zero":4},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 2123631,
+ "rows": 6195,
+ "shardCount": 2,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"00000-09999.jsonl.gz","format":"gzip","hi":9999,"lo":0,"plainBytes":1612707,"rows":4708,"sha256":"558a20f7d09f4f20bcb1e88576f57e9e8969c4e33ca9727d91e57e4d136af185","storedBytes":58833},
+  {"file":"10000-19999.jsonl.gz","format":"gzip","hi":19999,"lo":10000,"plainBytes":510924,"rows":1487,"sha256":"28bb50f1bfab7f6b09b576bf227d0a0e7878be31e5b3ed6e80ae485ffd96199b","storedBytes":19696}
+ ],
+ "sourceSha256": "681c6f86d72f55cd9a66c28d2159d6898f2767e069e83d0266d482a1b9f2b954",
+ "storedBytes": 78529,
+ "stringBlockSize": 1,
+ "table": "SpellVisualKit",
+ "unreferencedStringBytes": 0
+}

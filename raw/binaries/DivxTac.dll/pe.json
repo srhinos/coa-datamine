@@ -1,0 +1,904 @@
+{
+ "bytes": 98816,
+ "certificates": [],
+ "coff": {
+  "characteristics": 8482,
+  "characteristicsFlags": [
+   "EXECUTABLE_IMAGE",
+   "LARGE_ADDRESS_AWARE",
+   "32BIT_MACHINE",
+   "DLL"
+  ],
+  "machine": 332,
+  "machineName": "IMAGE_FILE_MACHINE_I386",
+  "numberOfSections": 5,
+  "numberOfSymbols": 0,
+  "pointerToSymbolTable": 0,
+  "sizeOfOptionalHeader": 224,
+  "timeDateStamp": 1633835898
+ },
+ "debug": [
+  {
+   "addressOfRawData": 97876,
+   "codeView": {
+    "age": 4,
+    "guid": "30DE1764-FADE-4952-A2EF-F280A4C9E9B2",
+    "pdb": "C:\\Users\\Glader\\Documents\\Github\\Ascension.CustomDLLs\\Release\\DivxTac.pdb",
+    "signature": "RSDS"
+   },
+   "majorVersion": 0,
+   "minorVersion": 0,
+   "pointerToRawData": 92756,
+   "sizeOfData": 98,
+   "timeDateStamp": 1633835898,
+   "type": 2,
+   "typeName": "CODEVIEW"
+  },
+  {
+   "addressOfRawData": 97976,
+   "majorVersion": 0,
+   "minorVersion": 0,
+   "pointerToRawData": 92856,
+   "sizeOfData": 20,
+   "timeDateStamp": 1633835898,
+   "type": 12,
+   "typeName": "VC_FEATURE"
+  },
+  {
+   "addressOfRawData": 97996,
+   "majorVersion": 0,
+   "minorVersion": 0,
+   "pointerToRawData": 92876,
+   "sizeOfData": 964,
+   "timeDateStamp": 1633835898,
+   "type": 13,
+   "typeName": "POGO"
+  }
+ ],
+ "directories": {
+  "architecture": {
+   "index": 7,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "basereloc": {
+   "index": 5,
+   "size": 864,
+   "virtualAddress": 110592
+  },
+  "boundImport": {
+   "index": 11,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "comDescriptor": {
+   "index": 14,
+   "size": 72,
+   "virtualAddress": 38232
+  },
+  "debug": {
+   "index": 6,
+   "size": 84,
+   "virtualAddress": 38400
+  },
+  "delayImport": {
+   "index": 13,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "exception": {
+   "index": 3,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "export": {
+   "index": 0,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "globalptr": {
+   "index": 8,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "iat": {
+   "index": 12,
+   "size": 360,
+   "virtualAddress": 36864
+  },
+  "import": {
+   "index": 1,
+   "size": 180,
+   "virtualAddress": 99380
+  },
+  "loadConfig": {
+   "index": 10,
+   "size": 64,
+   "virtualAddress": 38488
+  },
+  "reserved": {
+   "index": 15,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "resource": {
+   "index": 2,
+   "size": 248,
+   "virtualAddress": 106496
+  },
+  "security": {
+   "index": 4,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "tls": {
+   "index": 9,
+   "size": 24,
+   "virtualAddress": 97216
+  }
+ },
+ "dos": {
+  "e_lfanew": 272,
+  "stubBytes": 208
+ },
+ "exports": {
+  "functions": [],
+  "present": false
+ },
+ "imports": [
+  {
+   "dll": "KERNEL32.dll",
+   "firstThunk": 36864,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 289,
+     "name": "DisableThreadLibraryCalls",
+     "ordinal": null
+    },
+    {
+     "hint": 612,
+     "name": "GetLastError",
+     "ordinal": null
+    },
+    {
+     "hint": 288,
+     "name": "DeviceIoControl",
+     "ordinal": null
+    },
+    {
+     "hint": 198,
+     "name": "CreateFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 1481,
+     "name": "VerifyVersionInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 1477,
+     "name": "VerSetConditionMask",
+     "ordinal": null
+    },
+    {
+     "hint": 1538,
+     "name": "WideCharToMultiByte",
+     "ordinal": null
+    },
+    {
+     "hint": 689,
+     "name": "GetProcAddress",
+     "ordinal": null
+    },
+    {
+     "hint": 194,
+     "name": "CreateEventW",
+     "ordinal": null
+    },
+    {
+     "hint": 1500,
+     "name": "WaitForSingleObjectEx",
+     "ordinal": null
+    },
+    {
+     "hint": 1224,
+     "name": "ResetEvent",
+     "ordinal": null
+    },
+    {
+     "hint": 1304,
+     "name": "SetEvent",
+     "ordinal": null
+    },
+    {
+     "hint": 275,
+     "name": "DeleteCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 866,
+     "name": "InitializeCriticalSectionAndSpinCount",
+     "ordinal": null
+    },
+    {
+     "hint": 961,
+     "name": "LeaveCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 308,
+     "name": "EnterCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 137,
+     "name": "CloseHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 635,
+     "name": "GetModuleHandleW",
+     "ordinal": null
+    },
+    {
+     "hint": 898,
+     "name": "IsDebuggerPresent",
+     "ordinal": null
+    },
+    {
+     "hint": 870,
+     "name": "InitializeSListHead",
+     "ordinal": null
+    },
+    {
+     "hint": 748,
+     "name": "GetSystemTimeAsFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 543,
+     "name": "GetCurrentThreadId",
+     "ordinal": null
+    },
+    {
+     "hint": 539,
+     "name": "GetCurrentProcessId",
+     "ordinal": null
+    },
+    {
+     "hint": 1103,
+     "name": "QueryPerformanceCounter",
+     "ordinal": null
+    },
+    {
+     "hint": 905,
+     "name": "IsProcessorFeaturePresent",
+     "ordinal": null
+    },
+    {
+     "hint": 1424,
+     "name": "TerminateProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 538,
+     "name": "GetCurrentProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 1393,
+     "name": "SetUnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 1457,
+     "name": "UnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 1409,
+     "name": "Sleep",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 99948,
+   "originalFirstThunk": 99560,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "MSVCP140.dll",
+   "firstThunk": 36988,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 654,
+     "name": "?_Xlength_error@std@@YAXPBD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1462,
+     "name": "_Thrd_sleep",
+     "ordinal": null
+    },
+    {
+     "hint": 1358,
+     "name": "_Cnd_do_broadcast_at_thread_exit",
+     "ordinal": null
+    },
+    {
+     "hint": 1424,
+     "name": "_Query_perf_counter",
+     "ordinal": null
+    },
+    {
+     "hint": 1425,
+     "name": "_Query_perf_frequency",
+     "ordinal": null
+    },
+    {
+     "hint": 1484,
+     "name": "_Xtime_get_ticks",
+     "ordinal": null
+    },
+    {
+     "hint": 1456,
+     "name": "_Thrd_detach",
+     "ordinal": null
+    },
+    {
+     "hint": 629,
+     "name": "?_Throw_Cpp_error@std@@YAXH@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 628,
+     "name": "?_Throw_C_error@std@@YAXH@Z",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 99994,
+   "originalFirstThunk": 99684,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "VCRUNTIME140.dll",
+   "firstThunk": 37028,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 13,
+     "name": "__CxxExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 19,
+     "name": "__CxxRegisterExceptionObject",
+     "ordinal": null
+    },
+    {
+     "hint": 12,
+     "name": "__CxxDetectRethrow",
+     "ordinal": null
+    },
+    {
+     "hint": 20,
+     "name": "__CxxUnregisterExceptionObject",
+     "ordinal": null
+    },
+    {
+     "hint": 76,
+     "name": "strstr",
+     "ordinal": null
+    },
+    {
+     "hint": 22,
+     "name": "__FrameUnwindFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 18,
+     "name": "__CxxQueryExceptionSize",
+     "ordinal": null
+    },
+    {
+     "hint": 37,
+     "name": "__std_type_info_destroy_list",
+     "ordinal": null
+    },
+    {
+     "hint": 53,
+     "name": "_except_handler4_common",
+     "ordinal": null
+    },
+    {
+     "hint": 29,
+     "name": "__current_exception_context",
+     "ordinal": null
+    },
+    {
+     "hint": 28,
+     "name": "__current_exception",
+     "ordinal": null
+    },
+    {
+     "hint": 33,
+     "name": "__std_exception_copy",
+     "ordinal": null
+    },
+    {
+     "hint": 34,
+     "name": "__std_exception_destroy",
+     "ordinal": null
+    },
+    {
+     "hint": 72,
+     "name": "memset",
+     "ordinal": null
+    },
+    {
+     "hint": 16,
+     "name": "__CxxFrameHandler3",
+     "ordinal": null
+    },
+    {
+     "hint": 1,
+     "name": "_CxxThrowException",
+     "ordinal": null
+    },
+    {
+     "hint": 71,
+     "name": "memmove",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 100222,
+   "originalFirstThunk": 99724,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+   "firstThunk": 37176,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 15,
+     "name": "__stdio_common_vsprintf_s",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 100556,
+   "originalFirstThunk": 99872,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-string-l1-1-0.dll",
+   "firstThunk": 37184,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 151,
+     "name": "tolower",
+     "ordinal": null
+    },
+    {
+     "hint": 110,
+     "name": "isspace",
+     "ordinal": null
+    },
+    {
+     "hint": 108,
+     "name": "isprint",
+     "ordinal": null
+    },
+    {
+     "hint": 112,
+     "name": "iswalnum",
+     "ordinal": null
+    },
+    {
+     "hint": 137,
+     "name": "strcpy_s",
+     "ordinal": null
+    },
+    {
+     "hint": 100,
+     "name": "isalnum",
+     "ordinal": null
+    },
+    {
+     "hint": 142,
+     "name": "strncmp",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 100588,
+   "originalFirstThunk": 99880,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+   "firstThunk": 37100,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 8,
+     "name": "_callnewh",
+     "ordinal": null
+    },
+    {
+     "hint": 24,
+     "name": "free",
+     "ordinal": null
+    },
+    {
+     "hint": 25,
+     "name": "malloc",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 100622,
+   "originalFirstThunk": 99796,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+   "firstThunk": 37116,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 106,
+     "name": "terminate",
+     "ordinal": null
+    },
+    {
+     "hint": 87,
+     "name": "abort",
+     "ordinal": null
+    },
+    {
+     "hint": 21,
+     "name": "_beginthreadex",
+     "ordinal": null
+    },
+    {
+     "hint": 23,
+     "name": "_cexit",
+     "ordinal": null
+    },
+    {
+     "hint": 31,
+     "name": "_crt_atexit",
+     "ordinal": null
+    },
+    {
+     "hint": 36,
+     "name": "_execute_onexit_table",
+     "ordinal": null
+    },
+    {
+     "hint": 62,
+     "name": "_register_onexit_function",
+     "ordinal": null
+    },
+    {
+     "hint": 54,
+     "name": "_initialize_onexit_table",
+     "ordinal": null
+    },
+    {
+     "hint": 53,
+     "name": "_initialize_narrow_environment",
+     "ordinal": null
+    },
+    {
+     "hint": 25,
+     "name": "_configure_narrow_argv",
+     "ordinal": null
+    },
+    {
+     "hint": 65,
+     "name": "_seh_filter_dll",
+     "ordinal": null
+    },
+    {
+     "hint": 57,
+     "name": "_initterm_e",
+     "ordinal": null
+    },
+    {
+     "hint": 56,
+     "name": "_initterm",
+     "ordinal": null
+    },
+    {
+     "hint": 59,
+     "name": "_invalid_parameter_noinfo_noreturn",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 100654,
+   "originalFirstThunk": 99812,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "mscoree.dll",
+   "firstThunk": 37216,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 118,
+     "name": "_CorDllMain",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 101792,
+   "originalFirstThunk": 99912,
+   "timeDateStamp": 0
+  }
+ ],
+ "isPE": true,
+ "notes": [],
+ "optional": {
+  "addressOfEntryPoint": 34124,
+  "baseOfCode": 4096,
+  "baseOfData": 36864,
+  "checkSum": 0,
+  "dllCharacteristics": 320,
+  "dllCharacteristicsFlags": [
+   "DYNAMIC_BASE",
+   "NX_COMPAT"
+  ],
+  "fileAlignment": 512,
+  "imageBase": 268435456,
+  "loaderFlags": 0,
+  "magic": 267,
+  "magicName": "PE32",
+  "majorImageVersion": 0,
+  "majorLinkerVersion": 14,
+  "majorOperatingSystemVersion": 6,
+  "majorSubsystemVersion": 6,
+  "minorImageVersion": 0,
+  "minorLinkerVersion": 29,
+  "minorOperatingSystemVersion": 0,
+  "minorSubsystemVersion": 0,
+  "numberOfRvaAndSizes": 16,
+  "sectionAlignment": 4096,
+  "sizeOfCode": 30720,
+  "sizeOfHeaders": 1024,
+  "sizeOfHeapCommit": 4096,
+  "sizeOfHeapReserve": 1048576,
+  "sizeOfImage": 114688,
+  "sizeOfInitializedData": 69632,
+  "sizeOfStackCommit": 4096,
+  "sizeOfStackReserve": 1048576,
+  "sizeOfUninitializedData": 0,
+  "subsystem": 2,
+  "subsystemName": "WINDOWS_GUI",
+  "win32VersionValue": 0
+ },
+ "overlay": {
+  "bytes": 0,
+  "offset": 98816
+ },
+ "peHeaderOffset": 272,
+ "resources": [
+  {
+   "codePage": 0,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 24,
+     "name": null
+    },
+    {
+     "id": 2,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 2,
+   "nameString": null,
+   "offset": 97376,
+   "rva": 106592,
+   "size": 145,
+   "typeId": 24,
+   "typeName": "RT_MANIFEST"
+  }
+ ],
+ "rich": {
+  "checksumOffset": 244,
+  "entries": [
+   {
+    "buildNumber": 30729,
+    "count": 8,
+    "productId": 147
+   },
+   {
+    "buildNumber": 21022,
+    "count": 2,
+    "productId": 147
+   },
+   {
+    "buildNumber": 30034,
+    "count": 28,
+    "productId": 261
+   },
+   {
+    "buildNumber": 30034,
+    "count": 10,
+    "productId": 260
+   },
+   {
+    "buildNumber": 30034,
+    "count": 2,
+    "productId": 259
+   },
+   {
+    "buildNumber": 30034,
+    "count": 4,
+    "productId": 257
+   },
+   {
+    "buildNumber": 30037,
+    "count": 7,
+    "productId": 265
+   },
+   {
+    "buildNumber": 27412,
+    "count": 3,
+    "productId": 257
+   },
+   {
+    "buildNumber": 0,
+    "count": 147,
+    "productId": 1
+   },
+   {
+    "buildNumber": 30037,
+    "count": 5,
+    "productId": 261
+   },
+   {
+    "buildNumber": 30037,
+    "count": 1,
+    "productId": 255
+   },
+   {
+    "buildNumber": 30037,
+    "count": 1,
+    "productId": 258
+   }
+  ],
+  "key": 362271350,
+  "offset": 128,
+  "present": true,
+  "sha256": "f6cdf572c2018a6fcec36a30a2126c893294081554a594c4627b268e45baf476"
+ },
+ "sections": [
+  {
+   "bytesRead": 30720,
+   "characteristics": 1610612768,
+   "characteristicsFlags": [
+    "CNT_CODE",
+    "MEM_EXECUTE",
+    "MEM_READ"
+   ],
+   "entropy": 5.551282,
+   "index": 0,
+   "name": ".text",
+   "nameBytesHex": "2e74657874000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 1024,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.25293,
+   "sha256": "73cf54655c3046bc99ab47ac57bdfc97999f17df6d364946eb665875c74fdf87",
+   "sizeOfRawData": 30720,
+   "virtualAddress": 4096,
+   "virtualSize": 30304
+  },
+  {
+   "bytesRead": 65024,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 6.124357,
+   "index": 1,
+   "name": ".rdata",
+   "nameBytesHex": "2e72646174610000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 31744,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.650621,
+   "sha256": "3ac6af4b6fbe6a4dea310ac94600612bd4874151fa40c31ecb3d6b50f93073a2",
+   "sizeOfRawData": 65024,
+   "virtualAddress": 36864,
+   "virtualSize": 64940
+  },
+  {
+   "bytesRead": 512,
+   "characteristics": 3221225536,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 4.487299,
+   "index": 2,
+   "name": ".data",
+   "nameBytesHex": "2e64617461000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 96768,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.445312,
+   "sha256": "2a25003799f163476d41780c5e11b6e23dd1dd271991b5246c8ffd9f509363f4",
+   "sizeOfRawData": 512,
+   "virtualAddress": 102400,
+   "virtualSize": 2652
+  },
+  {
+   "bytesRead": 512,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 2.52496,
+   "index": 3,
+   "name": ".rsrc",
+   "nameBytesHex": "2e72737263000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 97280,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.291016,
+   "sha256": "dd421a980720ce948077e697a144b539781f50557204d34f87707edb375eab5a",
+   "sizeOfRawData": 512,
+   "virtualAddress": 106496,
+   "virtualSize": 248
+  },
+  {
+   "bytesRead": 1024,
+   "characteristics": 1107296320,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_DISCARDABLE",
+    "MEM_READ"
+   ],
+   "entropy": 5.677794,
+   "index": 4,
+   "name": ".reloc",
+   "nameBytesHex": "2e72656c6f630000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 97792,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.530273,
+   "sha256": "781c30f0cbbfc6d8f4cc953227d2aa807ff756b985b4c5446e766a94cc830578",
+   "sizeOfRawData": 1024,
+   "virtualAddress": 110592,
+   "virtualSize": 864
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "columnWidths": {"byte":0,"int32":10},
+ "columns": 10,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "SoundEmitters.dbc",
+ "format": "plain",
+ "inferredCounts": {"float":6,"int":3,"string":1},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 109677,
+ "rows": 621,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"0000-9999.jsonl","format":"plain","hi":9999,"lo":0,"plainBytes":109677,"rows":621,"sha256":"8eb369a20dcfa603a7fbaf54f867d2a785753ffdc240a8f3b529202dc6ad1c76","storedBytes":109677}
+ ],
+ "sourceSha256": "426db91e84149580a676a60ba5e25c4c1ebaaf8a1298687e3b9f4d1bff22394f",
+ "storedBytes": 109677,
+ "stringBlockSize": 1363,
+ "table": "SoundEmitters",
+ "unreferencedStringBytes": 0
+}

@@ -1,0 +1,414 @@
+{
+ "bytes": 42244,
+ "certificates": [],
+ "coff": {
+  "characteristics": 8482,
+  "characteristicsFlags": [
+   "EXECUTABLE_IMAGE",
+   "LARGE_ADDRESS_AWARE",
+   "32BIT_MACHINE",
+   "DLL"
+  ],
+  "machine": 332,
+  "machineName": "IMAGE_FILE_MACHINE_I386",
+  "numberOfSections": 3,
+  "numberOfSymbols": 0,
+  "pointerToSymbolTable": 0,
+  "sizeOfOptionalHeader": 224,
+  "timeDateStamp": 1212082232
+ },
+ "debug": [],
+ "directories": {
+  "architecture": {
+   "index": 7,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "basereloc": {
+   "index": 5,
+   "size": 24,
+   "virtualAddress": 104108
+  },
+  "boundImport": {
+   "index": 11,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "comDescriptor": {
+   "index": 14,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "debug": {
+   "index": 6,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "delayImport": {
+   "index": 13,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "exception": {
+   "index": 3,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "export": {
+   "index": 0,
+   "size": 64,
+   "virtualAddress": 103972
+  },
+  "globalptr": {
+   "index": 8,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "iat": {
+   "index": 12,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "import": {
+   "index": 1,
+   "size": 224,
+   "virtualAddress": 103748
+  },
+  "loadConfig": {
+   "index": 10,
+   "size": 72,
+   "virtualAddress": 104036
+  },
+  "reserved": {
+   "index": 15,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "resource": {
+   "index": 2,
+   "size": 1348,
+   "virtualAddress": 102400
+  },
+  "security": {
+   "index": 4,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "tls": {
+   "index": 9,
+   "size": 0,
+   "virtualAddress": 0
+  }
+ },
+ "dos": {
+  "e_lfanew": 240,
+  "stubBytes": 176
+ },
+ "exports": {
+  "functionCount": 3,
+  "functions": [
+   {
+    "forwarder": null,
+    "name": null,
+    "ordinal": 1,
+    "rva": 12336
+   },
+   {
+    "forwarder": null,
+    "name": null,
+    "ordinal": 2,
+    "rva": 12304
+   },
+   {
+    "forwarder": null,
+    "name": null,
+    "ordinal": 3,
+    "rva": 12192
+   }
+  ],
+  "name": "Scan.dll",
+  "nameCount": 0,
+  "ordinalBase": 1,
+  "present": true,
+  "timeDateStamp": 1212082232
+ },
+ "imports": [
+  {
+   "dll": "KERNEL32.DLL",
+   "firstThunk": 103828,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 0,
+     "name": "LoadLibraryA",
+     "ordinal": null
+    },
+    {
+     "hint": 0,
+     "name": "GetProcAddress",
+     "ordinal": null
+    },
+    {
+     "hint": 0,
+     "name": "VirtualProtect",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 103860,
+   "originalFirstThunk": 0,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "ADVAPI32.dll",
+   "firstThunk": 103844,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 0,
+     "name": "PrivilegeCheck",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 103873,
+   "originalFirstThunk": 0,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "USER32.dll",
+   "firstThunk": 103852,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 0,
+     "name": "EnumWindows",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 103886,
+   "originalFirstThunk": 0,
+   "timeDateStamp": 0
+  }
+ ],
+ "isPE": true,
+ "notes": [],
+ "optional": {
+  "addressOfEntryPoint": 99568,
+  "baseOfCode": 61440,
+  "baseOfData": 102400,
+  "checkSum": 0,
+  "dllCharacteristics": 256,
+  "dllCharacteristicsFlags": [
+   "NX_COMPAT"
+  ],
+  "fileAlignment": 512,
+  "imageBase": 926875648,
+  "loaderFlags": 0,
+  "magic": 267,
+  "magicName": "PE32",
+  "majorImageVersion": 0,
+  "majorLinkerVersion": 8,
+  "majorOperatingSystemVersion": 4,
+  "majorSubsystemVersion": 4,
+  "minorImageVersion": 0,
+  "minorLinkerVersion": 0,
+  "minorOperatingSystemVersion": 0,
+  "minorSubsystemVersion": 0,
+  "numberOfRvaAndSizes": 16,
+  "sectionAlignment": 4096,
+  "sizeOfCode": 40960,
+  "sizeOfHeaders": 4096,
+  "sizeOfHeapCommit": 4096,
+  "sizeOfHeapReserve": 1048576,
+  "sizeOfImage": 106496,
+  "sizeOfInitializedData": 4096,
+  "sizeOfStackCommit": 4096,
+  "sizeOfStackReserve": 1048576,
+  "sizeOfUninitializedData": 57344,
+  "subsystem": 2,
+  "subsystemName": "WINDOWS_GUI",
+  "win32VersionValue": 0
+ },
+ "overlay": {
+  "bytes": 260,
+  "offset": 41984,
+  "sha256": "39edb401537c1e801c2c98e26abe91a370a3c535be2f57956ed2cc6f6b17b160"
+ },
+ "peHeaderOffset": 240,
+ "resources": [
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 16,
+     "name": null
+    },
+    {
+     "id": 1,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 1,
+   "nameString": null,
+   "offset": 40100,
+   "rva": 102564,
+   "size": 1092,
+   "typeId": 16,
+   "typeName": "RT_VERSION"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 24,
+     "name": null
+    },
+    {
+     "id": 2,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 2,
+   "nameString": null,
+   "offset": 41196,
+   "rva": 103660,
+   "size": 86,
+   "typeId": 24,
+   "typeName": "RT_MANIFEST"
+  }
+ ],
+ "rich": {
+  "checksumOffset": 212,
+  "entries": [
+   {
+    "buildNumber": 50727,
+    "count": 17,
+    "productId": 125
+   },
+   {
+    "buildNumber": 50727,
+    "count": 73,
+    "productId": 109
+   },
+   {
+    "buildNumber": 4035,
+    "count": 7,
+    "productId": 93
+   },
+   {
+    "buildNumber": 0,
+    "count": 95,
+    "productId": 1
+   },
+   {
+    "buildNumber": 50727,
+    "count": 49,
+    "productId": 110
+   },
+   {
+    "buildNumber": 50727,
+    "count": 1,
+    "productId": 122
+   },
+   {
+    "buildNumber": 50727,
+    "count": 1,
+    "productId": 124
+   },
+   {
+    "buildNumber": 50727,
+    "count": 1,
+    "productId": 120
+   }
+  ],
+  "key": 2917173859,
+  "offset": 128,
+  "present": true,
+  "sha256": "9bda0f2ec4324b91067c8223538f8604d6a3e5b088e7f8da12b0cecb6792c28c"
+ },
+ "sections": [
+  {
+   "bytesRead": 0,
+   "characteristics": 3758096512,
+   "characteristicsFlags": [
+    "CNT_UNINITIALIZED_DATA",
+    "MEM_EXECUTE",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 0.0,
+   "index": 0,
+   "name": "UPX0",
+   "nameBytesHex": "5550583000000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 1024,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "sizeOfRawData": 0,
+   "virtualAddress": 4096,
+   "virtualSize": 57344
+  },
+  {
+   "bytesRead": 38912,
+   "characteristics": 3758096448,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_EXECUTE",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 7.893439,
+   "index": 1,
+   "name": "UPX1",
+   "nameBytesHex": "5550583100000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 1024,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.386308,
+   "sha256": "83023bca4f052171c8907d059a7ab2b9ada056962a359cccd28310348fb200b0",
+   "sizeOfRawData": 38912,
+   "virtualAddress": 61440,
+   "virtualSize": 40960
+  },
+  {
+   "bytesRead": 2048,
+   "characteristics": 3221225536,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 3.387843,
+   "index": 2,
+   "name": ".rsrc",
+   "nameBytesHex": "2e72737263000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 39936,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.332031,
+   "sha256": "06d875030ab03f21e5ed95a206c977592139b7734b00df68cedc0ae903ba98da",
+   "sizeOfRawData": 2048,
+   "virtualAddress": 102400,
+   "virtualSize": 4096
+  }
+ ]
+}

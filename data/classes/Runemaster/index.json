@@ -1,4 +1,6 @@
 {
+ "aliases": ["SPIRITMAGE"],
+ "catalogTabs": ["Arcane","Class","Riftblade","Runic"],
  "class": "Runemaster",
  "classId": 32,
  "entryCount": 424,
@@ -6,10 +8,21 @@
  "files": [
   {"cadIdRange":null,"count":91,"file":"Arcane.json","tab":"Arcane","type":null},
   {"cadIdRange":null,"count":68,"file":"Class.json","tab":"Class","type":null},
-  {"cadIdRange":null,"count":112,"file":"Riftblade.json","tab":"Riftblade","type":null},
-  {"cadIdRange":null,"count":153,"file":"Runic.json","tab":"Runic","type":null}
+  {"cadIdRange":null,"count":70,"file":"Riftblade.Ability.json","tab":"Riftblade","type":"Ability"},
+  {"cadIdRange":null,"count":42,"file":"Riftblade.Talent.json","tab":"Riftblade","type":"Talent"},
+  {"cadIdRange":[4000,6000],"count":1,"file":"Runic.Ability-4000.json","tab":"Runic","type":"Ability"},
+  {"cadIdRange":[6000,8000],"count":35,"file":"Runic.Ability-6000.json","tab":"Runic","type":"Ability"},
+  {"cadIdRange":[18000,20000],"count":56,"file":"Runic.Ability-18000.json","tab":"Runic","type":"Ability"},
+  {"cadIdRange":[20000,22000],"count":18,"file":"Runic.Ability-20000.json","tab":"Runic","type":"Ability"},
+  {"cadIdRange":[28000,30000],"count":5,"file":"Runic.Ability-28000.json","tab":"Runic","type":"Ability"},
+  {"cadIdRange":null,"count":38,"file":"Runic.Talent.json","tab":"Runic","type":"Talent"}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":244,"live":142,"liveViaRank":0,"unknown":38},
+ "liveCountsByReason": {"deadCatalog":244,"indeterminate":38,"liveDirect":142},
+ "liveTabs": ["Runic","Arcane","Riftblade","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 53
 }

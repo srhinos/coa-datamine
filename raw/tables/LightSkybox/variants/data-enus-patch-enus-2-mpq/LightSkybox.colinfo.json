@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":123,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":145,"maxUnsigned":145,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":123,"rows":123,"string":{"applicable":true,"blockCoverageRate":0.06991,"blockSize":2117,"controlCharOffsets":0,"distinctOffsets":4,"meanDecodedLength":36.0,"nonEmptyOffsets":4,"utf8DecodableOffsets":4,"validOffsetRate":0.03252},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Environments\\Stars\\StratholmeSkybox.mdx","Environments\\Stars\\PortalWorldLegionSky.mdx","Environments\\Stars\\DeathClouds.mdx","Environments\\Stars\\Stars.mdx"],"width":4},
+  {"evidence":{"distinct":52,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2076,"maxUnsigned":2076,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":123,"rows":123,"string":{"applicable":true,"blockCoverageRate":0.999528,"blockSize":2117,"controlCharOffsets":0,"distinctOffsets":52,"meanDecodedLength":39.692,"nonEmptyOffsets":52,"utf8DecodableOffsets":52,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Environments\\Stars\\StratholmeSkybox.mdx","Environments\\Stars\\PortalWorldLegionSky.mdx","Environments\\Stars\\DeathClouds.mdx","Environments\\Stars\\Stars.mdx","Environments\\Stars\\CavernsOfTimeSky.mdx"],"width":4},
+  {"evidence":{"distinct":3,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2,"maxUnsigned":2,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":64,"rows":123,"string":{"applicable":true,"blockCoverageRate":0.019367,"blockSize":2117,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":19.5,"nonEmptyOffsets":1,"utf8DecodableOffsets":2,"validOffsetRate":0.699187},"zeroCount":59},"index":2,"inferred":"int","name":"f2","samples":["Environments\\Stars\\StratholmeSkybox.mdx"],"width":4}
+ ],
+ "file": "LightSkybox.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":123,"sizeReconciles":true,"stringBlockReferencedBytes":2117,"stringBlockSize":2117,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":3613,"losers":[],"sha256":"2c7ad7aa02a2906c138ca457ea69ef50443ab6b2e5a590c70f378154f511edd3","winner":"Data/enUS/patch-enUS-2.MPQ"},
+ "table": "LightSkybox"
+}

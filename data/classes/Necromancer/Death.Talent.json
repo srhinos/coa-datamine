@@ -7,6 +7,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:deathlevel15passive",
+     "abilityName": "Death - Level 15 Passive",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Angel of Death",
    "quality": "Normal",
    "qualityCost": 1,
@@ -32,6 +47,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:blightweaver",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Blightweaver",
    "quality": "Normal",
    "qualityCost": 1,
@@ -57,6 +86,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 10918,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:deathcommander",
+     "abilityName": "Death Commander",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300235
+     ]
+    },
+    "matchedSpellId": 300235,
+    "reason": "liveDirect"
+   },
    "name": "Chronic Diseases",
    "quality": "Poor",
    "qualityCost": 1,
@@ -91,6 +140,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6295,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:creepingcrypt",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300960
+     ]
+    },
+    "matchedSpellId": 300960,
+    "reason": "liveDirect"
+   },
    "name": "Creeping Crypt",
    "quality": "Poor",
    "qualityCost": 1,
@@ -116,6 +184,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:cryptplague",
+     "abilityName": "Crypt Plague",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92121
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Death Necromancer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -141,6 +227,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:entomb",
+     "classId": 23,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Entomb",
    "quality": "Normal",
    "qualityCost": 1,
@@ -166,6 +271,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33761,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:fleshcrafting",
+     "abilityName": "Fleshcrafting",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300941
+     ]
+    },
+    "matchedSpellId": 300941,
+    "reason": "liveDirect"
+   },
    "name": "Evolved Diseases",
    "quality": "Poor",
    "qualityCost": 1,
@@ -191,6 +316,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6960,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:foulcontagion",
+     "abilityName": "Foul Contagion",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300965
+     ]
+    },
+    "matchedSpellId": 300965,
+    "reason": "liveDirect"
+   },
    "name": "Explosive Plague",
    "quality": "Poor",
    "qualityCost": 1,
@@ -216,6 +361,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6961,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:festeringdecay",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806324
+     ]
+    },
+    "matchedSpellId": 806324,
+    "reason": "liveDirect"
+   },
    "name": "Festering Decay",
    "quality": "Normal",
    "qualityCost": 1,
@@ -241,6 +405,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:foulexpedition",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Foul Expedition",
    "quality": "Normal",
    "qualityCost": 1,
@@ -266,6 +444,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29865,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c23:gravedigger",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704715
+     ]
+    },
+    "matchedSpellId": 704715,
+    "reason": "liveDirect"
+   },
    "name": "Gravedigger",
    "quality": "Poor",
    "qualityCost": 1,
@@ -300,6 +497,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:necroticarmor",
+     "abilityName": "Necrotic Armor",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Grimestep",
    "quality": "Normal",
    "qualityCost": 1,
@@ -325,6 +537,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:gangrene",
+     "abilityName": "Gangrene",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Necrosis",
    "quality": "Poor",
    "qualityCost": 1,
@@ -350,6 +577,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5781,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c23:lichcommander",
+     "abilityName": "Lich Commander",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704713
+     ]
+    },
+    "matchedSpellId": 704713,
+    "reason": "liveDirect"
+   },
    "name": "Improved Plaguebringer",
    "quality": "Poor",
    "qualityCost": 1,
@@ -375,6 +622,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:improvedplaguewither",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Plaguewither",
    "quality": "Normal",
    "qualityCost": 1,
@@ -400,6 +661,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:mortification",
+     "abilityName": "Mortification",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Ray of Rot",
    "quality": "Poor",
    "qualityCost": 1,
@@ -434,6 +710,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:lichbolt",
+     "classId": 23,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Lich Bolt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -495,6 +786,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30912,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:lichplague",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802132
+     ]
+    },
+    "matchedSpellId": 802132,
+    "reason": "liveDirect"
+   },
    "name": "Lichplague",
    "quality": "Normal",
    "qualityCost": 1,
@@ -521,6 +831,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:dawnfall",
+     "abilityName": "Dawnfall",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Malady of Hunger",
    "quality": "Normal",
    "qualityCost": 1,
@@ -547,6 +872,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:maladyofrot",
+     "abilityName": null,
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Malady of Rot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -570,6 +910,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30915,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:mucksummoner",
+     "abilityName": "Muck Summoner",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806086
+     ]
+    },
+    "matchedSpellId": 806086,
+    "reason": "liveDirect"
+   },
    "name": "Muckworms",
    "quality": "Normal",
    "qualityCost": 1,
@@ -595,6 +955,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4620,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:mutation",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500342
+     ]
+    },
+    "matchedSpellId": 500342,
+    "reason": "liveDirect"
+   },
    "name": "Mutation",
    "quality": "Normal",
    "qualityCost": 1,
@@ -621,6 +1000,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30835,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:necrosis",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802990
+     ]
+    },
+    "matchedSpellId": 802990,
+    "reason": "liveDirect"
+   },
    "name": "Necrosis",
    "quality": "Normal",
    "qualityCost": 1,
@@ -646,6 +1044,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:noxiouscorpserot",
+     "classId": 23,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Noxious Corpserot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -693,6 +1106,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29864,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:plaguerevenant",
+     "abilityName": "Plague Revenant",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806321
+     ]
+    },
+    "matchedSpellId": 806321,
+    "reason": "liveDirect"
+   },
    "name": "Pandemic",
    "quality": "Normal",
    "qualityCost": 1,
@@ -736,6 +1169,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:parasiticalexperiments",
+     "abilityName": "Parasitical Experiments",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Parasites",
    "quality": "Normal",
    "qualityCost": 1,
@@ -761,6 +1209,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguedoctor",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Plague Doctor",
    "quality": "Normal",
    "qualityCost": 1,
@@ -786,6 +1248,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguedrinker",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Plague Drinker",
    "quality": "Poor",
    "qualityCost": 1,
@@ -811,6 +1287,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33752,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:masterofdeath",
+     "abilityName": "Master of Death",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806328
+     ]
+    },
+    "matchedSpellId": 806328,
+    "reason": "liveDirect"
+   },
    "name": "Plague Revenant",
    "quality": "Normal",
    "qualityCost": 1,
@@ -836,6 +1332,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 19222,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:plaguescience",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704163
+     ]
+    },
+    "matchedSpellId": 704163,
+    "reason": "liveDirect"
+   },
    "name": "Plague Science",
    "quality": "Normal",
    "qualityCost": 1,
@@ -861,6 +1376,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguesreach",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Plague's Reach",
    "quality": "Normal",
    "qualityCost": 1,
@@ -886,6 +1415,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguebomb",
+     "classId": 23,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Plaguebomb",
    "quality": "Normal",
    "qualityCost": 1,
@@ -953,6 +1497,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguebringer",
+     "abilityName": null,
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Plaguebringer",
    "quality": "Normal",
    "qualityCost": 1,
@@ -976,6 +1535,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguestorm",
+     "classId": 23,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Plaguestorm",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1052,6 +1626,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30238,
+    "builderTab": "Animation",
+    "identity": {
+     "abilityKey": "c23:longmarch",
+     "abilityName": "Long March",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704717
+     ]
+    },
+    "matchedSpellId": 704717,
+    "reason": "liveDirect"
+   },
    "name": "Plaguestorm",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1077,6 +1671,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:rayofrot",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ray of Rot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1103,6 +1711,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:rotslinger",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rotslinger",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1128,6 +1750,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34982,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:expunge",
+     "abilityName": "Expunge",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705754
+     ]
+    },
+    "matchedSpellId": 705754,
+    "reason": "liveDirect"
+   },
    "name": "Sludge Belcher",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1162,6 +1804,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:sowerofsickness",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Sower of Sickness",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1187,6 +1843,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:spectraldecay",
+     "abilityName": null,
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Spectral Decay",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1197,7 +1868,53 @@
      "dispel": null,
      "id": 801944,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801944
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501932
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501933
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501934
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501935
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501936
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501937
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501938
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501939
+      }
+     ],
      "schools": []
     }
    ],
@@ -1210,6 +1927,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:pestilentaura",
+     "abilityName": "Pestilent Aura",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Toxic Plagues",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1235,6 +1967,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30804,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:virulency",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801938
+     ]
+    },
+    "matchedSpellId": 801938,
+    "reason": "liveDirect"
+   },
    "name": "Virulency",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1311,6 +2063,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:muckblood",
+     "abilityName": "Muckblood",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Withering Wake",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1336,6 +2103,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:wormfood",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      560800
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Wormfood",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1361,6 +2148,22 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:spiritlinkidol",
+     "abilityName": "Spirit Link Idol",
+     "classId": 23,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Wretched Bile",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1427,6 +2230,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:wretchedbile",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Wretched Bile",
    "quality": "Poor",
    "qualityCost": 1,

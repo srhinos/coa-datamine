@@ -1,4 +1,6 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Class","Displacement","Duality","Time"],
  "class": "Chronomancer",
  "classId": 22,
  "entryCount": 434,
@@ -6,10 +8,20 @@
  "files": [
   {"cadIdRange":null,"count":62,"file":"Class.json","tab":"Class","type":null},
   {"cadIdRange":null,"count":99,"file":"Displacement.json","tab":"Displacement","type":null},
-  {"cadIdRange":null,"count":168,"file":"Duality.json","tab":"Duality","type":null},
+  {"cadIdRange":[4000,6000],"count":1,"file":"Duality.Ability-4000.json","tab":"Duality","type":"Ability"},
+  {"cadIdRange":[6000,8000],"count":42,"file":"Duality.Ability-6000.json","tab":"Duality","type":"Ability"},
+  {"cadIdRange":[18000,20000],"count":59,"file":"Duality.Ability-18000.json","tab":"Duality","type":"Ability"},
+  {"cadIdRange":[20000,22000],"count":15,"file":"Duality.Ability-20000.json","tab":"Duality","type":"Ability"},
+  {"cadIdRange":[28000,30000],"count":10,"file":"Duality.Ability-28000.json","tab":"Duality","type":"Ability"},
+  {"cadIdRange":null,"count":41,"file":"Duality.Talent.json","tab":"Duality","type":"Talent"},
   {"cadIdRange":null,"count":105,"file":"Time.json","tab":"Time","type":null}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":197,"live":163,"liveViaRank":0,"unknown":74},
+ "liveCountsByReason": {"deadCatalog":197,"indeterminate":74,"liveDirect":163},
+ "liveTabs": ["Infinite","Artificer","Class","Time","Blessings"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 18
 }

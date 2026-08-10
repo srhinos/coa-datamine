@@ -1,0 +1,415 @@
+{
+ "choiceGroupFinding": {
+  "nonPairGroups": {},
+  "totalNonzeroGroups": 292,
+  "verdict": "Every nonzero `group` value pairs EXACTLY 2 entries (0 exceptions), always sharing identical (classId, tabId, x, y) and differing only in spellId/name - the client's choice-node concept (CoACharacterAdvancementUtil.GetDisplayTemplateForEntryChoice / CoATalentChoiceButtonTemplate; node:IsChoiceNode() in GetGateLeftAttachmentPoint/GetGateRightAttachmentPoint bundles alternatives at one shared visual anchor). A choice group's `group` value is literally one member's own spellId (the OTHER member, in every sampled case) - a builder-side convenience, not a separate id space."
+ },
+ "classCount": 21,
+ "clientLuaGeometryFinding": {
+  "idMatchesCadRow": 2851,
+  "idMatchesCadRowOf": 3618,
+  "note": "The base account-wide CharacterAdvancementData.json (raw/content/) ALSO carries PositionX/PositionY/ConnectedNodes/RequiredIDs/RequiredAEInvestment/RequiredTEInvestment columns (13-15% row coverage, no numeric tabId at all - Tab is a bare string there). Investigated as a possible fallback/cross-check source: for the 2851/3618 payload nodes whose id DOES match a CAD row, agreement is near-zero (PositionX/Y exact match only on a small minority; ConnectedNodes average Jaccard similarity ~0.02) - these raw CAD columns serve the client's narrower 'ConnectingNode' decorative-line UI (see raw/interface/FrameXML/Data/CharacterAdvancement.lua's CHARACTER_ADVANCEMENT_NODES population rule), not the same geometry as the builder payload. Concluded: NOT a usable client-Lua fallback for tree geometry, despite the superficially matching field names."
+ },
+ "connectivityFinding": {
+  "connectedNodeIds": {
+   "resolveRate": 0.9996,
+   "resolved": 5488,
+   "total": 5490,
+   "unresolved": [
+    {
+     "fromId": 34445,
+     "fromName": "Hammer of the Law",
+     "missingId": 7181
+    },
+    {
+     "fromId": 7196,
+     "fromName": "Fire and Brimstone",
+     "missingId": 6451
+    }
+   ]
+  },
+  "requiredIds": {
+   "alwaysSameClass": true,
+   "resolveRate": 1.0,
+   "resolved": 171,
+   "total": 171
+  }
+ },
+ "contentDrift": {
+  "recommendation": "This module gates the HARD pass/fail bar on the raw-Spell.dbc existence check (100.00%, i.e. 'is this a real spell in this client snapshot at all'), not the curated/CAD-Spells join (100.0%/49.1%), and ships spellResolved:false on every node whose spellId does not resolve against data/spells so a consumer can see the gap per-node instead of it being silently absorbed.",
+  "spellDbcResolveRate": {
+   "of": 3618,
+   "rate": 1.0,
+   "resolved": 3618,
+   "unresolvedSpellIds": []
+  },
+  "verdict": "The naive '>=95% resolve against CAD entries' gate, taken literally (payload spellId must appear in this repo's own captured CharacterAdvancementData.json), FAILS: only 49.1% resolve. This is real, measured content drift between the live published builder and this repo's client snapshot - NOT a parse bug or bad join. Independent proof: a permissive re-measurement against the raw client Spell.dbc table (raw/dbc/Spell.csv.gz, 209,151 rows, ANY row regardless of whether any CAD entry references it) resolves 100.00% (3,618/3,618) - the payload's spell ids are real, valid spells that exist in this exact client snapshot; they are simply not the SAME spellId variant this repo's captured CAD JSON happens to reference for the same-looking ability. Every payload spellId resolves - no exceptions. Likely mechanism (consistent with the W4-8 Realms-bitmask finding that CoA abilities get authored as MULTIPLE duplicate CAD rows per realm/game-mode, each potentially carrying a DIFFERENT spellId variant): the account-wide CAD snapshot's 'coa-custom' rows are a union across several variants of the same ability, and the live CoA builder picks one specific variant that doesn't always line up 1:1 with the variant this snapshot's closure walk reached."
+ },
+ "flagBits": {
+  "0x1": "Deprecated",
+  "0x100": "ConnectingNode",
+  "0x1000": "Mastery",
+  "0x2": "UnaffectedByResets",
+  "0x2000": "FreeUnlearn",
+  "0x4": "CannotBeUnlearned",
+  "0x4000": "RequireAnyInvestment",
+  "0x8": "Disabled",
+  "0x800": "HiddenClientside",
+  "0x8000": "ShowCardOnLearn"
+ },
+ "goldenBar": {
+  "gateMet": true,
+  "spellDbcResolveRateGate": 0.95,
+  "spellDbcResolveRateMeasured": 1.0
+ },
+ "isStartingNodeFinding": {
+  "entriesWithNoRequiredIds": 3493,
+  "entriesWithNoRequiredIdsPct": 0.9655,
+  "reason": "Only 2/3618 entries carry a nonzero isStartingNode at all, but they are NOT equally reliable. `isStartingNode: 1` on node 7608 (Cultist 'Abyssal Ward', tabId 87 'Class', empty requiredIds) IS a real tree root exactly as the brief's suggested golden expects: two sibling nodes - 4040 'Obliteration' and 7512 'Dreadnought', both Cultist, both `requiredIds: [7608, 0, 0]` - directly require it. The brief's golden HOLDS for this entry. The other nonzero entry, node 30212 (SunCleric 'Hope'), carries `isStartingNode: 127` - not a 0/1 boolean, a genuine data anomaly - and is NOT any other node's requiredIds target; that one specific value is unexplained and unreferenced, not a second real starting node. So: proven where used correctly (value 1), anomalous and unreferenced where the value is 127. Separately, and NOT a contradiction of the above: 3493/3618 entries (96.5%) have NO requiredIds at all (far more than the 2 flagged nodes) - CoA's talent trees are gated primarily by reqTabAE/reqTabTE per-row investment thresholds (AE gates the Class tree, TE gates spec trees - see raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml's ClassTree/SpecTree frame wiring, and reqTabAeTeGateFinding below), not a classic Blizzard prerequisite chain rooted at one flagged 'starting node' - requiredIds only gates a small minority (171 non-zero refs / 3618 entries) of nodes, and `isStartingNode` marks only 1 of them. The flag is real and correctly wired where present, just far too sparse to be the general 'is this a tree root' signal on its own - `requiredIds == []` is the broader structural proxy for that, `isStartingNode` a narrower, sparser, mostly-reliable overlay.",
+  "specialEntries": [
+   {
+    "classId": 25,
+    "id": 7608,
+    "isStartingNode": 1,
+    "name": "Abyssal Ward",
+    "referencedByRequiredIds": [
+     {
+      "id": 4040,
+      "name": "Obliteration",
+      "requiredIds": [
+       7608
+      ]
+     },
+     {
+      "id": 7512,
+      "name": "Dreadnought",
+      "requiredIds": [
+       7608
+      ]
+     }
+    ],
+    "requiredIds": [],
+    "tabId": 87
+   },
+   {
+    "classId": 27,
+    "id": 30212,
+    "isStartingNode": 127,
+    "name": "Hope",
+    "referencedByRequiredIds": [],
+    "requiredIds": [],
+    "tabId": 71
+   }
+  ],
+  "verdict": "PARTIALLY PROVEN"
+ },
+ "payload": {
+  "buildId": 40,
+  "buildName": "Vol'Jin",
+  "extractionTechnique": "Next.js flight-stream analogue of the aowow.py Listview trick (coa-sim-handoff/parsers/aowow.py): scan every self.__next_f.push([id,\"...\"]) call by hand (backslash-aware, since some literals run several MB - a naive backtracking regex chokes), json.loads() each isolated string literal to unescape it once, strip the leading '<hex>:' flight-row prefix, then json.JSONDecoder().raw_decode() past any trailing non-JSON. The target build record is found structurally (walk the decoded tree for a dict shaped like {id,slug,name,max_level,talents: {classes,entriesByTab}}), not by a hardcoded array index.",
+  "fetch": {
+   "bytes": 11877725,
+   "capturedUtc": "2026-08-06T10:49:00+00:00",
+   "httpStatus": 200,
+   "note": "EXTERNAL SOURCE THAT DRIFTS - Ascension's live builder reflects current game balance/content, independent of this repo's client snapshot capture date. Re-run this fetch and diff sha256 to check for drift; do not assume this capture stays current.",
+   "savedAs": "coa-builder-voljin.html",
+   "serverDate": "Thu, 06 Aug 2026 10:49:03 GMT",
+   "sha256": "467fd444b349ad531539c80e18b836cd069d33d2c3fe71fc4ed488e017640da3",
+   "slug": "voljin",
+   "url": "https://ascension.gg/en/v2/coa-builder/voljin"
+  },
+  "maxLevel": 60,
+  "meta": {
+   "runtimeBuildProcess": "api/v3 builder CoA parser",
+   "runtimeDescriptionPreference": "pre-rendered builder tooltip HTML"
+  },
+  "slug": "voljin",
+  "totalNodes": 3618,
+  "twoBuildsInPage": "This page embeds TWO near-identical build records side by side (id 39 slug 'voljin-alpha', id 40 slug 'voljin') - both carry the exact same 3,618 nodes / same ids / same geometry fields, differing only in tooltip description text (verified: zero non-description/rankDescriptions field differences across every shared entry id). This is WHY every field name greps to exactly 7,236 raw occurrences in the fetched HTML (2 x 3,618) matching the doc's cited count precisely - it is two copies of one dataset, not 7,236 real distinct nodes. This module uses ONLY the slug='voljin' copy (build id 40), matching both the fetch URL and the realm caveat below; 'voljin-alpha' is ignored.",
+  "url": "https://ascension.gg/en/v2/coa-builder/voljin"
+ },
+ "realmCaveat": "The payload is served from the 'voljin' builder URL (https://ascension.gg/en/v2/coa-builder/voljin), but this is a CONQUEST OF AZEROTH capture, not a one-realm sample: Vol'jin and Rexxar are two realms of the SAME game mode (gameMode=11 in the client's own C_RealmSelect.RealmInfo) reading the same base chain, so there is no separate Rexxar geometry to be missing and nothing to reconcile between them. The scope limit that IS real is drift in TIME: this is one fetch of a published builder, frozen by sha256, and the live builder moves independently of this repo's client snapshot - which is exactly what contentDrift below measures. Re-run tools/fetch_coatalents.py and diff the pinned sha256 to detect it. The client-side Lua geometry source (Ascension_CoATalents, CharacterAdvancement*.lua) supplies realm-agnostic STRUCTURE (node types, gate mechanism, flag bits) but none of the numeric tree layout itself (see clientLuaGeometryFinding), so the payload is the only source for geometry and this caveat applies to all of it.",
+ "reqTabAeTeGateFinding": {
+  "aeGatedTabIds": [
+   87
+  ],
+  "reason": "reqTabAE is nonzero ONLY on tabId 87 ('Class', shared by all 21 classes) - tiers step 0 -> 9 -> 24 by row there, confirmed on every class checked. reqTabTE is nonzero on EVERY spec tab (tiers step 0 -> 8 -> 23 by row, confirmed on every spec tab checked) and flat 0 on the Class tab - the exact opposite pattern, not 'also mostly zero'. This matches the client's own frame wiring, not just an inferred pattern: raw/interface/AddOns/Ascension_CoATalents/CoATalentFrame.xml's `$parentClassTree` frame (parentKey=\"ClassTree\") wires `getEntryGateRequirement` to `CoACharacterAdvancementUtil.GetEntryAEGateRequirement` and `gateCurrencyCount` to `C_CharacterAdvancement.GetPendingTabAEInvestment`; the sibling `$parentSpecTree` frame (parentKey=\"SpecTree\") wires the TE equivalents (`GetEntryTEGateRequirement` / `GetPendingTabTEInvestment`) instead - i.e. the client XML itself assigns AE to the Class tree and TE to the Spec tree by construction, this is not a coincidence of the data.",
+  "teGatedTabIds": [
+   2,
+   7,
+   11,
+   16,
+   18,
+   19,
+   26,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   81,
+   82,
+   83,
+   84,
+   85,
+   86,
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94
+  ],
+  "verdict": "AE gates the Class tree; TE gates spec trees - a clean split, not 'AE/TE only live on Class'"
+ },
+ "resolveStats": {
+  "idMatchesAnyCadRow": {
+   "note": "payload node `id` matching some CAD row's own `ID` field.",
+   "of": 3618,
+   "rate": 0.788,
+   "resolved": 2851
+  },
+  "totalNodes": 3618,
+  "vsCuratedDataSpells": {
+   "note": "resolve rate of each node's primary spellId against data/spells/by-id/*.jsonl (the curated, closure-built spell set) - well below the naive 95% bar; see contentDrift below for why.",
+   "of": 3618,
+   "rate": 1.0,
+   "resolved": 3618
+  },
+  "vsRawCadSpellsUnion": {
+   "note": "resolve rate against the union of EVERY CAD row's Spells field (all 43 classes, not just the 21 coa-custom ones, and unfiltered by whether build_spells' closure ever reached it) - still well below 95%, so the gap is not an artifact of data/spells' own closure scope.",
+   "of": 3618,
+   "rate": 0.4914,
+   "resolved": 1778
+  }
+ },
+ "tabLayerReconciliation": {
+  "explanation": "The doc's '84' (Sec 11, local CAD tab-string layer: 4 tabs x 21 coa-custom classes) and '72' (Sec 6.1, payload's DISTINCT tabId count) are not directly comparable - they count different things from different sources. Recomputed fresh: the payload actually carries 96 (classId,tabId) ASSIGNMENT pairs (more than 84 - 10 classes have grown a 5th or 6th tab slot since the local snapshot), and 96 collapses to 72 DISTINCT tabIds purely because of id REUSE: tabId 87 ('Class') is literally the SAME numeric id on all 21 classes' Class trees (21 assignments -> 1 distinct id, -20), and tabId 1 ('None', a placeholder) plus tabId 71 ('Blessings', a real tab for SunCleric reused as an empty placeholder for Chronomancer) each get reused once more (-3 -1). 20+3+1 = 24 'extra' assignments absorbed by 3 shared ids; 96-24 = 72, exactly. Separately: 5 of the 96 assignment pairs are EMPTY placeholders (0 entries) - all 4 'None' tabId=1 slots (WitchHunter/Guardian/Pyromancer/SunCleric) plus Chronomancer's borrowed-but-unauthored 'Blessings' slot. The remaining 5 of those 10 grown classes (SonOfArugal/Primalist/Venomancer/Starcaller/Cultist) are NOT empty placeholders - each gained a genuine 5th tab with real content (38-44 nodes apiece). Cross-checking Sec 11's 7 named 'unreleased' specs by name against this payload: 5 of 7 have SHIPPED - SonOfArugal/FLESHWEAVER -> 'Fleshweaver' (44 nodes), SunCleric/VALKYR -> 'Valkyrie' (42 nodes), Primalist/MOUNTAINKING -> 'Mountain King' (40 nodes), WitchHunter/WITCHKNIGHT -> 'Black Knight' (38 nodes), Venomancer/VIZIER -> 'Vizier' (41 nodes) all now exist as real, non-empty tabs - see sec11UnreleasedSpecsShipped above for the full per-token table (exact node counts re-verified by assertion at every build, not hardcoded trust). Only 2 of 7 (Starcaller/HYDROMANCY, Cultist/BULWARK) do NOT appear by a matching tabName - though those two classes still each gained a DIFFERENT extra tab of their own (Starcaller 'Warden' 40 nodes, Cultist 'Dreadnought' 38 nodes) not named by Sec 11 at all. This is live, dated evidence of the 'external source that drifts' caveat this task was told to expect - a first pass of this reconciliation only checked 2 of the 7 tokens by hand and wrongly concluded the other 5 classes 'still sit at the local 4-tab count'; they do not.",
+  "localCadTabLayer": {
+   "classCount": 21,
+   "note": "data/classes/<Class>/ CAD tab-string layer, recomputed fresh from this repo's OWN client capture (not the payload) - matches AGENT-GUIDE/DATAMINE-REQUEST Sec 11's cited '84' exactly, still clean today: every one of the 21 coa-custom classes carries precisely 4 tab-name buckets (1 Class + 3 spec), zero exceptions.",
+   "perClassTabCounts": {
+    "Barbarian": 4,
+    "Chronomancer": 4,
+    "Cultist": 4,
+    "DemonHunter": 4,
+    "Guardian": 4,
+    "KnightOfXoroth": 4,
+    "Monk": 4,
+    "Necromancer": 4,
+    "Primalist": 4,
+    "Pyromancer": 4,
+    "Ranger": 4,
+    "Reaper": 4,
+    "Runemaster": 4,
+    "SonOfArugal": 4,
+    "Starcaller": 4,
+    "Stormbringer": 4,
+    "SunCleric": 4,
+    "Tinker": 4,
+    "Venomancer": 4,
+    "WitchDoctor": 4,
+    "WitchHunter": 4
+   },
+   "totalClassTabPairs": 84
+  },
+  "payloadTabLayer": {
+   "distinctTabIds": 72,
+   "emptyPlaceholderTabPairs": [
+    {
+     "classId": 15,
+     "className": "WitchHunter",
+     "tabId": 1,
+     "tabName": "None"
+    },
+    {
+     "classId": 18,
+     "className": "Guardian",
+     "tabId": 1,
+     "tabName": "None"
+    },
+    {
+     "classId": 22,
+     "className": "Chronomancer",
+     "tabId": 71,
+     "tabName": "Blessings"
+    },
+    {
+     "classId": 24,
+     "className": "Pyromancer",
+     "tabId": 1,
+     "tabName": "None"
+    },
+    {
+     "classId": 27,
+     "className": "SunCleric",
+     "tabId": 1,
+     "tabName": "None"
+    }
+   ],
+   "extraAssignmentsAbsorbedBySharing": 24,
+   "note": "The published builder's own tab layer, which has grown past a clean 4-per-class: 10 of 21 classes now carry 5 or 6 tab slots (an extra spec and/or an empty placeholder slot), for 96 total (classId,tabId) ASSIGNMENT pairs - more than the 84 in the local CAD snapshot, not fewer.",
+   "sharedTabIds": {
+    "1": [
+     15,
+     18,
+     24,
+     27
+    ],
+    "71": [
+     22,
+     27
+    ],
+    "87": [
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32
+    ]
+   },
+   "totalClassTabAssignments": 96
+  },
+  "sec11UnreleasedSpecsShipped": {
+   "note": "Cross-check of Sec 11's '7 of 70 specs have no CAD tab' list (by ChrSpecs tabToken) against the LIVE payload's tabNames, by classId + name. 5 of 7 have shipped real, non-empty content since Sec 11's audit; 2 have not (their classes instead gained a DIFFERENT, unnamed-by-Sec-11 extra tab - see unmatchedExtraTabs).",
+   "shippedCount": 5,
+   "tokens": [
+    {
+     "classId": 20,
+     "nodeCount": 44,
+     "shipped": true,
+     "tabId": 93,
+     "tabName": "Fleshweaver",
+     "token": "FLESHWEAVER"
+    },
+    {
+     "classId": 26,
+     "nodeCount": 0,
+     "shipped": false,
+     "tabId": null,
+     "tabName": null,
+     "token": "HYDROMANCY"
+    },
+    {
+     "classId": 27,
+     "nodeCount": 42,
+     "shipped": true,
+     "tabId": 90,
+     "tabName": "Valkyrie",
+     "token": "VALKYR"
+    },
+    {
+     "classId": 31,
+     "nodeCount": 40,
+     "shipped": true,
+     "tabId": 91,
+     "tabName": "Mountain King",
+     "token": "MOUNTAINKING"
+    },
+    {
+     "classId": 25,
+     "nodeCount": 0,
+     "shipped": false,
+     "tabId": null,
+     "tabName": null,
+     "token": "BULWARK"
+    },
+    {
+     "classId": 15,
+     "nodeCount": 38,
+     "shipped": true,
+     "tabId": 94,
+     "tabName": "Black Knight",
+     "token": "WITCHKNIGHT"
+    },
+    {
+     "classId": 29,
+     "nodeCount": 41,
+     "shipped": true,
+     "tabId": 92,
+     "tabName": "Vizier",
+     "token": "VIZIER"
+    }
+   ],
+   "unmatchedExtraTabs": [
+    {
+     "classId": 26,
+     "className": "Starcaller",
+     "nodeCount": 40,
+     "tabId": 89,
+     "tabName": "Warden"
+    },
+    {
+     "classId": 25,
+     "className": "Cultist",
+     "nodeCount": 38,
+     "tabId": 88,
+     "tabName": "Dreadnought"
+    }
+   ]
+  }
+ },
+ "task": "W4-9: CoA talent tree geometry (coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)"
+}

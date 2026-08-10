@@ -1,0 +1,547 @@
+{
+ "class": "Necromancer",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 20008,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_helmet_168",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:blightweaver",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Blightweaver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806329,
+     "name": "Blightweaver",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20004,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_DeathCoilV2_Cyan",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6961,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:festeringdecay",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806324
+     ]
+    },
+    "matchedSpellId": 806324,
+    "reason": "liveDirect"
+   },
+   "name": "Festering Decay",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806324,
+     "name": "Festering Decay",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20006,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_D3sacrifice",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:foulexpedition",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Foul Expedition",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806327,
+     "name": "Foul Expedition",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20027,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_demonhunter_doublejump",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:necroticarmor",
+     "abilityName": "Necrotic Armor",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Grimestep",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806386,
+     "name": "Necrotic Armor",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20160,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:hitratingalpha",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20162,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsachievement_boss_bronjahm",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33766,
+    "builderTab": "Animation",
+    "identity": {
+     "abilityKey": "c23:mindlessfury",
+     "abilityName": "Mindless Fury",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805674
+     ]
+    },
+    "matchedSpellId": 805674,
+    "reason": "liveDirect"
+   },
+   "name": "Life Force 1",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805674,
+     "name": "Mindless Fury",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20163,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsachievement_boss_bronjahm",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29861,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:rotfetishist",
+     "abilityName": "Rot Fetishist",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805675
+     ]
+    },
+    "matchedSpellId": 805675,
+    "reason": "liveDirect"
+   },
+   "name": "Life Force 1",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805675,
+     "name": "Rot Fetishist",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20161,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:necromancy",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Necromancy",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804360,
+     "name": "Necromancy",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20003,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_nature_sicklypolymorph",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29864,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:plaguerevenant",
+     "abilityName": "Plague Revenant",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806321
+     ]
+    },
+    "matchedSpellId": 806321,
+    "reason": "liveDirect"
+   },
+   "name": "Pandemic",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806321,
+     "name": "Plague Revenant",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20007,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_helm_cloth_raidwarlockmythic_s_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33752,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:masterofdeath",
+     "abilityName": "Master of Death",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806328
+     ]
+    },
+    "matchedSpellId": 806328,
+    "reason": "liveDirect"
+   },
+   "name": "Plague Revenant",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806328,
+     "name": "Master of Death",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20002,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_helmet_149",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguesreach",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Plague's Reach",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806320,
+     "name": "Plague's Reach",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20001,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_plate_pvpdeathknight_g_01_helm",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:plaguebringer",
+     "abilityName": null,
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Plaguebringer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806318,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20159,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:wands",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Wands",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 5009,
+     "name": "Wands",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Death",
+ "type": "Ability"
+}

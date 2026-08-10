@@ -1,0 +1,3331 @@
+{
+ "bytes": 2639424,
+ "certificates": [
+  {
+   "bytes": 4752,
+   "certificateType": 2,
+   "length": 4760,
+   "offset": 2634664,
+   "revision": 512,
+   "sha256": "f7137bd311a9fee2ff46a0bc1b25a55602178ee4df4fea711dfbc6b8eda84866"
+  }
+ ],
+ "coff": {
+  "characteristics": 259,
+  "characteristicsFlags": [
+   "RELOCS_STRIPPED",
+   "EXECUTABLE_IMAGE",
+   "32BIT_MACHINE"
+  ],
+  "machine": 332,
+  "machineName": "IMAGE_FILE_MACHINE_I386",
+  "numberOfSections": 4,
+  "numberOfSymbols": 0,
+  "pointerToSymbolTable": 0,
+  "sizeOfOptionalHeader": 224,
+  "timeDateStamp": 1284739422
+ },
+ "debug": [
+  {
+   "addressOfRawData": 1044784,
+   "codeView": {
+    "age": 1,
+    "guid": "BC67F6EC-4A5D-4AD9-B403-5762AA47B1EF",
+    "pdb": "d:\\buildserver\\1\\work-tools-sc2-gm\\core-repository\\branches\\tools-sc2-gm\\downloader\\release\\Blizzard Downloader.pdb",
+    "signature": "RSDS"
+   },
+   "majorVersion": 0,
+   "minorVersion": 0,
+   "pointerToRawData": 1044784,
+   "sizeOfData": 140,
+   "timeDateStamp": 1284739422,
+   "type": 2,
+   "typeName": "CODEVIEW"
+  }
+ ],
+ "directories": {
+  "architecture": {
+   "index": 7,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "basereloc": {
+   "index": 5,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "boundImport": {
+   "index": 11,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "comDescriptor": {
+   "index": 14,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "debug": {
+   "index": 6,
+   "size": 28,
+   "virtualAddress": 825248
+  },
+  "delayImport": {
+   "index": 13,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "exception": {
+   "index": 3,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "export": {
+   "index": 0,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "globalptr": {
+   "index": 8,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "iat": {
+   "index": 12,
+   "size": 1508,
+   "virtualAddress": 823296
+  },
+  "import": {
+   "index": 1,
+   "size": 320,
+   "virtualAddress": 1101476
+  },
+  "loadConfig": {
+   "index": 10,
+   "size": 64,
+   "virtualAddress": 1044712
+  },
+  "reserved": {
+   "index": 15,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "resource": {
+   "index": 2,
+   "size": 134520,
+   "virtualAddress": 1196032
+  },
+  "security": {
+   "index": 4,
+   "size": 4760,
+   "virtualAddress": 2634664
+  },
+  "tls": {
+   "index": 9,
+   "size": 0,
+   "virtualAddress": 0
+  }
+ },
+ "dos": {
+  "e_lfanew": 232,
+  "stubBytes": 168
+ },
+ "exports": {
+  "functions": [],
+  "present": false
+ },
+ "imports": [
+  {
+   "dll": "WININET.dll",
+   "firstThunk": 824584,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 87,
+     "name": "HttpQueryInfoA",
+     "ordinal": null
+    },
+    {
+     "hint": 167,
+     "name": "InternetSetOptionA",
+     "ordinal": null
+    },
+    {
+     "hint": 155,
+     "name": "InternetReadFileExA",
+     "ordinal": null
+    },
+    {
+     "hint": 174,
+     "name": "InternetSetStatusCallbackA",
+     "ordinal": null
+    },
+    {
+     "hint": 146,
+     "name": "InternetOpenA",
+     "ordinal": null
+    },
+    {
+     "hint": 89,
+     "name": "HttpSendRequestA",
+     "ordinal": null
+    },
+    {
+     "hint": 85,
+     "name": "HttpOpenRequestA",
+     "ordinal": null
+    },
+    {
+     "hint": 113,
+     "name": "InternetCrackUrlA",
+     "ordinal": null
+    },
+    {
+     "hint": 111,
+     "name": "InternetConnectA",
+     "ordinal": null
+    },
+    {
+     "hint": 162,
+     "name": "InternetSetCookieW",
+     "ordinal": null
+    },
+    {
+     "hint": 105,
+     "name": "InternetCloseHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 128,
+     "name": "InternetGetConnectedState",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1103376,
+   "originalFirstThunk": 1103084,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "VERSION.dll",
+   "firstThunk": 824568,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 2,
+     "name": "GetFileVersionInfoSizeW",
+     "ordinal": null
+    },
+    {
+     "hint": 3,
+     "name": "GetFileVersionInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 13,
+     "name": "VerQueryValueW",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1103454,
+   "originalFirstThunk": 1103068,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "COMCTL32.dll",
+   "firstThunk": 823364,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 93,
+     "name": "InitCommonControlsEx",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1103490,
+   "originalFirstThunk": 1101864,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "KERNEL32.dll",
+   "firstThunk": 823500,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 386,
+     "name": "GetModuleHandleW",
+     "ordinal": null
+    },
+    {
+     "hint": 326,
+     "name": "GetCurrentThreadId",
+     "ordinal": null
+    },
+    {
+     "hint": 80,
+     "name": "CreateEventW",
+     "ordinal": null
+    },
+    {
+     "hint": 912,
+     "name": "WaitForSingleObject",
+     "ordinal": null
+    },
+    {
+     "hint": 132,
+     "name": "DeleteFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 484,
+     "name": "GetUserDefaultLangID",
+     "ordinal": null
+    },
+    {
+     "hint": 111,
+     "name": "CreateThread",
+     "ordinal": null
+    },
+    {
+     "hint": 790,
+     "name": "SetEvent",
+     "ordinal": null
+    },
+    {
+     "hint": 787,
+     "name": "SetEnvironmentVariableA",
+     "ordinal": null
+    },
+    {
+     "hint": 59,
+     "name": "CompareStringW",
+     "ordinal": null
+    },
+    {
+     "hint": 58,
+     "name": "CompareStringA",
+     "ordinal": null
+    },
+    {
+     "hint": 931,
+     "name": "WriteConsoleW",
+     "ordinal": null
+    },
+    {
+     "hint": 309,
+     "name": "GetConsoleOutputCP",
+     "ordinal": null
+    },
+    {
+     "hint": 921,
+     "name": "WriteConsoleA",
+     "ordinal": null
+    },
+    {
+     "hint": 339,
+     "name": "GetDriveTypeA",
+     "ordinal": null
+    },
+    {
+     "hint": 320,
+     "name": "GetCurrentDirectoryA",
+     "ordinal": null
+    },
+    {
+     "hint": 83,
+     "name": "CreateFileA",
+     "ordinal": null
+    },
+    {
+     "hint": 373,
+     "name": "GetLocaleInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 577,
+     "name": "IsValidLocale",
+     "ordinal": null
+    },
+    {
+     "hint": 175,
+     "name": "EnumSystemLocalesA",
+     "ordinal": null
+    },
+    {
+     "hint": 483,
+     "name": "GetUserDefaultLCID",
+     "ordinal": null
+    },
+    {
+     "hint": 445,
+     "name": "GetStringTypeW",
+     "ordinal": null
+    },
+    {
+     "hint": 442,
+     "name": "GetStringTypeA",
+     "ordinal": null
+    },
+    {
+     "hint": 372,
+     "name": "GetLocaleInfoA",
+     "ordinal": null
+    },
+    {
+     "hint": 823,
+     "name": "SetStdHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 307,
+     "name": "GetConsoleMode",
+     "ordinal": null
+    },
+    {
+     "hint": 290,
+     "name": "GetConsoleCP",
+     "ordinal": null
+    },
+    {
+     "hint": 530,
+     "name": "HeapCreate",
+     "ordinal": null
+    },
+    {
+     "hint": 532,
+     "name": "HeapDestroy",
+     "ordinal": null
+    },
+    {
+     "hint": 86,
+     "name": "CreateFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 932,
+     "name": "WriteFile",
+     "ordinal": null
+    },
+    {
+     "hint": 597,
+     "name": "LoadLibraryW",
+     "ordinal": null
+    },
+    {
+     "hint": 416,
+     "name": "GetProcAddress",
+     "ordinal": null
+    },
+    {
+     "hint": 248,
+     "name": "FreeLibrary",
+     "ordinal": null
+    },
+    {
+     "hint": 453,
+     "name": "GetSystemInfo",
+     "ordinal": null
+    },
+    {
+     "hint": 323,
+     "name": "GetCurrentProcessId",
+     "ordinal": null
+    },
+    {
+     "hint": 273,
+     "name": "GetCommandLineW",
+     "ordinal": null
+    },
+    {
+     "hint": 604,
+     "name": "LocalFree",
+     "ordinal": null
+    },
+    {
+     "hint": 645,
+     "name": "OpenMutexW",
+     "ordinal": null
+    },
+    {
+     "hint": 52,
+     "name": "CloseHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 97,
+     "name": "CreateMutexW",
+     "ordinal": null
+    },
+    {
+     "hint": 369,
+     "name": "GetLastError",
+     "ordinal": null
+    },
+    {
+     "hint": 382,
+     "name": "GetModuleFileNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 276,
+     "name": "GetComputerNameA",
+     "ordinal": null
+    },
+    {
+     "hint": 346,
+     "name": "GetExitCodeProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 102,
+     "name": "CreateProcessA",
+     "ordinal": null
+    },
+    {
+     "hint": 343,
+     "name": "GetEnvironmentStringsW",
+     "ordinal": null
+    },
+    {
+     "hint": 247,
+     "name": "FreeEnvironmentStringsW",
+     "ordinal": null
+    },
+    {
+     "hint": 341,
+     "name": "GetEnvironmentStrings",
+     "ordinal": null
+    },
+    {
+     "hint": 246,
+     "name": "FreeEnvironmentStringsA",
+     "ordinal": null
+    },
+    {
+     "hint": 575,
+     "name": "IsValidCodePage",
+     "ordinal": null
+    },
+    {
+     "hint": 403,
+     "name": "GetOEMCP",
+     "ordinal": null
+    },
+    {
+     "hint": 253,
+     "name": "GetACP",
+     "ordinal": null
+    },
+    {
+     "hint": 358,
+     "name": "GetFileType",
+     "ordinal": null
+    },
+    {
+     "hint": 804,
+     "name": "SetHandleCount",
+     "ordinal": null
+    },
+    {
+     "hint": 540,
+     "name": "HeapSize",
+     "ordinal": null
+    },
+    {
+     "hint": 441,
+     "name": "GetStdHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 260,
+     "name": "GetCPInfo",
+     "ordinal": null
+    },
+    {
+     "hint": 581,
+     "name": "LCMapStringW",
+     "ordinal": null
+    },
+    {
+     "hint": 580,
+     "name": "LCMapStringA",
+     "ordinal": null
+    },
+    {
+     "hint": 750,
+     "name": "SetConsoleCtrlHandler",
+     "ordinal": null
+    },
+    {
+     "hint": 186,
+     "name": "ExitThread",
+     "ordinal": null
+    },
+    {
+     "hint": 362,
+     "name": "GetFullPathNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 538,
+     "name": "HeapReAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 439,
+     "name": "GetStartupInfoA",
+     "ordinal": null
+    },
+    {
+     "hint": 419,
+     "name": "GetProcessHeap",
+     "ordinal": null
+    },
+    {
+     "hint": 528,
+     "name": "HeapAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 534,
+     "name": "HeapFree",
+     "ordinal": null
+    },
+    {
+     "hint": 272,
+     "name": "GetCommandLineA",
+     "ordinal": null
+    },
+    {
+     "hint": 185,
+     "name": "ExitProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 727,
+     "name": "RtlUnwind",
+     "ordinal": null
+    },
+    {
+     "hint": 679,
+     "name": "RaiseException",
+     "ordinal": null
+    },
+    {
+     "hint": 878,
+     "name": "UnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 862,
+     "name": "TerminateProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 553,
+     "name": "InterlockedExchange",
+     "ordinal": null
+    },
+    {
+     "hint": 230,
+     "name": "FindResourceW",
+     "ordinal": null
+    },
+    {
+     "hint": 599,
+     "name": "LoadResource",
+     "ordinal": null
+    },
+    {
+     "hint": 613,
+     "name": "LockResource",
+     "ordinal": null
+    },
+    {
+     "hint": 853,
+     "name": "SizeofResource",
+     "ordinal": null
+    },
+    {
+     "hint": 250,
+     "name": "FreeResource",
+     "ordinal": null
+    },
+    {
+     "hint": 899,
+     "name": "VirtualFree",
+     "ordinal": null
+    },
+    {
+     "hint": 897,
+     "name": "VirtualAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 600,
+     "name": "LocalAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 628,
+     "name": "MulDiv",
+     "ordinal": null
+    },
+    {
+     "hint": 504,
+     "name": "GlobalAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 511,
+     "name": "GlobalFree",
+     "ordinal": null
+    },
+    {
+     "hint": 808,
+     "name": "SetLastError",
+     "ordinal": null
+    },
+    {
+     "hint": 489,
+     "name": "GetVersionExA",
+     "ordinal": null
+    },
+    {
+     "hint": 799,
+     "name": "SetFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 794,
+     "name": "SetFileAttributesW",
+     "ordinal": null
+    },
+    {
+     "hint": 784,
+     "name": "SetEndOfFile",
+     "ordinal": null
+    },
+    {
+     "hint": 709,
+     "name": "RemoveDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 795,
+     "name": "SetFilePointer",
+     "ordinal": null
+    },
+    {
+     "hint": 438,
+     "name": "GetShortPathNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 335,
+     "name": "GetDiskFreeSpaceExW",
+     "ordinal": null
+    },
+    {
+     "hint": 238,
+     "name": "FlushFileBuffers",
+     "ordinal": null
+    },
+    {
+     "hint": 213,
+     "name": "FindFirstFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 221,
+     "name": "FindNextFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 206,
+     "name": "FindClose",
+     "ordinal": null
+    },
+    {
+     "hint": 693,
+     "name": "ReadFile",
+     "ordinal": null
+    },
+    {
+     "hint": 870,
+     "name": "TlsSetValue",
+     "ordinal": null
+    },
+    {
+     "hint": 147,
+     "name": "DuplicateHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 569,
+     "name": "IsDebuggerPresent",
+     "ordinal": null
+    },
+    {
+     "hint": 842,
+     "name": "SetUnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 322,
+     "name": "GetCurrentProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 594,
+     "name": "LoadLibraryA",
+     "ordinal": null
+    },
+    {
+     "hint": 547,
+     "name": "InitializeCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 152,
+     "name": "EnterCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 593,
+     "name": "LeaveCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 129,
+     "name": "DeleteCriticalSection",
+     "ordinal": null
+    },
+    {
+     "hint": 383,
+     "name": "GetModuleHandleA",
+     "ordinal": null
+    },
+    {
+     "hint": 516,
+     "name": "GlobalMemoryStatus",
+     "ordinal": null
+    },
+    {
+     "hint": 854,
+     "name": "Sleep",
+     "ordinal": null
+    },
+    {
+     "hint": 836,
+     "name": "SetThreadPriority",
+     "ordinal": null
+    },
+    {
+     "hint": 475,
+     "name": "GetThreadPriority",
+     "ordinal": null
+    },
+    {
+     "hint": 869,
+     "name": "TlsGetValue",
+     "ordinal": null
+    },
+    {
+     "hint": 868,
+     "name": "TlsFree",
+     "ordinal": null
+    },
+    {
+     "hint": 852,
+     "name": "SignalObjectAndWait",
+     "ordinal": null
+    },
+    {
+     "hint": 675,
+     "name": "QueryPerformanceCounter",
+     "ordinal": null
+    },
+    {
+     "hint": 479,
+     "name": "GetTickCount",
+     "ordinal": null
+    },
+    {
+     "hint": 325,
+     "name": "GetCurrentThread",
+     "ordinal": null
+    },
+    {
+     "hint": 196,
+     "name": "FileTimeToLocalFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 197,
+     "name": "FileTimeToSystemTime",
+     "ordinal": null
+    },
+    {
+     "hint": 867,
+     "name": "TlsAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 676,
+     "name": "QueryPerformanceFrequency",
+     "ordinal": null
+    },
+    {
+     "hint": 381,
+     "name": "GetModuleFileNameA",
+     "ordinal": null
+    },
+    {
+     "hint": 321,
+     "name": "GetCurrentDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 279,
+     "name": "GetComputerNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 470,
+     "name": "GetTempPathW",
+     "ordinal": null
+    },
+    {
+     "hint": 629,
+     "name": "MultiByteToWideChar",
+     "ordinal": null
+    },
+    {
+     "hint": 916,
+     "name": "WideCharToMultiByte",
+     "ordinal": null
+    },
+    {
+     "hint": 490,
+     "name": "GetVersionExW",
+     "ordinal": null
+    },
+    {
+     "hint": 350,
+     "name": "GetFileAttributesA",
+     "ordinal": null
+    },
+    {
+     "hint": 336,
+     "name": "GetDiskFreeSpaceW",
+     "ordinal": null
+    },
+    {
+     "hint": 552,
+     "name": "InterlockedDecrement",
+     "ordinal": null
+    },
+    {
+     "hint": 556,
+     "name": "InterlockedIncrement",
+     "ordinal": null
+    },
+    {
+     "hint": 352,
+     "name": "GetFileAttributesExW",
+     "ordinal": null
+    },
+    {
+     "hint": 355,
+     "name": "GetFileSize",
+     "ordinal": null
+    },
+    {
+     "hint": 779,
+     "name": "SetCurrentDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 353,
+     "name": "GetFileAttributesW",
+     "ordinal": null
+    },
+    {
+     "hint": 78,
+     "name": "CreateDirectoryW",
+     "ordinal": null
+    },
+    {
+     "hint": 625,
+     "name": "MoveFileW",
+     "ordinal": null
+    },
+    {
+     "hint": 468,
+     "name": "GetTempFileNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 458,
+     "name": "GetSystemTimeAsFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 831,
+     "name": "SetThreadAffinityMask",
+     "ordinal": null
+    },
+    {
+     "hint": 904,
+     "name": "VirtualQuery",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1103874,
+   "originalFirstThunk": 1102000,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "USER32.dll",
+   "firstThunk": 824164,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 403,
+     "name": "InvalidateRect",
+     "ordinal": null
+    },
+    {
+     "hint": 226,
+     "name": "FillRect",
+     "ordinal": null
+    },
+    {
+     "hint": 198,
+     "name": "EndDialog",
+     "ordinal": null
+    },
+    {
+     "hint": 554,
+     "name": "ReleaseDC",
+     "ordinal": null
+    },
+    {
+     "hint": 596,
+     "name": "SetDlgItemTextW",
+     "ordinal": null
+    },
+    {
+     "hint": 273,
+     "name": "GetDlgItem",
+     "ordinal": null
+    },
+    {
+     "hint": 372,
+     "name": "GetWindowRect",
+     "ordinal": null
+    },
+    {
+     "hint": 268,
+     "name": "GetDC",
+     "ordinal": null
+    },
+    {
+     "hint": 377,
+     "name": "GetWindowTextLengthW",
+     "ordinal": null
+    },
+    {
+     "hint": 433,
+     "name": "IsWindowVisible",
+     "ordinal": null
+    },
+    {
+     "hint": 634,
+     "name": "SetTimer",
+     "ordinal": null
+    },
+    {
+     "hint": 488,
+     "name": "ModifyMenuW",
+     "ordinal": null
+    },
+    {
+     "hint": 300,
+     "name": "GetMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 492,
+     "name": "MoveWindow",
+     "ordinal": null
+    },
+    {
+     "hint": 561,
+     "name": "ScreenToClient",
+     "ordinal": null
+    },
+    {
+     "hint": 598,
+     "name": "SetFocus",
+     "ordinal": null
+    },
+    {
+     "hint": 449,
+     "name": "LoadImageW",
+     "ordinal": null
+    },
+    {
+     "hint": 15,
+     "name": "BringWindowToTop",
+     "ordinal": null
+    },
+    {
+     "hint": 647,
+     "name": "SetWindowTextW",
+     "ordinal": null
+    },
+    {
+     "hint": 447,
+     "name": "LoadIconW",
+     "ordinal": null
+    },
+    {
+     "hint": 437,
+     "name": "KillTimer",
+     "ordinal": null
+    },
+    {
+     "hint": 378,
+     "name": "GetWindowTextW",
+     "ordinal": null
+    },
+    {
+     "hint": 658,
+     "name": "ShowWindow",
+     "ordinal": null
+    },
+    {
+     "hint": 515,
+     "name": "PostMessageW",
+     "ordinal": null
+    },
+    {
+     "hint": 576,
+     "name": "SendMessageW",
+     "ordinal": null
+    },
+    {
+     "hint": 270,
+     "name": "GetDesktopWindow",
+     "ordinal": null
+    },
+    {
+     "hint": 159,
+     "name": "DialogBoxParamW",
+     "ordinal": null
+    },
+    {
+     "hint": 486,
+     "name": "MessageBoxW",
+     "ordinal": null
+    },
+    {
+     "hint": 230,
+     "name": "FindWindowW",
+     "ordinal": null
+    },
+    {
+     "hint": 641,
+     "name": "SetWindowLongW",
+     "ordinal": null
+    },
+    {
+     "hint": 607,
+     "name": "SetMenuDefaultItem",
+     "ordinal": null
+    },
+    {
+     "hint": 599,
+     "name": "SetForegroundWindow",
+     "ordinal": null
+    },
+    {
+     "hint": 222,
+     "name": "EnumWindows",
+     "ordinal": null
+    },
+    {
+     "hint": 143,
+     "name": "DefWindowProcW",
+     "ordinal": null
+    },
+    {
+     "hint": 364,
+     "name": "GetWindowDC",
+     "ordinal": null
+    },
+    {
+     "hint": 501,
+     "name": "OffsetRect",
+     "ordinal": null
+    },
+    {
+     "hint": 64,
+     "name": "ClientToScreen",
+     "ordinal": null
+    },
+    {
+     "hint": 620,
+     "name": "SetRect",
+     "ordinal": null
+    },
+    {
+     "hint": 191,
+     "name": "DrawTextW",
+     "ordinal": null
+    },
+    {
+     "hint": 394,
+     "name": "InflateRect",
+     "ordinal": null
+    },
+    {
+     "hint": 457,
+     "name": "LoadMenuW",
+     "ordinal": null
+    },
+    {
+     "hint": 439,
+     "name": "LoadAcceleratorsW",
+     "ordinal": null
+    },
+    {
+     "hint": 651,
+     "name": "SetWindowsHookExW",
+     "ordinal": null
+    },
+    {
+     "hint": 306,
+     "name": "GetMenuItemCount",
+     "ordinal": null
+    },
+    {
+     "hint": 345,
+     "name": "GetSubMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 422,
+     "name": "IsIconic",
+     "ordinal": null
+    },
+    {
+     "hint": 182,
+     "name": "DrawIcon",
+     "ordinal": null
+    },
+    {
+     "hint": 151,
+     "name": "DestroyMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 686,
+     "name": "UnhookWindowsHookEx",
+     "ordinal": null
+    },
+    {
+     "hint": 680,
+     "name": "TranslateAcceleratorW",
+     "ordinal": null
+    },
+    {
+     "hint": 26,
+     "name": "CallNextHookEx",
+     "ordinal": null
+    },
+    {
+     "hint": 272,
+     "name": "GetDlgCtrlID",
+     "ordinal": null
+    },
+    {
+     "hint": 255,
+     "name": "GetClientRect",
+     "ordinal": null
+    },
+    {
+     "hint": 349,
+     "name": "GetSystemMetrics",
+     "ordinal": null
+    },
+    {
+     "hint": 643,
+     "name": "SetWindowPos",
+     "ordinal": null
+    },
+    {
+     "hint": 341,
+     "name": "GetScrollInfo",
+     "ordinal": null
+    },
+    {
+     "hint": 56,
+     "name": "CheckDlgButton",
+     "ordinal": null
+    },
+    {
+     "hint": 419,
+     "name": "IsDlgButtonChecked",
+     "ordinal": null
+    },
+    {
+     "hint": 493,
+     "name": "MsgWaitForMultipleObjects",
+     "ordinal": null
+    },
+    {
+     "hint": 73,
+     "name": "CopyImage",
+     "ordinal": null
+    },
+    {
+     "hint": 28,
+     "name": "CallWindowProcW",
+     "ordinal": null
+    },
+    {
+     "hint": 367,
+     "name": "GetWindowLongW",
+     "ordinal": null
+    },
+    {
+     "hint": 675,
+     "name": "TrackMouseEvent",
+     "ordinal": null
+    },
+    {
+     "hint": 644,
+     "name": "SetWindowRgn",
+     "ordinal": null
+    },
+    {
+     "hint": 430,
+     "name": "IsWindowEnabled",
+     "ordinal": null
+    },
+    {
+     "hint": 183,
+     "name": "DrawIconEx",
+     "ordinal": null
+    },
+    {
+     "hint": 97,
+     "name": "CreateWindowExW",
+     "ordinal": null
+    },
+    {
+     "hint": 524,
+     "name": "PtInRect",
+     "ordinal": null
+    },
+    {
+     "hint": 435,
+     "name": "IsZoomed",
+     "ordinal": null
+    },
+    {
+     "hint": 676,
+     "name": "TrackPopupMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 86,
+     "name": "CreateDialogParamW",
+     "ordinal": null
+    },
+    {
+     "hint": 194,
+     "name": "EnableMenuItem",
+     "ordinal": null
+    },
+    {
+     "hint": 555,
+     "name": "RemoveMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 348,
+     "name": "GetSystemMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 150,
+     "name": "DestroyIcon",
+     "ordinal": null
+    },
+    {
+     "hint": 200,
+     "name": "EndPaint",
+     "ordinal": null
+    },
+    {
+     "hint": 13,
+     "name": "BeginPaint",
+     "ordinal": null
+    },
+    {
+     "hint": 179,
+     "name": "DrawFocusRect",
+     "ordinal": null
+    },
+    {
+     "hint": 325,
+     "name": "GetParent",
+     "ordinal": null
+    },
+    {
+     "hint": 278,
+     "name": "GetFocus",
+     "ordinal": null
+    },
+    {
+     "hint": 580,
+     "name": "SetCapture",
+     "ordinal": null
+    },
+    {
+     "hint": 553,
+     "name": "ReleaseCapture",
+     "ordinal": null
+    },
+    {
+     "hint": 253,
+     "name": "GetClassNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 423,
+     "name": "IsMenu",
+     "ordinal": null
+    },
+    {
+     "hint": 307,
+     "name": "GetMenuItemID",
+     "ordinal": null
+    },
+    {
+     "hint": 313,
+     "name": "GetMenuStringW",
+     "ordinal": null
+    },
+    {
+     "hint": 309,
+     "name": "GetMenuItemInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 557,
+     "name": "RemovePropW",
+     "ordinal": null
+    },
+    {
+     "hint": 331,
+     "name": "GetPropW",
+     "ordinal": null
+    },
+    {
+     "hint": 589,
+     "name": "SetCursor",
+     "ordinal": null
+    },
+    {
+     "hint": 445,
+     "name": "LoadCursorW",
+     "ordinal": null
+    },
+    {
+     "hint": 243,
+     "name": "GetCapture",
+     "ordinal": null
+    },
+    {
+     "hint": 619,
+     "name": "SetPropW",
+     "ordinal": null
+    },
+    {
+     "hint": 203,
+     "name": "EnumChildWindows",
+     "ordinal": null
+    },
+    {
+     "hint": 666,
+     "name": "SystemParametersInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 371,
+     "name": "GetWindowPlacement",
+     "ordinal": null
+    },
+    {
+     "hint": 642,
+     "name": "SetWindowPlacement",
+     "ordinal": null
+    },
+    {
+     "hint": 153,
+     "name": "DestroyWindow",
+     "ordinal": null
+    },
+    {
+     "hint": 196,
+     "name": "EnableWindow",
+     "ordinal": null
+    },
+    {
+     "hint": 429,
+     "name": "IsWindow",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1104858,
+   "originalFirstThunk": 1102664,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "GDI32.dll",
+   "firstThunk": 823372,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 363,
+     "name": "GetDeviceCaps",
+     "ordinal": null
+    },
+    {
+     "hint": 512,
+     "name": "RestoreDC",
+     "ordinal": null
+    },
+    {
+     "hint": 519,
+     "name": "SaveDC",
+     "ordinal": null
+    },
+    {
+     "hint": 431,
+     "name": "GetTextColor",
+     "ordinal": null
+    },
+    {
+     "hint": 524,
+     "name": "SelectClipRgn",
+     "ordinal": null
+    },
+    {
+     "hint": 76,
+     "name": "CreateRectRgnIndirect",
+     "ordinal": null
+    },
+    {
+     "hint": 53,
+     "name": "CreateEllipticRgn",
+     "ordinal": null
+    },
+    {
+     "hint": 407,
+     "name": "GetObjectW",
+     "ordinal": null
+    },
+    {
+     "hint": 80,
+     "name": "CreateSolidBrush",
+     "ordinal": null
+    },
+    {
+     "hint": 140,
+     "name": "DeleteDC",
+     "ordinal": null
+    },
+    {
+     "hint": 61,
+     "name": "CreateFontIndirectW",
+     "ordinal": null
+    },
+    {
+     "hint": 526,
+     "name": "SelectObject",
+     "ordinal": null
+    },
+    {
+     "hint": 585,
+     "name": "StretchBlt",
+     "ordinal": null
+    },
+    {
+     "hint": 44,
+     "name": "CreateCompatibleBitmap",
+     "ordinal": null
+    },
+    {
+     "hint": 45,
+     "name": "CreateCompatibleDC",
+     "ordinal": null
+    },
+    {
+     "hint": 572,
+     "name": "SetTextColor",
+     "ordinal": null
+    },
+    {
+     "hint": 533,
+     "name": "SetBkColor",
+     "ordinal": null
+    },
+    {
+     "hint": 534,
+     "name": "SetBkMode",
+     "ordinal": null
+    },
+    {
+     "hint": 421,
+     "name": "GetStockObject",
+     "ordinal": null
+    },
+    {
+     "hint": 461,
+     "name": "LineTo",
+     "ordinal": null
+    },
+    {
+     "hint": 465,
+     "name": "MoveToEx",
+     "ordinal": null
+    },
+    {
+     "hint": 143,
+     "name": "DeleteObject",
+     "ordinal": null
+    },
+    {
+     "hint": 74,
+     "name": "CreatePolygonRgn",
+     "ordinal": null
+    },
+    {
+     "hint": 71,
+     "name": "CreatePen",
+     "ordinal": null
+    },
+    {
+     "hint": 502,
+     "name": "Rectangle",
+     "ordinal": null
+    },
+    {
+     "hint": 215,
+     "name": "ExcludeClipRect",
+     "ordinal": null
+    },
+    {
+     "hint": 561,
+     "name": "SetPixel",
+     "ordinal": null
+    },
+    {
+     "hint": 75,
+     "name": "CreateRectRgn",
+     "ordinal": null
+    },
+    {
+     "hint": 412,
+     "name": "GetPixel",
+     "ordinal": null
+    },
+    {
+     "hint": 18,
+     "name": "BitBlt",
+     "ordinal": null
+    },
+    {
+     "hint": 437,
+     "name": "GetTextExtentPoint32W",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105132,
+   "originalFirstThunk": 1101872,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "comdlg32.dll",
+   "firstThunk": 824752,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 12,
+     "name": "GetSaveFileNameW",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105162,
+   "originalFirstThunk": 1103252,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "SHELL32.dll",
+   "firstThunk": 824132,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 276,
+     "name": "Shell_NotifyIconW",
+     "ordinal": null
+    },
+    {
+     "hint": 122,
+     "name": "SHBrowseForFolderW",
+     "ordinal": null
+    },
+    {
+     "hint": 189,
+     "name": "SHGetPathFromIDListW",
+     "ordinal": null
+    },
+    {
+     "hint": 183,
+     "name": "SHGetMalloc",
+     "ordinal": null
+    },
+    {
+     "hint": 7,
+     "name": "CommandLineToArgvW",
+     "ordinal": null
+    },
+    {
+     "hint": 197,
+     "name": "SHGetSpecialFolderPathW",
+     "ordinal": null
+    },
+    {
+     "hint": 267,
+     "name": "ShellExecuteW",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105300,
+   "originalFirstThunk": 1102632,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "ole32.dll",
+   "firstThunk": 824772,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 258,
+     "name": "OleSetContainedObject",
+     "ordinal": null
+    },
+    {
+     "hint": 238,
+     "name": "OleInitialize",
+     "ordinal": null
+    },
+    {
+     "hint": 59,
+     "name": "CoInitialize",
+     "ordinal": null
+    },
+    {
+     "hint": 105,
+     "name": "CoUninitialize",
+     "ordinal": null
+    },
+    {
+     "hint": 213,
+     "name": "OleCreate",
+     "ordinal": null
+    },
+    {
+     "hint": 16,
+     "name": "CoCreateInstance",
+     "ordinal": null
+    },
+    {
+     "hint": 131,
+     "name": "CreateStreamOnHGlobal",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105362,
+   "originalFirstThunk": 1103272,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "MSIMG32.dll",
+   "firstThunk": 824088,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 3,
+     "name": "TransparentBlt",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105390,
+   "originalFirstThunk": 1102588,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "iphlpapi.dll",
+   "firstThunk": 824760,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 71,
+     "name": "GetTcpTable",
+     "ordinal": null
+    },
+    {
+     "hint": 28,
+     "name": "GetAdaptersInfo",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105434,
+   "originalFirstThunk": 1103260,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "RPCRT4.dll",
+   "firstThunk": 824124,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 489,
+     "name": "UuidCreate",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105650,
+   "originalFirstThunk": 1102624,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "WS2_32.dll",
+   "firstThunk": 824636,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 4
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 20
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 11
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 14
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 5
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 6
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 15
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 12
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 19
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 116
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 1
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 10
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 18
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 111
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 112
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 115
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 21
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 7
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 23
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 3
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 151
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 13
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 2
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 16
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 57
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 52
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 8
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 9
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1105662,
+   "originalFirstThunk": 1103136,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "ADVAPI32.dll",
+   "firstThunk": 823296,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 468,
+     "name": "RegDeleteKeyA",
+     "ordinal": null
+    },
+    {
+     "hint": 459,
+     "name": "RegCloseKey",
+     "ordinal": null
+    },
+    {
+     "hint": 479,
+     "name": "RegEnumKeyExW",
+     "ordinal": null
+    },
+    {
+     "hint": 293,
+     "name": "GetUserNameW",
+     "ordinal": null
+    },
+    {
+     "hint": 411,
+     "name": "MapGenericMask",
+     "ordinal": null
+    },
+    {
+     "hint": 5,
+     "name": "AccessCheck",
+     "ordinal": null
+    },
+    {
+     "hint": 433,
+     "name": "OpenThreadToken",
+     "ordinal": null
+    },
+    {
+     "hint": 428,
+     "name": "OpenProcessToken",
+     "ordinal": null
+    },
+    {
+     "hint": 179,
+     "name": "DuplicateToken",
+     "ordinal": null
+    },
+    {
+     "hint": 241,
+     "name": "GetFileSecurityW",
+     "ordinal": null
+    },
+    {
+     "hint": 492,
+     "name": "RegOpenKeyExA",
+     "ordinal": null
+    },
+    {
+     "hint": 493,
+     "name": "RegOpenKeyExW",
+     "ordinal": null
+    },
+    {
+     "hint": 517,
+     "name": "RegSetValueExW",
+     "ordinal": null
+    },
+    {
+     "hint": 465,
+     "name": "RegCreateKeyExA",
+     "ordinal": null
+    },
+    {
+     "hint": 504,
+     "name": "RegQueryValueExW",
+     "ordinal": null
+    },
+    {
+     "hint": 86,
+     "name": "ConvertStringSecurityDescriptorToSecurityDescriptorW",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1109064,
+   "originalFirstThunk": 1101796,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "OLEAUT32.dll",
+   "firstThunk": 824096,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 7
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 6
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 8
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 2
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 9
+    },
+    {
+     "hint": null,
+     "name": null,
+     "ordinal": 418
+    }
+   ],
+   "kind": "import",
+   "nameRva": 1109178,
+   "originalFirstThunk": 1102596,
+   "timeDateStamp": 0
+  }
+ ],
+ "isPE": true,
+ "notes": [],
+ "optional": {
+  "addressOfEntryPoint": 666392,
+  "baseOfCode": 4096,
+  "baseOfData": 823296,
+  "checkSum": 2644963,
+  "dllCharacteristics": 256,
+  "dllCharacteristicsFlags": [
+   "NX_COMPAT"
+  ],
+  "fileAlignment": 4096,
+  "imageBase": 4194304,
+  "loaderFlags": 0,
+  "magic": 267,
+  "magicName": "PE32",
+  "majorImageVersion": 0,
+  "majorLinkerVersion": 8,
+  "majorOperatingSystemVersion": 4,
+  "majorSubsystemVersion": 4,
+  "minorImageVersion": 0,
+  "minorLinkerVersion": 0,
+  "minorOperatingSystemVersion": 0,
+  "minorSubsystemVersion": 0,
+  "numberOfRvaAndSizes": 16,
+  "sectionAlignment": 4096,
+  "sizeOfCode": 819200,
+  "sizeOfHeaders": 4096,
+  "sizeOfHeapCommit": 4096,
+  "sizeOfHeapReserve": 1048576,
+  "sizeOfImage": 1331200,
+  "sizeOfInitializedData": 450560,
+  "sizeOfStackCommit": 4096,
+  "sizeOfStackReserve": 1048576,
+  "sizeOfUninitializedData": 0,
+  "subsystem": 2,
+  "subsystemName": "WINDOWS_GUI",
+  "win32VersionValue": 0
+ },
+ "overlay": {
+  "bytes": 1365568,
+  "offset": 1273856,
+  "sha256": "e0b360b3948b104a627d6472577b669f167caaa5ee21a1abde1ded1259b525b6"
+ },
+ "peHeaderOffset": 232,
+ "resources": [
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": null,
+     "name": "JPG"
+    },
+    {
+     "id": 163,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 163,
+   "nameString": null,
+   "offset": 1140872,
+   "rva": 1198216,
+   "size": 27599,
+   "typeId": null,
+   "typeName": "JPG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": null,
+     "name": "JPG"
+    },
+    {
+     "id": 164,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 164,
+   "nameString": null,
+   "offset": 1168472,
+   "rva": 1225816,
+   "size": 28798,
+   "typeId": null,
+   "typeName": "JPG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": null,
+     "name": "JPG"
+    },
+    {
+     "id": 165,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 165,
+   "nameString": null,
+   "offset": 1197272,
+   "rva": 1254616,
+   "size": 28699,
+   "typeId": null,
+   "typeName": "JPG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 1,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 1,
+   "nameString": null,
+   "offset": 1225972,
+   "rva": 1283316,
+   "size": 1640,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 2,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 2,
+   "nameString": null,
+   "offset": 1227612,
+   "rva": 1284956,
+   "size": 744,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 3,
+   "nameString": null,
+   "offset": 1228356,
+   "rva": 1285700,
+   "size": 296,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 4,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 4,
+   "nameString": null,
+   "offset": 1228652,
+   "rva": 1285996,
+   "size": 3752,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 5,
+   "nameString": null,
+   "offset": 1232404,
+   "rva": 1289748,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 6,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 6,
+   "nameString": null,
+   "offset": 1234620,
+   "rva": 1291964,
+   "size": 1384,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 7,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 7,
+   "nameString": null,
+   "offset": 1236004,
+   "rva": 1293348,
+   "size": 9640,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 8,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 8,
+   "nameString": null,
+   "offset": 1245644,
+   "rva": 1302988,
+   "size": 4264,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 9,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 9,
+   "nameString": null,
+   "offset": 1249908,
+   "rva": 1307252,
+   "size": 1128,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 10,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 10,
+   "nameString": null,
+   "offset": 1251036,
+   "rva": 1308380,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 11,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 11,
+   "nameString": null,
+   "offset": 1253252,
+   "rva": 1310596,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 12,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 12,
+   "nameString": null,
+   "offset": 1255468,
+   "rva": 1312812,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 13,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 13,
+   "nameString": null,
+   "offset": 1257684,
+   "rva": 1315028,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 14,
+   "nameString": null,
+   "offset": 1259900,
+   "rva": 1317244,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 3,
+     "name": null
+    },
+    {
+     "id": 15,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 15,
+   "nameString": null,
+   "offset": 1262116,
+   "rva": 1319460,
+   "size": 2216,
+   "typeId": 3,
+   "typeName": "RT_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 4,
+     "name": null
+    },
+    {
+     "id": 162,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 162,
+   "nameString": null,
+   "offset": 1264332,
+   "rva": 1321676,
+   "size": 254,
+   "typeId": 4,
+   "typeName": "RT_MENU"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 101,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 101,
+   "nameString": null,
+   "offset": 1264588,
+   "rva": 1321932,
+   "size": 974,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 102,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 102,
+   "nameString": null,
+   "offset": 1265564,
+   "rva": 1322908,
+   "size": 380,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 103,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 103,
+   "nameString": null,
+   "offset": 1265944,
+   "rva": 1323288,
+   "size": 148,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 104,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 104,
+   "nameString": null,
+   "offset": 1266092,
+   "rva": 1323436,
+   "size": 598,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 105,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 105,
+   "nameString": null,
+   "offset": 1266692,
+   "rva": 1324036,
+   "size": 1022,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 106,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 106,
+   "nameString": null,
+   "offset": 1267716,
+   "rva": 1325060,
+   "size": 228,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 121,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 121,
+   "nameString": null,
+   "offset": 1267944,
+   "rva": 1325288,
+   "size": 1026,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 122,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 122,
+   "nameString": null,
+   "offset": 1268972,
+   "rva": 1326316,
+   "size": 324,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 123,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 123,
+   "nameString": null,
+   "offset": 1269296,
+   "rva": 1326640,
+   "size": 210,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 124,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 124,
+   "nameString": null,
+   "offset": 1269508,
+   "rva": 1326852,
+   "size": 574,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 125,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 125,
+   "nameString": null,
+   "offset": 1270084,
+   "rva": 1327428,
+   "size": 1062,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 5,
+     "name": null
+    },
+    {
+     "id": 126,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 126,
+   "nameString": null,
+   "offset": 1271148,
+   "rva": 1328492,
+   "size": 216,
+   "typeId": 5,
+   "typeName": "RT_DIALOG"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 9,
+     "name": null
+    },
+    {
+     "id": 579,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 579,
+   "nameString": null,
+   "offset": 1271364,
+   "rva": 1328708,
+   "size": 24,
+   "typeId": 9,
+   "typeName": "RT_ACCELERATOR"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 150,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 150,
+   "nameString": null,
+   "offset": 1271388,
+   "rva": 1328732,
+   "size": 132,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 151,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 151,
+   "nameString": null,
+   "offset": 1271520,
+   "rva": 1328864,
+   "size": 20,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 152,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 152,
+   "nameString": null,
+   "offset": 1271540,
+   "rva": 1328884,
+   "size": 20,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 153,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 153,
+   "nameString": null,
+   "offset": 1271560,
+   "rva": 1328904,
+   "size": 20,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 166,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 166,
+   "nameString": null,
+   "offset": 1271580,
+   "rva": 1328924,
+   "size": 20,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 167,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 167,
+   "nameString": null,
+   "offset": 1271600,
+   "rva": 1328944,
+   "size": 20,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 14,
+     "name": null
+    },
+    {
+     "id": 168,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 168,
+   "nameString": null,
+   "offset": 1271620,
+   "rva": 1328964,
+   "size": 20,
+   "typeId": 14,
+   "typeName": "RT_GROUP_ICON"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 16,
+     "name": null
+    },
+    {
+     "id": 1,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 1,
+   "nameString": null,
+   "offset": 1271640,
+   "rva": 1328984,
+   "size": 848,
+   "typeId": 16,
+   "typeName": "RT_VERSION"
+  },
+  {
+   "codePage": 1252,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 24,
+     "name": null
+    },
+    {
+     "id": 1,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 1,
+   "nameString": null,
+   "offset": 1272488,
+   "rva": 1329832,
+   "size": 720,
+   "typeId": 24,
+   "typeName": "RT_MANIFEST"
+  }
+ ],
+ "rich": {
+  "checksumOffset": 220,
+  "entries": [
+   {
+    "buildNumber": 50327,
+    "count": 4,
+    "productId": 126
+   },
+   {
+    "buildNumber": 50727,
+    "count": 42,
+    "productId": 125
+   },
+   {
+    "buildNumber": 50727,
+    "count": 207,
+    "productId": 109
+   },
+   {
+    "buildNumber": 4035,
+    "count": 9,
+    "productId": 95
+   },
+   {
+    "buildNumber": 4035,
+    "count": 31,
+    "productId": 93
+   },
+   {
+    "buildNumber": 0,
+    "count": 424,
+    "productId": 1
+   },
+   {
+    "buildNumber": 50727,
+    "count": 186,
+    "productId": 110
+   },
+   {
+    "buildNumber": 50727,
+    "count": 1,
+    "productId": 124
+   },
+   {
+    "buildNumber": 50727,
+    "count": 1,
+    "productId": 120
+   }
+  ],
+  "key": 1201830749,
+  "offset": 128,
+  "present": true,
+  "sha256": "0ed03d3d165fb716ecf52a620698436a780d621edb6f977cc74dcaf136495f1f"
+ },
+ "sections": [
+  {
+   "bytesRead": 819200,
+   "characteristics": 1610612768,
+   "characteristicsFlags": [
+    "CNT_CODE",
+    "MEM_EXECUTE",
+    "MEM_READ"
+   ],
+   "entropy": 6.666575,
+   "index": 0,
+   "name": ".text",
+   "nameBytesHex": "2e74657874000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 4096,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.300398,
+   "sha256": "82df318fce7cf48d62bf407471fbd37a3b832bd20673c6f15d1aeba317ef80f3",
+   "sizeOfRawData": 819200,
+   "virtualAddress": 4096,
+   "virtualSize": 815698
+  },
+  {
+   "bytesRead": 286720,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 6.103275,
+   "index": 1,
+   "name": ".rdata",
+   "nameBytesHex": "2e72646174610000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 823296,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.564422,
+   "sha256": "c1b487056d7715033f12f8459138c4e0185e2c3f16635054f9d680458fd12f5c",
+   "sizeOfRawData": 286720,
+   "virtualAddress": 823296,
+   "virtualSize": 285978
+  },
+  {
+   "bytesRead": 28672,
+   "characteristics": 3221225536,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 4.918472,
+   "index": 2,
+   "name": ".data",
+   "nameBytesHex": "2e64617461000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 1110016,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.270717,
+   "sha256": "7275799ac1c2b04e091854bef7f7dbd806454c5b91873be3e8f3a4918bf6dae1",
+   "sizeOfRawData": 28672,
+   "virtualAddress": 1110016,
+   "virtualSize": 82936
+  },
+  {
+   "bytesRead": 135168,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 7.437087,
+   "index": 3,
+   "name": ".rsrc",
+   "nameBytesHex": "2e72737263000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 1138688,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.356209,
+   "sha256": "c128668cb92230cd75ea851c6226b0e3806e55d9898a8f4819c544d245efbdd0",
+   "sizeOfRawData": 135168,
+   "virtualAddress": 1196032,
+   "virtualSize": 134520
+  }
+ ]
+}

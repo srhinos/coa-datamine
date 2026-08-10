@@ -1,14 +1,25 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Arms","Fury","Protection"],
  "class": "Warrior",
  "classId": 1,
  "entryCount": 294,
  "entryCounts": {"Ability":111,"Talent":153,"TalentAbility":30},
  "files": [
-  {"cadIdRange":null,"count":99,"file":"Arms.json","tab":"Arms","type":null},
-  {"cadIdRange":null,"count":113,"file":"Fury.json","tab":"Fury","type":null},
+  {"cadIdRange":null,"count":37,"file":"Arms.Ability.json","tab":"Arms","type":"Ability"},
+  {"cadIdRange":null,"count":56,"file":"Arms.Talent.json","tab":"Arms","type":"Talent"},
+  {"cadIdRange":null,"count":6,"file":"Arms.TalentAbility.json","tab":"Arms","type":"TalentAbility"},
+  {"cadIdRange":null,"count":48,"file":"Fury.Ability.json","tab":"Fury","type":"Ability"},
+  {"cadIdRange":null,"count":51,"file":"Fury.Talent.json","tab":"Fury","type":"Talent"},
+  {"cadIdRange":null,"count":14,"file":"Fury.TalentAbility.json","tab":"Fury","type":"TalentAbility"},
   {"cadIdRange":null,"count":82,"file":"Protection.json","tab":"Protection","type":null}
  ],
+ "hasLiveGeometry": false,
+ "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":294},
+ "liveCountsByReason": {"unknownNoGeometry":294},
+ "liveTabs": null,
  "realmHint": "Area 52 - Free-Pick /shared",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "vanilla",
  "unresolvedCount": 0
 }

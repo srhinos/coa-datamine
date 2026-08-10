@@ -1,4 +1,6 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Class","Firearms","Invention","Mechanics"],
  "class": "Tinker",
  "classId": 28,
  "entryCount": 412,
@@ -6,10 +8,17 @@
  "files": [
   {"cadIdRange":null,"count":69,"file":"Class.json","tab":"Class","type":null},
   {"cadIdRange":null,"count":90,"file":"Firearms.json","tab":"Firearms","type":null},
-  {"cadIdRange":null,"count":110,"file":"Invention.json","tab":"Invention","type":null},
-  {"cadIdRange":null,"count":143,"file":"Mechanics.json","tab":"Mechanics","type":null}
+  {"cadIdRange":null,"count":66,"file":"Invention.Ability.json","tab":"Invention","type":"Ability"},
+  {"cadIdRange":null,"count":44,"file":"Invention.Talent.json","tab":"Invention","type":"Talent"},
+  {"cadIdRange":null,"count":107,"file":"Mechanics.Ability.json","tab":"Mechanics","type":"Ability"},
+  {"cadIdRange":null,"count":36,"file":"Mechanics.Talent.json","tab":"Mechanics","type":"Talent"}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":252,"live":105,"liveViaRank":0,"unknown":55},
+ "liveCountsByReason": {"deadCatalog":252,"indeterminate":55,"liveDirect":105},
+ "liveTabs": ["Class","Mechanics","Invention","Demolition"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 35
 }

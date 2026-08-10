@@ -1,0 +1,2152 @@
+{
+ "class": "Chronomancer",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 6427,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "Spell_Shadow_LastingAfflictions",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30277,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c22:acceleratedrecovery",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800857
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800857,
+    "reason": "liveDirect"
+   },
+   "name": "Accelerated Recovery",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 7,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800857,
+     "name": "Accelerated Recovery",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800857
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 501772
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 501773
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 501774
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 501775
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 501776
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 501777
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 501778
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7149,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "vas_guildnamechange",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12853,
+    "builderTab": "Artificer",
+    "identity": {
+     "abilityKey": "c22:artificerswand",
+     "abilityName": "Artificer's Wand",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804478
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804478,
+    "reason": "liveDirect"
+   },
+   "name": "Artificer's Tools",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804478,
+     "name": "Artificer's Wand",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6539,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_enchanting_wod_crystalshard2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7201,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:chromaticshard",
+     "abilityName": "Chromatic Shard",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801292
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 801292,
+    "reason": "liveDirect"
+   },
+   "name": "Chaos Shard",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801292,
+     "name": "Chromatic Shard",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 801292
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501836
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501837
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501838
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501839
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501840
+      }
+     ],
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6527,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "ability_paladin_handoflight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:chronobeam",
+     "abilityName": null,
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Chronobeam",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 801267,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801267
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 501812
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 501813
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 501814
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 501815
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 501816
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 501817
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 501818
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 501819
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7966,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_vehicle_sonicshockwave",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:chronurgy",
+     "abilityName": null,
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Chronurgy",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806326,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7848,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Warlock_Brise Ame",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30249,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c22:claspofinfinity",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805847
+     ]
+    },
+    "matchedSpellId": 805847,
+    "reason": "liveDirect"
+   },
+   "name": "Clasp of Infinity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805847,
+     "name": "Clasp of Infinity",
+     "ranks": null,
+     "schools": [
+      "Holy",
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6426,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "inv_icon_shadowcouncilorb_purple",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:decomposition",
+     "classId": 22,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Decomposition",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 3,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800856,
+     "name": "Decomposition",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7851,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_chest_armor_voidelf_d_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29680,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:deconstruction",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805851,
+      807894
+     ]
+    },
+    "matchedSpellId": 805851,
+    "reason": "liveDirect"
+   },
+   "name": "Deconstruction",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805851,
+     "name": "Deconstruction",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6537,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_enchant_voidsphere",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:discordantblast",
+     "classId": 22,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Discordant Blast",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801290,
+     "name": "Discordant Blast",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 801290
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 501825
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 501826
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 501827
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 501828
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 501829
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 501830
+      }
+     ],
+     "schools": [
+      "Frost",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7973,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_enchant_dustspirit",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6700,
+    "builderTab": "Time",
+    "identity": {
+     "abilityKey": "c22:endlesssands",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806338
+     ]
+    },
+    "matchedSpellId": 806338,
+    "reason": "liveDirect"
+   },
+   "name": "Endless Sands",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806338,
+     "name": "Endless Sands",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6530,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_rewindtime",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:epoch",
+     "classId": 22,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Epoch",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801275,
+     "name": "Epoch",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 801275
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 501785
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 501786
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 501787
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 501788
+      }
+     ],
+     "schools": [
+      "Frost",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7140,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_trinket_80_titan01b",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:erase",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Erase",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804450,
+     "name": "Erase",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7845,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_enchant_dreamshard_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6161,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:eternity",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805844
+     ]
+    },
+    "matchedSpellId": 805844,
+    "reason": "liveDirect"
+   },
+   "name": "Eternity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805844,
+     "name": "Eternity",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7152,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "achievement_guildperk_workingovertime_rank2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6228,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c22:fortifytimeline",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804491
+     ]
+    },
+    "matchedSpellId": 804491,
+    "reason": "liveDirect"
+   },
+   "name": "Fortify Timeline",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 23,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804491,
+     "name": "Fortify Timeline",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7852,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_helm_cloth_raidpriestmythic_s_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31334,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:crownofpower",
+     "abilityName": "Crown of Power",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805854
+     ]
+    },
+    "matchedSpellId": 805854,
+    "reason": "liveDirect"
+   },
+   "name": "From Darkness",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805854,
+     "name": "Crown of Power",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7970,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_holy_persecution",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:giftofthetimeways",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704487
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Gift of the Timeways",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806332,
+     "name": "Gift of the Timeways",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6534,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_custom_talentpurge",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30257,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c22:gravitybomb",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801281
+     ]
+    },
+    "matchedSpellId": 801281,
+    "reason": "liveDirect"
+   },
+   "name": "Gravity Bomb",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801281,
+     "name": "Gravity Bomb",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801281
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501820
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501821
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501822
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501823
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501824
+      }
+     ],
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7972,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_relics_hourglass",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6200,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:hourglassofeternity",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806337
+     ]
+    },
+    "matchedSpellId": 806337,
+    "reason": "liveDirect"
+   },
+   "name": "Hourglass of Eternity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806337,
+     "name": "Hourglass of Eternity",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7956,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_inscription_armorscroll02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5861,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:infinitekeeper",
+     "abilityName": "Infinite Keeper",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806312
+     ]
+    },
+    "matchedSpellId": 806312,
+    "reason": "liveDirect"
+   },
+   "name": "Keeper of Balance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806312,
+     "name": "Infinite Keeper",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7931,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_inscription_80_vantusrune_uldir",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:markoforder",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704488
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Mark of Order",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806269,
+     "name": "Mark of Order",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6535,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "achievement_boss_triumvirate_voidbrokenbrute",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:massdecomposition",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Mass Decomposition",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801283,
+     "name": "Mass Decomposition",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7960,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_voiddragonmount",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:mawofchaos",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Maw of Chaos",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806316,
+     "name": "Maw of Chaos",
+     "ranks": null,
+     "schools": [
+      "Holy",
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7961,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_dragonchromaticmount",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:mawoforder",
+     "abilityName": null,
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Maw of Order",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806317,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7158,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_trinket_80_titan02d",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:remake",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Remake",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804501,
+     "name": "Remake",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7154,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Achievement_BG_overcome500disadvantage",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:incarnation",
+     "abilityName": "Incarnation",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Restore Balance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804493,
+     "name": "Incarnation",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7156,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "achievement_challengemode_auchindoun_hourglass",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:resynchronize",
+     "classId": 22,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Resynchronize",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804495,
+     "name": "Resynchronize",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6545,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "_MonkAbility_SoothingMists_Yellow",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:reversewound",
+     "classId": 22,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Reverse Wound",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 5,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801303,
+     "name": "Reverse Wound",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 801303
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 501805
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 501806
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 501807
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 501808
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 501809
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 501810
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 501811
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7844,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_priest_halo_shadow",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:ramhornrage",
+     "abilityName": "Ramhorn Rage",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Shield of Disintegration",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "Enrage",
+     "id": 805843,
+     "name": "Ramhorn Rage",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6541,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "_D3slowtime",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:slowtime",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Slow Time",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 26,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801295,
+     "name": "Slow Time",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6542,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_priest_reflectiveshield",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:spelldeflection",
+     "abilityName": null,
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Spell Deflection",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 801296,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801296
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501796
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501797
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501798
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501799
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501800
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501801
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501802
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501803
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501804
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7853,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_druid_balanceofpower",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:temporalbalance",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Temporal Balance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805856,
+     "name": "Temporal Balance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7892,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_D3serenity",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6698,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c22:temporalfocus",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806165
+     ]
+    },
+    "matchedSpellId": 806165,
+    "reason": "liveDirect"
+   },
+   "name": "Temporal Focus",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806165,
+     "name": "Temporal Focus",
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7847,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_DarkHand_Shadow",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:timelinedestroyer",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Timeline Destroyer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805846,
+     "name": "Timeline Destroyer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7846,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_pvp_innerrenewal",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:timelineguardian",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Timeline Guardian",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805845,
+     "name": "Timeline Guardian",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6538,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_priest_voidsear",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:timerend",
+     "classId": 22,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      707430
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Timerend",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801291,
+     "name": "Timerend",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801291
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501831
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501832
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501833
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501834
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501835
+      }
+     ],
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7971,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_skyreach_solar_burst",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7200,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:meltreality",
+     "abilityName": "Melt Reality",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806335
+     ]
+    },
+    "matchedSpellId": 806335,
+    "reason": "liveDirect"
+   },
+   "name": "Timeway Blast",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806335,
+     "name": "Melt Reality",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7850,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Book4_Purple",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:tomeofchaos",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Tome of Chaos",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805849,
+     "name": "Tome of Chaos",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7849,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Book4_Yellow",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:tomeoftime",
+     "abilityName": "Tome of Time",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Tome of Order",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805848,
+     "name": "Tome of Time",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7120,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_trinket_80_titan02a",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:unmake",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Unmake",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804418,
+     "name": "Unmake",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7957,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_racial_cityofgold",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:infinitekeeper",
+     "abilityName": "Infinite Keeper",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806312
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Word of Balance: Bind",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806313,
+     "name": "Infinite Keeper",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7959,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_monk_guard",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30260,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c22:temporalanomaly",
+     "abilityName": "Temporal Anomaly",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806315
+     ]
+    },
+    "matchedSpellId": 806315,
+    "reason": "liveDirect"
+   },
+   "name": "Word of Balance: Guard",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806315,
+     "name": "Temporal Anomaly",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7958,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Holy_PureOfHeart",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:keeperofbalancetrigger",
+     "abilityName": "Keeper of Balance Trigger",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
+   },
+   "name": "Word of Balance: Mend",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806314,
+     "name": "Keeper of Balance Trigger",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Duality",
+ "type": "Ability"
+}

@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":89,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":208,"maxUnsigned":208,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":89,"rows":89,"string":{"applicable":true,"blockCoverageRate":0.035166,"blockSize":3128,"controlCharOffsets":0,"distinctOffsets":3,"meanDecodedLength":35.667,"nonEmptyOffsets":3,"utf8DecodableOffsets":3,"validOffsetRate":0.033708},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Spells\\Enchantments\\BlueGlow_High.mdx","Spells\\Enchantments\\RedFlame_Low.mdx","Spells\\Enchantments\\PoisonDrip.mdx"],"width":4},
+  {"evidence":{"distinct":89,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":3090,"maxUnsigned":3090,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":89,"rows":89,"string":{"applicable":true,"blockCoverageRate":0.99968,"blockSize":3128,"controlCharOffsets":0,"distinctOffsets":89,"meanDecodedLength":34.135,"nonEmptyOffsets":89,"utf8DecodableOffsets":89,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Spells\\Enchantments\\BlueGlow_High.mdx","Spells\\Enchantments\\BlueGlow_Low.mdx","Spells\\Enchantments\\BlueFlame_Low.mdx","Spells\\Enchantments\\SkullBalls.mdx","Spells\\Enchantments\\RedFlame_Low.mdx"],"width":4}
+ ],
+ "file": "ItemVisualEffects.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":89,"sizeReconciles":true,"stringBlockReferencedBytes":3127,"stringBlockSize":3128,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":3860,"losers":[],"sha256":"5b7f95435d6133c42358c4b54ad00f4247fe41153f6d66c7acc8f45f2fcd8f0a","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "ItemVisualEffects"
+}

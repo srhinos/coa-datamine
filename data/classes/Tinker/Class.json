@@ -7,6 +7,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:picklock",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "'Pick Lock'",
    "quality": "Normal",
    "qualityCost": 1,
@@ -32,6 +51,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29440,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:airstrike",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801744
+     ]
+    },
+    "matchedSpellId": 801744,
+    "reason": "liveDirect"
+   },
    "name": "Air Strike",
    "quality": "Normal",
    "qualityCost": 1,
@@ -57,6 +95,22 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:scrapshot",
+     "abilityName": "Scrap Shot",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Blackpowder Shot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -82,6 +136,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:blastingbarrels",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Blasting Barrels",
    "quality": "Poor",
    "qualityCost": 1,
@@ -107,6 +175,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:blastingpowder",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Blasting Powder",
    "quality": "Normal",
    "qualityCost": 1,
@@ -132,6 +214,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:blastingreticle",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Blasting Round",
    "quality": "Normal",
    "qualityCost": 1,
@@ -155,6 +252,21 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:bomblauncher",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bomb Launcher",
    "quality": "Normal",
    "qualityCost": 1,
@@ -178,6 +290,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:bombspecialist",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bomb Specialist",
    "quality": "Normal",
    "qualityCost": 1,
@@ -203,6 +329,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:botcrashthrash",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bot: Crash & Thrash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -213,7 +354,43 @@
      "dispel": null,
      "id": 800535,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800535
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 503081
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 503082
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 503083
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 503084
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 503085
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 503086
+      }
+     ],
      "schools": []
     }
    ],
@@ -226,6 +403,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7004,
+    "builderTab": "Demolition",
+    "identity": {
+     "abilityKey": "c28:hyperblastbarrage",
+     "abilityName": "Hyperblast Barrage",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500249
+     ]
+    },
+    "matchedSpellId": 500249,
+    "reason": "liveDirect"
+   },
    "name": "Build: Blast Cannon",
    "quality": "Normal",
    "qualityCost": 1,
@@ -251,6 +448,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:buildbouncepad",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Build: Bounce Pad!",
    "quality": "Normal",
    "qualityCost": 1,
@@ -276,6 +487,21 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:buildbruiserbot",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Build: Clockwork Knight",
    "quality": "Normal",
    "qualityCost": 1,
@@ -299,6 +525,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29203,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:builddestructobot",
+     "abilityName": "Build: Destructo-Bot",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804673
+     ]
+    },
+    "matchedSpellId": 804673,
+    "reason": "liveDirect"
+   },
    "name": "Build: Minelayer Bot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -324,6 +570,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:buildsentryturret",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Build: Sentry Turret",
    "quality": "Normal",
    "qualityCost": 1,
@@ -349,6 +609,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:chassisaugmentmithril",
+     "abilityName": "Chassis Augment: Mithril",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Chassis Augment: Mechaplate",
    "quality": "Normal",
    "qualityCost": 1,
@@ -374,6 +649,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:chassisaugmenttitansteel",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Chassis Augment: Titansteel",
    "quality": "Normal",
    "qualityCost": 1,
@@ -399,6 +688,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:chassisaugmenttruesilver",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Chassis Augment: Truesilver",
    "quality": "Normal",
    "qualityCost": 1,
@@ -424,6 +727,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:mechaugmentationkit",
+     "abilityName": "Mech Augmentation Kit",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Chassis Augmentation Kit",
    "quality": "Poor",
    "qualityCost": 1,
@@ -449,6 +767,20 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:controlmechanical",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Control Mechanical",
    "quality": "Normal",
    "qualityCost": 1,
@@ -472,6 +804,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5998,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:explosivepersonality",
+     "abilityName": "Explosive Personality",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704111,
+      707833
+     ]
+    },
+    "matchedSpellId": 704111,
+    "reason": "liveDirect"
+   },
    "name": "Corrosive Bombs",
    "quality": "Normal",
    "qualityCost": 1,
@@ -497,6 +850,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:defibrillate",
+     "abilityName": "Defibrillate",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "DEFIBRILATE!",
    "quality": "Normal",
    "qualityCost": 1,
@@ -522,6 +895,21 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:deadeyecharge",
+     "abilityName": "Deadeye Charge",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Deadeye Round",
    "quality": "Normal",
    "qualityCost": 1,
@@ -547,6 +935,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:defthands",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Deft Hands",
    "quality": "Poor",
    "qualityCost": 1,
@@ -581,6 +983,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:deployblastmine",
+     "abilityName": "Deploy Blast Mine",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Deploy Bomb",
    "quality": "Normal",
    "qualityCost": 1,
@@ -606,6 +1028,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:wipdisassemble",
+     "abilityName": "WIP Disassemble",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Disassemble",
    "quality": "Normal",
    "qualityCost": 1,
@@ -631,6 +1068,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:emergencymodule",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Emergency Module",
    "quality": "Normal",
    "qualityCost": 1,
@@ -656,6 +1107,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:gnomishingenuinity",
+     "abilityName": "Gnomish Ingenuinity",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Enhanced Powder",
    "quality": "Poor",
    "qualityCost": 1,
@@ -681,6 +1147,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:firearmtraining",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Firearm Training",
    "quality": "Poor",
    "qualityCost": 1,
@@ -715,6 +1195,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30869,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:kineticshield",
+     "abilityName": "Kinetic Shield",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806224
+     ]
+    },
+    "matchedSpellId": 806224,
+    "reason": "liveDirect"
+   },
    "name": "Firing Cage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -740,6 +1240,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12532,
+    "builderTab": "Mechanics",
+    "identity": {
+     "abilityKey": "c28:augmentor",
+     "abilityName": "Augmentor",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801821
+     ]
+    },
+    "matchedSpellId": 801821,
+    "reason": "liveDirect"
+   },
    "name": "Focusing Round",
    "quality": "Normal",
    "qualityCost": 1,
@@ -765,6 +1285,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:freezeray",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Freeze Ray",
    "quality": "Normal",
    "qualityCost": 1,
@@ -790,6 +1329,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6996,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:hastytech",
+     "abilityName": "Hasty Tech",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705805
+     ]
+    },
+    "matchedSpellId": 705805,
+    "reason": "liveDirect"
+   },
    "name": "Gadget Box",
    "quality": "Poor",
    "qualityCost": 1,
@@ -815,6 +1374,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:guns",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Guns",
    "quality": "Normal",
    "qualityCost": 1,
@@ -840,6 +1419,27 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:standardofsupremacy",
+     "abilityName": "Standard of Supremacy",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Gunsling",
    "quality": "Normal",
    "qualityCost": 1,
@@ -886,6 +1486,20 @@
    "expansion": 0,
    "flags": 8706,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:hitratingalpha",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hit Rating (Alpha)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -912,6 +1526,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5195,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:mechanosoldier",
+     "abilityName": "Mechanosoldier",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705827
+     ]
+    },
+    "matchedSpellId": 705827,
+    "reason": "liveDirect"
+   },
    "name": "Hotswap",
    "quality": "Poor",
    "qualityCost": 1,
@@ -937,6 +1571,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:improvedreload",
+     "abilityName": "Improved Reload",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Blackpowder Shot",
    "quality": "Poor",
    "qualityCost": 1,
@@ -971,6 +1620,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:magnumopus",
+     "abilityName": "Magnum Opus",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Blast Cannon",
    "quality": "Poor",
    "qualityCost": 1,
@@ -996,6 +1660,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:munitionexpert",
+     "abilityName": "Munition Expert",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Explosives",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1039,6 +1718,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:incendiarybombs",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Incendiary Bombs",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1064,6 +1757,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:foresight",
+     "abilityName": "Foresight",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Longsight Scopes",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1089,6 +1797,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:mail",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Mail",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1114,6 +1842,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:expedientpackage",
+     "abilityName": "Expedient Package",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Mechanoclip",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1139,6 +1882,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7034,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:mechaplating",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705831
+     ]
+    },
+    "matchedSpellId": 705831,
+    "reason": "liveDirect"
+   },
    "name": "Mechaplating",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1164,6 +1926,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 8355,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:medpack",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800347
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800347,
+    "reason": "liveDirect"
+   },
    "name": "Med Pack",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1215,6 +1998,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:medicaltraining",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Medical Training",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1249,6 +2046,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:scrapyardenhancements",
+     "abilityName": "Scrapyard Enhancements",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Miraculous Trigger",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1274,6 +2086,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 2609,
+    "builderTab": "Invention",
+    "identity": {
+     "abilityKey": "c28:scientificnature",
+     "abilityName": "Scientific Nature",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705802
+     ]
+    },
+    "matchedSpellId": 705802,
+    "reason": "liveDirect"
+   },
    "name": "Module Belt",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1308,6 +2140,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29813,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:nanobotreconstruction",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801809
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 801809,
+    "reason": "liveDirect"
+   },
    "name": "Nanobot Reconstruction",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1399,6 +2252,25 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:parachutepack",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Parachute Pack",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1424,6 +2296,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:maxicleanserx420",
+     "abilityName": "Maxi-Cleanser X-420",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Persisting Nanobots",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1449,6 +2336,26 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:polearms",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
    "name": "Polearms",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1474,6 +2381,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6551,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:flexiblethinking",
+     "abilityName": "Flexible Thinking",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705825,
+      705826
+     ]
+    },
+    "matchedSpellId": 705825,
+    "reason": "liveDirect"
+   },
    "name": "Power Reserves",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1508,6 +2436,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31235,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:efficiency",
+     "abilityName": "Efficiency",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705806
+     ]
+    },
+    "matchedSpellId": 705806,
+    "reason": "liveDirect"
+   },
    "name": "Precision Scopes",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1542,6 +2490,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:questionablemethods",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Questionable Methods",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1567,6 +2529,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:blight",
+     "abilityName": "Blight",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Reload",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1592,6 +2569,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:remotedetonation",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Remote Detonation",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1617,6 +2608,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:repairshot",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Repair Shot",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1693,6 +2704,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:rifle",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rifle",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1716,6 +2742,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31113,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:rocketboots",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500241
+     ]
+    },
+    "matchedSpellId": 500241,
+    "reason": "liveDirect"
+   },
    "name": "Rocket Boots",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1741,6 +2786,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:skewer",
+     "abilityName": "Skewer",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Sapper Charge",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1766,6 +2826,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6992,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:backupfuel",
+     "abilityName": "Backup Fuel",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705810
+     ]
+    },
+    "matchedSpellId": 705810,
+    "reason": "liveDirect"
+   },
    "name": "Self Sufficiency",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1791,6 +2871,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4871,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c28:concussivespanner",
+     "abilityName": "Concussive Spanner",
+     "classId": 28,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704107
+     ]
+    },
+    "matchedSpellId": 704107,
+    "reason": "liveDirect"
+   },
    "name": "Sentry",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1816,6 +2916,23 @@
    "expansion": 0,
    "flags": 8707,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:shield",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
    "name": "Shield",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1841,6 +2958,21 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:shotgun",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shotgun",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1864,6 +2996,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:kickback",
+     "abilityName": "Kickback",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Shotgun Kickback",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1889,6 +3036,26 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:stickybomb",
+     "classId": 28,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Sticky Bomb",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1950,6 +3117,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:telescopicfocusinglens",
+     "abilityName": null,
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Telescopic Focusing Lens",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1973,6 +3155,20 @@
    "expansion": 0,
    "flags": 41474,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c28:tinkeringtools",
+     "classId": 28,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Tinkering Tools",
    "quality": "Normal",
    "qualityCost": 1,

@@ -1,0 +1,906 @@
+{
+ "_note": "128 of 234 Spell.dbc fields are named in tools.dbc.TABLE_MAPS['Spell']; 106 remain raw f<N> (never investigated or investigated and disproven - see raw/dbc/Spell.csv.gz for the full byte-accurate dump). Of the 128 mapped, 124 reach a spells.jsonl record in some form (direct passthrough or a resolved join) and 4 are named but not emitted: manaCostPerLevel/maxTargetLevel/spellDifficultyID are the doc's confirmed zero-fill skip list (Sec 1.4 - re-verified 0/6038 on the CoA class set before skipping, per this task's binding rule), activeIconID has no consumer yet. Task W4-3 (coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.2-1.4) added the 25 columns needed for damage-scaling modeling: effectRealPointsPerLevel (f77-79), effectPointsPerComboPoint (f119-121), effectSpellClassMask (f122-130, 3x flag96), spellFamilyFlags3 (f211), equippedItemSubClassMask/equippedItemInventoryTypeMask (f69-70), effectDamageMultiplier (f216-218), spellMissileID (f227), effectBonusMultiplier (f229-231, emitted as bonusMultiplierStock - correct for stock/Reborn only, contradicts CoA's own tooltip formula, see AGENT-GUIDE.md); plus re-verified emission of the 8 already-mapped-but-dropped columns from Sec 1.3 (speed, equippedItemClass, maxAffectedTargets, casterAuraSpell/targetAuraSpell, manaPerSecond, targetCreatureType, casterAuraState/targetAuraState, stancesNot).",
+ "columns": {
+  "activeIconID": {
+   "emitted": false,
+   "index": 134,
+   "kind": "u",
+   "mapped": true,
+   "where": "no consumer yet - not part of this task's requested set, candidate for a future task"
+  },
+  "attributes": {
+   "emitted": true,
+   "index": 4,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[0]"
+  },
+  "attributesEx": {
+   "emitted": true,
+   "index": 5,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[1]"
+  },
+  "attributesEx2": {
+   "emitted": true,
+   "index": 6,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[2]"
+  },
+  "attributesEx3": {
+   "emitted": true,
+   "index": 7,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[3]"
+  },
+  "attributesEx4": {
+   "emitted": true,
+   "index": 8,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[4]"
+  },
+  "attributesEx5": {
+   "emitted": true,
+   "index": 9,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[5]"
+  },
+  "attributesEx6": {
+   "emitted": true,
+   "index": 10,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[6]"
+  },
+  "attributesEx7": {
+   "emitted": true,
+   "index": 11,
+   "kind": "u",
+   "mapped": true,
+   "where": "attributes[7]"
+  },
+  "auraInterruptFlags": {
+   "emitted": true,
+   "index": 32,
+   "kind": "u",
+   "mapped": true,
+   "where": "auraInterruptFlags"
+  },
+  "baseLevel": {
+   "emitted": true,
+   "index": 38,
+   "kind": "u",
+   "mapped": true,
+   "where": "levels.base"
+  },
+  "casterAuraSpell": {
+   "emitted": true,
+   "index": 24,
+   "kind": "u",
+   "mapped": true,
+   "where": "casterAuraSpell"
+  },
+  "casterAuraState": {
+   "emitted": true,
+   "index": 20,
+   "kind": "u",
+   "mapped": true,
+   "where": "casterAuraState"
+  },
+  "castingTimeIndex": {
+   "emitted": true,
+   "index": 28,
+   "kind": "u",
+   "mapped": true,
+   "where": "castTimeMs (resolved via SpellCastTimes.base; raw index not carried)"
+  },
+  "category": {
+   "emitted": true,
+   "index": 1,
+   "kind": "u",
+   "mapped": true,
+   "where": "category (present only if value resolves against SpellCategory ids)"
+  },
+  "categoryRecoveryTime": {
+   "emitted": true,
+   "index": 30,
+   "kind": "u",
+   "mapped": true,
+   "where": "categoryCooldownMs"
+  },
+  "channelInterruptFlags": {
+   "emitted": true,
+   "index": 33,
+   "kind": "u",
+   "mapped": true,
+   "where": "channelInterruptFlags"
+  },
+  "description_enUS": {
+   "emitted": true,
+   "index": 170,
+   "kind": "s",
+   "mapped": true,
+   "where": "description"
+  },
+  "dispel": {
+   "emitted": true,
+   "index": 2,
+   "kind": "u",
+   "mapped": true,
+   "where": "dispel.id / dispel.name"
+  },
+  "dmgClass": {
+   "emitted": true,
+   "index": 213,
+   "kind": "u",
+   "mapped": true,
+   "where": "dmgClass"
+  },
+  "durationIndex": {
+   "emitted": true,
+   "index": 40,
+   "kind": "u",
+   "mapped": true,
+   "where": "durationMs.base / durationMs.max (resolved via SpellDuration; raw index not carried)"
+  },
+  "effect1": {
+   "emitted": true,
+   "index": 71,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].effect.id / effects[].effect.name"
+  },
+  "effect2": {
+   "emitted": true,
+   "index": 72,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].effect.id / effects[].effect.name"
+  },
+  "effect3": {
+   "emitted": true,
+   "index": 73,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].effect.id / effects[].effect.name"
+  },
+  "effectAmplitude1": {
+   "emitted": true,
+   "index": 98,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].amplitudeMs"
+  },
+  "effectAmplitude2": {
+   "emitted": true,
+   "index": 99,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].amplitudeMs"
+  },
+  "effectAmplitude3": {
+   "emitted": true,
+   "index": 100,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].amplitudeMs"
+  },
+  "effectAura1": {
+   "emitted": true,
+   "index": 95,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].aura.id / effects[].aura.name"
+  },
+  "effectAura2": {
+   "emitted": true,
+   "index": 96,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].aura.id / effects[].aura.name"
+  },
+  "effectAura3": {
+   "emitted": true,
+   "index": 97,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].aura.id / effects[].aura.name"
+  },
+  "effectBasePoints1": {
+   "emitted": true,
+   "index": 80,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].basePoints"
+  },
+  "effectBasePoints2": {
+   "emitted": true,
+   "index": 81,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].basePoints"
+  },
+  "effectBasePoints3": {
+   "emitted": true,
+   "index": 82,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].basePoints"
+  },
+  "effectBonusMultiplier1": {
+   "emitted": true,
+   "index": 229,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].bonusMultiplierStock (omitted when raw==0; stock/Reborn-valid, CoA-contradicted - see AGENT-GUIDE.md)"
+  },
+  "effectBonusMultiplier2": {
+   "emitted": true,
+   "index": 230,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].bonusMultiplierStock (omitted when raw==0; stock/Reborn-valid, CoA-contradicted - see AGENT-GUIDE.md)"
+  },
+  "effectBonusMultiplier3": {
+   "emitted": true,
+   "index": 231,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].bonusMultiplierStock (omitted when raw==0; stock/Reborn-valid, CoA-contradicted - see AGENT-GUIDE.md)"
+  },
+  "effectChainTarget1": {
+   "emitted": true,
+   "index": 104,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].chainTargets"
+  },
+  "effectChainTarget2": {
+   "emitted": true,
+   "index": 105,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].chainTargets"
+  },
+  "effectChainTarget3": {
+   "emitted": true,
+   "index": 106,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].chainTargets"
+  },
+  "effectDamageMultiplier1": {
+   "emitted": true,
+   "index": 216,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].damageMultiplier (omitted when raw==0)"
+  },
+  "effectDamageMultiplier2": {
+   "emitted": true,
+   "index": 217,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].damageMultiplier (omitted when raw==0)"
+  },
+  "effectDamageMultiplier3": {
+   "emitted": true,
+   "index": 218,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].damageMultiplier (omitted when raw==0)"
+  },
+  "effectDieSides1": {
+   "emitted": true,
+   "index": 74,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].dieSides"
+  },
+  "effectDieSides2": {
+   "emitted": true,
+   "index": 75,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].dieSides"
+  },
+  "effectDieSides3": {
+   "emitted": true,
+   "index": 76,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].dieSides"
+  },
+  "effectImplicitTargetA1": {
+   "emitted": true,
+   "index": 86,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].targetA.id / effects[].targetA.name"
+  },
+  "effectImplicitTargetA2": {
+   "emitted": true,
+   "index": 87,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].targetA.id / effects[].targetA.name"
+  },
+  "effectImplicitTargetA3": {
+   "emitted": true,
+   "index": 88,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].targetA.id / effects[].targetA.name"
+  },
+  "effectImplicitTargetB1": {
+   "emitted": true,
+   "index": 89,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].targetB.id / effects[].targetB.name"
+  },
+  "effectImplicitTargetB2": {
+   "emitted": true,
+   "index": 90,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].targetB.id / effects[].targetB.name"
+  },
+  "effectImplicitTargetB3": {
+   "emitted": true,
+   "index": 91,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].targetB.id / effects[].targetB.name"
+  },
+  "effectMechanic1": {
+   "emitted": true,
+   "index": 83,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].mechanic.id / effects[].mechanic.name"
+  },
+  "effectMechanic2": {
+   "emitted": true,
+   "index": 84,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].mechanic.id / effects[].mechanic.name"
+  },
+  "effectMechanic3": {
+   "emitted": true,
+   "index": 85,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].mechanic.id / effects[].mechanic.name"
+  },
+  "effectMiscValue1": {
+   "emitted": true,
+   "index": 110,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].miscValue"
+  },
+  "effectMiscValue2": {
+   "emitted": true,
+   "index": 111,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].miscValue"
+  },
+  "effectMiscValue3": {
+   "emitted": true,
+   "index": 112,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].miscValue"
+  },
+  "effectMiscValueB1": {
+   "emitted": true,
+   "index": 113,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].miscValueB"
+  },
+  "effectMiscValueB2": {
+   "emitted": true,
+   "index": 114,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].miscValueB"
+  },
+  "effectMiscValueB3": {
+   "emitted": true,
+   "index": 115,
+   "kind": "i",
+   "mapped": true,
+   "where": "effects[].miscValueB"
+  },
+  "effectMultipleValue1": {
+   "emitted": true,
+   "index": 101,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].multipleValue"
+  },
+  "effectMultipleValue2": {
+   "emitted": true,
+   "index": 102,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].multipleValue"
+  },
+  "effectMultipleValue3": {
+   "emitted": true,
+   "index": 103,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].multipleValue"
+  },
+  "effectPointsPerComboPoint1": {
+   "emitted": true,
+   "index": 119,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].pointsPerComboPoint (omitted when raw==0)"
+  },
+  "effectPointsPerComboPoint2": {
+   "emitted": true,
+   "index": 120,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].pointsPerComboPoint (omitted when raw==0)"
+  },
+  "effectPointsPerComboPoint3": {
+   "emitted": true,
+   "index": 121,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].pointsPerComboPoint (omitted when raw==0)"
+  },
+  "effectRadiusIndex1": {
+   "emitted": true,
+   "index": 92,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].radiusYd (resolved via SpellRadius; raw index not carried)"
+  },
+  "effectRadiusIndex2": {
+   "emitted": true,
+   "index": 93,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].radiusYd (resolved via SpellRadius; raw index not carried)"
+  },
+  "effectRadiusIndex3": {
+   "emitted": true,
+   "index": 94,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].radiusYd (resolved via SpellRadius; raw index not carried)"
+  },
+  "effectRealPointsPerLevel1": {
+   "emitted": true,
+   "index": 77,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].realPointsPerLevel (omitted when raw==0)"
+  },
+  "effectRealPointsPerLevel2": {
+   "emitted": true,
+   "index": 78,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].realPointsPerLevel (omitted when raw==0)"
+  },
+  "effectRealPointsPerLevel3": {
+   "emitted": true,
+   "index": 79,
+   "kind": "f",
+   "mapped": true,
+   "where": "effects[].realPointsPerLevel (omitted when raw==0)"
+  },
+  "effectSpellClassMaskA1": {
+   "emitted": true,
+   "index": 122,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskA2": {
+   "emitted": true,
+   "index": 125,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskA3": {
+   "emitted": true,
+   "index": 128,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskB1": {
+   "emitted": true,
+   "index": 123,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskB2": {
+   "emitted": true,
+   "index": 126,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskB3": {
+   "emitted": true,
+   "index": 129,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskC1": {
+   "emitted": true,
+   "index": 124,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskC2": {
+   "emitted": true,
+   "index": 127,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectSpellClassMaskC3": {
+   "emitted": true,
+   "index": 130,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].spellClassMask: [a,b,c] (omitted when all-zero)"
+  },
+  "effectTriggerSpell1": {
+   "emitted": true,
+   "index": 116,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].triggerSpell"
+  },
+  "effectTriggerSpell2": {
+   "emitted": true,
+   "index": 117,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].triggerSpell"
+  },
+  "effectTriggerSpell3": {
+   "emitted": true,
+   "index": 118,
+   "kind": "u",
+   "mapped": true,
+   "where": "effects[].triggerSpell"
+  },
+  "equippedItemClass": {
+   "emitted": true,
+   "index": 68,
+   "kind": "i",
+   "mapped": true,
+   "where": "equippedItem.itemClass"
+  },
+  "equippedItemInventoryTypeMask": {
+   "emitted": true,
+   "index": 70,
+   "kind": "u",
+   "mapped": true,
+   "where": "equippedItem.inventoryTypeMask"
+  },
+  "equippedItemSubClassMask": {
+   "emitted": true,
+   "index": 69,
+   "kind": "u",
+   "mapped": true,
+   "where": "equippedItem.subClassMask"
+  },
+  "id": {
+   "emitted": true,
+   "index": 0,
+   "kind": "u",
+   "mapped": true,
+   "where": "id"
+  },
+  "interruptFlags": {
+   "emitted": true,
+   "index": 31,
+   "kind": "u",
+   "mapped": true,
+   "where": "interruptFlags"
+  },
+  "manaCost": {
+   "emitted": true,
+   "index": 42,
+   "kind": "u",
+   "mapped": true,
+   "where": "manaCost"
+  },
+  "manaCostPerLevel": {
+   "emitted": false,
+   "index": 43,
+   "kind": "u",
+   "mapped": true,
+   "where": "confirmed zero-fill on the CoA class set (skip list, DATAMINE-REQUEST.md Sec 1.4) - re-verified 0/6038 nonzero, not emitted"
+  },
+  "manaCostPercentage": {
+   "emitted": true,
+   "index": 204,
+   "kind": "u",
+   "mapped": true,
+   "where": "manaCostPct"
+  },
+  "manaPerSecond": {
+   "emitted": true,
+   "index": 44,
+   "kind": "u",
+   "mapped": true,
+   "where": "manaPerSecond"
+  },
+  "maxAffectedTargets": {
+   "emitted": true,
+   "index": 212,
+   "kind": "u",
+   "mapped": true,
+   "where": "maxAffectedTargets"
+  },
+  "maxLevel": {
+   "emitted": true,
+   "index": 37,
+   "kind": "u",
+   "mapped": true,
+   "where": "levels.max"
+  },
+  "maxTargetLevel": {
+   "emitted": false,
+   "index": 207,
+   "kind": "u",
+   "mapped": true,
+   "where": "confirmed zero-fill on the CoA class set (skip list, DATAMINE-REQUEST.md Sec 1.4) - re-verified 0/6038 nonzero, not emitted"
+  },
+  "mechanic": {
+   "emitted": true,
+   "index": 3,
+   "kind": "u",
+   "mapped": true,
+   "where": "mechanic.id / mechanic.name"
+  },
+  "name_enUS": {
+   "emitted": true,
+   "index": 136,
+   "kind": "s",
+   "mapped": true,
+   "where": "name"
+  },
+  "powerType": {
+   "emitted": true,
+   "index": 41,
+   "kind": "i",
+   "mapped": true,
+   "where": "powerType.id / powerType.name"
+  },
+  "preventionType": {
+   "emitted": true,
+   "index": 214,
+   "kind": "u",
+   "mapped": true,
+   "where": "preventionType"
+  },
+  "procChance": {
+   "emitted": true,
+   "index": 35,
+   "kind": "u",
+   "mapped": true,
+   "where": "procChance (sentinel 101 = unset, not a percentage - see AGENT-GUIDE.md)"
+  },
+  "procCharges": {
+   "emitted": true,
+   "index": 36,
+   "kind": "u",
+   "mapped": true,
+   "where": "procCharges"
+  },
+  "procFlags": {
+   "emitted": true,
+   "index": 34,
+   "kind": "u",
+   "mapped": true,
+   "where": "procFlags"
+  },
+  "rangeIndex": {
+   "emitted": true,
+   "index": 46,
+   "kind": "u",
+   "mapped": true,
+   "where": "rangeYd.* (resolved via SpellRange; raw index not carried)"
+  },
+  "rank_enUS": {
+   "emitted": true,
+   "index": 153,
+   "kind": "s",
+   "mapped": true,
+   "where": "rank"
+  },
+  "recoveryTime": {
+   "emitted": true,
+   "index": 29,
+   "kind": "u",
+   "mapped": true,
+   "where": "cooldownMs"
+  },
+  "runeCostID": {
+   "emitted": true,
+   "index": 226,
+   "kind": "u",
+   "mapped": true,
+   "where": "runeCost.* (resolved via SpellRuneCost; raw id not carried, null when no rune cost)"
+  },
+  "schoolMask": {
+   "emitted": true,
+   "index": 225,
+   "kind": "u",
+   "mapped": true,
+   "where": "schoolMask / schools"
+  },
+  "speed": {
+   "emitted": true,
+   "index": 47,
+   "kind": "f",
+   "mapped": true,
+   "where": "speed"
+  },
+  "spellDescriptionVariableID": {
+   "emitted": true,
+   "index": 232,
+   "kind": "u",
+   "mapped": true,
+   "where": "descriptionVariables (present only if resolves via SpellDescriptionVariables)"
+  },
+  "spellDifficultyID": {
+   "emitted": false,
+   "index": 233,
+   "kind": "u",
+   "mapped": true,
+   "where": "confirmed zero-fill on the CoA class set (skip list, DATAMINE-REQUEST.md Sec 1.4) - re-verified 0/6038 nonzero, not emitted"
+  },
+  "spellFamilyFlags1": {
+   "emitted": true,
+   "index": 209,
+   "kind": "u",
+   "mapped": true,
+   "where": "family.flags1"
+  },
+  "spellFamilyFlags2": {
+   "emitted": true,
+   "index": 210,
+   "kind": "u",
+   "mapped": true,
+   "where": "family.flags2"
+  },
+  "spellFamilyFlags3": {
+   "emitted": true,
+   "index": 211,
+   "kind": "u",
+   "mapped": true,
+   "where": "family.flags3"
+  },
+  "spellFamilyName": {
+   "emitted": true,
+   "index": 208,
+   "kind": "u",
+   "mapped": true,
+   "where": "family.id"
+  },
+  "spellIconID": {
+   "emitted": true,
+   "index": 133,
+   "kind": "u",
+   "mapped": true,
+   "where": "iconPath (resolved via SpellIcon; raw id not carried)"
+  },
+  "spellLevel": {
+   "emitted": true,
+   "index": 39,
+   "kind": "u",
+   "mapped": true,
+   "where": "levels.spell"
+  },
+  "spellMissileID": {
+   "emitted": true,
+   "index": 227,
+   "kind": "u",
+   "mapped": true,
+   "where": "missileId"
+  },
+  "stackAmount": {
+   "emitted": true,
+   "index": 49,
+   "kind": "u",
+   "mapped": true,
+   "where": "stackAmount"
+  },
+  "stances": {
+   "emitted": true,
+   "index": 12,
+   "kind": "u",
+   "mapped": true,
+   "where": "stances"
+  },
+  "stancesNot": {
+   "emitted": true,
+   "index": 14,
+   "kind": "u",
+   "mapped": true,
+   "where": "stancesNot"
+  },
+  "startRecoveryCategory": {
+   "emitted": true,
+   "index": 205,
+   "kind": "u",
+   "mapped": true,
+   "where": "gcdCategory"
+  },
+  "startRecoveryTime": {
+   "emitted": true,
+   "index": 206,
+   "kind": "u",
+   "mapped": true,
+   "where": "gcdMs"
+  },
+  "targetAuraSpell": {
+   "emitted": true,
+   "index": 25,
+   "kind": "u",
+   "mapped": true,
+   "where": "targetAuraSpell"
+  },
+  "targetAuraState": {
+   "emitted": true,
+   "index": 21,
+   "kind": "u",
+   "mapped": true,
+   "where": "targetAuraState"
+  },
+  "targetCreatureType": {
+   "emitted": true,
+   "index": 17,
+   "kind": "u",
+   "mapped": true,
+   "where": "targetCreatureType"
+  },
+  "targets": {
+   "emitted": true,
+   "index": 16,
+   "kind": "u",
+   "mapped": true,
+   "where": "targets"
+  },
+  "tooltip_enUS": {
+   "emitted": true,
+   "index": 187,
+   "kind": "s",
+   "mapped": true,
+   "where": "tooltip"
+  }
+ },
+ "emittedColumns": 124,
+ "mappedColumns": 128,
+ "mappedNotEmittedColumns": 4,
+ "totalFields": 234,
+ "unmappedColumns": 106
+}

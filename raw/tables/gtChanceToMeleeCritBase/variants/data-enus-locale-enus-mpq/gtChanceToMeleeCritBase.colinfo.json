@@ -1,0 +1,12 @@
+{
+ "columnCount": 1,
+ "columns": [
+  {"evidence":{"distinct":10,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":0.20000000298023224,"plausibleAbsMin":0.002950000111013651,"plausibleRate":1.0},"maxSigned":1045220557,"maxUnsigned":3162177725,"minSigned":-1153346358,"minUnsigned":0,"negativeCount":2,"nonZeroCount":9,"rows":11,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1,"controlCharOffsets":0,"distinctOffsets":1,"meanDecodedLength":0.0,"nonEmptyOffsets":0,"utf8DecodableOffsets":1,"validOffsetRate":0.181818},"zeroCount":2},"index":0,"inferred":"float","name":"f0","samples":[],"width":4}
+ ],
+ "file": "gtChanceToMeleeCritBase.dbc",
+ "header": {"actualFields":1,"declaredFields":1,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":4,"records":11,"sizeReconciles":true,"stringBlockReferencedBytes":1,"stringBlockSize":1,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"float":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":65,"losers":[],"sha256":"60252bcd1e62daaa3de2b35d9c8b5ad30a014412768bc10147a4d922891ec205","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "gtChanceToMeleeCritBase"
+}

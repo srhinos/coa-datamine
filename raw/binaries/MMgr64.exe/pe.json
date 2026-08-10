@@ -1,0 +1,1466 @@
+{
+ "bytes": 364032,
+ "certificates": [],
+ "coff": {
+  "characteristics": 34,
+  "characteristicsFlags": [
+   "EXECUTABLE_IMAGE",
+   "LARGE_ADDRESS_AWARE"
+  ],
+  "machine": 34404,
+  "machineName": "IMAGE_FILE_MACHINE_AMD64",
+  "numberOfSections": 6,
+  "numberOfSymbols": 0,
+  "pointerToSymbolTable": 0,
+  "sizeOfOptionalHeader": 240,
+  "timeDateStamp": 1777846817
+ },
+ "debug": [
+  {
+   "addressOfRawData": 333160,
+   "majorVersion": 0,
+   "minorVersion": 0,
+   "pointerToRawData": 329064,
+   "sizeOfData": 892,
+   "timeDateStamp": 1777846817,
+   "type": 13,
+   "typeName": "POGO"
+  }
+ ],
+ "directories": {
+  "architecture": {
+   "index": 7,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "basereloc": {
+   "index": 5,
+   "size": 272,
+   "virtualAddress": 376832
+  },
+  "boundImport": {
+   "index": 11,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "comDescriptor": {
+   "index": 14,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "debug": {
+   "index": 6,
+   "size": 28,
+   "virtualAddress": 329840
+  },
+  "delayImport": {
+   "index": 13,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "exception": {
+   "index": 3,
+   "size": 7932,
+   "virtualAddress": 364544
+  },
+  "export": {
+   "index": 0,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "globalptr": {
+   "index": 8,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "iat": {
+   "index": 12,
+   "size": 1576,
+   "virtualAddress": 176128
+  },
+  "import": {
+   "index": 1,
+   "size": 320,
+   "virtualAddress": 348380
+  },
+  "loadConfig": {
+   "index": 10,
+   "size": 320,
+   "virtualAddress": 329520
+  },
+  "reserved": {
+   "index": 15,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "resource": {
+   "index": 2,
+   "size": 480,
+   "virtualAddress": 372736
+  },
+  "security": {
+   "index": 4,
+   "size": 0,
+   "virtualAddress": 0
+  },
+  "tls": {
+   "index": 9,
+   "size": 40,
+   "virtualAddress": 329984
+  }
+ },
+ "dos": {
+  "e_lfanew": 240,
+  "stubBytes": 176
+ },
+ "exports": {
+  "functions": [],
+  "present": false
+ },
+ "imports": [
+  {
+   "dll": "SHELL32.dll",
+   "firstThunk": 177088,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 9,
+     "name": "CommandLineToArgvW",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 350302,
+   "originalFirstThunk": 349664,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "KERNEL32.dll",
+   "firstThunk": 176144,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 511,
+     "name": "GetCommandLineW",
+     "ordinal": null
+    },
+    {
+     "hint": 1025,
+     "name": "LocalFree",
+     "ordinal": null
+    },
+    {
+     "hint": 156,
+     "name": "CloseHandle",
+     "ordinal": null
+    },
+    {
+     "hint": 1572,
+     "name": "WaitForSingleObject",
+     "ordinal": null
+    },
+    {
+     "hint": 577,
+     "name": "GetCurrentProcessId",
+     "ordinal": null
+    },
+    {
+     "hint": 1121,
+     "name": "ProcessIdToSessionId",
+     "ordinal": null
+    },
+    {
+     "hint": 1086,
+     "name": "OpenProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 652,
+     "name": "GetLastError",
+     "ordinal": null
+    },
+    {
+     "hint": 943,
+     "name": "IsDebuggerPresent",
+     "ordinal": null
+    },
+    {
+     "hint": 216,
+     "name": "CreateEventW",
+     "ordinal": null
+    },
+    {
+     "hint": 1555,
+     "name": "VirtualAlloc",
+     "ordinal": null
+    },
+    {
+     "hint": 1558,
+     "name": "VirtualFree",
+     "ordinal": null
+    },
+    {
+     "hint": 226,
+     "name": "CreateFileMappingW",
+     "ordinal": null
+    },
+    {
+     "hint": 1041,
+     "name": "MapViewOfFile",
+     "ordinal": null
+    },
+    {
+     "hint": 1533,
+     "name": "UnmapViewOfFile",
+     "ordinal": null
+    },
+    {
+     "hint": 921,
+     "name": "InitializeSListHead",
+     "ordinal": null
+    },
+    {
+     "hint": 793,
+     "name": "GetSystemTimeAsFileTime",
+     "ordinal": null
+    },
+    {
+     "hint": 1371,
+     "name": "SetEvent",
+     "ordinal": null
+    },
+    {
+     "hint": 768,
+     "name": "GetStartupInfoW",
+     "ordinal": null
+    },
+    {
+     "hint": 676,
+     "name": "GetModuleHandleW",
+     "ordinal": null
+    },
+    {
+     "hint": 1058,
+     "name": "MultiByteToWideChar",
+     "ordinal": null
+    },
+    {
+     "hint": 1257,
+     "name": "ReleaseSRWLockExclusive",
+     "ordinal": null
+    },
+    {
+     "hint": 0,
+     "name": "AcquireSRWLockExclusive",
+     "ordinal": null
+    },
+    {
+     "hint": 1580,
+     "name": "WakeAllConditionVariable",
+     "ordinal": null
+    },
+    {
+     "hint": 1481,
+     "name": "SleepConditionVariableSRW",
+     "ordinal": null
+    },
+    {
+     "hint": 1288,
+     "name": "RtlCaptureContext",
+     "ordinal": null
+    },
+    {
+     "hint": 1296,
+     "name": "RtlLookupFunctionEntry",
+     "ordinal": null
+    },
+    {
+     "hint": 1303,
+     "name": "RtlVirtualUnwind",
+     "ordinal": null
+    },
+    {
+     "hint": 1530,
+     "name": "UnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 1463,
+     "name": "SetUnhandledExceptionFilter",
+     "ordinal": null
+    },
+    {
+     "hint": 576,
+     "name": "GetCurrentProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 1495,
+     "name": "TerminateProcess",
+     "ordinal": null
+    },
+    {
+     "hint": 951,
+     "name": "IsProcessorFeaturePresent",
+     "ordinal": null
+    },
+    {
+     "hint": 1152,
+     "name": "QueryPerformanceCounter",
+     "ordinal": null
+    },
+    {
+     "hint": 581,
+     "name": "GetCurrentThreadId",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 350570,
+   "originalFirstThunk": 348720,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "USER32.dll",
+   "firstThunk": 177104,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 657,
+     "name": "MessageBoxA",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 350598,
+   "originalFirstThunk": 349680,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "ADVAPI32.dll",
+   "firstThunk": 176128,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 129,
+     "name": "ConvertStringSecurityDescriptorToSecurityDescriptorW",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 350666,
+   "originalFirstThunk": 348704,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "MSVCP140.dll",
+   "firstThunk": 176432,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 137,
+     "name": "??1?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 960,
+     "name": "?getloc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEBA?AVlocale@2@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1246,
+     "name": "?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1249,
+     "name": "?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 845,
+     "name": "?eback@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 966,
+     "name": "?gptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1095,
+     "name": "?pptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 848,
+     "name": "?egptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 875,
+     "name": "?gbump@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXH@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1341,
+     "name": "?width@ios_base@std@@QEAA_J_J@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 857,
+     "name": "?epptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 485,
+     "name": "?_Gndec@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 488,
+     "name": "?_Gninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 482,
+     "name": "?_Gnavail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBA_JXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1089,
+     "name": "?pbump@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXH@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 586,
+     "name": "?_Pninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 583,
+     "name": "?_Pnavail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBA_JXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 501,
+     "name": "?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 500,
+     "name": "?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAPEAD0PEAH001@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1347,
+     "name": "?xsgetn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEAD_J@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1350,
+     "name": "?xsputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEBD_J@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 427,
+     "name": "?_Fiopen@std@@YAPEAU_iobuf@@PEBDHH@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 125,
+     "name": "??1?$basic_ios@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 678,
+     "name": "?clear@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1221,
+     "name": "?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1290,
+     "name": "?tie@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_ostream@DU?$char_traits@D@std@@@2@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1159,
+     "name": "?rdbuf@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_streambuf@DU?$char_traits@D@std@@@2@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 865,
+     "name": "?fill@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1332,
+     "name": "?widen@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 12,
+     "name": "??0?$basic_ios@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 37,
+     "name": "??0?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 134,
+     "name": "??1?$basic_ostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 580,
+     "name": "?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 262,
+     "name": "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1121,
+     "name": "?put@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@D@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 872,
+     "name": "?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1237,
+     "name": "?showmanyc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 969,
+     "name": "?id@?$codecvt@DDU_Mbstatet@@@std@@2V0locale@2@A",
+     "ordinal": null
+    },
+    {
+     "hint": 692,
+     "name": "?cout@std@@3V?$basic_ostream@DU?$char_traits@D@std@@@1@A",
+     "ordinal": null
+    },
+    {
+     "hint": 47,
+     "name": "??0?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1342,
+     "name": "?width@ios_base@std@@QEBA_JXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 871,
+     "name": "?flags@ios_base@std@@QEBAHXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 965,
+     "name": "?good@ios_base@std@@QEBA_NXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 433,
+     "name": "?_Getcat@?$codecvt@DDU_Mbstatet@@@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1319,
+     "name": "?unshift@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEAD1AEAPEAD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1075,
+     "name": "?out@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1018,
+     "name": "?in@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 669,
+     "name": "?always_noconv@codecvt_base@std@@QEBA_NXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1311,
+     "name": "?uncaught_exceptions@std@@YAHXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 1001,
+     "name": "?id@?$numpunct@_W@std@@2V0locale@2@A",
+     "ordinal": null
+    },
+    {
+     "hint": 1405,
+     "name": "_Mbrtowc",
+     "ordinal": null
+    },
+    {
+     "hint": 1417,
+     "name": "_Mtx_unlock",
+     "ordinal": null
+    },
+    {
+     "hint": 1456,
+     "name": "_Thrd_detach",
+     "ordinal": null
+    },
+    {
+     "hint": 1413,
+     "name": "_Mtx_lock",
+     "ordinal": null
+    },
+    {
+     "hint": 1412,
+     "name": "_Mtx_init_in_situ",
+     "ordinal": null
+    },
+    {
+     "hint": 1460,
+     "name": "_Thrd_id",
+     "ordinal": null
+    },
+    {
+     "hint": 1461,
+     "name": "_Thrd_join",
+     "ordinal": null
+    },
+    {
+     "hint": 1425,
+     "name": "_Query_perf_frequency",
+     "ordinal": null
+    },
+    {
+     "hint": 1424,
+     "name": "_Query_perf_counter",
+     "ordinal": null
+    },
+    {
+     "hint": 999,
+     "name": "?id@?$numpunct@D@std@@2V0locale@2@A",
+     "ordinal": null
+    },
+    {
+     "hint": 494,
+     "name": "?_Id_cnt@id@locale@std@@0HA",
+     "ordinal": null
+    },
+    {
+     "hint": 414,
+     "name": "?_Decref@facet@locale@std@@UEAAPEAV_Facet_base@3@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 498,
+     "name": "?_Incref@facet@locale@std@@UEAAXXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 469,
+     "name": "?_Getgloballocale@locale@std@@CAPEAV_Locimp@12@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 527,
+     "name": "?_Init@locale@std@@CAPEAV_Locimp@12@_N@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 171,
+     "name": "??1facet@locale@std@@MEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 117,
+     "name": "??0facet@locale@std@@IEAA@_K@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 671,
+     "name": "?c_str@?$_Yarn@D@std@@QEBAPEBDXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 481,
+     "name": "?_Gettrue@_Locinfo@std@@QEBAPEBDXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 459,
+     "name": "?_Getfalse@_Locinfo@std@@QEBAPEBDXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 164,
+     "name": "??1_Locinfo@std@@QEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 108,
+     "name": "??0_Locinfo@std@@QEAA@PEBD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 655,
+     "name": "?_Xout_of_range@std@@YAXPEBD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 165,
+     "name": "??1_Lockit@std@@QEAA@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 109,
+     "name": "??0_Lockit@std@@QEAA@H@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 456,
+     "name": "?_Getcvt@_Locinfo@std@@QEBA?AU_Cvtvec@@XZ",
+     "ordinal": null
+    },
+    {
+     "hint": 654,
+     "name": "?_Xlength_error@std@@YAXPEBD@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 651,
+     "name": "?_Xbad_alloc@std@@YAXXZ",
+     "ordinal": null
+    },
+    {
+     "hint": 629,
+     "name": "?_Throw_Cpp_error@std@@YAXH@Z",
+     "ordinal": null
+    },
+    {
+     "hint": 1358,
+     "name": "_Cnd_do_broadcast_at_thread_exit",
+     "ordinal": null
+    },
+    {
+     "hint": 1210,
+     "name": "?setg@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAD00@Z",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 354878,
+   "originalFirstThunk": 349008,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "VCRUNTIME140.dll",
+   "firstThunk": 177120,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 28,
+     "name": "__current_exception_context",
+     "ordinal": null
+    },
+    {
+     "hint": 33,
+     "name": "__std_exception_copy",
+     "ordinal": null
+    },
+    {
+     "hint": 34,
+     "name": "__std_exception_destroy",
+     "ordinal": null
+    },
+    {
+     "hint": 1,
+     "name": "_CxxThrowException",
+     "ordinal": null
+    },
+    {
+     "hint": 27,
+     "name": "__current_exception",
+     "ordinal": null
+    },
+    {
+     "hint": 60,
+     "name": "memcpy",
+     "ordinal": null
+    },
+    {
+     "hint": 61,
+     "name": "memmove",
+     "ordinal": null
+    },
+    {
+     "hint": 35,
+     "name": "__std_terminate",
+     "ordinal": null
+    },
+    {
+     "hint": 62,
+     "name": "memset",
+     "ordinal": null
+    },
+    {
+     "hint": 8,
+     "name": "__C_specific_handler",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 355110,
+   "originalFirstThunk": 349696,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "VCRUNTIME140_1.dll",
+   "firstThunk": 177208,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 0,
+     "name": "__CxxFrameHandler4",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 355128,
+   "originalFirstThunk": 349784,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+   "firstThunk": 177408,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 54,
+     "name": "_initterm",
+     "ordinal": null
+    },
+    {
+     "hint": 85,
+     "name": "exit",
+     "ordinal": null
+    },
+    {
+     "hint": 35,
+     "name": "_exit",
+     "ordinal": null
+    },
+    {
+     "hint": 22,
+     "name": "_cexit",
+     "ordinal": null
+    },
+    {
+     "hint": 51,
+     "name": "_initialize_narrow_environment",
+     "ordinal": null
+    },
+    {
+     "hint": 24,
+     "name": "_configure_narrow_argv",
+     "ordinal": null
+    },
+    {
+     "hint": 66,
+     "name": "_set_app_type",
+     "ordinal": null
+    },
+    {
+     "hint": 64,
+     "name": "_seh_filter_exe",
+     "ordinal": null
+    },
+    {
+     "hint": 30,
+     "name": "_crt_atexit",
+     "ordinal": null
+    },
+    {
+     "hint": 52,
+     "name": "_initialize_onexit_table",
+     "ordinal": null
+    },
+    {
+     "hint": 43,
+     "name": "_get_narrow_winmain_command_line",
+     "ordinal": null
+    },
+    {
+     "hint": 21,
+     "name": "_c_exit",
+     "ordinal": null
+    },
+    {
+     "hint": 61,
+     "name": "_register_thread_local_exe_atexit_callback",
+     "ordinal": null
+    },
+    {
+     "hint": 20,
+     "name": "_beginthreadex",
+     "ordinal": null
+    },
+    {
+     "hint": 103,
+     "name": "terminate",
+     "ordinal": null
+    },
+    {
+     "hint": 60,
+     "name": "_register_onexit_function",
+     "ordinal": null
+    },
+    {
+     "hint": 58,
+     "name": "_invoke_watson",
+     "ordinal": null
+    },
+    {
+     "hint": 55,
+     "name": "_initterm_e",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 355914,
+   "originalFirstThunk": 349984,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+   "firstThunk": 177264,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 23,
+     "name": "calloc",
+     "ordinal": null
+    },
+    {
+     "hint": 22,
+     "name": "_set_new_mode",
+     "ordinal": null
+    },
+    {
+     "hint": 8,
+     "name": "_callnewh",
+     "ordinal": null
+    },
+    {
+     "hint": 25,
+     "name": "malloc",
+     "ordinal": null
+    },
+    {
+     "hint": 24,
+     "name": "free",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 355948,
+   "originalFirstThunk": 349840,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+   "firstThunk": 177224,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 115,
+     "name": "wcstoul",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 355980,
+   "originalFirstThunk": 349800,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-string-l1-1-0.dll",
+   "firstThunk": 177680,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 163,
+     "name": "wcslen",
+     "ordinal": null
+    },
+    {
+     "hint": 139,
+     "name": "strlen",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 356014,
+   "originalFirstThunk": 350256,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-math-l1-1-0.dll",
+   "firstThunk": 177336,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 23,
+     "name": "_dsign",
+     "ordinal": null
+    },
+    {
+     "hint": 60,
+     "name": "_ldsign",
+     "ordinal": null
+    },
+    {
+     "hint": 37,
+     "name": "_fdsign",
+     "ordinal": null
+    },
+    {
+     "hint": 16,
+     "name": "_dclass",
+     "ordinal": null
+    },
+    {
+     "hint": 29,
+     "name": "_fdclass",
+     "ordinal": null
+    },
+    {
+     "hint": 9,
+     "name": "__setusermatherr",
+     "ordinal": null
+    },
+    {
+     "hint": 54,
+     "name": "_ldclass",
+     "ordinal": null
+    },
+    {
+     "hint": 125,
+     "name": "ceilf",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 356048,
+   "originalFirstThunk": 349912,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+   "firstThunk": 177312,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 18,
+     "name": "localeconv",
+     "ordinal": null
+    },
+    {
+     "hint": 8,
+     "name": "_configthreadlocale",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 356080,
+   "originalFirstThunk": 349888,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+   "firstThunk": 177560,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 1,
+     "name": "__p__commode",
+     "ordinal": null
+    },
+    {
+     "hint": 57,
+     "name": "_get_stream_buffer_pointers",
+     "ordinal": null
+    },
+    {
+     "hint": 84,
+     "name": "_set_fmode",
+     "ordinal": null
+    },
+    {
+     "hint": 116,
+     "name": "fclose",
+     "ordinal": null
+    },
+    {
+     "hint": 119,
+     "name": "fflush",
+     "ordinal": null
+    },
+    {
+     "hint": 120,
+     "name": "fgetc",
+     "ordinal": null
+    },
+    {
+     "hint": 121,
+     "name": "fgetpos",
+     "ordinal": null
+    },
+    {
+     "hint": 127,
+     "name": "fputc",
+     "ordinal": null
+    },
+    {
+     "hint": 131,
+     "name": "fread",
+     "ordinal": null
+    },
+    {
+     "hint": 136,
+     "name": "fsetpos",
+     "ordinal": null
+    },
+    {
+     "hint": 47,
+     "name": "_fseeki64",
+     "ordinal": null
+    },
+    {
+     "hint": 138,
+     "name": "fwrite",
+     "ordinal": null
+    },
+    {
+     "hint": 152,
+     "name": "setvbuf",
+     "ordinal": null
+    },
+    {
+     "hint": 157,
+     "name": "ungetc",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 356114,
+   "originalFirstThunk": 350136,
+   "timeDateStamp": 0
+  },
+  {
+   "dll": "api-ms-win-crt-filesystem-l1-1-0.dll",
+   "firstThunk": 177240,
+   "forwarderChain": 0,
+   "functions": [
+    {
+     "hint": 22,
+     "name": "_lock_file",
+     "ordinal": null
+    },
+    {
+     "hint": 36,
+     "name": "_unlock_file",
+     "ordinal": null
+    }
+   ],
+   "kind": "import",
+   "nameRva": 356146,
+   "originalFirstThunk": 349816,
+   "timeDateStamp": 0
+  }
+ ],
+ "isPE": true,
+ "notes": [],
+ "optional": {
+  "addressOfEntryPoint": 168452,
+  "baseOfCode": 4096,
+  "checkSum": 0,
+  "dllCharacteristics": 33120,
+  "dllCharacteristicsFlags": [
+   "HIGH_ENTROPY_VA",
+   "DYNAMIC_BASE",
+   "NX_COMPAT",
+   "TERMINAL_SERVER_AWARE"
+  ],
+  "fileAlignment": 512,
+  "imageBase": 5368709120,
+  "loaderFlags": 0,
+  "magic": 523,
+  "magicName": "PE32+",
+  "majorImageVersion": 0,
+  "majorLinkerVersion": 14,
+  "majorOperatingSystemVersion": 6,
+  "majorSubsystemVersion": 6,
+  "minorImageVersion": 0,
+  "minorLinkerVersion": 44,
+  "minorOperatingSystemVersion": 0,
+  "minorSubsystemVersion": 0,
+  "numberOfRvaAndSizes": 16,
+  "sectionAlignment": 4096,
+  "sizeOfCode": 171008,
+  "sizeOfHeaders": 1024,
+  "sizeOfHeapCommit": 4096,
+  "sizeOfHeapReserve": 1048576,
+  "sizeOfImage": 380928,
+  "sizeOfInitializedData": 193536,
+  "sizeOfStackCommit": 4096,
+  "sizeOfStackReserve": 1048576,
+  "sizeOfUninitializedData": 0,
+  "subsystem": 2,
+  "subsystemName": "WINDOWS_GUI",
+  "win32VersionValue": 0
+ },
+ "overlay": {
+  "bytes": 0,
+  "offset": 364032
+ },
+ "peHeaderOffset": 240,
+ "resources": [
+  {
+   "codePage": 0,
+   "languageId": 1033,
+   "levels": [
+    {
+     "id": 24,
+     "name": null
+    },
+    {
+     "id": 1,
+     "name": null
+    },
+    {
+     "id": 1033,
+     "name": null
+    }
+   ],
+   "nameId": 1,
+   "nameString": null,
+   "offset": 363104,
+   "rva": 372832,
+   "size": 381,
+   "typeId": 24,
+   "typeName": "RT_MANIFEST"
+  }
+ ],
+ "rich": {
+  "checksumOffset": 228,
+  "entries": [
+   {
+    "buildNumber": 30729,
+    "count": 16,
+    "productId": 147
+   },
+   {
+    "buildNumber": 35207,
+    "count": 3,
+    "productId": 259
+   },
+   {
+    "buildNumber": 35207,
+    "count": 10,
+    "productId": 260
+   },
+   {
+    "buildNumber": 35207,
+    "count": 34,
+    "productId": 261
+   },
+   {
+    "buildNumber": 35207,
+    "count": 6,
+    "productId": 257
+   },
+   {
+    "buildNumber": 33145,
+    "count": 9,
+    "productId": 257
+   },
+   {
+    "buildNumber": 0,
+    "count": 221,
+    "productId": 1
+   },
+   {
+    "buildNumber": 35221,
+    "count": 5,
+    "productId": 261
+   },
+   {
+    "buildNumber": 35221,
+    "count": 1,
+    "productId": 255
+   },
+   {
+    "buildNumber": 35221,
+    "count": 1,
+    "productId": 258
+   }
+  ],
+  "key": 2261487554,
+  "offset": 128,
+  "present": true,
+  "sha256": "3e44a75ea3fdcc735701131ac4ed70a6f398c1660beed4d7b89bd91db29105b5"
+ },
+ "sections": [
+  {
+   "bytesRead": 171008,
+   "characteristics": 1610612768,
+   "characteristicsFlags": [
+    "CNT_CODE",
+    "MEM_EXECUTE",
+    "MEM_READ"
+   ],
+   "entropy": 6.388908,
+   "index": 0,
+   "name": ".text",
+   "nameBytesHex": "2e74657874000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 1024,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.394631,
+   "sha256": "fe5209ca7a7b2784c8b34221a81a2c82bd7f0255e8365352a733c70aba50c5ef",
+   "sizeOfRawData": 171008,
+   "virtualAddress": 4096,
+   "virtualSize": 170891
+  },
+  {
+   "bytesRead": 180736,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 6.657954,
+   "index": 1,
+   "name": ".rdata",
+   "nameBytesHex": "2e72646174610000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 172032,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.302845,
+   "sha256": "e5cfa306cd73af55080391b787471dd3974889b82bf8726e7251bd78d57bd28f",
+   "sizeOfRawData": 180736,
+   "virtualAddress": 176128,
+   "virtualSize": 180532
+  },
+  {
+   "bytesRead": 2048,
+   "characteristics": 3221225536,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ",
+    "MEM_WRITE"
+   ],
+   "entropy": 3.503379,
+   "index": 2,
+   "name": ".data",
+   "nameBytesHex": "2e64617461000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 352768,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.463867,
+   "sha256": "2137fb713e2279efb476443b96c6531bd297fcb44f000b8454f86ac3b26f186c",
+   "sizeOfRawData": 2048,
+   "virtualAddress": 360448,
+   "virtualSize": 3560
+  },
+  {
+   "bytesRead": 8192,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 5.377307,
+   "index": 3,
+   "name": ".pdata",
+   "nameBytesHex": "2e70646174610000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 354816,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.210938,
+   "sha256": "6386938cc32332776f84ca4105169e752eeda955139e965b36fee40ae399489d",
+   "sizeOfRawData": 8192,
+   "virtualAddress": 364544,
+   "virtualSize": 7932
+  },
+  {
+   "bytesRead": 512,
+   "characteristics": 1073741888,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_READ"
+   ],
+   "entropy": 4.717679,
+   "index": 4,
+   "name": ".rsrc",
+   "nameBytesHex": "2e72737263000000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 363008,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.753906,
+   "sha256": "0ec929b39ca477bfac473d858df37a38430065f43ee6f2df0812c8a998d91953",
+   "sizeOfRawData": 512,
+   "virtualAddress": 372736,
+   "virtualSize": 480
+  },
+  {
+   "bytesRead": 512,
+   "characteristics": 1107296320,
+   "characteristicsFlags": [
+    "CNT_INITIALIZED_DATA",
+    "MEM_DISCARDABLE",
+    "MEM_READ"
+   ],
+   "entropy": 3.227051,
+   "index": 5,
+   "name": ".reloc",
+   "nameBytesHex": "2e72656c6f630000",
+   "numberOfLinenumbers": 0,
+   "numberOfRelocations": 0,
+   "pointerToLinenumbers": 0,
+   "pointerToRawData": 363520,
+   "pointerToRelocations": 0,
+   "printableRatio": 0.115234,
+   "sha256": "d2f014bf2ec50b451c2b8abb45e7d5e44679aa35a2e37c0f05245c2604a4fc45",
+   "sizeOfRawData": 512,
+   "virtualAddress": 376832,
+   "virtualSize": 272
+  }
+ ]
+}

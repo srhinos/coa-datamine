@@ -1,0 +1,33 @@
+{
+ "columnWidths": {"byte":0,"int32":10},
+ "columns": 10,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "CharSections.dbc",
+ "format": "gzip",
+ "inferredCounts": {"int":6,"string":4},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 2142151,
+ "rows": 8958,
+ "shardCount": 11,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"00000-00999.jsonl.gz","format":"gzip","hi":999,"lo":0,"plainBytes":195893,"rows":803,"sha256":"751eb03b4fabb7d54e9db2ce07540715b24a61b7c5d6c6d1b74c4c9f17499ff0","storedBytes":12383},
+  {"file":"01000-01999.jsonl.gz","format":"gzip","hi":1999,"lo":1000,"plainBytes":239543,"rows":979,"sha256":"1faa09abbd63d8497fa8196b77c09d4240438b3eddf68424d77222fc386b6f6d","storedBytes":14733},
+  {"file":"02000-02999.jsonl.gz","format":"gzip","hi":2999,"lo":2000,"plainBytes":222109,"rows":882,"sha256":"3510d538febf8af5dd6729f4ddc99c0bda4ae6a9c5d8ec92006bd95bf5a9a2be","storedBytes":13900},
+  {"file":"03000-03999.jsonl.gz","format":"gzip","hi":3999,"lo":3000,"plainBytes":72756,"rows":359,"sha256":"d15a05de77142b352a18df3b970397718728128139fd7c2c0b2fce0561ae6be7","storedBytes":4502},
+  {"file":"04000-04999.jsonl.gz","format":"gzip","hi":4999,"lo":4000,"plainBytes":104679,"rows":496,"sha256":"290d2f184f4f84718a6bbfa7bc07d9a64ee35ff5c06ac0962e9eedd3bee62535","storedBytes":6708},
+  {"file":"05000-05999.jsonl.gz","format":"gzip","hi":5999,"lo":5000,"plainBytes":203891,"rows":839,"sha256":"7979825053047c4b581d40ba0a6096950bda591148c8437ded4294423db671f9","storedBytes":14380},
+  {"file":"06000-06999.jsonl.gz","format":"gzip","hi":6999,"lo":6000,"plainBytes":107767,"rows":448,"sha256":"630af42e7174260b4b0e343622d5b68cc8aae8bddea7e6bffd229477dfd9ce0a","storedBytes":6066},
+  {"file":"07000-07999.jsonl.gz","format":"gzip","hi":7999,"lo":7000,"plainBytes":25846,"rows":120,"sha256":"7e4661a41a91cc189d5c273349b86b9828d11334475b1d3c352ed6dc4d7d7b91","storedBytes":1913},
+  {"file":"08000-08999.jsonl.gz","format":"gzip","hi":8999,"lo":8000,"plainBytes":125269,"rows":584,"sha256":"d332a73c6ae7f7756213347a9412768cc593a360efaf5b7a74738317de2dfbd5","storedBytes":6681},
+  {"file":"09000-09999.jsonl.gz","format":"gzip","hi":9999,"lo":9000,"plainBytes":220393,"rows":914,"sha256":"3c49910eff3d08a3ea012bd8ad0e5a2b848cdbee01acd19451a4b8addb699607","storedBytes":10060},
+  {"file":"10000-19999.jsonl.gz","format":"gzip","hi":19999,"lo":10000,"plainBytes":624005,"rows":2534,"sha256":"a8405233555d257049699e5b96c0d5379f944c2235a3873e0af25aea82bd7d93","storedBytes":45371}
+ ],
+ "sourceSha256": "838c2ac59db374730298e19971fe600d394ba30c3f83d3b6a4f2890ec6d51e7f",
+ "storedBytes": 136697,
+ "stringBlockSize": 486947,
+ "table": "CharSections",
+ "unreferencedStringBytes": 0
+}

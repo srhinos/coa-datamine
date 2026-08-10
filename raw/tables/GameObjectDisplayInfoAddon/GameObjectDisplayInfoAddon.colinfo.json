@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":106834,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1036682,"maxUnsigned":1036682,"minSigned":24,"minUnsigned":24,"negativeCount":0,"nonZeroCount":106834,"rows":106834,"string":{"applicable":true,"blockCoverageRate":0.079375,"blockSize":1351739,"controlCharOffsets":0,"distinctOffsets":1749,"meanDecodedLength":60.346,"nonEmptyOffsets":1749,"utf8DecodableOffsets":1749,"validOffsetRate":0.016371},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["ITEM\\OBJECTCOMPONENTS\\WEAPON\\axe_1h_draenorogre_b_01light.blp","ITEM\\OBJECTCOMPONENTS\\WEAPON\\axe_1h_draenorogre_b_01purple.blp","ITEM\\OBJECTCOMPONENTS\\WEAPON\\axe_1h_draenorquest_b_01blue.blp","ITEM\\OBJECTCOMPONENTS\\WEAPON\\axe_1h_draenorquest_b_01green.blp","ITEM\\OBJECTCOMPONENTS\\WEAPON\\axe_1h_draenorquest_b_01orange.blp"],"width":4},
+  {"evidence":{"distinct":20671,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":1351704,"maxUnsigned":1351704,"minSigned":0,"minUnsigned":0,"negativeCount":0,"nonZeroCount":106833,"rows":106834,"string":{"applicable":true,"blockCoverageRate":1.0,"blockSize":1351739,"controlCharOffsets":0,"distinctOffsets":20671,"meanDecodedLength":64.393,"nonEmptyOffsets":20670,"utf8DecodableOffsets":20671,"validOffsetRate":1.0},"zeroCount":1},"index":1,"inferred":"string","name":"f1","samples":["ITEM\\TEXTURECOMPONENTS\\LEGUPPERTEXTURE\\Cloth_A_01Purple_Belt_LU_U.blp","ITEM\\OBJECTCOMPONENTS\\ArmorPLC\\Plate_RaidWarrior_H_01Dark_Belt_Direct.blp","textures\\BakedNpcTextures\\CreatureDisplayExtra-20312.blp","textures\\BakedNpcTextures\\a41534b29f51fb4c3a9447742522d8e.blp","ITEM\\OBJECTCOMPONENTS\\cape\\cape_mail_maldraxxus_d_01_3491102.blp"],"width":4}
+ ],
+ "file": "GameObjectDisplayInfoAddon.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":106834,"sizeReconciles":true,"stringBlockReferencedBytes":1351739,"stringBlockSize":1351739,"stringBlockUnreferencedBytes":0,"stringBlockUnreferencedEntries":0,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":2206431,"losers":[],"sha256":"025253c257e706f8a87bcdefcf8689bc48e07fc0d2c60900617f7150221a535b","winner":"Data/patch-M.MPQ"},
+ "table": "GameObjectDisplayInfoAddon"
+}

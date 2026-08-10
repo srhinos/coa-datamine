@@ -25,11 +25,11 @@ os.sep, matching the extraction destination literally) -> {source, size, sha256}
 a pure function of (archive contents, on-disk APIDocumentation) - no timestamps anywhere,
 matching this repo's determinism rule for everything under raw/.
 """
-import hashlib, json, os, shutil
+import hashlib, json, os
 
 from mpyq import MPQArchive
 
-from tools import config, extract_mpq
+from tools import config, extract_mpq, layerstate
 
 CODE_EXTS = {".lua", ".xml", ".toc", ".txt", ".md"}
 _INTERFACE_PREFIX = "interface\\"
@@ -123,12 +123,44 @@ def _disk_entries() -> dict:
     return entries
 
 
+DATAMINE_OWNED = "python datamine.py"
+
+
 def extract_all() -> dict:
     config.ensure_dirs()
     out_dir = config.RAW_INTERFACE_DIR
-    if out_dir.exists():
-        shutil.rmtree(out_dir)
-    out_dir.mkdir(parents=True)
+
+    # `datamine.py` emits this SAME layer, and it emits a strictly larger one:
+    # it reads members with tools/mpq.py where this module still reads them with
+    # mpyq, so five files this extractor cannot decode at all are present in
+    # datamine's tree (1,558 files against 1,553). Running this over the top of
+    # that was silent data loss - measured, not hypothesised: a curated-pipeline
+    # run during this work deleted RaceSelect.lua/.xml, SoundOptionsFrame.lua/
+    # .xml and AnimationTemplates.lua from the committed tree and rewrote the
+    # manifest to match, and nothing said so.
+    #
+    # So this stage now DEFERS to datamine's layer instead of clobbering it. The
+    # sentinel names its own producer, which is what makes the ownership check
+    # possible without a flag anyone has to remember to pass.
+    state = layerstate.read(out_dir) if layerstate.is_complete(out_dir) else {}
+    if state.get("generatedBy") == DATAMINE_OWNED:
+        mpath = out_dir / "_manifest.json"
+        manifest = json.loads(mpath.read_bytes().decode("utf-8"))
+        print(f"[interface] kept datamine.py's layer ({manifest['count']} "
+              f"files); this extractor would write a subset of it. Regenerate "
+              f"it with `{DATAMINE_OWNED}`.")
+        # the SAME stats shape the extracting path returns, so every caller and
+        # every gate downstream reads one contract rather than two
+        return {"count": manifest["count"],
+                "archiveSourced": manifest["archiveSourced"],
+                "diskSourced": manifest["diskSourced"],
+                "manifestSha256": hashlib.sha256(mpath.read_bytes()).hexdigest(),
+                "keptExisting": True, "generatedBy": DATAMINE_OWNED}
+
+    # The sentinel is dropped before the tree is cleared, so a run killed
+    # mid-extraction leaves a layer that reads as unfinished rather than as a
+    # smaller-but-plausible one.
+    layerstate.clear_dir(out_dir)
 
     carriers, skipped = _collect_archive_carriers()
     winners, multi_archive_collisions = _resolve_archive_winners(carriers)
@@ -158,8 +190,16 @@ def extract_all() -> dict:
         "files": {k: files_meta[k] for k in sorted(files_meta)},
     }
     manifest_path = out_dir / "_manifest.json"
-    manifest_path.write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    # bytes, not Path.write_text(): text mode translates \n to the platform's
+    # newline, which would make this manifest - and the sha256 recorded for it -
+    # depend on the OS that generated it. Same rule every other raw layer uses.
+    manifest_path.write_bytes(
+        json.dumps(manifest, ensure_ascii=False, indent=1,
+                   sort_keys=True).encode("utf-8"))
+    layerstate.finish(out_dir, {
+        "layer": "raw/interface", "generatedBy": "tools/extract_interface.py",
+        "count": len(files_meta), "archiveSourced": archive_sourced,
+        "diskSourced": len(disk)})
 
     return {
         "count": len(files_meta),
@@ -170,16 +210,3 @@ def extract_all() -> dict:
         "skippedArchives": len(skipped),
         "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
     }
-
-
-def main():
-    stats = extract_all()
-    print(f"interface files: {stats['count']} "
-          f"(archive={stats['archiveSourced']}, disk={stats['diskSourced']}, "
-          f"disk-overrode-archive={stats['diskOverrodeArchive']}, "
-          f"multi-archive-collisions={stats['multiArchiveCollisions']})")
-    print(f"manifest sha256: {stats['manifestSha256']}")
-
-
-if __name__ == "__main__":
-    main()

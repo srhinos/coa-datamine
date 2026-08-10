@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":86,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":247,"maxUnsigned":247,"minSigned":3,"minUnsigned":3,"negativeCount":0,"nonZeroCount":86,"rows":86,"string":{"applicable":true,"blockCoverageRate":0.010704,"blockSize":6166,"controlCharOffsets":0,"distinctOffsets":2,"meanDecodedLength":32.0,"nonEmptyOffsets":2,"utf8DecodableOffsets":2,"validOffsetRate":0.023256},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["Interface\\Glues\\LoadingScreens\\LoadScreenCave.blp","InstanceDungeon"],"width":4},
+  {"evidence":{"distinct":84,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":6085,"maxUnsigned":6085,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":86,"rows":86,"string":{"applicable":true,"blockCoverageRate":0.264191,"blockSize":6166,"controlCharOffsets":0,"distinctOffsets":84,"meanDecodedLength":18.393,"nonEmptyOffsets":84,"utf8DecodableOffsets":84,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["Kalimdor","Azeroth","InstanceCave","InstanceDungeon","InstanceExterior"],"width":4},
+  {"evidence":{"distinct":79,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":6107,"maxUnsigned":6107,"minSigned":10,"minUnsigned":10,"negativeCount":0,"nonZeroCount":86,"rows":86,"string":{"applicable":true,"blockCoverageRate":0.735647,"blockSize":6166,"controlCharOffsets":0,"distinctOffsets":79,"meanDecodedLength":56.418,"nonEmptyOffsets":79,"utf8DecodableOffsets":79,"validOffsetRate":1.0},"zeroCount":0},"index":2,"inferred":"string","name":"f2","samples":["Interface\\Glues\\LoadingScreens\\LoadScreenKalimdor.blp","Interface\\Glues\\LoadingScreens\\LoadScreenEasternKingdom.blp","Interface\\Glues\\LoadingScreens\\LoadScreenCave.blp","Interface\\Glues\\LoadingScreens\\LoadScreenDungeon.blp","Interface\\Glues\\LoadingScreens\\LoadScreenEnviroment.blp"],"width":4}
+ ],
+ "file": "LoadingScreens.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":86,"sizeReconciles":true,"stringBlockReferencedBytes":6165,"stringBlockSize":6166,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":2},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":7218,"losers":[],"sha256":"d36744757bb4df816cf7f9014eac137c21e12ac22e67fb1b96595e1fbda1b7dd","winner":"Data/enUS/patch-enUS.MPQ"},
+ "table": "LoadingScreens"
+}

@@ -1,4 +1,6 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Arcane","Fire","Frost"],
  "class": "RebornMage",
  "classId": 8,
  "entryCount": 1517,
@@ -33,7 +35,12 @@
   {"cadIdRange":[24000,26000],"count":58,"file":"Frost.Trait-24000.json","tab":"Frost","type":"Trait"},
   {"cadIdRange":[26000,28000],"count":78,"file":"Frost.Trait-26000.json","tab":"Frost","type":"Trait"}
  ],
+ "hasLiveGeometry": false,
+ "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":1517},
+ "liveCountsByReason": {"unknownNoGeometry":1517},
+ "liveTabs": null,
  "realmHint": "Bronzebeard - Warcraft Reborn",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "reborn",
  "unresolvedCount": 970
 }

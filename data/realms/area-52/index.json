@@ -1,4 +1,15 @@
 {
+ "liveNodeCoverage": {
+  "liveNodeIds": 3932,
+  "missingInRealm": [
+   573365,
+   760379,
+   808082
+  ],
+  "missingInRealmCount": 3,
+  "note": "Live talent-node spell ids (raw/talents capture) that have no row in THIS realm's Spell.dbc. The curated layer is built from the base variant, where all of them resolve - see tools/curate.py BASE_VARIANT_RULE.",
+  "resolvedInRealm": 3929
+ },
  "missingRefResolution": {
   "cad_other": {
    "missingCount": 178,
@@ -8,16 +19,24 @@
    "missingCount": 7119,
    "resolvedInRealm": 7119
   },
+  "formula": {
+   "missingCount": 184,
+   "resolvedInRealm": 15
+  },
+  "live": {
+   "missingCount": 0,
+   "resolvedInRealm": 0
+  },
   "rank": {
-   "missingCount": 2811,
-   "resolvedInRealm": 604
+   "missingCount": 2810,
+   "resolvedInRealm": 603
   },
   "talent": {
    "missingCount": 13,
    "resolvedInRealm": 1
   }
  },
- "newSpellCount": 31498,
+ "newSpellCount": 31490,
  "realm": "area-52",
  "spellIdRange": [
   1,
@@ -36,7 +55,7 @@
    "baseRecords": 5600,
    "delta": -160,
    "fields": 9,
-   "mapped": false,
+   "mapped": true,
    "records": 5440
   },
   "Manastorm": {
@@ -68,38 +87,38 @@
    "records": 15
   },
   "SkillLineAbility": {
-   "baseRecords": 40981,
-   "delta": -2439,
+   "baseRecords": 40983,
+   "delta": -2441,
    "fields": 14,
    "mapped": true,
    "records": 38542
   },
   "Spell": {
-   "baseRecords": 209125,
-   "delta": 29814,
+   "baseRecords": 209151,
+   "delta": 29791,
    "fields": 234,
    "mapped": true,
-   "records": 238939
+   "records": 238942
   },
   "SpellCharges": {
-   "baseRecords": 400,
-   "delta": 73,
+   "baseRecords": 406,
+   "delta": 67,
    "fields": 2,
    "mapped": true,
    "records": 473
   },
   "SpellChargesCategory": {
-   "baseRecords": 105,
-   "delta": 3,
+   "baseRecords": 106,
+   "delta": 2,
    "fields": 3,
    "mapped": true,
    "records": 108
   },
   "SpellRank": {
-   "baseRecords": null,
-   "delta": null,
+   "baseRecords": 23179,
+   "delta": -3578,
    "fields": 4,
-   "mapped": false,
+   "mapped": true,
    "records": 19601
   },
   "Talent": {

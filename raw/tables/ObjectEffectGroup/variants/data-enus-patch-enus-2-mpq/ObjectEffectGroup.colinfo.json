@@ -1,0 +1,13 @@
+{
+ "columnCount": 2,
+ "columns": [
+  {"evidence":{"distinct":100,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":603,"maxUnsigned":603,"minSigned":33,"minUnsigned":33,"negativeCount":0,"nonZeroCount":100,"rows":100,"string":{"applicable":true,"blockCoverageRate":0.0459,"blockSize":2549,"controlCharOffsets":0,"distinctOffsets":4,"meanDecodedLength":28.25,"nonEmptyOffsets":4,"utf8DecodableOffsets":4,"validOffsetRate":0.04},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["FlyingMachineMount_Walk","FlyingMachineMount_ShuffleLeft","FlyingMachineMount_JumpLandRun","WintergraspCatapult_LoadThrown"],"width":4},
+  {"evidence":{"distinct":100,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2524,"maxUnsigned":2524,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":100,"rows":100,"string":{"applicable":true,"blockCoverageRate":0.999608,"blockSize":2549,"controlCharOffsets":0,"distinctOffsets":100,"meanDecodedLength":24.48,"nonEmptyOffsets":100,"utf8DecodableOffsets":100,"validOffsetRate":1.0},"zeroCount":0},"index":1,"inferred":"string","name":"f1","samples":["vr_elevator_lift_always","vr_elevator_lift_accelerating","FlyingMachineMount_Sprint","WintergraspCatapult_Moving","WintergraspCatapult_NotMoving"],"width":4}
+ ],
+ "file": "ObjectEffectGroup.dbc",
+ "header": {"actualFields":2,"declaredFields":2,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":8,"records":100,"sizeReconciles":true,"stringBlockReferencedBytes":2548,"stringBlockSize":2549,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":1,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":3369,"losers":[],"sha256":"8b916118dd7e60802f3773859eec232d525caf64639bbf99fc78ec3ef6d89375","winner":"Data/enUS/patch-enUS-2.MPQ"},
+ "table": "ObjectEffectGroup"
+}

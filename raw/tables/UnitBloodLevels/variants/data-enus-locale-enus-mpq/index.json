@@ -1,0 +1,23 @@
+{
+ "columnWidths": {"byte":0,"int32":4},
+ "columns": 4,
+ "compressionRule": "The decision is per table, so a table is never half-readable: when a table's whole decoded text is <= 1048576 bytes its shards stay plain .jsonl and grep reads them directly, and when it is larger every shard is written as .jsonl.gz (deflate level 9, gzip mtime and name fields zeroed so reruns are byte-identical). The choice and both byte counts are recorded per table and per shard in the table index. Small tables are the long tail an agent greps; the handful of large ones compress by roughly 20x and would otherwise be the whole layer's weight.",
+ "file": "UnitBloodLevels.dbc",
+ "format": "plain",
+ "inferredCounts": {"int":3,"zero":1},
+ "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
+ "oversizeShards": [],
+ "plainBytes": 120,
+ "rows": 4,
+ "shardCount": 1,
+ "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
+ "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
+ "shards": [
+  {"file":"0-9.jsonl","format":"plain","hi":9,"lo":0,"plainBytes":120,"rows":4,"sha256":"cb556239519338a9708423e5fa3b5295e234d99f453818ff66ff4d568acace3b","storedBytes":120}
+ ],
+ "sourceSha256": "6bdb8ae59e1fa45e313334503824d0a2fcf1bdd6c8265521b0fdf4f295f965cb",
+ "storedBytes": 120,
+ "stringBlockSize": 1,
+ "table": "UnitBloodLevels",
+ "unreferencedStringBytes": 0
+}

@@ -112,21 +112,5 @@ def extract_all() -> dict:
     config.WORK_REALMS_DIR.mkdir(parents=True, exist_ok=True)
     prov = {realm: extract_realm(realm) for realm in config.discover_realms()}
     (config.WORK_REALMS_DIR / "extract_provenance.json").write_text(
-        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return prov
-
-
-def main():
-    prov = extract_all()
-    for realm in sorted(prov):
-        frag = prov[realm]
-        print(f"realm {realm}: {len(frag['files'])} DBCs extracted "
-              f"from {len(frag['archives'])} archive(s)")
-        for base, e in sorted(frag["files"].items()):
-            flag = " COLLISION:" + ",".join(e["losers"]) if e["losers"] else ""
-            print(f"  {base:36s} <- {e['winner']:14s} "
-                  f"records={e['records']:7d} fields={e['fields']:4d}{flag}")
-
-
-if __name__ == "__main__":
-    main()

@@ -1,4 +1,6 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Archery","Class","Dueling","Survival"],
  "class": "Ranger",
  "classId": 21,
  "entryCount": 393,
@@ -7,9 +9,15 @@
   {"cadIdRange":null,"count":93,"file":"Archery.json","tab":"Archery","type":null},
   {"cadIdRange":null,"count":65,"file":"Class.json","tab":"Class","type":null},
   {"cadIdRange":null,"count":93,"file":"Dueling.json","tab":"Dueling","type":null},
-  {"cadIdRange":null,"count":142,"file":"Survival.json","tab":"Survival","type":null}
+  {"cadIdRange":null,"count":103,"file":"Survival.Ability.json","tab":"Survival","type":"Ability"},
+  {"cadIdRange":null,"count":39,"file":"Survival.Talent.json","tab":"Survival","type":"Talent"}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":177,"live":137,"liveViaRank":0,"unknown":79},
+ "liveCountsByReason": {"deadCatalog":177,"indeterminate":79,"liveDirect":137},
+ "liveTabs": ["Brigand","Class","Farstrider","Archery"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 18
 }

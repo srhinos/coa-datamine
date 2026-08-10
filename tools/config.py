@@ -15,6 +15,13 @@ RAW_CONTENT_DIR = RAW_DIR / "content"
 RAW_INTERFACE_DIR = RAW_DIR / "interface"
 DATA_DIR = REPO_ROOT / "data"
 
+# v4 (task W4-9): frozen capture of the external ascension.gg CoA talent-builder
+# payload (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
+# (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py (network step,
+# run manually/occasionally - NOT part of datamine.py's offline pipeline);
+# tools/build_coatalents.py only ever reads the already-committed capture.
+RAW_TALENTS_DIR = RAW_DIR / "talents"
+
 # v3 (task V3-2): realm-overlay layer. work/realms owned by tools/extract_realms.py;
 # raw/realms + data/realms owned by tools/build_realms.py (Amendment D single-writer).
 WORK_REALMS_DIR = WORK_DIR / "realms"
@@ -75,6 +82,67 @@ WANTED_DBCS_V3 = [
     "ManastormPlayerGroupModifiers.dbc",
 ]
 WANTED_DBCS += WANTED_DBCS_V3
+
+# v4 (task W4-2): gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+# Sec 1.1 + Sec 13 item 1). All confirmed extracting there 2026-08-05; re-extracted
+# fresh by this task since the client patches independently of that snapshot. The 10
+# Sec 1.1 tables plus gtNPCManaCostScaler (attached "in case it helps" per Sec 1.1's
+# own note - extracted for completeness, not curated by this task's build_gt.py; see
+# .superpowers/sdd/task-w4-2-report.md).
+WANTED_DBCS_V4 = [
+    "gtCombatRatings.dbc", "gtChanceToMeleeCrit.dbc", "gtChanceToMeleeCritBase.dbc",
+    "gtChanceToSpellCrit.dbc", "gtChanceToSpellCritBase.dbc",
+    "gtOCTClassCombatRatingScalar.dbc", "gtRegenMPPerSpt.dbc", "gtOCTRegenMP.dbc",
+    "gtRegenHPPerSpt.dbc", "gtOCTRegenHP.dbc", "gtNPCManaCostScaler.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V4
+
+# v5 (task W4-10): simulation-adjacent spell support tables (coa-sim-handoff/
+# DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17). All 12 confirmed present in
+# the MPQ chain by extract_mpq.extract_all() itself - it raises SystemExit on
+# any wanted name missing from every archive, which is this task's "verify
+# each actually exists" gate; see .superpowers/sdd/task-w4-10-report.md.
+WANTED_DBCS_V5 = [
+    "SpellAffect.dbc", "SpellDifficulty.dbc", "SummonProperties.dbc",
+    "SpellMissile.dbc", "SpellShapeshiftForm.dbc", "SpellFocusObject.dbc",
+    "SpellRank.dbc", "CreatureSpellData.dbc", "GlyphProperties.dbc",
+    "GlyphSlot.dbc", "SpellStatSuggestions.dbc", "SpellItemEnchantmentCondition.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V5
+
+# v6 (task W4-11): item support tables (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8.1 +
+# Sec 13 item 14). Item.dbc is an INDEX not a stat source (id/class/subclass/
+# soundOverrideSubclass/material/displayid/inventoryType/sheath, zero stats/ilvl/
+# quality) - the sim's primary item source stays an external aowow scrape per Sec 8;
+# this pipeline extracts these for completeness, no curation this task beyond
+# raw+colinfo (see tools/build_items.py). ItemStat.dbc/ItemSpells.dbc are
+# DELIBERATELY excluded from this list - both need bespoke handling (ItemStat's
+# 236MB raw body cannot land in raw/dbc/ as one file; see WANTED_DBCS_V7 below and
+# dbc.CUSTOM_RAW_DUMP_TABLES).
+WANTED_DBCS_V6 = [
+    "Item.dbc", "ItemSet.dbc", "SpellItemEnchantment.dbc", "GemProperties.dbc",
+    "ScalingStatDistribution.dbc", "ScalingStatValues.dbc", "RandPropPoints.dbc",
+    "ItemRandomSuffix.dbc", "ItemRandomProperties.dbc",
+]
+WANTED_DBCS += WANTED_DBCS_V6
+
+# v7 (task W4-11b): ItemStat.dbc - 1,513,931 rows, 236MB body, hostile as a single
+# raw/dbc/ file (see tools/build_items.py's sharded raw/dbc/itemstat/ dumper and
+# dbc.CUSTOM_RAW_DUMP_TABLES). Kept in its own wave, separate from WANTED_DBCS_V6,
+# because it needs a real keying investigation (DATAMINE-REQUEST.md Sec 8.2 + Sec 4
+# trap 8) before any column gets named - unlike V6's index-only tables. Verdict:
+# f1=itemId/f2=ownItemLevel PROVEN (item-100248 golden vs itemcache.wdb, see
+# tools/dbc.py's ItemStat TABLE_MAPS comment) - both are now named.
+WANTED_DBCS_V7 = ["ItemStat.dbc"]
+WANTED_DBCS += WANTED_DBCS_V7
+
+# v8 (task W4-11c): ItemSpells.dbc - 131,722 rows x 37 fields. Sec 4 trap 9: f1 is
+# NOT the item link (unique per row, only 55% resolves against Item.dbc); only
+# f2->spellId is well-supported (99.81% against Spell.dbc's 1.50%-dense id space).
+# No item-link column exists in this table at all - same "no grouping identity"
+# shape as NPCTrainer (see tools/build_creatures.py's trainerIdFinding).
+WANTED_DBCS_V8 = ["ItemSpells.dbc"]
+WANTED_DBCS += WANTED_DBCS_V8
 
 def ensure_dirs():
     for d in (WORK_DBC_DIR, RAW_DBC_DIR, RAW_CONTENT_DIR, DATA_DIR):

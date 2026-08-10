@@ -154,7 +154,7 @@ assert len(scaling_doc["scaling"]) == 200
 
 td_doc = json.loads((mdir / "timedDungeons.json").read_text(encoding="utf-8"))
 td_by_id = {r["dungeonId"]: r for r in td_doc["timedDungeons"]}
-assert len(td_by_id) == 82
+assert len(td_by_id) == 81   # 2026-08-09 snapshot pin: TimedDungeons lost a row
 # golden: dungeonId 53 Lower Scholomance, timeLimitMs 1896000
 assert td_by_id[53]["dungeonName"] == "Lower Scholomance"
 assert td_by_id[53]["timeLimitMs"] == 1896000

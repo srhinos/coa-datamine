@@ -1,15 +1,23 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Class","Domination","Reaping","Soul"],
  "class": "Reaper",
  "classId": 30,
  "entryCount": 364,
  "entryCounts": {"Ability":253,"Talent":107,"TalentAbility":4},
  "files": [
   {"cadIdRange":null,"count":60,"file":"Class.json","tab":"Class","type":null},
-  {"cadIdRange":null,"count":121,"file":"Domination.json","tab":"Domination","type":null},
+  {"cadIdRange":null,"count":86,"file":"Domination.Ability.json","tab":"Domination","type":"Ability"},
+  {"cadIdRange":null,"count":35,"file":"Domination.Talent.json","tab":"Domination","type":"Talent"},
   {"cadIdRange":null,"count":85,"file":"Reaping.json","tab":"Reaping","type":null},
   {"cadIdRange":null,"count":98,"file":"Soul.json","tab":"Soul","type":null}
  ],
+ "hasLiveGeometry": true,
+ "liveCounts": {"deadCatalog":147,"live":162,"liveViaRank":0,"unknown":55},
+ "liveCountsByReason": {"deadCatalog":147,"indeterminate":55,"liveDirect":162},
+ "liveTabs": ["Harvest","Soul","Domination","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 18
 }

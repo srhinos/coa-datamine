@@ -1,16 +1,25 @@
 {
+ "aliases": [],
+ "catalogTabs": ["Balance","Feral","Restoration"],
  "class": "Druid",
  "classId": 11,
  "entryCount": 308,
  "entryCounts": {"Ability":136,"Talent":144,"TalentAbility":28},
  "files": [
-  {"cadIdRange":null,"count":95,"file":"Balance.json","tab":"Balance","type":null},
+  {"cadIdRange":null,"count":39,"file":"Balance.Ability.json","tab":"Balance","type":"Ability"},
+  {"cadIdRange":null,"count":46,"file":"Balance.Talent.json","tab":"Balance","type":"Talent"},
+  {"cadIdRange":null,"count":10,"file":"Balance.TalentAbility.json","tab":"Balance","type":"TalentAbility"},
   {"cadIdRange":null,"count":70,"file":"Feral.Ability.json","tab":"Feral","type":"Ability"},
   {"cadIdRange":null,"count":52,"file":"Feral.Talent.json","tab":"Feral","type":"Talent"},
   {"cadIdRange":null,"count":10,"file":"Feral.TalentAbility.json","tab":"Feral","type":"TalentAbility"},
   {"cadIdRange":null,"count":81,"file":"Restoration.json","tab":"Restoration","type":null}
  ],
+ "hasLiveGeometry": false,
+ "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":308},
+ "liveCountsByReason": {"unknownNoGeometry":308},
+ "liveTabs": null,
  "realmHint": "Area 52 - Free-Pick /shared",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "vanilla",
  "unresolvedCount": 0
 }

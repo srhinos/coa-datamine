@@ -7,6 +7,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "_D3ignorepain",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:battlevigor",
+     "abilityName": "Battle Vigor",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Barbaric Rage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -32,6 +52,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "warrior_wild_strike",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbaricstrike",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Barbaric Strike",
    "quality": "Normal",
    "qualityCost": 1,
@@ -98,6 +133,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "InterfaceIconswarrior_wild_strike",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbaricstrike",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Barbaric Strike",
    "quality": "Normal",
    "qualityCost": 1,
@@ -164,6 +214,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_throwingaxe_06",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:bloodthirstyrage",
+     "abilityName": "Bloodthirsty Rage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bloodthirsty Assault",
    "quality": "Normal",
    "qualityCost": 1,
@@ -189,6 +254,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "spell_winston_rage",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:bloodthirstyrage",
+     "abilityName": "Bloodthirsty Rage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bloodthirsty Assault",
    "quality": "Normal",
    "qualityCost": 1,
@@ -214,6 +294,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:bloodthirstyrage",
+     "abilityName": "Bloodthirsty Rage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Bloodthirsty Assault",
    "quality": "Normal",
    "qualityCost": 1,
@@ -239,6 +334,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:brutalcarnage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Brutal Carnage",
    "quality": "Poor",
    "qualityCost": 1,
@@ -264,6 +373,27 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_axe_2h_orcwarrior_c_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34268,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:brutalswing",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500913
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500913,
+    "reason": "liveDirect"
+   },
    "name": "Brutal Swing",
    "quality": "Normal",
    "qualityCost": 1,
@@ -330,6 +460,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_axe_2h_orcwarrior_c_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34268,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:brutalswing",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500913
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500913,
+    "reason": "liveDirect"
+   },
    "name": "Brutal Swing",
    "quality": "Normal",
    "qualityCost": 1,
@@ -396,6 +547,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34268,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:brutalswing",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500913
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500913,
+    "reason": "liveDirect"
+   },
    "name": "Brutal Swing",
    "quality": "Normal",
    "qualityCost": 1,
@@ -462,6 +634,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:excessivepower",
+     "abilityName": "Excessive Power",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92081
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Brutality Barbarian",
    "quality": "Normal",
    "qualityCost": 1,
@@ -487,6 +677,26 @@
    "expansion": 0,
    "flags": 8194,
    "icon": "Trade_Engineering",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4001,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:excessivepower",
+     "abilityName": "Excessive Power",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92081
+     ]
+    },
+    "matchedSpellId": 92081,
+    "reason": "liveDirect"
+   },
    "name": "Conquest of Azeroth Specialization - Barbarian (Brutality)",
    "quality": "Normal",
    "qualityCost": 1,
@@ -512,6 +722,28 @@
    "expansion": 0,
    "flags": 40961,
    "icon": "INV_Mace_69",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31151,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:crush",
+     "abilityName": "Crush",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500915
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500915,
+    "reason": "liveDirect"
+   },
    "name": "Crushing Slam",
    "quality": "Normal",
    "qualityCost": 1,
@@ -588,6 +820,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_warrior_focusedrage",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34299,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:dauntless",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804746
+     ]
+    },
+    "matchedSpellId": 804746,
+    "reason": "liveDirect"
+   },
    "name": "Dauntless",
    "quality": "Normal",
    "qualityCost": 1,
@@ -613,6 +864,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_warrior_focusedrage",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34299,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:dauntless",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804746
+     ]
+    },
+    "matchedSpellId": 804746,
+    "reason": "liveDirect"
+   },
    "name": "Dauntless",
    "quality": "Normal",
    "qualityCost": 1,
@@ -638,6 +908,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34299,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:dauntless",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804746
+     ]
+    },
+    "matchedSpellId": 804746,
+    "reason": "liveDirect"
+   },
    "name": "Dauntless",
    "quality": "Normal",
    "qualityCost": 1,
@@ -663,6 +952,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Spell_DeathKnight_Butcher2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5744,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:decapitate",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804414
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804414,
+    "reason": "liveDirect"
+   },
    "name": "Decapitate",
    "quality": "Normal",
    "qualityCost": 1,
@@ -688,6 +997,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Spell_DeathKnight_Butcher2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5744,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:decapitate",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804414
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804414,
+    "reason": "liveDirect"
+   },
    "name": "Decapitate",
    "quality": "Normal",
    "qualityCost": 1,
@@ -713,6 +1042,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5744,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:decapitate",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804414
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804414,
+    "reason": "liveDirect"
+   },
    "name": "Decapitate",
    "quality": "Normal",
    "qualityCost": 1,
@@ -738,6 +1087,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_rogue_rollthebones07",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestorswrath",
+     "abilityName": "Ancestor's Wrath",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Demolish",
    "quality": "Normal",
    "qualityCost": 1,
@@ -763,6 +1127,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_rogue_rollthebones07",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestorswrath",
+     "abilityName": "Ancestor's Wrath",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Demolish",
    "quality": "Normal",
    "qualityCost": 1,
@@ -788,6 +1167,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestorswrath",
+     "abilityName": "Ancestor's Wrath",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Demolisher",
    "quality": "Normal",
    "qualityCost": 1,
@@ -813,6 +1207,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "_Diablo3_Cleave_DeathKnight",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34266,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:efficientkiller",
+     "abilityName": "Efficient Killer",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      803085
+     ]
+    },
+    "matchedSpellId": 803085,
+    "reason": "liveDirect"
+   },
    "name": "Devastating Blows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -838,6 +1252,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "_Diablo3_Cleave_DeathKnight",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34266,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:efficientkiller",
+     "abilityName": "Efficient Killer",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      803085
+     ]
+    },
+    "matchedSpellId": 803085,
+    "reason": "liveDirect"
+   },
    "name": "Devastating Blows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -863,6 +1297,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34266,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:efficientkiller",
+     "abilityName": "Efficient Killer",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      803085
+     ]
+    },
+    "matchedSpellId": 803085,
+    "reason": "liveDirect"
+   },
    "name": "Devastating Blows",
    "quality": "Normal",
    "qualityCost": 1,
@@ -888,6 +1342,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_rogue_blackjack",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:carnage",
+     "abilityName": "Carnage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Endless Bloodshed",
    "quality": "Normal",
    "qualityCost": 1,
@@ -913,6 +1382,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_rogue_blackjack",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:carnage",
+     "abilityName": "Carnage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Endless Bloodshed",
    "quality": "Normal",
    "qualityCost": 1,
@@ -938,6 +1422,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:carnage",
+     "abilityName": "Carnage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Endless Bloodshed",
    "quality": "Normal",
    "qualityCost": 1,
@@ -963,6 +1462,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6350,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:headlopper",
+     "abilityName": "Headlopper",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300499
+     ]
+    },
+    "matchedSpellId": 300499,
+    "reason": "liveDirect"
+   },
    "name": "Executioner",
    "quality": "Poor",
    "qualityCost": 1,
@@ -988,6 +1507,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5373,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bornkiller",
+     "abilityName": "Born Killer",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800131
+     ]
+    },
+    "matchedSpellId": 800131,
+    "reason": "liveDirect"
+   },
    "name": "Foebreaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1013,6 +1552,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30760,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:rancor",
+     "abilityName": "Rancor",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704876
+     ]
+    },
+    "matchedSpellId": 704876,
+    "reason": "liveDirect"
+   },
    "name": "Follow Up",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1038,6 +1597,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_thunderking_spinningshell",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 2277,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:incrediblystrong",
+     "abilityName": "Incredibly Strong",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804749
+     ]
+    },
+    "matchedSpellId": 804749,
+    "reason": "liveDirect"
+   },
    "name": "Hail of Blades",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1063,6 +1642,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_thunderking_spinningshell",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 2277,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:incrediblystrong",
+     "abilityName": "Incredibly Strong",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804749
+     ]
+    },
+    "matchedSpellId": 804749,
+    "reason": "liveDirect"
+   },
    "name": "Hail of Blades",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1088,6 +1687,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 2277,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:incrediblystrong",
+     "abilityName": "Incredibly Strong",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804749
+     ]
+    },
+    "matchedSpellId": 804749,
+    "reason": "liveDirect"
+   },
    "name": "Hail of Blades",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1113,6 +1732,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:savageness",
+     "abilityName": "Savageness",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Headlopper",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1138,6 +1775,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_skullsplitter",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5373,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bornkiller",
+     "abilityName": "Born Killer",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800131
+     ]
+    },
+    "matchedSpellId": 800131,
+    "reason": "liveDirect"
+   },
    "name": "Headsplitter",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1163,6 +1820,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_skullsplitter",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5373,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bornkiller",
+     "abilityName": "Born Killer",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800131
+     ]
+    },
+    "matchedSpellId": 800131,
+    "reason": "liveDirect"
+   },
    "name": "Headsplitter",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1188,6 +1865,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "warrior_skullbanner",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6739,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:hordebreaker",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804745
+     ]
+    },
+    "matchedSpellId": 804745,
+    "reason": "liveDirect"
+   },
    "name": "Horde Breaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1213,6 +1909,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "warrior_skullbanner",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6739,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:hordebreaker",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804745
+     ]
+    },
+    "matchedSpellId": 804745,
+    "reason": "liveDirect"
+   },
    "name": "Horde Breaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1238,6 +1953,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6739,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:hordebreaker",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804745
+     ]
+    },
+    "matchedSpellId": 804745,
+    "reason": "liveDirect"
+   },
    "name": "Horde Breaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1263,6 +1997,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_archaeology_ogres_warmaul_chieftain",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:hullbreaker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hullbreaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1288,6 +2036,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_archaeology_ogres_warmaul_chieftain",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:hullbreaker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hullbreaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1313,6 +2075,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:hullbreaker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Hullbreaker",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1338,6 +2114,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6744,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:beheader",
+     "abilityName": "Beheader",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705222
+     ]
+    },
+    "matchedSpellId": 705222,
+    "reason": "liveDirect"
+   },
    "name": "Hullbreaker",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1363,6 +2159,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_axe_2h_warfrontshorde_c_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:impale",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Impale",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1429,6 +2240,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_axe_2h_warfrontshorde_c_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:impale",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Impale",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1495,6 +2321,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbarictendencies",
+     "abilityName": "Barbaric Tendencies",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Rampage",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1520,6 +2361,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:improvedrecklessmanuever",
+     "abilityName": "Improved Reckless Manuever",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Ruthless Redoubt",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1545,6 +2401,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:brutalityblade",
+     "abilityName": "Brutality Blade",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Surging Fury",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1570,6 +2441,24 @@
    "expansion": 0,
    "flags": 1,
    "icon": "ability_warrior_bloodfrenzy",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:jawbreaker",
+     "abilityName": "Jawbreaker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802792
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Wrist Snap",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1595,6 +2484,24 @@
    "expansion": 0,
    "flags": 0,
    "icon": "ability_warrior_bloodfrenzy",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:jawbreaker",
+     "abilityName": "Jawbreaker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802792
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Improved Wrist Snap",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1620,6 +2527,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:jawbreaker",
+     "abilityName": "Jawbreaker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802792
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
+   },
    "name": "Improved Wrist Snap",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1654,6 +2582,21 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "ability_revendreth_deathknight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:massacre",
+     "abilityName": null,
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Massacre",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1677,6 +2620,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Ability_Creature_Cursed_02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6737,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:mountingfury",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805927
+     ]
+    },
+    "matchedSpellId": 805927,
+    "reason": "liveDirect"
+   },
    "name": "Mounting Fury",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1702,6 +2664,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Ability_Creature_Cursed_02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6737,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:mountingfury",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805927
+     ]
+    },
+    "matchedSpellId": 805927,
+    "reason": "liveDirect"
+   },
    "name": "Mounting Fury",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1727,6 +2708,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6737,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:mountingfury",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805927
+     ]
+    },
+    "matchedSpellId": 805927,
+    "reason": "liveDirect"
+   },
    "name": "Mounting Fury",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1752,6 +2752,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_hammer_2h_horde_a_01_hd",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ogresmight",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ogre's Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1777,6 +2791,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_hammer_2h_horde_a_01_hd",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ogresmight",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ogre's Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1802,6 +2830,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ogresmight",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ogre's Might",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1827,6 +2869,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "_D3warcry",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:onslaught",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Onslaught",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1852,6 +2913,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "_D3warcry",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:onslaught",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Onslaught",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1877,6 +2957,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:onslaught",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Onslaught",
    "quality": "Normal",
    "qualityCost": 1,
@@ -1902,6 +3001,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:painbringer",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Painbringer",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1927,6 +3040,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7764,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bloodthirsty",
+     "abilityName": "Bloodthirsty",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300497
+     ]
+    },
+    "matchedSpellId": 300497,
+    "reason": "liveDirect"
+   },
    "name": "Powerful Reckless Fury",
    "quality": "Poor",
    "qualityCost": 1,
@@ -1952,6 +3085,27 @@
    "expansion": 0,
    "flags": 1,
    "icon": "_D3rend",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:smash",
+     "abilityName": "Smash",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Raging Strike",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2028,6 +3182,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "InterfaceIcons\\_D3rend",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:smash",
+     "abilityName": "Smash",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
    "name": "Raging Strike",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2104,6 +3279,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "spell_warrior_barbarian",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:rampage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Rampage",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2129,6 +3318,27 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_axe_1h_artifactmagnar_d_03",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:rancor",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704876
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Rancor",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2200,6 +3410,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_axe_1h_artifactmagnar_d_03",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:rancor",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704876
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Rancor",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2271,6 +3502,27 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:rancor",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704876
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
    "name": "Rancor",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2342,6 +3594,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "_D3frenzy",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29322,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:outrage",
+     "abilityName": "Outrage",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801759
+     ]
+    },
+    "matchedSpellId": 801759,
+    "reason": "liveDirect"
+   },
    "name": "Reckless Fury",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2367,6 +3639,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "_D3frenzy",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29322,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:outrage",
+     "abilityName": "Outrage",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801759
+     ]
+    },
+    "matchedSpellId": 801759,
+    "reason": "liveDirect"
+   },
    "name": "Reckless Fury",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2392,6 +3684,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29322,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:outrage",
+     "abilityName": "Outrage",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801759
+     ]
+    },
+    "matchedSpellId": 801759,
+    "reason": "liveDirect"
+   },
    "name": "Reckless Fury",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2417,6 +3729,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9170,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:relentless",
+     "abilityName": "Relentless",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      300505
+     ]
+    },
+    "matchedSpellId": 300505,
+    "reason": "liveDirect"
+   },
    "name": "Relentless Barbarian",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2451,6 +3783,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "_D3gargantuan",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4297,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bloodbound",
+     "abilityName": "Bloodbound",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801767
+     ]
+    },
+    "matchedSpellId": 801767,
+    "reason": "liveDirect"
+   },
    "name": "Rend and Tear",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2476,6 +3828,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "_D3gargantuan",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4297,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bloodbound",
+     "abilityName": "Bloodbound",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801767
+     ]
+    },
+    "matchedSpellId": 801767,
+    "reason": "liveDirect"
+   },
    "name": "Rend and Tear",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2501,6 +3873,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4297,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bloodbound",
+     "abilityName": "Bloodbound",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801767
+     ]
+    },
+    "matchedSpellId": 801767,
+    "reason": "liveDirect"
+   },
    "name": "Rend and Tear",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2526,6 +3918,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "inv_axe_2h_pvppandarias2_c_01horde",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ripper",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ripper",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2551,6 +3957,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "inv_axe_2h_pvppandarias2_c_01horde",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ripper",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ripper",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2576,6 +3996,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ripper",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ripper",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2601,6 +4035,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "InterfaceIconsAbility_Warrior_ShieldBreak",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ruthlessredoubt",
+     "abilityName": null,
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ruthless Redoubt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2611,7 +4060,38 @@
      "dispel": null,
      "id": 500921,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 4,
+       "rank": 1,
+       "spellId": 500921
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501052
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501053
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501054
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501055
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501056
+      }
+     ],
      "schools": []
     }
    ],
@@ -2624,6 +4104,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ruthlessredoubt",
+     "abilityName": null,
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Ruthless Redoubt",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2634,7 +4129,38 @@
      "dispel": null,
      "id": 500921,
      "name": null,
-     "ranks": null,
+     "ranks": [
+      {
+       "level": 4,
+       "rank": 1,
+       "spellId": 500921
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501052
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501053
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501054
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501055
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501056
+      }
+     ],
      "schools": []
     }
    ],
@@ -2647,6 +4173,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "sha_ability_rogue_bloodyeye_nightmare",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30378,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:steelslinger",
+     "abilityName": "Steelslinger",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804750
+     ]
+    },
+    "matchedSpellId": 804750,
+    "reason": "liveDirect"
+   },
    "name": "Savage Frenzy",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2672,6 +4218,26 @@
    "expansion": 0,
    "flags": 0,
    "icon": "sha_ability_rogue_bloodyeye_nightmare",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30378,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:steelslinger",
+     "abilityName": "Steelslinger",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804750
+     ]
+    },
+    "matchedSpellId": 804750,
+    "reason": "liveDirect"
+   },
    "name": "Savage Frenzy",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2697,6 +4263,21 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Ability_Sap",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:savagestrike",
+     "abilityName": "Savage Strike",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Savage Smash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2722,6 +4303,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Ability_Sap",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:savagestrike",
+     "abilityName": "Savage Strike",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Savage Smash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2747,6 +4343,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:savagestrike",
+     "abilityName": "Savage Strike",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Savage Smash",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2772,6 +4383,25 @@
    "expansion": 0,
    "flags": 40961,
    "icon": "ability_garrosh_hellscreams_warsong",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6844,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:savagery",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800943
+     ]
+    },
+    "matchedSpellId": 800943,
+    "reason": "liveDirect"
+   },
    "name": "Savagery",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2797,6 +4427,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30042,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:spikedweapons",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      705186
+     ]
+    },
+    "matchedSpellId": 705186,
+    "reason": "liveDirect"
+   },
    "name": "Spiked Weapons",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2822,6 +4471,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34314,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:steelfury",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704240
+     ]
+    },
+    "matchedSpellId": 704240,
+    "reason": "liveDirect"
+   },
    "name": "Steel Fury",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2847,6 +4515,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30378,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:steelslinger",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804750
+     ]
+    },
+    "matchedSpellId": 804750,
+    "reason": "liveDirect"
+   },
    "name": "Steelslinger",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2872,6 +4559,25 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Achievement_Arena_5v5_5",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29514,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:stormofsteel",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800637
+     ]
+    },
+    "matchedSpellId": 800637,
+    "reason": "liveDirect"
+   },
    "name": "Storm of Steel",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2897,6 +4603,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Achievement_Arena_5v5_5",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29514,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:stormofsteel",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800637
+     ]
+    },
+    "matchedSpellId": 800637,
+    "reason": "liveDirect"
+   },
    "name": "Storm of Steel",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2922,6 +4647,25 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29514,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:stormofsteel",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800637
+     ]
+    },
+    "matchedSpellId": 800637,
+    "reason": "liveDirect"
+   },
    "name": "Storm of Steel",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2947,6 +4691,21 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:rampage",
+     "abilityName": "Rampage!",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Swift Reckless Fury",
    "quality": "Poor",
    "qualityCost": 1,
@@ -2972,6 +4731,26 @@
    "expansion": 0,
    "flags": 1,
    "icon": "spell_warrior_paintrain",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12463,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:powerfulgrip",
+     "abilityName": "Powerful Grip",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804728
+     ]
+    },
+    "matchedSpellId": 804728,
+    "reason": "liveDirect"
+   },
    "name": "Unbreakable Grip",
    "quality": "Normal",
    "qualityCost": 1,
@@ -2997,6 +4776,20 @@
    "expansion": 0,
    "flags": 1,
    "icon": "Spell_Arcane_MindMastery",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:unbridledintelligence",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Unbridled Intelligence",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3022,6 +4815,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "Spell_Arcane_MindMastery",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:unbridledintelligence",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Unbridled Intelligence",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3047,6 +4854,20 @@
    "expansion": 0,
    "flags": 0,
    "icon": "",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:unbridledintelligence",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
    "name": "Unbridled Intelligence",
    "quality": "Normal",
    "qualityCost": 1,
@@ -3072,6 +4893,28 @@
    "expansion": 0,
    "flags": 8193,
    "icon": "Ability_Warrior_Trauma",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:reckful",
+     "abilityName": "Reckful",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      681063,
+      681466
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
+   },
    "name": "Wrecker",
    "quality": "Normal",
    "qualityCost": 1,

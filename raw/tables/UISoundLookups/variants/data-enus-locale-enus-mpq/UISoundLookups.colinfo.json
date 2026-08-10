@@ -1,0 +1,14 @@
+{
+ "columnCount": 3,
+ "columns": [
+  {"evidence":{"distinct":129,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":167,"maxUnsigned":167,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":129,"rows":129,"string":{"applicable":true,"blockCoverageRate":0.058051,"blockSize":2360,"controlCharOffsets":0,"distinctOffsets":8,"meanDecodedLength":16.125,"nonEmptyOffsets":8,"utf8DecodableOffsets":8,"validOffsetRate":0.062016},"zeroCount":0},"index":0,"inferred":"int","name":"f0","samples":["TITLEENTERWORLD","TITLEQUIT","TITLEOPTIONS","TITLEOPTION16BIT","TITLEOPTION32BIT"],"width":4},
+  {"evidence":{"distinct":121,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":3356,"maxUnsigned":3356,"minSigned":777,"minUnsigned":777,"negativeCount":0,"nonZeroCount":129,"rows":129,"string":{"applicable":true,"blockCoverageRate":0.052966,"blockSize":2360,"controlCharOffsets":0,"distinctOffsets":7,"meanDecodedLength":16.857,"nonEmptyOffsets":7,"utf8DecodableOffsets":7,"validOffsetRate":0.054264},"zeroCount":0},"index":1,"inferred":"int","name":"f1","samples":["SPELLBOKPAGETURN","SPELLBOOKSPELLICONPICKUP","SPELLBOOKSPELLICONDROP","ABILITYOPEN","ABILITYCLOSE"],"width":4},
+  {"evidence":{"distinct":129,"float":{"applicable":true,"finiteRate":1.0,"plausibleAbsMax":null,"plausibleAbsMin":null,"plausibleRate":0.0},"maxSigned":2338,"maxUnsigned":2338,"minSigned":1,"minUnsigned":1,"negativeCount":0,"nonZeroCount":129,"rows":129,"string":{"applicable":true,"blockCoverageRate":0.999576,"blockSize":2360,"controlCharOffsets":0,"distinctOffsets":129,"meanDecodedLength":17.287,"nonEmptyOffsets":129,"utf8DecodableOffsets":129,"validOffsetRate":1.0},"zeroCount":0},"index":2,"inferred":"string","name":"f2","samples":["TITLEENTERWORLD","TITLEQUIT","TITLEOPTIONS","TITLEOPTION16BIT","TITLEOPTION32BIT"],"width":4}
+ ],
+ "file": "UISoundLookups.dbc",
+ "header": {"actualFields":3,"declaredFields":3,"declaredFieldsAgrees":true,"magic":"WDBC","recordSize":12,"records":129,"sizeReconciles":true,"stringBlockReferencedBytes":2359,"stringBlockSize":2360,"stringBlockUnreferencedBytes":1,"stringBlockUnreferencedEntries":1,"trailingBytesPerRecord":0,"unterminatedStringReads":0},
+ "inferredCounts": {"int":2,"string":1},
+ "note": "Per-column measurement and the type it implies. `inferred` is produced by the fixed rule in raw/tables/README.md from the counts in `evidence`; nothing here is asserted from outside the bytes. Column names are positional by construction.",
+ "source": {"bytes":3928,"losers":[],"sha256":"d10ee19f27a606bd072f0072767b3d7c551a7e637d515bb7d63641a39553150e","winner":"Data/enUS/locale-enUS.MPQ"},
+ "table": "UISoundLookups"
+}

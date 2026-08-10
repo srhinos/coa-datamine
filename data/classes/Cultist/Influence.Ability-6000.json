@@ -1,0 +1,2070 @@
+{
+ "class": "Cultist",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 7930,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_priest_psychiclink",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33931,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:saronitemind",
+     "abilityName": "Saronite Mind",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806266,
+      807879
+     ]
+    },
+    "matchedSpellId": 806266,
+    "reason": "liveDirect"
+   },
+   "name": "Abyssal Commander",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806266,
+     "name": "Saronite Mind",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6113,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_icon_shadowcouncilorb_purple",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:abyssalorb",
+     "classId": 25,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Abyssal Orb",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 500716,
+     "name": "Abyssal Orb",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500716
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502248
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502249
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502250
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502251
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502252
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502253
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502254
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502255
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502256
+      }
+     ],
+     "schools": [
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6746,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_priest_darkness",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:abyssalprotection",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Abyssal Protection",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801967,
+     "name": "Abyssal Protection",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6328,
+   "expansion": 0,
+   "flags": 32769,
+   "icon": "inv_stave_2h_430oldgod_c_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:abyssalreconstruction",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Abyssal Reconstruction",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800429,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800429
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 502185
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 502186
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 502187
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 502188
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 502189
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 502190
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 502191
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 502192
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7201,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_priest_shadoworbs",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7608,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:abyssalward",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804670
+     ]
+    },
+    "matchedSpellId": 804670,
+    "reason": "liveDirect"
+   },
+   "name": "Abyssal Ward",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804670,
+     "name": "Abyssal Ward",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7789,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "ability_hunter_murderofcrows",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:bladeofnzotheffect",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Blade of Nzoth Effect",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804268,
+     "name": "Blade of Nzoth Effect",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7016,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_kaztik_dominatemind",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30520,
+    "builderTab": "Dreadnought",
+    "identity": {
+     "abilityKey": "c25:crushingdissonance",
+     "abilityName": "Crushing Dissonance",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804056
+     ]
+    },
+    "matchedSpellId": 804056,
+    "reason": "liveDirect"
+   },
+   "name": "Confuse",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804056,
+     "name": "Crushing Dissonance",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7791,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "ability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:cultistpassivenzothsmite",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Cultist Passive - Nzoth Smite",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806255,
+     "name": "Cultist Passive - Nzoth Smite",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6114,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_rogue_nightblade",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:instilldespair",
+     "abilityName": "Instill Despair",
+     "classId": 25,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Defile Weapon",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 500718,
+     "name": "Instill Despair",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500718
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 502257
+      },
+      {
+       "level": 16,
+       "rank": 3,
+       "spellId": 502258
+      },
+      {
+       "level": 23,
+       "rank": 4,
+       "spellId": 502259
+      },
+      {
+       "level": 30,
+       "rank": 5,
+       "spellId": 502260
+      },
+      {
+       "level": 37,
+       "rank": 6,
+       "spellId": 502261
+      },
+      {
+       "level": 45,
+       "rank": 7,
+       "spellId": 502262
+      },
+      {
+       "level": 52,
+       "rank": 8,
+       "spellId": 502263
+      },
+      {
+       "level": 59,
+       "rank": 9,
+       "spellId": 502264
+      },
+      {
+       "level": 66,
+       "rank": 10,
+       "spellId": 502265
+      },
+      {
+       "level": 74,
+       "rank": 11,
+       "spellId": 502266
+      }
+     ],
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6323,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Curse_Purple",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12982,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:devourcurse",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800402
+     ]
+    },
+    "matchedSpellId": 800402,
+    "reason": "liveDirect"
+   },
+   "name": "Devour Curse",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800402,
+     "name": "Devour Curse",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6899,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_D3shadowpower",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:presenceofyoggsaron",
+     "abilityName": "Presence of Yogg-Saron",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Edict of Empire",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803082,
+     "name": "Presence of Yogg-Saron",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6894,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "_Shadow_Purple",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:presenceofyshaarj",
+     "abilityName": "Presence of Y'Shaarj",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Edict of Gluttony",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803035,
+     "name": "Presence of Y'Shaarj",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6895,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_mace_1h_nzothraid_d_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:presenceofnzoth",
+     "abilityName": "Presence of N'Zoth",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Edict of Wrath",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803037,
+     "name": "Presence of N'Zoth",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6112,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "_D3energyarmor",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29265,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c25:voidshield",
+     "abilityName": "Void Shield",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500715
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500715,
+    "reason": "liveDirect"
+   },
+   "name": "Eldritch Armor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 28,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 500715,
+     "name": "Void Shield",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500715
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 502244
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 502245
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 502246
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 502247
+      }
+     ],
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6109,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "ability_priest_voidentropy",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchmending",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Eldritch Mending",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500711,
+     "name": "Eldritch Mending",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500711
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502226
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502227
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502228
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502229
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502230
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502231
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502232
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502233
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502234
+      }
+     ],
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7268,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "warlock_houroftwilight",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:eldritchritual",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Eldritch Ritual",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 8,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804777,
+     "name": "Eldritch Ritual",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6005,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "sha_spell_warlock_demonsoul_nightborne",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:bladeofyoggsaron",
+     "abilityName": "Blade of Yogg-Saron",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      524887,
+      525078
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Eldritch Smite of Yogg-Saron",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500112,
+     "name": "Blade of Yogg-Saron",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6298,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_nzothfish_void",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:enslave",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Enslave",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800354,
+     "name": "Enslave",
+     "ranks": null,
+     "schools": [
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7405,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Warlock_Brise Ame",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:oathholycleave",
+     "abilityName": "Oath: Holy Cleave",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Entropic Fog",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805136,
+     "name": "Oath: Holy Cleave",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7404,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_priest_auspiciousspirits",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:entropichost",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Entropic Host",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805133,
+     "name": "Entropic Host",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7074,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_priest_psyfiend",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:feardrinker",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Feardrinker",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 804229,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6191,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_arcane_teleporthalloftheguardian",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33966,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:forbiddenritual",
+     "abilityName": "Forbidden Ritual",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800105
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800105,
+    "reason": "liveDirect"
+   },
+   "name": "Forbidden Protection",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800105,
+     "name": "Forbidden Ritual",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800105
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502267
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502268
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502269
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502270
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502271
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502272
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502273
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502274
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502275
+      }
+     ],
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7400,
+   "expansion": 0,
+   "flags": 32769,
+   "icon": "inv_ore_saronite_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:heraldofthedepths",
+     "abilityName": "Herald of the Depths",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92131
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Herald of Yogg-Saron",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805120,
+     "name": "Herald of the Depths",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7867,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_fire_twilightnova",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:inevitableprophecy",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Inevitable Prophecy",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806107,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6308,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_MonkAbility_ExpelHarm_XuenWhite",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:isolate",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Isolate",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800368,
+     "name": "Isolate",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6111,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_custom_ReforgeScroll_UNUSED",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31191,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:malevolence",
+     "abilityName": "Malevolence",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500714
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500714,
+    "reason": "liveDirect"
+   },
+   "name": "Maddening Scripture",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500714,
+     "name": "Malevolence",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500714
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502235
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502236
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502237
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502238
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502239
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502240
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502241
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502242
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502243
+      }
+     ],
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7787,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "INV_Chest_Chain_05",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:mail",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Mail",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 8737,
+     "name": "Mail",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7021,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_fire_twilightimmolation",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:protectionfromlight",
+     "classId": 25,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704434
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Protection From Light",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804065,
+     "name": "Protection From Light",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804065
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 503432
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 503433
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 503434
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 503435
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 503436
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 503437
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 503438
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 503439
+      }
+     ],
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6669,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "_DemonHand_Priest",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:ritualofawakening",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Ritual of Awakening",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 13,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801791,
+     "name": "Ritual of Awakening",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7929,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_misc_cat_trinket05",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4496,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:powerofyoggsaron",
+     "abilityName": "Power of Yogg-Saron",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806264
+     ]
+    },
+    "matchedSpellId": 806264,
+    "reason": "liveDirect"
+   },
+   "name": "Saronite Cube",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806264,
+     "name": "Power of Yogg-Saron",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6236,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "boss_odunrunes_green",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:voidblessing",
+     "abilityName": "Void Blessing",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Saronite Prayer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800194,
+     "name": "Void Blessing",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7087,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "_D3mirrorimage",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:satiate",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Satiate",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804275,
+     "name": "Satiate",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7784,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "INV_Staff_08",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:staves",
+     "classId": 25,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Staves",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 227,
+     "name": "Staves",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6897,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_hivemind",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:summonmindbender",
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Summon: Mindbender",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 803062,
+     "name": "Summon: Mindbender",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7986,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Arcane_PrismaticCloak",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12975,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:darkmatter",
+     "abilityName": "Dark Matter",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806382
+     ]
+    },
+    "matchedSpellId": 806382,
+    "reason": "liveDirect"
+   },
+   "name": "Unblinking Vigil",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806382,
+     "name": "Dark Matter",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7987,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "sha_ability_rogue_bloodyeye_nightborne",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12453,
+    "builderTab": "Heretic",
+    "identity": {
+     "abilityKey": "c25:visionsoftheempire",
+     "abilityName": "Visions of the Empire",
+     "classId": 25,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806384
+     ]
+    },
+    "matchedSpellId": 806384,
+    "reason": "liveDirect"
+   },
+   "name": "Visions of Empire",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806384,
+     "name": "Visions of the Empire",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6307,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Holy_ConsumeMagic",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:voidembrace",
+     "classId": 25,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Void Embrace",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800367,
+     "name": "Void Embrace",
+     "ranks": [
+      {
+       "level": 8,
+       "rank": 1,
+       "spellId": 800367
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 502276
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 502277
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 502278
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 502279
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 502280
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 502281
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 502282
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 502283
+      }
+     ],
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6309,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "spell_priest_shadow mend",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c25:whisperofyoggsaron",
+     "abilityName": null,
+     "classId": 25,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Whisper of Yogg-Saron",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 22,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800369,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800369
+      },
+      {
+       "level": 28,
+       "rank": 2,
+       "spellId": 502284
+      },
+      {
+       "level": 54,
+       "rank": 3,
+       "spellId": 502285
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Influence",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Influence",
+ "type": "Ability"
+}

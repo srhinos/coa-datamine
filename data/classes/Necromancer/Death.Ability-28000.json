@@ -1,0 +1,351 @@
+{
+ "class": "Necromancer",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 28331,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:summoningadept",
+     "abilityName": "Summoning Adept",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92123
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Animation Necromancer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500165,
+     "name": "Summoning Adept",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28329,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:cryptplague",
+     "abilityName": "Crypt Plague",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92121
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Death Necromancer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500117,
+     "name": "Crypt Plague",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 28393,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_D3acidcloud",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 19222,
+    "builderTab": "Death",
+    "identity": {
+     "abilityKey": "c23:plaguescience",
+     "abilityName": "Plague Science",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704163
+     ]
+    },
+    "matchedSpellId": 704163,
+    "reason": "liveDirect"
+   },
+   "name": "Expunge",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704163,
+     "name": "Plague Science",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28290,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:undeadprotect",
+     "abilityName": "Undead: Protect",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Foul Bidding: Assault",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 12,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500985,
+     "name": "Undead: Protect",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28291,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:undeadpacify",
+     "abilityName": "Undead: Pacify",
+     "classId": 23,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Foul Bidding: Protect",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 18,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500983,
+     "name": "Undead: Pacify",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28292,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:undeadassault",
+     "abilityName": "Undead: Assault",
+     "classId": 23,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Foul Bidding: Slaughter",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 28,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500982,
+     "name": "Undead: Assault",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28287,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7371,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c23:phylactery",
+     "classId": 23,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500933
+     ]
+    },
+    "matchedSpellId": 500933,
+    "reason": "liveDirect"
+   },
+   "name": "Phylactery",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500933,
+     "name": "Phylactery",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28330,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:rimenecromancer",
+     "classId": 23,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Rime Necromancer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500119,
+     "name": "Rime Necromancer",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Death",
+ "type": "Ability"
+}
