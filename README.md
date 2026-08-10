@@ -135,9 +135,31 @@ advance what matters.
 
 Curated, agent-consumable JSON built on top of the extraction - classes, spells,
 talents, dungeons/raids, creatures/quests/trainers, class specs, Mythic+/Challenges.
-Useful, and **narrower than the client**: it was seeded from a catalog that carries
-a dead content generation. Read `AGENT-GUIDE.md`'s layer warning before trusting it
-for "what can a player actually do" questions.
+
+**It is a derived view of `raw/`, not a second dataset.** Same script, same pass,
+same snapshot: `datamine.py` writes the raw layer and then derives `data/` from
+the bytes that traversal already staged, with the client-read guard still armed.
+Nothing here re-reads the client, and there is no second entry point.
+
+**It is seeded from live truth, not from the catalog.** The spell closure starts
+at every LIVE talent-node spell id and expands through the ability identity layer
+(`data/abilities/`) to every trainer, rank-ladder and catalog id belonging to the
+same ability. Coverage of live abilities is **3,932 / 3,932 = 100%**, gated as an
+equality that aborts the build and names the missing ids - it was 1,963 / 3,932
+(49.9%) when the closure was seeded from `CharacterAdvancementData`, and 1,966 of
+the 1,969 missing records were sitting in `raw/tables/Spell` the whole time.
+Catalog-only content is kept and marked `live: false`, never deleted, so the
+catalog stays queryable as one id generation among several rather than as reality.
+
+The pins that hold it honest: the live-coverage equality above; a real level-60
+Starcaller's tree list (Moon Guard / Sentinel / Moon Priest / Warden / Class, not
+the catalog's `Tides`); Tide Lash present-but-`live: false`; golden spell 17
+"Power Word: Shield". Each is a test that fails the suite, not a claim in prose.
+
+Still **narrower than the client in what it can know** - server-side base stats
+and scaling, proc PPM / internal cooldowns, and 20 remaining live coefficient
+holes are not in any client table. Read `AGENT-GUIDE.md`'s layer table and
+"Honest limits" before trusting it for "what can a player actually do" questions.
 
 - **Consume it:** read `AGENT-GUIDE.md` first - file map, schemas, query recipes,
   and the honest-limits list (what client data can and cannot know).

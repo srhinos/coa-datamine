@@ -30,7 +30,7 @@ python -m tools.find "listarchive" --layer binaries    # the client's own EXECUT
 > want.** The client carries several copies of most DBC paths and its loader picks
 > one; `raw/tables/<Table>/` is that pick. For 10 tables the pick comes from the
 > **realm overlay** `Data\area-52\` - Free-Pick's data - so reading
-> `raw/tables/Spell/` gives you Free-Pick's 238,939-row `Spell`, while a
+> `raw/tables/Spell/` gives you Free-Pick's 238,942-row `Spell`, while a
 > Conquest-of-Azeroth character reads the base chain's 209,151-row one. Every
 > version is decoded: `raw/tables/<Table>/variants/<archive-slug>/`, same shape,
 > same rules, listed under `variants` in that table's `index.json` and all together
@@ -52,12 +52,19 @@ wrong.** In one session, agents produced three confidently-wrong answers by quer
 whichever layer looked authoritative:
 
 1. the CAD catalog in `data/classes/` - it carries a **dead content generation**
-   (58.9% of entries for captured classes appear in no live tree);
-2. the curated spell closure - seeded *from that catalog*, so it carries only about
-   half of the live abilities;
+   (58.9% of entries for captured classes appear in no live tree). Still true, and
+   still the trap: the catalog is published as one generation among several, never
+   as reality. Branch on `live`/`liveEvidence`.
+2. the curated spell closure - it was seeded *from that catalog*, so it carried
+   only about half of the live abilities (1,963 of 3,932). **Fixed:** the closure
+   is now seeded from live truth and gated at **3,932 of 3,932 (100%)** live
+   talent-node spell ids, re-derived at every build into
+   `data/spells/_meta.json`'s `liveCoverage`.
 3. exact-id joins - CoA abilities exist under at least **three id generations**
    (catalog id, trainer-taught rank ladder, live talent-node id) with the same name
-   and no join table, so an id that "matches" often is not the same ability.
+   and no join table, so an id that "matches" often is not the same ability. Still
+   true of the CLIENT; `data/abilities/` is the join, and it is what you use to
+   cross generations rather than trusting id equality.
 
 All three were possible because the extraction was selective and the shape was
 hand-curated. `raw/` is the answer to that: it decides nothing in advance, so the
@@ -102,6 +109,26 @@ id the ability identity layer joins to one), and gates on covering all 3,932.
 Every curated spell record carries `live` + `liveEvidence`; catalog-only content
 is kept and marked, never deleted.
 
+**Live coverage today: 3,932 / 3,932 = 100%** (`data/spells/_meta.json` ->
+`liveCoverage`, with `missingIds: []`). That gate is an EQUALITY, not a ratio: if
+one live-node id loses its enriched record the build aborts and names the id,
+because a ratio is exactly how 49.9% went unnoticed. **Ground truth this layer is
+pinned against**, each enforced by a test that fails the suite rather than by
+prose here:
+
+| Pin | Claim | Where it is enforced |
+|---|---|---|
+| Live coverage | every live talent-node spell id has an enriched record (3,932/3,932) | `build_spells.build()` assert + `tests/test_live_seed.py` |
+| Starcaller live tabs | a real level-60 player's trees are Moon Guard / Sentinel / Moon Priest / Warden / Class - NOT the catalog's AstralWarfare/Class/Moonbow/Tides | `tests/test_live_flags.py`, `data/classes/_live_summary.json.groundTruth` |
+| Tide Lash (800380) | catalogued, not in the game: present in `data/abilities/` and `data/spells/`, `live: false` / `abilityWithNoLiveNode` - kept and marked, never deleted | `tests/test_abilities.py`, `tests/test_live_seed.py` |
+| Golden spell row | id 17 = "Power Word: Shield", `dispel == 1` (column map still correct) | `build_spells.build()` assert |
+| Single client version | no archive opened twice, nothing reads the live client after the snapshot seals | `mpq.OPEN_LEDGER`, `datamine.ClientReads` |
+
+None of that makes the curated layer complete - see "Honest limits" for what
+client data structurally cannot know (server-side base stats and scaling, proc
+PPM / internal cooldowns, and the remaining live coefficient holes measured in
+`data/spells/_coverage_live.json`).
+
 > **Read this before using `data/classes/`.** It is the CAD **catalog** - what the
 > client's character-advancement tables LIST - and a large part of it is not in the
 > game. Of the 8,331 entries belonging to a class whose live talent trees were
@@ -134,7 +161,7 @@ them. Pick the layer that matches the question you are actually asking:
 
 | Layer | Path | What it is | Size | Answers |
 |---|---|---|---|---|
-| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 32,818 records | "what does spell `<id>` DO?" |
+| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 32,820 records | "what does spell `<id>` DO?" |
 | **2. Catalog (CAD)** | `data/classes/` | what the client's character-advancement tables **LIST** for a class - an authored roster, kept across content generations | 43 class dirs, 23,709 entries | "what does the client's catalog SAY about this class?" |
 | **3. Live trees** | `data/talents/coa/` | the published talent-builder capture (task W4-9, sha256-pinned in `raw/talents/`) - the actual tree geometry a player sees | 21 `coa-custom` classes, 3,618 nodes | "what can a player ACTUALLY train or spec into?" |
 | **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, and the evidence per membership | 8,784 abilities, 29,775 distinct member ids (29,874 membership rows) | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
@@ -217,7 +244,7 @@ this repo needs an exemption).
 | `data/talents/_pet.json` | pet talent tabs (`petTalentMask` set) - not tied to a single player class | small |
 | `data/talents/_unassigned.json` | talent tabs matching no classMask/petTalentMask | small |
 | `data/talents/_meta.json` | tab/talent counts, per-class tab counts, unresolved rank-spell count | small |
-| `data/talents/coa/<Class>.json` | task W4-9: CoA talent-tree GEOMETRY for all 21 `coa-custom` classes (153-208 nodes each) - `{class, classId, essence, tabs: [{tabId, tabName, sortOrder, entryCount, isEmpty, aeGateTiers, teGateTiers, maxReqTabAE, maxReqTabTE}], choiceGroups: [{groupId, tabId, x, y, entries: [{id,name,spellId}, ...]}], nodeCount, nodes: [{id, name, x, y, classId, tabId, sortOrder, group, flags, aeCost, teCost, spellId, spellIds, iconPath, nodeType, entryType, isPassive, maxPoints, requiredIds, requiredLevel, isStartingNode, connectedNodeIds, reqTabAE, reqTabTE, description, rankDescriptions, spellResolved}]}` - sourced from the published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (frozen by `tools/fetch_coatalents.py` into `raw/talents/`), a SEPARATE dataset from the `<ChrClass>.json` DBC trees one directory up (never collides - e.g. Barbarian has both). `spellResolved` flags whether `spellId` joins `data/spells/` - only ~53% do (real content drift vs. this repo's client snapshot, NOT a join bug - see "CoA talent tree geometry" below and `data/talents/coa/_meta.json`'s `contentDrift`). `requiredIds`/`connectedNodeIds` are de-padded (source arrays are zero-padded fixed width; `0` is never a real node id here) | small per file |
+| `data/talents/coa/<Class>.json` | task W4-9: CoA talent-tree GEOMETRY for all 21 `coa-custom` classes (153-208 nodes each) - `{class, classId, essence, tabs: [{tabId, tabName, sortOrder, entryCount, isEmpty, aeGateTiers, teGateTiers, maxReqTabAE, maxReqTabTE}], choiceGroups: [{groupId, tabId, x, y, entries: [{id,name,spellId}, ...]}], nodeCount, nodes: [{id, name, x, y, classId, tabId, sortOrder, group, flags, aeCost, teCost, spellId, spellIds, iconPath, nodeType, entryType, isPassive, maxPoints, requiredIds, requiredLevel, isStartingNode, connectedNodeIds, reqTabAE, reqTabTE, description, rankDescriptions, spellResolved}]}` - sourced from the published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (frozen by `tools/fetch_coatalents.py` into `raw/talents/`), a SEPARATE dataset from the `<ChrClass>.json` DBC trees one directory up (never collides - e.g. Barbarian has both). `spellResolved` flags whether `spellId` joins `data/spells/` - **3,618/3,618 = 100% since the closure is seeded from live truth** (it was ~53% while the closure was seeded from the CAD catalog: the nodes were always real spells in this client, the curated layer simply had not reached them - see "CoA talent tree geometry" below and `data/talents/coa/_meta.json`'s `resolveStats`/`contentDrift`). The flag is kept, not retired: a refreshed builder capture can reintroduce a gap, and `spellResolved: false` is how you would see it per node. `requiredIds`/`connectedNodeIds` are de-padded (source arrays are zero-padded fixed width; `0` is never a real node id here) | small per file |
 | `data/talents/coa/index.json` | class -> file, tab/node/choice-group counts per class | small |
 | `data/talents/coa/_meta.json` | payload fetch provenance (url/sha256/capture time), realm caveat (Vol'Jin captured, Rexxar assumed identical/unverified), full resolve-rate cross-validation, the 84-vs-72 tab-layer reconciliation, `isStartingNode`/choice-group/connectivity findings - see "CoA talent tree geometry" below | small |
 | `data/abilities/index.json` | ability roster: per-class file list with `abilityCount`/`live`/`multiGeneration`/`trainerTaught`, headline counts, generation-span histogram, `recordShape` | small |
@@ -1491,27 +1518,32 @@ own cited count precisely - it is 2 x 3,618, not 7,236 real distinct nodes. This
 module uses only the `slug="voljin"` copy.
 
 **Resolve-rate gate: measured against raw `Spell.dbc`, not the curated CAD/spells
-join - and this matters.** A literal reading of "payload spellIds vs CAD entries"
-(does each node's `spellId` appear in this repo's own captured
-`CharacterAdvancementData.json`, or in `data/spells/`) resolves only **~49-53%** -
-badly short of 95%. Re-measuring the SAME node set against the raw client
-`Spell.dbc` table directly (any row at all, 209,130 total, regardless of whether
-any CAD entry references it) resolves **100%** (3,618/3,618, `unresolvedSpellIds:
-[]`). This is real, measured **content drift** between the live published builder
-and this repo's client snapshot, not a
-parse bug: the payload's spell ids are real, valid spells in this exact
-client - they are simply not the same spellId *variant* this repo's captured CAD
-JSON happens to reference for the same-looking ability (consistent with the W4-8
-finding above that CoA abilities get authored as multiple duplicate CAD rows per
-realm/game-mode, each potentially carrying a different spellId). Earlier builds of
-this dataset reported 99.97% (3,617/3,618) with spellId 301010 "Devourer" as the one
-miss; a later client patch added that row (`raw/dbc/Spell.csv.gz` went 209,125 ->
-209,130 rows, see `tests/test_sharding.py`'s re-pin log) and the miss is gone. The
-figures in `data/talents/coa/_meta.json`'s `contentDrift` prose are now interpolated
-from the same computed block they sit beside, so they cannot drift apart again. The
-build gates hard on the raw-Spell.dbc figure and ships `spellResolved: false` on every
-node whose spellId does NOT resolve against the curated `data/spells/` set, so a
-consumer sees the gap per-node instead of it being silently absorbed.
+join - and the gap between the two is what diagnosed the seeding defect.** A
+literal reading of "payload spellIds vs CAD entries" (does each node's `spellId`
+appear in this repo's own captured `CharacterAdvancementData.json`) still resolves
+only **49.1%** - badly short of 95%. Re-measuring the SAME node set against the raw
+client `Spell.dbc` table directly (any row at all, 209,151 total, regardless of
+whether any CAD entry references it) resolves **100%** (3,618/3,618,
+`unresolvedSpellIds: []`). The payload's spell ids are real, valid spells in this
+exact client; they are simply not the same spellId *generation* the captured CAD
+JSON references for the same-looking ability (consistent with the W4-8 finding
+above that CoA abilities get authored as multiple duplicate CAD rows per
+realm/game-mode, each potentially carrying a different spellId).
+
+**That divergence - 100% against raw, ~53% against a catalog-seeded `data/spells/`
+- was the curated layer's defect showing through, not content drift in the
+payload.** Now that the closure is seeded from live truth, `vsCuratedDataSpells` is
+**3,618/3,618 = 100%** as well (`data/talents/coa/_meta.json`'s `resolveStats`), and
+the only surviving CAD-side figure is `idMatchesAnyCadRow` at 78.8% - a fact about
+the catalog, not about this dataset's reach. The build still gates hard on the
+raw-`Spell.dbc` figure and still ships `spellResolved` per node, because a refreshed
+builder capture against an older client snapshot could genuinely reintroduce a gap
+and it must be visible per node rather than silently absorbed. Earlier builds
+reported 99.97% (3,617/3,618) with spellId 301010 "Devourer" as the one miss; a
+later client patch added that row (`raw/dbc/Spell.csv.gz` went 209,125 -> 209,130 ->
+209,151 rows, see `tests/test_sharding.py`'s re-pin log) and the miss is gone. The
+figures in `data/talents/coa/_meta.json`'s `contentDrift` prose are interpolated
+from the same computed block they sit beside, so they cannot drift apart again.
 
 **The 84-vs-72 tab-count tension (recomputed fresh, not taken on faith).** Sec 11's
 "84" (4 tabs x 21 coa-custom classes) still holds EXACTLY when recomputed today
@@ -1608,7 +1640,8 @@ Vol'jin and Rexxar are two realms running the SAME game mode (Conquest of Azerot
 are mode content, shipped in the base chain both realms read. The residual risk is
 therefore not "Rexxar might have different trees" but the ordinary one that applies
 to any single fetch - **the published builder can drift from the client snapshot in
-this repo**, which is exactly what the ~53% CAD resolve rate below measures. Guard
+this repo**, which is what the raw-`Spell.dbc` and `data/spells/` resolve rates
+below are there to measure (both 100% today). Guard
 against that by re-running `tools/fetch_coatalents.py` and diffing the pinned
 sha256, not by hunting for a second realm's payload. (Sec 13 item 7's client-side
 `Data\rexxar\` capture is a different thing entirely, and task W4-13 closed it as
@@ -2280,7 +2313,21 @@ def class_specs_and_roles(class_name):
 ## Honest limits
 
 - Client data cannot see server-side logic: boss scripts, loot tables, runtime
-  spell grants, proc internals. Encounter lists are names/order only.
+  spell grants, proc internals. Encounter lists are names/order only. **For a
+  simulator specifically, the three that bite:** (a) **base stats and stat
+  scaling** are applied server-side - the client ships the combat-rating curves
+  (`data/gt/`) but not a character's base attributes or CoA's per-class
+  modifiers; (b) **proc rates - PPM, internal cooldowns, RPPM-style behaviour -
+  are not in any client table**, so a proc's trigger condition is knowable from
+  `EffectTriggerSpell` but its RATE is not; (c) **spell power / attack power
+  coefficients**: this client's `bonusMultiplier`-style columns are a stock 3.3.5
+  channel CoA never wired up (0/65 agreement with tooltip-parsed coefficients -
+  see "Spell column completion"), leaving **20 proven-live damage-model holes**
+  out of 552 castable slots (89.3% modelable; `data/spells/_coverage_live.json`'s
+  `liveHoles` is the actual list, with class, tier and formula per hole).
+  Anything in those three categories has to come from in-game measurement, not
+  from this repo - and a sim that silently assumes a default there is inventing
+  data.
 - `CharacterAdvancementData.json` is account-wide across the four realms this
   client serves (see Key semantics above); Reborn*-class spell refs are expected
   to resolve `null` far more often than other classes in this snapshot - that's a
@@ -2463,15 +2510,16 @@ def class_specs_and_roles(class_name):
   per-realm breakdown lives in `charges.json`'s own `realmGapFinding` key (also
   summarized in `_meta.json`'s `enrichment.charges.realmGapFinding`), and each
   non-joining row now carries `realmResolvedIn: [realm names]` inline.
-- **Only ~53% of `data/talents/coa/`'s nodes join `data/spells/`.** See "CoA talent
-  tree geometry" above for the full writeup. The payload is the CoA-mode builder
-  (served from the `voljin` URL - Vol'jin and Rexxar are the same game mode, so this
-  is not a per-realm gap), and the low curated-spell
-  join rate is real measured content drift between the live published builder and
-  this repo's client snapshot (100% of the same spellIds DO exist in raw
-  `Spell.dbc`, just not always as the same variant this repo's CAD closure
-  reached), not a join bug. Check `spellResolved` per node before assuming a
-  tooltip's numbers are backed by this dataset's own spell enrichment.
+- **`data/talents/coa/`'s nodes now join `data/spells/` 3,618/3,618 = 100%** (was
+  ~53% while the closure was seeded from the CAD catalog - a defect in this
+  dataset's reach, not drift in the payload; see "CoA talent tree geometry" above).
+  The residual limit is the capture itself: the payload is a single frozen fetch of
+  the CoA-mode builder (served from the `voljin` URL - Vol'jin and Rexxar are the
+  same game mode, so this is not a per-realm gap) refreshed only by
+  `tools/fetch_coatalents.py`, so it rides a different clock than the client
+  snapshot (`data/abilities/_meta.json`'s `liveSeedDrift` states the delta). Keep
+  checking `spellResolved` per node: it is how a future capture-vs-snapshot gap
+  would surface.
 - **`SpellRank.dbc` is NOT wired into the rank-chain pipeline, and it has MORE
   coverage than `SpellRankData.json`, which is.** Task W4-10 found this table has
   13,237 spellId rows (99.96% real, live ids) that `raw/content/SpellRankData.json`
@@ -2547,8 +2595,15 @@ The test suite mixes two different kinds of check, and they fail for different
 reasons. STRUCTURAL checks verify the pipeline itself still works: WDBC layout
 guards (`dbc.LayoutError`), golden spell rows (id 17 Power Word: Shield, id 10
 Blizzard - name/dispel/school/duration fixed points), the `cad_other`/`talent`
-missing-ref ratio gates (<=5%), and general schema asserts (field counts,
-sort order, required keys). SNAPSHOT PINS, by contrast, are exact counts
+missing-ref ratio gates (<=5%), the **live-coverage equality gate** (every live
+talent-node spell id has an enriched record) and the ground-truth pins behind it
+(`tests/test_live_seed.py`, `tests/test_live_flags.py`, `tests/test_abilities.py`
+- Starcaller's live tabs, Tide Lash catalogued-but-not-live), and general schema
+asserts (field counts, sort order, required keys). The live gates are STRUCTURAL,
+never snapshot pins: the live-node id count itself may move when the talent
+capture is refreshed, but "some live ids have no record" is always a defect, and
+re-pinning it to a ratio is precisely how the 49.9% coverage went unnoticed.
+SNAPSHOT PINS, by contrast, are exact counts
 calibrated to this repo's 2026-07-17 capture and will legitimately drift
 whenever CoA ships new content:
 
@@ -2558,14 +2613,15 @@ whenever CoA ships new content:
 - `tests/test_dungeons.py`: 431 dungeons / 2080 encounters / dungeon-258 has 17
   reward brackets
 - `tests/test_extract.py`: `spell.dbc` resolves from `patch-T.MPQ`
-- `tests/test_sharding.py`: pins the pre-shard record-count baseline (spells 28951,
+- `tests/test_sharding.py`: pins the pre-shard record-count baseline (spells 32820,
   per-class entry counts, dungeons 431) so sharding can't silently drop/duplicate
   records; also the repo-wide <=5,000-line gate (empty allowlist today - re-add an
   entry here and in the allowlist if content growth ever forces one). That spells
-  pin has been re-derived repeatedly as the client patched and as task W4-4's
-  formula closure widened the writer's output (27432 committed -> 27441 -> 27439
-  -> 27470 -> 27475 -> 28951); `test_sharding.py`'s own header carries the dated
-  log of every re-pin and why
+  pin has been re-derived repeatedly as the client patched, as task W4-4's
+  formula closure widened the writer's output, and as the live reseed replaced the
+  catalog seed (27432 committed -> 27441 -> 27439 -> 27470 -> 27475 -> 28951 ->
+  28957 -> 32820, the last step being +3,863 from seeding off live truth);
+  `test_sharding.py`'s own header carries the dated log of every re-pin and why
 - `tests/test_creatures.py`: 127178 creatures / 18561 quests / 13111 trainers
   (`Creature.dbc`/`Quest.dbc`/`NPCTrainer.dbc` record counts), trainer spellId
   join-rate >=90% (measured 0.9892)
@@ -2576,8 +2632,8 @@ whenever CoA ships new content:
   genuinely unmatched token - see `tests/test_class_plumbing.py` for the exact
   32/32 gate)
 - `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags
-  27516, category 6262, customAttr 8124, descriptionVariables 1349, addon 144,
-  overrideData 6, across all 28951 referenced spells - re-derived from the shipped
+  29331, category 7386, customAttr 9584, descriptionVariables 1530, addon 183,
+  overrideData 6, across all 32820 referenced spells - re-derived from the shipped
   `data/spells/_meta.json`'s `enrichment` block). These enrichment counts drift
   with client patches like the other snapshot pins above; `test_spells_v2.py`
   itself gates most of them as floors (e.g. `descriptionVariables > 1000`), not
@@ -2632,7 +2688,7 @@ whenever CoA ships new content:
   `isStartingNode` anomaly (2 nonzero, values `{1, 127}` - node 7608's `1` IS
   referenced by siblings 4040/7512, node 30212's `127` is not) are pinned the
   same way. The spellDbc resolve-rate gate (>=0.95, measured 1.0 against the
-  current 209,130-row `Spell.dbc`) DOES depend on the client's `Spell.dbc`, same
+  current 209,151-row base `Spell.dbc`) DOES depend on the client's `Spell.dbc`, same
   as any other snapshot pin.
 - `tests/test_dataset.py`: 14 `buildStats` keys (task W4-9 added `coatalents`;
   W4-11b added `items`; the review fix pass added `gt`, which had been an orphaned
@@ -2665,7 +2721,7 @@ only shape/count/hash-integrity gates. A big swing in `archiveSourced` or a drop
 archives carry the Interface tree (or the on-disk client install itself) and is worth
 a manual look, not a reflexive re-pin.
 
-Note: the spells count above (28951) is the current pin; its history is the clearest
+Note: the spells count above (32820) is the current pin; its history is the clearest
 worked example of this drift. *Historical, superseded by the current build:* the very
 first sharding baseline was set at 27441 - discovered mid-task when a controlled re-run
 of the pre-sharding writer against that day's `work/dbc`/`raw/content` snapshot produced
@@ -2674,9 +2730,11 @@ the old and new writer against identical source data confirmed the delta was pre
 upstream content drift (unrelated to the sharding rewrite itself), not a regression - the
 same class of churn documented in past task reports (e.g. Task 9's spell 61685 rename,
 Task V2-1's raw/ Spell.csv.gz +292 rows). Subsequent client patches carried it to
-27475, and task W4-4's intentional formula-closure widening added the last 1,476
-records (27,475 + 1,476 = 28,951) - `test_sharding.py`'s header logs each step with
-its date and cause.
+27475, and task W4-4's intentional formula-closure widening added 1,476
+records (27,475 + 1,476 = 28,951). The last and largest step is not client churn
+at all: reseeding the closure from LIVE truth instead of the CAD catalog added
+**+3,863** records (28,957 -> 32,820), which is the defect this branch exists to
+repair - `test_sharding.py`'s header logs each step with its date and cause.
 
 After regenerating against a patched client, treat the two failure modes
 differently. A snapshot-pin failure with a small delta (record counts moved by
