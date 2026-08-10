@@ -228,7 +228,3 @@ def build() -> dict:
         json.dumps(meta, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
 
     return stats
-
-
-if __name__ == "__main__":
-    print(build())

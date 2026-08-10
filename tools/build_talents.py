@@ -80,7 +80,3 @@ def build() -> dict:
         encoding="utf-8", newline="\n")
     return {"tabs": len(tabs), "talents": talent_count, "files": files,
             "unresolvedRankSpells": unresolved}
-
-
-if __name__ == "__main__":
-    print(build())

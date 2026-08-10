@@ -84,6 +84,34 @@ for m in prov["headerMismatches"]:
         f"unexpected/changed header mismatch: {m}"
 assert {m["table"] for m in prov["headerMismatches"]} == set(_ALLOWED_HEADER_MISMATCHES), \
     prov["headerMismatches"]
+# THE SINGLE ENTRY POINT, enforced instead of claimed. `python -m
+# tools.build_spells` used to be a live second entry point: it rewrites part of
+# data/ from whatever work/dbc and data/abilities happen to be on disk, and
+# build_abilities.live_seed() reads data/abilities BACK from disk, so a
+# standalone builder run could be seeded by a stale abilities layer - the exact
+# two-pipeline drift this whole change set exists to remove. The four retired
+# client-reading extractors are the same surface: their STAGES left the pipeline,
+# their CLIs did not. No __main__ in any of them; they stay importable because
+# the test suite rebuilds individual layers deliberately.
+_NO_MAIN = sorted((config.REPO_ROOT / "tools").glob("build_*.py")) + [
+    config.REPO_ROOT / "tools" / f"{m}.py" for m in
+    ("curate", "extract_mpq", "extract_realms", "extract_interface",
+     "snapshot_content")]
+_with_main = [p.name for p in _NO_MAIN
+              if "if __name__" in p.read_text(encoding="utf-8")]
+assert not _with_main, (
+    f"{_with_main} still carry a __main__ - a second way to rewrite data/ "
+    "outside datamine.py's guarded pass")
+assert len([p for p in _NO_MAIN if p.name.startswith("build_")]) >= 15, _NO_MAIN
+assert prov["entryPointRule"] and "no builder" in prov["entryPointRule"]
+
+# The residual drift class is DISCLOSED AND MEASURED: `live` comes from an
+# out-of-band web capture on its own clock, not from the client snapshot.
+drift = prov["liveSeedDrift"]
+assert drift["capture"]["capturedUtc"] and drift["capture"]["sha256"]
+assert isinstance(drift["captureMinusSnapshotDays"], float), drift
+assert "fetch_coatalents" in drift["capturedBy"]
+
 ondisk = json.loads((config.RAW_DIR / "provenance.json").read_text(encoding="utf-8"))
 assert ondisk["generatedUtc"].endswith("+00:00")
 assert (config.REPO_ROOT / "README.md").is_file()

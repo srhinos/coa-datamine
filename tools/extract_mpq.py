@@ -168,27 +168,3 @@ def extract_all() -> dict:
     (config.WORK_DIR / "extract_provenance.json").write_text(
         json.dumps(prov, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
     return prov
-
-
-def main():
-    prov = extract_all()
-    for base in sorted(prov["files"]):
-        e = prov["files"][base]
-        flag = " COLLISION:" + ",".join(e["losers"]) if e["losers"] else ""
-        print(f"{base:26s} <- {e['winner']:18s} records={e['records']:7d} fields={e['fields']:4d}{flag}")
-    print(f"skipped archives: {len(prov['skipped_archives'])}")
-    if prov["headerMismatches"]:
-        print(f"HEADER MISMATCHES: {prov['headerMismatches']}")
-    census = prov["census"]
-    print(f"census: {census['distinctDbcNamesInChain']} distinct DBFilesClient names "
-          f"in chain, {census['extractedCount']} extracted")
-    for name, frag in sorted(prov["unlistableProbes"].items()):
-        if "error" in frag:
-            print(f"  unlistable probe {name}: OPEN FAILED: {frag['error']}")
-        else:
-            hits = ", ".join(frag["hits"]) if frag["hits"] else "(none)"
-            print(f"  unlistable probe {name}: probed={frag['probedCount']} hits={hits}")
-
-
-if __name__ == "__main__":
-    main()

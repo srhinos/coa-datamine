@@ -127,7 +127,3 @@ def build() -> dict:
     return {"dungeons": len(dungeons), "raids": raid_count,
             "encounters": enc_count, "orphanEncounterMaps": orphan,
             "encounterCreatureLinks": links}
-
-
-if __name__ == "__main__":
-    print(build())

@@ -70,8 +70,8 @@ The client ships most DBC paths more than once and its loader picks one.
 `raw/tables/<Table>/` is that pick, and for **10 tables it is the `Data\area-52`
 realm overlay** - which is *Free-Pick's* data. A Conquest of Azeroth character has
 no client data directory at all and reads the **base chain**, so for CoA questions
-the chain winner is the wrong version: base `Spell` is 209,140 rows, the overlay's
-is 238,939. The contested ten are `Spell`, `SkillLineAbility`, `SpellRank`,
+the chain winner is the wrong version: base `Spell` is 209,151 rows, the overlay's
+is 238,942. The contested ten are `Spell`, `SkillLineAbility`, `SpellRank`,
 `Talent`, `CharacterAdvancement`, `CharacterAdvancementEssence`, `SpellCharges`,
 `SpellChargesCategory`, `Manastorm` and `ManastormModifiers` - exactly the tables
 class and spell work depends on.
@@ -154,7 +154,9 @@ for "what can a player actually do" questions.
   directory `classes` owns; `realms` must run after `spells` since its
   `missingRefResolution` evidence reads `data/spells/_missing_refs.json`.
   Interface and Content are no longer curation stages at all - they are raw
-  layers, emitted from the snapshot by the same traversal.
+  layers, emitted from the snapshot by the same traversal. There is no second
+  way in: no builder under `tools/` has a `__main__`, so nothing can rewrite
+  part of `data/` outside that pass (`tests/test_dataset.py` enforces it).
 - **Verify it:** `python tests\test_config.py` ... each test script prints `ALL PASS`.
   After regenerating on a patched client, see "Regenerating after a client
   patch" in `AGENT-GUIDE.md` for which test failures are expected

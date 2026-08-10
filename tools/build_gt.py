@@ -438,7 +438,3 @@ def build() -> dict:
     return {"combatRatings": len(cr_doc["ratings"]),
             "classTables": {k: len(v) for k, v in class_chance_payload.items()},
             "counts": counts}
-
-
-if __name__ == "__main__":
-    print(build())

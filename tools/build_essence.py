@@ -119,7 +119,3 @@ def build() -> dict:
         "count": len(classes),
         "coaCustomCount": sum(1 for c in classes if c["curveGroup"] == "coaCustom"),
     }
-
-
-if __name__ == "__main__":
-    print(build())

@@ -24,8 +24,13 @@ ids absent from the base client's Spell.dbc).
 file is absent, build_realm RAISES by default rather than shipping an empty dict that
 reads as a measured zero (the silent degrade task W4-13 observed under a concurrent
 run). allow_missing_base=True instead writes missingRefResolution: null plus a
-`degraded` key naming the cause - the standalone-run escape hatch, used by this
-module's __main__ but never by datamine.py's curation stage.
+`degraded` key naming the cause - the escape hatch for a caller that rebuilds this
+layer alone (the test suite does), never used by datamine.py's curation stage.
+
+This module has no __main__, and neither does any other builder: `python -m
+tools.build_realms` used to be a second way to rewrite part of data/ from whatever
+happened to be on disk, which is the drift class the single-entry-point rule exists
+to close. tests/test_dataset.py enforces the absence.
 
 [Task V3-2 finding] CharacterAdvancement.dbc's WDBC header declares FieldCount 179,
 but its record_size only fits 173 int32 fields (692/4) - the byte-accurate value
@@ -45,7 +50,7 @@ datamine.py's curation stage, which wires a "realms" stage calling
 this module's build() - see task V3-3)."""
 import json, shutil
 
-from tools import config, dbc, extract_realms, layerstate
+from tools import coa_live, config, dbc, extract_realms, layerstate
 
 MIN_NEW_SPELL_COUNT = 10000     # brief's loose pin: realm spells measured ~= +30k vs base
 
@@ -120,6 +125,42 @@ def _missing_ref_resolution(realm_spell_ids: set):
     }, None
 
 
+MAX_LISTED_MISSING = 100
+
+
+def _live_node_coverage(realm_spell_ids: set):
+    """Which LIVE talent-node spell ids this realm's own Spell.dbc does not have.
+
+    The curated layer reads the BASE variant, and the reason is measured rather
+    than asserted: all 3,932 live-node ids resolve there and only 3,929 resolve in
+    area-52's overlay. That is the proof behind curate.BASE_VARIANT_RULE, but it
+    is also a fact a REALM-scoped consumer needs in its own file - reading
+    data/realms/<realm>/ alone, nothing else says that a handful of live CoA
+    abilities have no Spell row on this realm. Derived from raw/talents (the same
+    frozen capture the identity layer uses), so this stays a function of raw."""
+    live_ids = {int(sid) for cl in coa_live.live_index()["byClassId"].values()
+                for sid in cl["spellNodes"]}
+    missing = sorted(live_ids - realm_spell_ids)
+    out = {
+        "note": ("Live talent-node spell ids (raw/talents capture) that have no "
+                 "row in THIS realm's Spell.dbc. The curated layer is built from "
+                 "the base variant, where all of them resolve - see "
+                 "tools/curate.py BASE_VARIANT_RULE."),
+        "liveNodeIds": len(live_ids),
+        "resolvedInRealm": len(live_ids) - len(missing),
+        "missingInRealmCount": len(missing),
+    }
+    if len(missing) <= MAX_LISTED_MISSING:
+        out["missingInRealm"] = missing
+    else:
+        out["missingInRealm"] = None
+        out["missingInRealmElided"] = (
+            f"{len(missing)} ids, past the {MAX_LISTED_MISSING}-id listing cap - "
+            "the realm is missing live content wholesale, which is a finding in "
+            "itself rather than a list to paste into an index file.")
+    return out
+
+
 def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     dbc_dir = config.WORK_REALMS_DIR / realm / "dbc"
     raw_dir = config.RAW_REALMS_DIR / realm / "dbc"
@@ -177,8 +218,8 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
 
     # [Review fix pass] Fail loudly by default rather than publishing an evidence
     # file with no evidence. allow_missing_base=True is the standalone-run escape
-    # hatch (`python -m tools.build_realms` against a repo whose spells stage has
-    # not run yet) and stamps the degrade INTO index.json so it is visible in the
+    # hatch (a caller rebuilding this layer alone against a repo whose spells stage
+    # has not run yet) and stamps the degrade INTO index.json so it is visible in the
     # committed data, not just in a console line nobody kept.
     missing_ref_resolution, degraded = _missing_ref_resolution(realm_spell_ids)
     if degraded and not allow_missing_base:
@@ -191,6 +232,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
         "spellIdRange": [min(realm_spell_ids), max(realm_spell_ids)],
         "newSpellCount": new_spell_count,
         "missingRefResolution": missing_ref_resolution,
+        "liveNodeCoverage": _live_node_coverage(realm_spell_ids),
     }
     if degraded:
         index["degraded"] = degraded
@@ -229,7 +271,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     # raised leaves no sentinel, which is the point.
     layerstate.finish(raw_dir.parent, {
         "layer": f"realms/{realm}",
-        "generatedBy": "python -m tools.build_realms",
+        "generatedBy": "tools/build_realms.py (via tools.curate.run)",
         "tableCount": len(table_info),
         "recordTotal": sum(v["records"] for v in table_info.values()),
         "mappedTables": sum(1 for v in table_info.values() if v["mapped"])})
@@ -273,17 +315,8 @@ def build(skip_extract: bool = False, allow_missing_base: bool = False,
     out = {realm: build_realm(realm, allow_missing_base=allow_missing_base)
            for realm in realms}
     layerstate.finish(config.RAW_REALMS_DIR, {
-        "layer": "realms", "generatedBy": "python -m tools.build_realms",
+        "layer": "realms", "generatedBy": "tools/build_realms.py (via tools.curate.run)",
         "realmCount": len(out), "realms": sorted(out),
         "recordTotal": sum(v["records"] for idx in out.values()
                            for v in idx["tables"].values())})
     return out
-
-
-if __name__ == "__main__":
-    # standalone convenience run - tolerate a not-yet-built data/spells/, but stamp
-    # the degrade into the output so a zeroed run can't pass as a measured one
-    for realm, idx in build(allow_missing_base=True).items():
-        print(f"realm {realm}: newSpellCount={idx['newSpellCount']} "
-              f"spellIdRange={idx['spellIdRange']} "
-              f"missingRefResolution={idx['missingRefResolution']}")

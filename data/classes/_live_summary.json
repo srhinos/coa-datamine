@@ -300,10 +300,10 @@
   ]
  },
  "identityAgreement": {
-  "agree": 6665,
+  "agree": 6666,
   "entryLiveIdentityNot": 0,
   "entryUnknownIdentityNotLive": 16440,
-  "identityLiveEntryNot": 477,
+  "identityLiveEntryNot": 476,
   "identityLiveEntryNotMeans": "the id-equality method finds this entry in no live tree, but the ability it belongs to HAS a live node under a different spell id. That is the id-generation gap itself, measured; the live ids are on the entry at liveEvidence.identity.liveNodeIds.",
   "noIdentity": 127,
   "rule": "an entry's spell ids are looked up in ITS OWN class's abilities only - shared and pet ids belong to several classes' abilities at once; the strongest hit (live first, then most live nodes) supplies the evidence. EVIDENCE ONLY: the identity join never changes `live`, see tools/build_classes.py:_stamp_identity for why.",

@@ -719,7 +719,3 @@ def build(slug: str = "voljin") -> dict:
         "choiceGroups": len(groups),
         "emptyTabPairs": len(empty_tab_pairs),
     }
-
-
-if __name__ == "__main__":
-    print(build())

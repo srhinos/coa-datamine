@@ -421,7 +421,3 @@ def build() -> dict:
         "timedDungeons": build_timed_dungeons(),
         "mapDifficulty": build_map_difficulty(),
     }
-
-
-if __name__ == "__main__":
-    print(build())

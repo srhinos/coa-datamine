@@ -1,7 +1,9 @@
 """The CURATED data/ layer - derived from the raw layer, in the same pass.
 
-`datamine.py` drives this; there is no __main__ here and no other caller, so the
-single-entry-point property holds. It lives in its own file for a reason that is
+`datamine.py` drives this; there is no __main__ here, in any builder this drives,
+or in the four retired client-reading extractors, and no other caller - so the
+single-entry-point property is enforced by the code rather than observed by
+convention (see ENTRY_POINT_RULE). It lives in its own file for a reason that is
 load-bearing rather than tidy: the raw pipeline's central claim is that NO WANTED
 LIST decides what it extracts, and tests/test_raw_tables.py + test_variants.py
 enforce that by scanning datamine.py, emit.py and dbcdecode.py for any table name
@@ -37,7 +39,7 @@ import shutil
 import time
 from pathlib import Path
 
-from tools import config
+from tools import coa_live, config
 
 
 def _write_json(path: Path, payload) -> None:
@@ -78,6 +80,18 @@ LIVE_SEED_RULE = (
     "catalog is still read, as one generation among several and never as the "
     "seed of truth; ids that reach the closure only through it are kept and "
     "marked live:false rather than deleted.")
+
+ENTRY_POINT_RULE = (
+    "datamine.py is the only entry point, and that is now a property of the "
+    "code rather than a convention: no builder under tools/ has a __main__ any "
+    "more, so `python -m tools.build_spells` cannot rewrite part of data/ from "
+    "whatever happens to be on disk, and neither can the four retired "
+    "client-reading extractors (extract_mpq, extract_realms, extract_interface, "
+    "snapshot_content) - the STAGES were retired from the pipeline last pass, "
+    "the MODULES kept their CLIs, and that was the surviving surface for exactly "
+    "the two-pipeline drift this change set out to kill. They remain importable, "
+    "because the test suite rebuilds individual layers on purpose. "
+    "tests/test_dataset.py enforces the absence rather than trusting it.")
 
 
 def materialize_inputs(h, prog) -> dict:
@@ -225,8 +239,8 @@ def run(inputs: dict = None) -> dict:
 
     `inputs` defaults to the sidecar the traversal wrote, so a test can re-run
     curation alone against the inputs of the last full pass. There is
-    deliberately no __main__ in this module: datamine.py stays the single entry
-    point."""
+    deliberately no __main__ in this module - nor in any builder it drives, nor
+    in the four retired extractors: see ENTRY_POINT_RULE."""
     from tools import (dbc, build_spells, build_classes, build_talents,
                        build_dungeons, build_creatures, build_classmeta,
                        build_essence, build_mythic, build_manastorm,
@@ -287,6 +301,12 @@ def run(inputs: dict = None) -> dict:
         "curationRule": CURATION_RULE,
         "baseVariantRule": BASE_VARIANT_RULE,
         "liveSeedRule": LIVE_SEED_RULE,
+        "entryPointRule": ENTRY_POINT_RULE,
+        # The residual drift class, measured rather than implied: curation is a
+        # pure function of raw/, but raw/talents/coa-builder-*.html is a network
+        # capture on its own clock, taken outside this guarded pass. Everything
+        # `live` says is only as current as that fetch.
+        "liveSeedDrift": coa_live.seed_drift(),
         "curationInputs": {
             "baseArchives": inputs["baseArchives"],
             "base": {k: {"archive": v["archive"], "sha256": v["sha256"],

@@ -2,26 +2,30 @@
  "baseVariantRule": "Curated CoA views derive from the BASE variant of every table: the highest-ranked carrier among the base and locale archives - the file a character reads when no realm overlay applies - NOT the chain winner. On this client the chain winner for Spell.dbc is area-52's realm overlay, which is missing live CoA content: all 3,932 live talent-node spell ids resolve in the base variant and only 3,929 in the overlay, so curating off the winner would silently drop live abilities. Realm overlays are not discarded - they are curated separately, from each realm's own chain, into raw/realms + data/realms.",
  "buildStats": {
   "abilities": {
-   "abilities": 8745,
-   "abilitiesLive": 3582,
-   "abilitiesMultiGeneration": 2861,
+   "abilities": 8784,
+   "abilitiesLive": 3618,
+   "abilitiesMultiGeneration": 2865,
    "abilitiesWithCrossNameLink": 147,
    "abilitiesWithRankLadder": 657,
+   "abilitiesWithSeveralLiveNodeIds": 0,
    "fileCount": 53,
    "generationCounts": {
-    "cad": 7033,
-    "liveNode": 3582,
+    "cad": 7040,
+    "liveNode": 3618,
     "rankChain": 542,
     "trainer": 1037
    },
    "generationSpanHistogram": {
-    "1": 5884,
-    "2": 2340,
+    "1": 5919,
+    "2": 2344,
     "3": 454,
     "4": 67
    },
    "liveAbilitiesWithTrainerLadder": 201,
+   "liveNodeVariantRecords": 71,
+   "liveNodeVariantSplitNames": 35,
    "memberIds": 29775,
+   "memberRows": 29874,
    "residualReasons": {
     "cadUnresolvedClass": 154,
     "rankChainNameIncoherent": 650,
@@ -38,10 +42,14 @@
    },
    "stageCounts": {
     "abilitiesWithCrossNameLink": 147,
+    "abilitiesWithLiveNodeVariantLink": 74,
     "cadIdNoBaseSpellRow": 7619,
     "cadMemberships": 28045,
+    "cadMembershipsInSplitVariant": 37,
+    "cadMembershipsUnattributedInSplitGroup": 3,
     "cadRowsUnresolvedClass": 127,
     "liveMemberships": 3932,
+    "liveMembershipsInSplitVariant": 79,
     "rankChainMemberships": 4288,
     "rankChainSeedNameMismatch": 2,
     "trainerMembershipsAdmitted": 3048,
@@ -413,6 +421,17 @@
   },
   "realms": {
    "area-52": {
+    "liveNodeCoverage": {
+     "liveNodeIds": 3932,
+     "missingInRealm": [
+      573365,
+      760379,
+      808082
+     ],
+     "missingInRealmCount": 3,
+     "note": "Live talent-node spell ids (raw/talents capture) that have no row in THIS realm's Spell.dbc. The curated layer is built from the base variant, where all of them resolve - see tools/curate.py BASE_VARIANT_RULE.",
+     "resolvedInRealm": 3929
+    },
     "missingRefResolution": {
      "cad_other": {
       "missingCount": 178,
@@ -539,7 +558,7 @@
     "cad": 13766,
     "formula": 1623,
     "live": 3932,
-    "liveCad": 2068,
+    "liveCad": 2065,
     "liveRank": 644,
     "liveTrainer": 1210,
     "rank": 10497,
@@ -611,18 +630,18 @@
     ],
     "covered": 3932,
     "liveNodeIds": 3932,
-    "liveRecords": 5561,
+    "liveRecords": 5558,
     "missingIds": [],
-    "notLiveRecords": 3212,
+    "notLiveRecords": 3215,
     "rate": 1.0,
     "recordsByLiveReason": {
-     "abilityWithNoLiveNode": 3212,
-     "liveAbilityMember": 1629,
+     "abilityWithNoLiveNode": 3215,
+     "liveAbilityMember": 1626,
      "liveNode": 3932,
      "noLiveGeometry": 12727,
      "notAnAbility": 11320
     },
-    "seedIds": 5625,
+    "seedIds": 5622,
     "unknownRecords": 24047
    },
    "missing_by_source": {
@@ -1607,7 +1626,8 @@
   }
  },
  "curationRule": "The curated data/ layer is a pure function of the raw layer produced by the same run of the same script, from the same snapshot. Its .dbc inputs are written out of the bytes this run's single traversal already staged (tools/curate.py materialize_inputs), never by reopening an archive and never by reading the live client - which is enforced, not asserted: ClientReads stays armed through curation and fails the run on any read of the client after the snapshot was sealed.",
- "generatedUtc": "2026-08-10T04:34:26+00:00",
+ "entryPointRule": "datamine.py is the only entry point, and that is now a property of the code rather than a convention: no builder under tools/ has a __main__ any more, so `python -m tools.build_spells` cannot rewrite part of data/ from whatever happens to be on disk, and neither can the four retired client-reading extractors (extract_mpq, extract_realms, extract_interface, snapshot_content) - the STAGES were retired from the pipeline last pass, the MODULES kept their CLIs, and that was the surviving surface for exactly the two-pipeline drift this change set out to kill. They remain importable, because the test suite rebuilds individual layers on purpose. tests/test_dataset.py enforces the absence rather than trusting it.",
+ "generatedUtc": "2026-08-10T06:18:37+00:00",
  "headerMismatches": [
   {
    "actualFields": 16,
@@ -1615,5 +1635,19 @@
    "table": "spellitemenchantmentcondition.dbc"
   }
  ],
+ "liveSeedDrift": {
+  "capture": {
+   "capturedUtc": "2026-08-06T10:49:00+00:00",
+   "sha256": "467fd444b349ad531539c80e18b836cd069d33d2c3fe71fc4ed488e017640da3",
+   "sha256Source": "raw/talents/_fetch.json",
+   "slug": "voljin",
+   "url": "https://ascension.gg/en/v2/coa-builder/voljin"
+  },
+  "captureMinusSnapshotDays": -3.431,
+  "capturedBy": "tools/fetch_coatalents.py (out-of-band, network, NOT part of datamine.py's guarded pass)",
+  "clientSnapshotNewestArchive": "Data/area-52/patch-D.MPQ",
+  "clientSnapshotNewestArchiveUtc": "2026-08-09T21:10:21+00:00",
+  "rule": "THE RESIDUAL DRIFT CLASS, stated rather than implied. Curation is a pure function of raw/, but ONE artifact under raw/ is not on the client's clock: raw/talents/coa-builder-<slug>.html is an out-of-band NETWORK capture taken by tools/fetch_coatalents.py, which runs outside datamine.py's guarded pass and cannot be folded into it (the client has no copy of the live builder). Everything derived from `live` is therefore only as current as that fetch, not as current as the snapshot. seed_drift() measures the distance between the two clocks from committed bytes alone - the capture's own capturedUtc against the newest archive mtime in raw/_snapshot.json - so the gap is a number in the data rather than a caveat in prose. A POSITIVE captureMinusSnapshotDays means the capture is NEWER than the client files; negative means the capture predates them and live content the client already has can read as dead."
+ },
  "liveSeedRule": "The spell closure is seeded from LIVE truth, not from the CAD catalog: every spell id a live talent-tree node carries, plus - through the ability identity layer (data/abilities) - every trainer-taught id, rank-ladder id and catalog id that belongs to the same ability as a live node. The catalog is still read, as one generation among several and never as the seed of truth; ids that reach the closure only through it are kept and marked live:false rather than deleted."
 }

@@ -1,5 +1,6 @@
 {
  "aliases": [],
+ "catalogTabs": ["Holy","Protection","Retribution"],
  "class": "Paladin",
  "classId": 2,
  "entryCount": 305,
@@ -18,7 +19,9 @@
  "hasLiveGeometry": false,
  "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":305},
  "liveCountsByReason": {"unknownNoGeometry":305},
+ "liveTabs": null,
  "realmHint": "Area 52 - Free-Pick /shared",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "vanilla",
  "unresolvedCount": 6
 }

@@ -115,6 +115,7 @@ indeterminates (it cannot - see the block's verdict).
 
 Everything above is re-derived at every build; nothing here is a copied figure.
 """
+import datetime
 import hashlib
 import json
 import re
@@ -265,6 +266,52 @@ REALM_CAVEAT = (
     "realms, so an entry belonging to another game mode is correctly dead FOR CoA "
     "while being alive on the mode that owns it."
 )
+
+
+SEED_DRIFT_RULE = (
+    "THE RESIDUAL DRIFT CLASS, stated rather than implied. Curation is a pure "
+    "function of raw/, but ONE artifact under raw/ is not on the client's clock: "
+    "raw/talents/coa-builder-<slug>.html is an out-of-band NETWORK capture taken "
+    "by tools/fetch_coatalents.py, which runs outside datamine.py's guarded pass "
+    "and cannot be folded into it (the client has no copy of the live builder). "
+    "Everything derived from `live` is therefore only as current as that fetch, "
+    "not as current as the snapshot. seed_drift() measures the distance between "
+    "the two clocks from committed bytes alone - the capture's own capturedUtc "
+    "against the newest archive mtime in raw/_snapshot.json - so the gap is a "
+    "number in the data rather than a caveat in prose. A POSITIVE "
+    "captureMinusSnapshotDays means the capture is NEWER than the client files; "
+    "negative means the capture predates them and live content the client already "
+    "has can read as dead.")
+
+
+def seed_drift(slug: str = "voljin") -> dict:
+    """The two clocks the `live` verdict straddles, measured. Deterministic: both
+    numbers come from committed bytes (raw/talents/_fetch.json and
+    raw/_snapshot.json), never from the wall clock, so a rebuild on unchanged
+    inputs reproduces it exactly."""
+    _, prov = load_build_record(slug)
+    snap = json.loads((config.RAW_DIR / "_snapshot.json").read_text(encoding="utf-8"))
+    archives = {n: f for n, f in snap["files"].items() if f.get("kind") == "archive"}
+    newest = max(archives.items(), key=lambda kv: kv[1]["mtime"]) if archives else None
+    snap_utc = (datetime.datetime.fromtimestamp(
+        newest[1]["mtime"] / 1e9, datetime.timezone.utc).isoformat(timespec="seconds")
+        if newest else None)
+    captured = prov.get("capturedUtc")
+    days = None
+    if captured and snap_utc:
+        days = round((datetime.datetime.fromisoformat(captured)
+                      - datetime.datetime.fromisoformat(snap_utc)).total_seconds()
+                     / 86400.0, 3)
+    return {
+        "rule": SEED_DRIFT_RULE,
+        "capture": {k: prov.get(k) for k in
+                    ("slug", "url", "capturedUtc", "sha256", "sha256Source")},
+        "capturedBy": "tools/fetch_coatalents.py (out-of-band, network, NOT part "
+                      "of datamine.py's guarded pass)",
+        "clientSnapshotNewestArchive": newest[0] if newest else None,
+        "clientSnapshotNewestArchiveUtc": snap_utc,
+        "captureMinusSnapshotDays": days,
+    }
 
 
 def norm(s) -> str:

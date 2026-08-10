@@ -1,5 +1,6 @@
 {
  "aliases": [],
+ "catalogTabs": ["Balance","Feral","Restoration"],
  "class": "RebornDruid",
  "classId": 11,
  "entryCount": 1559,
@@ -43,7 +44,9 @@
  "hasLiveGeometry": false,
  "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":1559},
  "liveCountsByReason": {"unknownNoGeometry":1559},
+ "liveTabs": null,
  "realmHint": "Bronzebeard - Warcraft Reborn",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "reborn",
  "unresolvedCount": 935
 }

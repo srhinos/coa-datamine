@@ -1540,10 +1540,3 @@ def build() -> dict:
             },
             "rank_at_60_count": rank_at_60_count,
             "dev_dead_ids": sorted(dev_dead_ids)}
-
-
-if __name__ == "__main__":
-    s = build()
-    print(f"spells written={s['written']} "
-          f"missing_by_source={ {k: len(v) for k, v in s['missing_by_source'].items()} } "
-          f"ref_counts={s['ref_counts']} by_source={s['by_source']}")

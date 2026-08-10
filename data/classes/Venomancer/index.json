@@ -1,5 +1,6 @@
 {
  "aliases": ["PROPHET"],
+ "catalogTabs": ["Class","Fortitude","Stalking","Venom"],
  "class": "Venomancer",
  "classId": 29,
  "entryCount": 404,
@@ -16,7 +17,9 @@
  "hasLiveGeometry": true,
  "liveCounts": {"deadCatalog":112,"live":191,"liveViaRank":0,"unknown":101},
  "liveCountsByReason": {"deadCatalog":112,"indeterminate":101,"liveDirect":191},
+ "liveTabs": ["Vizier","Venom","Stalking","Fortitude","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 27
 }

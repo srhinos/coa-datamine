@@ -177,7 +177,3 @@ def build() -> dict:
     stats_by_item = build_stats_by_item(item_ilvls)
     return {"itemstatShards": len(shard_meta), "itemstatRows": total_rows,
             "statsByItem": stats_by_item}
-
-
-if __name__ == "__main__":
-    print(build())

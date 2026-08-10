@@ -10,8 +10,30 @@ a curated record at all.
 
 Everything below is derived from raw/ in one pass. No hand-authored names, no
 hardcoded id lists, no per-ability judgement: the group key is
-(classId, normalized spell name) and every membership carries the evidence row
-that produced it.
+(classId, normalized spell name, live-node variant) and every membership carries
+the evidence row that produced it.
+
+THE VARIANT IN THE KEY (the false-merge repair)
+-----------------------------------------------
+(classId, name) alone is NOT an identity. Measured on this snapshot, 35 groups
+contain two or more DISTINCT live builder nodes that merely share a name, 22 of
+them across different tabs, and all 35 carry different base-Spell descriptions -
+they are different abilities. c12:savage was one record with two live nodes:
+560441 (Brutality, "Unbridled Rage now also increases your critical damage") and
+705242 (Headhunting, "Born in Blood now also increases your damage"). Coverage
+never noticed - every id is in the closure either way - but a consumer reading an
+ability as one thing with ranks got a two-rank ability with contradictory text.
+
+The gate is mechanical and needs no judgement: two distinct live nodes stay in
+one ability only if their EFFECT SIGNATURE agrees, where a node's signature is
+its own name plus, over every spell id it carries, (description, tooltip, the
+three effect ids, the three effect auras, the three effect misc values, the
+spell icon). Nodes whose signatures disagree are split into one record per
+signature, keyed `c<class>:<name>#<lowest live spell id>`, and the siblings are
+cross-referenced in `linkedKeys` (relation `liveNodeVariant`) so the split is one
+hop away rather than invisible. When a group splits, the bare `c<class>:<name>`
+key is left to members that no live node claims - it never silently means one of
+the variants. Counted every build into _meta.json's `liveNodeVariantGate`.
 
 SOURCES (all raw/, all this snapshot)
   liveNode   raw/talents/coa-builder-<slug>.html - the frozen capture of the
@@ -36,7 +58,7 @@ SOURCES (all raw/, all this snapshot)
 
 THE TRAPS THIS REPO HAS BEEN BURNED BY, and what is done about them
   * Dense id spaces make containment meaningless. The base Spell id space is
-    209,140 ids over 1..13,977,920, but ids are not spread evenly: across the
+    209,151 ids over 1..13,977,920, but ids are not spread evenly: across the
     23 100k-blocks any of the four sources touch, occupancy averages 9.0% and
     peaks at 69.0% (block 0). A bare "this id exists in Spell.dbc" test is
     therefore worth very little and is never used as a join here - every
@@ -63,7 +85,7 @@ NAME NORMALIZATION (mechanical, measured - no hand mapping)
     2. lowercase and delete every non-alphanumeric character.
   Why only that: the base Spell table keeps the rank in its OWN column
   (rank_enUS / f153 - "Rank 1".."Rank N", 2,980 distinct values), so a name
-  almost never carries one; exactly 21 of 209,140 base names end in a "Rank N"
+  almost never carries one; exactly 21 of 209,151 base names end in a "Rank N"
   marker, and those 21 are the whole reason step 1 exists. Two neighbouring
   suffix shapes are deliberately NOT stripped, because they are not the rank
   carrier and stripping them would merge distinct spells: trailing roman
@@ -252,15 +274,98 @@ def live_seed() -> dict:
 # Sources
 # ---------------------------------------------------------------------------
 
-def load_base_spells() -> dict:
-    """{spellId: {"name", "rank", "spellLevel", "baseLevel"}} from the BASE Spell
-    variant. Column indexes are tools/dbc.py's proven Spell map (f136 name_enUS,
-    f153 rank_enUS, f39 spellLevel, f38 baseLevel)."""
-    out = {}
+def load_base_spells(sig_ids=None) -> tuple:
+    """({spellId: {"name", "rank", "spellLevel", "baseLevel"}}, {spellId: signature})
+    from the BASE Spell variant. Column indexes are tools/dbc.py's proven Spell map
+    (f136 name_enUS, f153 rank_enUS, f39 spellLevel, f38 baseLevel).
+
+    `sig_ids` is the id set to also build an EFFECT SIGNATURE for - the live-node
+    ids, and only those, because that is the only place a signature is used and
+    keeping 209k descriptions resident costs memory for nothing. The signature is
+    what decides whether two same-named live nodes are one ability: description
+    (f170) and tooltip (f187), the effect triple (f71-73), the effect-aura triple
+    (f95-97), the effect-miscValue triple (f110-112) and the icon (f133) - i.e.
+    what the ability SAYS and what it DOES, both of which two unrelated abilities
+    sharing a name disagree on and two ranks of one ability do not."""
+    sig_ids = sig_ids or set()
+    out, sigs = {}, {}
     for r in iter_raw_table("Spell", BASE_SPELL_VARIANT):
-        out[r["f0"]] = {"name": r.get("f136") or "", "rank": r.get("f153") or "",
-                        "spellLevel": r.get("f39"), "baseLevel": r.get("f38")}
-    return out
+        sid = r["f0"]
+        out[sid] = {"name": r.get("f136") or "", "rank": r.get("f153") or "",
+                    "spellLevel": r.get("f39"), "baseLevel": r.get("f38")}
+        if sid in sig_ids:
+            sigs[sid] = (
+                (r.get("f170") or "").strip(),
+                (r.get("f187") or "").strip(),
+                tuple(r.get(f"f{71 + i}") for i in range(3)),
+                tuple(r.get(f"f{95 + i}") for i in range(3)),
+                tuple(r.get(f"f{110 + i}") for i in range(3)),
+                r.get("f133"),
+            )
+    return out, sigs
+
+
+SIGNATURE_FIELDS = ("description_enUS/f170", "tooltip_enUS/f187",
+                    "effect1-3/f71-73", "effectAura1-3/f95-97",
+                    "effectMiscValue1-3/f110-112", "spellIconID/f133")
+
+
+def live_node_variants(live, spells, sigs, norm_of) -> tuple:
+    """Split same-named DISTINCT live nodes that are not the same ability.
+
+    Returns ({(classId, normName, nodeId): variant}, {(classId, normName): [...]}),
+    where `variant` is "" when the group holds one live node (the overwhelming
+    majority - nothing changes for them) and otherwise the lowest live spell id of
+    that node's signature partition, as a string.
+
+    The rule, restated so it is checkable against the emitted evidence: group the
+    class's live nodes by normalized name; inside a group, give each node the
+    signature (its own name, the set over its spell ids of the SIGNATURE_FIELDS
+    tuple); nodes whose signatures are equal are the same ability and stay merged,
+    nodes whose signatures differ are different abilities and are split. No name
+    list, no id list, no per-ability call."""
+    groups = defaultdict(lambda: defaultdict(set))       # (cid,norm) -> nodeId -> sids
+    node_name = {}
+    node_tab = {}
+    for cid, cl in live["byClassId"].items():
+        for sid, node in cl["spellNodes"].items():
+            n = norm_of(sid) or norm_name(node["nodeName"])
+            if not n:
+                continue
+            groups[(cid, n)][node["nodeId"]].add(sid)
+            node_name[(cid, node["nodeId"])] = (node["nodeName"] or "").strip()
+            node_tab[(cid, node["nodeId"])] = node.get("tabName")
+
+    variant_of, splits = {}, {}
+    for (cid, n), nodes in sorted(groups.items()):
+        if len(nodes) < 2:
+            continue
+        sig_of = {nid: (node_name[(cid, nid)],
+                        frozenset(sigs.get(sid, ("noBaseSpellRow", sid))
+                                  for sid in sorted(ids)))
+                  for nid, ids in nodes.items()}
+        parts = defaultdict(list)
+        for nid, s in sig_of.items():
+            parts[s].append(nid)
+        if len(parts) < 2:
+            continue
+        members = []
+        for _, nids in sorted(parts.items(),
+                              key=lambda kv: min(min(nodes[i]) for i in kv[1])):
+            sids = sorted(sid for nid in nids for sid in nodes[nid])
+            var = str(sids[0])
+            for nid in nids:
+                variant_of[(cid, n, nid)] = var
+            members.append({
+                "variant": var,
+                "key": f"c{cid}:{n}#{var}",
+                "liveNodeIds": sorted(nids),
+                "liveSpellIds": sids,
+                "liveNodeNames": sorted({node_name[(cid, i)] for i in nids}),
+                "tabs": sorted({node_tab[(cid, i)] for i in nids if node_tab[(cid, i)]}),
+            })
+        splits[(cid, n)] = members
+    return variant_of, splits
 
 
 def load_classes() -> tuple:
@@ -290,16 +395,21 @@ def resolve_cad_class(cls_string, by_name, by_file):
 # ---------------------------------------------------------------------------
 
 class _Attrib:
-    """The accumulating (classId, normName) -> member-id evidence table."""
+    """The accumulating (classId, normName, variant) -> member-id evidence table.
+
+    `variant` is "" for every ability whose name identifies exactly one live node
+    (or none), and the live-node variant discriminator otherwise - see
+    live_node_variants()."""
 
     def __init__(self):
-        # (classId, normName) -> {spellId: {"generations": set, "evidence": {...}}}
+        # (classId, normName, variant) -> {spellId: {"generations", "evidence"}}
         self.abilities = defaultdict(dict)
-        # spellId -> set of (classId, normName) it belongs to
+        # spellId -> set of (classId, normName, variant) it belongs to
         self.by_id = defaultdict(set)
 
-    def add(self, class_id, norm, spell_id, generation, evidence, multi=False):
-        key = (class_id, norm)
+    def add(self, class_id, norm, spell_id, generation, evidence, multi=False,
+            variant=""):
+        key = (class_id, norm, variant)
         m = self.abilities[key].get(spell_id)
         if m is None:
             m = {"generations": set(), "evidence": {}}
@@ -313,15 +423,37 @@ class _Attrib:
         return key
 
 
+def _key_of(key) -> str:
+    """(classId, normName, variant) -> the published ability key. The variant
+    suffix is the partition's lowest live spell id, so the key is stable against
+    everything except that live node changing id."""
+    cid, n, var = key
+    return f"c{cid}:{n}#{var}" if var else f"c{cid}:{n}"
+
+
+def _variant_for(A, spell_id, class_id, norm) -> str:
+    """The variant an ALREADY-ATTRIBUTED id carries inside (class_id, norm), or ""
+    when nothing has claimed it or two variants both have (in which case no
+    evidence picks one and the bare key is the honest home)."""
+    vs = {k[2] for k in A.by_id.get(spell_id, ()) if k[0] == class_id and k[1] == norm}
+    return next(iter(vs)) if len(vs) == 1 else ""
+
+
 def build(slug: str = "voljin") -> dict:
-    spells = load_base_spells()
+    live = coa_live.live_index(slug)
+    live_node_ids = {sid for cl in live["byClassId"].values()
+                     for sid in cl["spellNodes"]}
+    spells, live_sigs = load_base_spells(live_node_ids)
     cls_by_id, cls_by_name, cls_by_file = load_classes()
 
     def spell_norm(sid):
         s = spells.get(sid)
         return norm_name(s["name"]) if s and s["name"] else ""
 
-    live = coa_live.live_index(slug)
+    # Which same-named live nodes are NOT the same ability. Computed before any
+    # membership is recorded, because it decides the key every stage writes to.
+    variant_of, variant_splits = live_node_variants(live, spells, live_sigs,
+                                                    spell_norm)
     cad = _read_json(config.RAW_CONTENT_DIR / "CharacterAdvancementData.json")
     srd = _read_json(config.RAW_CONTENT_DIR / "SpellRankData.json")
     trainer_rows = [r for r in iter_raw_table("NPCTrainer")]
@@ -345,12 +477,16 @@ def build(slug: str = "voljin") -> dict:
                 residual["liveNodeNoName"].append({"spellId": sid, "classId": cid,
                                                    "nodeId": node["nodeId"]})
                 continue
+            var = variant_of.get((cid, n, node["nodeId"]), "")
             A.add(cid, n, sid, "liveNode",
                   {"nodeId": node["nodeId"], "nodeName": node["nodeName"],
                    "tabId": node["tabId"], "tabName": node["tabName"],
-                   "nameSource": name_source})
+                   "nameSource": name_source,
+                   "liveNodeVariant": var or None}, variant=var)
             live_ids_by_class[cid].add(sid)
             stats["liveMemberships"] += 1
+            if var:
+                stats["liveMembershipsInSplitVariant"] += 1
     live_ids = {sid for s in live_ids_by_class.values() for sid in s}
 
     # ---- stage 1b: cad ------------------------------------------------------
@@ -379,11 +515,22 @@ def build(slug: str = "voljin") -> dict:
             if not n:
                 residual["cadNoName"].append({"spellId": sid, "cadId": e["ID"]})
                 continue
+            # A catalog id in a SPLIT group belongs to the variant that already
+            # owns the id (it IS one of that live node's spell ids) and to no
+            # variant otherwise: the catalog says nothing about which of two
+            # same-named live nodes it meant, and guessing is what produced the
+            # false merges in the first place. Those land on the bare key, which
+            # is why the bare key is never one of the variants.
+            var = _variant_for(A, sid, cid, n)
+            if var:
+                stats["cadMembershipsInSplitVariant"] += 1
+            elif (cid, n) in variant_splits:
+                stats["cadMembershipsUnattributedInSplitGroup"] += 1
             A.add(cid, n, sid, "cad",
                   {"cadId": e["ID"], "cadName": e.get("Name"),
                    "cadClass": e.get("Class"), "tab": e.get("Tab"),
                    "type": e.get("Type"), "requiredLevel": e.get("RequiredLevel"),
-                   "nameSource": name_source}, multi=True)
+                   "nameSource": name_source}, multi=True, variant=var)
             stats["cadMemberships"] += 1
 
     # ---- stage 2: rank chains ----------------------------------------------
@@ -413,13 +560,15 @@ def build(slug: str = "voljin") -> dict:
         for r in rows:
             chain_of.setdefault(r["spellId"], []).append(
                 {"chainHead": head, "rank": r["rank"], "level": r["level"]})
-        # every classId any member already carries propagates to the whole chain
-        seeds = defaultdict(set)   # classId -> member ids that seeded it
+        # every classId any member already carries propagates to the whole chain.
+        # The seed key carries the VARIANT too: a chain that reaches one split
+        # variant's live node expands that variant's ladder, not its sibling's.
+        seeds = defaultdict(set)   # (classId, variant) -> member ids that seeded it
         for sid in members:
-            for (cid, n) in A.by_id.get(sid, ()):
+            for (cid, n, var) in A.by_id.get(sid, ()):
                 if chain_name and n != chain_name:
                     continue
-                seeds[cid].add(sid)
+                seeds[(cid, var)].add(sid)
         if not seeds and chain_name and any(A.by_id.get(sid) for sid in members):
             # a class-carrying member exists but under a DIFFERENT name than the
             # chain's - deliberately not a seed (see the name gate above); counted
@@ -427,7 +576,7 @@ def build(slug: str = "voljin") -> dict:
             stats["rankChainSeedNameMismatch"] += 1
         if not seeds or not chain_name:
             continue
-        for cid, via in sorted(seeds.items()):
+        for (cid, var), via in sorted(seeds.items()):
             via_id = min(via)
             for sid in members:
                 rank_rows = [r for r in rows if r["spellId"] == sid]
@@ -435,7 +584,7 @@ def build(slug: str = "voljin") -> dict:
                       {"chainHead": head, "viaMemberId": via_id,
                        "rank": rank_rows[0]["rank"] if rank_rows else None,
                        "level": rank_rows[0]["level"] if rank_rows else None,
-                       "chainNameCoherent": True})
+                       "chainNameCoherent": True}, variant=var)
                 stats["rankChainMemberships"] += 1
 
     # ---- stage 3: trainer ---------------------------------------------------
@@ -472,8 +621,8 @@ def build(slug: str = "voljin") -> dict:
             ability_skill_lines[key] |= sla_skill_lines(sid)
 
     by_norm_name = defaultdict(set)
-    for (cid, n) in A.abilities:
-        by_norm_name[n].add((cid, n))
+    for key in A.abilities:
+        by_norm_name[key[1]].add(key)
 
     for sid in sorted(trainer_ids):
         rows = trainer_by_id[sid]
@@ -484,7 +633,8 @@ def build(slug: str = "voljin") -> dict:
                     A.add(key[0], key[1], sid, "trainer",
                           {"trainerRowId": r["f0"], "skillLine": r["f2"],
                            "skillLineName": skill_names.get(r["f2"]),
-                           "attribution": "alreadyMember"}, multi=True)
+                           "attribution": "alreadyMember"}, multi=True,
+                          variant=key[2])
                     stats["trainerMembershipsOnExisting"] += 1
             continue
         n = spell_norm(sid)
@@ -500,9 +650,15 @@ def build(slug: str = "voljin") -> dict:
             continue
         cid = sla_single_class(sid)
         chosen, how = None, None
-        if cid is not None and (cid, n) in candidates:
-            chosen, how = (cid, n), "skillLineAbilityClassMask"
-        else:
+        # A class-mask hit selects a class, not a variant: if that class's name
+        # group SPLIT, the mask cannot say which live node the trainer teaches, so
+        # the id is refused exactly as an ambiguous name match is.
+        same_class = [k for k in sorted(candidates) if k[0] == cid] if cid is not None else []
+        if len(same_class) == 1:
+            chosen, how = same_class[0], "skillLineAbilityClassMask"
+        elif len(same_class) > 1:
+            stats["trainerAmbiguousAcrossLiveNodeVariants"] += 1
+        if chosen is None:
             row_lines = {r["f2"] for r in rows if r["f2"]}
             shared = [k for k in sorted(candidates)
                       if row_lines & ability_skill_lines.get(k, set())]
@@ -511,14 +667,14 @@ def build(slug: str = "voljin") -> dict:
         if chosen is None:
             residual["trainerNameOnlyNoCorroboration"].append(
                 {"spellId": sid, "normName": n,
-                 "candidateAbilities": [f"c{c}:{nn}" for c, nn in sorted(candidates)],
+                 "candidateAbilities": [_key_of(k) for k in sorted(candidates)],
                  "skillLines": sorted({r["f2"] for r in rows})})
             continue
         for r in rows:
             A.add(chosen[0], chosen[1], sid, "trainer",
                   {"trainerRowId": r["f0"], "skillLine": r["f2"],
                    "skillLineName": skill_names.get(r["f2"]),
-                   "attribution": how}, multi=True)
+                   "attribution": how}, multi=True, variant=chosen[2])
             stats["trainerMembershipsAdmitted"] += 1
 
     # ---- assemble ability records ------------------------------------------
@@ -527,7 +683,7 @@ def build(slug: str = "voljin") -> dict:
         srd_by_spell[r["spellId"]].append(r)
 
     records = []
-    for (cid, n), members in A.abilities.items():
+    for (cid, n, var), members in A.abilities.items():
         member_recs = []
         raw_names = Counter()
         for sid in sorted(members):
@@ -562,12 +718,22 @@ def build(slug: str = "voljin") -> dict:
         ladder.sort(key=lambda x: (x["level"], x["rank"], x["spellId"]))
         display = (raw_names.most_common(1)[0][0] if raw_names else
                    next((r["name"] for r in member_recs if r["name"]), None))
+        split = variant_splits.get((cid, n))
         records.append({
-            "key": f"c{cid}:{n}",
+            "key": _key_of((cid, n, var)),
             "classId": cid,
             "class": cls_by_id[cid]["name"] if cid in cls_by_id else None,
             "name": display,
             "normName": n,
+            # "" for the 99.6% of abilities whose name identifies one live node.
+            # On a split name: the variant's own discriminator, or null on the
+            # bare key, which holds only what no live node claimed.
+            "liveNodeVariant": var or None,
+            "liveNodeVariantOf": (
+                {"normName": n,
+                 "variantKeys": [m["key"] for m in split],
+                 "unattributedKey": f"c{cid}:{n}",
+                 "rule": "distinctLiveNodeEffectSignature"} if split else None),
             "generations": gens_all,
             "generationCount": len(gens_all),
             "memberCount": len(member_recs),
@@ -580,31 +746,50 @@ def build(slug: str = "voljin") -> dict:
             "rankLadderLevels": [x["level"] for x in ladder],
             "members": member_recs,
         })
-    records.sort(key=lambda r: (r["classId"], r["normName"]))
+    records.sort(key=lambda r: (r["classId"], r["normName"], r["key"]))
 
-    # ---- cross-name links: the SAME ability under two different names -------
-    # The group key is a name, so an ability that changed name between
-    # generations lands in two records - CAD calls WitchHunter 802012
-    # "Interrogate" while the live node for the same rank chain is "Brand of the
-    # Unworthy". They are not merged (a shared id is not proof two names are one
-    # ability, and merging on it would cascade through the vanilla chains), but
-    # every shared member id is recorded on BOTH records so the link is one hop
-    # away instead of invisible.
-    keys_of = {r["key"]: r for r in records}
+    # ---- linkedKeys: the two ways one name spans several records -------------
+    # sharedMemberId - the SAME ability under two different NAMES. The group key
+    #   is a name, so an ability that changed name between generations lands in
+    #   two records: CAD calls WitchHunter 802012 "Interrogate" while the live
+    #   node for the same rank chain is "Brand of the Unworthy". They are not
+    #   merged (a shared id is not proof two names are one ability, and merging on
+    #   it would cascade through the vanilla chains), but every shared member id
+    #   is recorded on BOTH records so the link is one hop away instead of
+    #   invisible.
+    # liveNodeVariant - two DIFFERENT abilities under one name, split by
+    #   live_node_variants(). They share no member id (that is what makes them
+    #   different), so this is the only thing that keeps them findable from each
+    #   other, and from the bare key that holds what neither claimed.
     shared = defaultdict(lambda: defaultdict(list))
     for sid, keyset in A.by_id.items():
         if len(keyset) < 2:
             continue
-        ks = sorted(f"c{c}:{n}" for c, n in keyset)
+        ks = sorted(_key_of(k) for k in keyset)
         for k in ks:
             for other in ks:
                 if other != k:
                     shared[k][other].append(sid)
+    by_group = defaultdict(list)
     for r in records:
-        links = shared.get(r["key"])
-        r["linkedKeys"] = ([{"key": k, "sharedMemberIds": sorted(v)}
-                            for k, v in sorted(links.items())] if links else [])
-    stats["abilitiesWithCrossNameLink"] = sum(1 for r in records if r["linkedKeys"])
+        if r["liveNodeVariantOf"]:
+            by_group[(r["classId"], r["normName"])].append(r["key"])
+    for r in records:
+        links = {k: {"key": k, "relation": "sharedMemberId",
+                     "sharedMemberIds": sorted(v)}
+                 for k, v in (shared.get(r["key"]) or {}).items()}
+        for sib in by_group.get((r["classId"], r["normName"]), ()):
+            if sib == r["key"]:
+                continue
+            links.setdefault(sib, {"key": sib, "sharedMemberIds": []})
+            links[sib]["relation"] = "liveNodeVariant"
+        r["linkedKeys"] = [links[k] for k in sorted(links)]
+    stats["abilitiesWithCrossNameLink"] = sum(
+        1 for r in records
+        if any(l["relation"] == "sharedMemberId" for l in r["linkedKeys"]))
+    stats["abilitiesWithLiveNodeVariantLink"] = sum(
+        1 for r in records
+        if any(l["relation"] == "liveNodeVariant" for l in r["linkedKeys"]))
 
     # ---- residual ids that join to nothing ----------------------------------
     joined = set(A.by_id)
@@ -684,9 +869,39 @@ def build(slug: str = "voljin") -> dict:
         "examples": incoherent_examples,
     }
 
+    variant_meta = {
+        "gate": ("(classId, name) is not an identity. Two DISTINCT live builder "
+                 "nodes share one record only when their effect signatures agree; "
+                 "when they disagree they are different abilities and are split "
+                 "into one record per signature, keyed c<class>:<name>#<lowest "
+                 "live spell id>. The bare c<class>:<name> key of a split name is "
+                 "reserved for members no live node claims, so it can never "
+                 "silently mean one of the variants."),
+        "signatureFields": list(SIGNATURE_FIELDS),
+        "signatureAlsoIncludes": "the live node's own name",
+        "splitNameGroups": len(variant_splits),
+        "variantRecords": sum(len(v) for v in variant_splits.values()),
+        "splitAcrossTabs": sum(1 for v in variant_splits.values()
+                               if len({t for m in v for t in m["tabs"]}) > 1),
+        "unattributedRecordsOnSplitNames": sum(
+            1 for r in records if r["liveNodeVariantOf"] and not r["liveNodeVariant"]),
+        "why": ("Measured on this snapshot before the gate existed: these name "
+                "groups each held two or more live nodes with DIFFERENT base-Spell "
+                "descriptions, i.e. different abilities merged into one record "
+                "with contradictory text and a fake rank ladder. Coverage never "
+                "noticed - every id was in the closure either way."),
+        "groups": [{"classId": cid, "class": cls_by_id.get(cid, {}).get("name"),
+                    "normName": n, "variants": v}
+                   for (cid, n), v in sorted(variant_splits.items())],
+    }
+
     multi_gen = [r for r in records if r["generationCount"] > 1]
     live_recs = [r for r in records if r["live"]]
     live_trainer = [r for r in live_recs if r["trainerTaught"]]
+    multi_live_node = [r for r in live_recs
+                       if len({m["evidence"]["liveNode"]["nodeId"]
+                               for m in r["members"]
+                               if "liveNode" in m["generations"]}) > 1]
 
     summary = {
         "abilities": len(records),
@@ -695,7 +910,18 @@ def build(slug: str = "voljin") -> dict:
         "liveAbilitiesWithTrainerLadder": len(live_trainer),
         "abilitiesWithRankLadder": sum(1 for r in records if r["rankLadder"]),
         "abilitiesWithCrossNameLink": stats["abilitiesWithCrossNameLink"],
+        "liveNodeVariantSplitNames": len(variant_splits),
+        "liveNodeVariantRecords": variant_meta["variantRecords"],
+        # The false-merge measurement, kept as a first-class number rather than a
+        # claim: an ability holding two distinct live nodes that were NOT proven
+        # the same ability. The gate exists to keep this at zero.
+        "abilitiesWithSeveralLiveNodeIds": len(multi_live_node),
+        # Two different numbers, kept apart because they get confused: memberIds
+        # counts DISTINCT spell ids the join owns, memberRows counts membership
+        # rows - an id shared by several classes' abilities (pet and shared
+        # spells) is one id and several rows.
         "memberIds": len(joined),
+        "memberRows": sum(r["memberCount"] for r in records),
         "unjoinedResidualIds": len(unjoined_all),
         "unjoinedBySource": {k: len(v) for k, v in unjoined.items()},
         "residualReasons": {k: len(v) for k, v in sorted(residual.items())},
@@ -708,8 +934,8 @@ def build(slug: str = "voljin") -> dict:
     }
 
     written = _emit(records, summary, density, name_norm_meta, chain_meta,
-                    unjoined, residual, residual_records, live, cls_by_id,
-                    cad_name_agree)
+                    variant_meta, unjoined, residual, residual_records, live,
+                    cls_by_id, cad_name_agree)
     summary["fileCount"] = len(written)
     return summary
 
@@ -736,8 +962,9 @@ def _shard_by_id(records, key_of, list_key):
                        f"{MAX_LINES} lines - needs re-investigation")
 
 
-def _emit(records, summary, density, name_norm_meta, chain_meta, unjoined,
-          residual, residual_records, live, cls_by_id, cad_name_agree) -> list:
+def _emit(records, summary, density, name_norm_meta, chain_meta, variant_meta,
+          unjoined, residual, residual_records, live, cls_by_id,
+          cad_name_agree) -> list:
     out = config.DATA_DIR / OUT_DIRNAME
     out.mkdir(parents=True, exist_ok=True)
     for p in out.glob("*.json"):
@@ -816,7 +1043,8 @@ def _emit(records, summary, density, name_norm_meta, chain_meta, unjoined,
                     "no join table in the client. This layer is that join, derived "
                     "mechanically from raw/ in the same pass as the rest of the "
                     "dataset."),
-        "groupKey": "(classId, normalized spell name) - see nameNormalization",
+        "groupKey": ("(classId, normalized spell name, live-node variant) - see "
+                     "nameNormalization and liveNodeVariantGate"),
         "generations": {
             "liveNode": "spell id carried by a LIVE talent-builder node (raw/talents/"
                         "coa-builder-<slug>.html)",
@@ -842,6 +1070,7 @@ def _emit(records, summary, density, name_norm_meta, chain_meta, unjoined,
         },
         "nameNormalization": name_norm_meta,
         "rankChainGate": chain_meta,
+        "liveNodeVariantGate": variant_meta,
         "idDensity": density,
         "cadNameVsSpellName": {
             "resolvedCadSpellRefs": cad_name_agree["resolved"],
@@ -861,6 +1090,7 @@ def _emit(records, summary, density, name_norm_meta, chain_meta, unjoined,
             "one same-named ability. A bare name match is refused and recorded in "
             "_residual.json as trainerNameOnlyNoCorroboration."),
         "liveProvenance": live["provenance"],
+        "liveSeedDrift": coa_live.seed_drift(live["provenance"]["slug"]),
         "realmCaveat": coa_live.REALM_CAVEAT,
         "summary": summary,
         "classes": index_classes,
@@ -891,11 +1121,3 @@ def _emit(records, summary, density, name_norm_meta, chain_meta, unjoined,
                                     encoding="utf-8", newline="\n")
     files.append("index.json")
     return sorted(files)
-
-
-def main():
-    print(json.dumps(build(), indent=1, sort_keys=True))
-
-
-if __name__ == "__main__":
-    main()

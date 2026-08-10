@@ -31,7 +31,7 @@ python -m tools.find "listarchive" --layer binaries    # the client's own EXECUT
 > one; `raw/tables/<Table>/` is that pick. For 10 tables the pick comes from the
 > **realm overlay** `Data\area-52\` - Free-Pick's data - so reading
 > `raw/tables/Spell/` gives you Free-Pick's 238,939-row `Spell`, while a
-> Conquest-of-Azeroth character reads the base chain's 209,140-row one. Every
+> Conquest-of-Azeroth character reads the base chain's 209,151-row one. Every
 > version is decoded: `raw/tables/<Table>/variants/<archive-slug>/`, same shape,
 > same rules, listed under `variants` in that table's `index.json` and all together
 > in `raw/tables/_variants.json`. `--variant baseChain|overlay|all|realm:<dir>|<slug>`
@@ -137,15 +137,17 @@ them. Pick the layer that matches the question you are actually asking:
 | **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 32,818 records | "what does spell `<id>` DO?" |
 | **2. Catalog (CAD)** | `data/classes/` | what the client's character-advancement tables **LIST** for a class - an authored roster, kept across content generations | 43 class dirs, 23,709 entries | "what does the client's catalog SAY about this class?" |
 | **3. Live trees** | `data/talents/coa/` | the published talent-builder capture (task W4-9, sha256-pinned in `raw/talents/`) - the actual tree geometry a player sees | 21 `coa-custom` classes, 3,618 nodes | "what can a player ACTUALLY train or spec into?" |
-| **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, and the evidence per membership | 8,745 abilities, 29,774 member ids | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
+| **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, and the evidence per membership | 8,784 abilities, 29,775 distinct member ids (29,874 membership rows) | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
 
 **Why layer 4 exists.** The same CoA ability ships under several unrelated spell ids
 - the CAD catalog id, the trainer-taught rank ids, the id the live tree node carries
 - and the client has no join table for them. `data/abilities/` is that join, derived
-mechanically from `raw/` (group key = `(classId, normalized spell name)`; every
+mechanically from `raw/` (group key = `(classId, normalized spell name, live-node
+variant)` - the variant is what keeps two same-named live nodes from merging; every
 membership carries the source row that produced it). It covers **3,932 of 3,932**
-live-node spell ids; `data/spells/` covers 1,963 of them, because it was seeded from
-the catalog. See "Ability identity layer" below.
+live-node spell ids, and `data/spells/` now covers the same 3,932 because this
+layer is what seeds it - when the closure was seeded from the CAD catalog instead,
+that number was 1,963. See "Ability identity layer" below.
 
 **Layer 2 is not the game.** Of the 8,331 CAD entries belonging to a class that has
 a live capture, **4,908 (58.9%) appear in no live tree node** (3,460 `deadCatalog` +
@@ -200,7 +202,7 @@ this repo needs an exemption).
 | `data/classes/index.json` | class roster + tags + classId map + `dir`/`index` pointers into each class's subdirectory + `chrClasses` (ChrClasses.dbc table, 32 rows, ids 1-32, each carrying `filename` - task W4-5) + `unmatchedChrClasses` (ChrClasses rows with no CAD data: **Hero only**, task W4-5 - was Bloodmage/Felsworn/Hero/Templar before the `filename`-join fix, see "ChrClasses filename join..." below) | small |
 | `data/classes/_realms_evidence.json` | task W4-8: the `Realms`-bitmask decode attempt (DATAMINE-REQUEST.md Sec 6.2) - distinct-value census (28 values/23,709 entries), per-tag/per-bit statistics, a live duplication example, candidate-hypothesis scoring, Lua findings, and the verdict. **HONEST FAILURE, not a decode** - see "Realms bitmask decode attempt..." below; no `realmFlags` exists anywhere, raw `realms` on class entries is unchanged | small |
 | `data/classes/_live_summary.json` | task W4-14: the live-vs-catalog join's own evidence file - repo-wide + per-class `liveCounts`, the payload provenance (capture date + sha256) and Vol'jin/Rexxar caveat every `live` verdict is scoped by, the measured **false-negative** analysis (which non-tree acquisition paths were tested, which separated and which did not), and the CAD-tab -> live-tab mapping with per-pair method + node-overlap evidence. Written by `build_classes.py`; `build_classmeta.py` READS its `tabMapping` rather than re-deriving it | small |
-| `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`aliases`/`entryCount`/`unresolvedCount`/**`hasLiveGeometry`**/**`liveCounts`** (`{live, deadCatalog, liveViaRank, unknown}`, sums to `entryCount`) / **`liveCountsByReason`** (task W4-14, see "Live vs catalog" below) + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class - `aliases` (task W4-5) is `[]` for 40 of 43 classes, `[<ClassRemap token>]` for the 4 CoA-custom classes whose internal filename token isn't a trivial uppercase of their own CAD name (Runemaster/Primalist/Venomancer/KnightOfXoroth) | small |
+| `data/classes/<Class>/index.json` | that class's `tag`/`classId`/`realmHint`/`aliases`/`entryCount`/`unresolvedCount`/**`hasLiveGeometry`**/**`liveCounts`** (`{live, deadCatalog, liveViaRank, unknown}`, sums to `entryCount`) / **`liveCountsByReason`** (task W4-14, see "Live vs catalog" below) / **`liveTabs`** (the LIVE builder's own tab list for the class, `null` where no tree was captured) / **`catalogTabs`** (the CAD tabs the shards are split on - the STALE geometry: Starcaller's `files` offer AstralWarfare/Class/Moonbow/Tides while its live tabs are Moon Guard/Sentinel/Moon Priest/Warden/Class, and every Tides entry is `live:false`; enumerate trees from `liveTabs`) + `files: [{file, tab, type, cadIdRange, count}]` enumerating every shard file for the class - `aliases` (task W4-5) is `[]` for 40 of 43 classes, `[<ClassRemap token>]` for the 4 CoA-custom classes whose internal filename token isn't a trivial uppercase of their own CAD name (Runemaster/Primalist/Venomancer/KnightOfXoroth) | small |
 | `data/classes/<Class>/<Tab>.json` | one spec tab's CATALOGUED abilities/talents/traits with resolved spells (`{class, tab, type: null, entries}`) - **catalogued, not necessarily in the game: read each entry's `live`/`liveEvidence` (task W4-14) before treating it as real content**; each resolved spell's `ranks[]` already carries `{spellId, rank, level}` per rank (unchanged V1 design, verified still current by task W4-4) - for level-60 rank selection, look up that chain's first-rank id in `data/spells/` instead and read its `rankAt60` field (task W4-4) rather than re-deriving the CAD-level cutoff here | small-medium |
 | `data/classes/<Class>/<Tab>.<Type>.json` / `<Tab>.<Type>-<cadId-bucket>.json` | only present when a single tab's entries exceed 5,000 lines as one file (Reborn* classes' biggest tabs, plus 10 more since task W4-14) - see "Class tab sharding" below | small |
 | `data/classes/<Class>/_general.json` | entries with no `Tab` (none exist in the current snapshot; the file only appears if some do) | small |
@@ -219,7 +221,7 @@ this repo needs an exemption).
 | `data/talents/coa/index.json` | class -> file, tab/node/choice-group counts per class | small |
 | `data/talents/coa/_meta.json` | payload fetch provenance (url/sha256/capture time), realm caveat (Vol'Jin captured, Rexxar assumed identical/unverified), full resolve-rate cross-validation, the 84-vs-72 tab-layer reconciliation, `isStartingNode`/choice-group/connectivity findings - see "CoA talent tree geometry" below | small |
 | `data/abilities/index.json` | ability roster: per-class file list with `abilityCount`/`live`/`multiGeneration`/`trainerTaught`, headline counts, generation-span histogram, `recordShape` | small |
-| `data/abilities/<classId>-<class-slug>.json` | one file per class: `abilities: [{key, classId, class, name, normName, generations, generationCount, memberCount, live, liveIds, liveId, trainerTaught, trainerIds, rankLadder (ordered by level then rank), linkedKeys, members: [{id, name, rank, spellLevel, inBaseSpell, generation, generations, evidence}]}]` - `evidence` is keyed by generation and carries the actual source row (`liveNode` -> nodeId/tabName, `cad` -> cadId/cadName/tab/requiredLevel, `trainer` -> trainerRowId/skillLine + how it was admitted, `rankChain` -> chainHead/rank/level) | small-medium per file |
+| `data/abilities/<classId>-<class-slug>.json` | one file per class: `abilities: [{key, classId, class, name, normName, liveNodeVariant, liveNodeVariantOf, generations, generationCount, memberCount, live, liveIds, liveId, trainerTaught, trainerIds, rankLadder (ordered by level then rank), linkedKeys (each `{key, relation: sharedMemberId|liveNodeVariant, sharedMemberIds}`), members: [{id, name, rank, spellLevel, inBaseSpell, generation, generations, evidence}]}]` - `evidence` is keyed by generation and carries the actual source row (`liveNode` -> nodeId/tabName, `cad` -> cadId/cadName/tab/requiredLevel, `trainer` -> trainerRowId/skillLine + how it was admitted, `rankChain` -> chainHead/rank/level) | small-medium per file |
 | `data/abilities/_meta.json` | the rules and their measurements: name-normalization rule + the four counts behind it, rank-chain name-coherence gate + incoherent examples, `idDensity` (the dense-id-space trap, quantified), trainer admission rule, CAD-name-vs-spell-name agreement, live-capture provenance + realm caveat | small |
 | `data/abilities/_residual-index.json` + `_residual-<idBucket>.json` | every source id that joins to NOTHING, one record per line (`{spellId, name, inBaseSpell, sources, reasons}`), sharded by fixed id-range bucket - the honest remainder, mostly profession recipes and rank-chain ids no class-carrying row names | small |
 | `data/dungeons/index.json` | one compact record per dungeon: `{id, name, file, mapId, isRaid, levels}` | small |
@@ -264,7 +266,7 @@ this repo needs an exemption).
 | `data/manastorm/index.json` + `modifiers-<id//5000*5000>.jsonl` | `ManastormModifiers.dbc` bucket manifest + buckets (32768 rows, `bucketSize` 5000, 7 buckets): `{id, raw}` per row - only `id` is proven, no spellId or other FK column exists anywhere in this table | small-medium per file |
 | `data/manastorm/playerGroupModifiers.json` | `ManastormPlayerGroupModifiers.dbc` rows (15): `{id, raw}` - only `id` is proven | small |
 | `data/manastorm/_meta.json` | per-table `counts`, `provenColumns`, `dungeonEncounterJoinRate`, `spellIdFinding`/`areaIdFinding` (both DISPROVEN column hypotheses for `ManastormMessages`, left raw - see Honest limits) | small |
-| `data/realms/<realm>/index.json` | one realm's overlay-evidence index (currently one realm on this install, `area-52`): per-table `{records, fields, mapped, baseRecords\|null, delta\|null}` (`declaredFields` key present only when that table's WDBC header disagrees with its own byte-accurate field count - see "Manastorm + realm overlays" below), plus `spellIdRange`, `newSpellCount` (realm-only Spell.dbc ids), `missingRefResolution` (id-membership evidence - **read the framing below before trusting this field**) | small |
+| `data/realms/<realm>/index.json` | one realm's overlay-evidence index (currently one realm on this install, `area-52`): per-table `{records, fields, mapped, baseRecords\|null, delta\|null}` (`declaredFields` key present only when that table's WDBC header disagrees with its own byte-accurate field count - see "Manastorm + realm overlays" below), plus `spellIdRange`, `newSpellCount` (realm-only Spell.dbc ids), `missingRefResolution` (id-membership evidence - **read the framing below before trusting this field**), `liveNodeCoverage` (which LIVE talent-node spell ids this realm's own `Spell.dbc` lacks - 3,929/3,932 on area-52, the missing three being 573365/760379/808082; this is the same measurement that decides the curated layer reads the BASE variant, restated where a realm-scoped consumer will see it) | small |
 | `data/realms/<realm>/_meta.json` | `mappedTables`/`unmappedTables` + `futureMilestone` (full realm spell/class curation - out of v3's scope, see below) | small |
 | `data/realms/<realm>/overlay_diff.json` | task W4-5, `tools/diff_realm_overlay.py` (standalone CLI, `python -m tools.diff_realm_overlay <realm>`) - NOT written by `tools/build_realms.py` (a second, narrower single-writer boundary under the same `data/realms/<realm>/` dir, see "Base-vs-overlay Spell.dbc diff..." below): base-vs-overlay `Spell.dbc` diff over the CoA class spell set - `{realm, coaIdSetSize, sharedCount, differingSharedCount, differingSharedPct, damageNumberDisagreementCount, nameChangeCount, nameChanges: [...], columnDiffs: [...], totalBaseSpellCount, totalOverlaySpellCount, overlayOnlySpellCount, baseOnlySpellCount, docComparison}` | small |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` | mapped realm tables (base `tools/dbc.py` `TABLE_MAPS` column map + layout guard reused as-is - zero new column proofs introduced for realm data) - named-header dump, same shape as `raw/dbc/<Table>.csv.gz` | large |
@@ -1463,7 +1465,19 @@ published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (froze
 by `tools/fetch_coatalents.py` into `raw/talents/coa-builder-voljin.html` +
 `_fetch.json` - a deliberate, occasional, NETWORK step kept separate from the
 offline curation stage, same relationship as `AddOns/APIDocumentation`
-being a verbatim external capture rather than something re-derived). The page is a
+being a verbatim external capture rather than something re-derived).
+
+**This capture is the one piece of `raw/` that is NOT on the client's clock, and
+therefore the dataset's dominant residual drift risk.** Curation is a pure
+function of `raw/`, but `fetch_coatalents.py` runs outside `datamine.py`'s
+guarded pass and cannot be folded into it - the client has no copy of the live
+builder - so everything derived from `live` is only as current as the last fetch,
+not as current as the snapshot. The gap is measured rather than left as a caveat:
+`raw/provenance.json.liveSeedDrift` and `data/abilities/_meta.json.liveSeedDrift`
+carry the capture's `capturedUtc`, the newest client-archive mtime in
+`raw/_snapshot.json`, and `captureMinusSnapshotDays` between them (negative =
+capture predates the client files, so content the client already has can read as
+dead). Both numbers come from committed bytes, so a rebuild reproduces them. The page is a
 Next.js "flight" payload; extraction is a from-scratch analogue of the
 `coa-sim-handoff/parsers/aowow.py` Listview trick (locate an anchor, `raw_decode`
 past trailing garbage) adapted to `self.__next_f.push([id,"..."])` chunks - see
@@ -1607,12 +1621,12 @@ generations, and the client ships no join table for them. `tools/build_abilities
 builds that join from `raw/` only - no `data/` input at all, so it is a pure
 function of the snapshot.
 
-**Group key** `(classId, normalized spell name)`. Normalization is mechanical and
+**Group key** `(classId, normalized spell name, live-node variant)`. Normalization is mechanical and
 its justification is re-measured every build into `_meta.json.nameNormalization`:
 strip trailing `Rank N` markers (repeatedly), then lowercase and delete every
 non-alphanumeric character. Nothing else is stripped - the base `Spell` table keeps
-the rank in its OWN column (`rank_enUS`/f153, 2,980 distinct values), so exactly 21
-of 209,140 names carry a trailing rank marker at all; trailing roman numerals
+the rank in its OWN column (`rank_enUS`/f153, 2,983 distinct values), so exactly 21
+of 209,151 names carry a trailing rank marker at all; trailing roman numerals
 ("Fire Shield II", 508 names) and trailing bare digits ("Wavestorm 2", 3,880) are
 deliberately left alone because they are not the rank carrier and stripping them
 would merge distinct spells.
@@ -1645,7 +1659,7 @@ why the rule matters.)
 **Two traps this layer is explicitly built against**, both quantified in `_meta.json`
 rather than asserted:
 - *Dense id spaces make containment meaningless.* The base `Spell` id space is
-  209,140 ids over 1..13,977,920 (1.5%), but across the 23 100k-blocks the four
+  209,151 ids over 1..13,977,920 (1.5%), but across the 23 100k-blocks the four
   sources touch, occupancy averages **9.0%** and peaks at **69.0%**. So "this id
   exists in Spell.dbc" is never used as a join here - every membership needs a row
   that names a class or a chain.
@@ -1658,16 +1672,35 @@ rather than asserted:
 
 **Same ability under two names** is NOT merged - a shared member id is not proof two
 names are one ability, and merging on it would cascade through the vanilla chains.
-Instead every shared member id is recorded on both records as `linkedKeys`, one hop
-away. 147 abilities carry such a link; the canonical case is WitchHunter 802012,
-which CAD names "Interrogate" while the live node for the same rank chain is "Brand
-of the Unworthy".
+Instead every shared member id is recorded on both records as `linkedKeys`
+(`relation: sharedMemberId`), one hop away. 147 abilities carry such a link; the
+canonical case is WitchHunter 802012, which CAD names "Interrogate" while the live
+node for the same rank chain is "Brand of the Unworthy".
 
-**Headline counts** (re-derived every build, `index.json`/`_meta.json`): 8,745
-abilities, 2,861 spanning more than one generation, 3,582 live, 201 live abilities
-with a trainer-taught ladder, 14,286 residual ids joining nothing (0 of them from
-`liveNode`; the residual is dominated by profession recipes and rank-chain ids no
-class-carrying row ever names).
+**Two different abilities under ONE name** is the mirror image, and it is SPLIT.
+`(classId, name)` is not an identity: 35 name groups hold two or more DISTINCT live
+builder nodes, 22 of them across different tabs, and all 35 carry different
+base-`Spell` descriptions - `c12:savage` was one record holding Brutality's 560441
+("Unbridled Rage now also increases your critical damage") and Headhunting's 705242
+("Born in Blood now also increases your damage"). Coverage never noticed, because
+every id is in the closure either way, but a consumer reading an ability as one
+thing with ranks got a two-rank ability with contradictory text. The gate is
+mechanical: two distinct live nodes stay in one record only when their EFFECT
+SIGNATURE agrees (the node's own name plus, over every spell id it carries,
+description/tooltip/effect triple/effect-aura triple/effect-miscValue triple/icon).
+Disagreeing nodes split into one record per signature, keyed
+`c<class>:<name>#<lowest live spell id>`, cross-referenced through `linkedKeys`
+(`relation: liveNodeVariant`); the bare `c<class>:<name>` key of a split name is
+left to members no live node claims, so it can never silently mean one of the
+variants. Read `liveNodeVariant` / `liveNodeVariantOf` on a record, and
+`_meta.json.liveNodeVariantGate` for the full split list.
+
+**Headline counts** (re-derived every build, `index.json`/`_meta.json`): 8,784
+abilities, 2,865 spanning more than one generation, 3,618 live, 201 live abilities
+with a trainer-taught ladder, 35 split names -> 71 variant records + 3 unattributed
+bare keys, **0** abilities holding two distinct live nodes, 14,286 residual ids
+joining nothing (0 of them from `liveNode`; the residual is dominated by profession
+recipes and rank-chain ids no class-carrying row ever names).
 
 ### Simulation-adjacent spell support tables (task W4-10)
 
@@ -2673,7 +2706,7 @@ code is 1 with an ordinary traceback and Windows logs no python fault at all
 That second consequence is now fixed in code, not just documented: the
 one-at-a-time rule still stands, but `build_realm()` **raises** when
 `data/spells/_missing_refs.json` is absent instead of publishing an evidence
-file with no evidence. The standalone `python -m tools.build_realms` entry point
+file with no evidence. A caller rebuilding this layer alone (the test suite does)
 passes `allow_missing_base=True`, which writes `missingRefResolution: null` plus
 a `degraded` key naming the cause - so a zeroed run can never be mistaken for a
 measured one, in the console or in the committed data. The orchestrator never

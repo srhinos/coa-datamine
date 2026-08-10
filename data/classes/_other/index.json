@@ -1,5 +1,6 @@
 {
  "aliases": [],
+ "catalogTabs": ["Class","None"],
  "class": "_other",
  "classId": null,
  "entryCount": 62,
@@ -11,7 +12,9 @@
  "hasLiveGeometry": false,
  "liveCounts": {"deadCatalog":0,"live":0,"liveViaRank":0,"unknown":62},
  "liveCountsByReason": {"unknownNoGeometry":62},
+ "liveTabs": null,
  "realmHint": null,
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "meta",
  "unresolvedCount": 0
 }

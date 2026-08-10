@@ -20,6 +20,15 @@ on cases with independent proof:
   * GROUND TRUTH - Starcaller's "Tide Lash" (800380) does not exist in game (a
     real level-60 player proved it). It must be present as CAD content and
     NOT live.
+  * NO FALSE MERGES - (classId, name) is not an identity. 35 name groups hold
+    two or more DISTINCT live builder nodes with different base-Spell
+    descriptions (c12:savage = Brutality's 560441 "Unbridled Rage now also
+    increases your critical damage" AND Headhunting's 705242 "Born in Blood now
+    also increases your damage"; c19:paladintraining = Zealot's 504808 AND
+    Crusader's 520009; c31:stoneskin = Geomancy's 706162/707809 AND Mountain
+    King's 806583). Merged, they read as one ability with a fake rank ladder and
+    contradictory text. No ability may hold two live nodes that were not proven
+    the same, and the split records must stay reachable from each other.
   * NO HAND JUDGEMENT - the emitted normalization rule must reproduce the
     normalized names in the data.
 """
@@ -119,9 +128,65 @@ def test_player_proven_dead_content_is_not_live():
         assert "cad" in r["generations"]
 
 
+def test_no_ability_merges_two_distinct_live_nodes():
+    """The false-merge gate, measured on the shipped records rather than trusted.
+
+    An ability may carry several live-node MEMBER IDS (the same node's ranks), but
+    never two distinct live node IDS unless live_node_variants() proved their
+    effect signatures identical - in which case they are one record on purpose and
+    the group did not split. So: zero records with several live node ids among the
+    names that split, and zero anywhere the gate says it split."""
+    offenders = []
+    for r in RECORDS:
+        nodes = {m["evidence"]["liveNode"]["nodeId"] for m in r["members"]
+                 if "liveNode" in m["generations"]}
+        if len(nodes) > 1:
+            offenders.append((r["key"], sorted(nodes)))
+    assert not offenders, f"{len(offenders)} abilities merge distinct live nodes: {offenders[:5]}"
+    assert summary["abilitiesWithSeveralLiveNodeIds"] == 0
+
+    # NON-VACUITY: the gate has to be doing work, or the assertion above is free.
+    gate = META["liveNodeVariantGate"]
+    assert gate["splitNameGroups"] > 20, gate["splitNameGroups"]
+    assert gate["variantRecords"] >= 2 * gate["splitNameGroups"], gate
+    assert gate["splitAcrossTabs"] > 0, gate
+    # and the proven three, each split into its own record with its own live node
+    for key, live_ids in (("c12:savage", (560441, 705242)),
+                          ("c19:paladintraining", (504808, 520009)),
+                          ("c31:stoneskin", (706162, 806583))):
+        recs = [r for r in RECORDS if r["normName"] == key.split(":")[1]
+                and r["key"].startswith(key) and r["live"]]
+        assert len(recs) >= 2, (key, [r["key"] for r in recs])
+        owners = {sid: r for r in recs for sid in r["liveIds"]}
+        for sid in live_ids:
+            assert sid in owners, (key, sid, sorted(owners))
+        assert owners[live_ids[0]]["key"] != owners[live_ids[1]]["key"], key
+        # siblings stay one hop apart
+        for r in recs:
+            sibs = {l["key"] for l in r["linkedKeys"]
+                    if l["relation"] == "liveNodeVariant"}
+            assert sibs, (r["key"], r["linkedKeys"])
+
+
+def test_split_variants_are_keyed_and_evidenced():
+    for r in RECORDS:
+        if not r["liveNodeVariant"]:
+            continue
+        assert r["key"] == f"c{r['classId']}:{r['normName']}#{r['liveNodeVariant']}"
+        assert r["liveIds"] and str(min(r["liveIds"])) == r["liveNodeVariant"], r["key"]
+        assert r["liveNodeVariantOf"]["variantKeys"], r["key"]
+    # a bare key on a split name holds no live node at all - it can never be
+    # mistaken for one of the variants
+    for r in RECORDS:
+        if r["liveNodeVariantOf"] and not r["liveNodeVariant"]:
+            assert not r["liveIds"] and not r["live"], r["key"]
+
+
 def test_normalization_rule_reproduces_the_emitted_keys():
     for r in RECORDS:
-        assert r["key"] == f"c{r['classId']}:{r['normName']}"
+        base = f"c{r['classId']}:{r['normName']}"
+        assert r["key"] == (f"{base}#{r['liveNodeVariant']}"
+                            if r["liveNodeVariant"] else base)
         for m in r["members"]:
             if m["name"] and m["generation"] != "rankChain":
                 # a member's own name normalizes to the group key unless it was
@@ -149,6 +214,16 @@ def test_density_is_measured_not_asserted():
 def test_base_spell_variant_not_the_realm_overlay():
     assert build_abilities.BASE_SPELL_VARIANT in META["sources"]["names"]
     assert "area-52" in META["sources"]["names"]
+
+
+def test_live_seed_drift_is_measured_from_committed_bytes():
+    """`live` straddles two clocks - the client snapshot and an out-of-band web
+    capture - and the gap has to be a number in the data, not a caveat in prose."""
+    d = META["liveSeedDrift"]
+    assert d["capture"]["capturedUtc"] and d["capture"]["sha256"]
+    assert d["clientSnapshotNewestArchiveUtc"]
+    assert isinstance(d["captureMinusSnapshotDays"], float)
+    assert d == coa_live.seed_drift(), "seed_drift is not reproducible"
 
 
 def test_shards_stay_under_the_line_cap():

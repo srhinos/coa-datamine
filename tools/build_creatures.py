@@ -275,7 +275,3 @@ def build() -> dict:
     config.ensure_dirs()
     return {"creatures": build_creatures(), "quests": build_quests(),
             "trainers": build_trainers()}
-
-
-if __name__ == "__main__":
-    print(build())

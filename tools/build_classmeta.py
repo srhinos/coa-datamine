@@ -403,11 +403,3 @@ def build() -> dict:
     spec_stats = build_specs()
     arch_stats = build_archetypes()
     return {"specs": spec_stats, "archetypes": arch_stats}
-
-
-if __name__ == "__main__":
-    from tools import build_classes, build_coatalents, build_spells
-    build_spells.build()
-    build_classes.build()
-    build_coatalents.build()
-    print(build())

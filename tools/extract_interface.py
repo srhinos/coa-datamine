@@ -197,7 +197,7 @@ def extract_all() -> dict:
         json.dumps(manifest, ensure_ascii=False, indent=1,
                    sort_keys=True).encode("utf-8"))
     layerstate.finish(out_dir, {
-        "layer": "raw/interface", "generatedBy": "python -m tools.extract_interface",
+        "layer": "raw/interface", "generatedBy": "tools/extract_interface.py",
         "count": len(files_meta), "archiveSourced": archive_sourced,
         "diskSourced": len(disk)})
 
@@ -210,16 +210,3 @@ def extract_all() -> dict:
         "skippedArchives": len(skipped),
         "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
     }
-
-
-def main():
-    stats = extract_all()
-    print(f"interface files: {stats['count']} "
-          f"(archive={stats['archiveSourced']}, disk={stats['diskSourced']}, "
-          f"disk-overrode-archive={stats['diskOverrodeArchive']}, "
-          f"multi-archive-collisions={stats['multiArchiveCollisions']})")
-    print(f"manifest sha256: {stats['manifestSha256']}")
-
-
-if __name__ == "__main__":
-    main()

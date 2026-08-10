@@ -1,5 +1,6 @@
 {
  "aliases": [],
+ "catalogTabs": ["Blessings","Class","Piety","Seraphim"],
  "class": "SunCleric",
  "classId": 27,
  "entryCount": 414,
@@ -20,7 +21,9 @@
  "hasLiveGeometry": true,
  "liveCounts": {"deadCatalog":126,"live":209,"liveViaRank":0,"unknown":79},
  "liveCountsByReason": {"deadCatalog":126,"indeterminate":79,"liveDirect":209},
+ "liveTabs": ["Seraphim","Piety","Valkyrie","Blessings","Class","None"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 20
 }

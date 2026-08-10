@@ -1,4 +1,15 @@
 {
+ "liveNodeCoverage": {
+  "liveNodeIds": 3932,
+  "missingInRealm": [
+   573365,
+   760379,
+   808082
+  ],
+  "missingInRealmCount": 3,
+  "note": "Live talent-node spell ids (raw/talents capture) that have no row in THIS realm's Spell.dbc. The curated layer is built from the base variant, where all of them resolve - see tools/curate.py BASE_VARIANT_RULE.",
+  "resolvedInRealm": 3929
+ },
  "missingRefResolution": {
   "cad_other": {
    "missingCount": 178,

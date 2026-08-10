@@ -1,5 +1,6 @@
 {
  "aliases": [],
+ "catalogTabs": ["Blood","Class","Ferocity","Packleader"],
  "class": "SonOfArugal",
  "classId": 20,
  "entryCount": 388,
@@ -19,7 +20,9 @@
  "hasLiveGeometry": true,
  "liveCounts": {"deadCatalog":131,"live":184,"liveViaRank":0,"unknown":73},
  "liveCountsByReason": {"deadCatalog":131,"indeterminate":73,"liveDirect":184},
+ "liveTabs": ["Sanguine","Accursed","Eternal","Fleshweaver","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 22
 }

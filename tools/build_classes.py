@@ -30,7 +30,12 @@ tables list content that is no longer in the live trees at all (a real level-60
 Starcaller proved it - the catalog's whole "Tides" tree, Tide Lash included, does
 not exist in game), so an entry's presence here has never meant it is playable.
 `live` is the flag that finally says which is which; per-class index.json gains
-`liveCounts`, and data/classes/_live_summary.json (written here - this module owns
+`liveCounts` plus BOTH tab lists - `catalogTabs` (the geometry its `files` are
+sharded on, i.e. the stale one) and `liveTabs` (the live builder's own tabs for
+the class, null where no tree was captured), so a consumer enumerating a class's
+trees from the index cannot get "Tides" without also being shown that the live
+tabs are Moon Guard / Sentinel / Moon Priest / Warden / Class. And
+data/classes/_live_summary.json (written here - this module owns
 data/classes/ minus classmeta's two files) carries the repo-wide totals, the
 measured false-negative risk, the CAD-tab -> live-tab mapping with its evidence,
 and the capture-drift caveat that scopes every verdict (which is about the
@@ -1189,6 +1194,25 @@ def build() -> dict:
             "hasLiveGeometry": class_live is not None,
             "liveCounts": counts,
             "liveCountsByReason": live_per_class[cls]["liveCountsByReason"],
+            # The tabs the LIVE trees actually have, next to the catalog tabs the
+            # `files` list is made of - because `files` IS catalog geometry and a
+            # consumer enumerating this class's trees from it gets stale names.
+            # Starcaller is the proven case: `files` offers AstralWarfare / Class
+            # / Moonbow / Tides, while a real level-60 character's tabs are Moon
+            # Guard / Sentinel / Moon Priest / Warden / Class - Tides does not
+            # exist (every entry in it is live:false). null, never [], when the
+            # class has no captured tree: absence of a measurement is not an
+            # empty measurement.
+            "liveTabs": ([t["tabName"] for t in class_live["tabs"]]
+                         if class_live is not None else None),
+            "catalogTabs": sorted({t for t in by_tab if t}),
+            "tabGeometry": (
+                "`files` and `catalogTabs` are CAD CATALOG geometry - what the "
+                "client's CharacterAdvancementData tables list for this class, a "
+                "stale content generation. `liveTabs` is the live talent-builder "
+                "payload's own tab list for the same class. Where they disagree, "
+                "the catalog is the wrong one; per-entry `live` says which "
+                "entries survive."),
             "files": files_meta,
         }
         (class_dir / "index.json").write_text(
@@ -1203,10 +1227,19 @@ def build() -> dict:
             "entryCounts": dict(Counter(x["type"] for x in entries)),
             "unresolvedCount": class_unresolved,
             "liveCounts": counts,
+            "liveTabs": ([t["tabName"] for t in class_live["tabs"]]
+                         if class_live is not None else None),
+            "catalogTabs": sorted({t for t in by_tab if t}),
         })
 
     index = {
         "classes": index_classes,
+        "tabGeometry": (
+            "Every class entry carries BOTH tab lists: `catalogTabs` (the CAD "
+            "catalog's, which is what the per-class `files` are sharded on, and "
+            "which is stale - Starcaller's 'Tides' is a tree no character has) "
+            "and `liveTabs` (the live talent-builder payload's, null for classes "
+            "with no captured tree). Enumerate trees from `liveTabs`."),
         "chrClasses": [{"id": c["id"], "name": c["name_enUS"], "filename": c["filename"],
                         "powerType": c["powerType"]} for c in chr_classes],
         "unmatchedChrClasses": sorted(c["name_enUS"] for c in chr_classes
@@ -1237,7 +1270,3 @@ def build() -> dict:
             "realmsBitmaskGoldenBarMet": realms_evidence["verdict"]["goldenBarMet"],
             "liveCounts": summary["totals"]["liveCounts"],
             "liveCountsByReason": summary["totals"]["liveCountsByReason"]}
-
-
-if __name__ == "__main__":
-    print(build())

@@ -1,5 +1,6 @@
 {
  "aliases": [],
+ "catalogTabs": ["Brewing","Class","Shadowhunting","Voodoo"],
  "class": "WitchDoctor",
  "classId": 13,
  "entryCount": 403,
@@ -20,7 +21,9 @@
  "hasLiveGeometry": true,
  "liveCounts": {"deadCatalog":205,"live":143,"liveViaRank":0,"unknown":55},
  "liveCountsByReason": {"deadCatalog":205,"indeterminate":55,"liveDirect":143},
+ "liveTabs": ["Shadowhunting","Voodoo","Brewing","Class"],
  "realmHint": "Rexxar/Vol'jin - Conquest of Azeroth",
+ "tabGeometry": "`files` and `catalogTabs` are CAD CATALOG geometry - what the client's CharacterAdvancementData tables list for this class, a stale content generation. `liveTabs` is the live talent-builder payload's own tab list for the same class. Where they disagree, the catalog is the wrong one; per-entry `live` says which entries survive.",
  "tag": "coa-custom",
  "unresolvedCount": 55
 }

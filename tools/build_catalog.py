@@ -853,7 +853,3 @@ def run(verbose: bool = True, tables_dir=None, catalog_dir=None,
               f"{joins['columnsWithCandidates']:,} columns), "
               f"strings.json ({strings['columnCount']} columns)", flush=True)
     return {"tables": tables, "joins": joins, "strings": strings}
-
-
-if __name__ == "__main__":
-    run()
