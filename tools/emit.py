@@ -2051,8 +2051,14 @@ def emit_root_readme(staging: Path, layers: dict, manifest: dict) -> None:
                     f"{'complete' if layerstate.is_complete(d) else 'no sentinel'} |")
 
     snap_bytes = sum(f["bytes"] for f in manifest["files"].values())
+    # dot-directories are excluded because they are not published output: raw/
+    # .staging is this run's own swap area and raw/.<layer>.old its rollback copy,
+    # both gitignored. They were being listed here as though they were layers a
+    # reader could go and look at, which is exactly the kind of small untruth the
+    # paragraph below exists to prevent.
     other = [d.name for d in sorted(config.RAW_DIR.iterdir())
-             if d.is_dir() and not (staging / d.name).is_dir()] \
+             if d.is_dir() and not d.name.startswith(".")
+             and not (staging / d.name).is_dir()] \
         if config.RAW_DIR.is_dir() else []
     write_bytes_lf(staging / "README.md", f"""# raw/ - the client, mechanically extracted (generated)
 
@@ -2061,13 +2067,17 @@ snapshot of the client at `{config.CLIENT_DIR}`. Nothing in them is
 hand-authored, hand-labelled or hand-selected: column names are positional,
 types are inferred by measurement, and no wanted-list decides what is extracted.
 
-`raw/` is not exclusively that script's output, and saying otherwise would be a
-lie a reader could act on. {"`" + "`, `".join(other) + "`" if other else "No other directory"} and
-`provenance.json` are built by `python -m tools.build_dataset` for the CURATED
-`data/` tree - a wanted-list extraction through `tools/extract_mpq.py`, which
-still reads archives with `mpyq`. They are a different pipeline with different
-rules; nothing in the table below depends on them, and the "no wanted list"
-guarantee is about the table below.
+`raw/` is not exclusively the traversal's output, and saying otherwise would be
+a lie a reader could act on. {"`" + "`, `".join(other) + "`" if other else "No other directory"} and
+`provenance.json` are written by other means. `provenance.json`, `dbc/` and
+`realms/` come from the SAME script's curation stage, which derives the `data/`
+tree from the layers below immediately after they are written: wanted-list-scoped
+by design, because a curated view has to choose what it curates, and still never
+reopening an archive or touching the live client - its inputs are bytes this
+run's single traversal already staged. `talents/` is different again: a frozen
+capture of an EXTERNAL payload, refreshed only by the occasional network step
+`tools/fetch_coatalents.py`. Nothing in the table below depends on any of them,
+and the "no wanted list" guarantee is about the table below.
 
 ## Regenerating
 

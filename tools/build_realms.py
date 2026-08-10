@@ -25,7 +25,7 @@ file is absent, build_realm RAISES by default rather than shipping an empty dict
 reads as a measured zero (the silent degrade task W4-13 observed under a concurrent
 run). allow_missing_base=True instead writes missingRefResolution: null plus a
 `degraded` key naming the cause - the standalone-run escape hatch, used by this
-module's __main__ but never by build_dataset.py's orchestrator.
+module's __main__ but never by datamine.py's curation stage.
 
 [Task V3-2 finding] CharacterAdvancement.dbc's WDBC header declares FieldCount 179,
 but its record_size only fits 173 int32 fields (692/4) - the byte-accurate value
@@ -41,7 +41,7 @@ AGENT-GUIDE.md.
 Amendment D (single-writer ownership): this module is the SOLE writer under
 raw/realms/ and data/realms/ - nothing else in this repo touches these paths. It
 does NOT touch raw/provenance.json (the base pipeline's top-level file, owned by
-tools/build_dataset.py's orchestrator, which wires a "realms" stage calling
+datamine.py's curation stage, which wires a "realms" stage calling
 this module's build() - see task V3-3)."""
 import json, shutil
 
@@ -236,7 +236,8 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     return index
 
 
-def build(skip_extract: bool = False, allow_missing_base: bool = False) -> dict:
+def build(skip_extract: bool = False, allow_missing_base: bool = False,
+          realms: list = None) -> dict:
     """skip_extract mirrors the base pipeline's --skip-extract convention (task
     V3-3 orchestrator wiring): reuse an already-populated work/realms/<realm>/dbc/
     for every discovered realm instead of re-reading MPQ archives. Falls back to a
@@ -246,13 +247,27 @@ def build(skip_extract: bool = False, allow_missing_base: bool = False) -> dict:
     allow_missing_base [review fix pass]: publish an explicitly-degraded
     index.json (missingRefResolution: null + a `degraded` reason) when
     data/spells/_missing_refs.json is absent, instead of raising. Off in the
-    orchestrator - build_dataset.py always runs the spells stage first, so a
-    missing base file there means something went wrong and should be loud."""
+    pipeline - tools/curate.py always runs the spells stage first, so a
+    missing base file there means something went wrong and should be loud.
+
+    realms [live-seed pass]: the realm list, supplied by the caller. The
+    curation stage passes the realms the SNAPSHOT's own archive layout revealed, alongside the
+    work/realms/<r>/dbc trees it already materialized out of the harvest - so the
+    pipeline neither rescans the live client directory (config.discover_realms
+    stats the real install) nor reopens a realm archive. None keeps the
+    standalone behaviour: discover from disk, extract if not cached."""
     config.ensure_dirs()
-    realms = config.discover_realms()
+    from_snapshot = realms is not None
+    if realms is None:
+        realms = config.discover_realms()
     already_cached = realms and all(
         (config.WORK_REALMS_DIR / r / "dbc").is_dir() for r in realms)
-    if not (skip_extract and already_cached):
+    if from_snapshot and not already_cached:
+        raise SystemExit(
+            "FATAL: build_realms was handed a snapshot realm list but "
+            f"work/realms/<realm>/dbc is not populated for all of {realms} - "
+            "tools.curate.materialize_inputs must run first.")
+    if not (from_snapshot or (skip_extract and already_cached)):
         extract_realms.extract_all()
     layerstate.begin(config.RAW_REALMS_DIR)
     out = {realm: build_realm(realm, allow_missing_base=allow_missing_base)

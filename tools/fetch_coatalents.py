@@ -5,7 +5,7 @@ raw/interface/AddOns/APIDocumentation is a verbatim capture of a live external
 source rather than something this repo re-derives.
 
 This is a DELIBERATE, occasional, manually-triggered step - NOT part of the
-offline tools/build_dataset.py pipeline. The page is ~11.9 MB of server-rendered
+offline datamine.py pipeline. The page is ~11.9 MB of server-rendered
 HTML/JS (a Next.js "flight" payload embedding the live talent-tree JSON) fetched
 from a service outside this repo's control; per the task brief, it is an
 EXTERNAL SOURCE THAT DRIFTS (Ascension patches its live game balance/content on

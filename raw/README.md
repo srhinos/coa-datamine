@@ -5,13 +5,17 @@ snapshot of the client at `E:\ascension-live`. Nothing in them is
 hand-authored, hand-labelled or hand-selected: column names are positional,
 types are inferred by measurement, and no wanted-list decides what is extracted.
 
-`raw/` is not exclusively that script's output, and saying otherwise would be a
-lie a reader could act on. `.staging`, `dbc`, `realms`, `talents` and
-`provenance.json` are built by `python -m tools.build_dataset` for the CURATED
-`data/` tree - a wanted-list extraction through `tools/extract_mpq.py`, which
-still reads archives with `mpyq`. They are a different pipeline with different
-rules; nothing in the table below depends on them, and the "no wanted list"
-guarantee is about the table below.
+`raw/` is not exclusively the traversal's output, and saying otherwise would be
+a lie a reader could act on. `dbc`, `realms`, `talents` and
+`provenance.json` are written by other means. `provenance.json`, `dbc/` and
+`realms/` come from the SAME script's curation stage, which derives the `data/`
+tree from the layers below immediately after they are written: wanted-list-scoped
+by design, because a curated view has to choose what it curates, and still never
+reopening an archive or touching the live client - its inputs are bytes this
+run's single traversal already staged. `talents/` is different again: a frozen
+capture of an EXTERNAL payload, refreshed only by the occasional network step
+`tools/fetch_coatalents.py`. Nothing in the table below depends on any of them,
+and the "no wanted list" guarantee is about the table below.
 
 ## Regenerating
 
@@ -31,7 +35,7 @@ walks each archive exactly once, and rebuilds every layer below.
 | `content` | loose Data\Content: JSON payloads + .loc localization | `raw/content/index.json` | 2,063 files / 76.4 MB | complete |
 | `interface` | Interface code layer (.lua/.xml/.toc) as bytes | `raw/interface/_manifest.json` | 1,560 files / 20.7 MB | complete |
 | `interface_all` | every Interface path: size, sha256, text/binary | `raw/interface_all/index.json` | 112 files / 29.8 MB | complete |
-| `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.8 MB | complete |
+| `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.5 MB | complete |
 | `binaries` | the client's own executables: strings, Lua, PE structure | `raw/binaries/index.json` | 1,379 files / 19.1 MB | complete |
 | `recovered` | archive forensics: MD5 oracle, tombstones, containers | `raw/recovered/README.md` | 774 files / 36.5 MB | complete |
 | `_catalog` | the searchable catalog: joins, strings, columns | `raw/_catalog/tables.json` | 4 files / 10.8 MB | complete |

@@ -1,10 +1,15 @@
 {
+ "baseVariant": "Built from the BASE variant of Spell.dbc and every support table - what a character reads when no realm overlay applies, raw/tables/<T>/variants/data-patch-t-mpq for Spell - NOT the chain winner, which on this client is area-52's overlay and is missing live CoA content (all 3,932 live-node ids resolve in base, 3,929 in the overlay). See raw/provenance.json's curationInputs for the archive + sha256 of every table this build read.",
  "by_source": {
   "cad": 13766,
-  "formula": 1476,
+  "formula": 1623,
+  "live": 3932,
+  "liveCad": 2068,
+  "liveRank": 644,
+  "liveTrainer": 1210,
   "rank": 10497,
   "talent": 5526,
-  "trigger": 3230
+  "trigger": 4096
  },
  "columnCoverage": {
   "emittedColumns": 124,
@@ -14,7 +19,7 @@
   "totalFields": 234,
   "unmappedColumns": 106
  },
- "count": 28957,
+ "count": 32820,
  "dataNotes": "CharacterAdvancementData.json is account-wide across four realms served by this client (Area 52 - Free-Pick, Bronzebeard - Warcraft Reborn, Rexxar - Conquest of Azeroth, Vol'jin - Conquest of Azeroth). Reborn*-class entries belong to the Warcraft Reborn realm, whose spell data is not materialized in this client's Spell.dbc snapshot, so cad_reborn misses are expected and report-only. SpellRankData.json also carries stale orphan rank chains (bucket 'rank') with no filterable realm/class field; also report-only. Measured churn baseline: cad_other 211/7162 = 2.95% on 2026-07-17 (real named custom-class abilities absent from this snapshot's Spell.dbc).",
  "devDead": {
   "count": 7,
@@ -30,7 +35,7 @@
   "marker": "DOES NOT WORK, YOU SHOULD NOT HAVE IT"
  },
  "enrichment": {
-  "addon": 145,
+  "addon": 183,
   "alternativePowerType": {
    "attached": false,
    "names": [
@@ -42,31 +47,31 @@
    "reason": "Hypothesized link (Spell.dbc's signed powerType going negative indexes this table) is disproven: the only negative powerType value anywhere in Spell.dbc is -2, already decoded by enums335.POWER_TYPES as the pre-existing 'Health' resource-cost sentinel (518 spells: Life Tap, Health Funnel, Bloodrage, ...), unrelated to alternate power bars. No other Spell.dbc column was found to reference this table's ids.",
    "recordCount": 4
   },
-  "category": 6263,
+  "category": 7386,
   "charges": {
    "attached": false,
    "categoryLinkJoinRate": 1.0,
-   "categoryRecordCount": 105,
+   "categoryRecordCount": 106,
    "file": "charges.json",
    "realmGapFinding": {
-    "adjustedJoinRate": 0.885,
+    "adjustedJoinRate": 0.8867,
     "nonJoiningCount": 46,
     "provenDeadCount": 0,
     "resolvedByAnyRealm": 46
    },
    "reason": "SpellCharges.ref join-rate vs live Spell.dbc ids is below the brief's 0.90 bar for attaching a 'charges' field to spells.jsonl records, despite the categoryId link to SpellChargesCategory being proven at 100% and 95.45% of the ref hits mentioning 'charge' in their tooltip/description text - shipped standalone in data/spells/charges.json instead of report-only; see dbc.py TABLE_MAPS comment for the full writeup. Task W4-11f investigated the gap: the non-joining refs are realm-overlay content (not dead), which doesn't legitimately raise the base attach rate - see charges.json's realmGapFinding.",
-   "recordCount": 400,
-   "spellIdJoinRate": 0.885
+   "recordCount": 406,
+   "spellIdJoinRate": 0.8867
   },
-  "customAttr": 8124,
-  "descriptionVariables": 1349,
+  "customAttr": 9584,
+  "descriptionVariables": 1530,
   "overrideData": 6,
   "statSuggestions": {
    "file": "statSuggestions.json",
    "recordCount": 1121,
    "spellIdJoinRate": 0.9991
   },
-  "tags": 27518
+  "tags": 29331
  },
  "enumEvidence": {
   "auraIds": 158,
@@ -85,20 +90,63 @@
  },
  "formulaClosure": {
   "depthNewRecordCounts": [
-   1433,
+   1580,
    43
   ],
-  "distinctIdsSeen": 5077,
+  "distinctIdsSeen": 5828,
   "maxDepth": 2,
-  "resolvedIds": 4895,
-  "totalNewRecords": 1476,
-  "unresolvedIds": 182
+  "resolvedIds": 5644,
+  "totalNewRecords": 1623,
+  "unresolvedIds": 184
  },
+ "liveCoverage": {
+  "classesWithLiveGeometry": [
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "covered": 3932,
+  "liveNodeIds": 3932,
+  "liveRecords": 5561,
+  "missingIds": [],
+  "notLiveRecords": 3212,
+  "rate": 1.0,
+  "recordsByLiveReason": {
+   "abilityWithNoLiveNode": 3212,
+   "liveAbilityMember": 1629,
+   "liveNode": 3932,
+   "noLiveGeometry": 12727,
+   "notAnAbility": 11320
+  },
+  "seedIds": 5625,
+  "unknownRecords": 24047
+ },
+ "liveFlagRule": "Every record carries `live` + `liveEvidence`. true = a live talent-tree node carries this id (reason liveNode) or the identity layer joins it to an ability that has one (liveAbilityMember). false = the identity layer owns the id and its ability has no live node anywhere (abilityWithNoLiveNode) - the measured form of 'this catalog entry is not in the game'. null = no ability owns the id (notAnAbility): stock 3.3.5 content, trigger/formula closure spells, profession recipes. null is not false.",
+ "liveSeedRule": "Seeded from every LIVE talent-node spell id plus, through the ability identity layer (data/abilities), every trainer-taught id, rank-ladder id and catalog id belonging to the same ability - then closed transitively over EffectTriggerSpell and formula references. CharacterAdvancementData is read as ONE generation among several, never as the seed of truth; ids that reach the closure only through it are kept and marked live:false, not deleted.",
  "missingRefsFile": "_missing_refs.json",
  "missing_ref_counts_by_source": {
   "cad_other": 178,
   "cad_reborn": 7119,
-  "formula": 182,
+  "formula": 184,
+  "live": 0,
   "rank": 2810,
   "talent": 13
  },
@@ -108,7 +156,8 @@
  "ref_counts": {
   "cad_other": 7162,
   "cad_reborn": 13901,
-  "formula": 5077,
+  "formula": 5828,
+  "live": 2850,
   "rank": 12661,
   "talent": 647
  },
@@ -127,7 +176,7 @@
    "formula": "0.0267291844060354 + 0.0048541098014737 * $PL + 0.0001859597762293 * $PL * $PL",
    "framing": "Level normaliser, NOT a stat coefficient: crosses 1.0 at PL ~= 60.46 and sits at 0.9874 at CoA's level-60 cap - independent confirmation CoA content is authored at a 60 cap. Consumers multiply a spell's basePoints by this value when the spell's formula text references \"$<scalingbp>\"; it carries no gear/stat scaling of its own.",
    "rawText": "$scalingbp=${(0.0267291844060354+0.0048541098014737*$PL+0.0001859597762293*$PL*$PL)}",
-   "referencedBySpellCount": 550,
+   "referencedBySpellCount": 552,
    "sdvId": 182,
    "valueTable": {
     "1": 0.0318,
@@ -213,6 +262,6 @@
    }
   }
  },
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "schema_note": "sharded by id//10000*10000 into by-id/spells-<bucket>.jsonl (one spell per line, ascending id within a bucket); see index.json and AGENT-GUIDE.md"
 }

@@ -127,7 +127,7 @@ for b in tidx["buckets"]:
         if e["name"] is not None:
             joined += 1
         total_t += 1
-assert total_t == tidx["count"] == stats["trainers"]["written"] == 13111
+assert total_t == tidx["count"] == stats["trainers"]["written"] == 13112   # 2026-08-09 snapshot pin
 
 # gate: trainer spell join-rate >= 90%
 join_rate = joined / total_t

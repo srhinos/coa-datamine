@@ -1,0 +1,1984 @@
+{
+ "class": "Starcaller",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 6499,
+   "expansion": 0,
+   "flags": 32769,
+   "icon": "INV_Staff_11",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7254,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c26:aspectofthecosmos",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801123
+     ]
+    },
+    "matchedSpellId": 801123,
+    "reason": "liveDirect"
+   },
+   "name": "Aspect of the Cosmos",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801123,
+     "name": "Aspect of the Cosmos",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6348,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Holy_ElunesGrace",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6315,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c26:galaxy",
+     "abilityName": "Galaxy",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800508
+     ]
+    },
+    "matchedSpellId": 800508,
+    "reason": "liveDirect"
+   },
+   "name": "Aspect of the Moon",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800508,
+     "name": "Galaxy",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7091,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "artifactability_balancedruid_newmoon",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:moonguard",
+     "abilityName": "Moon Guard",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92132
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Aspect of the Moonguard",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 13,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804287,
+     "name": "Moon Guard",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6503,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Holy_ProclaimChampion",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:aspectofthewarden",
+     "abilityName": "Aspect of the Warden",
+     "classId": 26,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Aspect of the Starlord",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801128,
+     "name": "Aspect of the Warden",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6349,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "INV_Enchant_EssenceEternalLarge",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:aspectofthestars",
+     "classId": 26,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Aspect of the Stars",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800510,
+     "name": "Aspect of the Stars",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7565,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_demonhunter_manabreak",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30669,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:astralblade",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805563
+     ]
+    },
+    "matchedSpellId": 805563,
+    "reason": "liveDirect"
+   },
+   "name": "Astral Blade",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805563,
+     "name": "Astral Blade",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7110,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_argus_blightorb",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29656,
+    "builderTab": "Moon Guard",
+    "identity": {
+     "abilityKey": "c26:blanketofstars",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804381
+     ]
+    },
+    "matchedSpellId": 804381,
+    "reason": "liveDirect"
+   },
+   "name": "Blanket of Stars",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804381,
+     "name": "Blanket of Stars",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7557,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_helm_plate_raidpaladin_r_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:celestialarmor",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Celestial Armor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805544,
+     "name": "Celestial Armor",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6518,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "ability_hunter_carve",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:celestialcleave",
+     "classId": 26,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Celestial Cleave",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 11,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801181,
+     "name": "Celestial Cleave",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7552,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_glaive_1h_tyrande_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:celestialknight",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Celestial Knight",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805521,
+     "name": "Celestial Knight",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6341,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "inv_sword_1h_pvpdraenors2_d_02",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:celestialstrike",
+     "classId": 26,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Celestial Strike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800496,
+     "name": "Celestial Strike",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800496
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502286
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502287
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502288
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502289
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502290
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502291
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502292
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502293
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502294
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7113,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "_CallToArmsLightBlue",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:command",
+     "classId": 26,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Command",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804386,
+     "name": "Command",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7558,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_pet_celestialdragon",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:cosmicvengeance",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Cosmic Vengeance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805545,
+     "name": "Cosmic Vengeance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7520,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_InscriptionStones_Blue",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30626,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:shadowsongsmandate",
+     "abilityName": "Shadowsong's Mandate",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805439
+     ]
+    },
+    "matchedSpellId": 805439,
+    "reason": "liveDirect"
+   },
+   "name": "Cosmic Whetstone",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805439,
+     "name": "Shadowsong's Mandate",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6510,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_racial_forceshield",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:guardedbythemoon",
+     "abilityName": "Guarded by the Moon",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Guardian of Elune",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801142,
+     "name": "Guarded by the Moon",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6762,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Rogue_BladeTwisting",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:guidedreflexes",
+     "abilityName": null,
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Guided Reflexes",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 801995,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7515,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_mage_presenceofmind",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:halt",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      807741
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Halt",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805432,
+     "name": "Halt",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6764,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_sword_1h_artifactskywall_d_06dual",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:lunarblades",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Lunar Blades",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801997,
+     "name": "Lunar Blades",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7802,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "INV_Elemental_Primal_Mana",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 11360,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:lunarcombatant",
+     "abilityName": "Lunar Combatant",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805828
+     ]
+    },
+    "matchedSpellId": 805828,
+    "reason": "liveDirect"
+   },
+   "name": "Mana Charges",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805828,
+     "name": "Lunar Combatant",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7516,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_shoulder_leather_raiddruid_q_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 19699,
+    "builderTab": "Moon Guard",
+    "identity": {
+     "abilityKey": "c26:moonlitbulwark",
+     "abilityName": "Moonlit Bulwark",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805433
+     ]
+    },
+    "matchedSpellId": 805433,
+    "reason": "liveDirect"
+   },
+   "name": "Moon Guard",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805433,
+     "name": "Moonlit Bulwark",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6347,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_hammer_1h_silverhand_b_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29492,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:sentinelglaive",
+     "abilityName": "Sentinel Glaive",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800506
+     ]
+    },
+    "matchedSpellId": 800506,
+    "reason": "liveDirect"
+   },
+   "name": "Moon Hammer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800506,
+     "name": "Sentinel Glaive",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800506
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 502298
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 502299
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 502300
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 502301
+      }
+     ],
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7112,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_jewelcrafting_70_cutgem03_blue",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7713,
+    "builderTab": "Moon Guard",
+    "identity": {
+     "abilityKey": "c26:cosmiccrown",
+     "abilityName": "Cosmic Crown",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804385,
+      807936
+     ]
+    },
+    "matchedSpellId": 804385,
+    "reason": "liveDirect"
+   },
+   "name": "Moon Tap",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804385,
+     "name": "Cosmic Crown",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6500,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_staff_2h_artifactelune_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:moonblade",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Moonblade",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801125,
+     "name": "Moonblade",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7111,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_argus_soulbombdebuffsmall",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:vanguardsshield",
+     "abilityName": "Vanguard's Shield",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Mooncharged Shield",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804383,
+     "name": "Vanguard's Shield",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7556,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_demonhunter_sigilblue",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:moonsteelweapons",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Moonsteel Weapons",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805540,
+     "name": "Moonsteel Weapons",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7547,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_holiday_hearthstonelunarfestival",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31192,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:moonstone",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805503
+     ]
+    },
+    "matchedSpellId": 805503,
+    "reason": "liveDirect"
+   },
+   "name": "Moonstone",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805503,
+     "name": "Moonstone",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7551,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_mage_cometstorm",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:rainofcomets",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Rain of Comets",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805520,
+     "name": "Rain of Comets",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7918,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_deathknight_spelldeflection",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:reversemagic",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      570231
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Reverse Magic",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806233,
+     "name": "Reverse Magic",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6346,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "artifactability_balancedruid_moonandstars",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7409,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c26:shootingstar",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800505
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800505,
+    "reason": "liveDirect"
+   },
+   "name": "Shooting Star",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 5,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800505,
+     "name": "Shooting Star",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800505
+      },
+      {
+       "level": 21,
+       "rank": 2,
+       "spellId": 502295
+      },
+      {
+       "level": 41,
+       "rank": 3,
+       "spellId": 502296
+      },
+      {
+       "level": 61,
+       "rank": 4,
+       "spellId": 502297
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7548,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_sword_1h_artifactfelomelorn_d_06",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7707,
+    "builderTab": "Moon Guard",
+    "identity": {
+     "abilityKey": "c26:starlightduelist",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805505
+     ]
+    },
+    "matchedSpellId": 805505,
+    "reason": "liveDirect"
+   },
+   "name": "Starlight Duelist",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805505,
+     "name": "Starlight Duelist",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7519,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Scroll2_LightBlue",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:starlordsmandate",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Starlord's Mandate",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805438,
+     "name": "Starlord's Mandate",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7554,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_racial_chillofnight",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30660,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:celestialglaives",
+     "abilityName": "Celestial Glaives",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805524
+     ]
+    },
+    "matchedSpellId": 805524,
+    "reason": "liveDirect"
+   },
+   "name": "Starry Night",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805524,
+     "name": "Celestial Glaives",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6508,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "sha_ability_mage_firestarter_nightborne",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29649,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c26:starshatter",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801135
+     ]
+    },
+    "matchedSpellId": 801135,
+    "reason": "liveDirect"
+   },
+   "name": "Starshatter",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801135,
+     "name": "Starshatter",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801135
+      },
+      {
+       "level": 28,
+       "rank": 2,
+       "spellId": 502302
+      },
+      {
+       "level": 54,
+       "rank": 3,
+       "spellId": 502303
+      }
+     ],
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6763,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_shield_1h_ardenweald_d_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29896,
+    "builderTab": "Moon Guard",
+    "identity": {
+     "abilityKey": "c26:starburst",
+     "abilityName": "Starburst",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801996
+     ]
+    },
+    "matchedSpellId": 801996,
+    "reason": "liveDirect"
+   },
+   "name": "Starshield Smash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801996,
+     "name": "Starburst",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6502,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "inv_wand_1h_430nightelf_c_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:starsunder",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Starsunder",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801127,
+     "name": "Starsunder",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7561,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_sword_1h_warfrontsnightelf_d_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30665,
+    "builderTab": "Moon Guard",
+    "identity": {
+     "abilityKey": "c26:starsweep",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805550
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805550,
+    "reason": "liveDirect"
+   },
+   "name": "Starsweep",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805550,
+     "name": "Starsweep",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7115,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_monk_ringofpeace",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:starsweeper",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Starsweeper",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804389,
+     "name": "Starsweeper",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7518,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Execution_LightBlue",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30625,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:pulverizingblade",
+     "abilityName": "Pulverizing Blade",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805437
+     ]
+    },
+    "matchedSpellId": 805437,
+    "reason": "liveDirect"
+   },
+   "name": "Sundering Blade",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805437,
+     "name": "Pulverizing Blade",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6748,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_staff_2h_ardenweald_d_01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:vengeanceofelune",
+     "classId": 26,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Vengeance of Elune",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 801969,
+     "name": "Vengeance of Elune",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 801969
+      },
+      {
+       "level": 7,
+       "rank": 2,
+       "spellId": 502304
+      },
+      {
+       "level": 13,
+       "rank": 3,
+       "spellId": 502305
+      },
+      {
+       "level": 19,
+       "rank": 4,
+       "spellId": 502306
+      },
+      {
+       "level": 26,
+       "rank": 5,
+       "spellId": 502307
+      },
+      {
+       "level": 32,
+       "rank": 6,
+       "spellId": 502308
+      },
+      {
+       "level": 38,
+       "rank": 7,
+       "spellId": 502309
+      },
+      {
+       "level": 44,
+       "rank": 8,
+       "spellId": 502310
+      },
+      {
+       "level": 50,
+       "rank": 9,
+       "spellId": 502311
+      },
+      {
+       "level": 56,
+       "rank": 10,
+       "spellId": 502312
+      },
+      {
+       "level": 63,
+       "rank": 11,
+       "spellId": 502313
+      },
+      {
+       "level": 69,
+       "rank": 12,
+       "spellId": 502314
+      },
+      {
+       "level": 75,
+       "rank": 13,
+       "spellId": 502315
+      }
+     ],
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6749,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_druid_swarm",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c26:celestialknighthealing",
+     "abilityName": "Celestial Knight (Healing)",
+     "classId": 26,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Vengeful Combat",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801970,
+     "name": "Celestial Knight (Healing)",
+     "ranks": null,
+     "schools": [
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7550,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_MaievBlade_Arcane",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30656,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c26:wardensblade",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805508
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805508,
+    "reason": "liveDirect"
+   },
+   "name": "Warden's Blade",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805508,
+     "name": "Warden's Blade",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6511,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_polearm_2h_kultirasquest_b_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 11660,
+    "builderTab": "Warden",
+    "identity": {
+     "abilityKey": "c26:astralblessing",
+     "abilityName": "Astral Blessing",
+     "classId": 26,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801145
+     ]
+    },
+    "matchedSpellId": 801145,
+    "reason": "liveDirect"
+   },
+   "name": "Warrior of Elune",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801145,
+     "name": "Astral Blessing",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "AstralWarfare",
+   "type": "Ability"
+  }
+ ],
+ "tab": "AstralWarfare",
+ "type": "Ability"
+}

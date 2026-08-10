@@ -34,7 +34,7 @@ for name in config.WANTED_DBCS_V6:
 # as every other re-pinned count in this repo (see AGENT-GUIDE's "Regenerating after
 # a client patch" contract).
 EXPECTED_V6 = {
-    "Item": (563335, 8),
+    "Item": (563379, 8),   # 2026-08-09 snapshot re-pin (client patch)
     "ItemSet": (2347, 53),
     "SpellItemEnchantment": (18035, 38),
     "GemProperties": (668, 5),
@@ -78,7 +78,7 @@ assert all(c["samples"] == [] for c in cols)             # nothing string-like a
 # f0 (id): unique per row, and the max reproduces the doc's own cited ceiling EXACTLY
 # (9,200,842) - a strong signature this is the same id space/table shape as Sec 8.2's
 # own "max f1 is 9,200,579 vs Item.dbc max 9,200,842" cross-reference.
-assert cols[0]["distinct"] == 563335 == item_colinfo["records"]
+assert cols[0]["distinct"] == 563379 == item_colinfo["records"]
 assert cols[0]["min"] == 1
 assert cols[0]["max"] == 9200842
 # f5 (displayid, per the doc's named ordering) is the only other high-cardinality

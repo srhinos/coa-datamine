@@ -39,7 +39,7 @@ which are one game mode and one content set)."""
 import json, re, shutil
 from collections import Counter, defaultdict
 
-from tools import config, dbc, build_spells, coa_live, sharding
+from tools import build_abilities, config, dbc, build_spells, coa_live, sharding
 
 VANILLA = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight",
            "Shaman", "Mage", "Warlock", "Druid"}
@@ -57,7 +57,15 @@ REALM_HINT = {
 REALM_ROSTER = ["Vol'jin", "Rexxar", "Darkmoon", "Dawnrise", "Bronzebeard", "Area 52"]
 
 MAX_LINES = 5000
-CADID_BUCKET = 2000
+# Fixed cadId-range bucket widths for the last-resort shard split, widest first.
+# It was a single hard-coded 2000 with NO fallback, which is a cap that holds only
+# until the content grows: adding one key per entry to the Reborn Trait buckets
+# (which sat within a few hundred lines of the limit) pushed twelve files past it
+# at once, and nothing in the builder noticed - it emitted them oversized. The
+# widest width whose every bucket fits is chosen, so the split stays as coarse as
+# it can be while actually meeting the cap. Fixed id ranges throughout, never
+# count-chunks: a record's file must not change because a neighbour grew.
+CADID_BUCKET_SIZES = (2000, 1000, 500, 250, 100, 50, 25, 10)
 
 
 def _norm(s):
@@ -111,16 +119,29 @@ def _shard_tab(cls, tab, entries):
             out.append((fname, {"file": fname, "tab": tab, "type": typ,
                                 "cadIdRange": None, "count": len(typ_entries)}, text))
             continue
-        by_bucket = defaultdict(list)
-        for e in typ_entries:
-            by_bucket[sharding.bucket_id(e["cadId"], CADID_BUCKET)].append(e)
+        chosen = None
+        for size in CADID_BUCKET_SIZES:
+            by_bucket = defaultdict(list)
+            for e in typ_entries:
+                by_bucket[sharding.bucket_id(e["cadId"], size)].append(e)
+            rendered = {b: _dump({"class": cls, "tab": tab, "type": typ,
+                                  "entries": es})
+                        for b, es in by_bucket.items()}
+            if all(lines <= MAX_LINES for _, lines in rendered.values()):
+                chosen = (size, by_bucket, rendered)
+                break
+        if chosen is None:
+            raise RuntimeError(
+                f"{cls}/{tab_name}.{typ_name}: no cadId bucket width in "
+                f"{CADID_BUCKET_SIZES} keeps every shard under {MAX_LINES} lines "
+                "- needs re-investigation, not a wider allowlist")
+        size, by_bucket, rendered = chosen
         for b in sorted(by_bucket):
-            b_entries = by_bucket[b]
-            text, _ = _dump({"class": cls, "tab": tab, "type": typ, "entries": b_entries})
+            text, _ = rendered[b]
             fname = f"{tab_name}.{typ_name}-{b}.json"
             out.append((fname, {"file": fname, "tab": tab, "type": typ,
-                                "cadIdRange": [b, b + CADID_BUCKET],
-                                "count": len(b_entries)}, text))
+                                "cadIdRange": [b, b + size],
+                                "count": len(by_bucket[b])}, text))
     return out
 
 
@@ -797,7 +818,7 @@ class _FalseNegativeMeter:
         }
 
 
-def _live_summary(live, per_class, tab_maps, fn) -> dict:
+def _live_summary(live, per_class, tab_maps, fn, identity_agreement) -> dict:
     totals = Counter()
     by_reason = Counter()
     for c in per_class.values():
@@ -844,6 +865,33 @@ def _live_summary(live, per_class, tab_maps, fn) -> dict:
             "liveCountsByReason": dict(by_reason),
         },
         "perClass": per_class,
+        # [live-seed pass] the second, independent derivation of the same verdict:
+        # the ability identity layer (data/abilities), which joins a catalog row to
+        # its live-tree generation by ABILITY rather than by spell-id equality.
+        # `resolvedIndeterminate` is what it bought - entries this module could not
+        # answer for and now can. `disagree` is deliberately reported rather than
+        # resolved: where two independent derivations of "is this in the game"
+        # conflict, the entry keeps its own verdict and carries
+        # liveEvidence.identityDisagrees so the conflict is findable, not averaged
+        # away. `noIdentity` is entries no ability owns at all (unresolved CAD
+        # classes, meta groups, Reborn content with no base Spell row).
+        "identityAgreement": {
+            **{k: identity_agreement[k] for k in
+               ("agree", "identityLiveEntryNot", "entryLiveIdentityNot",
+                "entryUnknownIdentityNotLive", "noIdentity")},
+            "source": "data/abilities (tools/build_abilities.py)",
+            "rule": ("an entry's spell ids are looked up in ITS OWN class's "
+                     "abilities only - shared and pet ids belong to several "
+                     "classes' abilities at once; the strongest hit (live first, "
+                     "then most live nodes) supplies the evidence. EVIDENCE "
+                     "ONLY: the identity join never changes `live`, see "
+                     "tools/build_classes.py:_stamp_identity for why."),
+            "identityLiveEntryNotMeans": (
+                "the id-equality method finds this entry in no live tree, but the "
+                "ability it belongs to HAS a live node under a different spell id. "
+                "That is the id-generation gap itself, measured; the live ids are "
+                "on the entry at liveEvidence.identity.liveNodeIds."),
+        },
         "falseNegativeMeasurement": fn.report(),
         "tabMapping": {
             "note": (
@@ -891,6 +939,67 @@ def _ground_truth_check(per_class, tab_maps) -> dict:
                  "Starcaller's DISTINCT CAD spell ids that appear in no live "
                  "builder node. The entry-level split is in perClass.Starcaller."),
     }
+
+
+def _stamp_identity(entry, ident, agreement):
+    """Attach the ability-identity layer's view of a catalog entry - as EVIDENCE,
+    never as a verdict.
+
+    What it adds: which ability this catalog row is a generation of
+    (`abilityKey`, `classId`), whether that ability has a live talent-tree node
+    and which ids those nodes carry, which id generations exist for it, whether
+    a trainer teaches it. That is the join a consumer otherwise cannot make,
+    because the catalog id and the live node id are DIFFERENT NUMBERS for the
+    same ability - the defect the identity layer exists to repair.
+
+    What it deliberately does NOT do: change `live`. The identity join is a
+    (classId, normalized name) join, and this module already measured a bare
+    name match and rejected it as a live claim - it fires on >10% of
+    PROVEN-live entries, so it has no specificity, and it is used only to
+    downgrade dead -> indeterminate (see _live_summary's rejectedHeuristic and
+    coa_live.ALT_SIGNALS). Letting it decide `live` here would re-litigate a
+    decision that was made by measurement, and would flatten the deliberate
+    false/null distinction: a class with no captured tree would go from "nothing
+    is claimed" to 15,378 entries claiming live:false purely because no tree was
+    captured to find them in. Absence of a capture is not absence from the game.
+
+    So both derivations are published side by side and their agreement is
+    COUNTED (`identityAgreement` in _live_summary.json). The interesting cell is
+    `identityLiveEntryNot`: entries the id-equality method cannot see in any live
+    tree but whose ABILITY has a live node - the measured size of the
+    id-generation gap, findable per entry via liveEvidence.identity."""
+    hits = [ident[s["id"]] for s in entry["spells"] if s["id"] in ident]
+    if not hits:
+        # absent, not null - the same no-null-noise convention _enrich_v2 uses,
+        # and here it is load-bearing rather than cosmetic: these files are
+        # sharded against a 5,000-line cap and the Reborn Trait buckets sit
+        # within a few hundred lines of it, so one null key per entry across
+        # ~4,400 entries is the difference between passing and blowing the cap.
+        agreement["noIdentity"] += 1
+        return
+    best = max(hits, key=lambda a: (a["abilityLive"], len(a["liveNodeIds"])))
+    # only what this entry does not already say. `abilityName` is omitted when it
+    # matches the entry's own name (the common case) and `liveNodeIds` /
+    # `trainerTaught` when they carry nothing - no-null-noise, the same convention
+    # _enrich_v2 uses, and it keeps 23,709 entries' worth of evidence inside the
+    # 5,000-line shard cap instead of doubling the Reborn Trait files.
+    ident_ev = {"abilityKey": best["abilityKey"], "classId": best["classId"],
+                "live": best["abilityLive"], "generations": best["generations"]}
+    if _norm(best["abilityName"] or "") != _norm(entry.get("name") or ""):
+        ident_ev["abilityName"] = best["abilityName"]
+    if best["liveNodeIds"]:
+        ident_ev["liveNodeIds"] = best["liveNodeIds"]
+    if best["trainerTaught"]:
+        ident_ev["trainerTaught"] = True
+    entry["liveEvidence"]["identity"] = ident_ev
+    if entry["live"] is best["abilityLive"]:
+        agreement["agree"] += 1
+    elif best["abilityLive"]:
+        agreement["identityLiveEntryNot"] += 1
+    elif entry["live"] is True:
+        agreement["entryLiveIdentityNot"] += 1
+    else:
+        agreement["entryUnknownIdentityNotLive"] += 1
 
 
 def build() -> dict:
@@ -941,6 +1050,13 @@ def build() -> dict:
     # uses; alt_acquisition_index() is the non-tree-grant probe set.
     live = coa_live.live_index()
     alt = coa_live.alt_acquisition_index()
+    # [live-seed pass] the ability identity layer, built earlier in the same
+    # datamine pass out of raw/. It answers "which ability is this catalog row a
+    # generation of, and does that ability have a live node" for entries whose
+    # own spell ids the builder capture never mentions - which is most of them,
+    # because the live trees carry a DIFFERENT id generation than the catalog.
+    seed = build_abilities.live_seed()
+    identity_agreement = Counter()
     chr_specs = _chr_specs_by_class(chr_by_norm, chr_by_filename)
     live_per_class, tab_maps, fn = {}, {}, _FalseNegativeMeter()
 
@@ -1008,8 +1124,13 @@ def build() -> dict:
         class_id = chr_match["id"] if chr_match else None
         class_live = live["byClassId"].get(class_id)
         reasons = Counter()
+        # this class's own view of the identity layer, never another class's:
+        # shared and pet spell ids belong to several classes' abilities at once.
+        ident = ({sid: rec for (cid, sid), rec in seed["byClassMember"].items()
+                  if cid == class_id} if class_id is not None else {})
         for e in entries:
             e["live"], e["liveEvidence"] = coa_live.classify_entry(e, class_live, alt)
+            _stamp_identity(e, ident, identity_agreement)
             reasons[e["liveEvidence"]["reason"]] += 1
         counts = coa_live.live_counts(reasons)
         if class_live is not None:
@@ -1104,7 +1225,8 @@ def build() -> dict:
 
     # [Task W4-14] live/dead summary - totals, the measured false-negative risk,
     # the tab mapping + its evidence, and the payload provenance/caveat.
-    summary = _live_summary(live, live_per_class, tab_maps, fn)
+    summary = _live_summary(live, live_per_class, tab_maps, fn,
+                            identity_agreement)
     (cdir / "_live_summary.json").write_text(
         json.dumps(summary, indent=1, sort_keys=True, ensure_ascii=False),
         encoding="utf-8", newline="\n")

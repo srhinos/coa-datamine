@@ -1,0 +1,92 @@
+{
+ "class": "SunCleric",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 8614,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "buff_forcesoforder",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:angelscalling",
+     "abilityName": "Angel's Calling",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Solar Crash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805641,
+     "name": "Angel's Calling",
+     "ranks": null,
+     "schools": [
+      "Holy",
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 8506,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_holy_rebuke",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33979,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:solarprayer",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806479
+     ]
+    },
+    "matchedSpellId": 806479,
+    "reason": "liveDirect"
+   },
+   "name": "Solar Prayer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806479,
+     "name": "Solar Prayer",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Seraphim",
+ "type": "Ability"
+}

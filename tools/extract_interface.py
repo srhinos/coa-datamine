@@ -134,7 +134,7 @@ def extract_all() -> dict:
     # it reads members with tools/mpq.py where this module still reads them with
     # mpyq, so five files this extractor cannot decode at all are present in
     # datamine's tree (1,558 files against 1,553). Running this over the top of
-    # that was silent data loss - measured, not hypothesised: a build_dataset
+    # that was silent data loss - measured, not hypothesised: a curated-pipeline
     # run during this work deleted RaceSelect.lua/.xml, SoundOptionsFrame.lua/
     # .xml and AnimationTemplates.lua from the committed tree and rewrote the
     # manifest to match, and nothing said so.

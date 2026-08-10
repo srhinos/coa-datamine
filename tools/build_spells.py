@@ -22,9 +22,9 @@ per-spell fields) instead of report-only. Task W4-10 adds the same standalone-fi
 shape for SpellStatSuggestions -> data/spells/statSuggestions.json (proven spellId
 key, unproven payload category kept raw and clearly flagged)."""
 import csv, gzip, json, re, shutil
-from collections import defaultdict
+from collections import Counter, defaultdict
 
-from tools import config, dbc, enums335, sharding
+from tools import build_abilities, config, dbc, enums335, sharding
 
 BUCKET_SIZE = 10000
 
@@ -176,11 +176,39 @@ def _content(name):
     return json.loads((config.RAW_CONTENT_DIR / name).read_text(encoding="utf-8-sig"))
 
 
-def _initial_refs(cad):
+# The seed tag a live ability's member id carries, by the generation it came
+# from. Kept distinct from the plain cad/rank/talent tags on purpose: an id that
+# reaches the closure because it belongs to a LIVE ability is a different claim
+# from one that reaches it because the stale catalog happens to name it, and
+# `referencedBy` on the published record has to be able to say which.
+LIVE_SEED_TAG = {"liveNode": "live", "trainer": "liveTrainer",
+                 "rankChain": "liveRank", "cad": "liveCad"}
+
+
+def _initial_refs(cad, seed):
+    """The pre-closure seed. LIVE TRUTH FIRST, catalog second.
+
+    `seed` is tools/build_abilities.live_seed(): every spell id a live
+    talent-tree node carries, plus every id that belongs to the same ABILITY as
+    one - its trainer ladder, its rank chain, its catalog row. Seeding from the
+    catalog alone is the defect this repairs: measured on this snapshot, it
+    reached 1,963 of the 3,932 live-node ids (49.9%) while 1,966 of the 1,969 it
+    missed were sitting in the base Spell table the whole time.
+
+    The catalog/rank/talent seeds below are KEPT. They are a different, still
+    useful population (stock content, Reborn, dev-dead catalog entries) and
+    dropping them would trade one half-truth for another; what changes is that
+    they are no longer the source of truth, and what they bring in alone is
+    published marked live:false rather than presented as the ability list."""
     refs = {}
     def add(i, tag):
         if i:
             refs.setdefault(int(i), set()).add(tag)
+    for sid in seed["liveNodeIds"]:
+        add(sid, "live")
+    for sid, generations in seed["seedIds"].items():
+        for g in generations:
+            add(sid, LIVE_SEED_TAG.get(g, "liveOther"))
     for e in cad:
         for s in e.get("Spells", []):
             add(s, "cad")
@@ -209,13 +237,23 @@ def _cad_realm_split(cad):
 
 
 def _bucket(tags, cad_other_ids, cad_reborn_ids, sid):
+    """Which pre-closure source is answerable for this id.
+
+    The four original buckets keep their exact meaning - the cad_other/talent
+    hard gates below are calibrated against them and a reshuffle would silently
+    recalibrate them. "live" is the new terminal bucket, and it can only catch
+    ids that NO catalog/talent/rank row names at all: the ones the live-truth
+    seed added and nothing else would have. Its own gate is separate and
+    stricter (every live-node id must resolve, no ratio)."""
     if sid in cad_other_ids:
         return "cad_other"
     if sid in cad_reborn_ids:
         return "cad_reborn"
     if "talent" in tags:
         return "talent"
-    return "rank"
+    if "rank" in tags:
+        return "rank"
+    return "live"
 
 
 def _rank_at_60_map():
@@ -392,7 +430,55 @@ def _v2_aux(ref_ids):
     }
 
 
-def _record(r, aux, tags, v2):
+def _live_stamp(sid, tags, ident, classes_with_geometry):
+    """`live` + the identity-layer evidence behind it, for one spell record.
+
+    TRUE when a live talent-tree node carries this exact id (`liveNode` - id
+    equality, the strongest form), or when the identity layer joins it to an
+    ability that has one (`liveAbilityMember`: the same ability's trainer ladder,
+    rank chain or catalog row, a different id generation of the same thing).
+
+    FALSE only when the id belongs to an ability of a class whose live tree this
+    snapshot actually CAPTURED, and that ability has no live node in it
+    (`abilityWithNoLiveNode`). That is the mechanical form of "the catalog lists
+    it, the game does not have it" - what Tide Lash now says.
+
+    NULL otherwise, and the two null reasons are different claims. `notAnAbility`
+    = no ability owns the id at all: stock 3.3.5 content, trigger/formula closure
+    spells, profession recipes - not class abilities, and the live trees say
+    nothing about them. `noLiveGeometry` = an ability owns it, but no live tree
+    was captured for that class, so there is nothing to be absent FROM. The
+    builder capture covers CoA's custom classes only; calling Power Word: Shield
+    dead because no Priest tree was captured would be inventing evidence out of
+    an absent measurement, which is the same error as reading the catalog as the
+    game. **null is not false.**"""
+    ev = {"reason": "notAnAbility"}
+    if "live" in tags:
+        live = True
+        ev = {"reason": "liveNode"}
+    elif ident is None:
+        live = None
+    elif ident["abilityLive"]:
+        live = True
+        ev = {"reason": "liveAbilityMember"}
+    elif ident["classId"] not in classes_with_geometry:
+        live = None
+        ev = {"reason": "noLiveGeometry"}
+    else:
+        live = False
+        ev = {"reason": "abilityWithNoLiveNode"}
+    if ident is not None:
+        ev.update({"abilityKey": ident["abilityKey"],
+                   "abilityName": ident["abilityName"],
+                   "classId": ident["classId"],
+                   "generation": ident["generation"],
+                   "generations": ident["generations"]})
+        if ident["liveNodeIds"]:
+            ev["abilityLiveIds"] = ident["liveNodeIds"]
+    return live, ev
+
+
+def _record(r, aux, tags, v2, ident=None, classes_with_geometry=frozenset()):
     a = aux
     effects = []
     for slot in (1, 2, 3):
@@ -524,6 +610,8 @@ def _record(r, aux, tags, v2):
                    "damage": role["DamageScore"]} if role else None),
         "referencedBy": sorted(tags),
     }
+    rec["live"], rec["liveEvidence"] = _live_stamp(sid, tags, ident,
+                                                   classes_with_geometry)
     # [Task W4-4] rankAt60 (Sec 1.7): emitted only on the chain's OWN first-rank
     # record (rankChain.first == this record's id, i.e. sid == rank["firstSpellId"])
     # - a per-chain convenience field belongs on one record, not duplicated across
@@ -790,7 +878,7 @@ def _coa_class_spell_ids():
     .superpowers/sdd/task-w4-3-report.md for the full per-column re-verification
     log. Used by tests/test_spells_columns.py to re-verify every new column's
     fill rate against the doc's cited figures; NOT used by build() itself, since
-    data/classes/ must already exist on disk (build_dataset.py's stage order
+    data/classes/ must already exist on disk (tools/curate.py's stage order
     runs spells before classes) - this can only run after build_classes has
     populated data/classes/ at least once.
 
@@ -1154,7 +1242,10 @@ def _alt_power_type_findings():
 def build() -> dict:
     config.ensure_dirs()
     cad = _content("CharacterAdvancementData.json")               # load CAD once
-    refs = _initial_refs(cad)
+    # LIVE truth, from the ability identity layer this same pass just built out
+    # of raw/ - the closure's seed and every record's `live` evidence.
+    seed = build_abilities.live_seed()
+    refs = _initial_refs(cad, seed)
     cad_other_ids, cad_reborn_ids = _cad_realm_split(cad)
     initial_ids = set(refs)                                       # pre-closure snapshot
     aux = _aux()
@@ -1221,9 +1312,10 @@ def build() -> dict:
     # Amendment A: bucket every pre-closure referenced id (cad_other > cad_reborn >
     # talent > rank) and report per-bucket miss ratios instead of one flat ratio -
     # CAD is account-wide across four realms and Reborn's spells aren't on disk here.
-    ref_counts = {"cad_other": 0, "cad_reborn": 0, "talent": 0, "rank": 0, "formula": 0}
+    ref_counts = {"cad_other": 0, "cad_reborn": 0, "talent": 0, "rank": 0,
+                  "live": 0, "formula": 0}
     missing_by_source = {"cad_other": [], "cad_reborn": [], "talent": [], "rank": [],
-                          "formula": []}
+                          "live": [], "formula": []}
     for sid in initial_ids:
         b = _bucket(refs[sid], cad_other_ids, cad_reborn_ids, sid)
         ref_counts[b] += 1
@@ -1270,8 +1362,11 @@ def build() -> dict:
     bucketed = defaultdict(list)
     rank_at_60_count = 0
     dev_dead_ids = []
+    live_counts = Counter()
     for sid in sorted(records):
-        rec = _record(records[sid], aux, refs[sid], v2)
+        rec = _record(records[sid], aux, refs[sid], v2, seed["byId"].get(sid),
+                      seed["classesWithLiveGeometry"])
+        live_counts[rec["liveEvidence"]["reason"]] += 1
         for t in rec["referencedBy"]:
             by_source[t] = by_source.get(t, 0) + 1
         for k in enrichment_counts:
@@ -1299,6 +1394,32 @@ def build() -> dict:
     assert g and g["name_enUS"] == "Power Word: Shield" and g["dispel"] == 1, \
         "golden spell 17 failed - column map is wrong, dataset aborted"
 
+    # THE gate this whole reseed exists for, and it is an equality, not a ratio:
+    # every spell id a live talent-tree node carries must have an enriched record
+    # here. It was 1,963/3,932 when the closure was seeded from the catalog. A
+    # ratio would let that regress quietly; an equality names the ids that fell
+    # out. The three ids the base Spell table genuinely does not carry (measured:
+    # 3,932 live ids, 3,932 resolve in the base variant) would fail this loudly
+    # rather than being absorbed into a tolerance.
+    live_ids = set(seed["liveNodeIds"])
+    live_missing = sorted(live_ids - set(records))
+    live_coverage = {
+        "liveNodeIds": len(live_ids),
+        "covered": len(live_ids) - len(live_missing),
+        "rate": round((len(live_ids) - len(live_missing)) / max(1, len(live_ids)), 4),
+        "missingIds": live_missing,
+        "seedIds": len(seed["seedIds"]),
+        "recordsByLiveReason": dict(sorted(live_counts.items())),
+        "classesWithLiveGeometry": sorted(seed["classesWithLiveGeometry"]),
+        "liveRecords": live_counts["liveNode"] + live_counts["liveAbilityMember"],
+        "notLiveRecords": live_counts["abilityWithNoLiveNode"],
+        "unknownRecords": live_counts["notAnAbility"] + live_counts["noLiveGeometry"],
+    }
+    assert not live_missing, (
+        f"{len(live_missing)} live talent-node spell id(s) have no enriched "
+        f"record - the curated layer would again be a partial view of the live "
+        f"game. First 20: {live_missing[:20]}")
+
     # hard gates: cad_other and talent must resolve near-completely (this client's own
     # realms); cad_reborn and rank are report-only (Reborn realm + stale rank chains)
     co_ratio = len(missing_by_source["cad_other"]) / max(1, ref_counts["cad_other"])
@@ -1313,8 +1434,38 @@ def build() -> dict:
     _write_missing_refs(out_dir / "_missing_refs.json", missing_by_source)
 
     meta = {
-        "schemaVersion": 2,
+        "schemaVersion": 3,
         "count": len(records),
+        # The reseed (v3). The closure is a function of LIVE truth first, the
+        # catalog second, and both facts about it are published rather than
+        # claimed: `liveCoverage` is the equality gate above, `liveSeedRule` and
+        # `baseVariant` say what was seeded from and what bytes were read.
+        "liveCoverage": live_coverage,
+        "liveSeedRule": (
+            "Seeded from every LIVE talent-node spell id plus, through the "
+            "ability identity layer (data/abilities), every trainer-taught id, "
+            "rank-ladder id and catalog id belonging to the same ability - then "
+            "closed transitively over EffectTriggerSpell and formula references. "
+            "CharacterAdvancementData is read as ONE generation among several, "
+            "never as the seed of truth; ids that reach the closure only through "
+            "it are kept and marked live:false, not deleted."),
+        "liveFlagRule": (
+            "Every record carries `live` + `liveEvidence`. true = a live "
+            "talent-tree node carries this id (reason liveNode) or the identity "
+            "layer joins it to an ability that has one (liveAbilityMember). "
+            "false = the identity layer owns the id and its ability has no live "
+            "node anywhere (abilityWithNoLiveNode) - the measured form of 'this "
+            "catalog entry is not in the game'. null = no ability owns the id "
+            "(notAnAbility): stock 3.3.5 content, trigger/formula closure "
+            "spells, profession recipes. null is not false."),
+        "baseVariant": (
+            "Built from the BASE variant of Spell.dbc and every support table - "
+            "what a character reads when no realm overlay applies, "
+            "raw/tables/<T>/variants/data-patch-t-mpq for Spell - NOT the chain "
+            "winner, which on this client is area-52's overlay and is missing "
+            "live CoA content (all 3,932 live-node ids resolve in base, 3,929 in "
+            "the overlay). See raw/provenance.json's curationInputs for the "
+            "archive + sha256 of every table this build read."),
         "missing_ref_counts_by_source": {k: len(v) for k, v in missing_by_source.items()},
         "missingRefsFile": "_missing_refs.json",
         "ref_counts": ref_counts, "by_source": by_source,
@@ -1376,7 +1527,8 @@ def build() -> dict:
     }
     (out_dir / "_meta.json").write_text(
         json.dumps(meta, indent=1, sort_keys=True), encoding="utf-8", newline="\n")
-    return {"written": len(records), "missing_by_source": missing_by_source,
+    return {"written": len(records), "liveCoverage": live_coverage,
+            "missing_by_source": missing_by_source,
             "ref_counts": ref_counts, "by_source": by_source,
             "enum_evidence": enum_evidence_summary,
             "column_coverage": coverage_summary,

@@ -77,9 +77,9 @@ attribute. `unreleased` is consequently empty today; it stays a defined state so
 genuinely unshipped spec still lands somewhere honest.
 
 Depends on `data/classes/_live_summary.json` + `data/talents/coa/_meta.json` already
-existing - `build_dataset.py` runs `build_classes.build()` and
+existing - `tools/curate.py` runs `build_classes.build()` and
 `build_coatalents.build()` BEFORE `build_classmeta.build()` (task W4-11e ordering,
-still valid; see build_dataset.py's stage-order comments).
+still valid; see tools/curate.py's stage-order comments).
 """
 import json
 from collections import Counter, defaultdict

@@ -50,7 +50,7 @@ EXPECTED = {
     "SpellMissile": (170, 15),
     "SpellShapeshiftForm": (61, 35),
     "SpellFocusObject": (435, 18),
-    "SpellRank": (23182, 4),
+    "SpellRank": (23179, 4),   # 2026-08-09 snapshot re-pin (client patch)
     "CreatureSpellData": (803, 9),
     "GlyphProperties": (362, 4),
     "GlyphSlot": (10, 3),
@@ -224,16 +224,17 @@ meta = json.loads((sdir / "_meta.json").read_text(encoding="utf-8"))
 assert meta["enrichment"]["statSuggestions"]["recordCount"] == 1121
 
 # ============================= SpellRank =============================
+# 2026-08-09 snapshot re-pin (client patch): 23,182 -> 23,179 rows.
 sr_named = list(dbc.iter_named("SpellRank"))
-assert len(sr_named) == 23182
+assert len(sr_named) == 23179
 sr_f1_hits = sum(1 for r in sr_named if r["firstSpellId"] in spell_ids)
-assert sr_f1_hits == 23182                                                    # 100.0000%
+assert sr_f1_hits == 23179                                                    # 100.0000%
 sr_f2_hits = sum(1 for r in sr_named if r["spellId"] in spell_ids)
-assert sr_f2_hits == 23177, sr_f2_hits                                        # 99.9784%
+assert sr_f2_hits == 23174, sr_f2_hits                                        # 99.9784%
 
 rank1_rows = [r for r in sr_named if r["rank"] == 1]
 rank1_self = sum(1 for r in rank1_rows if r["firstSpellId"] == r["spellId"])
-assert rank1_self == 3504 and len(rank1_rows) == 3507
+assert rank1_self == 3503 and len(rank1_rows) == 3506   # 2026-08-09 re-pin
 
 # comparison vs the already-integrated raw/content/SpellRankData.json - NOT
 # identical coverage, and NOT wired into build_spells.py by this task
@@ -243,15 +244,15 @@ json_by_spell = {r["spellId"]: r for r in json_rows}
 dbc_spellids = {r["spellId"] for r in sr_named}
 json_spellids = set(json_by_spell)
 overlap = dbc_spellids & json_spellids
-assert len(overlap) == 9945, len(overlap)
+assert len(overlap) == 9941, len(overlap)   # 2026-08-09 re-pin
 dbc_only = dbc_spellids - json_spellids
-assert len(dbc_only) == 13237, len(dbc_only)
+assert len(dbc_only) == 13238, len(dbc_only)   # 2026-08-09 re-pin
 dbc_only_real = sum(1 for v in dbc_only if v in spell_ids)
-assert dbc_only_real == 13232, dbc_only_real                                  # 99.96% of dbc-only
+assert dbc_only_real == 13233, dbc_only_real                                  # 99.96% of dbc-only
 
 agree_first = sum(1 for r in sr_named if r["spellId"] in json_by_spell
                    and r["firstSpellId"] == json_by_spell[r["spellId"]]["firstSpellId"])
-assert agree_first == 9901, agree_first                                       # 99.56% of overlap
+assert agree_first == 9897, agree_first                                       # 99.56% of overlap
 
 # rank agreement - NOT a clean off-by-one (pinned per-diff, not just the aggregate):
 # +1 is the largest single bucket but under half of the 565 mismatches (266/565 =
@@ -268,7 +269,7 @@ for r in sr_named:
         agree_rank += 1
     else:
         rank_diffs[d] += 1
-assert agree_rank == 9380, agree_rank                                         # 94.32% of overlap
+assert agree_rank == 9376, agree_rank                                         # 94.32% of overlap
 assert sum(rank_diffs.values()) == 565, sum(rank_diffs.values())
 assert rank_diffs[1] == 266, rank_diffs[1]                                    # 47.08% of mismatches
 assert dict(rank_diffs) == {

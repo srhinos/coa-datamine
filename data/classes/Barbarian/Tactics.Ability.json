@@ -1,0 +1,4280 @@
+{
+ "class": "Barbarian",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 19452,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsinv_misc_food_meat_raw_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:grislymeal",
+     "abilityName": "Grisly Meal",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "A Grisly Meal",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 17,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804765,
+     "name": "Grisly Meal",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18845,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestralstrike",
+     "abilityName": "Ancestral Strike",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Ancestor's Fury",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801576,
+     "name": "Ancestral Strike",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18842,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3calloftheancients",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29799,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:ancestralcombat",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      801782
+     ]
+    },
+    "matchedSpellId": 801782,
+    "reason": "liveDirect"
+   },
+   "name": "Ancestral Combat",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801782,
+     "name": "Ancestral Combat",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18410,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsachievement_alliedrace_darkirondwarf",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 14303,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:battlerhythm",
+     "abilityName": "Battle Rhythm",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800193
+     ]
+    },
+    "matchedSpellId": 800193,
+    "reason": "liveDirect"
+   },
+   "name": "Ancestral Might",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 3,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800193,
+     "name": "Battle Rhythm",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28298,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:filllevel",
+     "abilityName": "Fill Level",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92083
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ancestry Barbarian",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500061,
+     "name": "Fill Level",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 7027,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "ability_hunter_hatchettoss",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:throwweapon",
+     "abilityName": "Throw Weapon",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Axe Throwing",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 22,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804136,
+     "name": "Throw Weapon",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19216,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_hunter_hatchettoss",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:throwweapon",
+     "abilityName": "Throw Weapon",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Axe Throwing",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 7,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804136,
+     "name": "Throw Weapon",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6322,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_axe_104",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 13576,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:axetwirling",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800401
+     ]
+    },
+    "matchedSpellId": 800401,
+    "reason": "liveDirect"
+   },
+   "name": "Axe Twirling",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800401,
+     "name": "Axe Twirling",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18497,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "inv_axe_104",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 13576,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:axetwirling",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800401
+     ]
+    },
+    "matchedSpellId": 800401,
+    "reason": "liveDirect"
+   },
+   "name": "Axe Twirling",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800401,
+     "name": "Axe Twirling",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7143,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_offhand_1h_draenordungeon_c_02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 13111,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:tavernbrawl",
+     "abilityName": "Tavern Brawl!",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804456
+     ]
+    },
+    "matchedSpellId": 804456,
+    "reason": "liveDirect"
+   },
+   "name": "BRAWL!",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "Enrage",
+     "id": 804456,
+     "name": "Tavern Brawl!",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19332,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_offhand_1h_draenordungeon_c_02",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 13111,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:tavernbrawl",
+     "abilityName": "Tavern Brawl!",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804456
+     ]
+    },
+    "matchedSpellId": 804456,
+    "reason": "liveDirect"
+   },
+   "name": "BRAWL!",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "Enrage",
+     "id": 804456,
+     "name": "Tavern Brawl!",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20085,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbarianenergyincrease",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Barbarian Energy Increase",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804635,
+     "name": "Barbarian Energy Increase",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20092,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsability_rogue_dirtydeeds",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6785,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:puncturewounds",
+     "abilityName": "Puncture Wounds",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805997
+     ]
+    },
+    "matchedSpellId": 805997,
+    "reason": "liveDirect"
+   },
+   "name": "Barbarian Passive - Axe Wound",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805997,
+     "name": "Puncture Wounds",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20087,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:warstriker",
+     "abilityName": "Warstriker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Barbarian Passive - Raging Strike",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805887,
+     "name": "Warstriker",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20088,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbarianpassivesavagesmash",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Barbarian Passive - Savage Smash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805951,
+     "name": "Barbarian Passive - Savage Smash",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20089,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbarianpassivesavagesmash",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Barbarian Passive - Savage Smash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805952,
+     "name": "Barbarian Passive - Savage Smash",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20090,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbarianpassivesavagesmash",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Barbarian Passive - Savage Smash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805953,
+     "name": "Barbarian Passive - Savage Smash",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20091,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbarianpassivesavagesmash",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Barbarian Passive - Savage Smash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805954,
+     "name": "Barbarian Passive - Savage Smash",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18837,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3ignorepain",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:battlevigor",
+     "abilityName": "Battle Vigor",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Barbaric Rage",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "Enrage",
+     "id": 801768,
+     "name": "Battle Vigor",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 5962,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "ability_garrosh_whirling_corruption",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbaricwhirl",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Barbaric Whirl",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500002,
+     "name": "Barbaric Whirl",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18128,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_garrosh_whirling_corruption",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbaricwhirl",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Barbaric Whirl",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 14,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500002,
+     "name": "Barbaric Whirl",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7032,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv__blood troll male head",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:berserker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      561397
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Berserker",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804141,
+     "name": "Berserker",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19221,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "inv__blood troll male head",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:berserker",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      561397
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Berserker",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804141,
+     "name": "Berserker",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7029,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_axe_1h_draenorcrafted_d_02_a_horde",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30163,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:berserkeraxe",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804138
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804138,
+    "reason": "liveDirect"
+   },
+   "name": "Berserker Axe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804138,
+     "name": "Berserker Axe",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804138
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 503408
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 503409
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 503410
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 503411
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 503412
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 503413
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 503414
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19218,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_axe_1h_draenorcrafted_d_02_a_horde",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30163,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:berserkeraxe",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804138
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804138,
+    "reason": "liveDirect"
+   },
+   "name": "Berserker Axe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804138,
+     "name": "Berserker Axe",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804138
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 503408
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 503409
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 503410
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 503411
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 503412
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 503413
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 503414
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7254,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_trinket_80_zandalrari02a",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestralkeg",
+     "abilityName": "Ancestral Keg",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Bloodlord",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804748,
+     "name": "Ancestral Keg",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19444,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_trinket_80_zandalrari02a",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestralkeg",
+     "abilityName": "Ancestral Keg",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Bloodlord",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804748,
+     "name": "Ancestral Keg",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28296,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:excessivepower",
+     "abilityName": "Excessive Power",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92081
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Brutality Barbarian",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500059,
+     "name": "Excessive Power",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19846,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsarchaeology_5_0_twinsteinsetofbrewfatherquantoukuo",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30763,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:cheers",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805810
+     ]
+    },
+    "matchedSpellId": 805810,
+    "reason": "liveDirect"
+   },
+   "name": "Cheers!",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805810,
+     "name": "Cheers!",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 4002,
+   "expansion": 0,
+   "flags": 8194,
+   "icon": "Trade_Engineering",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4002,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:headhunter",
+     "abilityName": "Headhunter",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92082
+     ]
+    },
+    "matchedSpellId": 92082,
+    "reason": "liveDirect"
+   },
+   "name": "Conquest of Azeroth Specialization - Barbarian (Tactics)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "4294967295",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 92082,
+     "name": "Headhunter",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18299,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsINV_Mace_69",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31151,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:crush",
+     "abilityName": "Crush",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500915
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500915,
+    "reason": "liveDirect"
+   },
+   "name": "Crushing Slam",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 2,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500915,
+     "name": "Crush",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500915
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501003
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501004
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501005
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501006
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501007
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501008
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501009
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501010
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501011
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7915,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_plate_blackrockclan_b_01helm",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30870,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:defiance",
+     "abilityName": "Defiance",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806228
+     ]
+    },
+    "matchedSpellId": 806228,
+    "reason": "liveDirect"
+   },
+   "name": "Deathless Resolve",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806228,
+     "name": "Defiance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19955,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_plate_blackrockclan_b_01helm",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30870,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:defiance",
+     "abilityName": "Defiance",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806228
+     ]
+    },
+    "matchedSpellId": 806228,
+    "reason": "liveDirect"
+   },
+   "name": "Deathless Resolve",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 18,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806228,
+     "name": "Defiance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6467,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Warrior_InnerRage",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:deathmatch",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Deathmatch",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800950,
+     "name": "Deathmatch",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19872,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_holiday_beerfest_highmountain",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:drunkenbrawler",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      560364
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Drunken Brawler",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805908,
+     "name": "Drunken Brawler",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20081,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:fistweapons",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Fist Weapons",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 15590,
+     "name": "Fist Weapons",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19433,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_mount_korkronprotodrake",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31220,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:ancestralfury",
+     "abilityName": "Ancestral Fury",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804731
+     ]
+    },
+    "matchedSpellId": 804731,
+    "reason": "liveDirect"
+   },
+   "name": "Galakrond's Fury",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804731,
+     "name": "Ancestral Fury",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19432,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_mount_protodrakegladiatormount",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30374,
+    "builderTab": "Brutality",
+    "identity": {
+     "abilityKey": "c12:symbolofthewarspear",
+     "abilityName": "Symbol of the Warspear",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804730
+     ]
+    },
+    "matchedSpellId": 804730,
+    "reason": "liveDirect"
+   },
+   "name": "Galakrond's Might",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804730,
+     "name": "Symbol of the Warspear",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7668,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "warrior_disruptingshout",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:grit",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Grit",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805819,
+     "name": "Grit",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19850,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "warrior_disruptingshout",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:grit",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Grit",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805819,
+     "name": "Grit",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7672,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_axe_94",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31152,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:gutspiller",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805832
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805832,
+    "reason": "liveDirect"
+   },
+   "name": "Gutspiller",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805832,
+     "name": "Gutspiller",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19855,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_axe_94",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31152,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:gutspiller",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805832
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805832,
+    "reason": "liveDirect"
+   },
+   "name": "Gutspiller",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805832,
+     "name": "Gutspiller",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7675,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_misc_head_tuskarr",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:headhunter",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92082
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Headhunter",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805836,
+     "name": "Headhunter",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19858,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_misc_head_tuskarr",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:headhunter",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92082
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Headhunter",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805836,
+     "name": "Headhunter",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7028,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "warrior_talent_icon_mastercleaver",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29793,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:headhuntersspear",
+     "abilityName": "Headhunter's Spear",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804137
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804137,
+    "reason": "liveDirect"
+   },
+   "name": "Headhunter's Axe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804137,
+     "name": "Headhunter's Spear",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804137
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 503402
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 503403
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 503404
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 503405
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 503406
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 503407
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19217,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconswarrior_talent_icon_mastercleaver",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29793,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:headhuntersspear",
+     "abilityName": "Headhunter's Spear",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804137
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804137,
+    "reason": "liveDirect"
+   },
+   "name": "Headhunter's Axe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804137,
+     "name": "Headhunter's Spear",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804137
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 503402
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 503403
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 503404
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 503405
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 503406
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 503407
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7031,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Troll_03",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:headhuntersthirst",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Headhunter's Thirst",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804140,
+     "name": "Headhunter's Thirst",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19220,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_Troll_03",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:headhuntersthirst",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Headhunter's Thirst",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804140,
+     "name": "Headhunter's Thirst",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 28297,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34325,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:headhunting",
+     "abilityName": "Headhunting",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500060
+     ]
+    },
+    "matchedSpellId": 500060,
+    "reason": "liveDirect"
+   },
+   "name": "Headhunting Barbarian",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500060,
+     "name": "Headhunting",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20083,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:hitratingalpha",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7670,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "achievement_boss_gruulthedragonkiller",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34303,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bloodandglory",
+     "abilityName": "Blood and Glory",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805821
+     ]
+    },
+    "matchedSpellId": 805821,
+    "reason": "liveDirect"
+   },
+   "name": "Hulk",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805821,
+     "name": "Blood and Glory",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19852,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "achievement_boss_gruulthedragonkiller",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34303,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:bloodandglory",
+     "abilityName": "Blood and Glory",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805821
+     ]
+    },
+    "matchedSpellId": 805821,
+    "reason": "liveDirect"
+   },
+   "name": "Hulk",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805821,
+     "name": "Blood and Glory",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7033,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_Diablo3_Thunderclap_DeathKnight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:reduce25static",
+     "abilityName": "Reduce 25 Static",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hunter's Alacrity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804142,
+     "name": "Reduce 25 Static",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19222,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_Diablo3_Thunderclap_DeathKnight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:reduce25static",
+     "abilityName": "Reduce 25 Static",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hunter's Alacrity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804142,
+     "name": "Reduce 25 Static",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 5963,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "_D3furiouscharge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:impalingrush",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Impaling Rush",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500009,
+     "name": "Impaling Rush",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500009
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501043
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501044
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501045
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501046
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501047
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501048
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501049
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501050
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501051
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18129,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_D3furiouscharge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:impalingrush",
+     "classId": 12,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Impaling Rush",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500009,
+     "name": "Impaling Rush",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500009
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 501043
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 501044
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 501045
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 501046
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 501047
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 501048
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 501049
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 501050
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 501051
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19845,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_monk_elusiveale",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 13572,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:kegsmash",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805808
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805808,
+    "reason": "liveDirect"
+   },
+   "name": "Keg Smash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805808,
+     "name": "Keg Smash",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18833,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_revendreth_deathknight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:massacre",
+     "abilityName": null,
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Massacre",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 801764,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19951,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_chicken2_white",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:mock",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Mock",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 22,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806221,
+     "name": "Mock",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7674,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_hunter_focusingshot",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5327,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:vitalspirit",
+     "abilityName": "Vital Spirit",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805835,
+      807864
+     ]
+    },
+    "matchedSpellId": 805835,
+    "reason": "liveDirect"
+   },
+   "name": "Mow Them Down",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805835,
+     "name": "Vital Spirit",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19857,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_hunter_focusingshot",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 5327,
+    "builderTab": "Headhunting",
+    "identity": {
+     "abilityKey": "c12:vitalspirit",
+     "abilityName": "Vital Spirit",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805835,
+      807864
+     ]
+    },
+    "matchedSpellId": 805835,
+    "reason": "liveDirect"
+   },
+   "name": "Mow Them Down",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805835,
+     "name": "Vital Spirit",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20078,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:polearms",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Polearms",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 200,
+     "name": "Polearms",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18844,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_warrior_barbarian",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:rampage",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Rampage",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801786,
+     "name": "Rampage",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7030,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "warrior_talent_icon_ravager",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30162,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:maimingspear",
+     "abilityName": "Maiming Spear",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804139
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804139,
+    "reason": "liveDirect"
+   },
+   "name": "Rending Axe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804139,
+     "name": "Maiming Spear",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804139
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 503415
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 503416
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 503417
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 503418
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 503419
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 503420
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 503421
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 503422
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19219,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconswarrior_talent_icon_ravager",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30162,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:maimingspear",
+     "abilityName": "Maiming Spear",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804139
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 804139,
+    "reason": "liveDirect"
+   },
+   "name": "Rending Axe",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804139,
+     "name": "Maiming Spear",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804139
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 503415
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 503416
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 503417
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 503418
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 503419
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 503420
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 503421
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 503422
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6133,
+   "expansion": 0,
+   "flags": 8193,
+   "icon": "Ability_Warrior_ShieldBreak",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ruthlessredoubt",
+     "abilityName": null,
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Ruthless Redoubt",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 500921,
+     "name": null,
+     "ranks": [
+      {
+       "level": 4,
+       "rank": 1,
+       "spellId": 500921
+      },
+      {
+       "level": 14,
+       "rank": 2,
+       "spellId": 501052
+      },
+      {
+       "level": 28,
+       "rank": 3,
+       "spellId": 501053
+      },
+      {
+       "level": 41,
+       "rank": 4,
+       "spellId": 501054
+      },
+      {
+       "level": 54,
+       "rank": 5,
+       "spellId": 501055
+      },
+      {
+       "level": 68,
+       "rank": 6,
+       "spellId": 501056
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7673,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "_EvilSkull_Red",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:savagerevelry",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Savage Revelry",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805833,
+     "name": "Savage Revelry",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19856,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "_EvilSkull_Red",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:savagerevelry",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Savage Revelry",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805833,
+     "name": "Savage Revelry",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18644,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_garrosh_hellscreams_warsong",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6844,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:savagery",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800943
+     ]
+    },
+    "matchedSpellId": 800943,
+    "reason": "liveDirect"
+   },
+   "name": "Savagery",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 5,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800943,
+     "name": "Savagery",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20084,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsinv_bow_1h_draenorcrafted_d_01_a_horde",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:barbaricrage",
+     "abilityName": "Barbaric Rage",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Savagery",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804337,
+     "name": "Barbaric Rage",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20080,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:shield",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Shield",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 9116,
+     "name": "Shield",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20086,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:incursion",
+     "abilityName": "Incursion",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Surging Fury",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 15,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 704593,
+     "name": "Incursion",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20079,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:thrown",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Thrown",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 2567,
+     "name": "Thrown",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6667,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Warrior_Bloodsurge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestralmight",
+     "abilityName": "Ancestral Might",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Tirelessness",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "Enrage",
+     "id": 801789,
+     "name": "Ancestral Might",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18846,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Ability_Warrior_Bloodsurge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:ancestralmight",
+     "abilityName": "Ancestral Might",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Tirelessness",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "Enrage",
+     "id": 801789,
+     "name": "Ancestral Might",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7198,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_warrior_strengthofarms",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:axevolley",
+     "abilityName": "Axe Volley",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Toughness",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804666,
+     "name": "Axe Volley",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19388,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_warrior_strengthofarms",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:axevolley",
+     "abilityName": "Axe Volley",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Toughness",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804666,
+     "name": "Axe Volley",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19430,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_warrior_paintrain",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 12463,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c12:powerfulgrip",
+     "abilityName": "Powerful Grip",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804728
+     ]
+    },
+    "matchedSpellId": 804728,
+    "reason": "liveDirect"
+   },
+   "name": "Unbreakable Grip",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 29,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804728,
+     "name": "Powerful Grip",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 6659,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Ability_Warrior_IntensifyRage",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:totheend",
+     "abilityName": "To The End",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Undying",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 51,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801770,
+     "name": "To The End",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18838,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Ability_Warrior_IntensifyRage",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:totheend",
+     "abilityName": "To The End",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Undying",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801770,
+     "name": "To The End",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7243,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_warrior_dragoncharge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:unstoppable",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Unstoppable",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804732,
+     "name": "Unstoppable",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19434,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_warrior_dragoncharge",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:unstoppable",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Unstoppable",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804732,
+     "name": "Unstoppable",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18843,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsAchievement_Boss_SvalaSorrowgrave",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:valkyrresurrection",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Val'kyr Resurrection",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 19,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801784,
+     "name": "Val'kyr Resurrection",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18341,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3wrathoftheberserker",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29782,
+    "builderTab": "Ancestry",
+    "identity": {
+     "abilityKey": "c12:warcry",
+     "classId": 12,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500995
+     ]
+    },
+    "matchedSpellId": 500995,
+    "reason": "liveDirect"
+   },
+   "name": "War Cry",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 23,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500995,
+     "name": "War Cry",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 6131,
+   "expansion": 0,
+   "flags": 40961,
+   "icon": "_D3whirlwind",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:whirlingadvance",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Whirling Advance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500919,
+     "name": "Whirling Advance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18302,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIcons\\_D3whirlwind",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:whirlingadvance",
+     "classId": 12,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Whirling Advance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 5,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500919,
+     "name": "Whirling Advance",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 7671,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "ability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:whirlingdeath",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Whirling Death",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805831,
+     "name": "Whirling Death",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19854,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_rogue_dirtydeeds",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:whirlingdeath",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Whirling Death",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805831,
+     "name": "Whirling Death",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20239,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsAbility_Warrior_Trauma",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:reckful",
+     "abilityName": "Reckful",
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      681063,
+      681466
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell"
+    ]
+   },
+   "name": "Wrecker",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 28,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500001,
+     "name": "Reckful",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20082,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3tempestrush",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c12:wristsnap",
+     "abilityName": null,
+     "classId": 12,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Wrist Snap",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 12,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800383,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Tactics",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Tactics",
+ "type": "Ability"
+}

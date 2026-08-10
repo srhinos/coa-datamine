@@ -1,0 +1,441 @@
+{
+ "class": "SonOfArugal",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 20043,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_animusdraw",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7751,
+    "builderTab": "Fleshweaver",
+    "identity": {
+     "abilityKey": "c20:universaldonor",
+     "abilityName": "Universal Donor",
+     "classId": 20,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806428
+     ]
+    },
+    "matchedSpellId": 806428,
+    "reason": "liveDirect"
+   },
+   "name": "Blood Tap",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806428,
+     "name": "Universal Donor",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20042,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_animarevendreth_buff",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7444,
+    "builderTab": "Fleshweaver",
+    "identity": {
+     "abilityKey": "c20:crimsonscion",
+     "classId": 20,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806424
+     ]
+    },
+    "matchedSpellId": 806424,
+    "reason": "liveDirect"
+   },
+   "name": "Crimson Scion",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806424,
+     "name": "Crimson Scion",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20040,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_animarevendreth_debuff",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6847,
+    "builderTab": "Sanguine",
+    "identity": {
+     "abilityKey": "c20:essenceharvester",
+     "classId": 20,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806421
+     ]
+    },
+    "matchedSpellId": 806421,
+    "reason": "liveDirect"
+   },
+   "name": "Essence Harvester",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806421,
+     "name": "Essence Harvester",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20139,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c20:fistweapons",
+     "classId": 20,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Fist Weapons",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 15590,
+     "name": "Fist Weapons",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20041,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_animarevendreth_orb",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 4969,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c20:bloodleaper",
+     "abilityName": "Bloodleaper",
+     "classId": 20,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806423
+     ]
+    },
+    "matchedSpellId": 806423,
+    "reason": "liveDirect"
+   },
+   "name": "Fleshweaver",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806423,
+     "name": "Bloodleaper",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20241,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 34974,
+    "builderTab": "Eternal",
+    "identity": {
+     "abilityKey": "c20:grimomen",
+     "abilityName": "Grim Omen",
+     "classId": 20,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800154
+     ]
+    },
+    "matchedSpellId": 800154,
+    "reason": "liveDirect"
+   },
+   "name": "Grimclaw",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800154,
+     "name": "Grim Omen",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20140,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c20:hitratingalpha",
+     "classId": 20,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20141,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_shaman_primalstrike",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c20:shadowhemopassive",
+     "classId": 20,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Shadow Hemo Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805172,
+     "name": "Shadow Hemo Passive",
+     "ranks": null,
+     "schools": [
+      "Nature"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20240,
+   "expansion": 0,
+   "flags": 8707,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c20:staves",
+     "classId": 20,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Staves",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 227,
+     "name": "Staves",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20138,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c20:wands",
+     "classId": 20,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Wands",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 5009,
+     "name": "Wands",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Blood",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Blood",
+ "type": "Ability"
+}

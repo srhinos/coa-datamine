@@ -2,9 +2,10 @@
 
 Dataset of Ascension CoA (WoW 3.3.5a custom server) game data for porting work
 (dispel logic, class buffs, raid tooling). Everything below is generated - do not
-hand-edit; rerun `python datamine.py` (raw layer, ONE script, one pass over
-the client) or `python -m tools.build_dataset` (derived `data/` layer) after a
-client patch.
+hand-edit; rerun `python datamine.py` after a client patch. ONE script, ONE pass
+over the client, and it writes BOTH layers: the raw layer straight off the
+snapshot, then the curated `data/` layer derived from that raw layer in the same
+pass. There is no second entry point and no second read of the client.
 
 ## START HERE: search the raw client before you read anything else
 
@@ -81,11 +82,25 @@ convergence loop; the guarantee on offer is internal consistency - one client
 version in, one dataset out - and `raw/_snapshot.json` names exactly which
 version that was. If you need a newer one, rerun the single command.
 
-`datamine.py` does NOT write all of `raw/`. `raw/dbc/`, `raw/realms/`,
-`raw/talents/` and `raw/provenance.json` are the older wanted-list extraction
-behind the curated `data/` tree and are rebuilt by `python -m tools.build_dataset`.
-The "nothing is hand-selected" guarantee is about the layers listed in
-`raw/README.md`, which is where that split is spelled out.
+`datamine.py` writes all of `raw/` and all of `data/`. The "nothing is
+hand-selected" guarantee covers the layers listed in `raw/README.md`; `raw/dbc/`
+(a CSV projection of the wanted tables), `raw/realms/` and `raw/provenance.json`
+are written by the same script's curation stage, from the same snapshot, and are
+wanted-list-scoped by design - that split is spelled out in `raw/README.md`.
+`raw/talents/` is the frozen external builder capture, refreshed only by the
+occasional network step `tools/fetch_coatalents.py`.
+
+**The curated layer is a pure function of the raw layer.** It used to be a second
+pipeline (`tools/build_dataset.py`) that re-read the live client for itself and
+seeded itself from the CAD catalog - a stale content generation. Measured
+consequence: of the 3,932 spell ids the LIVE talent trees reference, only 1,963
+had an enriched record, while 1,966 of the 1,969 missing ones sat in
+`raw/tables/Spell` the whole time. Now `datamine.py` materializes the curation
+inputs out of the bytes its own traversal staged, seeds the spell closure from
+LIVE truth (every live talent-node id, plus every trainer / rank-ladder / catalog
+id the ability identity layer joins to one), and gates on covering all 3,932.
+Every curated spell record carries `live` + `liveEvidence`; catalog-only content
+is kept and marked, never deleted.
 
 > **Read this before using `data/classes/`.** It is the CAD **catalog** - what the
 > client's character-advancement tables LIST - and a large part of it is not in the
@@ -95,6 +110,19 @@ The "nothing is hand-selected" guarantee is about the layers listed in
 > Warden / Class; the catalog still lists a `Tides` tree whose abilities they cannot
 > learn). Branch on each entry's **`live` / `liveEvidence`** (task W4-14) - never on
 > mere presence - and read "Live vs catalog" below for what `false` vs `null` mean.
+> Since the live-seed pass every entry is ALSO joined to the ability identity
+> layer: `liveEvidence.identity` names the ability the row is a generation of -
+> `abilityKey`, `live`, `liveNodeIds` (the ids the LIVE trees actually carry for
+> it, which are different numbers from this entry's), `generations`,
+> `trainerTaught`. It is **evidence, not a verdict**: `live` itself is still the
+> id-equality method's, because a (class, name) join was measured against
+> proven-live entries and rejected as a live claim. The two are published side by
+> side and their agreement counted in `data/classes/_live_summary.json`'s
+> `identityAgreement` - whose interesting cell is `identityLiveEntryNot`, entries
+> the id method sees in no live tree whose ability nonetheless HAS a live node.
+> That number is the id-generation gap, measured. Use `liveEvidence.identity` to
+> cross generations; use `data/spells/` (whose closure is seeded from live truth)
+> for "does this exist in the game".
 
 ## File map
 
@@ -106,7 +134,7 @@ them. Pick the layer that matches the question you are actually asking:
 
 | Layer | Path | What it is | Size | Answers |
 |---|---|---|---|---|
-| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 28,951 records | "what does spell `<id>` DO?" |
+| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 32,818 records | "what does spell `<id>` DO?" |
 | **2. Catalog (CAD)** | `data/classes/` | what the client's character-advancement tables **LIST** for a class - an authored roster, kept across content generations | 43 class dirs, 23,709 entries | "what does the client's catalog SAY about this class?" |
 | **3. Live trees** | `data/talents/coa/` | the published talent-builder capture (task W4-9, sha256-pinned in `raw/talents/`) - the actual tree geometry a player sees | 21 `coa-custom` classes, 3,618 nodes | "what can a player ACTUALLY train or spec into?" |
 | **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, and the evidence per membership | 8,745 abilities, 29,774 member ids | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
@@ -178,9 +206,9 @@ this repo needs an exemption).
 | `data/classes/<Class>/_general.json` | entries with no `Tab` (none exist in the current snapshot; the file only appears if some do) | small |
 | `data/spells/index.json` | bucket manifest: `bucketSize` (10000), total `count`, `buckets: [{bucket, file, count, minId, maxId}]` | small |
 | `data/spells/by-id/spells-<id//10000*10000>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id within the bucket; empty buckets are omitted - each effect carries `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` when nonzero (task W4-3, see "Spell column completion" below), and each record carries `speed`/`equippedItem`/`maxAffectedTargets`/`casterAuraSpell`/`targetAuraSpell`/`manaPerSecond`/`targetCreatureType`/`casterAuraState`/`targetAuraState`/`stancesNot`/`missileId`/`family.flags3` unconditionally; task W4-4 adds `rankAt60` (chain's own first-rank record only, omitted when none of that chain's ranks are CAD-level<=60) and `devDead: true` (7 records, see "Formula closure, level-60 ranks..." below) when applicable | small-medium per file - stream/grep it, do not slurp |
-| `data/spells/_meta.json` | counts only: `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts), `formulaClosure`/`rankAt60`/`scalingConstants`/`devDead` (task W4-4, see "Formula closure, level-60 ranks..." below) | small |
+| `data/spells/_meta.json` | counts only: `liveCoverage` (the live-ability coverage gate: `liveNodeIds`/`covered`/`rate`/`missingIds` plus the per-reason record split), `liveSeedRule`, `liveFlagRule`, `baseVariant`, `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `missingRefsFile` pointer, `columnCoverage` (pointer to `_coverage.json` + summary counts), `formulaClosure`/`rankAt60`/`scalingConstants`/`devDead` (task W4-4, see "Formula closure, level-60 ranks..." below) | small |
 | `data/spells/_coverage.json` | task W4-3: per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 total fields, 124 emitted/4 mapped-not-emitted) - see "Spell column completion" below | small |
-| `data/spells/_coverage_live.json` | **damage-model** coverage (unrelated to `_coverage.json`, which is COLUMN coverage): how many damaging/healing effect slots a simulator can model, measured over CASTABLE content and, for history, over the whole CAD catalog - `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the actual probe list, with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks` (20 reproduction gates against the published audit), method notes. Written by `analysis/coverage_live.py` (NOT part of `build_dataset`); see "Damage-model coverage" below | small |
+| `data/spells/_coverage_live.json` | **damage-model** coverage (unrelated to `_coverage.json`, which is COLUMN coverage): how many damaging/healing effect slots a simulator can model, measured over CASTABLE content and, for history, over the whole CAD catalog - `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the actual probe list, with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks` (20 reproduction gates against the published audit), method notes. Written by `analysis/coverage_live.py` (NOT part of `datamine.py`'s curation stage); see "Damage-model coverage" below | small |
 | `data/spells/_enum_evidence.json` | per-id provenance for every effect/aura enum label: `{effects, auras}` keyed by numeric id -> `{bucket, confidence, name, goldenSpells, occurrences}`, plus a `summary` block. 224 classified ids (66 effect + 158 aura) - 57 `confidence: verified` names are actually WIRED into `tools/enums335.py`'s `COA_*` maps, 2 more carry an `[INFERRED]` name and are deliberately documentation-only (never wired), and the remaining 167 are left as numeric `EFFECT_<n>`/`AURA_<n>`. Every named entry carries >=1 `goldenSpells` id you can look up in `data/spells/` to check the name yourself - **this is how you audit any enum label in this dataset** | small |
 | `data/spells/_missing_refs.json` | full missing-ref id lists by source (`cad_other`/`cad_reborn`/`talent`/`rank`/`formula` - task W4-4 adds `formula`, report-only, never folded into the `cad_other`/`talent` hard gates), each source's array on ONE line | small (line count, not byte count) |
 | `data/talents/<ChrClass>.json` | DBC talent trees (row/col/ranks/prereqs) - only exists for the 12 classes that have DBC talent tabs; largest is ~3.6k lines, under the gate as-is, not sharded | medium |
@@ -379,9 +407,33 @@ unaudited retail API parity is a recurring source of live-client crashes).
   references embedded in this text (`$<id>m1`, `$?s<id>`, `@ifknown:<id>`) are now
   followed into the dataset (depth-capped at 2) - see "Formula closure..." below;
   `@s:<id>` is a spellbook cross-link, deliberately NOT followed.
-- **referencedBy**: how a spell entered the set - `cad` (obtainable), `rank`,
-  `talent`, `trigger` (reached via EffectTriggerSpell closure; often the actual
-  buff aura behind a cast), `formula` (task W4-4: reached via a description/tooltip
+- **live / liveEvidence** (every record): `true` = a LIVE talent-tree node carries
+  this exact id (`liveEvidence.reason: liveNode`), or the ability identity layer
+  joins it to an ability that has one (`liveAbilityMember` - the trainer ladder,
+  the rank chain or the catalog row of the same ability, a different id
+  generation). `false` = the identity layer owns the id, its class's live tree
+  WAS captured, and the ability has no node in it (`abilityWithNoLiveNode`) -
+  the mechanical form of "the catalog lists it, the game does not have it", and
+  what Tide Lash now says. `null` has two reasons and they are different claims:
+  `notAnAbility` = no ability owns the id (stock 3.3.5 content, trigger/formula
+  closure spells, profession recipes), `noLiveGeometry` = an ability owns it but
+  no live tree was captured for that class, so there is nothing for it to be
+  absent from - the builder capture covers CoA's custom classes, so nothing is
+  claimed either way about Power Word: Shield. **`null` is not `false`**: a
+  missing measurement is not a negative result. `_meta.json`'s
+  `liveCoverage.classesWithLiveGeometry` lists the classes `false` is sayable
+  about at all. When an ability owns the id, `liveEvidence` also carries
+  `abilityKey`/`abilityName`/`classId`/`generation`/`generations` and, when the
+  ability is live, `abilityLiveIds` - so you can cross the id generations without
+  re-deriving the join. `data/spells/_meta.json`'s `liveCoverage` carries the
+  totals and the gate.
+- **referencedBy**: how a spell entered the set. LIVE-truth seeds first - `live`
+  (a live talent-tree node carries this id), `liveTrainer`, `liveRank`, `liveCad`
+  (an id the identity layer joins to the same ABILITY as a live node, via the
+  trainer ladder / rank chain / catalog row). Then the catalog seeds, kept but no
+  longer the source of truth - `cad`, `rank`, `talent`. Then the closure -
+  `trigger` (reached via EffectTriggerSpell closure; often the actual buff aura
+  behind a cast), `formula` (task W4-4: reached via a description/tooltip
   cross-spell reference, depth-capped at 2 - see "Formula closure..." below).
 - **Blank name vs. null name.** A spell can be present with `name: ""` (blank but
   non-null) - this is a WIP-content signature straight from the client (e.g. 222
@@ -614,8 +666,8 @@ correctly returns exactly one name here, `area-52`.
 `data/gt/` (task W4-2, patch-M/patch-S) curates the 9 `gt*` tables whose layout this
 task proved, from a fresh extraction independent of the source spec's own snapshot
 (the live client patches on its own schedule). It is written by `tools/build_gt.py`,
-which is wired into `tools/build_dataset.py`'s orchestrator right after the essence
-stage - so `python -m tools.build_dataset` regenerates it along with everything else.
+which `datamine.py`'s curation stage runs right after the essence stage - so
+`python datamine.py` regenerates it along with everything else.
 (It was NOT wired for most of v4: W4-2 landed before the stage-wiring commits, so an
 otherwise-full regeneration silently skipped `data/gt/` and left it on an older client
 snapshot. Fixed in the review pass; `raw/provenance.json`'s `buildStats` now carries a
@@ -1050,7 +1102,7 @@ selects the flags-(0,0,0,0) row, present exactly once per (classId, level) pair
 > archetype metadata - `build_classmeta.py`'s own docstring states it owns
 > `specs.json`/`archetypes.json` **only**. Rather than silently widening that
 > module's scope, this task added a **new**, single-purpose module,
-> `tools/build_essence.py`, wired into `tools/build_dataset.py`'s orchestrator
+> `tools/build_essence.py`, driven by `datamine.py`'s curation stage
 > right after the classmeta stage. It only reads `work/dbc` (ChrClasses +
 > CharacterAdvancementEssence) - no dependency on `data/classes/` existing.
 
@@ -1410,7 +1462,7 @@ single-writer) closes that gap for all 21 `coa-custom` classes, built from the
 published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (frozen
 by `tools/fetch_coatalents.py` into `raw/talents/coa-builder-voljin.html` +
 `_fetch.json` - a deliberate, occasional, NETWORK step kept separate from the
-offline `build_dataset` pipeline, same relationship as `AddOns/APIDocumentation`
+offline curation stage, same relationship as `AddOns/APIDocumentation`
 being a verbatim external capture rather than something re-derived). The page is a
 Next.js "flight" payload; extraction is a from-scratch analogue of the
 `coa-sim-handoff/parsers/aowow.py` Listview trick (locate an anchor, `raw_decode`
@@ -2014,13 +2066,13 @@ measurement, tab-mapping injectivity, and the `tabStatus` states).
 
 **Pipeline ordering (task W4-11e, still current)**: `build_classmeta.build()`
 requires `data/talents/coa/_meta.json` and `data/classes/_live_summary.json` to
-already exist (hard `assert`s), so `build_dataset.py` runs `build_coatalents.build()`
+already exist (hard `assert`s), so `datamine.curate()` runs `build_coatalents.build()`
 right after `build_classes` - BEFORE `build_talents`/`build_dungeons`/
 `build_creatures`/`build_classmeta` (it previously ran near the end, after `mythic`).
 Content-neutral for `build_coatalents` itself (its only real dependencies,
 `data/classes/` and `data/spells/`, are unaffected by where `talents`/`dungeons`/
 `creatures`/`classmeta`/`essence`/`mythic` fall in the stage list) - re-verified by a
-full `build_dataset.run()` pass producing identical `coatalents` stats before and
+full `datamine.curate()` pass producing identical `coatalents` stats before and
 after the move.
 
 ### Damage-model coverage: measure it over castable content, not the catalog
@@ -2540,7 +2592,7 @@ whenever CoA ships new content:
   groups pinned against the frozen `raw/talents/coa-builder-voljin.html` capture -
   these will only drift if that capture is refreshed via
   `tools/fetch_coatalents.py` (a deliberate, separate step, not part of
-  `build_dataset`'s pipeline), not on an ordinary client-patch re-run. The
+  `datamine.py`'s curation stage), not on an ordinary client-patch re-run. The
   84/96/72/24 tab-layer reconciliation numbers, the 5-of-7 Sec 11
   "unreleased spec" shipped count (`FLESHWEAVER`/`VALKYR`/`MOUNTAINKING`/
   `WITCHKNIGHT`/`VIZIER` shipped; `HYDROMANCY`/`BULWARK` not), and the

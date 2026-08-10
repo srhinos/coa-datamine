@@ -176,7 +176,11 @@ assert sbp["citedBreakpoints"] == expected_breakpoints, sbp["citedBreakpoints"]
 assert sbp["valueTable"]["60"] == 0.9874
 assert "level normaliser" in sbp["framing"].lower()
 assert "not a stat coefficient" in sbp["framing"].lower() or "not itself a source" in sbp["framing"].lower()
-assert sbp["referencedBySpellCount"] == 550, sbp["referencedBySpellCount"]
+# Counted over the CLOSURE, so it moves when the closure does. 550 -> 552 in the
+# live-seed pass: seeding from live truth pulled in 3,861 more records, two of
+# which use $scalingbp. Re-pin deliberately when the closure changes; do not
+# widen it into a range, the exact number is the point.
+assert sbp["referencedBySpellCount"] == 552, sbp["referencedBySpellCount"]
 
 # =====================================================================
 # (d) devDead: independently re-scan work/dbc/Spell.dbc for the literal marker

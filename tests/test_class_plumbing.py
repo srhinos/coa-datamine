@@ -158,7 +158,7 @@ assert demon_meta["classId"] == 14 and demon_meta["aliases"] == []
 
 # [Task W4-11e] build_classmeta now reads data/talents/coa/_meta.json (specs.json's
 # tabStatus reconciliation) - must run build_coatalents first, matching the real
-# build_dataset.py stage order.
+# tools/curate.py stage order.
 build_coatalents.build()
 meta_stats = build_classmeta.build()
 specs_doc = json.loads((edir / "specs.json").read_text(encoding="utf-8"))

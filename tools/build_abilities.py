@@ -170,6 +170,85 @@ def _read_json(path):
 
 
 # ---------------------------------------------------------------------------
+# The layer, read back: the LIVE-truth seed for every downstream curated view
+# ---------------------------------------------------------------------------
+
+def iter_abilities():
+    """Every ability record in this layer, class order then file order."""
+    d = config.DATA_DIR / OUT_DIRNAME
+    index = _read_json(d / "index.json")
+    for cls in index["classes"]:
+        for name in cls["files"]:
+            for rec in _read_json(d / name)["abilities"]:
+                yield rec
+
+
+def live_seed() -> dict:
+    """What the curated layer must be seeded from, instead of the CAD catalog.
+
+    `liveNodeIds` is the ground truth this repo was measured against: every
+    spell id a LIVE talent-tree node carries. `seedIds` is that set closed over
+    ability IDENTITY - for an ability with a live node, every id in every
+    generation of it (the trainer ladder, the rank chain, the catalog row) names
+    the same ability and belongs in the same curated closure. That closure is
+    what turns 1,963/3,932 into full coverage, and none of it is a guess: each
+    membership carries the evidence row that produced it (see this module's
+    stage comments).
+
+    `byId` is the per-id evidence every curated record then stamps as `live` +
+    `liveEvidence`, so a consumer never has to re-derive the join - and CAD-only
+    ids get a record too, marked live:false rather than dropped."""
+    live_node_ids, seed, by_id, by_class = set(), {}, {}, {}
+    for a in iter_abilities():
+        for m in a["members"]:
+            sid = m["id"]
+            by_class.setdefault((a["classId"], sid), {
+                "abilityKey": a["key"], "abilityName": a["name"],
+                "classId": a["classId"], "abilityLive": a["live"],
+                "generation": m["generation"], "generations": m["generations"],
+                "liveNodeIds": a["liveIds"], "trainerTaught": a["trainerTaught"]})
+            if "liveNode" in m["generations"]:
+                live_node_ids.add(sid)
+            prev = by_id.get(sid)
+            # An id can sit in several classes' abilities (shared/pet spells).
+            # Prefer the live one, then the one with more generations behind it,
+            # so the stamped evidence is the strongest available - ties broken on
+            # (classId, key) so the choice is deterministic, never file order.
+            cand = (a["live"], len(m["generations"]), -a["classId"], a["key"])
+            if prev is None or cand > prev["_rank"]:
+                by_id[sid] = {
+                    "_rank": cand,
+                    "abilityKey": a["key"], "abilityName": a["name"],
+                    "classId": a["classId"], "abilityLive": a["live"],
+                    "generation": m["generation"],
+                    "generations": m["generations"],
+                    "liveNodeIds": a["liveIds"],
+                    "trainerTaught": a["trainerTaught"],
+                }
+            if a["live"]:
+                seed.setdefault(sid, set()).update(m["generations"])
+    for v in by_id.values():
+        del v["_rank"]
+    return {"liveNodeIds": live_node_ids,
+            "seedIds": {k: sorted(v) for k, v in seed.items()},
+            # The classes a live tree was actually CAPTURED for. Load-bearing, not
+            # informational: `live: false` is only sayable about a class whose tree
+            # this snapshot can see. The builder capture covers CoA's custom
+            # classes; for a vanilla class it captures nothing, and reading that as
+            # "Power Word: Shield is not in the game" would be inventing evidence
+            # out of an absent measurement.
+            "classesWithLiveGeometry": {
+                int(cid) for cid, c in coa_live.live_index().get(
+                    "byClassId", {}).items() if c.get("spellNodes")},
+            "byId": by_id,
+            # (classId, spellId) -> that class's own ability for the id. An id can
+            # belong to several classes' abilities (shared and pet spells); a
+            # per-class consumer must not be handed another class's verdict, and
+            # `byId` deliberately collapses to one, so both indexes exist.
+            "byClassMember": by_class}
+
+
+# ---------------------------------------------------------------------------
 # Sources
 # ---------------------------------------------------------------------------
 

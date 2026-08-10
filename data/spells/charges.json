@@ -1,5 +1,5 @@
 {
- "_note": "SpellCharges 'ref' resolves to a Spell.dbc id for 88.50% of rows in this snapshot (below the 90% attach bar); carried standalone, not attached to spell records. See 'realmGapFinding' below (task W4-11f) for the full characterization of the non-joining refs. NOTE: '_meta.json's enrichment.charges.attached' is a reporting-only verdict on whether the join clears 0.90 after proven-dead exclusions - it does not itself merge a 'charges' field onto any spells.jsonl record; that would need a separate build_spells.py merge path.",
+ "_note": "SpellCharges 'ref' resolves to a Spell.dbc id for 88.67% of rows in this snapshot (below the 90% attach bar); carried standalone, not attached to spell records. See 'realmGapFinding' below (task W4-11f) for the full characterization of the non-joining refs. NOTE: '_meta.json's enrichment.charges.attached' is a reporting-only verdict on whether the join clears 0.90 after proven-dead exclusions - it does not itself merge a 'charges' field onto any spells.jsonl record; that would need a separate build_spells.py merge path.",
  "categories": {
   "1": {
    "id": 1,
@@ -657,6 +657,13 @@
    "raw": [
     2,
     8000
+   ]
+  },
+  "662": {
+   "id": 662,
+   "raw": [
+    2,
+    6000
    ]
   },
   "67": {
@@ -1537,6 +1544,11 @@
    "resolvedSpellName": "Dark Infusion"
   },
   {
+   "categoryId": 662,
+   "ref": 500919,
+   "resolvedSpellName": "Whirling Advance"
+  },
+  {
    "categoryId": 57,
    "realmResolvedIn": [
     "area-52"
@@ -1996,6 +2008,31 @@
    "categoryId": 67,
    "ref": 504735,
    "resolvedSpellName": "Alkahest"
+  },
+  {
+   "categoryId": 662,
+   "ref": 504912,
+   "resolvedSpellName": "Whirling Advance"
+  },
+  {
+   "categoryId": 662,
+   "ref": 504913,
+   "resolvedSpellName": "Whirling Advance"
+  },
+  {
+   "categoryId": 662,
+   "ref": 504914,
+   "resolvedSpellName": "Whirling Advance"
+  },
+  {
+   "categoryId": 662,
+   "ref": 504915,
+   "resolvedSpellName": "Whirling Advance"
+  },
+  {
+   "categoryId": 662,
+   "ref": 504916,
+   "resolvedSpellName": "Whirling Advance"
   },
   {
    "categoryId": 34,
@@ -2878,10 +2915,10 @@
   }
  ],
  "realmGapFinding": {
-  "adjustedJoinRate": 0.885,
+  "adjustedJoinRate": 0.8867,
   "byRealm": {
    "area-52": {
-    "realmSpellCount": 238939,
+    "realmSpellCount": 238942,
     "resolvedCount": 46
    }
   },

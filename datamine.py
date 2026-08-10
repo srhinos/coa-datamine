@@ -118,7 +118,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
-from tools import config, dbcdecode, emit, mpq
+from tools import config, curate, dbcdecode, emit, mpq
 from tools.mpq import (MPQ_FILE_COMPRESS, MPQ_FILE_ENCRYPTED, MPQ_FILE_EXISTS,
                        MPQ_FILE_IMPLODE, MPQ_FILE_SECTOR_CRC,
                        MPQ_FILE_SINGLE_UNIT)
@@ -1459,7 +1459,17 @@ def main(argv=None) -> int:
     check_single_open(scans)
     reads.check()
 
-    # ---- 3. emit ----------------------------------------------------------
+    # ---- 3. curation inputs -----------------------------------------------
+    # HERE, not later: emit_all frees the harvest on its way to the catalog
+    # (Harvest.release), and `h.table_bytes` - the map from (path, archive) to
+    # the staged bytes of that copy - is exactly what selecting a base-context
+    # or realm-context table needs. Writing the files now costs one copy each
+    # and keeps the alternative (reopening archives) impossible rather than
+    # merely discouraged.
+    banner("curation inputs: the table bytes the derived layer will read")
+    cur_inputs = curate.materialize_inputs(h, prog)
+
+    # ---- 4. emit ----------------------------------------------------------
     if STAGING_DIR.exists():
         shutil.rmtree(STAGING_DIR)
     STAGING_DIR.mkdir(parents=True, exist_ok=True)
@@ -1467,11 +1477,28 @@ def main(argv=None) -> int:
     layers = emit.emit_all(h, manifest, probe, STAGING_DIR, staging_work,
                            SNAPSHOT_DIR, t0)
 
-    # ---- 4. swap ----------------------------------------------------------
+    # ---- 5. swap ----------------------------------------------------------
     # Re-run BOTH guards over the whole run, not just the traversal: the emit
     # phase opens files too (nested containers, the snapshot's PE images), and a
     # guard that stops watching before the last layer is written is a guard with
     # a hole in it. Nothing is published until both pass.
+    check_single_open(scans)
+    reads.check()
+    banner("publishing")
+    emit.publish(STAGING_DIR, config.RAW_DIR, layers)
+    ext_secs = time.time() - t_ext
+
+    # ---- 6. curate --------------------------------------------------------
+    # The derived layer, from the raw layer this run just published, with both
+    # guards STILL ARMED. That is the point of doing it here rather than in a
+    # second script: "curation never reads the client" is checked by the same
+    # mechanism that checks it for the raw layer, and a builder that reached for
+    # config.CLIENT_DIR would fail the run instead of quietly mixing versions.
+    banner("curate: the derived data/ layer")
+    t_cur = time.time()
+    prov = curate.run(cur_inputs)
+    cur_secs = time.time() - t_cur
+
     opens = check_single_open(scans)
     reads.check()
     reads.remove()
@@ -1483,11 +1510,8 @@ def main(argv=None) -> int:
         "clientReadsByPhase": dict(sorted(reads.by_phase.items())),
         "clientReadsAfterSnapshot": reads.by_phase.get("after the snapshot", 0),
         **opens})
-    banner("publishing")
-    emit.publish(STAGING_DIR, config.RAW_DIR, layers)
-    ext_secs = time.time() - t_ext
 
-    # ---- 5. summary -------------------------------------------------------
+    # ---- 7. summary -------------------------------------------------------
     banner("summary")
     total = time.time() - t0
     snap_bytes = sum(f["bytes"] for f in manifest["files"].values())
@@ -1507,9 +1531,13 @@ def main(argv=None) -> int:
         bits = ", ".join(f"{k}={v:,}" if isinstance(v, int) else f"{k}={v}"
                          for k, v in facts.items() if not k.startswith("_"))
         print(f"  {name:20s} {bits}")
+    live = prov["buildStats"]["spells"]["liveCoverage"]
+    print(f"  data/ curated        {len(prov['buildStats'])} domains, "
+          f"live ability coverage {live['covered']}/{live['liveNodeIds']} "
+          f"({live['rate']:.1%})")
     print(f"\n  WALL CLOCK           {total / 60:.1f} min "
           f"({total:.0f}s)   snapshot {snap_secs:.0f}s  |  "
-          f"extract {ext_secs:.0f}s")
+          f"extract {ext_secs:.0f}s  |  curate {cur_secs:.0f}s")
     return 0
 
 

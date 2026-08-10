@@ -299,6 +299,16 @@
    "Warden"
   ]
  },
+ "identityAgreement": {
+  "agree": 6665,
+  "entryLiveIdentityNot": 0,
+  "entryUnknownIdentityNotLive": 16440,
+  "identityLiveEntryNot": 477,
+  "identityLiveEntryNotMeans": "the id-equality method finds this entry in no live tree, but the ability it belongs to HAS a live node under a different spell id. That is the id-generation gap itself, measured; the live ids are on the entry at liveEvidence.identity.liveNodeIds.",
+  "noIdentity": 127,
+  "rule": "an entry's spell ids are looked up in ITS OWN class's abilities only - shared and pet ids belong to several classes' abilities at once; the strongest hit (live first, then most live nodes) supplies the evidence. EVIDENCE ONLY: the identity join never changes `live`, see tools/build_classes.py:_stamp_identity for why.",
+  "source": "data/abilities (tools/build_abilities.py)"
+ },
  "method": {
   "liveCountsKeys": "live = liveDirect; liveViaRank counted separately; unknown = indeterminate + unknownNoGeometry. Entries with live==true are live + liveViaRank. The four keys sum to entryCount.",
   "matching": "spell id equality only - no name matching enters the live/dead verdict itself (names are used only as a false-negative PROBE, and only to downgrade dead -> indeterminate)",

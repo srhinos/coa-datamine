@@ -18,7 +18,7 @@ DATA_DIR = REPO_ROOT / "data"
 # v4 (task W4-9): frozen capture of the external ascension.gg CoA talent-builder
 # payload (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
 # (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py (network step,
-# run manually/occasionally - NOT part of the offline build_dataset pipeline);
+# run manually/occasionally - NOT part of datamine.py's offline pipeline);
 # tools/build_coatalents.py only ever reads the already-committed capture.
 RAW_TALENTS_DIR = RAW_DIR / "talents"
 

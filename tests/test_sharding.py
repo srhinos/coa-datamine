@@ -51,7 +51,17 @@ ALLOWLIST = {
 # per AGENT-GUIDE's "Regenerating after a client patch" contract; the class entry
 # counts and dungeon count below were re-derived at the same time and are UNCHANGED,
 # which is what makes this a content-churn delta rather than a writer regression.
-PRE_SPELL_COUNT = 28957
+# 2026-08-09 (live-seed pass, INTENTIONAL): the closure is no longer seeded from
+# the CAD catalog. It is seeded from LIVE truth - every live talent-node spell id,
+# plus every trainer/rank-ladder/catalog id the ability identity layer joins to one
+# - because the catalog seed reached only 1,963 of the 3,932 ids the live trees
+# reference (49.9%) while 1,966 of the missing ones sat in raw/tables/Spell the
+# whole time. That is a deliberate widening of the writer's output, not client
+# drift: 28,957 -> 32,820 (+3,863), and data/spells/_meta.json's liveCoverage now
+# gates live-node coverage at exactly 1.0. Re-pinned accordingly. The class entry
+# counts and dungeon count below are re-derived against the same 2026-08-09
+# snapshot in the same pass.
+PRE_SPELL_COUNT = 32820
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,
@@ -66,7 +76,10 @@ PRE_CLASS_ENTRY_COUNTS = {
     "Venomancer": 404, "Warlock": 302, "Warrior": 294, "WitchDoctor": 403,
     "WitchHunter": 392, "_other": 62,
 }
-PRE_DUNGEON_COUNT = 431
+# 2026-08-09 client patch: LFGDungeons lost one row, 431 -> 430. Snapshot-pin
+# drift, not a writer change - the class entry counts above were re-derived in the
+# same pass and are unchanged.
+PRE_DUNGEON_COUNT = 430
 
 # rebuild the curated layer fresh (work/dbc + raw/content already extracted/dumped -
 # do NOT re-extract; each build() is a few seconds at most)
@@ -110,13 +123,17 @@ assert "missing_refs_by_source" not in meta, "full missing-ref lists must move o
 missing = json.loads((sdir / "_missing_refs.json").read_text(encoding="utf-8"))
 # [Task W4-4] "formula" joins the source set - report-only bucket for formula-
 # referenced ids that don't resolve to a live Spell.dbc row (see build_spells.py).
-assert set(missing) == {"cad_other", "cad_reborn", "talent", "rank", "formula"}
+# "live" joined the buckets in the live-seed pass: ids that reached the closure
+# through live truth and no catalog/talent/rank row at all (its miss list is
+# gated at empty by build_spells itself - every live-node id must resolve).
+assert set(missing) == {"cad_other", "cad_reborn", "talent", "rank", "live",
+                        "formula"}
 for k, v in meta["missing_ref_counts_by_source"].items():
     assert len(missing[k]) == v
 # each source's array really is on one line (the amendment's compactness requirement)
 raw_lines = (sdir / "_missing_refs.json").read_text(encoding="utf-8").splitlines()
 array_lines = [ln for ln in raw_lines if ln.strip().startswith('"') and "[" in ln]
-assert len(array_lines) == 5
+assert len(array_lines) == len(meta["missing_ref_counts_by_source"]) == 6
 
 # ---- classes: per-class index completeness + count invariance ----
 cdir = config.DATA_DIR / "classes"

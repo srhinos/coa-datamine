@@ -9,7 +9,7 @@ stats = build_dungeons.build()
 ddir = config.DATA_DIR / "dungeons"
 index = json.loads((ddir / "index.json").read_text(encoding="utf-8"))
 idx_dungeons = index["dungeons"]
-assert len(idx_dungeons) == 431
+assert len(idx_dungeons) == 430   # 2026-08-09 snapshot pin: LFGDungeons lost a row
 
 names = {d["name"] for d in idx_dungeons}
 assert any("eadmines" in n for n in names), "Deadmines missing"

@@ -19,7 +19,7 @@ data is allowed to CLAIM:
     means "a CAD tab with this token exists" - the W4-11e failure this task fixes.
 
 Rebuilds the three writers in dependency order (classes -> coatalents -> classmeta),
-matching build_dataset.py, so nothing here reads a stale artifact.
+matching tools/curate.py, so nothing here reads a stale artifact.
 """
 import json, sys
 from collections import Counter

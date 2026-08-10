@@ -17,7 +17,7 @@ overlays".
 
 CLI: `python -m tools.diff_realm_overlay <realm>` - realm must already be
 extracted under work/dbc/ (base) and work/realms/<realm>/dbc/ (overlay); this
-module does not extract anything itself (run tools.build_dataset or
+module does not extract anything itself (run datamine.py or
 tools.build_realms.build() first if work/realms/<realm>/dbc/Spell.dbc is missing).
 
 Scope: "shared CoA rows" = ids in build_spells._coa_class_spell_ids() (the same
@@ -72,7 +72,7 @@ def diff_realm(realm: str) -> dict:
     overlay_dir = config.WORK_REALMS_DIR / realm / "dbc"
     assert (overlay_dir / "Spell.dbc").is_file(), (
         f"realm {realm!r}: no extracted Spell.dbc at {overlay_dir} - run "
-        "tools.build_realms.build() (or tools.build_dataset) first")
+        "tools.build_realms.build() (or datamine.py) first")
 
     base = _spell_rows(base_dir)
     overlay = _spell_rows(overlay_dir)

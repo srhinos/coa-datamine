@@ -14,11 +14,11 @@
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
  "shards": [
-  {"file":"0000000-0999999.jsonl","format":"plain","hi":999999,"lo":0,"plainBytes":136848,"rows":4400,"sha256":"c1cf73f84704934835de6028ec39d3f253452f8ea76d298f4a336099122958cf","storedBytes":136848},
+  {"file":"0000000-0999999.jsonl","format":"plain","hi":999999,"lo":0,"plainBytes":136848,"rows":4400,"sha256":"4b6d8682ee6e326ad9008043317ebe67cdcf8ae7123a4d84b373cc9add4060d4","storedBytes":136848},
   {"file":"1000000-1999999.jsonl","format":"plain","hi":1999999,"lo":1000000,"plainBytes":72224,"rows":2200,"sha256":"37d2be66a359e47d4c66edc0724d8a4244b2dbefe5c7c70ca3ce8bdc2e46ad16","storedBytes":72224},
   {"file":"2000000-2999999.jsonl","format":"plain","hi":2999999,"lo":2000000,"plainBytes":6613,"rows":201,"sha256":"5363bca7a91d4a821304f28c08658f146cb6cdd47596a60fc43339fd5afa03a6","storedBytes":6613}
  ],
- "sourceSha256": "52ada871d42f1aebf4146394ca508038781f0311cfda0e89d26639361955058b",
+ "sourceSha256": "dff13de53f727e1a92defccdaf99f4341d96f7e318604b5acdfcdb053f714f4d",
  "storedBytes": 215685,
  "stringBlockSize": 0,
  "table": "MythicKeystones",
@@ -26,6 +26,6 @@
  "variantCount": 1,
  "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
  "variants": [
-  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":3,"decodedRows":6801,"format":"plain","layer":"base","path":"raw/tables/MythicKeystones/","realm":null,"rowDelta":0,"rows":6801,"sha256":"52ada871d42f1aebf4146394ca508038781f0311cfda0e89d26639361955058b","shards":3,"slug":"data-patch-m-mpq","sourceBytes":81632,"storedBytes":215685}
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":3,"decodedRows":6801,"format":"plain","layer":"base","path":"raw/tables/MythicKeystones/","realm":null,"rowDelta":0,"rows":6801,"sha256":"dff13de53f727e1a92defccdaf99f4341d96f7e318604b5acdfcdb053f714f4d","shards":3,"slug":"data-patch-m-mpq","sourceBytes":81632,"storedBytes":215685}
  ]
 }

@@ -1,0 +1,51 @@
+{
+ "class": "Necromancer",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 8600,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_necro_inevitableend",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c23:blight",
+     "classId": 23,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Blight",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "0",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Disease",
+     "id": 500217,
+     "name": "Blight",
+     "ranks": null,
+     "schools": [
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Death",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Death",
+ "type": "Ability"
+}

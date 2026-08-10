@@ -1,0 +1,3023 @@
+{
+ "class": "SunCleric",
+ "entries": [
+  {
+   "aeCost": 3,
+   "cadId": 19447,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_paladin_blindinglight2",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7666,
+    "builderTab": "Seraphim",
+    "identity": {
+     "abilityKey": "c27:hammerofkings",
+     "abilityName": "Hammer of Kings",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804751
+     ]
+    },
+    "matchedSpellId": 804751,
+    "reason": "liveDirect"
+   },
+   "name": "Anoint",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804751,
+     "name": "Hammer of Kings",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18696,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_shield_1h_artifactnorgannon_d_06",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:battlepriest",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Battle Priest",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801180,
+     "name": "Battle Priest",
+     "ranks": null,
+     "schools": [
+      "Physical",
+      "Holy",
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19766,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_paladin_sheathoflight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:bladeofthesun",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Blade of The Sun",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805632,
+     "name": "Blade of The Sun",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19202,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_paladin_selflesshealer",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:windtunnel",
+     "abilityName": "Wind Tunnel",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Blightbreaker",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 12,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804050,
+     "name": "Wind Tunnel",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804050
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 503375
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 503376
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 503377
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 503378
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 503379
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 503380
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 503381
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 503382
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 503383
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19207,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_priest_burningwill",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 1374,
+    "builderTab": "Seraphim",
+    "identity": {
+     "abilityKey": "c27:calm",
+     "abilityName": "Calm",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804057
+     ]
+    },
+    "matchedSpellId": 804057,
+    "reason": "liveDirect"
+   },
+   "name": "Calming Word",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 16,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804057,
+     "name": "Calm",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18544,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Spell_Holy_SpiritualGuidence",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:chosenofthelight",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Chosen of the Light",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800622,
+     "name": "Chosen of the Light",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18541,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_mace_82",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:gavelofgrace",
+     "abilityName": "Gavel of Grace",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Dawnbringer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 15,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800614,
+     "name": "Gavel of Grace",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18193,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_priest_power word",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31194,
+    "builderTab": "Piety",
+    "identity": {
+     "abilityKey": "c27:dawnsear",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500146
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500146,
+    "reason": "liveDirect"
+   },
+   "name": "Dawnsear",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 15,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500146,
+     "name": "Dawnsear",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500146
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 502366
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 502367
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 502368
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 502369
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 502370
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 502371
+      }
+     ],
+     "schools": [
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18542,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_paladin_clarityofpurpose",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:gavelofwrath",
+     "abilityName": "Gavel of Wrath",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Emancipate",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800617,
+     "name": "Gavel of Wrath",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800617
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 502479
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 502480
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 502481
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 502482
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 502483
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 502484
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 502485
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19762,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_helm_plate_raidpaladin_s_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31380,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:fanaticism",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805628
+     ]
+    },
+    "matchedSpellId": 805628,
+    "reason": "liveDirect"
+   },
+   "name": "Fanaticism",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805628,
+     "name": "Fanaticism",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18539,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_paladin_judgementofthepure",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:gaveloflight",
+     "abilityName": "Gavel of Light",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Gavel of Atonement",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800611,
+     "name": "Gavel of Light",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800611
+      },
+      {
+       "level": 7,
+       "rank": 2,
+       "spellId": 502467
+      },
+      {
+       "level": 13,
+       "rank": 3,
+       "spellId": 502468
+      },
+      {
+       "level": 19,
+       "rank": 4,
+       "spellId": 502469
+      },
+      {
+       "level": 26,
+       "rank": 5,
+       "spellId": 502470
+      },
+      {
+       "level": 32,
+       "rank": 6,
+       "spellId": 502471
+      },
+      {
+       "level": 38,
+       "rank": 7,
+       "spellId": 502472
+      },
+      {
+       "level": 44,
+       "rank": 8,
+       "spellId": 502473
+      },
+      {
+       "level": 50,
+       "rank": 9,
+       "spellId": 502474
+      },
+      {
+       "level": 56,
+       "rank": 10,
+       "spellId": 502475
+      },
+      {
+       "level": 63,
+       "rank": 11,
+       "spellId": 502476
+      },
+      {
+       "level": 69,
+       "rank": 12,
+       "spellId": 502477
+      },
+      {
+       "level": 75,
+       "rank": 13,
+       "spellId": 502478
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19752,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_halo",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7314,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:glare",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805583
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805583,
+    "reason": "liveDirect"
+   },
+   "name": "Glare",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 26,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805583,
+     "name": "Glare",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19643,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_legion_faction_valarjar",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7647,
+    "builderTab": "Seraphim",
+    "identity": {
+     "abilityKey": "c27:gleamingarmor",
+     "abilityName": "Gleaming Armor",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805267
+     ]
+    },
+    "matchedSpellId": 805267,
+    "reason": "liveDirect"
+   },
+   "name": "Gleam",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805267,
+     "name": "Gleaming Armor",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18543,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_artifact_bulwarkoforder",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:gleamingvigil",
+     "classId": 27,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704585
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Gleaming Vigil",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800621,
+     "name": "Gleaming Vigil",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800621
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 502486
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 502487
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 502488
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 502489
+      }
+     ],
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18547,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_sword_2h_armyoflight_c_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31196,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:gloriousexecution",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800626
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800626,
+    "reason": "liveDirect"
+   },
+   "name": "Glorious Execution",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800626,
+     "name": "Glorious Execution",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19273,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_priest_chakra",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:guidancesanctify",
+     "abilityName": null,
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Guidance: Sanctify",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 804255,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19883,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsspell_holy_purifyingpower",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30690,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:heraldofpurity",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806058
+     ]
+    },
+    "matchedSpellId": 806058,
+    "reason": "liveDirect"
+   },
+   "name": "Herald of Purity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806058,
+     "name": "Herald of Purity",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18198,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsAchievement_Boss_OssirianTheUnscarred",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29510,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:horusathblast",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500154
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500154,
+    "reason": "liveDirect"
+   },
+   "name": "Horusath Blast",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 8,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500154,
+     "name": "Horusath Blast",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500154
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 502380
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 502381
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 502382
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 502383
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 502384
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 502385
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18190,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsability_priest_clarityofpurpose",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:illumination",
+     "classId": 27,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Illumination",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 6,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500143,
+     "name": "Illumination",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500143
+      },
+      {
+       "level": 8,
+       "rank": 2,
+       "spellId": 502421
+      },
+      {
+       "level": 14,
+       "rank": 3,
+       "spellId": 502422
+      },
+      {
+       "level": 21,
+       "rank": 4,
+       "spellId": 502423
+      },
+      {
+       "level": 28,
+       "rank": 5,
+       "spellId": 502424
+      },
+      {
+       "level": 34,
+       "rank": 6,
+       "spellId": 502425
+      },
+      {
+       "level": 41,
+       "rank": 7,
+       "spellId": 502426
+      },
+      {
+       "level": 48,
+       "rank": 8,
+       "spellId": 502427
+      },
+      {
+       "level": 54,
+       "rank": 9,
+       "spellId": 502428
+      },
+      {
+       "level": 61,
+       "rank": 10,
+       "spellId": 502429
+      },
+      {
+       "level": 68,
+       "rank": 11,
+       "spellId": 502430
+      },
+      {
+       "level": 74,
+       "rank": 12,
+       "spellId": 502431
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19761,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_glaive_1h_artifactaldrochi_d_01dual",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:placeholder",
+     "abilityName": "Placeholder",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Inquisition",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805626,
+     "name": "Placeholder",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18545,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsSpell_Holy_ArdentDefender",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:injunction",
+     "abilityName": "Injunction",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Let Them Come",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800624,
+     "name": "Injunction",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19764,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "6bf_rolling_fury",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:lightsadvance",
+     "abilityName": null,
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Light's Advance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 805630,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19753,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_priest_cascade",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:celestialprotection",
+     "abilityName": "Celestial Protection",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Lightspark",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805584,
+     "name": "Celestial Protection",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18540,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "spell_paladin_clarityofpurpose",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30684,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:championofthesun",
+     "abilityName": "Champion of the Sun",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800612
+     ]
+    },
+    "matchedSpellId": 800612,
+    "reason": "liveDirect"
+   },
+   "name": "Lord of Light",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800612,
+     "name": "Champion of the Sun",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18344,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Spell_Holy_DivinePurpose",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7910,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:radiance",
+     "abilityName": "Radiance",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800054
+     ]
+    },
+    "matchedSpellId": 800054,
+    "reason": "liveDirect"
+   },
+   "name": "Path of Light",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800054,
+     "name": "Radiance",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18194,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_evangelism",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33998,
+    "builderTab": "Blessings",
+    "identity": {
+     "abilityKey": "c27:daybreak",
+     "abilityName": "Daybreak",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      500147
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 500147,
+    "reason": "liveDirect"
+   },
+   "name": "Prayer of the Sands",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 500147,
+     "name": "Daybreak",
+     "ranks": [
+      {
+       "level": 1,
+       "rank": 1,
+       "spellId": 500147
+      },
+      {
+       "level": 28,
+       "rank": 2,
+       "spellId": 502432
+      },
+      {
+       "level": 54,
+       "rank": 3,
+       "spellId": 502433
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19884,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_mage_greaterpyroblast",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30957,
+    "builderTab": "Piety",
+    "identity": {
+     "abilityKey": "c27:radiantflame",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806060
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 806060,
+    "reason": "liveDirect"
+   },
+   "name": "Radiant Flame",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806060,
+     "name": "Radiant Flame",
+     "ranks": null,
+     "schools": [
+      "Holy",
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18847,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsAbility_Paladin_RighteousVengeance",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:revivify",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Revivify",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 11,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 801790,
+     "name": "Revivify",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18546,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "classicon_paladin",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:seraphshammer",
+     "abilityName": null,
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Seraph's Hammer",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800625,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800625
+      },
+      {
+       "level": 12,
+       "rank": 2,
+       "spellId": 502490
+      },
+      {
+       "level": 24,
+       "rank": 3,
+       "spellId": 502491
+      },
+      {
+       "level": 35,
+       "rank": 4,
+       "spellId": 502492
+      },
+      {
+       "level": 47,
+       "rank": 5,
+       "spellId": 502493
+      },
+      {
+       "level": 58,
+       "rank": 6,
+       "spellId": 502494
+      },
+      {
+       "level": 70,
+       "rank": 7,
+       "spellId": 502495
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18534,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_paladin_gaurdedbythelight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:angelicpresence",
+     "abilityName": "Angelic Presence",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      92137
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Seraph's Oath",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800586,
+     "name": "Angelic Presence",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19212,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_focusedwill",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:cycloneanprotection",
+     "abilityName": "Cyclonean Protection",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Shatter Curse",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 21,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804067,
+     "name": "Cyclonean Protection",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18475,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_spiritoftheredeemer",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:shine",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Shine",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 800357,
+     "name": "Shine",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800357
+      },
+      {
+       "level": 10,
+       "rank": 2,
+       "spellId": 502449
+      },
+      {
+       "level": 19,
+       "rank": 3,
+       "spellId": 502450
+      },
+      {
+       "level": 28,
+       "rank": 4,
+       "spellId": 502451
+      },
+      {
+       "level": 37,
+       "rank": 5,
+       "spellId": 502452
+      },
+      {
+       "level": 45,
+       "rank": 6,
+       "spellId": 502453
+      },
+      {
+       "level": 54,
+       "rank": 7,
+       "spellId": 502454
+      },
+      {
+       "level": 63,
+       "rank": 8,
+       "spellId": 502455
+      },
+      {
+       "level": 72,
+       "rank": 9,
+       "spellId": 502456
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18538,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_priest_flashoflight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:warriorslight",
+     "abilityName": "Warrior's Light",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Shining Ray",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800610,
+     "name": "Warrior's Light",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800610
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 502460
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 502461
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 502462
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 502463
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 502464
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 502465
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 502466
+      }
+     ],
+     "schools": [
+      "Holy",
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19642,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "inv_shield_1h_hyrja_d_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:shiningshield",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704586
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeTriggerSpell",
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Shining Shield",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805265,
+     "name": "Shining Shield",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19768,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "buff_forcesoforder",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:angelscalling",
+     "abilityName": "Angel's Calling",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Solar Crash",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805641,
+     "name": "Angel's Calling",
+     "ranks": null,
+     "schools": [
+      "Holy",
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19267,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_ascendance",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 31195,
+    "builderTab": "Blessings",
+    "identity": {
+     "abilityKey": "c27:bless",
+     "abilityName": "Bless",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804247
+     ]
+    },
+    "matchedSpellId": 804247,
+    "reason": "liveDirect"
+   },
+   "name": "Solar Guidance",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 10,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804247,
+     "name": "Bless",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19771,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "_D3fanofknives",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 29509,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:knightofdawn",
+     "abilityName": "Knight of Dawn",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805647
+     ]
+    },
+    "matchedSpellId": 805647,
+    "reason": "liveDirect"
+   },
+   "name": "Solar Spears",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 36,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805647,
+     "name": "Knight of Dawn",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18434,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_holybolts01",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:spearoflight",
+     "abilityName": null,
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Spear of Light",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 25,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800232,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800232
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502398
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502399
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502400
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502401
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502402
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502403
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502404
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502405
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502406
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19901,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_helm_cloth_raidpriest_p_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:judgementday",
+     "abilityName": "Judgement Day",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Stay of Execution",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806121,
+     "name": "Judgement Day",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18192,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconspaladin_icon_speedoflight",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:sunray",
+     "abilityName": null,
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Sun Ray",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 500145,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500145
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 502359
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 502360
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 502361
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 502362
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 502363
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 502364
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 502365
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18342,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_helm_plate_raidpaladin_r_01mythic",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7658,
+    "builderTab": "Seraphim",
+    "identity": {
+     "abilityKey": "c27:sunwarriorsguidance",
+     "abilityName": "Sun Warrior's Guidance",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800039
+     ]
+    },
+    "matchedSpellId": 800039,
+    "reason": "liveDirect"
+   },
+   "name": "Sun Warrior's Protection",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800039,
+     "name": "Sun Warrior's Guidance",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19287,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsSpell_Holy_HolyNova",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 9816,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:valorouschampion",
+     "abilityName": "Valorous Champion",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804339
+     ]
+    },
+    "matchedSpellId": 804339,
+    "reason": "liveDirect"
+   },
+   "name": "Sun's Favor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804339,
+     "name": "Valorous Champion",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18433,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "InterfaceIconsspell_priest_divinestar",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:sunflare",
+     "classId": 27,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Sunflare",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 4,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800231,
+     "name": "Sunflare",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800231
+      },
+      {
+       "level": 7,
+       "rank": 2,
+       "spellId": 502386
+      },
+      {
+       "level": 13,
+       "rank": 3,
+       "spellId": 502387
+      },
+      {
+       "level": 19,
+       "rank": 4,
+       "spellId": 502388
+      },
+      {
+       "level": 26,
+       "rank": 5,
+       "spellId": 502389
+      },
+      {
+       "level": 32,
+       "rank": 6,
+       "spellId": 502390
+      },
+      {
+       "level": 38,
+       "rank": 7,
+       "spellId": 502391
+      },
+      {
+       "level": 44,
+       "rank": 8,
+       "spellId": 502392
+      },
+      {
+       "level": 50,
+       "rank": 9,
+       "spellId": 502393
+      },
+      {
+       "level": 56,
+       "rank": 10,
+       "spellId": 502394
+      },
+      {
+       "level": 63,
+       "rank": 11,
+       "spellId": 502395
+      },
+      {
+       "level": 69,
+       "rank": 12,
+       "spellId": 502396
+      },
+      {
+       "level": 75,
+       "rank": 13,
+       "spellId": 502397
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19005,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIcons\\_D3teleport",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 30815,
+    "builderTab": "Piety",
+    "identity": {
+     "abilityKey": "c27:sungate",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      802161
+     ]
+    },
+    "matchedSpellId": 802161,
+    "reason": "liveDirect"
+   },
+   "name": "Sungate",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 14,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 802161,
+     "name": "Sun Gate",
+     "ranks": null,
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 18189,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_priest_clarityofwill",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:sunshine",
+     "classId": 27,
+     "generations": [
+      "cad",
+      "rankChain"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Sunshine",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 15,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 500142,
+     "name": "Sunshine",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 500142
+      },
+      {
+       "level": 9,
+       "rank": 2,
+       "spellId": 502412
+      },
+      {
+       "level": 17,
+       "rank": 3,
+       "spellId": 502413
+      },
+      {
+       "level": 25,
+       "rank": 4,
+       "spellId": 502414
+      },
+      {
+       "level": 33,
+       "rank": 5,
+       "spellId": 502415
+      },
+      {
+       "level": 41,
+       "rank": 6,
+       "spellId": 502416
+      },
+      {
+       "level": 49,
+       "rank": 7,
+       "spellId": 502417
+      },
+      {
+       "level": 57,
+       "rank": 8,
+       "spellId": 502418
+      },
+      {
+       "level": 65,
+       "rank": 9,
+       "spellId": 502419
+      },
+      {
+       "level": 73,
+       "rank": 10,
+       "spellId": 502420
+      }
+     ],
+     "schools": [
+      "Holy"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 19208,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsinv_shoulder_robe_raidpriest_k_01",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:anshesblessing",
+     "abilityName": "An'she's Blessing",
+     "classId": 27,
+     "generations": [
+      "trainer",
+      "cad"
+     ],
+     "live": false,
+     "trainerTaught": true
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "npcTrainerRow"
+    ]
+   },
+   "name": "Transgression",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 30,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 804058,
+     "name": "An'she's Blessing",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 804058
+      },
+      {
+       "level": 11,
+       "rank": 2,
+       "spellId": 503368
+      },
+      {
+       "level": 21,
+       "rank": 3,
+       "spellId": 503369
+      },
+      {
+       "level": 31,
+       "rank": 4,
+       "spellId": 503370
+      },
+      {
+       "level": 41,
+       "rank": 5,
+       "spellId": 503371
+      },
+      {
+       "level": 51,
+       "rank": 6,
+       "spellId": 503372
+      },
+      {
+       "level": 61,
+       "rank": 7,
+       "spellId": 503373
+      },
+      {
+       "level": 71,
+       "rank": 8,
+       "spellId": 503374
+      }
+     ],
+     "schools": [
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19751,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "achievement_raid_trialofvalor",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6837,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:trialofvalor",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805581
+     ]
+    },
+    "matchedSpellId": 805581,
+    "reason": "liveDirect"
+   },
+   "name": "Trial of Valor",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805581,
+     "name": "Trial of Valor",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18510,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_polearm_2h_odynspear_d_02",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:valkyriespear",
+     "abilityName": null,
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Valkyrie Spear",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 45,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 800455,
+     "name": null,
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800455
+      },
+      {
+       "level": 21,
+       "rank": 2,
+       "spellId": 502457
+      },
+      {
+       "level": 41,
+       "rank": 3,
+       "spellId": 502458
+      },
+      {
+       "level": 61,
+       "rank": 4,
+       "spellId": 502459
+      }
+     ],
+     "schools": []
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19849,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_priest_archangel",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6565,
+    "builderTab": "Class",
+    "identity": {
+     "abilityKey": "c27:valkyrieswatch",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805816
+     ]
+    },
+    "matchedSpellId": 805816,
+    "reason": "liveDirect"
+   },
+   "name": "Valkyrie's Watch",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 50,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805816,
+     "name": "Valkyrie's Watch",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 18549,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "Spell_Holy_BlessingOfProtection",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7319,
+    "builderTab": "Seraphim",
+    "identity": {
+     "abilityKey": "c27:dawnbreak",
+     "abilityName": "Dawnbreak",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad",
+      "rankChain"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      800654
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 800654,
+    "reason": "liveDirect"
+   },
+   "name": "Vengeful Slam",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 39,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 800654,
+     "name": "Dawnbreak",
+     "ranks": [
+      {
+       "level": 0,
+       "rank": 1,
+       "spellId": 800654
+      },
+      {
+       "level": 17,
+       "rank": 2,
+       "spellId": 502496
+      },
+      {
+       "level": 33,
+       "rank": 3,
+       "spellId": 502497
+      },
+      {
+       "level": 49,
+       "rank": 4,
+       "spellId": 502498
+      },
+      {
+       "level": 65,
+       "rank": 5,
+       "spellId": 502499
+      }
+     ],
+     "schools": [
+      "Holy",
+      "Fire"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19763,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_offhand_1h_artifactsilverhand_d_01",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 33997,
+    "builderTab": "Valkyrie",
+    "identity": {
+     "abilityKey": "c27:sunslam",
+     "abilityName": "Sunslam",
+     "classId": 27,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      805629
+     ],
+     "trainerTaught": true
+    },
+    "matchedSpellId": 805629,
+    "reason": "liveDirect"
+   },
+   "name": "Zealotry",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 805629,
+     "name": "Sunslam",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 19765,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_inscription_weaponscroll03",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c27:seraphimlevel20passive",
+     "abilityName": "Seraphim - Level 20 Passive",
+     "classId": 27,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Zealous Doctrine",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 805631,
+     "name": "Seraphim - Level 20 Passive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Seraphim",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Seraphim",
+ "type": "Ability"
+}

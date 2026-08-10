@@ -14,7 +14,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools import config
 from tools import extract_interface
-from tools.build_dataset import run
 
 CODE_EXTS = {".lua", ".xml", ".toc", ".txt", ".md"}
 
@@ -72,18 +71,18 @@ assert stats["manifestSha256"] == hashlib.sha256(manifest_path.read_bytes()).hex
 assert stats["diskSourced"] == len(api_entries)
 assert stats["archiveSourced"] + stats["diskSourced"] == stats["count"]
 
-# ---- orchestrator smoke: 14 buildStats keys, interface stage wired ----
-# [Pre-existing failure fixed in passing, task W4-14] the `gt` stage was wired into
-# build_dataset.run() by W4-2's review-fix pass but never added here, so this gate
-# had been failing on every run since - it is a stage-roster check, and the roster
-# grew. Unrelated to W4-14's own change (which adds KEYS INSIDE the classes stage's
-# stats, not a new stage).
-prov = run(skip_extract=True, skip_dump=True)
-assert set(prov["buildStats"]) == {
-    "spells", "classes", "talents", "dungeons",
-    "creatures", "classmeta", "mythic", "interface",
-    "manastorm", "realms", "essence", "coatalents", "items", "gt",
-}, set(prov["buildStats"])
-assert prov["buildStats"]["interface"]["count"] >= 1500
+# ---- the pipeline no longer runs this module at all ----
+# raw/interface is emitted by datamine.py's own traversal (emit.emit_interface),
+# out of the snapshot, in the same pass as every other raw layer. This module is
+# what the curated pipeline USED to re-scan the client with, and curation is now a
+# pure function of raw - so the stage is gone rather than repeated. The module
+# stays as a standalone cross-check of that layer, which is what the assertions
+# above are: they compare an independent scan against the published manifest.
+import datamine
+prov = json.loads((config.RAW_DIR / "provenance.json").read_text(encoding="utf-8"))
+assert "interface" not in prov["buildStats"], \
+    "the curated pipeline must not re-extract the Interface tree - "\
+    "emit.emit_interface owns raw/interface, from the snapshot"
+assert (config.RAW_INTERFACE_DIR / "_manifest.json").is_file()
 
 print("ALL PASS")

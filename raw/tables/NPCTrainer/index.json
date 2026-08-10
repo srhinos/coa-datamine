@@ -8,8 +8,8 @@
  "inferredCounts": {"int":4},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 519075,
- "rows": 13111,
+ "plainBytes": 519116,
+ "rows": 13112,
  "shardCount": 11,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
@@ -21,19 +21,19 @@
   {"file":"04000-04999.jsonl","format":"plain","hi":4999,"lo":4000,"plainBytes":38081,"rows":1000,"sha256":"ac11bbb06a9d0c57e52f11c6dea7f6c224a0b924f54d9c29539f9449f67a82ca","storedBytes":38081},
   {"file":"05000-05999.jsonl","format":"plain","hi":5999,"lo":5000,"plainBytes":38756,"rows":1000,"sha256":"390c5adf4e73a2c87e5bb1482034a6e68a93bf60a350b6969b6757a30114933b","storedBytes":38756},
   {"file":"06000-06999.jsonl","format":"plain","hi":6999,"lo":6000,"plainBytes":39369,"rows":1000,"sha256":"b50efb45c28cbd0dd93f9d8f00a3500d5b73db20465e26ef15a8f7512ce2e0fa","storedBytes":39369},
-  {"file":"07000-07999.jsonl","format":"plain","hi":7999,"lo":7000,"plainBytes":39226,"rows":1000,"sha256":"ba4bb355cb06afa22076fadca20549335062e32884bc2bfd28c1a81b9da3516c","storedBytes":39226},
-  {"file":"08000-08999.jsonl","format":"plain","hi":8999,"lo":8000,"plainBytes":39277,"rows":1000,"sha256":"7fe4189c5ab01ca292027f6c769808dc306cfca920666134c710bf95dd7bb18f","storedBytes":39277},
-  {"file":"09000-09999.jsonl","format":"plain","hi":9999,"lo":9000,"plainBytes":38000,"rows":1000,"sha256":"f39e95c5b0b032525cebd9175be30e616bce4ad75c3b9d078eb963285c8eb5fc","storedBytes":38000},
-  {"file":"10000-19999.jsonl","format":"plain","hi":19999,"lo":10000,"plainBytes":133242,"rows":3112,"sha256":"3f4382df56e50d1dc59e5ae71ab741812a8b936426edb5860e683ecddf1ff30b","storedBytes":133242}
+  {"file":"07000-07999.jsonl","format":"plain","hi":7999,"lo":7000,"plainBytes":39227,"rows":1000,"sha256":"9a42d904789a2730b007be5f65237a79c1a67444e40e6808f70b926ac5126aa2","storedBytes":39227},
+  {"file":"08000-08999.jsonl","format":"plain","hi":8999,"lo":8000,"plainBytes":39278,"rows":1000,"sha256":"75c21230da467572ba7f67be5bec0c09253948da8cfcdb4add70be3b115d78a1","storedBytes":39278},
+  {"file":"09000-09999.jsonl","format":"plain","hi":9999,"lo":9000,"plainBytes":38000,"rows":1000,"sha256":"baf34237485976aa09fd4b80b42de6119bd7af41222a53c9c2713d4d31ff1b94","storedBytes":38000},
+  {"file":"10000-19999.jsonl","format":"plain","hi":19999,"lo":10000,"plainBytes":133281,"rows":3113,"sha256":"8431342db5ddab1cf880e309bb11ead65c3485cc645d73561e9bac9625a1af7c","storedBytes":133281}
  ],
- "sourceSha256": "79f0b0b659c1f081ef415811915e4684f72c8ec1dedc3707e2071f6d6c9dea88",
- "storedBytes": 519075,
+ "sourceSha256": "ce1395d488d99f60692989a7d1cec002462f2c36bc4d046cbca7add66f4d3c2b",
+ "storedBytes": 519116,
  "stringBlockSize": 0,
  "table": "NPCTrainer",
  "unreferencedStringBytes": 0,
  "variantCount": 1,
  "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
  "variants": [
-  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":4,"decodedRows":13111,"format":"plain","layer":"base","path":"raw/tables/NPCTrainer/","realm":null,"rowDelta":0,"rows":13111,"sha256":"79f0b0b659c1f081ef415811915e4684f72c8ec1dedc3707e2071f6d6c9dea88","shards":11,"slug":"data-patch-m-mpq","sourceBytes":209796,"storedBytes":519075}
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":4,"decodedRows":13112,"format":"plain","layer":"base","path":"raw/tables/NPCTrainer/","realm":null,"rowDelta":0,"rows":13112,"sha256":"ce1395d488d99f60692989a7d1cec002462f2c36bc4d046cbca7add66f4d3c2b","shards":11,"slug":"data-patch-m-mpq","sourceBytes":209812,"storedBytes":519116}
  ]
 }

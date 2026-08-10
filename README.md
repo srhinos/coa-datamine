@@ -8,10 +8,10 @@ census of every file in the install. 7.5M rows.
 Nothing in `raw/` is hand-authored. Columns are positional (`f0..fN`) because
 nothing here knows what a column means. Types are inferred by measurement and
 shipped with the evidence behind them. No wanted-list decides what gets
-extracted - in the layers `datamine.py` writes, which is every layer listed in
-`raw/README.md`. `raw/dbc/`, `raw/realms/`, `raw/talents/` and
-`raw/provenance.json` are the older wanted-list extraction that feeds the
-curated `data/` tree; they are built by `python -m tools.build_dataset` and are
+extracted - in the layers `datamine.py` writes off the snapshot, which is every
+layer listed in `raw/README.md`. `raw/dbc/`, `raw/realms/` and
+`raw/provenance.json` ARE wanted-list-scoped: they belong to the same script's
+curation stage, which derives the `data/` tree from the raw layer, and they are
 called out here rather than left for a reader to trip over.
 
 ## Regenerate it
@@ -48,10 +48,10 @@ if any archive was opened twice, and `datamine.ClientReads` wraps the process's
 own file opens and fails the run if anything touches the live client after the
 snapshot is sealed.
 
-Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`). Python 3.12.
-`datamine.py` and everything it imports is standard library only. The separate
-`tools.build_dataset` pipeline that produces the curated `data/` tree still
-needs `mpyq`.
+Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`). Python 3.12,
+standard library only - `datamine.py` and everything it imports, the curated
+`data/` tree included. `mpyq` is no longer needed by the pipeline; it survives
+only in the standalone cross-check tools that re-scan the client directly.
 
 ## Where to look first
 
@@ -141,24 +141,20 @@ for "what can a player actually do" questions.
 
 - **Consume it:** read `AGENT-GUIDE.md` first - file map, schemas, query recipes,
   and the honest-limits list (what client data can and cannot know).
-- **Regenerate it:** `python -m tools.build_dataset` (client at `E:\ascension-live`,
-  override with env `COA_CLIENT_DIR`). Requires Python 3.12 + `pip install mpyq`.
-  Runs 10 stages in order (spells, classes, talents, dungeons, creatures, classmeta,
-  mythic, manastorm, realms, interface) - `classmeta` must run after `classes` since
-  it writes `data/classes/specs.json`/`archetypes.json` alongside (never inside) the
+- **Regenerate it:** `python datamine.py` (client at `E:\ascension-live`, override
+  with env `COA_CLIENT_DIR`). Requires Python 3.12, stdlib only. No flags, no
+  stages to sequence by hand: curation runs inside that one pass, immediately
+  after the raw layer and off the bytes it just produced, with the same
+  client-read guard still armed. 14 stages in dependency order - `abilities`
+  (the ability identity layer) FIRST, because it is what every later stage asks
+  "is this in the game", then spells, classes, coatalents, talents, dungeons,
+  creatures, classmeta, essence, gt, mythic, items, manastorm, realms.
+  `classmeta` must run after `classes` since it writes
+  `data/classes/specs.json`/`archetypes.json` alongside (never inside) the
   directory `classes` owns; `realms` must run after `spells` since its
-  `missingRefResolution` evidence reads `data/spells/_missing_refs.json`. Flags:
-  `--skip-extract --skip-dump` rebuild only the curated `data/` layer from an
-  existing `work/dbc` snapshot; `--skip-interface` reuses a previous
-  `raw/interface/_manifest.json` instead of rescanning every MPQ archive for the
-  Interface code tree (that scan is independent of `--skip-extract`/`--skip-dump` and
-  takes well under a minute on this repo's archive set, but scales with however many
-  archives the client install carries); `--skip-manastorm` reuses
-  `data/manastorm/_meta.json`'s counts instead of re-parsing `Manastorm*.dbc`;
-  `--skip-realm-extract` reuses a previous `work/realms/<realm>/dbc/` instead of
-  re-reading each realm's own MPQ archives (only realms actually present on this
-  machine's client are ever extracted - see AGENT-GUIDE.md's "Manastorm + realm
-  overlays").
+  `missingRefResolution` evidence reads `data/spells/_missing_refs.json`.
+  Interface and Content are no longer curation stages at all - they are raw
+  layers, emitted from the snapshot by the same traversal.
 - **Verify it:** `python tests\test_config.py` ... each test script prints `ALL PASS`.
   After regenerating on a patched client, see "Regenerating after a client
   patch" in `AGENT-GUIDE.md` for which test failures are expected

@@ -56,11 +56,17 @@ assert meta["goldenBar"]["gateMet"] is True
 assert meta["contentDrift"]["spellDbcResolveRate"]["rate"] >= 0.95, \
     meta["contentDrift"]["spellDbcResolveRate"]
 
-# report-only numbers pinned as a regression guard (content drift is real and
-# expected to persist, but a WILD swing here means something structural broke,
-# e.g. an id-join regression rather than genuine upstream drift)
+# This number WAS the defect, and pinning it at 0.40-0.65 was the repo agreeing
+# to live with it: only half the live tree nodes had a curated spell record,
+# because data/spells was the closure of the stale CAD catalog. It is now a hard
+# 1.0 - the curated closure is seeded from these very nodes (see
+# tools/build_spells.py's _initial_refs and data/spells/_meta.json's
+# liveCoverage), so anything less means a live node lost its record and the
+# curated layer has gone back to being a partial view of the live game.
 curated_rate = meta["resolveStats"]["vsCuratedDataSpells"]["rate"]
-assert 0.40 <= curated_rate <= 0.65, curated_rate
+assert curated_rate == 1.0, (
+    f"live-tree nodes resolving in data/spells: {curated_rate} - was 0.499 before "
+    "the closure was reseeded from live truth, must not regress from 1.0")
 
 
 # ---------------------------------------------------------------------------

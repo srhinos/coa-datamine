@@ -8,22 +8,22 @@
  "inferredCounts": {"int":4},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 81039,
- "rows": 2080,
+ "plainBytes": 80608,
+ "rows": 2069,
  "shardCount": 1,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
  "shards": [
-  {"file":"00000-99999.jsonl","format":"plain","hi":99999,"lo":0,"plainBytes":81039,"rows":2080,"sha256":"ccb678be9f0c49db39c1604652f692eb23c6a999a146eab7708376d76265cafe","storedBytes":81039}
+  {"file":"00000-99999.jsonl","format":"plain","hi":99999,"lo":0,"plainBytes":80608,"rows":2069,"sha256":"ed0c26e530901952f3ebb00fb12effc0a02fa2ed2f88a022bf0a1ce540a86fc1","storedBytes":80608}
  ],
- "sourceSha256": "52fcd045014b68c58b57414262a3099b501cdb69d359047da591f7c6fc62519d",
- "storedBytes": 81039,
+ "sourceSha256": "23a4a48014f107cd9c0f0927918aedabc42729bebf82edf18422189855ef525e",
+ "storedBytes": 80608,
  "stringBlockSize": 0,
  "table": "DungeonEncounterExtra",
  "unreferencedStringBytes": 0,
  "variantCount": 1,
  "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
  "variants": [
-  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":4,"decodedRows":2080,"format":"plain","layer":"base","path":"raw/tables/DungeonEncounterExtra/","realm":null,"rowDelta":0,"rows":2080,"sha256":"52fcd045014b68c58b57414262a3099b501cdb69d359047da591f7c6fc62519d","shards":1,"slug":"data-patch-m-mpq","sourceBytes":33300,"storedBytes":81039}
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":4,"decodedRows":2069,"format":"plain","layer":"base","path":"raw/tables/DungeonEncounterExtra/","realm":null,"rowDelta":0,"rows":2069,"sha256":"23a4a48014f107cd9c0f0927918aedabc42729bebf82edf18422189855ef525e","shards":1,"slug":"data-patch-m-mpq","sourceBytes":33124,"storedBytes":80608}
  ]
 }

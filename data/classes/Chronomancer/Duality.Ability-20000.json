@@ -1,0 +1,621 @@
+{
+ "class": "Chronomancer",
+ "entries": [
+  {
+   "aeCost": 0,
+   "cadId": 20156,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:chaosbaselinenegative",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Chaos Baseline Negative",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804517,
+     "name": "Chaos Baseline Negative",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20151,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsvas_guildnamechange",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:chaosgenerationpassive",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Chaos Generation Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804486,
+     "name": "Chaos Generation Passive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20152,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:chronobeampassive",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Chronobeam Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804502,
+     "name": "Chronobeam Passive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20005,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "InterfaceIconsability_vehicle_sonicshockwave",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:chronurgy",
+     "abilityName": null,
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Chronurgy",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 20,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806326,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20153,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6702,
+    "builderTab": "Time",
+    "identity": {
+     "abilityKey": "c22:timelinetether",
+     "abilityName": "Timeline Tether",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      804505
+     ]
+    },
+    "matchedSpellId": 804505,
+    "reason": "liveDirect"
+   },
+   "name": "Fortify Timeline Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804505,
+     "name": "Timeline Tether",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20009,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "spell_holy_persecution",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:giftofthetimeways",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      704487
+     ]
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "liveNodeNameTwin"
+    ]
+   },
+   "name": "Gift of the Timeways",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806332,
+     "name": "Gift of the Timeways",
+     "ranks": null,
+     "schools": [
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20149,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:hitratingalpha",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Hit Rating (Alpha)",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804280,
+     "name": "Hit Rating (Alpha)",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Shadow"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20011,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_relics_hourglass",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 6200,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:hourglassofeternity",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806337
+     ]
+    },
+    "matchedSpellId": 806337,
+    "reason": "liveDirect"
+   },
+   "name": "Hourglass of Eternity",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 33,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 806337,
+     "name": "Hourglass of Eternity",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20000,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "inv_dragonchromaticmount",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:mawoforder",
+     "abilityName": null,
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Maw of Order",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 48,
+   "spells": [
+    {
+     "dispel": null,
+     "id": 806317,
+     "name": null,
+     "ranks": null,
+     "schools": []
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20155,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:orderbaselinenegative",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Order Baseline Negative",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804516,
+     "name": "Order Baseline Negative",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20150,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "InterfaceIconsvas_guildnamechange",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:ordergenerationpassive",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Order Generation Passive",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804485,
+     "name": "Order Generation Passive",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20154,
+   "expansion": 0,
+   "flags": 41474,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:orderandchaos",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Order and Chaos",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 4,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804513,
+     "name": "Order and Chaos",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20157,
+   "expansion": 0,
+   "flags": 1,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": false,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:orderandchaoswatcher",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "deadCatalog"
+   },
+   "name": "Order and Chaos WATCHER",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 804659,
+     "name": "Order and Chaos WATCHER",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 3,
+   "cadId": 20010,
+   "expansion": 0,
+   "flags": 0,
+   "icon": "ability_skyreach_solar_burst",
+   "live": true,
+   "liveEvidence": {
+    "builderNodeId": 7200,
+    "builderTab": "Infinite",
+    "identity": {
+     "abilityKey": "c22:meltreality",
+     "abilityName": "Melt Reality",
+     "classId": 22,
+     "generations": [
+      "liveNode",
+      "cad"
+     ],
+     "live": true,
+     "liveNodeIds": [
+      806335
+     ]
+    },
+    "matchedSpellId": 806335,
+    "reason": "liveDirect"
+   },
+   "name": "Timeway Blast",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 42,
+   "spells": [
+    {
+     "dispel": "Magic",
+     "id": 806335,
+     "name": "Melt Reality",
+     "ranks": null,
+     "schools": [
+      "Fire",
+      "Nature",
+      "Frost",
+      "Shadow",
+      "Arcane"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  },
+  {
+   "aeCost": 0,
+   "cadId": 20148,
+   "expansion": 0,
+   "flags": 8706,
+   "icon": "Spell_Shadow_DeathCoil",
+   "live": null,
+   "liveEvidence": {
+    "builderTab": null,
+    "identity": {
+     "abilityKey": "c22:wands",
+     "classId": 22,
+     "generations": [
+      "cad"
+     ],
+     "live": false
+    },
+    "matchedSpellId": null,
+    "reason": "indeterminate",
+    "signals": [
+     "skillLineAutoGrant"
+    ]
+   },
+   "name": "Wands",
+   "quality": "Normal",
+   "qualityCost": 1,
+   "realms": "6144",
+   "requiredLevel": 1,
+   "spells": [
+    {
+     "dispel": "None",
+     "id": 5009,
+     "name": "Wands",
+     "ranks": null,
+     "schools": [
+      "Physical"
+     ]
+    }
+   ],
+   "tab": "Duality",
+   "type": "Ability"
+  }
+ ],
+ "tab": "Duality",
+ "type": "Ability"
+}

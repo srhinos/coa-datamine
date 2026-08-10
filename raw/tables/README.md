@@ -6,10 +6,10 @@ Regenerate: `python datamine.py`. Every byte under this directory is decoded fro
 
 - **368 tables** decoded of 368 table paths in the client
 - **1 failures** (`_failures.json`)
-- **7,467,569 rows** in 7,857 shards
+- **7,467,660 rows** in 7,857 shards
 - **131.8 MB** on disk (1955.4 MB uncompressed)
-- **56,045,598 string-block bytes**: 56,041,336 reached by a decoded record, 4,262 referenced by no column and written out verbatim to `<Table>.strings.json`
-- **987 versions** of those tables: 234 paths are shipped in more than one version by the chain, and all 619 extra versions are decoded too (2,377,659 further rows, 116.0 MB)
+- **56,046,179 string-block bytes**: 56,041,917 reached by a decoded record, 4,262 referenced by no column and written out verbatim to `<Table>.strings.json`
+- **987 versions** of those tables: 234 paths are shipped in more than one version by the chain, and all 619 extra versions are decoded too (2,377,676 further rows, 116.0 MB)
 
 ## Layout
 
@@ -40,11 +40,11 @@ One version per DISTINCT sha256 among the copies of a path, not one per carrying
 | CharacterAdvancementEssence | 5,600 | Data/patch-M.MPQ | 5,440 | Data/area-52/patch-D.MPQ |
 | Manastorm | 1,017 | Data/patch-M.MPQ | 1,025 | Data/area-52/patch-D.MPQ |
 | ManastormModifiers | 32,768 | Data/patch-M.MPQ | 32,768 | Data/area-52/patch-D.MPQ |
-| SkillLineAbility | 40,981 | Data/patch-M.MPQ | 38,542 | Data/area-52/patch-D.MPQ |
-| Spell | 209,140 | Data/patch-T.MPQ | 238,939 | Data/area-52/patch-D.MPQ |
-| SpellCharges | 400 | Data/patch-S.MPQ | 473 | Data/area-52/patch-D.MPQ |
-| SpellChargesCategory | 105 | Data/patch-S.MPQ | 108 | Data/area-52/patch-D.MPQ |
-| SpellRank | 23,182 | Data/patch-S.MPQ | 19,601 | Data/area-52/patch-D.MPQ |
+| SkillLineAbility | 40,983 | Data/patch-M.MPQ | 38,542 | Data/area-52/patch-D.MPQ |
+| Spell | 209,151 | Data/patch-T.MPQ | 238,942 | Data/area-52/patch-D.MPQ |
+| SpellCharges | 406 | Data/patch-S.MPQ | 473 | Data/area-52/patch-D.MPQ |
+| SpellChargesCategory | 106 | Data/patch-S.MPQ | 108 | Data/area-52/patch-D.MPQ |
+| SpellRank | 23,179 | Data/patch-S.MPQ | 19,601 | Data/area-52/patch-D.MPQ |
 | Talent | 2,383 | Data/patch-M.MPQ | 2,368 | Data/area-52/patch-D.MPQ |
 
 ## Reading a record
@@ -57,8 +57,8 @@ Per column, in this order: no rows -> unknown; every value zero -> zero; one-byt
 
 | inferred | columns |
 | --- | ---: |
-| int | 4,889 |
-| zero | 766 |
+| int | 4,888 |
+| zero | 767 |
 | float | 507 |
 | string | 444 |
 | unknown | 56 |
@@ -77,12 +77,12 @@ The decision is per table, so a table is never half-readable: when a table's who
 | --- | ---: | ---: | ---: | ---: |
 | ItemStat | 1,513,931 | 39 | 1518 | 23.9 |
 | SpellEnchantSuggestions | 1,144,863 | 4 | 1147 | 6.5 |
-| Item | 563,335 | 8 | 548 | 2.8 |
-| ItemAddon | 563,335 | 48 | 561 | 11.6 |
+| Item | 563,379 | 8 | 548 | 2.8 |
+| ItemAddon | 563,379 | 48 | 561 | 11.6 |
 | SpellTags | 488,662 | 3 | 489 | 2.6 |
 | EnchantEnchantSuggestions | 380,008 | 4 | 381 | 2.6 |
 | SpellSpellSuggestions | 353,193 | 4 | 351 | 2.3 |
-| Spell | 238,939 | 234 | 241 | 21.4 |
+| Spell | 238,942 | 234 | 241 | 21.4 |
 | ItemAppearances | 202,903 | 3 | 202 | 1.2 |
 | DeclinedWordCases | 141,956 | 4 | 147 | 2.8 |
 | ItemSpells | 131,722 | 37 | 131 | 1.0 |

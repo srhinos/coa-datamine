@@ -25,7 +25,10 @@ index = json.loads((sdir / "index.json").read_text(encoding="utf-8"))
 # ---- v1 gates unchanged ----
 assert stats["written"] == meta["count"] > 15000
 assert index["count"] == meta["count"]
-assert meta["schemaVersion"] == 2
+# 3 = the live-seed pass: the closure is seeded from live truth and every record
+# carries live + liveEvidence. The v2 enrichment gates below are unchanged by it -
+# they are about columns, not about which ids are in the set.
+assert meta["schemaVersion"] == 3
 
 # ---- read every record once: golden lookup + omit-when-absent + line/order checks ----
 golden_ids = {10, 17, 331, 86543}
@@ -106,8 +109,12 @@ assert cov["charges"]["file"] == "charges.json"
 charges_doc = json.loads((sdir / "charges.json").read_text(encoding="utf-8"))
 assert set(charges_doc) == {"_note", "categories", "charges", "realmGapFinding"}
 assert "below the 90% attach bar" in charges_doc["_note"]
-assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 400
-assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 105
+# snapshot pins: SpellCharges/SpellChargesCategory row counts. 400/105 -> 406/106
+# on the 2026-08-09 snapshot (the client patched - raw/dbc/SpellCharges.csv.gz
+# changed bytes); unrelated to the live-seed reseed, which does not touch this
+# standalone layer.
+assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 406
+assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 106
 # deterministic ascending order by "ref"
 refs = [c["ref"] for c in charges_doc["charges"]]
 assert refs == sorted(refs) and len(set(refs)) == len(refs)
