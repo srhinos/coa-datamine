@@ -5,7 +5,7 @@ from tools import (config, dbc, extract_mpq, extract_interface, snapshot_content
                    build_spells, build_classes, build_talents, build_dungeons,
                    build_creatures, build_classmeta, build_essence, build_mythic,
                    build_manastorm, build_realms, build_coatalents, build_items,
-                   build_gt)
+                   build_gt, build_abilities)
 
 
 def run(skip_extract=False, skip_dump=False, skip_interface=False,
@@ -41,6 +41,15 @@ def run(skip_extract=False, skip_dump=False, skip_interface=False,
     # reconciliation, so it must run BEFORE classmeta.
     stats["coatalents"] = build_coatalents.build()
     print(f"[coatalents] {stats['coatalents']}")
+
+    # Ability-identity layer: the join across CoA's spell-id generations
+    # (liveNode / trainer / cad / rankChain). Reads raw/ ONLY - no data/ input at
+    # all - so it has no ordering dependency on any stage here; it sits next to
+    # coatalents because it reads the same frozen builder capture.
+    stats["abilities"] = build_abilities.build()
+    print(f"[abilities] {stats['abilities']['abilities']} abilities, "
+          f"{stats['abilities']['abilitiesMultiGeneration']} multi-generation, "
+          f"{stats['abilities']['unjoinedResidualIds']} unjoined residual ids")
 
     stats["talents"] = build_talents.build()
     print(f"[talents]  {stats['talents']}")

@@ -98,17 +98,26 @@ The "nothing is hand-selected" guarantee is about the layers listed in
 
 ## File map
 
-### Three layers: which one answers your question
+### Four layers: which one answers your question
 
-This dataset carries three layers that describe the same abilities and **disagree
-with each other on purpose**. They are not redundant copies, and nothing joins them
-implicitly. Pick the layer that matches the question you are actually asking:
+This dataset carries four layers that describe the same abilities and **disagree
+with each other on purpose**. They are not redundant copies, and only layer 4 joins
+them. Pick the layer that matches the question you are actually asking:
 
 | Layer | Path | What it is | Size | Answers |
 |---|---|---|---|---|
 | **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 28,951 records | "what does spell `<id>` DO?" |
 | **2. Catalog (CAD)** | `data/classes/` | what the client's character-advancement tables **LIST** for a class - an authored roster, kept across content generations | 43 class dirs, 23,709 entries | "what does the client's catalog SAY about this class?" |
 | **3. Live trees** | `data/talents/coa/` | the published talent-builder capture (task W4-9, sha256-pinned in `raw/talents/`) - the actual tree geometry a player sees | 21 `coa-custom` classes, 3,618 nodes | "what can a player ACTUALLY train or spec into?" |
+| **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, and the evidence per membership | 8,745 abilities, 29,774 member ids | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
+
+**Why layer 4 exists.** The same CoA ability ships under several unrelated spell ids
+- the CAD catalog id, the trainer-taught rank ids, the id the live tree node carries
+- and the client has no join table for them. `data/abilities/` is that join, derived
+mechanically from `raw/` (group key = `(classId, normalized spell name)`; every
+membership carries the source row that produced it). It covers **3,932 of 3,932**
+live-node spell ids; `data/spells/` covers 1,963 of them, because it was seeded from
+the catalog. See "Ability identity layer" below.
 
 **Layer 2 is not the game.** Of the 8,331 CAD entries belonging to a class that has
 a live capture, **4,908 (58.9%) appear in no live tree node** (3,460 `deadCatalog` +
@@ -181,6 +190,10 @@ this repo needs an exemption).
 | `data/talents/coa/<Class>.json` | task W4-9: CoA talent-tree GEOMETRY for all 21 `coa-custom` classes (153-208 nodes each) - `{class, classId, essence, tabs: [{tabId, tabName, sortOrder, entryCount, isEmpty, aeGateTiers, teGateTiers, maxReqTabAE, maxReqTabTE}], choiceGroups: [{groupId, tabId, x, y, entries: [{id,name,spellId}, ...]}], nodeCount, nodes: [{id, name, x, y, classId, tabId, sortOrder, group, flags, aeCost, teCost, spellId, spellIds, iconPath, nodeType, entryType, isPassive, maxPoints, requiredIds, requiredLevel, isStartingNode, connectedNodeIds, reqTabAE, reqTabTE, description, rankDescriptions, spellResolved}]}` - sourced from the published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload (frozen by `tools/fetch_coatalents.py` into `raw/talents/`), a SEPARATE dataset from the `<ChrClass>.json` DBC trees one directory up (never collides - e.g. Barbarian has both). `spellResolved` flags whether `spellId` joins `data/spells/` - only ~53% do (real content drift vs. this repo's client snapshot, NOT a join bug - see "CoA talent tree geometry" below and `data/talents/coa/_meta.json`'s `contentDrift`). `requiredIds`/`connectedNodeIds` are de-padded (source arrays are zero-padded fixed width; `0` is never a real node id here) | small per file |
 | `data/talents/coa/index.json` | class -> file, tab/node/choice-group counts per class | small |
 | `data/talents/coa/_meta.json` | payload fetch provenance (url/sha256/capture time), realm caveat (Vol'Jin captured, Rexxar assumed identical/unverified), full resolve-rate cross-validation, the 84-vs-72 tab-layer reconciliation, `isStartingNode`/choice-group/connectivity findings - see "CoA talent tree geometry" below | small |
+| `data/abilities/index.json` | ability roster: per-class file list with `abilityCount`/`live`/`multiGeneration`/`trainerTaught`, headline counts, generation-span histogram, `recordShape` | small |
+| `data/abilities/<classId>-<class-slug>.json` | one file per class: `abilities: [{key, classId, class, name, normName, generations, generationCount, memberCount, live, liveIds, liveId, trainerTaught, trainerIds, rankLadder (ordered by level then rank), linkedKeys, members: [{id, name, rank, spellLevel, inBaseSpell, generation, generations, evidence}]}]` - `evidence` is keyed by generation and carries the actual source row (`liveNode` -> nodeId/tabName, `cad` -> cadId/cadName/tab/requiredLevel, `trainer` -> trainerRowId/skillLine + how it was admitted, `rankChain` -> chainHead/rank/level) | small-medium per file |
+| `data/abilities/_meta.json` | the rules and their measurements: name-normalization rule + the four counts behind it, rank-chain name-coherence gate + incoherent examples, `idDensity` (the dense-id-space trap, quantified), trainer admission rule, CAD-name-vs-spell-name agreement, live-capture provenance + realm caveat | small |
+| `data/abilities/_residual-index.json` + `_residual-<idBucket>.json` | every source id that joins to NOTHING, one record per line (`{spellId, name, inBaseSpell, sources, reasons}`), sharded by fixed id-range bucket - the honest remainder, mostly profession recipes and rank-chain ids no class-carrying row names | small |
 | `data/dungeons/index.json` | one compact record per dungeon: `{id, name, file, mapId, isRaid, levels}` | small |
 | `data/dungeons/<id>-<slug>.json` | one dungeon incl. its encounters (ordered, each carrying a `creature: {id, name}\|null` boss link - see Honest limits) + reward brackets; `<slug>` = lowercase name, non-alnum runs -> `-`, collapsed, max 40 chars | small |
 | `data/creatures/index.json` | bucket manifest: `bucketSize` (5000), `count` (127178), `buckets: [{bucket, file, count, minId, maxId}]` - **355 buckets**, not 26: `id` is `Creature.dbc` f1 (a sparse space up to ~11M), not the old f0 row-position (see Honest limits) | small |
@@ -1534,6 +1547,75 @@ against that by re-running `tools/fetch_coatalents.py` and diffing the pinned
 sha256, not by hunting for a second realm's payload. (Sec 13 item 7's client-side
 `Data\rexxar\` capture is a different thing entirely, and task W4-13 closed it as
 impossible - no CoA realm has a client data directory; see "Realm overlays".)
+
+### Ability identity layer (`data/abilities/`)
+
+One CoA ability exists under several unrelated spell ids across content
+generations, and the client ships no join table for them. `tools/build_abilities.py`
+builds that join from `raw/` only - no `data/` input at all, so it is a pure
+function of the snapshot.
+
+**Group key** `(classId, normalized spell name)`. Normalization is mechanical and
+its justification is re-measured every build into `_meta.json.nameNormalization`:
+strip trailing `Rank N` markers (repeatedly), then lowercase and delete every
+non-alphanumeric character. Nothing else is stripped - the base `Spell` table keeps
+the rank in its OWN column (`rank_enUS`/f153, 2,980 distinct values), so exactly 21
+of 209,140 names carry a trailing rank marker at all; trailing roman numerals
+("Fire Shield II", 508 names) and trailing bare digits ("Wavestorm 2", 3,880) are
+deliberately left alone because they are not the rank carrier and stripping them
+would merge distinct spells.
+
+**Four generations**, each a member id's provenance, precedence
+`liveNode > trainer > cad > rankChain` (a member can carry several):
+
+| Generation | Source | Class evidence |
+|---|---|---|
+| `liveNode` | `raw/talents/coa-builder-<slug>.html` (RAW holds the payload; `data/talents/coa/` is a derived copy of the same parse and is NOT read here) | the node's own `classId` |
+| `cad` | `raw/content/CharacterAdvancementData.json` | the row's `Class` string -> `ChrClasses`, normalized name then filename token, leading `Reborn` stripped |
+| `rankChain` | `raw/content/SpellRankData.json` | inherited along a NAME-COHERENT chain from a member that already has one |
+| `trainer` | `raw/tables/NPCTrainer/` | none of its own - see the admission rule below |
+
+**Names come from the BASE `Spell` variant** (`raw/tables/Spell/variants/data-patch-t-mpq/`),
+not the chain winner at `raw/tables/Spell/`, which is area-52's realm overlay. All
+3,932 live-node spell ids resolve in the base variant and only 3,929 in the overlay
+- reading the overlay silently loses live CoA content.
+
+**Trainer admission rule.** A trainer row always MARKS an id it already shares with
+another generation. An id known only to `NPCTrainer` is admitted only with
+corroborating class evidence: a single-class `SkillLineAbility` classMask, or a
+`skillLine` shared with an existing member of exactly one same-named ability. A bare
+name match is refused and lands in the residual as
+`trainerNameOnlyNoCorroboration`, candidate keys attached, so the refusal is
+inspectable. (Measured: **zero** live-node ids are directly taught by a trainer row -
+every live/trainer link runs through the rank chain or that corroboration, which is
+why the rule matters.)
+
+**Two traps this layer is explicitly built against**, both quantified in `_meta.json`
+rather than asserted:
+- *Dense id spaces make containment meaningless.* The base `Spell` id space is
+  209,140 ids over 1..13,977,920 (1.5%), but across the 23 100k-blocks the four
+  sources touch, occupancy averages **9.0%** and peaks at **69.0%**. So "this id
+  exists in Spell.dbc" is never used as a join here - every membership needs a row
+  that names a class or a chain.
+- *`SpellRankData` contains recycled non-chains.* 94 chains carry more than one
+  distinct spell name: contiguous id blocks reused for unrelated content, not rank
+  ladders. Chain head 801667 is the proven one (rank 1 "Revitalize (Rank 1
+  DEPRECATED)" ... rank 11 "Mirage"). Chain expansion is gated on name coherence and
+  incoherent chains are dropped whole; `tests/test_abilities.py` pins the gate both
+  ways (RED-verified: removing the gate fails that test).
+
+**Same ability under two names** is NOT merged - a shared member id is not proof two
+names are one ability, and merging on it would cascade through the vanilla chains.
+Instead every shared member id is recorded on both records as `linkedKeys`, one hop
+away. 147 abilities carry such a link; the canonical case is WitchHunter 802012,
+which CAD names "Interrogate" while the live node for the same rank chain is "Brand
+of the Unworthy".
+
+**Headline counts** (re-derived every build, `index.json`/`_meta.json`): 8,745
+abilities, 2,861 spanning more than one generation, 3,582 live, 201 live abilities
+with a trainer-taught ladder, 14,286 residual ids joining nothing (0 of them from
+`liveNode`; the residual is dominated by profession recipes and rank-chain ids no
+class-carrying row ever names).
 
 ### Simulation-adjacent spell support tables (task W4-10)
 

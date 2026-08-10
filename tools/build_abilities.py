@@ -1,0 +1,822 @@
+"""Ability-identity layer -> data/abilities/ : the join across CoA's spell-id
+generations.
+
+The defect this repairs: one CoA ability exists under several unrelated spell
+ids - the CAD catalog id, the trainer-taught rank ids, and the id the LIVE
+talent-tree node actually carries - with no join table anywhere in the client.
+Every consumer that read one generation and assumed it had the ability was
+wrong; measured, only 1,963 of the 3,932 spell ids the live trees reference had
+a curated record at all.
+
+Everything below is derived from raw/ in one pass. No hand-authored names, no
+hardcoded id lists, no per-ability judgement: the group key is
+(classId, normalized spell name) and every membership carries the evidence row
+that produced it.
+
+SOURCES (all raw/, all this snapshot)
+  liveNode   raw/talents/coa-builder-<slug>.html - the frozen capture of the
+             live ascension.gg builder payload, parsed by tools/coa_live.py.
+             RAW HOLDS THE PAYLOAD; data/talents/coa/ is a derived copy of the
+             same parse and is deliberately not read here.
+  cad        raw/content/CharacterAdvancementData.json (the account-wide CAD
+             catalog - a STALE content generation, used as one generation among
+             several, never as the seed of truth).
+  trainer    raw/tables/NPCTrainer/ (f0 id, f1 spellId, f2 skillLine - the
+             proven column map, see tools/dbc.py).
+  rankChain  raw/content/SpellRankData.json (firstSpellId/rank/level/spellId).
+  names      raw/tables/Spell/variants/data-patch-t-mpq/ - the BASE variant, the
+             Spell.dbc a CoA character actually reads. NOT the chain winner at
+             raw/tables/Spell/, which is area-52's realm overlay. Measured on
+             this snapshot: all 3,932 live-node spell ids resolve in the base
+             variant, 3,929 in the overlay - the overlay is missing live CoA
+             content, so reading it would silently drop 3 abilities' names.
+  classes    raw/tables/ChrClasses/ (f0 id, f4 name_enUS, f55 filename token).
+  skill      raw/tables/SkillLineAbility/ + raw/tables/SkillLine/ - only as
+             trainer-row class corroboration, see stage 3.
+
+THE TRAPS THIS REPO HAS BEEN BURNED BY, and what is done about them
+  * Dense id spaces make containment meaningless. The base Spell id space is
+    209,140 ids over 1..13,977,920, but ids are not spread evenly: across the
+    23 100k-blocks any of the four sources touch, occupancy averages 9.0% and
+    peaks at 69.0% (block 0). A bare "this id exists in Spell.dbc" test is
+    therefore worth very little and is never used as a join here - every
+    membership needs a row that names a class or a chain. The measured
+    densities are emitted in _meta.json's `idDensity` so a reader can see the
+    size of the effect rather than take a claim for it.
+  * SpellRankData contains recycled non-chains. 94 of the 2,130 chains carry
+    more than one distinct spell name - contiguous id blocks reused for
+    unrelated content, not rank ladders. The proven case is
+    chain head 801667: rank 1 "Revitalize (Rank 1 DEPRECATED)", rank 6 "Ascetic
+    Abdication", rank 7 "Fearmonger", rank 8 "War Cry", rank 9 "Umbral Glaive",
+    rank 10 "Ice Hide", rank 11 "Mirage". Chain expansion is gated on name
+    coherence (at most ONE distinct normalized name among the chain's members
+    that resolve in the base Spell table); incoherent chains are dropped whole
+    and counted.
+  * `live` here is a CONQUEST OF AZEROTH claim from an EXTERNAL capture that
+    drifts independently of the client snapshot - see coa_live.REALM_CAVEAT,
+    copied into _meta.json.
+
+NAME NORMALIZATION (mechanical, measured - no hand mapping)
+  norm_name(s):
+    1. repeatedly strip a trailing rank marker  [\\s\\-(\\[]*rank\\s*\\d+[)\\]]*$
+       (case-insensitive), then strip whitespace;
+    2. lowercase and delete every non-alphanumeric character.
+  Why only that: the base Spell table keeps the rank in its OWN column
+  (rank_enUS / f153 - "Rank 1".."Rank N", 2,980 distinct values), so a name
+  almost never carries one; exactly 21 of 209,140 base names end in a "Rank N"
+  marker, and those 21 are the whole reason step 1 exists. Two neighbouring
+  suffix shapes are deliberately NOT stripped, because they are not the rank
+  carrier and stripping them would merge distinct spells: trailing roman
+  numerals ("Fire Shield II", 508 names) and trailing bare digits ("Wavestorm
+  2", 3,880 names). All four counts are recomputed every build into
+  _meta.json's `nameNormalization` so the rule is auditable against the snapshot
+  rather than asserted.
+
+MEMBERSHIP STAGES (a member id can carry several generations; `generation` is
+the primary one by the precedence liveNode > trainer > cad > rankChain)
+  1 SEED - only two generations carry a class of their own:
+      liveNode  the builder node's own classId.
+      cad       the CAD row's `Class` string -> ChrClasses, by normalized
+                name then normalized filename token, with a leading "Reborn"
+                stripped (the same mechanical rule build_classes.py uses).
+  2 RANK CHAIN - for every name-coherent SpellRankData chain, every classId
+    already attributed to any member is attributed to ALL of its members. This
+    is what carries a trainer-taught rank ladder onto the ability whose base
+    rank is a live node.
+  3 TRAINER - an NPCTrainer row marks its spellId trainer-taught. When that id
+    already belongs to an ability (stages 1-2) the row is a marker on the
+    existing membership. When it does not, the id is admitted ONLY with
+    corroborating class evidence, never on a bare name match:
+      skillLineAbilityClassMask   the id's SkillLineAbility rows carry exactly
+                                  one class bit, and an ability with this id's
+                                  normalized name exists for that class.
+      trainerSkillLineSharedWithMember
+                                  the trainer row's skillLine is carried (via
+                                  SkillLineAbility) by an already-attributed
+                                  member of exactly one same-named ability.
+    A bare name match with no class evidence is refused and lands in the
+    residual as `trainerNameOnlyNoCorroboration`, with its candidate ability
+    keys recorded, so the refusal is inspectable instead of invisible.
+
+Single-writer (Amendment D): this module owns data/abilities/ exclusively and
+writes nothing else. It reads raw/ only - no data/ input at all - so it is a
+pure function of the snapshot.
+"""
+import gzip
+import json
+import re
+from collections import Counter, defaultdict
+
+from tools import config, coa_live, sharding
+
+MAX_LINES = 5000
+BASE_SPELL_VARIANT = "data-patch-t-mpq"
+OUT_DIRNAME = "abilities"
+
+# Precedence for the single `generation` label on a member that carries several.
+GENERATIONS = ("liveNode", "trainer", "cad", "rankChain")
+
+_RANK_TAIL = re.compile(r"[\s\-–(\[]*\brank\s*\d+\s*[)\]]*\s*$", re.I)
+_NON_ALNUM = re.compile(r"[^a-z0-9]")
+_ROMAN_TAIL = re.compile(r"\s+(?:i{1,3}|iv|v|vi{1,3}|ix|x)\s*$", re.I)
+_DIGIT_TAIL = re.compile(r"\s+\d+\s*$")
+
+
+def norm_name(s) -> str:
+    """The ability-grouping name key. See the module docstring's NAME
+    NORMALIZATION block for the measured justification of every step."""
+    s = (s or "").strip()
+    while True:
+        stripped = _RANK_TAIL.sub("", s).strip()
+        if stripped == s:
+            break
+        s = stripped
+    return _NON_ALNUM.sub("", s.lower())
+
+
+def _norm(s) -> str:
+    return _NON_ALNUM.sub("", (s or "").lower())
+
+
+# ---------------------------------------------------------------------------
+# raw/tables readers
+# ---------------------------------------------------------------------------
+
+def _table_dir(name: str):
+    return config.RAW_DIR / "tables" / name
+
+
+def iter_raw_table(name: str, variant: str = None):
+    """Every decoded row of a raw/tables table, in shard then file order. `variant`
+    selects raw/tables/<T>/variants/<slug>/ instead of the chain winner."""
+    d = _table_dir(name)
+    if variant:
+        d = d / "variants" / variant
+    if not d.is_dir():
+        raise RuntimeError(f"build_abilities: {d} not found - raw/tables layer missing")
+    files = sorted(d.glob("*.jsonl")) + sorted(d.glob("*.jsonl.gz"))
+    if not files:
+        raise RuntimeError(f"build_abilities: no shards under {d}")
+    for f in files:
+        op = gzip.open if f.suffix == ".gz" else open
+        with op(f, "rt", encoding="utf-8") as fh:
+            for line in fh:
+                if line.strip():
+                    yield json.loads(line)
+
+
+def _read_json(path):
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+# ---------------------------------------------------------------------------
+# Sources
+# ---------------------------------------------------------------------------
+
+def load_base_spells() -> dict:
+    """{spellId: {"name", "rank", "spellLevel", "baseLevel"}} from the BASE Spell
+    variant. Column indexes are tools/dbc.py's proven Spell map (f136 name_enUS,
+    f153 rank_enUS, f39 spellLevel, f38 baseLevel)."""
+    out = {}
+    for r in iter_raw_table("Spell", BASE_SPELL_VARIANT):
+        out[r["f0"]] = {"name": r.get("f136") or "", "rank": r.get("f153") or "",
+                        "spellLevel": r.get("f39"), "baseLevel": r.get("f38")}
+    return out
+
+
+def load_classes() -> tuple:
+    """(byId, byNormName, byNormFilename) from raw/tables/ChrClasses."""
+    by_id, by_name, by_file = {}, {}, {}
+    for r in iter_raw_table("ChrClasses"):
+        rec = {"classId": r["f0"], "name": r.get("f4") or "",
+               "filename": r.get("f55") or ""}
+        by_id[rec["classId"]] = rec
+        by_name.setdefault(_norm(rec["name"]), rec)
+        by_file.setdefault(_norm(rec["filename"]), rec)
+    return by_id, by_name, by_file
+
+
+def resolve_cad_class(cls_string, by_name, by_file):
+    """CAD `Class` -> ChrClasses row, by the same mechanical rule build_classes.py
+    uses: strip a leading "Reborn" (the Reborn game mode reuses the base class
+    names), then normalized name, then normalized filename token. Returns
+    (row_or_None, base_string)."""
+    base = (cls_string or "").removeprefix("Reborn") if (cls_string or "").startswith("Reborn") \
+        else (cls_string or "")
+    return by_name.get(_norm(base)) or by_file.get(_norm(base)), base
+
+
+# ---------------------------------------------------------------------------
+# Build
+# ---------------------------------------------------------------------------
+
+class _Attrib:
+    """The accumulating (classId, normName) -> member-id evidence table."""
+
+    def __init__(self):
+        # (classId, normName) -> {spellId: {"generations": set, "evidence": {...}}}
+        self.abilities = defaultdict(dict)
+        # spellId -> set of (classId, normName) it belongs to
+        self.by_id = defaultdict(set)
+
+    def add(self, class_id, norm, spell_id, generation, evidence, multi=False):
+        key = (class_id, norm)
+        m = self.abilities[key].get(spell_id)
+        if m is None:
+            m = {"generations": set(), "evidence": {}}
+            self.abilities[key][spell_id] = m
+        m["generations"].add(generation)
+        if multi:
+            m["evidence"].setdefault(generation, []).append(evidence)
+        else:
+            m["evidence"].setdefault(generation, evidence)
+        self.by_id[spell_id].add(key)
+        return key
+
+
+def build(slug: str = "voljin") -> dict:
+    spells = load_base_spells()
+    cls_by_id, cls_by_name, cls_by_file = load_classes()
+
+    def spell_norm(sid):
+        s = spells.get(sid)
+        return norm_name(s["name"]) if s and s["name"] else ""
+
+    live = coa_live.live_index(slug)
+    cad = _read_json(config.RAW_CONTENT_DIR / "CharacterAdvancementData.json")
+    srd = _read_json(config.RAW_CONTENT_DIR / "SpellRankData.json")
+    trainer_rows = [r for r in iter_raw_table("NPCTrainer")]
+    skill_names = {r["f0"]: (r.get("f3") or "") for r in iter_raw_table("SkillLine")}
+    sla_rows = [r for r in iter_raw_table("SkillLineAbility")]
+
+    A = _Attrib()
+    stats = Counter()
+    residual = defaultdict(list)
+
+    # ---- stage 1a: liveNode -------------------------------------------------
+    live_ids_by_class = defaultdict(set)
+    for cid, cl in live["byClassId"].items():
+        for sid, node in cl["spellNodes"].items():
+            n = spell_norm(sid)
+            name_source = "baseSpell"
+            if not n:
+                n, name_source = norm_name(node["nodeName"]), "liveNodeName"
+                stats["liveIdNoBaseSpellRow"] += 1
+            if not n:
+                residual["liveNodeNoName"].append({"spellId": sid, "classId": cid,
+                                                   "nodeId": node["nodeId"]})
+                continue
+            A.add(cid, n, sid, "liveNode",
+                  {"nodeId": node["nodeId"], "nodeName": node["nodeName"],
+                   "tabId": node["tabId"], "tabName": node["tabName"],
+                   "nameSource": name_source})
+            live_ids_by_class[cid].add(sid)
+            stats["liveMemberships"] += 1
+    live_ids = {sid for s in live_ids_by_class.values() for sid in s}
+
+    # ---- stage 1b: cad ------------------------------------------------------
+    cad_name_agree = Counter()
+    cad_ids = set()
+    for e in cad:
+        cad_ids.update(e.get("Spells") or ())
+        row_cls, base_cls = resolve_cad_class(e.get("Class"), cls_by_name, cls_by_file)
+        if row_cls is None:
+            for sid in (e.get("Spells") or ()):
+                residual["cadUnresolvedClass"].append(
+                    {"spellId": sid, "cadId": e["ID"], "cadClass": e.get("Class")})
+            stats["cadRowsUnresolvedClass"] += 1
+            continue
+        cid = row_cls["classId"]
+        for sid in (e.get("Spells") or ()):
+            n = spell_norm(sid)
+            name_source = "baseSpell"
+            if n:
+                cad_name_agree["resolved"] += 1
+                if n == norm_name(e.get("Name")):
+                    cad_name_agree["cadNameMatchesSpellName"] += 1
+            else:
+                n, name_source = norm_name(e.get("Name")), "cadRowName"
+                stats["cadIdNoBaseSpellRow"] += 1
+            if not n:
+                residual["cadNoName"].append({"spellId": sid, "cadId": e["ID"]})
+                continue
+            A.add(cid, n, sid, "cad",
+                  {"cadId": e["ID"], "cadName": e.get("Name"),
+                   "cadClass": e.get("Class"), "tab": e.get("Tab"),
+                   "type": e.get("Type"), "requiredLevel": e.get("RequiredLevel"),
+                   "nameSource": name_source}, multi=True)
+            stats["cadMemberships"] += 1
+
+    # ---- stage 2: rank chains ----------------------------------------------
+    chains = defaultdict(list)
+    for r in srd:
+        chains[r["firstSpellId"]].append(r)
+    chain_of = {}          # spellId -> list of (head, rank, level)
+    chain_ids = set()
+    coherent, incoherent, incoherent_examples = 0, 0, []
+    for head, rows in chains.items():
+        members = sorted({head} | {r["spellId"] for r in rows})
+        chain_ids.update(members)
+        names = {spell_norm(i) for i in members}
+        names.discard("")
+        if len(names) > 1:
+            incoherent += 1
+            if len(incoherent_examples) < 10:
+                incoherent_examples.append(
+                    {"chainHead": head, "distinctNames": sorted(names),
+                     "memberIds": members})
+            for sid in members:
+                residual["rankChainNameIncoherent"].append(
+                    {"spellId": sid, "chainHead": head})
+            continue
+        coherent += 1
+        chain_name = next(iter(names)) if names else ""
+        for r in rows:
+            chain_of.setdefault(r["spellId"], []).append(
+                {"chainHead": head, "rank": r["rank"], "level": r["level"]})
+        # every classId any member already carries propagates to the whole chain
+        seeds = defaultdict(set)   # classId -> member ids that seeded it
+        for sid in members:
+            for (cid, n) in A.by_id.get(sid, ()):
+                if chain_name and n != chain_name:
+                    continue
+                seeds[cid].add(sid)
+        if not seeds and chain_name and any(A.by_id.get(sid) for sid in members):
+            # a class-carrying member exists but under a DIFFERENT name than the
+            # chain's - deliberately not a seed (see the name gate above); counted
+            # so the conservatism is visible rather than silent.
+            stats["rankChainSeedNameMismatch"] += 1
+        if not seeds or not chain_name:
+            continue
+        for cid, via in sorted(seeds.items()):
+            via_id = min(via)
+            for sid in members:
+                rank_rows = [r for r in rows if r["spellId"] == sid]
+                A.add(cid, chain_name, sid, "rankChain",
+                      {"chainHead": head, "viaMemberId": via_id,
+                       "rank": rank_rows[0]["rank"] if rank_rows else None,
+                       "level": rank_rows[0]["level"] if rank_rows else None,
+                       "chainNameCoherent": True})
+                stats["rankChainMemberships"] += 1
+
+    # ---- stage 3: trainer ---------------------------------------------------
+    sla_by_spell = defaultdict(list)
+    for r in sla_rows:
+        sla_by_spell[r["f2"]].append(r)
+
+    def class_bits(mask):
+        return [i + 1 for i in range(32) if mask & (1 << i)]
+
+    def sla_single_class(sid):
+        bits = set()
+        for r in sla_by_spell.get(sid, ()):
+            bits.update(class_bits(r["f4"]))
+        return next(iter(bits)) if len(bits) == 1 else None
+
+    def sla_skill_lines(sid):
+        return {r["f1"] for r in sla_by_spell.get(sid, ())}
+
+    trainer_ids = set()
+    trainer_by_id = defaultdict(list)
+    for r in trainer_rows:
+        if r["f1"] <= 0:
+            residual["trainerSentinelSpellId"].append(
+                {"spellId": r["f1"], "trainerRowId": r["f0"]})
+            continue
+        trainer_ids.add(r["f1"])
+        trainer_by_id[r["f1"]].append(r)
+
+    # ability -> the skill lines its already-attributed members carry
+    ability_skill_lines = defaultdict(set)
+    for key, members in A.abilities.items():
+        for sid in members:
+            ability_skill_lines[key] |= sla_skill_lines(sid)
+
+    by_norm_name = defaultdict(set)
+    for (cid, n) in A.abilities:
+        by_norm_name[n].add((cid, n))
+
+    for sid in sorted(trainer_ids):
+        rows = trainer_by_id[sid]
+        existing = sorted(A.by_id.get(sid, ()))
+        if existing:
+            for key in existing:
+                for r in rows:
+                    A.add(key[0], key[1], sid, "trainer",
+                          {"trainerRowId": r["f0"], "skillLine": r["f2"],
+                           "skillLineName": skill_names.get(r["f2"]),
+                           "attribution": "alreadyMember"}, multi=True)
+                    stats["trainerMembershipsOnExisting"] += 1
+            continue
+        n = spell_norm(sid)
+        if not n:
+            residual["trainerNoBaseSpellRow"].append(
+                {"spellId": sid, "trainerRowIds": [r["f0"] for r in rows]})
+            continue
+        candidates = by_norm_name.get(n) or set()
+        if not candidates:
+            residual["trainerNoSameNamedAbility"].append(
+                {"spellId": sid, "normName": n,
+                 "skillLines": sorted({r["f2"] for r in rows})})
+            continue
+        cid = sla_single_class(sid)
+        chosen, how = None, None
+        if cid is not None and (cid, n) in candidates:
+            chosen, how = (cid, n), "skillLineAbilityClassMask"
+        else:
+            row_lines = {r["f2"] for r in rows if r["f2"]}
+            shared = [k for k in sorted(candidates)
+                      if row_lines & ability_skill_lines.get(k, set())]
+            if len(shared) == 1:
+                chosen, how = shared[0], "trainerSkillLineSharedWithMember"
+        if chosen is None:
+            residual["trainerNameOnlyNoCorroboration"].append(
+                {"spellId": sid, "normName": n,
+                 "candidateAbilities": [f"c{c}:{nn}" for c, nn in sorted(candidates)],
+                 "skillLines": sorted({r["f2"] for r in rows})})
+            continue
+        for r in rows:
+            A.add(chosen[0], chosen[1], sid, "trainer",
+                  {"trainerRowId": r["f0"], "skillLine": r["f2"],
+                   "skillLineName": skill_names.get(r["f2"]),
+                   "attribution": how}, multi=True)
+            stats["trainerMembershipsAdmitted"] += 1
+
+    # ---- assemble ability records ------------------------------------------
+    srd_by_spell = defaultdict(list)
+    for r in srd:
+        srd_by_spell[r["spellId"]].append(r)
+
+    records = []
+    for (cid, n), members in A.abilities.items():
+        member_recs = []
+        raw_names = Counter()
+        for sid in sorted(members):
+            m = members[sid]
+            s = spells.get(sid)
+            if s and s["name"]:
+                raw_names[s["name"]] += 1
+            gens = sorted(m["generations"], key=GENERATIONS.index)
+            member_recs.append({
+                "id": sid,
+                "name": s["name"] if s else None,
+                "rank": s["rank"] if s else None,
+                "spellLevel": s["spellLevel"] if s else None,
+                "inBaseSpell": s is not None,
+                "generation": gens[0],
+                "generations": gens,
+                "evidence": {g: m["evidence"][g] for g in gens},
+            })
+        gens_all = sorted({g for r in member_recs for g in r["generations"]},
+                          key=GENERATIONS.index)
+        live_members = sorted(r["id"] for r in member_recs
+                              if "liveNode" in r["generations"])
+        trainer_members = sorted(r["id"] for r in member_recs
+                                 if "trainer" in r["generations"])
+        ladder = []
+        for r in member_recs:
+            for row in srd_by_spell.get(r["id"], ()):
+                ladder.append({"spellId": r["id"], "rank": row["rank"],
+                               "level": row["level"], "chainHead": row["firstSpellId"],
+                               "trainerTaught": r["id"] in trainer_members,
+                               "live": r["id"] in live_members})
+        ladder.sort(key=lambda x: (x["level"], x["rank"], x["spellId"]))
+        display = (raw_names.most_common(1)[0][0] if raw_names else
+                   next((r["name"] for r in member_recs if r["name"]), None))
+        records.append({
+            "key": f"c{cid}:{n}",
+            "classId": cid,
+            "class": cls_by_id[cid]["name"] if cid in cls_by_id else None,
+            "name": display,
+            "normName": n,
+            "generations": gens_all,
+            "generationCount": len(gens_all),
+            "memberCount": len(member_recs),
+            "live": bool(live_members),
+            "liveIds": live_members,
+            "liveId": live_members[0] if live_members else None,
+            "trainerTaught": bool(trainer_members),
+            "trainerIds": trainer_members,
+            "rankLadder": ladder,
+            "rankLadderLevels": [x["level"] for x in ladder],
+            "members": member_recs,
+        })
+    records.sort(key=lambda r: (r["classId"], r["normName"]))
+
+    # ---- cross-name links: the SAME ability under two different names -------
+    # The group key is a name, so an ability that changed name between
+    # generations lands in two records - CAD calls WitchHunter 802012
+    # "Interrogate" while the live node for the same rank chain is "Brand of the
+    # Unworthy". They are not merged (a shared id is not proof two names are one
+    # ability, and merging on it would cascade through the vanilla chains), but
+    # every shared member id is recorded on BOTH records so the link is one hop
+    # away instead of invisible.
+    keys_of = {r["key"]: r for r in records}
+    shared = defaultdict(lambda: defaultdict(list))
+    for sid, keyset in A.by_id.items():
+        if len(keyset) < 2:
+            continue
+        ks = sorted(f"c{c}:{n}" for c, n in keyset)
+        for k in ks:
+            for other in ks:
+                if other != k:
+                    shared[k][other].append(sid)
+    for r in records:
+        links = shared.get(r["key"])
+        r["linkedKeys"] = ([{"key": k, "sharedMemberIds": sorted(v)}
+                            for k, v in sorted(links.items())] if links else [])
+    stats["abilitiesWithCrossNameLink"] = sum(1 for r in records if r["linkedKeys"])
+
+    # ---- residual ids that join to nothing ----------------------------------
+    joined = set(A.by_id)
+    source_ids = {"liveNode": live_ids, "cad": cad_ids,
+                  "trainer": trainer_ids, "rankChain": chain_ids}
+    unjoined = {k: sorted(v - joined) for k, v in source_ids.items()}
+    unjoined_all = sorted(set().union(*unjoined.values()))
+    reason_by_id = defaultdict(set)
+    for reason, rows in residual.items():
+        for row in rows:
+            if row.get("spellId") in joined or row.get("spellId") is None:
+                continue
+            reason_by_id[row["spellId"]].add(reason)
+    residual_records = []
+    for sid in unjoined_all:
+        residual_records.append({
+            "spellId": sid,
+            "name": spells[sid]["name"] if sid in spells else None,
+            "inBaseSpell": sid in spells,
+            "sources": [k for k in ("liveNode", "cad", "trainer", "rankChain")
+                        if sid in source_ids[k]],
+            "reasons": sorted(reason_by_id.get(sid, ())) or ["noClassCarryingSource"],
+        })
+
+    # ---- measurements: id density + normalization + coherence ---------------
+    block = 100000
+    touched = sorted({i // block for i in
+                      (live_ids | cad_ids | trainer_ids | chain_ids)})
+    occ = Counter(i // block for i in spells)
+    dens = {str(b * block): round(occ.get(b, 0) / block, 5) for b in touched}
+    density = {
+        "note": ("Containment in a dense id space proves nothing, so no membership "
+                 "here is decided by 'this id exists in Spell.dbc'. These are the "
+                 "numbers behind that rule."),
+        "baseSpellRows": len(spells),
+        "baseSpellIdMax": max(spells) if spells else 0,
+        "overallDensity": round(len(spells) / max(spells), 6) if spells else 0,
+        "blockSize": block,
+        "touchedBlocks": len(touched),
+        "meanDensityInTouchedBlocks":
+            round(sum(occ.get(b, 0) for b in touched) / (len(touched) * block), 5)
+            if touched else 0,
+        "maxDensityInTouchedBlocks": max(dens.values()) if dens else 0,
+        "densityByBlockStart": dens,
+    }
+
+    names_all = [v["name"] for v in spells.values()]
+    name_norm_meta = {
+        "rule": ("1) repeatedly strip a trailing rank marker "
+                 r"[\s\-(\[]*rank\s*\d+[)\]]*$ (case-insensitive) then strip "
+                 "whitespace; 2) lowercase and delete every non-alphanumeric "
+                 "character."),
+        "measuredOnBaseSpellNames": len(names_all),
+        "namesWithTrailingRankMarker": sum(1 for x in names_all if _RANK_TAIL.search(x or "")),
+        "distinctRankColumnValues": len({v["rank"] for v in spells.values()}),
+        "namesWithTrailingRomanNumeral_NOTStripped":
+            sum(1 for x in names_all if _ROMAN_TAIL.search(x or "")),
+        "namesWithTrailingBareDigit_NOTStripped":
+            sum(1 for x in names_all if _DIGIT_TAIL.search(x or "")),
+        "why": ("The base Spell table carries the rank in its own column "
+                "(rank_enUS/f153), so names almost never carry one - step 1 exists "
+                "for the handful that do. Roman-numeral and bare-digit suffixes are "
+                "left alone deliberately: they are not the rank carrier and "
+                "stripping them would merge distinct spells."),
+    }
+
+    chain_meta = {
+        "chains": len(chains),
+        "coherent": coherent,
+        "nameIncoherent": incoherent,
+        "nameIncoherentRate": round(incoherent / (coherent + incoherent), 4)
+                              if (coherent + incoherent) else 0,
+        "gate": ("A chain expands an ability only when its members that resolve in "
+                 "the base Spell table carry at most ONE distinct normalized name. "
+                 "Recycled contiguous id blocks otherwise manufacture false "
+                 "memberships."),
+        "examples": incoherent_examples,
+    }
+
+    multi_gen = [r for r in records if r["generationCount"] > 1]
+    live_recs = [r for r in records if r["live"]]
+    live_trainer = [r for r in live_recs if r["trainerTaught"]]
+
+    summary = {
+        "abilities": len(records),
+        "abilitiesMultiGeneration": len(multi_gen),
+        "abilitiesLive": len(live_recs),
+        "liveAbilitiesWithTrainerLadder": len(live_trainer),
+        "abilitiesWithRankLadder": sum(1 for r in records if r["rankLadder"]),
+        "abilitiesWithCrossNameLink": stats["abilitiesWithCrossNameLink"],
+        "memberIds": len(joined),
+        "unjoinedResidualIds": len(unjoined_all),
+        "unjoinedBySource": {k: len(v) for k, v in unjoined.items()},
+        "residualReasons": {k: len(v) for k, v in sorted(residual.items())},
+        "generationCounts": dict(Counter(
+            g for r in records for g in r["generations"])),
+        "generationSpanHistogram": dict(sorted(Counter(
+            r["generationCount"] for r in records).items())),
+        "sourceIdCounts": {k: len(v) for k, v in source_ids.items()},
+        "stageCounts": dict(sorted(stats.items())),
+    }
+
+    written = _emit(records, summary, density, name_norm_meta, chain_meta,
+                    unjoined, residual, residual_records, live, cls_by_id,
+                    cad_name_agree)
+    summary["fileCount"] = len(written)
+    return summary
+
+
+# ---------------------------------------------------------------------------
+# Emit
+# ---------------------------------------------------------------------------
+
+def _shard_by_id(records, key_of, list_key):
+    """Split a record list into <=MAX_LINES files. The split key is a FIXED
+    id-range bucket over the record's OWN anchor id (never a count chunk), so a
+    record's file never changes because a neighbour grew. Returns
+    [(bucketStartOrNone, records)]."""
+    if sharding.dump_manifest({list_key: records}).count("\n") + 1 <= MAX_LINES:
+        return [(None, records)]
+    for size in (10000000, 1000000, 100000, 10000, 1000):
+        buckets = defaultdict(list)
+        for r in records:
+            buckets[sharding.bucket_id(key_of(r), size)].append(r)
+        if all(sharding.dump_manifest({list_key: v}).count("\n") + 1 <= MAX_LINES
+               for v in buckets.values()):
+            return sorted(buckets.items())
+    raise RuntimeError("build_abilities: no id-bucket size keeps every shard under "
+                       f"{MAX_LINES} lines - needs re-investigation")
+
+
+def _emit(records, summary, density, name_norm_meta, chain_meta, unjoined,
+          residual, residual_records, live, cls_by_id, cad_name_agree) -> list:
+    out = config.DATA_DIR / OUT_DIRNAME
+    out.mkdir(parents=True, exist_ok=True)
+    for p in out.glob("*.json"):
+        p.unlink()
+
+    by_class = defaultdict(list)
+    for r in records:
+        by_class[r["classId"]].append(r)
+
+    files, index_classes = [], []
+    for cid in sorted(by_class):
+        cls = cls_by_id.get(cid, {})
+        slug = sharding.slugify(cls.get("name") or f"class{cid}")
+        shards = _shard_by_id(by_class[cid],
+                              lambda r: min(m["id"] for m in r["members"]),
+                              "abilities")
+        shard_meta = []
+        for bucket, recs in shards:
+            stem = f"{cid:02d}-{slug}" + (f"-{bucket}" if bucket is not None else "")
+            fname = f"{stem}.json"
+            payload = {"classId": cid, "class": cls.get("name"),
+                       "abilityCount": len(recs),
+                       "idBucket": bucket,
+                       "abilities": recs}
+            text = sharding.dump_manifest(payload)
+            lines = text.count("\n") + 1
+            if lines > MAX_LINES:
+                raise RuntimeError(f"build_abilities: {fname} is {lines} lines")
+            (out / fname).write_text(text, encoding="utf-8", newline="\n")
+            shard_meta.append({"file": fname, "abilityCount": len(recs),
+                               "lines": lines, "idBucket": bucket})
+            files.append(fname)
+        index_classes.append({
+            "classId": cid, "class": cls.get("name"),
+            "abilityCount": len(by_class[cid]),
+            "live": sum(1 for r in by_class[cid] if r["live"]),
+            "multiGeneration": sum(1 for r in by_class[cid]
+                                   if r["generationCount"] > 1),
+            "trainerTaught": sum(1 for r in by_class[cid] if r["trainerTaught"]),
+            "files": [s["file"] for s in shard_meta],
+        })
+
+    # residual: every id a source referenced that ends up in NO ability, one
+    # record per line, sharded by fixed id-range bucket like everything else.
+    res_files = []
+    for bucket, recs in _shard_by_id(residual_records, lambda r: r["spellId"],
+                                     "residual"):
+        fname = "_residual.json" if bucket is None else f"_residual-{bucket}.json"
+        (out / fname).write_text(sharding.dump_manifest({
+            "note": ("Ids a source referenced that end up in no ability. This is "
+                     "the honest remainder of the join, not a bug list - most of "
+                     "it is profession recipes (NPCTrainer's largest skill lines) "
+                     "and rank-chain ids no class-carrying row ever names."),
+            "idBucket": bucket,
+            "count": len(recs),
+            "residual": recs,
+        }), encoding="utf-8", newline="\n")
+        res_files.append(fname)
+        files.append(fname)
+
+    res_index = {
+        "note": "Per-id residual records live in the files listed here.",
+        "totalUnjoinedIds": len(residual_records),
+        "unjoinedCountsBySource": {k: len(v) for k, v in sorted(unjoined.items())},
+        "reasonCountsAllIds": {k: len(v) for k, v in sorted(residual.items())},
+        "reasonCountsUnjoinedOnly": dict(sorted(Counter(
+            reason for r in residual_records for reason in r["reasons"]).items())),
+        "files": res_files,
+    }
+    (out / "_residual-index.json").write_text(sharding.dump_manifest(res_index),
+                                              encoding="utf-8", newline="\n")
+    files.append("_residual-index.json")
+
+    meta = {
+        "purpose": ("One CoA ability exists under several spell-id generations with "
+                    "no join table in the client. This layer is that join, derived "
+                    "mechanically from raw/ in the same pass as the rest of the "
+                    "dataset."),
+        "groupKey": "(classId, normalized spell name) - see nameNormalization",
+        "generations": {
+            "liveNode": "spell id carried by a LIVE talent-builder node (raw/talents/"
+                        "coa-builder-<slug>.html)",
+            "trainer": "spell id an NPCTrainer row teaches (raw/tables/NPCTrainer)",
+            "cad": "spell id a CharacterAdvancementData catalog row references "
+                   "(raw/content/CharacterAdvancementData.json)",
+            "rankChain": "spell id reached along a name-coherent SpellRankData chain "
+                         "(raw/content/SpellRankData.json)",
+        },
+        "generationPrecedence": list(GENERATIONS),
+        "sources": {
+            "liveNode": "raw/talents/coa-builder-%s.html (RAW holds the payload; "
+                        "data/talents/coa/ is a derived copy of the same parse and "
+                        "is not read here)" % live["provenance"]["slug"],
+            "cad": "raw/content/CharacterAdvancementData.json",
+            "trainer": "raw/tables/NPCTrainer/",
+            "rankChain": "raw/content/SpellRankData.json",
+            "names": "raw/tables/Spell/variants/%s/ - the BASE variant a CoA "
+                     "character reads, NOT the area-52 realm overlay at "
+                     "raw/tables/Spell/" % BASE_SPELL_VARIANT,
+            "classes": "raw/tables/ChrClasses/",
+            "skillCorroboration": "raw/tables/SkillLineAbility/ + raw/tables/SkillLine/",
+        },
+        "nameNormalization": name_norm_meta,
+        "rankChainGate": chain_meta,
+        "idDensity": density,
+        "cadNameVsSpellName": {
+            "resolvedCadSpellRefs": cad_name_agree["resolved"],
+            "cadRowNameMatchesSpellName": cad_name_agree["cadNameMatchesSpellName"],
+            "rate": round(cad_name_agree["cadNameMatchesSpellName"]
+                          / cad_name_agree["resolved"], 4)
+                    if cad_name_agree["resolved"] else None,
+            "why": ("A CAD row's own Name is used as the group key ONLY when its "
+                    "spell id has no base Spell row at all; this is the measured "
+                    "agreement between the two when both exist."),
+        },
+        "trainerAdmissionRule": (
+            "A trainer row always marks an id it already shares with another "
+            "generation. An id known ONLY to NPCTrainer is admitted only with "
+            "corroborating class evidence - a single-class SkillLineAbility "
+            "classMask, or a skillLine shared with an existing member of exactly "
+            "one same-named ability. A bare name match is refused and recorded in "
+            "_residual.json as trainerNameOnlyNoCorroboration."),
+        "liveProvenance": live["provenance"],
+        "realmCaveat": coa_live.REALM_CAVEAT,
+        "summary": summary,
+        "classes": index_classes,
+    }
+    (out / "_meta.json").write_text(sharding.dump_manifest(meta),
+                                    encoding="utf-8", newline="\n")
+    files.append("_meta.json")
+
+    index = {
+        "abilityCount": summary["abilities"],
+        "classes": index_classes,
+        "counts": {k: summary[k] for k in
+                   ("abilities", "abilitiesMultiGeneration", "abilitiesLive",
+                    "liveAbilitiesWithTrainerLadder", "memberIds",
+                    "unjoinedResidualIds")},
+        "generationCounts": summary["generationCounts"],
+        "generationSpanHistogram": summary["generationSpanHistogram"],
+        "meta": "_meta.json",
+        "residual": "_residual-index.json",
+        "recordShape": ("key, classId, class, name, normName, generations, "
+                        "generationCount, memberCount, live, liveIds, liveId, "
+                        "trainerTaught, trainerIds, rankLadder (ordered by level "
+                        "then rank), linkedKeys (same ability under another name), "
+                        "members[] each with generation, generations and "
+                        "per-generation evidence"),
+    }
+    (out / "index.json").write_text(sharding.dump_manifest(index),
+                                    encoding="utf-8", newline="\n")
+    files.append("index.json")
+    return sorted(files)
+
+
+def main():
+    print(json.dumps(build(), indent=1, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
