@@ -98,7 +98,7 @@ are `deadCatalog`, 27 are `liveDirect`. You cannot resolve this by dropping tabs
 wholesale, and you cannot resolve it by name - **only per entry.**
 
 **The rule.** For any "what can a player do" question - rotation, spec UI, coverage,
-ability rosters, simulation - branch on each entry's **`live` / `liveEvidence`** (`true`
+ability rosters, damage modelling - branch on each entry's **`live` / `liveEvidence`** (`true`
 / `false` / `null`, semantics under "Live vs catalog"), never on mere presence in
 `data/classes/`. `live: null` is a real unknown, not a soft no. For "what does this spell
 do" questions, layer 1 alone is fine and needs no filter.
@@ -332,9 +332,10 @@ Consequences worth knowing:
   tombstone entries across archives) plus 13 genuinely empty members. Zero files are
   genuinely unreadable.
 - `raw/recovered/attributes/` is a metadata layer nothing else here has: CRC32 + MD5 +
-  modification time (where the archive records one) for **768,998** path/archive pairs,
-  covering every version of every file including the ones that lose the chain. The
-  timestamps are a mechanical way to separate Ascension's own content from Blizzard's.
+  modification time for **768,998** path/archive pairs, covering every version of every
+  file including the ones that lose the chain. **529,029** of those pairs (68.8%) carry a
+  timestamp - the archives do not record one for the rest - and the timestamps are a
+  mechanical way to separate Ascension's own content from Blizzard's.
 - Deleted entries hold nothing recoverable, and that is a byte-level result: every
   archive's data region is walked against its own block table and **0 bytes** across
   44.9 GB are unaccounted for, with 0 orphan block entries. The client's one encrypted
@@ -343,8 +344,6 @@ Consequences worth knowing:
 ## Traps
 
 Twelve things that silently produce wrong data if a consumer does not know about them.
-Traps documented at length elsewhere in this file carry a pointer rather than a second
-copy.
 
 1. **`procChance` sentinel is 101, not a percentage - and 0 also means "unset", not
    "never procs".** Measured with `procChance NOT IN (0, 101)`: **8,831 = 26.9%** of the
@@ -357,9 +356,11 @@ copy.
    damage-taken/crit aura pair); spell 803477 `"Sunder"` is not Sunder Armor
    (`COA_MOD_ATTACK_POWER_FLAT`, `basePoints: -24`). A name-keyed lookup silently returns
    the wrong spell for either id.
-4. **`id >= 100000` does not mean custom.** Over the 6,436-id CoA class spell set, exactly
-   **86** ids are sub-100000. Key off the `data/classes/<Class>/` directory a spell was
-   reached through, never an id range.
+4. **`id >= 100000` does not mean custom.** CoA's custom ids cluster in the `500000+`,
+   `800000+`, `900000+` and `1000000+` bands, which is a useful orientation when eyeballing
+   raw ids but not a test: over the 6,436-id CoA class spell set, exactly **86** ids are
+   sub-100000. Key off the `data/classes/<Class>/` directory a spell was reached through,
+   never an id range.
 5. **Reborn contamination.** The Reborn classes' spell-id universe is **14,107** ids; the
    CoA-custom universe intersected with the vanilla one is **1** id, and with Reborn's
    **0**. Any naive "all classes" iteration over `data/classes/` pulls Reborn in - filter
@@ -447,7 +448,7 @@ small and still diffs one line per record. `tests/test_sharding.py` asserts ever
 | `data/spells/by-id/spells-<bucket>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id; empty buckets omitted | **stream or grep it, do not slurp.** Per-effect `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` appear only when nonzero; `rankAt60` only on a chain's first-rank record |
 | `data/spells/_meta.json` | counts only: `liveCoverage` (the gate), `liveSeedRule`, `liveFlagRule`, `baseVariant`, `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `columnCoverage`, `formulaClosure`, `rankAt60`, `scalingConstants`, `devDead`, `enrichment` | |
 | `data/spells/_coverage.json` | per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 fields; 124 emitted) | COLUMN coverage |
-| `data/spells/_coverage_live.json` | **damage-model** coverage: `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the probe list with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks`, method notes | unrelated to `_coverage.json`. Written by `python -m tools.coverage_live`, NOT by `datamine.py`'s curation stage - see "Damage-model coverage" |
+| `data/spells/_coverage_live.json` | **damage-model** coverage: `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the probe list with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks` (20 reproduction gates, all passing), method notes | unrelated to `_coverage.json`. Written by `python -m tools.coverage_live`, NOT by `datamine.py`'s curation stage - see "Damage-model coverage" |
 | `data/spells/_enum_evidence.json` | per-id provenance for every effect/aura enum label, 224 classified ids | **this is how to verify any enum label in this dataset** - every named entry carries at least one `goldenSpells` id |
 | `data/spells/_missing_refs.json` | full missing-ref id lists by source, each array on ONE line | `formula` is report-only, never folded into the `cad_other`/`talent` hard gates |
 | `data/spells/charges.json` | `SpellCharges`/`SpellChargesCategory` (406 charge rows / 106 categories) | **NOT attached** to any spell record (join-rate 0.8867 < the 0.90 bar) - keyed by its own `ref`, not `spellId` |
@@ -470,7 +471,7 @@ small and still diffs one line per record. `tests/test_sharding.py` asserts ever
 
 | Path | What | Caveat |
 |---|---|---|
-| `data/dungeons/index.json` + `<id>-<slug>.json` | 430 dungeons (109 raids); each file carries ordered `encounters` (each with a `creature` link or null) and reward brackets | `<slug>` = lowercase name, non-alnum runs collapsed to `-`, max 40 chars. `rewards` is a LIST |
+| `data/dungeons/index.json` + `<id>-<slug>.json` | 430 dungeons (109 raids); each file carries ordered `encounters` (each with a `creature` link or null) and reward brackets | `<slug>` = lowercase name, non-alnum runs collapsed to `-`, max 40 chars. `rewards` is a LIST. `creature` is null on 84 of the 2,704 encounter entries: **66** have no `DungeonEncounterExtra` row at all, **18** have one whose `creatureId` matches no creature |
 | `data/creatures/index.json` + `creatures-<bucket>.jsonl` | `{id, name, subname}` per `Creature.dbc` row, one JSON per line, 127,178 rows | `id` is `Creature.dbc` **f1**, the real creature TEMPLATE ENTRY id (a sparse space up to ~11M) - **355 buckets, not 26**. `subname` is always `null` |
 | `data/quests/index.json` + `quests-<bucket>.jsonl` | `{id, sort: null, info: null, f1..f28}` per `Quest.dbc` row, 18,561 rows | **this table has no string block at all** |
 | `data/trainers/index.json` + `trainers-<bucket>.json` | `{id, spellId, name, skillLine, f3}`, 13,112 rows | a **flat per-row list**, not grouped by trainer; spellId join-rate 0.989 |
