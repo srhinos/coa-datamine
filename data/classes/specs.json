@@ -2794,7 +2794,7 @@
     "Moon Guard"
    ]
   ],
-  "sec11Correction": "DATAMINE-REQUEST.md Sec 11 cited '7 of 70 specs have no CAD tab' (presumably unreleased); task W4-9 found 5 of the 7 had shipped in the live builder. Task W4-14 resolves all 7 by MECHANISM rather than a pinned token table: a spec's own `name` is the live-generation label, so VALKYR->Valkyrie, WITCHKNIGHT->Black Knight, HYDROMANCY->Warden and BULWARK->Dreadnought all resolve by name against the live tab list (the last two being W4-9's 'unmatchedExtraTabs', now attributed). 0 specs remain unreleased by this re-derivation.",
+  "sec11Correction": "The source request cited '7 of 70 specs have no CAD tab' (presumably unreleased); 5 of the 7 had in fact shipped in the live builder. All 7 resolve here by MECHANISM rather than a pinned token table: a spec's own `name` is the live-generation label, so VALKYR->Valkyrie, WITCHKNIGHT->Black Knight, HYDROMANCY->Warden and BULWARK->Dreadnought all resolve by name against the live tab list (the last two previously recorded as 'unmatchedExtraTabs', now attributed). 0 specs remain unreleased by this re-derivation.",
   "statusMeanings": {
    "cadOnly": "the tree exists only in the CAD catalog - no live tab maps to it",
    "inLiveBuilder": "this spec's tree is in the live builder payload (liveTab names it; renamed=true means the CAD tab is called something else)",
@@ -2802,7 +2802,7 @@
    "noLiveGeometry": "class has a CAD tab layer but no builder capture - liveness NOT claimed",
    "unreleased": "named by neither layer"
   },
-  "supersedes": "task W4-11e's states (live/shippedExternal/unreleased/noTabLayer). 'live' there meant only 'a CAD tab with this token exists' - a claim about the catalog, not the game - and covered 93/101 specs including Starcaller/TIDES, whose tree does not exist in game.",
+  "supersedes": "the earlier catalog-only states (live/shippedExternal/unreleased/noTabLayer). 'live' there meant only 'a CAD tab with this token exists' - a claim about the catalog, not the game - and covered 93/101 specs including Starcaller/TIDES, whose tree does not exist in game.",
   "unreleased": []
  }
 }

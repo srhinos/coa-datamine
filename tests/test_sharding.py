@@ -61,7 +61,14 @@ ALLOWLIST = {
 # gates live-node coverage at exactly 1.0. Re-pinned accordingly. The class entry
 # counts and dungeon count below are re-derived against the same 2026-08-09
 # snapshot in the same pass.
-PRE_SPELL_COUNT = 32820
+# 2026-08-12 rebuild from a fresh capture: the client patched again (4 archives
+# moved - patch-M, patch-S, patch-T, area-52/patch-D - for +50 table rows in
+# total, base Spell.dbc 209,140 -> 209,206), and the writer now produces 32,824
+# (+4 vs. 32,820). Re-pinned per AGENT-GUIDE's "Regenerating after a client
+# patch" contract: the class entry counts and dungeon count below were re-derived
+# in the same pass and are UNCHANGED, which is what makes this content churn
+# rather than a writer regression.
+PRE_SPELL_COUNT = 32824
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,

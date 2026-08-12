@@ -178,9 +178,13 @@ assert "level normaliser" in sbp["framing"].lower()
 assert "not a stat coefficient" in sbp["framing"].lower() or "not itself a source" in sbp["framing"].lower()
 # Counted over the CLOSURE, so it moves when the closure does. 550 -> 552 in the
 # live-seed pass: seeding from live truth pulled in 3,861 more records, two of
-# which use $scalingbp. Re-pin deliberately when the closure changes; do not
-# widen it into a range, the exact number is the point.
-assert sbp["referencedBySpellCount"] == 552, sbp["referencedBySpellCount"]
+# which use $scalingbp. 552 -> 559 on the 2026-08-12 client patch. Measured over
+# the shipped records, seven spells GAINED the token (704368, 706415-706420) and
+# all seven were already in the closure, so this is the client editing formula
+# text rather than the closure widening (which moved by 4 records, 32820 ->
+# 32824). Re-pin deliberately when the closure changes; do not widen it into a
+# range, the exact number is the point.
+assert sbp["referencedBySpellCount"] == 559, sbp["referencedBySpellCount"]
 
 # =====================================================================
 # (d) devDead: independently re-scan work/dbc/Spell.dbc for the literal marker

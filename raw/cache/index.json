@@ -88,7 +88,7 @@
    "name": "creaturecache.wdb",
    "path": "enUS/creaturecache.wdb",
    "records": 2515,
-   "schemaSource": "coa-sim-handoff/parsers/wdb2.py, extended past its two float modifiers",
+   "schemaSource": "a published creaturecache.wdb parser, extended past its two float modifiers",
    "sha256": "36b47729a0de503d7736bbaa5c4479af0c1678d7d05447155afb5150c21ea370",
    "shardCount": 1,
    "storedBytes": 661984,
@@ -295,7 +295,7 @@
    "name": "itemcache.wdb",
    "path": "enUS/itemcache.wdb",
    "records": 17531,
-   "schemaSource": "coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response)",
+   "schemaSource": "a published itemcache.wdb parser (TrinityCore 3.3.5 item query response)",
    "sha256": "65938db2f1bf25b3a303531043fae9a002ee22d02554e108130f5a87a52c3e29",
    "shardCount": 28,
    "storedBytes": 933601,
@@ -634,7 +634,7 @@
    "tier": "schema"
   },
   {
-   "bytes": 394677,
+   "bytes": 431367,
    "dir": "enus/rexxar-conquest-of-azeroth/creaturecache",
    "fields": [
     "_entry",
@@ -681,15 +681,15 @@
    "keyField": "_entry",
    "name": "creaturecache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/creaturecache.wdb",
-   "records": 3572,
-   "schemaSource": "coa-sim-handoff/parsers/wdb2.py, extended past its two float modifiers",
-   "sha256": "563a6f4414583a67fa9541defe65690e787f5f8bb6c795d42775b185bbf6037f",
+   "records": 3909,
+   "schemaSource": "a published creaturecache.wdb parser, extended past its two float modifiers",
+   "sha256": "0054450434a15801ba6ffede52614984fcca2f1c0c03c8f66042720264fba34b",
    "shardCount": 1,
-   "storedBytes": 940322,
+   "storedBytes": 1027064,
    "tier": "schema"
   },
   {
-   "bytes": 539537,
+   "bytes": 574727,
    "dir": "enus/rexxar-conquest-of-azeroth/gameobjectcache",
    "fields": [
     "_entry",
@@ -750,15 +750,15 @@
    "keyField": "_entry",
    "name": "gameobjectcache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/gameobjectcache.wdb",
-   "records": 3323,
+   "records": 3539,
    "schemaSource": "3.3.5 gameobject query response",
-   "sha256": "a8a3c99705f511365e00be4c20b75e5fe13126d7415fef3f9dbee32a10e15189",
+   "sha256": "5a219bf7b047b4fe5e11a6511c14b3400809af4ae23326a196c1a4de32a86cb2",
    "shardCount": 1,
-   "storedBytes": 54512,
+   "storedBytes": 58368,
    "tier": "schema"
   },
   {
-   "bytes": 11402175,
+   "bytes": 12785658,
    "dir": "enus/rexxar-conquest-of-azeroth/itemcache",
    "fields": [
     "_entry",
@@ -888,15 +888,15 @@
    "keyField": "_entry",
    "name": "itemcache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/itemcache.wdb",
-   "records": 23679,
-   "schemaSource": "coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response)",
-   "sha256": "51d0173da8dfd0e168542574b91a31b3294fd25e60830a87e81a6000e11fd5ab",
+   "records": 26500,
+   "schemaSource": "a published itemcache.wdb parser (TrinityCore 3.3.5 item query response)",
+   "sha256": "3353b26d9fc7731ed1fc4638bd114d61ee9b2d8cac623b7e1d6924fa316b3254",
    "shardCount": 28,
-   "storedBytes": 1214646,
+   "storedBytes": 1341304,
    "tier": "schema"
   },
   {
-   "bytes": 13396,
+   "bytes": 19778,
    "dir": "enus/rexxar-conquest-of-azeroth/itemnamecache",
    "fields": [
     "_entry",
@@ -919,15 +919,15 @@
    "keyField": "_entry",
    "name": "itemnamecache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/itemnamecache.wdb",
-   "records": 403,
+   "records": 600,
    "schemaSource": "3.3.5 item-name query response",
-   "sha256": "376389238dee1583d02643681e6e64ace9a0b3a96fde9c591696fb36b47868f8",
+   "sha256": "2a5d3cd42fc55176c3f0a7f8b4d4a1b9949000c2de0913244d1a705c3db7ee46",
    "shardCount": 1,
-   "storedBytes": 21258,
+   "storedBytes": 31499,
    "tier": "schema"
   },
   {
-   "bytes": 34448,
+   "bytes": 44360,
    "columnTypes": [
     "int",
     "int",
@@ -979,254 +979,254 @@
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f0",
-      "nonZero": 205,
-      "rows": 205
+      "nonZero": 264,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f1",
-      "nonZero": 205,
-      "rows": 205
+      "nonZero": 264,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f2",
-      "nonZero": 205,
-      "rows": 205
+      "nonZero": 264,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f3",
-      "nonZero": 205,
-      "rows": 205
+      "nonZero": 264,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f4",
-      "nonZero": 37,
-      "rows": 205
+      "nonZero": 78,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f5",
-      "nonZero": 37,
-      "rows": 205
+      "nonZero": 78,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f6",
-      "nonZero": 28,
-      "rows": 205
+      "nonZero": 69,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f7",
-      "nonZero": 26,
-      "rows": 205
+      "nonZero": 67,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f8",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 30,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f9",
-      "nonZero": 4,
-      "rows": 205
+      "nonZero": 21,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f10",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 22,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f11",
-      "nonZero": 5,
-      "rows": 205
+      "nonZero": 14,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f12",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 14,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f13",
-      "nonZero": 5,
-      "rows": 205
+      "nonZero": 6,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f14",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 14,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f15",
-      "nonZero": 2,
-      "rows": 205
+      "nonZero": 3,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f16",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 14,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f17",
-      "nonZero": 1,
-      "rows": 205
+      "nonZero": 2,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f18",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 14,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f19",
       "nonZero": 1,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f20",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 13,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f21",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f22",
-      "nonZero": 12,
-      "rows": 205
+      "nonZero": 13,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f23",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": true,
       "column": "f24",
-      "nonZero": 33,
-      "rows": 205
+      "nonZero": 48,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": true,
       "column": "f25",
-      "nonZero": 33,
-      "rows": 205
+      "nonZero": 48,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f26",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f27",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f28",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f29",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f30",
-      "nonZero": 158,
-      "rows": 205
+      "nonZero": 202,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f31",
-      "nonZero": 158,
-      "rows": 205
+      "nonZero": 204,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f32",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f33",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f34",
-      "nonZero": 0,
-      "rows": 205
+      "nonZero": 3,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f35",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f36",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f37",
       "nonZero": 0,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f38",
       "nonZero": 7,
-      "rows": 205
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f39",
-      "nonZero": 106,
-      "rows": 205
+      "nonZero": 117,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f40",
-      "nonZero": 205,
-      "rows": 205
+      "nonZero": 264,
+      "rows": 264
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f41",
-      "nonZero": 203,
-      "rows": 205
+      "nonZero": 262,
+      "rows": 264
      }
     ],
     "columnTypes": [
@@ -1274,7 +1274,7 @@
      "int"
     ],
     "columns": 42,
-    "declaredCount": 205,
+    "declaredCount": 264,
     "decoded": true,
     "headerWord2": "6a73606f",
     "recordSize": 168
@@ -1284,17 +1284,17 @@
    "header": {
     "hasWdbHeader": false,
     "localeBytes": "bf190000",
-    "magicBytes": "cd000000",
+    "magicBytes": "08010000",
     "reason": "magic or locale field is not printable ASCII"
    },
    "keyField": "f0",
    "name": "itemstatcache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/itemstatcache.wdb",
    "recordSize": 168,
-   "records": 205,
-   "sha256": "cccd876e2f18539d901ef0f33c8e8804ac55e1158b729d11bd1ea2a932c7baf9",
+   "records": 264,
+   "sha256": "18d284d797f7b249226c5228c37ef3507d7b2963c7e6639bd9c32cdfc564faf1",
    "shardCount": 1,
-   "storedBytes": 71261,
+   "storedBytes": 91875,
    "tier": "flat"
   },
   {
@@ -1328,7 +1328,7 @@
    "tier": "schema"
   },
   {
-   "bytes": 62121,
+   "bytes": 67063,
    "dir": "enus/rexxar-conquest-of-azeroth/npccache",
    "fields": [
     "_entry",
@@ -1429,11 +1429,11 @@
    "keyField": "_entry",
    "name": "npccache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/npccache.wdb",
-   "records": 89,
+   "records": 99,
    "schemaSource": "3.3.5 npc-text query response",
-   "sha256": "9c31f83ae2fe9a7adddc84356f594ab867190a3d75e3b9ef046bf998b4d1df1c",
+   "sha256": "f5144d5e10dd260d9e98c4f2cdb11bb4f1b3ed6e53be76ea892d59bdabf58a23",
    "shardCount": 1,
-   "storedBytes": 97851,
+   "storedBytes": 106781,
    "tier": "schema"
   },
   {
@@ -1468,7 +1468,7 @@
    "tier": "schema"
   },
   {
-   "bytes": 250045,
+   "bytes": 268336,
    "dir": "enus/rexxar-conquest-of-azeroth/questcache",
    "fields": [
     "_entry",
@@ -1591,15 +1591,15 @@
    "keyField": "_entry",
    "name": "questcache.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/questcache.wdb",
-   "records": 311,
+   "records": 331,
    "schemaSource": "3.3.5 quest query response",
-   "sha256": "b3572511e9f60a059e5e79e14a2fada0b019592c99da5cbd303d0c59d131ab74",
+   "sha256": "1cba9393798f79f2e7c45b6e97756d6b9baffbaf588deb67ef4acb6fd3d694ce",
    "shardCount": 1,
-   "storedBytes": 398531,
+   "storedBytes": 426389,
    "tier": "schema"
   },
   {
-   "bytes": 224,
+   "bytes": 176,
    "columnTypes": [
     "int",
     "int",
@@ -1612,20 +1612,20 @@
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f0",
-      "nonZero": 18,
-      "rows": 18
+      "nonZero": 14,
+      "rows": 14
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f1",
-      "nonZero": 18,
-      "rows": 18
+      "nonZero": 14,
+      "rows": 14
      },
      {
       "allNonZeroPlausibleFloat": false,
       "column": "f2",
       "nonZero": 0,
-      "rows": 18
+      "rows": 14
      }
     ],
     "columnTypes": [
@@ -1634,7 +1634,7 @@
      "int"
     ],
     "columns": 3,
-    "declaredCount": 18,
+    "declaredCount": 14,
     "decoded": true,
     "headerWord2": "6a73606f",
     "recordSize": 12
@@ -1643,18 +1643,18 @@
    "group": "enus/rexxar-conquest-of-azeroth",
    "header": {
     "hasWdbHeader": false,
-    "localeBytes": "b83b0100",
-    "magicBytes": "12000000",
+    "localeBytes": "af460000",
+    "magicBytes": "0e000000",
     "reason": "magic or locale field is not printable ASCII"
    },
    "keyField": "f0",
    "name": "questcacheaddon.wdb",
    "path": "enUS/Rexxar - Conquest of Azeroth/questcacheaddon.wdb",
    "recordSize": 12,
-   "records": 18,
-   "sha256": "2a46dc65439e1635ce7a439a3a1944d07c2513a8c9ecd331778f427cfcea5af4",
+   "records": 14,
+   "sha256": "e49255e386a697e8fce47bee7e1401f785dab1939bfcd6252abf159288e04d78",
    "shardCount": 1,
-   "storedBytes": 514,
+   "storedBytes": 392,
    "tier": "flat"
   },
   {
@@ -1742,9 +1742,9 @@
    "records": 22476
   },
   "enus/rexxar-conquest-of-azeroth": {
-   "bytes": 12698406,
+   "bytes": 14193248,
    "files": 11,
-   "records": 31607
+   "records": 35263
   },
   "root": {
    "bytes": 4,
@@ -1754,12 +1754,12 @@
  },
  "interpretationRule": "The field names below are an INTERPRETATION, not a measurement. They were read off TrinityCore 3.3.5's query-response handlers by a human and mapped onto the positions this layer measured. The measurement is the layout - field count, widths, kinds, and the variable-length runs - which is proven by exact block consumption. The names are not proven by anything: any two same-kind same-width fields can be swapped without changing a single byte of consumption, so `f21` being called `flags` is a claim about what the server meant, verifiable only against an external source. Use the positions for data and treat every name here as a hypothesis to check.",
  "note": "Every file under Cache\\WDB. Decoded records live in <group>/<name>/<lo>-<hi>.jsonl[.gz], one record per line, keyed by the block entry id (`_entry`) for WDB caches and by f0 for the flat Ascension caches. Columns are POSITIONAL (f0..fN) in every tier: the layout is measured, the field names are not, so the names live in _interpretation.json and never in the data. <group> keeps each realm's cache separate from the base one - they are different data.",
- "recordTotal": 54083,
+ "recordTotal": 57739,
  "schemaSources": {
   "WGOB": "3.3.5 gameobject query response",
-  "WIDB": "coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response)",
+  "WIDB": "a published itemcache.wdb parser (TrinityCore 3.3.5 item query response)",
   "WITX": "3.3.5 item-text query response",
-  "WMOB": "coa-sim-handoff/parsers/wdb2.py, extended past its two float modifiers",
+  "WMOB": "a published creaturecache.wdb parser, extended past its two float modifiers",
   "WNDB": "3.3.5 item-name query response",
   "WNPC": "3.3.5 npc-text query response",
   "WPTX": "3.3.5 page-text query response",
@@ -1767,7 +1767,7 @@
   "WRDN": "3.3.5 name query cache (carries no block on this client)"
  },
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
- "sourceBytes": 21898174,
+ "sourceBytes": 23393016,
  "tierCounts": {
   "blocks": 0,
   "flat": 2,

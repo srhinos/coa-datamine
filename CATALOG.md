@@ -4,7 +4,7 @@
 
 ## What is here
 
-- **368 tables**, **7,467,660 rows**, **6,662 columns**, 131.8 MB stored (2.0 GB decoded)
+- **368 tables**, **7,467,710 rows**, **6,662 columns**, 131.8 MB stored (2.0 GB decoded)
 - Columns are positional: `f0`, `f1`, ... `fN`. Nothing in this repo knows what a column means, so nothing here names one.
 - Types are measured, not asserted: 507 float, 4,888 int, 444 string, 56 unknown, 767 zero. The evidence behind every call is in `raw/tables/<Table>/<Table>.colinfo.json` and `raw/_catalog/tables.json`.
 
@@ -41,15 +41,15 @@ Every table below is the CHAIN WINNER - the copy the client's loader resolves. F
 
 | table | base chain | rows | realm overlay | rows | delta |
 | --- | --- | ---: | --- | ---: | ---: |
-| **CharacterAdvancement** | Data/patch-M.MPQ | 10,234 | Data/area-52/patch-D.MPQ | 7,820 | +2,414 |
+| **CharacterAdvancement** | Data/patch-M.MPQ | 10,235 | Data/area-52/patch-D.MPQ | 7,820 | +2,415 |
 | **CharacterAdvancementEssence** | Data/patch-M.MPQ | 5,600 | Data/area-52/patch-D.MPQ | 5,440 | +160 |
 | **Manastorm** | Data/patch-M.MPQ | 1,017 | Data/area-52/patch-D.MPQ | 1,025 | -8 |
 | **ManastormModifiers** | Data/patch-M.MPQ | 32,768 | Data/area-52/patch-D.MPQ | 32,768 | +0 |
-| **SkillLineAbility** | Data/patch-M.MPQ | 40,983 | Data/area-52/patch-D.MPQ | 38,542 | +2,441 |
-| **Spell** | Data/patch-T.MPQ | 209,151 | Data/area-52/patch-D.MPQ | 238,942 | -29,791 |
-| **SpellCharges** | Data/patch-S.MPQ | 406 | Data/area-52/patch-D.MPQ | 473 | -67 |
-| **SpellChargesCategory** | Data/patch-S.MPQ | 106 | Data/area-52/patch-D.MPQ | 108 | -2 |
-| **SpellRank** | Data/patch-S.MPQ | 23,179 | Data/area-52/patch-D.MPQ | 19,601 | +3,578 |
+| **SkillLineAbility** | Data/patch-M.MPQ | 40,986 | Data/area-52/patch-D.MPQ | 38,542 | +2,444 |
+| **Spell** | Data/patch-T.MPQ | 209,206 | Data/area-52/patch-D.MPQ | 238,942 | -29,736 |
+| **SpellCharges** | Data/patch-S.MPQ | 407 | Data/area-52/patch-D.MPQ | 473 | -66 |
+| **SpellChargesCategory** | Data/patch-S.MPQ | 107 | Data/area-52/patch-D.MPQ | 108 | -1 |
+| **SpellRank** | Data/patch-S.MPQ | 23,204 | Data/area-52/patch-D.MPQ | 19,601 | +3,603 |
 | **Talent** | Data/patch-M.MPQ | 2,383 | Data/area-52/patch-D.MPQ | 2,368 | +15 |
 
 ## Tables
@@ -61,7 +61,7 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **Achievement** | 22,618 | 62 | 650.6 KB | 22,618 @ 7% | 12 (9 strong) | 5 realm-won | `raw/tables/Achievement/*.jsonl.gz` | `f4` "No Threat" · `f21` Complete the "Hardcore - Artisan's Guild" cha… · `f43` Felforged Tome: Bounty I |
 | **Achievement_Category** | 245 | 20 | 49.9 KB | 245 @ 0.31% | 3 (1 strong) | 4 realm-won | `raw/tables/Achievement_Category/*.jsonl` | `f2` A.B.Y.S.S. |
 | **Achievement_Criteria** | 33,630 | 31 | 612.7 KB | 33,630 @ 11% | 9 (8 strong) | 5 realm-won | `raw/tables/Achievement_Criteria/*.jsonl.gz` | `f9` Band of the Earthshatterer |
-| **AchievementRewards** | 1,663 | 4 | 65.0 KB | 1,663 @ 1.1% | 1 (1 strong) | 1 | `raw/tables/AchievementRewards/*.jsonl` | - |
+| **AchievementRewards** | 1,664 | 4 | 65.1 KB | 1,664 @ 1.1% | 1 (1 strong) | 1 | `raw/tables/AchievementRewards/*.jsonl` | - |
 | **AnimationData** | 1,792 | 8 | 170.7 KB | 1,792 @ 100% | - | 5 realm-won | `raw/tables/AnimationData/*.jsonl` | `f1` AdvFlyBackward |
 | **AppearanceCategories** | 68 | 26 | 21.7 KB | 68 @ 100% | - | 1 | `raw/tables/AppearanceCategories/*.jsonl` | `f2` (DND) Summoned Felguard Weapon · `f22` Ability_Druid_AquaticForm · `f1` APPEARANCE_TYPE_COMPANION |
 | **AppearanceDetails** | 17,297 | 21 | 107.9 KB | 17,297 @ 1.4% | 869 (837 strong) | 1 | `raw/tables/AppearanceDetails/*.jsonl.gz` | - |
@@ -130,7 +130,7 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **CollectorCacheRarityRates** | 351 | 4 | 17.7 KB | 351 @ 100% | - | 1 | `raw/tables/CollectorCacheRarityRates/*.jsonl` | - |
 | **CollectorCacheRarityTypes** | 8 | 19 | 1.3 KB | 8 @ 100% | - | 1 | `raw/tables/CollectorCacheRarityTypes/*.jsonl` | `f2` Artifact |
 | **CollectorCacheTypes** | 1 | 38 | 375 B | 1 @ 100% | - | 1 | `raw/tables/CollectorCacheTypes/*.jsonl` | `f0` Draenor Jungle Tamer's Trove · `f4` Draenor Jungle Tamer's Trove |
-| **Creature** | 127,178 | 23 | 2.8 MB | 127,178 @ 100% | 146 (0 strong) | 1 | `raw/tables/Creature/*.jsonl.gz` | `f2` Avion de Combate F-80 |
+| **Creature** | 127,179 | 23 | 2.8 MB | 127,179 @ 100% | 146 (0 strong) | 1 | `raw/tables/Creature/*.jsonl.gz` | `f2` Avion de Combate F-80 |
 | **CreatureDisplayInfo** | 84,477 | 16 | 977.6 KB | 84,477 @ 8.6% | 16 (13 strong) | 5 realm-won | `raw/tables/CreatureDisplayInfo/*.jsonl.gz` | `f6` CamelMount_white · `f7` 18891 · `f8` ClockworkGnomeFeat_Dark |
 | **CreatureDisplayInfoExtra** | 23,351 | 21 | 905.1 KB | 23,351 @ 2.8% | 11 (8 strong) | 5 realm-won | `raw/tables/CreatureDisplayInfoExtra/*.jsonl.gz` | `f20` 2bc78dd036d94c40cb2091c6a66c9a79.blp |
 | **CreatureDisplayInfoGeosetData** | 18,935 | 4 | 727.4 KB | 18,935 @ 94% | 4 (4 strong) | 1 | `raw/tables/CreatureDisplayInfoGeosetData/*.jsonl` | - |
@@ -211,13 +211,13 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **HolidayDescriptions** | 30 | 18 | 10.6 KB | 30 @ 4.1% | - | 4 realm-won | `raw/tables/HolidayDescriptions/*.jsonl` | `f1` A fishing tournament, competed along the coas… |
 | **HolidayNames** | 28 | 18 | 5.3 KB | 28 @ 3.9% | - | 4 realm-won | `raw/tables/HolidayNames/*.jsonl` | `f1` Arena Frenzy |
 | **Holidays** | 58 | 55 | 30.6 KB | 58 @ 8.7% | - | 5 realm-won | `raw/tables/Holidays/*.jsonl` | `f51` Calendar_Brewfest · `f37` Calendar_WinterVeil · `f38` Calendar_WinterVeil |
-| **Item** | 563,379 | 8 | 2.8 MB | 563,379 @ 6.1% | 230 (203 strong) | 5 realm-won | `raw/tables/Item/*.jsonl.gz` | - |
-| **ItemAddon** | 563,379 | 48 | 11.6 MB | 563,379 @ 100% | 263 (0 strong) | 1 | `raw/tables/ItemAddon/*.jsonl.gz` | `f2` (Backsheath) · `f19` @Mythic 19@Glows with the power of magiskull. |
+| **Item** | 563,384 | 8 | 2.8 MB | 563,384 @ 6.1% | 230 (203 strong) | 5 realm-won | `raw/tables/Item/*.jsonl.gz` | - |
+| **ItemAddon** | 563,384 | 48 | 11.6 MB | 563,384 @ 100% | 263 (0 strong) | 1 | `raw/tables/ItemAddon/*.jsonl.gz` | `f2` (Backsheath) · `f19` @Mythic 19@Glows with the power of magiskull. |
 | **ItemAppearances** | 202,903 | 3 | 1.2 MB | 202,903 @ 31% | 338 (331 strong) | 1 | `raw/tables/ItemAppearances/*.jsonl.gz` | - |
 | **ItemBagFamily** | 16 | 18 | 2.7 KB | 16 @ 100% | - | 3 realm-won | `raw/tables/ItemBagFamily/*.jsonl` | `f1` Arrows |
 | **ItemClass** | 18 | 20 | 3.5 KB | 18 @ 100% | - | 3 realm-won | `raw/tables/ItemClass/*.jsonl` | `f3` Armor |
 | **ItemCondExtCosts** | 1,163 | 4 | 41.2 KB | 1,163 @ 75% | - | 4 realm-won | `raw/tables/ItemCondExtCosts/*.jsonl` | - |
-| **ItemDisplayInfo** | 129,603 | 25 | 3.6 MB | 129,603 @ 76% | 261 (256 strong) | 5 realm-won | `raw/tables/ItemDisplayInfo/*.jsonl.gz` | `f5` Asc_LuckyCard_gold_Retribution_Aura · `f3` Cape_Mail_D_02IllidanRed · `f16` LEATHER_NORTHREND_C_01_SLEEVE_AL |
+| **ItemDisplayInfo** | 129,604 | 25 | 3.6 MB | 129,604 @ 76% | 261 (256 strong) | 5 realm-won | `raw/tables/ItemDisplayInfo/*.jsonl.gz` | `f5` Asc_LuckyCard_gold_Retribution_Aura · `f3` Cape_Mail_D_02IllidanRed · `f16` LEATHER_NORTHREND_C_01_SLEEVE_AL |
 | **ItemDisplayInfoCollections** | 4,704 | 8 | 902.9 KB | 4,704 @ 94% | - | 1 | `raw/tables/ItemDisplayInfoCollections/*.jsonl` | `f5` armor_kirintor_c_01_buckle_red.blp · `f4` armor_butterfly_c_01_std_belt.mdx |
 | **ItemExtendedCost** | 13,777 | 16 | 82.3 KB | 13,777 @ 21% | 70 (69 strong) | 5 realm-won | `raw/tables/ItemExtendedCost/*.jsonl.gz` | - |
 | **ItemGroupSounds** | 29 | 5 | 1.2 KB | 29 @ 100% | - | 2 realm-won | `raw/tables/ItemGroupSounds/*.jsonl` | - |
@@ -266,7 +266,7 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **Movie** | 10 | 3 | 690 B | 10 @ 45% | - | 3 realm-won | `raw/tables/Movie/*.jsonl` | `f1` Interface\\Cinematics\\Logo |
 | **MovieFileData** | 12 | 2 | 268 B | 12 @ 0.0034% | 33 (1 strong) | 3 realm-won | `raw/tables/MovieFileData/*.jsonl` | - |
 | **MovieVariation** | 13 | 3 | 363 B | 13 @ 12% | - | 3 realm-won | `raw/tables/MovieVariation/*.jsonl` | - |
-| **MysticEnchant** | 7,815 | 31 | 91.0 KB | 7,815 @ 0.45% | 933 (672 strong) | 1 | `raw/tables/MysticEnchant/*.jsonl.gz` | `f15` AFFLICTION · `f16` ARMS · `f3` RE_QUALITY_ARTIFACT |
+| **MysticEnchant** | 7,816 | 31 | 91.1 KB | 7,816 @ 0.45% | 933 (672 strong) | 1 | `raw/tables/MysticEnchant/*.jsonl.gz` | `f15` AFFLICTION · `f16` ARMS · `f3` RE_QUALITY_ARTIFACT |
 | **MythicAffixes** | 13,409 | 16 | 75.3 KB | 13,409 @ 100% | 19 (0 strong) | 1 | `raw/tables/MythicAffixes/*.jsonl.gz` | - |
 | **MythicKeystones** | 6,801 | 3 | 215.7 KB | 6,801 @ 0.24% | - | 1 | `raw/tables/MythicKeystones/*.jsonl` | - |
 | **MythicPlusScaling** | 200 | 8 | 13.8 KB | 200 @ 100% | - | 1 | `raw/tables/MythicPlusScaling/*.jsonl` | - |
@@ -309,7 +309,7 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **SeasonalAppearances** | 259 | 10 | 20.5 KB | 259 @ 71% | - | 1 | `raw/tables/SeasonalAppearances/*.jsonl` | - |
 | **ServerMessages** | 9 | 18 | 1.8 KB | 9 @ 100% | - | 3 realm-won | `raw/tables/ServerMessages/*.jsonl` | `f1` [SERVER] %s |
 | **SheatheSoundLookups** | 33 | 7 | 1.8 KB | 33 @ 100% | - | 2 realm-won | `raw/tables/SheatheSoundLookups/*.jsonl` | - |
-| **SkillCard** | 7,726 | 12 | 103.7 KB | 7,726 @ 11% | - | 1 | `raw/tables/SkillCard/*.jsonl.gz` | `f5` SKILL_CARD_DEFAULT_GOLDEN · `f8` SKILL_CARD_COMMON · `f7` CLASS_HERO |
+| **SkillCard** | 7,730 | 12 | 103.7 KB | 7,730 @ 11% | - | 1 | `raw/tables/SkillCard/*.jsonl.gz` | `f5` SKILL_CARD_DEFAULT_GOLDEN · `f8` SKILL_CARD_COMMON · `f7` CLASS_HERO |
 | **SkillCostsData** | 1,500 | 5 | 64.5 KB | 1,500 @ 100% | - | 2 realm-won | `raw/tables/SkillCostsData/*.jsonl` | - |
 | **SkillLine** | 872 | 56 | 493.8 KB | 872 @ 7.4% | 2 (2 strong) | 4 realm-won | `raw/tables/SkillLine/*.jsonl` | `f3` !Ascension Manastorm Items · `f20` Armed with an axe, Woodcutters embark on a tr… · `f38` Emboss |
 | **SkillLineAbility** | 38,542 | 14 | 265.3 KB | 38,542 @ 0.96% | 476 (389 strong) | 6 realm-won | `raw/tables/SkillLineAbility/*.jsonl.gz` | - |
@@ -329,8 +329,8 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **SpamMessages** | 133 | 2 | 18.2 KB | 133 @ 98% | - | 4 realm-won | `raw/tables/SpamMessages/*.jsonl` | `f1` (m\|rn)[^a-z]*(m\|rn)[^a-z]*[o0][^a-z]*[1li][^a… |
 | **Spell** | 238,942 | 234 | 21.4 MB | 238,942 @ 1.7% | 157 (140 strong) | 6 realm-won | `raw/tables/Spell/*.jsonl.gz` | `f136` AB: Blackrock Depths (D1) (PHYS) (HP) · `f170` <Right click to apply this enchant to a piece… · `f187` A Knight of Decay is granting you $s2% increa… |
 | **SpellActivationOverlays** | 1,370 | 14 | 231.3 KB | 1,370 @ 97% | - | 1 | `raw/tables/SpellActivationOverlays/*.jsonl` | `f2` Textures\\SpellActivationOverlays\\art_of_war · `f9` TRIGGER_TYPE_AURA_EXISTS |
-| **SpellAddon** | 5,603 | 23 | 1.0 MB | 5,603 @ 0.35% | 766 (502 strong) | 1 | `raw/tables/SpellAddon/*.jsonl` | - |
-| **SpellAffect** | 36,781 | 3 | 205.0 KB | 36,781 @ 0.4% | 367 (135 strong) | 1 | `raw/tables/SpellAffect/*.jsonl.gz` | - |
+| **SpellAddon** | 5,604 | 23 | 1.0 MB | 5,604 @ 0.35% | 766 (502 strong) | 1 | `raw/tables/SpellAddon/*.jsonl` | - |
+| **SpellAffect** | 36,800 | 3 | 205.2 KB | 36,800 @ 0.4% | 367 (135 strong) | 1 | `raw/tables/SpellAffect/*.jsonl.gz` | - |
 | **SpellAlternativeCost** | 0 | 3 | 0 B | - | - | 1 | `raw/tables/SpellAlternativeCost/*.jsonl` | - |
 | **SpellAlternativePowerType** | 4 | 19 | 733 B | 4 @ 100% | - | 1 | `raw/tables/SpellAlternativePowerType/*.jsonl` | `f1` Holy Power (3) |
 | **SpellCastTimes** | 71 | 4 | 2.7 KB | 71 @ 34% | - | 4 realm-won | `raw/tables/SpellCastTimes/*.jsonl` | - |
@@ -338,15 +338,15 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **SpellChainEffects** | 6,636 | 45 | 338.1 KB | 6,636 @ 0.66% | 301 (155 strong) | 5 realm-won | `raw/tables/SpellChainEffects/*.jsonl.gz` | `f7` SPELLS\\TEXTURES\\Beam_SmokeGrey.blp |
 | **SpellCharges** | 473 | 2 | 10.5 KB | 473 @ 0.022% | - | 2 realm-won | `raw/tables/SpellCharges/*.jsonl` | - |
 | **SpellChargesCategory** | 108 | 3 | 3.0 KB | 108 @ 16% | - | 2 realm-won | `raw/tables/SpellChargesCategory/*.jsonl` | - |
-| **SpellCustomAttr** | 58,591 | 11 | 375.9 KB | 58,591 @ 100% | 73 (0 strong) | 1 | `raw/tables/SpellCustomAttr/*.jsonl.gz` | - |
+| **SpellCustomAttr** | 58,598 | 11 | 375.7 KB | 58,598 @ 100% | 73 (0 strong) | 1 | `raw/tables/SpellCustomAttr/*.jsonl.gz` | - |
 | **SpellDescriptionVariables** | 31 | 2 | 3.6 KB | 31 @ 17% | - | 4 realm-won | `raw/tables/SpellDescriptionVariables/*.jsonl` | `f1` $absorb=$?s58635[${$m1*$AR*0.01*(100+$58635m1… |
-| **SpellDifficulty** | 3,810 | 5 | 228.5 KB | 3,810 @ 74% | - | 3 realm-won | `raw/tables/SpellDifficulty/*.jsonl` | - |
+| **SpellDifficulty** | 3,811 | 5 | 228.6 KB | 3,811 @ 74% | - | 3 realm-won | `raw/tables/SpellDifficulty/*.jsonl` | - |
 | **SpellDispelType** | 12 | 21 | 2.4 KB | 12 @ 100% | - | 2 realm-won | `raw/tables/SpellDispelType/*.jsonl` | `f1` All(M+C+D+P) · `f20` Curse |
 | **SpellDuration** | 866 | 4 | 36.4 KB | 866 @ 65% | - | 5 realm-won | `raw/tables/SpellDuration/*.jsonl` | - |
 | **SpellEffectCameraShakes** | 37 | 4 | 1.3 KB | 37 @ 35% | - | 5 realm-won | `raw/tables/SpellEffectCameraShakes/*.jsonl` | - |
 | **SpellEnchantSuggestions** | 1,144,863 | 4 | 6.5 MB | 1,144,863 @ 100% | 400 (0 strong) | 1 | `raw/tables/SpellEnchantSuggestions/*.jsonl.gz` | - |
 | **SpellFocusObject** | 435 | 18 | 77.9 KB | 435 @ 25% | 1 (1 strong) | 5 realm-won | `raw/tables/SpellFocusObject/*.jsonl` | `f1` Aerie Peak Town Center |
-| **SpellIcon** | 16,360 | 2 | 218.7 KB | 16,360 @ 1.7% | 523 (509 strong) | 5 realm-won | `raw/tables/SpellIcon/*.jsonl.gz` | `f1` INTERFACE\\ICONS\\ability_mount_celestialhorse |
+| **SpellIcon** | 16,361 | 2 | 218.7 KB | 16,361 @ 1.7% | 523 (509 strong) | 5 realm-won | `raw/tables/SpellIcon/*.jsonl.gz` | `f1` INTERFACE\\ICONS\\ability_mount_celestialhorse |
 | **SpellItemEnchantment** | 18,035 | 38 | 261.4 KB | 18,035 @ 1.5% | 138 (130 strong) | 5 realm-won | `raw/tables/SpellItemEnchantment/*.jsonl.gz` | `f14` +10 Dodge Rating |
 | **SpellItemEnchantmentCondition** | 49 | 16 | 7.2 KB | 49 @ 26% | - | 3 realm-won | `raw/tables/SpellItemEnchantmentCondition/*.jsonl` | - |
 | **SpellMechanic** | 31 | 18 | 5.0 KB | 31 @ 100% | - | 3 realm-won | `raw/tables/SpellMechanic/*.jsonl` | `f1` asleep |
@@ -362,9 +362,9 @@ Sorted by name. `size` is stored bytes; `key` is the f0 id space (distinct ids, 
 | **SpellStatSuggestions** | 1,121 | 4 | 40.2 KB | 1,121 @ 100% | - | 1 | `raw/tables/SpellStatSuggestions/*.jsonl` | - |
 | **SpellTags** | 488,662 | 3 | 2.6 MB | 488,662 @ 86% | 431 (414 strong) | 1 | `raw/tables/SpellTags/*.jsonl.gz` | - |
 | **SpellTagTypes** | 200 | 61 | 124.6 KB | 200 @ 23% | - | 1 | `raw/tables/SpellTagTypes/*.jsonl` | `f44` Ability School: Frost · `f27` Ability Category · `f26` InterfaceIconsinv_misc_questionmark |
-| **SpellVisual** | 23,104 | 32 | 282.4 KB | 23,104 @ 2.2% | 303 (297 strong) | 5 realm-won | `raw/tables/SpellVisual/*.jsonl.gz` | - |
-| **SpellVisualEffectName** | 18,701 | 7 | 520.5 KB | 18,701 @ 0.54% | 365 (256 strong) | 5 realm-won | `raw/tables/SpellVisualEffectName/*.jsonl.gz` | `f1` 7fx_eonar_rainoffel_precast · `f2` SPELLS/cfx_mage_fireprecast_precastbase.m2 |
-| **SpellVisualKit** | 29,541 | 38 | 411.5 KB | 29,541 @ 0.85% | 983 (885 strong) | 5 realm-won | `raw/tables/SpellVisualKit/*.jsonl.gz` | - |
+| **SpellVisual** | 23,105 | 32 | 282.4 KB | 23,105 @ 2.2% | 303 (297 strong) | 5 realm-won | `raw/tables/SpellVisual/*.jsonl.gz` | - |
+| **SpellVisualEffectName** | 18,702 | 7 | 520.4 KB | 18,702 @ 0.54% | 365 (256 strong) | 5 realm-won | `raw/tables/SpellVisualEffectName/*.jsonl.gz` | `f1` 7fx_eonar_rainoffel_precast · `f2` SPELLS/cfx_mage_fireprecast_precastbase.m2 |
+| **SpellVisualKit** | 29,542 | 38 | 411.5 KB | 29,542 @ 0.85% | 983 (885 strong) | 5 realm-won | `raw/tables/SpellVisualKit/*.jsonl.gz` | - |
 | **SpellVisualKitAreaModel** | 17 | 3 | 1.1 KB | 17 @ 0.2% | 212 (52 strong) | 3 realm-won | `raw/tables/SpellVisualKitAreaModel/*.jsonl` | `f1` Spells\\ArcaneShot_Area.mdx |
 | **SpellVisualKitModelAttach** | 7,867 | 10 | 825.0 KB | 7,867 @ 0.98% | 17 (13 strong) | 4 realm-won | `raw/tables/SpellVisualKitModelAttach/*.jsonl` | - |
 | **SpellVisualPrecastTransitions** | 3 | 3 | 179 B | 3 @ 100% | - | 2 realm-won | `raw/tables/SpellVisualPrecastTransitions/*.jsonl` | `f1` LoadBow · `f2` HoldBow |

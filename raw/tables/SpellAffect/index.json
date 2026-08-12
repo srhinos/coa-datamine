@@ -8,8 +8,8 @@
  "inferredCounts": {"int":3},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 1327771,
- "rows": 36781,
+ "plainBytes": 1328502,
+ "rows": 36800,
  "shardCount": 58,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
@@ -48,12 +48,12 @@
   {"file":"0040000-0040999.jsonl.gz","format":"gzip","hi":40999,"lo":40000,"plainBytes":36664,"rows":984,"sha256":"30cd1763141666aefb20810e46785441233c73369e79817ac2a9483ee821f8cd","storedBytes":5175},
   {"file":"0041000-0041999.jsonl.gz","format":"gzip","hi":41999,"lo":41000,"plainBytes":35225,"rows":947,"sha256":"cb1859979ad4ae051963d42e332e88b85cfa2adec362d7da878ce4fa61c9e9df","storedBytes":4988},
   {"file":"0042000-0042999.jsonl.gz","format":"gzip","hi":42999,"lo":42000,"plainBytes":37022,"rows":1000,"sha256":"6184551d7353bdb783548e5d5bcb0c0aed595bf4ae0367a8a841822f32e54250","storedBytes":5172},
-  {"file":"0043000-0043999.jsonl.gz","format":"gzip","hi":43999,"lo":43000,"plainBytes":31409,"rows":850,"sha256":"d96ea77ebfcdbb4649fee2fb17f31fc0b00795acc93adb39164fbe37634dfb85","storedBytes":5150},
+  {"file":"0043000-0043999.jsonl.gz","format":"gzip","hi":43999,"lo":43000,"plainBytes":31301,"rows":847,"sha256":"901678bf79d012f3c2fb6ded6f9ca4f5cede3396f6d8260dd0b63dee4484cd42","storedBytes":5137},
   {"file":"0044000-0044999.jsonl.gz","format":"gzip","hi":44999,"lo":44000,"plainBytes":34366,"rows":997,"sha256":"d9591d75598c134df99b45e3fc861e8a96762998d80703e3bf3d276fe877a450","storedBytes":5093},
   {"file":"0045000-0045999.jsonl.gz","format":"gzip","hi":45999,"lo":45000,"plainBytes":34930,"rows":998,"sha256":"a3c4616ec280eb341d870de8cc4ae9da4e1551e5c8646752f34c7bf91b6f0977","storedBytes":5056},
   {"file":"0046000-0046999.jsonl.gz","format":"gzip","hi":46999,"lo":46000,"plainBytes":34965,"rows":999,"sha256":"4090166a355ffef73fb20cfcd8b26ec04104d5d92c4ce989ed2c04d7efe14f4e","storedBytes":5044},
   {"file":"0047000-0047999.jsonl.gz","format":"gzip","hi":47999,"lo":47000,"plainBytes":28245,"rows":803,"sha256":"ab2d0fa2fbd2ba114271f0c99faa5deb517d35f8b8298ee05265d6d717c5d312","storedBytes":4060},
-  {"file":"0048000-0048999.jsonl.gz","format":"gzip","hi":48999,"lo":48000,"plainBytes":32935,"rows":879,"sha256":"0445e2fb97a5d319ef8289c5450c5902baaec89013119f6c2f2d3ccccceaf862","storedBytes":6177},
+  {"file":"0048000-0048999.jsonl.gz","format":"gzip","hi":48999,"lo":48000,"plainBytes":33041,"rows":882,"sha256":"8308ddab98202724de79e75c4dd350370eacdfd04347fbac7561fe3a5c9c1c0d","storedBytes":6200},
   {"file":"0049000-0049999.jsonl.gz","format":"gzip","hi":49999,"lo":49000,"plainBytes":23693,"rows":639,"sha256":"6c117cab56c2c2b672241529e14964bbd5496efb944aa4cfa567489bd8cbb087","storedBytes":4453},
   {"file":"0050000-0059999.jsonl.gz","format":"gzip","hi":59999,"lo":50000,"plainBytes":14680,"rows":392,"sha256":"f774e20eef52f06b8e0289bd7cf3dc5d302b5d8aaa8fbca11edcd44f2ff79448","storedBytes":2725},
   {"file":"0060000-0069999.jsonl.gz","format":"gzip","hi":69999,"lo":60000,"plainBytes":231,"rows":6,"sha256":"89fe6da0ccc87d96c6e7e3fe0a4fb1323244fc56cfbb92396d84fcf6b7d2e485","storedBytes":121},
@@ -71,16 +71,16 @@
   {"file":"0900000-0999999.jsonl.gz","format":"gzip","hi":999999,"lo":900000,"plainBytes":7897,"rows":201,"sha256":"711b99eeb9d03ce6a7f15288874cffb52d7bb2c2a1332fe04fb5d4ccc5ce2c5c","storedBytes":1573},
   {"file":"1000000-1999999.jsonl.gz","format":"gzip","hi":1999999,"lo":1000000,"plainBytes":1191,"rows":29,"sha256":"56190ab97ee501e3fd6e7add45ea0ea529a8f2351b5df3b073d031566f1dc421","storedBytes":255},
   {"file":"2000000-2999999.jsonl.gz","format":"gzip","hi":2999999,"lo":2000000,"plainBytes":52588,"rows":1351,"sha256":"1a39a302a66d1bce95a0a1bb645fb50db9965ac6a678ddbb52b49ee6d72af8d2","storedBytes":8217},
-  {"file":"9000000-9999999.jsonl.gz","format":"gzip","hi":9999999,"lo":9000000,"plainBytes":42015,"rows":1073,"sha256":"0bc651d45084dd1bd508df30a30430887d8060c8e1302ddd2fb9bf0e7fbf7a4a","storedBytes":6307}
+  {"file":"9000000-9999999.jsonl.gz","format":"gzip","hi":9999999,"lo":9000000,"plainBytes":42748,"rows":1092,"sha256":"be24e64addee7501760720cfecdf30c2122708364bfcf113f8386bd9178aa731","storedBytes":6454}
  ],
- "sourceSha256": "6909141eb388e1575332cd215219e70a2c76e3ad25979407dd37a2d2e243cf15",
- "storedBytes": 205002,
+ "sourceSha256": "b7f6a7f72e2b4ed362e2a52884092138602d5c4077a884c664315d60f8262b82",
+ "storedBytes": 205159,
  "stringBlockSize": 0,
  "table": "SpellAffect",
  "unreferencedStringBytes": 0,
  "variantCount": 1,
  "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
  "variants": [
-  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-S.MPQ","chainRank":58,"chainWinner":true,"columns":3,"decodedRows":36781,"format":"gzip","layer":"base","path":"raw/tables/SpellAffect/","realm":null,"rowDelta":0,"rows":36781,"sha256":"6909141eb388e1575332cd215219e70a2c76e3ad25979407dd37a2d2e243cf15","shards":58,"slug":"data-patch-s-mpq","sourceBytes":441392,"storedBytes":205002}
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-S.MPQ","chainRank":58,"chainWinner":true,"columns":3,"decodedRows":36800,"format":"gzip","layer":"base","path":"raw/tables/SpellAffect/","realm":null,"rowDelta":0,"rows":36800,"sha256":"b7f6a7f72e2b4ed362e2a52884092138602d5c4077a884c664315d60f8262b82","shards":58,"slug":"data-patch-s-mpq","sourceBytes":441620,"storedBytes":205159}
  ]
 }

@@ -191,7 +191,7 @@ assert 501380 not in coa_ids    # but its chain hangs off a spell with no Spell.
 f = dbc.DBCFile(config.WORK_DBC_DIR / "Spell.dbc")
 rows = {dbc.u32(row[0]): row for row in f.iter_rows()}
 resolved = [sid for sid in coa_ids if sid in rows]
-assert len(resolved) == 6038, len(resolved)             # exact match to Sec 3's "base resolves 6,038/6,436"
+assert len(resolved) == 6039, len(resolved)   # 6038 -> 6039 on the 2026-08-12 client patch
 n = len(resolved)
 
 
@@ -226,7 +226,9 @@ assert sum(1 for sid in resolved if rows[sid][227] != 0) == 8
 # (f68 is decoded signed - see TABLE_MAPS - so -1 stays -1, not a huge u32)
 import collections
 hist = collections.Counter(rows[sid][68] for sid in resolved)
-assert hist[-1] == 5547 and hist[2] == 461 and hist[4] == 30, hist.most_common(5)
+# hist[-1] 5547 -> 5548 on the 2026-08-12 client patch (one more CoA spell with
+# no equipped-item class); the other two buckets are unchanged.
+assert hist[-1] == 5548 and hist[2] == 461 and hist[4] == 30, hist.most_common(5)
 
 # zero-fill skip list: confirmed genuinely zero on the CoA class set before skipping
 for idx in (207, 43, 18, 228, 224, 233):

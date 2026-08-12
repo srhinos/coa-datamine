@@ -35,7 +35,7 @@ walks each archive exactly once, and rebuilds every layer below.
 | `content` | loose Data\Content: JSON payloads + .loc localization | `raw/content/index.json` | 2,063 files / 76.4 MB | complete |
 | `interface` | Interface code layer (.lua/.xml/.toc) as bytes | `raw/interface/_manifest.json` | 1,560 files / 20.7 MB | complete |
 | `interface_all` | every Interface path: size, sha256, text/binary | `raw/interface_all/index.json` | 112 files / 29.8 MB | complete |
-| `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.5 MB | complete |
+| `cache` | Cache\WDB server query caches, per realm | `raw/cache/index.json` | 78 files / 5.8 MB | complete |
 | `binaries` | the client's own executables: strings, Lua, PE structure | `raw/binaries/index.json` | 1,379 files / 19.1 MB | complete |
 | `recovered` | archive forensics: MD5 oracle, tombstones, containers | `raw/recovered/README.md` | 774 files / 36.5 MB | complete |
 | `_catalog` | the searchable catalog: joins, strings, columns | `raw/_catalog/tables.json` | 4 files / 10.8 MB | complete |

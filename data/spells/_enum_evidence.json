@@ -1,5 +1,5 @@
 {
- "_note": "57 of 224 unnamed-at-repo-start effect/aura ids (4 W4-1 bug fixes not counted here) carry a golden-verified name wired into enums335.py; the remaining 167 are bucket-classified per enum-triage.md's aggregate analysis but have no individually-cited golden that survived independent re-derivation, so they stay numeric (EFFECT_<n>/AURA_<n>) rather than being asserted. 'sidecarNamedIds' (59) is slightly higher than 'wiredIds' (57): a few bucket-C [INFERRED] auras carry a documentation-only name here without being wired into enums335.py, since bucket C is explicitly uncertain. 'occurrences.raw' counts every slot carrying that id across this build's CoA-referenced closure; 'occurrences.filtered' additionally excludes inert template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and aura occurrences are gated on the carrying effect being aura-applying per trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5.",
+ "_note": "57 of 224 unnamed-at-repo-start effect/aura ids (4 bug fixes not counted here) carry a golden-verified name wired into enums335.py; the remaining 167 are bucket-classified per enum-triage.md's aggregate analysis but have no individually-cited golden that survived independent re-derivation, so they stay numeric (EFFECT_<n>/AURA_<n>) rather than being asserted. 'sidecarNamedIds' (59) is slightly higher than 'wiredIds' (57): a few bucket-C [INFERRED] auras carry a documentation-only name here without being wired into enums335.py, since bucket C is explicitly uncertain. 'occurrences.raw' counts every slot carrying that id across this build's CoA-referenced closure; 'occurrences.filtered' additionally excludes inert template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per trap 2, and aura occurrences are gated on the carrying effect being aura-applying per trap 1 - see DATAMINE-REQUEST.md Sec 1.5.",
  "auras": {
   "1": {
    "bucket": "A",
@@ -332,8 +332,8 @@
    ],
    "name": "MOD_SPELL_DAMAGE_OF_STAT_PERCENT",
    "occurrences": {
-    "filtered": 143,
-    "raw": 144
+    "filtered": 144,
+    "raw": 145
    }
   },
   "175": {
@@ -457,8 +457,8 @@
    ],
    "name": "MOD_MELEE_RANGED_HASTE",
    "occurrences": {
-    "filtered": 165,
-    "raw": 169
+    "filtered": 166,
+    "raw": 170
    }
   },
   "193": {
@@ -634,8 +634,8 @@
    ],
    "name": "HASTE_SPELLS",
    "occurrences": {
-    "filtered": 191,
-    "raw": 206
+    "filtered": 192,
+    "raw": 207
    }
   },
   "218": {
@@ -654,8 +654,8 @@
    "goldenSpells": [],
    "name": null,
    "occurrences": {
-    "filtered": 23,
-    "raw": 23
+    "filtered": 24,
+    "raw": 24
    }
   },
   "220": {
@@ -666,8 +666,8 @@
    ],
    "name": "MOD_RATING_FROM_STAT",
    "occurrences": {
-    "filtered": 123,
-    "raw": 132
+    "filtered": 122,
+    "raw": 131
    }
   },
   "222": {
@@ -875,8 +875,8 @@
    "goldenSpells": [],
    "name": null,
    "occurrences": {
-    "filtered": 16,
-    "raw": 17
+    "filtered": 17,
+    "raw": 18
    }
   },
   "254": {
@@ -979,8 +979,8 @@
    ],
    "name": "MOD_DAMAGE_FROM_CASTER",
    "occurrences": {
-    "filtered": 317,
-    "raw": 751
+    "filtered": 316,
+    "raw": 750
    }
   },
   "272": {
@@ -1317,8 +1317,8 @@
    ],
    "name": "COA_MOD_MAX_MANA_FROM_STAT",
    "occurrences": {
-    "filtered": 10,
-    "raw": 10
+    "filtered": 12,
+    "raw": 12
    }
   },
   "330": {
@@ -1815,8 +1815,8 @@
    "goldenSpells": [],
    "name": null,
    "occurrences": {
-    "filtered": 14,
-    "raw": 14
+    "filtered": 15,
+    "raw": 15
    }
   },
   "131": {
@@ -1838,8 +1838,8 @@
    ],
    "name": "FORCE_CAST",
    "occurrences": {
-    "filtered": 35,
-    "raw": 68
+    "filtered": 36,
+    "raw": 69
    }
   },
   "141": {
@@ -1949,7 +1949,7 @@
    "name": "COA_MODIFY_COOLDOWN",
    "occurrences": {
     "filtered": 223,
-    "raw": 260
+    "raw": 259
    }
   },
   "166": {
@@ -2037,8 +2037,8 @@
    ],
    "name": "COA_MODIFY_AURA_STACKS",
    "occurrences": {
-    "filtered": 64,
-    "raw": 131
+    "filtered": 63,
+    "raw": 130
    }
   },
   "176": {
@@ -2049,8 +2049,8 @@
    ],
    "name": "COA_MODIFY_AURA_STACKS_2",
    "occurrences": {
-    "filtered": 4,
-    "raw": 5
+    "filtered": 6,
+    "raw": 7
    }
   },
   "177": {
@@ -2061,8 +2061,8 @@
    ],
    "name": "COA_MODIFY_AURA_DURATION",
    "occurrences": {
-    "filtered": 99,
-    "raw": 102
+    "filtered": 100,
+    "raw": 103
    }
   },
   "178": {
@@ -2093,8 +2093,8 @@
    ],
    "name": "COA_TRIGGER_SPELL_DELAYED",
    "occurrences": {
-    "filtered": 86,
-    "raw": 96
+    "filtered": 87,
+    "raw": 97
    }
   },
   "184": {
@@ -2164,8 +2164,8 @@
    ],
    "name": "COA_RESET_COOLDOWN",
    "occurrences": {
-    "filtered": 61,
-    "raw": 66
+    "filtered": 63,
+    "raw": 68
    }
   },
   "197": {

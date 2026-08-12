@@ -6,7 +6,7 @@
   "sectorSize 4096 (header says 16384)": 72,
   "stored(no sector table)": 1271,
   "stored(sector not compressed)": 634157,
-  "zlib": 18800701
+  "zlib": 18800717
  },
  "compressionCensusNote": "One count per SECTOR expanded, naming the method tools/mpq.py used for it, over every member the traversal read - not a sample. `stored(...)` entries are sectors that were not compressed at all; a `sectorSize N override` entry is a member whose declared sector size did not hold and was re-derived.",
  "defectClassRule": "The two classes of member the previous reader (mpyq) returned confident WRONG bytes for, counted per archive so the claim in tools/mpq.py's header is a measurement of THIS client rather than a remembered number: a member stored with no sector offset table (neither COMPRESS nor IMPLODE), and a member whose uncompressed size is an exact multiple of the sector size. `readOk`/`readFailed` are how this run's reader did on them. `notNamedByListfile` is the honest residual - block entries in these classes that no listfile names, so the traversal had no path to read them by; they are counted, not read, because reading by block index would mean decompressing bytes a second time.",

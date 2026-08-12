@@ -1,16 +1,16 @@
 {
- "_generatedBy": "tools/build_classes.py:_live_summary (task W4-14)",
+ "_generatedBy": "tools/build_classes.py:_live_summary",
  "falseNegativeMeasurement": {
   "conclusion": "The risk is real and it IS partly separable: the automatic-grant population (SkillLineAbility acquireMethod != 0) is isolated exactly and cleanly. The other three paths are real but indistinguishable from retired content with offline data alone, so every entry carrying any of the four signals ships live:null with reason 'indeterminate' and the firing signals listed, rather than being guessed false. Entries with live:false are the ones with NO evidence of any acquisition path at all - a definition that is only as good as the probe set, which is why liveNodeTriggerSpell was added when review found 52 deadCatalog rows whose spell demonstrably fires in game.",
-  "deadCatalogEntries": 3460,
-  "entriesInTrees": 3423,
-  "entriesNotInTrees": 4908,
+  "deadCatalogEntries": 3461,
+  "entriesInTrees": 3422,
+  "entriesNotInTrees": 4909,
   "indeterminateEntries": 1448,
   "indeterminateRateOfNotInTrees": 0.295,
   "question": "Of the CAD entries this method finds NOT in the live trees, how many are false negatives - abilities CoA grants outside a tree (baseline/automatic or trainer-taught), which would look dead while being live?",
   "rejectedHeuristic": {
-   "rateOnNotInTrees": 0.2844,
-   "rateOnProvenLiveEntries": 0.1691,
+   "rateOnNotInTrees": 0.2846,
+   "rateOnProvenLiveEntries": 0.1689,
    "test": "CAD requiredLevel <= 10 AND type == 'Ability'",
    "verdict": "REJECTED as a baseline-grant discriminator - measured, not assumed. It fires on a large minority of entries that are PROVEN live (they are in the trees), so it has no specificity: 'low level + Ability' describes early tree nodes just as well as baseline grants. Not used in any shipped verdict."
   },
@@ -27,9 +27,9 @@
    "liveTrueRowsDroppedByLoader": 781,
    "loaderDropFlags": "Deprecated 0x1 | Disabled 0x8",
    "rowsByReason": {
-    "deadCatalog": 3460,
+    "deadCatalog": 3461,
     "indeterminate": 1448,
-    "liveDirect": 3417,
+    "liveDirect": 3416,
     "liveViaRank": 6
    },
    "rowsDroppedByLoaderByReason": {
@@ -209,7 +209,7 @@
       "type": "Ability"
      }
     ],
-    "rateOfNotInTrees": 0.2095,
+    "rateOfNotInTrees": 0.2094,
     "separable": false,
     "test": "some rank of the entry's spell chain has an NPCTrainer row",
     "verdict": "REAL but NOT SEPARABLE offline - said plainly rather than guessed. NPCTrainer.dbc in this client snapshot is CONTEMPORARY with the live generation in at least 20 verified instances, not a leftover of the catalog's: 166 trainer rows sit under the skill lines 'Moon Guard', 'Moon Priest', 'Warden' and 'Headhunting', and 20 of them teach a name-coherent rank variant of an ability whose base rank IS a live builder node - Shooting Star ranks 5-7 (skill line Warden) -> live node 800505; Prayer of Elune ranks 2-5 (Moon Priest) -> 801987; Headhunter's Spear ranks 2-7 and Berserker Axe ranks 2-8 (Headhunting) -> 804137 / 804138. Two overstatements corrected here rather than left standing: this is NOT a claim that those skill-line NAMES belong only to live content (SkillLineAbility files the player-proven-dead Tide Lash 800380, and every Tides sibling, under skill line 92 'Moon Priest' - the live name of the very tree slot the tab mapping says was CAD 'Tides'), and the Starcall example this text used to cite is under skill line 'Sentinel', not one of the four (live node 800497; trainer rows 502316/502317 are Starcall ranks 2-3, also Sentinel). So a trainer row IS evidence of a non-tree acquisition path - but the CAD row hanging off it can equally be a retired duplicate, and no offline table distinguishes those two. Shipped as live:null/indeterminate."
@@ -276,7 +276,7 @@
  },
  "groundTruth": {
   "note": "cadSpellIdDeadRate is the brief's cited ~53% - the share of Starcaller's DISTINCT CAD spell ids that appear in no live builder node. The entry-level split is in perClass.Starcaller.",
-  "source": "level-60 Starcaller player report (task W4-14 brief)",
+  "source": "level-60 Starcaller player report",
   "starcallerCadSpellIdDeadRate": 0.5305,
   "starcallerCadTabs": [
    "AstralWarfare",
@@ -318,9 +318,9 @@
  "payload": {
   "buildId": 40,
   "buildName": "Vol'Jin",
-  "capturedUtc": "2026-08-06T10:49:00+00:00",
+  "capturedUtc": "2026-08-12T21:02:51+00:00",
   "note": "EXTERNAL SOURCE THAT DRIFTS - the live builder reflects current game balance/content, independent of this repo's client snapshot. Re-run tools/fetch_coatalents.py and diff sha256 to check for drift; a stale capture makes `live` stale too.",
-  "sha256": "467fd444b349ad531539c80e18b836cd069d33d2c3fe71fc4ed488e017640da3",
+  "sha256": "41a6ccd393c0648ae2b1fdc34fe94955d4fd13c0cd59040ad3860e64a8ff6c7a",
   "sha256Source": "raw/talents/_fetch.json",
   "slug": "voljin",
   "url": "https://ascension.gg/en/v2/coa-builder/voljin"
@@ -380,22 +380,22 @@
    ]
   },
   "Cultist": {
-   "cadSpellIdDeadRate": 0.5833,
+   "cadSpellIdDeadRate": 0.588,
    "cadSpellIds": 216,
-   "cadSpellIdsNotLive": 126,
+   "cadSpellIdsNotLive": 127,
    "classId": 25,
    "entryCount": 415,
    "hasLiveGeometry": true,
    "liveCounts": {
-    "deadCatalog": 159,
-    "live": 164,
+    "deadCatalog": 160,
+    "live": 163,
     "liveViaRank": 0,
     "unknown": 92
    },
    "liveCountsByReason": {
-    "deadCatalog": 159,
+    "deadCatalog": 160,
     "indeterminate": 92,
-    "liveDirect": 164
+    "liveDirect": 163
    },
    "liveNodeCount": 198,
    "liveTabs": [
@@ -1414,13 +1414,13 @@
       "liveTab": "Class",
       "method": "sameName",
       "nodeOverlap": {
-       "cadTabMatchedEntries": 23,
+       "cadTabMatchedEntries": 22,
        "meetsThresholds": true,
        "runnerUpLiveTab": "Dreadnought",
        "runnerUpMatches": 4,
        "topLiveTab": "Class",
        "topMatches": 12,
-       "topShare": 0.5217
+       "topShare": 0.5455
       }
      },
      {
@@ -3298,7 +3298,7 @@
   },
   "note": "CAD tab names and live builder tab names are DIFFERENT GENERATIONS of the same tree slots (Starcaller CAD 'Tides' is live 'Moon Priest'). Mapped per class by three recorded methods - see tools/build_classes.py:_tab_mapping. Pairs that no method resolves are listed in unmatchedCadTabs / unmatchedLiveTabs rather than invented."
  },
- "task": "W4-14: join live-talent-builder truth onto the CAD catalog so consumers stop reading the catalog as if it were the game",
+ "task": "join live-talent-builder truth onto the CAD catalog so consumers stop reading the catalog as if it were the game",
  "totals": {
   "classes": 43,
   "classesWithLiveGeometry": 21,
@@ -3306,15 +3306,15 @@
   "entries": 23709,
   "entriesInClassesWithGeometry": 8331,
   "liveCounts": {
-   "deadCatalog": 3460,
-   "live": 3417,
+   "deadCatalog": 3461,
+   "live": 3416,
    "liveViaRank": 6,
    "unknown": 16826
   },
   "liveCountsByReason": {
-   "deadCatalog": 3460,
+   "deadCatalog": 3461,
    "indeterminate": 1448,
-   "liveDirect": 3417,
+   "liveDirect": 3416,
    "liveViaRank": 6,
    "unknownNoGeometry": 15378
   }

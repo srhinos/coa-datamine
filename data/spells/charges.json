@@ -1,5 +1,5 @@
 {
- "_note": "SpellCharges 'ref' resolves to a Spell.dbc id for 88.67% of rows in this snapshot (below the 90% attach bar); carried standalone, not attached to spell records. See 'realmGapFinding' below (task W4-11f) for the full characterization of the non-joining refs. NOTE: '_meta.json's enrichment.charges.attached' is a reporting-only verdict on whether the join clears 0.90 after proven-dead exclusions - it does not itself merge a 'charges' field onto any spells.jsonl record; that would need a separate build_spells.py merge path.",
+ "_note": "SpellCharges 'ref' resolves to a Spell.dbc id for 88.70% of rows in this snapshot (below the 90% attach bar); carried standalone, not attached to spell records. See 'realmGapFinding' below for the full characterization of the non-joining refs. NOTE: '_meta.json's enrichment.charges.attached' is a reporting-only verdict on whether the join clears 0.90 after proven-dead exclusions - it does not itself merge a 'charges' field onto any spells.jsonl record; that would need a separate build_spells.py merge path.",
  "categories": {
   "1": {
    "id": 1,
@@ -552,6 +552,13 @@
    "raw": [
     3,
     15000
+   ]
+  },
+  "555": {
+   "id": 555,
+   "raw": [
+    2,
+    60000
    ]
   },
   "56": {
@@ -2594,6 +2601,11 @@
    "resolvedSpellName": "Rotclaw"
   },
   {
+   "categoryId": 555,
+   "ref": 804711,
+   "resolvedSpellName": "Black Ward"
+  },
+  {
    "categoryId": 41,
    "ref": 804898,
    "resolvedSpellName": "Ancestor's Call"
@@ -2915,7 +2927,7 @@
   }
  ],
  "realmGapFinding": {
-  "adjustedJoinRate": 0.8867,
+  "adjustedJoinRate": 0.887,
   "byRealm": {
    "area-52": {
     "realmSpellCount": 238942,

@@ -112,9 +112,9 @@ assert "below the 90% attach bar" in charges_doc["_note"]
 # snapshot pins: SpellCharges/SpellChargesCategory row counts. 400/105 -> 406/106
 # on the 2026-08-09 snapshot (the client patched - raw/dbc/SpellCharges.csv.gz
 # changed bytes); unrelated to the live-seed reseed, which does not touch this
-# standalone layer.
-assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 406
-assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 106
+# standalone layer. 406/106 -> 407/107 on the 2026-08-12 patch, same class.
+assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 407
+assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 107
 # deterministic ascending order by "ref"
 refs = [c["ref"] for c in charges_doc["charges"]]
 assert refs == sorted(refs) and len(set(refs)) == len(refs)

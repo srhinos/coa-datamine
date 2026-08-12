@@ -84,8 +84,8 @@ NAME NORMALIZATION (mechanical, measured - no hand mapping)
        (case-insensitive), then strip whitespace;
     2. lowercase and delete every non-alphanumeric character.
   Why only that: the base Spell table keeps the rank in its OWN column
-  (rank_enUS / f153 - "Rank 1".."Rank N", 2,980 distinct values), so a name
-  almost never carries one; exactly 21 of 209,151 base names end in a "Rank N"
+  (rank_enUS / f153 - "Rank 1".."Rank N", 2,985 distinct values), so a name
+  almost never carries one; exactly 21 of 209,206 base names end in a "Rank N"
   marker, and those 21 are the whole reason step 1 exists. Two neighbouring
   suffix shapes are deliberately NOT stripped, because they are not the rank
   carrier and stripping them would merge distinct spells: trailing roman

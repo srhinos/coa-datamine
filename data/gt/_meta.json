@@ -26,7 +26,7 @@
   "necromancerWarlockSpotCheck": "gtChanceToMeleeCrit raw float curves are bit-identical between classId 9 (Warlock) and classId 23 (Necromancer) at every one of the 99 curated levels",
   "spellCritConversion": "166.67 int/1%@80 + 80.00 int/1%@70 on Paladin/Hunter/Priest/Shaman/Mage/Warlock/Hero; Warrior/Rogue/DeathKnight/Barbarian/Guardian read exactly 0 at every level"
  },
- "provenColumns": "gtCombatRatings idx=cr*100+(level-1) (rating-major, 32 rating slots x 100 levels); gtChanceToMeleeCrit/gtChanceToSpellCrit/gtRegenMPPerSpt/gtOCTRegenMP/gtRegenHPPerSpt/gtOCTRegenHP idx=(classId-1)*100+(level-1) (class-major, classId 1-32 = ChrClasses.dbc id); gtChanceToMeleeCritBase/gtChanceToSpellCritBase idx=classId-1 (32 rows, no level dimension) - full evidence in tools/dbc.py's TABLE_MAPS comment and .superpowers/sdd/task-w4-2-report.md",
+ "provenColumns": "gtCombatRatings idx=cr*100+(level-1) (rating-major, 32 rating slots x 100 levels); gtChanceToMeleeCrit/gtChanceToSpellCrit/gtRegenMPPerSpt/gtOCTRegenMP/gtRegenHPPerSpt/gtOCTRegenHP idx=(classId-1)*100+(level-1) (class-major, classId 1-32 = ChrClasses.dbc id); gtChanceToMeleeCritBase/gtChanceToSpellCritBase idx=classId-1 (32 rows, no level dimension) - full evidence in tools/dbc.py's TABLE_MAPS comment",
  "ratingNames": {
   "0": "WEAPON_SKILL",
   "1": "DEFENSE",
