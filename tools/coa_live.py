@@ -131,6 +131,7 @@ from tools import config
 
 _PUSH_MARKER = 'self.__next_f.push(['
 _ROW_PREFIX_RE = re.compile(r"^[0-9a-f]+:")
+_ROW_START_RE = re.compile(r"[0-9a-f]+:")
 
 
 def _iter_next_f_string_literals(html_text: str):
@@ -160,6 +161,71 @@ def _iter_next_f_string_literals(html_text: str):
         i = j + 1
 
 
+def _iter_flight_rows(inner: str):
+    """Yield the decoded JSON value of every model row inside one `__next_f`
+    chunk.
+
+    A chunk is a sequence of rows `<hexid>:<payload>`. HOW THOSE ROWS ARE PACKED
+    IS NOT STABLE and must not be assumed:
+
+      - one row per push call, newline-terminated - what the page shipped when
+        this parser was first written (hundreds of small push literals); and
+      - many rows batched into one multi-megabyte push literal with NO separator
+        at all, the payload row sitting behind a run of `T<hexlen>,<text>` blob
+        rows - what the page shipped from 2026-08-12.
+
+    Assuming the first packing is what broke the parser against the second: the
+    old code stripped ONE `<hexid>:` prefix and decoded from character zero, so
+    a batched chunk whose first row is a module reference (`4e:I[607833,[...`)
+    yielded nothing and the whole page looked payload-free.
+
+    The scan therefore consumes rows by their own rules rather than by position:
+    `T` rows carry an explicit length (in UTF-8 BYTES, not characters) and their
+    text may contain anything at all, including newlines and `<hexid>:` runs, so
+    they are skipped by length and never searched; every other row is measured
+    by decoding it. A row that will not decode ends the scan for that chunk -
+    callers fall back to the whole-chunk read below rather than resynchronising
+    into the middle of arbitrary text."""
+    n = len(inner)
+    p = 0
+    dec = json.JSONDecoder()
+    while p < n:
+        m = _ROW_START_RE.match(inner, p)
+        if not m:
+            return
+        p = m.end()
+        if p >= n:
+            return
+        if inner[p] == "T":
+            comma = inner.find(",", p)
+            if comma < 0:
+                return
+            try:
+                nbytes = int(inner[p + 1:comma], 16)
+            except ValueError:
+                return
+            body = inner[comma + 1:comma + 1 + nbytes]
+            # `nbytes` counts bytes; characters are never more numerous than the
+            # bytes that encode them, so the slice above is a safe upper bound
+            # and this re-decode turns it into the exact character count.
+            skip = len(body.encode("utf-8")[:nbytes].decode("utf-8", "ignore"))
+            p = comma + 1 + skip
+        else:
+            try:
+                data, end = dec.raw_decode(inner, p)
+            except ValueError:
+                # A one-character tag (I module, H hint, E error, ...) sits in
+                # front of the JSON on some row types.
+                try:
+                    data, end = dec.raw_decode(inner, p + 1)
+                except ValueError:
+                    return
+            yield data
+            p = end
+        if p < n and inner[p] == "\n":
+            p += 1
+
+
 def _find_talent_builds(node):
     """Recursively walk a decoded flight-row JSON tree, yielding every dict that
     has the unmistakable shape of one builder "build" record: a sibling
@@ -177,6 +243,18 @@ def _find_talent_builds(node):
             yield from _find_talent_builds(v)
 
 
+def _dedupe_builds(builds: list) -> list:
+    """Collapse build records that are the SAME record reached twice - the row
+    scan and the whole-chunk fallback can both land on one, and a chunk may
+    carry a record in more than one row. Records that merely SHARE a slug are
+    left alone: that ambiguity is exactly what extract_payload must refuse."""
+    out = []
+    for b in builds:
+        if not any(b is seen or b == seen for seen in out):
+            out.append(b)
+    return out
+
+
 def extract_payload(html_text: str, slug: str) -> dict:
     """Locate and parse the embedded talent-builder JSON for `slug` out of the
     raw page text. Raises RuntimeError with a specific, actionable message on
@@ -191,6 +269,12 @@ def extract_payload(html_text: str, slug: str) -> dict:
             continue
         if "entriesByTab" not in inner:
             continue
+        for data in _iter_flight_rows(inner):
+            candidates.extend(_find_talent_builds(data))
+        if candidates:
+            continue
+        # Fallback for a chunk the row scan could not walk: read it as one row,
+        # which is what every capture before 2026-08-12 was.
         body = _ROW_PREFIX_RE.sub("", inner, count=1)
         try:
             data, _ = dec.raw_decode(body)
@@ -198,6 +282,7 @@ def extract_payload(html_text: str, slug: str) -> dict:
             continue
         candidates.extend(_find_talent_builds(data))
 
+    candidates = _dedupe_builds(candidates)
     if not candidates:
         raise RuntimeError(
             "coa_live: no self.__next_f.push(...) chunk decoded into a "
