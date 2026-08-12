@@ -15,11 +15,12 @@ RAW_CONTENT_DIR = RAW_DIR / "content"
 RAW_INTERFACE_DIR = RAW_DIR / "interface"
 DATA_DIR = REPO_ROOT / "data"
 
-# v4 (task W4-9): frozen capture of the external ascension.gg CoA talent-builder
-# payload (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
-# (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py (network step,
-# run manually/occasionally - NOT part of datamine.py's offline pipeline);
-# tools/build_coatalents.py only ever reads the already-committed capture.
+# Frozen capture of the external ascension.gg CoA talent-builder payload
+# (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
+# (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py, which datamine.py
+# calls as step 0 of the pass - the one network read, taken before the client
+# snapshot so `live` and the client bytes share a clock. Every other module,
+# tools/build_coatalents.py included, reads only the frozen capture.
 RAW_TALENTS_DIR = RAW_DIR / "talents"
 
 # v3 (task V3-2): realm-overlay layer. work/realms owned by tools/extract_realms.py;

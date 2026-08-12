@@ -1557,6 +1557,9 @@ def dump_all():
         p = dump_unmapped(table)
         print(f"dumped {p.name} (unmapped)")
 
-
-if __name__ == "__main__":
-    dump_all()
+# No __main__. `python -m tools.dbc` used to run dump_all() straight over
+# whatever happens to be in work/dbc, rewriting raw/dbc outside the pass - a
+# second writer of a committed layer, which is the drift class datamine.py
+# exists to remove. tools/curate.py calls dump_all() inside the guarded pass;
+# that is the only way raw/dbc is written. tests/test_dataset.py enforces the
+# absence.

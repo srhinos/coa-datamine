@@ -24,7 +24,8 @@ carrying these columns, cross-checking them (see _meta.json's
 gameplay tree geometry, not a usable fallback source for it.
 
 **Published** (https://ascension.gg/en/v2/coa-builder/<slug>, frozen by
-tools/fetch_coatalents.py into raw/talents/coa-builder-<slug>.html/_fetch.json):
+tools/fetch_coatalents.py - datamine.py's step 0 - into
+raw/talents/coa-builder-<slug>.html/_fetch.json):
 a Next.js "flight" payload embedding the live builder's full node array with every
 field named in the brief (spellId/spellIds/classId/tabId/sortOrder/group/flags/
 aeCost/teCost/iconPath/nodeType/entryType/isPassive/maxPoints/requiredIds/
@@ -105,8 +106,8 @@ def build(slug: str = "voljin") -> dict:
     fetch_meta_path = config.RAW_TALENTS_DIR / "_fetch.json"
     if not html_path.is_file():
         raise RuntimeError(
-            f"build_coatalents: {html_path} not found - run "
-            f"`python -m tools.fetch_coatalents --slug {slug}` first. Per the "
+            f"build_coatalents: {html_path} not found - run `python "
+            f"datamine.py`, whose step 0 captures it. Per the "
             "task's binding rule, if the payload truly cannot be fetched, this "
             "module would need a client-Lua-only fallback path - see this "
             "module's docstring for exactly which geometry fields that would "
@@ -683,8 +684,10 @@ def build(slug: str = "voljin") -> dict:
             "between them. The scope limit that IS real is drift in TIME: this is "
             "one fetch of a published builder, frozen by sha256, and the live "
             "builder moves independently of this repo's client snapshot - which is "
-            "exactly what contentDrift below measures. Re-run "
-            "tools/fetch_coatalents.py and diff the pinned sha256 to detect it. "
+            "exactly what contentDrift below measures. Every pass re-captures "
+            "the page (datamine.py step 0, tools/fetch_coatalents.py) and "
+            "raw/_snapshot.json's liveCapture block says whether THIS run "
+            "fetched or reused; diff the pinned sha256 to detect movement. "
             "The client-side Lua geometry source (Ascension_CoATalents, "
             "CharacterAdvancement*.lua) supplies realm-agnostic STRUCTURE (node "
             "types, gate mechanism, flag bits) but none of the numeric tree layout "

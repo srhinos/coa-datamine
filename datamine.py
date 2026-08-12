@@ -14,8 +14,28 @@ walked 44.9 GB of archives roughly a dozen times over, which is why a pass took
 five to six hours - and, worse, why a pass read a MIXTURE of client versions,
 because the launcher patches the archives while the run is going.
 
-This file replaces that chain. It does the whole job in two movements:
+This file replaces that chain. It does the whole job in three movements, the
+first of which is small and is the only one that touches the network:
 
+    0. CAPTURE    download the published CoA talent-builder payload and freeze
+                  it under raw/talents/. `live` - which content the game
+                  currently ships - cannot be derived from the client at all
+                  (its catalog carries live and cut content alike), so it comes
+                  from an external source on its own clock. That capture used to
+                  be a SECOND ENTRY POINT run by hand on its own schedule, which
+                  meant the raw layer could be minutes old while `live` was days
+                  old and nothing here noticed. It is now step 0 of this pass:
+                  the live truth and the snapshot are taken within seconds of
+                  each other, and if the shipped payload is reused instead - the
+                  fetch failed, or `--offline` was passed - the run says so in
+                  the summary AND in raw/_snapshot.json rather than inheriting
+                  it silently. See tools/fetch_coatalents.py.
+
+                  It runs BEFORE the client guard arms and is deliberately kept
+                  visibly apart from the snapshot: it reads a web service, not
+                  the client, and that separation is what keeps "the pass reads
+                  the snapshot and nothing else" true of the client without
+                  qualification.
     1. SNAPSHOT   copy every data-bearing file out of the live client into
                   work/snapshot/, hashing as it copies. Once the snapshot is
                   complete nothing reads the live client again, so the launcher
@@ -75,9 +95,12 @@ restatement, not a test.
 
 WHAT "ONE SCRIPT" MEANS, AND WHAT IT DOES NOT
 ---------------------------------------------
-One ENTRY POINT: `python datamine.py`, no arguments, no stage flags, no
-`--from`/`--only`, no resume, no convergence loop and no cache between anything.
-That is the property the directive asked for and it is the property that holds.
+One ENTRY POINT: `python datamine.py`, no stage flags, no `--from`/`--only`, no
+resume, no convergence loop and no cache between anything. That is the property
+the directive asked for and it is the property that holds. The two flags that
+exist are not stages: `--reuse-snapshot` is a development shortcut, and
+`--offline` is the explicit skip of step 0's network read, which is recorded in
+the layer as a reused capture rather than passing unnoticed.
 
 It is not one FILE. The import closure is this file plus fourteen modules under
 `tools/` - the emitters, the readers (`mpq`, `pe`, `wdb`, `loc`, `lua51`), the
@@ -107,6 +130,7 @@ Layers are written into `raw/.staging/` and swapped in only once the whole run
 succeeds, so a failed run never leaves a half-written layer behind.
 """
 import builtins
+import datetime
 import hashlib
 import io
 import json
@@ -118,7 +142,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
-from tools import config, curate, dbcdecode, emit, mpq
+from tools import config, curate, dbcdecode, emit, fetch_coatalents, mpq
 from tools.mpq import (MPQ_FILE_COMPRESS, MPQ_FILE_ENCRYPTED, MPQ_FILE_EXISTS,
                        MPQ_FILE_IMPLODE, MPQ_FILE_SECTOR_CRC,
                        MPQ_FILE_SINGLE_UNIT)
@@ -481,6 +505,127 @@ def check_single_open(scans: list) -> dict:
             "publish. " + "; ".join(problems))
     return {"archivesOpened": len(opened_ok), "openFailures": failed,
             "nestedArchiveOpens": sum(nested.values())}
+
+
+# ==========================================================================
+# 0b. LIVE CAPTURE - the one network read, bounded to this section
+# ==========================================================================
+def live_capture(offline: bool, t0: float) -> dict:
+    """Step 0: freeze the live-truth payload, before anything reads the client.
+
+    Bounded on purpose and in three ways. It is the only call in this file that
+    reaches the network; it runs before `ClientReads` arms, so it cannot be
+    confused with - or blamed on - a read of the client; and it cannot fail the
+    run for a network reason while a payload exists, because `capture()` reuses
+    the shipped bytes and reports the reason instead of half-writing."""
+    banner("live capture: the one network read in this pass (no client bytes "
+           "are touched here)")
+    prov = fetch_coatalents.capture(offline=offline)
+    print(f"  {prov['url']}", flush=True)
+    if prov["status"] == "fetched":
+        changed = prov.get("changedFromPrevious")
+        moved = ("first capture" if changed is None else
+                 "payload CHANGED since the shipped capture" if changed else
+                 "payload identical to the shipped capture")
+        print(f"  FETCHED  {human(prov['bytes'])}  sha256={prov['sha256'][:16]}"
+              f"  captured {prov['capturedUtc']}  ({moved})"
+              f"  [{time.time() - t0:.1f}s]", flush=True)
+    else:
+        print(f"  {'!' * 74}\n  REUSED THE SHIPPED PAYLOAD - this run did NOT "
+              f"confirm the live truth.\n  reason: {prov['reuseReason']}\n"
+              f"  the capture on disk was taken {prov['capturedUtc']} "
+              f"({_age_days(prov['capturedUtc'], _utc_now())} days ago); "
+              f"everything `live` depends on is that old.\n  {'!' * 74}",
+              flush=True)
+    return prov
+
+
+def print_capture_summary(cap: dict) -> None:
+    """The capture's line in the run summary - and, when the payload was reused,
+    considerably more than a line.
+
+    A one-word status in a list of counters is how a stale `live` goes unnoticed
+    for six days, which is the state this fold exists to end. A reused capture
+    means everything `live` says is as current as that capture and no more, so
+    it is said in full, with the reason, where nobody has to look for it."""
+    days = cap["captureMinusSnapshotDays"]
+    gap = "no client clock to compare against" if days is None else \
+        f"{days:+} days vs the newest archive"
+    print(f"  live capture         {cap['status'].upper()} "
+          f"{cap['capturedUtc']} sha256={cap['sha256'][:16]} "
+          f"({human(cap['bytes'])}), {gap}")
+    if cap["status"] == "fetched":
+        return
+    bar = "!" * 74
+    print(f"  {bar}\n  !! LIVE TRUTH NOT RE-FETCHED THIS RUN\n"
+          f"  !! reason: {cap['reuseReason']}\n"
+          f"  !! every `live` flag in data/ is as current as "
+          f"{cap['capturedUtc']}"
+          + ("" if days is None else
+             f" - {abs(days)} days {'newer' if days > 0 else 'OLDER'} than this "
+             f"snapshot's newest archive")
+          + " - and no more.\n"
+          f"  !! raw/_snapshot.json liveCapture.status = \"reused\"\n  {bar}",
+          flush=True)
+
+
+def _utc_now() -> str:
+    return (datetime.datetime.now(datetime.timezone.utc)
+            .isoformat(timespec="seconds"))
+
+
+def _age_days(a: str, b: str):
+    """b - a, in days, from two ISO-8601 UTC stamps. None if either is absent."""
+    if not (a and b):
+        return None
+    return round((datetime.datetime.fromisoformat(b)
+                  - datetime.datetime.fromisoformat(a)).total_seconds()
+                 / 86400.0, 3)
+
+
+def newest_archive(manifest: dict) -> tuple:
+    """(name, UTC) of the most recently patched archive in this snapshot - the
+    client's own clock, read from bytes this run recorded rather than from the
+    wall clock, so the drift number below reproduces."""
+    arch = {n: f for n, f in manifest["files"].items()
+            if f.get("kind") == "archive"}
+    if not arch:
+        return None, None
+    name, f = max(arch.items(), key=lambda kv: kv[1]["mtime"])
+    return name, datetime.datetime.fromtimestamp(
+        f["mtime"] / 1e9, datetime.timezone.utc).isoformat(timespec="seconds")
+
+
+def live_capture_block(prov: dict, manifest: dict) -> dict:
+    """What raw/_snapshot.json records about the capture: its provenance, what
+    THIS run did with it, and how far it sits from the client snapshot.
+
+    The distance is measured against the newest archive's mtime, not against the
+    wall clock, so it is a fact about the two INPUTS and reproduces on a rebuild.
+    A negative `captureMinusSnapshotDays` means the capture predates the client
+    files, which is the direction in which live content can read as dead."""
+    name, snap_utc = newest_archive(manifest)
+    # capture MINUS snapshot, the same sign convention as raw/provenance.json's
+    # liveSeedDrift: positive = the capture is newer than the client files.
+    behind = _age_days(prov.get("capturedUtc"), snap_utc)
+    block = {
+        "rule": fetch_coatalents.CAPTURE_RULE,
+        "status": prov["status"],
+        "reuseReason": prov.get("reuseReason"),
+        # a page that downloaded and could not be parsed: recorded here because
+        # "the live source moved and we could not read it" is a fact about the
+        # dataset, not a transient console message
+        "rejectedCapture": prov.get("rejectedCapture"),
+        "changedFromPrevious": prov.get("changedFromPrevious"),
+        "slug": prov.get("slug"),
+        "savedAs": prov.get("savedAs"),
+        "clientSnapshotNewestArchive": name,
+        "clientSnapshotNewestArchiveUtc": snap_utc,
+        "captureMinusSnapshotDays": None if behind is None else -behind,
+    }
+    for k in fetch_coatalents.REQUIRED_PROVENANCE:
+        block[k] = prov.get(k)
+    return block
 
 
 # ==========================================================================
@@ -1392,10 +1537,16 @@ def _sweep_block_semantics(h: Harvest, s: dict) -> None:
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     reuse = "--reuse-snapshot" in argv
+    offline = "--offline" in argv
     t0 = time.time()
     print(f"client:   {config.CLIENT_DIR}")
     print(f"repo:     {config.REPO_ROOT}")
     print(f"snapshot: {SNAPSHOT_DIR}")
+
+    # ---- 0. live capture --------------------------------------------------
+    # Before the guard arms and before a client byte is read: the network step
+    # is over by the time the snapshot begins, so the two clocks meet.
+    capture = live_capture(offline, t0)
 
     reads = ClientReads(config.CLIENT_DIR).install()
 
@@ -1436,6 +1587,9 @@ def main(argv=None) -> int:
         "counts": manifest["counts"],
         "installStateBoundary": manifest.get("installStateBoundary",
                                              INSTALL_STATE_BOUNDARY),
+        # step 0's result, recorded in the same file as the client bytes it is
+        # meant to be contemporary with - including, loudly, when it is not
+        "liveCapture": live_capture_block(capture, manifest),
         "files": {k: manifest["files"][k] for k in sorted(manifest["files"])},
     })
 
@@ -1523,6 +1677,7 @@ def main(argv=None) -> int:
           f"{snap_archives:.1f}s of it archives]")
     print("  live-client reads    " + ", ".join(
         f"{k}={v:,}" for k, v in sorted(reads.by_phase.items())) or "none")
+    print_capture_summary(live_capture_block(capture, manifest))
     print(f"  members read         {members_read:,}")
     print(f"  bytes decompressed   {human(h.bytes_read)}")
     print(f"  md5 vs archive       checked={h.md5['checked']:,} "
