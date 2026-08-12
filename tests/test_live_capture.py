@@ -157,6 +157,46 @@ def test_a_page_that_does_not_parse_is_rejected_not_installed():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+_RECORD = {"id": 40, "slug": "voljin", "name": "Vol'Jin", "max_level": 60,
+           "talents": {"classes": [{"classId": 1}],
+                       "entriesByTab": {"1:1": [{"id": 1, "spellId": 2}]}}}
+
+
+def _push(inner: str) -> str:
+    return "self.__next_f.push([1,%s])" % json.dumps(inner)
+
+
+def test_both_flight_packings_parse():
+    """The page packs its flight rows however it likes, and it has changed once:
+    until 2026-08-12 each `__next_f` push carried ONE newline-terminated row, and
+    then they arrived batched into one literal with no separator, the payload row
+    sitting behind a module row and a run of `T<hexlen>,` text blobs. A parser
+    that reads only the first packing reports a payload-free page - which is a
+    silently WRONG answer about what the game currently ships, not a loud one.
+
+    The blob text below deliberately contains a newline and something that reads
+    like a row header, because a scan that resynchronises on those instead of
+    honouring the declared length would walk into the middle of arbitrary text.
+    """
+    tree = [["$", "div", None, {"children": _RECORD}]]
+    blob = "sanity: 12:not a row\nand neither is 5c:this"
+
+    one_row_per_push = "".join([
+        _push('1:"$Sreact.fragment"\n'),
+        _push("3:%s\n" % json.dumps(tree)),
+    ])
+    batched = _push(
+        '4e:I[607833,["/_next/static/chunks/a.js"],"default"]'
+        "4f:T%x,%s" % (len(blob.encode("utf-8")), blob)
+        + "50:%s\n" % json.dumps(tree))
+
+    from tools import coa_live
+    for name, page in (("one row per push", one_row_per_push),
+                       ("batched rows", batched)):
+        got = coa_live.extract_payload(page, "voljin")
+        assert got == _RECORD, f"{name}: extracted {got!r}"
+
+
 def test_a_failed_fetch_with_no_payload_stops_the_run():
     tmp = Path(tempfile.mkdtemp(prefix="coa-capture-"))
     try:
