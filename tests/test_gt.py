@@ -1,4 +1,4 @@
-"""Task W4-2 gate: gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+"""Gt* combat-rating/regen tables (DATAMINE-REQUEST.md
 Sec 1.1 + Sec 13 item 1) -> data/gt/.
 
 RE-DERIVES (not trusts) the five layout goldens DATAMINE-REQUEST.md cites, fresh against

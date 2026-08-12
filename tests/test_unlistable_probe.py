@@ -1,5 +1,5 @@
-"""Task W4-7 gate: unlistable-archive provenance probe (coa-sim-handoff/
-DATAMINE-REQUEST.md Sec 5.1 + Sec 5.2).
+"""Unlistable-archive provenance probe (DATAMINE-REQUEST.md
+Sec 5.1 + Sec 5.2).
 
 Sec 5.1's killer detail: patch-W, patch-WB and patch-WC sort lexicographically
 ABOVE patch-T, and patch-T.MPQ contains exactly one file - DBFilesClient\\
@@ -75,7 +75,7 @@ for name in ("patch-W.MPQ", "patch-WB.MPQ", "patch-WC.MPQ"):
 
 # ============== 2.5 predicate equivalence (review fix pass) ==============
 
-# [Task W4-7 review fix] extract_mpq.extract_all()'s chain-walk skip decision
+# [review fix] extract_mpq.extract_all()'s chain-walk skip decision
 # and probe_unlistable.discover_unlistable() must use the IDENTICAL predicate -
 # a review caught them diverging (extract_all() only caught the exception
 # shape; discover_unlistable() also caught a successful-open-but-empty

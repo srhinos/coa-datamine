@@ -59,16 +59,16 @@ assert live["liveNodeIds"] > 3900, live
 assert live["covered"] == live["liveNodeIds"] and live["rate"] == 1.0, live
 assert live["liveRecords"] >= live["liveNodeIds"], live
 
-# header-invariant parity gate (task V3-3): DBCFile no longer hard-crashes on a
+# header-invariant parity gate: DBCFile no longer hard-crashes on a
 # declared-vs-byte-accurate field-count disagreement (needed to keep a lying
-# REALM header like area-52's CharacterAdvancement.dbc readable, task V3-2) -
+# REALM header like area-52's CharacterAdvancement.dbc readable) -
 # that removed the old crash canary for a lying BASE header too. This is the
 # replacement canary: every one of the base config.WANTED_DBCS tables must
 # agree with itself, except the explicit, documented allowlist below. A future
 # patch shipping a NEW base-table mismatch must still fail THIS assert loudly,
 # not silently ship a mismatched dump.
 #
-# [Task W4-10] spellitemenchantmentcondition.dbc: the canary caught a real one -
+# spellitemenchantmentcondition.dbc: the canary caught a real one -
 # its WDBC header DECLARES 31 fields (the stock-WotLK 1+5x6 operand-condition
 # shape) but record_size only backs 16. Confirmed on a fresh 2026-08-06
 # extraction (not a one-off glitch); DBCFile.fields (record_size//4) is what

@@ -18,7 +18,7 @@ assert len(config.WANTED_DBCS_V4) == 11
 assert len(config.WANTED_DBCS_V5) == 12
 assert len(set(n.lower() for n in config.WANTED_DBCS_V5)) == 12, "no duplicate names"
 assert set(config.WANTED_DBCS_V5) <= set(config.WANTED_DBCS)
-# task W4-11: item support tables (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8)
+# Item support tables (DATAMINE-REQUEST.md Sec 8)
 assert len(config.WANTED_DBCS_V6) == 9
 assert set(config.WANTED_DBCS_V6) <= set(config.WANTED_DBCS)
 assert config.WANTED_DBCS_V7 == ["ItemStat.dbc"]

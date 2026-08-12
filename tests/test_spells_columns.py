@@ -1,5 +1,5 @@
-"""Task W4-3 gate: spell column completion for damage modeling
-(coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.2-1.4 + Sec 13 items 2-4).
+"""Spell column completion for damage modeling
+(DATAMINE-REQUEST.md Sec 1.2-1.4 + Sec 13 items 2-4).
 
 Adds/re-derives: effectRealPointsPerLevel (f77-79), the 8 already-mapped-but-
 dropped columns (Sec 1.3), effectSpellClassMask (f122-130), effectDamageMultiplier
@@ -13,7 +13,7 @@ Every fill-rate figure below is independently RE-DERIVED against work/dbc/Spell.
 intersected with live Spell.dbc ids (build_spells._coa_class_spell_ids()). This
 re-derivation reproduces the doc's own headline counts EXACTLY: 6,436 total ids /
 6,038 resolved in base Spell.dbc (matches DATAMINE-REQUEST.md Sec 3's "base resolves
-6,038/6,436" verbatim) - see .superpowers/sdd/task-w4-3-report.md for the full log.
+6,038/6,436" verbatim).
 """
 import json, sys
 from pathlib import Path

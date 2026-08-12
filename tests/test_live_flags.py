@@ -1,4 +1,4 @@
-"""TDD gate for task W4-14: live-talent-builder truth joined onto the CAD catalog
+"""TDD gate for the live-talent-builder truth joined onto the CAD catalog
 (`live` / `liveEvidence` on data/classes/<Class>/*.json entries, `liveCounts` on the
 per-class index, data/classes/_live_summary.json, and specs.json's re-derived
 `tabStatus`).
@@ -16,7 +16,7 @@ data is allowed to CLAIM:
     grants, trainer rows, spellId-variant name twins) must land on live: null with
     reason "indeterminate" instead;
   - `tabStatus` must not be readable as "this tree is in the game" when it only
-    means "a CAD tab with this token exists" - the W4-11e failure this task fixes.
+    means "a CAD tab with this token exists" - the failure this file pins.
 
 Rebuilds the three writers in dependency order (classes -> coatalents -> classmeta),
 matching tools/curate.py, so nothing here reads a stale artifact.
@@ -298,7 +298,7 @@ assert {by_id[i]["tabStatus"]["liveTab"] for i in (43, 44, 45, 100)} == {
 assert by_id[33]["tabToken"] == "TIME" and by_id[33]["tabStatus"]["liveTab"] == "Artificer"
 assert by_id[31]["tabToken"] == "DISPLACEMENT" and by_id[31]["tabStatus"]["liveTab"] == "Time"
 
-# W4-9's two "unmatchedExtraTabs" are now attributed by mechanism (spec name), which
+# The two "unmatchedExtraTabs" are now attributed by mechanism (spec name), which
 # is what retires Sec 11's "unreleased" list entirely
 assert by_id[45]["tabStatus"]["liveTab"] == "Warden"        # Starcaller/HYDROMANCY
 assert by_id[96]["tabStatus"]["liveTab"] == "Dreadnought"   # Cultist/BULWARK

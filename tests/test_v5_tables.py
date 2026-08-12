@@ -1,5 +1,5 @@
-"""TDD gate for task W4-10: simulation-adjacent spell support tables
-(coa-sim-handoff/DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17).
+"""TDD gate for the simulation-adjacent spell support tables
+(DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17).
 
 WANTED_DBCS_V5 adds 12 tables: SpellAffect, SpellDifficulty, SummonProperties,
 SpellMissile, SpellShapeshiftForm, SpellFocusObject, SpellRank, CreatureSpellData,
@@ -14,8 +14,7 @@ tables ship raw f0..fN + colinfo.json evidence only - this file pins their fresh
 extraction headers and colinfo presence, nothing more.
 
 Every number below is independently re-derived against a fresh 2026-08-06
-extraction (not copied from DATAMINE-REQUEST.md Sec 9) - see
-.superpowers/sdd/task-w4-10-report.md for the full log and tools/dbc.py's
+extraction (not copied from the source doc) - see tools/dbc.py's
 TABLE_MAPS comments for the per-table evidence."""
 import gzip, json, sys
 from pathlib import Path

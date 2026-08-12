@@ -1,6 +1,6 @@
 """3.3.5a itemcache.wdb parser (SMSG_ITEM_QUERY_SINGLE_RESPONSE cache).
 
-Copied from coa-sim-handoff/parsers/wdb_item.py (task W4-11b, per
+Copied from a published itemcache.wdb parser (per
 DATAMINE-REQUEST.md Sec 12's "working itemcache.wdb parser... 17,531 records, 0
 failures" attribution) as the independent ground truth for the ItemStat.dbc
 f1=itemId/f2=ownItemLevel golden check (tools/dbc.py's ItemStat TABLE_MAPS

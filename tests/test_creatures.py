@@ -1,20 +1,20 @@
-"""TDD gate for tasks V2-2 + V3-0: creatures/quests/trainers + dungeon encounter
+"""TDD gate for creatures/quests/trainers + dungeon encounter
 enrichment.
 
 Per the empirical-mapping rule, this test also encodes the NEGATIVE findings from the
-golden-record probes documented in .superpowers/sdd/task-v2-2-report.md: Creature
+golden-record probes documented: Creature
 subname and Quest sort/info links were probed and DISPROVEN (naive join-rate passed but
 semantic golden verification failed, or no column cleared the join-rate bar at all) - so
 those fields are asserted to be uniformly null/absent, not "resolved for at least one
 record".
 
-Task V3-0 (.superpowers/sdd/task-v3-0-report.md) found Creature.dbc's f0 is a POSITIONAL
+A later re-check found Creature.dbc's f0 is a POSITIONAL
 row index (shifts on every patch that inserts rows upstream), not a stable entry id - f1
 is the real, stable creature template entry id. Creatures are now keyed by f1 (goldens
 re-pinned to canonical WotLK entry ids: Hogger 448, Edwin VanCleef 639, Onyxia 10184,
 Ragnaros 11502 - stronger than the old name-only goldens). Retesting the
-DungeonEncounterExtra creature-link hypothesis against f1 (instead of V2-2's dense f0
-space) REVERSES the V2-2 disproof: the link is now proven (98.57% row-level join-rate,
+DungeonEncounterExtra creature-link hypothesis against f1 (instead of the earlier dense f0
+space) REVERSES the earlier disproof: the link is now proven (98.57% row-level join-rate,
 every famous-boss golden resolves correctly), so dungeon encounters now carry a real
 "creature": {id, name} link."""
 import json, sys
@@ -57,13 +57,13 @@ assert total == cidx["count"] == stats["creatures"]["written"]
 assert cidx["count"] == 127178, cidx["count"]
 
 # id//5000 bucket count grows a lot once keyed by f1's sparse (1..11001007) space vs the
-# old fully-dense f0 (1..127178) space - a coarse regression guard on the V3-0 remap
+# old fully-dense f0 (1..127178) space - a coarse regression guard on the id remap
 assert len(cidx["buckets"]) >= 300, (
     "expected many more (sparse-id) buckets once creatures are keyed by f1, not f0",
     len(cidx["buckets"]))
 
 # golden creature records - real WotLK 3.3.5 entry ids (f1), pinned + verified via live
-# probe (task-v3-0-report.md); f0 (the old key) resolves these same numbers to unrelated
+# probe; f0 (the old key) resolves these same numbers to unrelated
 # NPCs (e.g. 448 -> "Demisette Cloyce"), proving the remap actually took effect
 assert by_id[448]["name"] == "Hogger"
 assert by_id[639]["name"] == "Edwin VanCleef"
@@ -76,7 +76,7 @@ assert all(r["subname"] is None for r in by_id.values())
 cmeta = json.loads((cdir / "_meta.json").read_text(encoding="utf-8"))
 assert cmeta["count"] == cidx["count"]
 assert "subnameFinding" in cmeta
-assert "idCorrectionFinding" in cmeta, "V3-0 f0->f1 remap must be documented in _meta.json"
+assert "idCorrectionFinding" in cmeta, "f0->f1 remap must be documented in _meta.json"
 
 # ---- quests: sharded data/quests/quests-<id//5000*5000>.jsonl + index.json ----
 qdir = config.DATA_DIR / "quests"
@@ -138,13 +138,13 @@ assert tmeta["count"] == tidx["count"]
 assert tmeta["spellJoinRate"] >= 0.90
 assert "trainerIdFinding" in tmeta
 
-# ---- dungeon encounter creature-link enrichment (V3-0: retested + PROVEN vs f1) ----
+# ---- dungeon encounter creature-link enrichment (retested + PROVEN vs f1) ----
 dstats = build_dungeons.build()
 assert "encounterCreatureLinks" in dstats
 link_rate = dstats["encounterCreatureLinks"] / dstats["encounters"]
 assert link_rate >= 0.90, (
     "DungeonEncounterExtra creature link re-tested against Creature.dbc's real f1 "
-    "entry-id space (V3-0, see task-v3-0-report.md) and proven - link rate must stay "
+    "entry-id space and proven - link rate must stay "
     f">=90%, got {link_rate:.4f}")
 
 ddir = config.DATA_DIR / "dungeons"

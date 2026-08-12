@@ -5,7 +5,7 @@ inline) + data/dungeons/index.json {id, name, file, mapId, isRaid, levels}. The 
 encountersByMap duplicate view is dropped - it's fully derivable by grouping the
 per-dungeon files on (mapId, difficulty).
 
-Task V2-2: encounters were meant to gain a "creature": {id, name}|null boss link from
+Encounters were meant to gain a "creature": {id, name}|null boss link from
 DungeonEncounterExtra.dbc. Probed and DISPROVEN at the time: DungeonEncounterExtra's f0
 proves out as dungeonEncounterId (98.5% join + semantic golden - resolves to real
 encounter names), but its f1 (creature-id hypothesis) failed golden verification even
@@ -13,15 +13,15 @@ though it cleared the naive 90% join-rate bar against Creature.dbc's OLD f0 id c
 (92.4%) - famous bosses (Ragnaros, Onyxia, Kel'Thuzad, Illidan, ...) all resolved to
 unrelated random NPCs. That was a false positive caused by Creature.dbc's OLD f0 id
 column being fully dense (every integer 1..127178 was a valid row-position id, so any
-bounded column passed membership near-trivially); see .superpowers/sdd/task-v2-2-report.md
+bounded column passed membership near-trivially);
 for the original evidence (fuzzy name-overlap 1.3%, barely above a random-pairing
 control's 0.45%).
 
-Task V3-0 (2026-08-01, .superpowers/sdd/task-v3-0-report.md): the client rebuild proved
+A later client rebuild (2026-08-01) proved
 Creature.dbc's f0 is actually a POSITIONAL row index (shifts on patches), not a stable
 id - the real, stable creature entry id is f1, a genuinely SPARSE space (127178 ids
 spread across 1..11001007). Retesting DungeonEncounterExtra's SAME f1 column against
-Creature's corrected f1 id space REVERSES the V2-2 disproof: row-level join-rate 98.57%
+Creature's corrected f1 id space REVERSES the earlier disproof: row-level join-rate 98.57%
 (2006/2035), every famous-boss golden now resolves correctly (Ragnaros->11502,
 Onyxia->10184, Kel'Thuzad->15990, Illidan Stormrage->22917, ...), fuzzy word-overlap
 94.7% vs a random-pairing control's 0.55%. f2/f3 still fail even the naive join-rate bar
@@ -45,7 +45,7 @@ def build() -> dict:
     for lst in rewards.values():
         lst.sort(key=lambda x: x.get("MaxLevel", 0))
 
-    # V3-0: DungeonEncounterExtra.dungeonEncounterId -> creatureId, proven vs Creature's
+    # DungeonEncounterExtra.dungeonEncounterId -> creatureId, proven vs Creature's
     # corrected f1 entry-id space (see module docstring). dungeonEncounterId==0 is a
     # placeholder/sentinel (not a real DungeonEncounter id - skip it); a small minority
     # of real dungeonEncounterIds repeat across multiple rows (extra per-difficulty

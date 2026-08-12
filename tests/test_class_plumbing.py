@@ -1,5 +1,5 @@
-"""TDD gate for task W4-5 (class/realm plumbing): coa-sim-handoff/
-DATAMINE-REQUEST.md Sec 7 (essence + ChrClassesRoles goldens), Sec 11 (specs.json
+"""TDD gate for class/realm plumbing: DATAMINE-REQUEST.md
+Sec 7 (essence + ChrClassesRoles goldens), Sec 11 (specs.json
 inconsistency / the ChrClasses.filename fix), Sec 3 (the realm-overlay dispute
 numbers), Sec 4 trap 6, Sec 13 items 9+12 (+item 7's prep half).
 
@@ -12,7 +12,7 @@ numbers), Sec 4 trap 6, Sec 13 items 9+12 (+item 7's prep half).
     tools/build_classes.py and tools/build_classmeta.py; ClassRemap-style aliases
     (Runemaster/Primalist/Venomancer/"Knight of Xoroth") surface as `aliases`.
 (c) ChrClassesRoles roster cross-check: this task's own re-derivation of the doc's
-    Sec 7 role roster against specs.json's `roles` (already golden-proven in V2-3,
+    Sec 7 role roster against specs.json's `roles` (already golden-proven earlier,
     unchanged code) - full agreement, so nothing about role derivation changed.
 (d) tools/diff_realm_overlay.py: base-vs-overlay Spell.dbc diff, run against
     area-52, gated against Sec 3's own cited numbers at +/-10% tolerance.
@@ -156,7 +156,7 @@ assert demon_meta["classId"] == 14 and demon_meta["aliases"] == []
 
 # =============== (b continued) specs.json perClass classId fix ===============
 
-# [Task W4-11e] build_classmeta now reads data/talents/coa/_meta.json (specs.json's
+# build_classmeta now reads data/talents/coa/_meta.json (specs.json's
 # tabStatus reconciliation) - must run build_coatalents first, matching the real
 # tools/curate.py stage order.
 build_coatalents.build()
@@ -189,7 +189,7 @@ assert monk_spec_tabs <= {t.upper() for t in monk_tabs}, (monk_spec_tabs, monk_t
 
 # ================ (c) ChrClassesRoles roster cross-check (Sec 7) ================
 # Re-derivation of the doc's own published roster against specs.json["roles"]
-# (unchanged V2-3 code - ChrClassesRoles.roleMask decoded directly). This is a
+# (unchanged code - ChrClassesRoles.roleMask decoded directly). This is a
 # VERIFICATION pass, not a fix: per the task's binding rule, change nothing if
 # they agree - they do, so build_classmeta.py's role logic is untouched by this task.
 

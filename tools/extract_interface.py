@@ -1,4 +1,4 @@
-"""Committed Interface/API code-layer extraction (task V2-6).
+"""Committed Interface/API code-layer extraction.
 
 Scans EVERY archive (same chain-order scan as extract_mpq, just a different filter:
 files under `Interface\\` instead of `DBFilesClient\\`) and extracts every code payload

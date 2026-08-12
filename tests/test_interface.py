@@ -1,4 +1,4 @@
-"""TDD gate for task V2-6: committed Interface/API code layer + orchestrator wiring.
+"""TDD gate for the committed Interface/API code layer + orchestrator wiring.
 
 extract_interface.extract_all() scans every archive (extract_mpq._list_archives order)
 for files under Interface\\ (any depth), keeps only code payloads (.lua/.xml/.toc/.txt/

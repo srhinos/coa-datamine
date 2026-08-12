@@ -1,4 +1,4 @@
-"""TDD gate for task W4-8: attempt to decode the CAD `Realms` bitmask against the
+"""TDD gate for the attempt to decode the CAD `Realms` bitmask against the
 6-realm roster (Vol'jin, Rexxar, Darkmoon, Dawnrise, Bronzebeard, Area 52) per
 DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10.
 

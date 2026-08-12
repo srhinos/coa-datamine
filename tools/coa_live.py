@@ -1,4 +1,4 @@
-"""Shared live-vs-catalog join for the CoA layer (task W4-14).
+"""Shared live-vs-catalog join for the CoA layer.
 
 The problem this exists to solve: `data/classes/<Class>/*.json` is the CAD
 *catalog* - what the client's CharacterAdvancementData tables LIST for a class -
@@ -7,7 +7,7 @@ the game. It is not. A real level-60 Starcaller proved the gap: the catalog ship
 a "Tides" tree (Tide Lash, Silvercurrent, Pond, Deluge, Geyser) that does not
 exist in game; that character's real trees are Moon Guard / Sentinel / Moon Priest
 / Warden / Class - exactly what the live talent-builder payload
-(`data/talents/coa/`, task W4-9) says.
+(`data/talents/coa/`) says.
 
 This module is the single implementation of "is this catalog entry actually in
 the live trees", imported by BOTH writers so neither duplicates the logic:

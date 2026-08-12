@@ -1,5 +1,5 @@
 """Hash-table-only provenance probe for MPQ archives that carry no readable
-listfile (task W4-7; coa-sim-handoff/DATAMINE-REQUEST.md Sec 5.1). Closes a
+listfile (DATAMINE-REQUEST.md Sec 5.1). Closes a
 real hole in tools/extract_mpq.py's chain walk: 8 archives in the client's
 MPQ set (patch-4/5/C/CZZ/W/WB/WC + patch-P) cannot be enumerated by mpyq, so
 extract_mpq.py's chain walk never sees anything they carry - it can only
@@ -35,7 +35,7 @@ def try_list(archive_path):
     listfile on success, reason is None; on ANY failure files is None and
     reason is a short string. Two failure shapes are both "unlistable" and
     MUST be treated identically by every caller (tools/extract_mpq.py's chain
-    walk and discover_unlistable() below alike - a review of task W4-7 caught
+    walk and discover_unlistable() below alike - a review caught
     the walk checking only the first): the open/read raising (no readable
     '(listfile)' member, or an encrypted one - mpyq's own read_file returns
     None or raises, and either way the constructor's `.splitlines()` blows
