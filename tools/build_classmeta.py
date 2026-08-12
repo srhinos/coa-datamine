@@ -1,4 +1,4 @@
-"""Class/spec metadata pack (task V2-3): ChrSpecs -> data/classes/specs.json,
+"""Class/spec metadata pack: ChrSpecs -> data/classes/specs.json,
 CharacterCreationArchetypes(+ArchetypeDetails) -> data/classes/archetypes.json.
 
 Amendment D (single-writer ownership): this module owns specs.json/archetypes.json
@@ -8,13 +8,13 @@ specIds/roles/specialAbilities all live inside specs.json instead (see below);
 consumers that want spec/role data read specs.json, not index.json.
 
 Full mapping evidence (golden probes, join-rates, disproven hypotheses) is documented
-in tools/dbc.py's TABLE_MAPS comments for ChrSpecs/ChrClassesRoles/CharacterCreation*
-and in .superpowers/sdd/task-v2-3-report.md. Summary of what this module derives on
+in tools/dbc.py's TABLE_MAPS comments for ChrSpecs/ChrClassesRoles/CharacterCreation*.
+Summary of what this module derives on
 top of the raw named columns:
 
 - ChrSpecs.classToken (a string, not a raw int) is joined against ChrClasses.name_enUS
   (normalized), falling back to ChrClasses.filename (normalized) when the name join
-  misses [task W4-5] - the 24/101 specs that used to have no match at all
+  misses - the 24/101 specs that used to have no match at all
   (DEMONHUNTER/MONK/SONOFARUGAL/FLESHWARDEN/PROPHET/WILDWALKER/SPIRITMAGE tokens,
   which are filename-column values, not display names - see tools/dbc.py's
   ChrClasses TABLE_MAPS comment) now all resolve via the fallback; coverage went
@@ -38,9 +38,9 @@ top of the raw named columns:
   supported races are derived from CharacterCreationArchetypeDetails' proven
   archetypeId/raceId join, resolved to names via ChrRaces.dbc.
 
-Task W4-11e (DATAMINE-REQUEST.md Sec 11 / Sec 13 item 20) added `tabStatus` to each
-spec row. **Task W4-14 re-derived it against the LIVE talent builder and renamed
-every state, because the old ones were misleading in exactly the way this dataset's
+Each spec row carries `tabStatus`. **It is derived against the LIVE talent builder,
+and its states were renamed from an earlier catalog-only version, because those were
+misleading in exactly the way this dataset's
 central bug is misleading**: the old `"live"` meant only "a CAD tab with this token
 exists" - a statement about the CATALOG - and 93/101 specs carried it, including
 Starcaller/TIDES, whose tree does not exist in game. The states are now named for
@@ -68,17 +68,17 @@ the catalog-generation one: Chronomancer spec 33 is named "Artificer" with tabTo
 tabToken "DISPLACEMENT") - token-first would have swapped them.
 
 Consequence for Sec 11's "7 of 70 specs have no CAD tab": all 7 resolve now, and by
-a MECHANISM rather than the pinned 5-token table W4-11e used - a spec's own `name`
+a MECHANISM rather than a pinned 5-token table - a spec's own `name`
 matching a live builder tab covers VALKYR->Valkyrie and WITCHKNIGHT->Black Knight
-(which no normalized token match reaches) and also closes the 2 W4-9 could not place
+(which no normalized token match reaches) and also closes the 2 the token table could not place
 (Starcaller/HYDROMANCY is live tab "Warden", spec 45's own name; Cultist/BULWARK is
-"Dreadnought", spec 96's) - the two "unmatchedExtraTabs" W4-9 recorded but could not
-attribute. `unreleased` is consequently empty today; it stays a defined state so a
+"Dreadnought", spec 96's) - the two "unmatchedExtraTabs" that were recorded but never
+attributed. `unreleased` is consequently empty today; it stays a defined state so a
 genuinely unshipped spec still lands somewhere honest.
 
 Depends on `data/classes/_live_summary.json` + `data/talents/coa/_meta.json` already
 existing - `tools/curate.py` runs `build_classes.build()` and
-`build_coatalents.build()` BEFORE `build_classmeta.build()` (task W4-11e ordering,
+`build_coatalents.build()` BEFORE `build_classmeta.build()` (an ordering
 still valid; see tools/curate.py's stage-order comments).
 """
 import json
@@ -145,7 +145,7 @@ def _class_tab_layer(cdir) -> dict:
 
 
 def _live_tab_layer() -> dict:
-    """[Task W4-14] classId -> {"liveTabs": [names], "mapped": {cadTab: record}}
+    """classId -> {"liveTabs": [names], "mapped": {cadTab: record}}
     read from data/classes/_live_summary.json's tabMapping (build_classes owns it;
     this module does not re-derive the mapping - see the module docstring). Absent
     for every class with no builder capture."""
@@ -153,7 +153,7 @@ def _live_tab_layer() -> dict:
     if not p.is_file():
         raise AssertionError(
             "data/classes/_live_summary.json missing - run build_classes.build() "
-            "before build_classmeta.build() (task W4-14: specs.json's tabStatus is "
+            "before build_classmeta.build() (specs.json's tabStatus is "
             "derived against the live builder mapping written there)")
     tm = json.loads(p.read_text(encoding="utf-8"))["tabMapping"]["byClass"]
     return {m["classId"]: {"liveTabs": m["liveTabs"],
@@ -207,7 +207,7 @@ def build_specs() -> dict:
     live_layer = _live_tab_layer()
     chr_classes = list(dbc.iter_named("ChrClasses"))
     by_norm = {_norm(c["name_enUS"]): c for c in chr_classes}
-    # [Task W4-5] filename fallback join (see tools/dbc.py's ChrClasses TABLE_MAPS
+    # filename fallback join (see tools/dbc.py's ChrClasses TABLE_MAPS
     # comment for the golden evidence). All 24 of this table's previously-unmatched
     # classToken values (DEMONHUNTER x3, MONK x3, SONOFARUGAL x4, FLESHWARDEN x3,
     # PROPHET x4, WILDWALKER x4, SPIRITMAGE x3) are ChrClasses.filename tokens, not
@@ -273,7 +273,7 @@ def build_specs() -> dict:
 
     roles, special_abilities = _class_roles_and_abilities()
 
-    # [Task W4-14] tabStatus summary. `renamed` is broken out on purpose: it is the
+    # tabStatus summary. `renamed` is broken out on purpose: it is the
     # count of specs whose live tree carries a DIFFERENT name from the CAD tab a
     # consumer would have found by browsing data/classes/ - the exact place the old
     # status="live" misled.
@@ -311,17 +311,17 @@ def build_specs() -> dict:
             "its per-pair evidence live in data/classes/_live_summary.json's "
             "tabMapping."),
         "sec11Correction": (
-            f"DATAMINE-REQUEST.md Sec 11 cited '7 of 70 specs have no CAD tab' "
-            f"(presumably unreleased); task W4-9 found 5 of the 7 had shipped in the "
-            f"live builder. Task W4-14 resolves all 7 by MECHANISM rather than a "
+            f"The source request cited '7 of 70 specs have no CAD tab' "
+            f"(presumably unreleased); 5 of the 7 had in fact shipped in the "
+            f"live builder. All 7 resolve here by MECHANISM rather than a "
             f"pinned token table: a spec's own `name` is the live-generation label, "
             f"so VALKYR->Valkyrie, WITCHKNIGHT->Black Knight, HYDROMANCY->Warden and "
             f"BULWARK->Dreadnought all resolve by name against the live tab list "
-            f"(the last two being W4-9's 'unmatchedExtraTabs', now attributed). "
+            f"(the last two previously recorded as 'unmatchedExtraTabs', now attributed). "
             f"{len(unreleased)} specs remain unreleased by this re-derivation."
         ),
         "supersedes": (
-            "task W4-11e's states (live/shippedExternal/unreleased/noTabLayer). "
+            "the earlier catalog-only states (live/shippedExternal/unreleased/noTabLayer). "
             "'live' there meant only 'a CAD tab with this token exists' - a claim "
             "about the catalog, not the game - and covered 93/101 specs including "
             "Starcaller/TIDES, whose tree does not exist in game."),
@@ -398,7 +398,7 @@ def build() -> dict:
         "build_classmeta.build() (the CoA talent layer specs.json reconciles against)")
     assert (cdir / "_live_summary.json").is_file(), (
         "data/classes/_live_summary.json missing - run build_classes.build() before "
-        "build_classmeta.build() (task W4-14: specs.json's tabStatus is derived "
+        "build_classmeta.build() (specs.json's tabStatus is derived "
         "against the live builder tab mapping written there)")
     spec_stats = build_specs()
     arch_stats = build_archetypes()

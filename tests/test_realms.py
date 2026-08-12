@@ -1,4 +1,4 @@
-"""TDD gate for task V3-2: realm-overlay extraction. Data\\<realm>\\ archives (e.g.
+"""TDD gate for the realm-overlay extraction. Data\\<realm>\\ archives (e.g.
 area-52's patch-D.MPQ, discovered generically via its own `listarchive` file) ->
 work/realms/<realm>/dbc/ (tools/extract_realms.py) -> raw/realms/<realm>/dbc/
 (mapped dump reusing base TABLE_MAPS, or dump_unmapped-style colinfo for realm-only
@@ -20,12 +20,12 @@ SpellCharges 473x2, SpellChargesCategory 108x3, SpellRank 19601x4, Talent 2368x2
 CharacterAdvancement/SpellRank have no base TABLE_MAPS entry at all (colinfo-only,
 deliberate, per the brief) - the other 10 do.
 
-[Task W4-5 UPDATE] CharacterAdvancementEssence gained a real TABLE_MAPS column
+[UPDATE] CharacterAdvancementEssence gained a real TABLE_MAPS column
 proof (id/level/classId/abilityEssence/talentEssence, see tools/dbc.py) - it moved
 from UNMAPPED_TABLES to MAPPED_TABLES below. This is the one *intended* change to
 this file's expectations from that task; everything else here is unchanged.
 
-[Task W4-10 UPDATE] SpellRank ALSO gained a real TABLE_MAPS column proof
+[UPDATE] SpellRank ALSO gained a real TABLE_MAPS column proof
 (id/firstSpellId/spellId/rank, raw-dump-clarity naming only, NOT wired into
 build_spells.py's rank-chain pipeline - see tools/dbc.py) - same move,
 UNMAPPED_TABLES -> MAPPED_TABLES, and unlike CharacterAdvancementEssence's own
@@ -123,9 +123,9 @@ for table in UNMAPPED_TABLES:
 # "mapped" (has a base TABLE_MAPS column proof) and "has a base WANTED_DBCS entry to
 # diff against" are independent axes - CharacterAdvancement has no base DBC of this
 # name AT ALL (realm-only table), so both are null/null for real, not just unmapped.
-# [Task W4-5] Before that task, CharacterAdvancementEssence.dbc was the
+# Before that task, CharacterAdvancementEssence.dbc was the
 # axis-independence example (base entry present, mapped false) - it moved to
-# MAPPED_TABLES above once tools/dbc.py gained its column proof. [Task W4-10]
+# MAPPED_TABLES above once tools/dbc.py gained its column proof.
 # SpellRank made the SAME move AND gained a base WANTED_DBCS entry in the same
 # task (WANTED_DBCS_V5) - it now carries real baseRecords/delta like the other 10
 # originally-mapped tables, leaving CharacterAdvancement as the sole table on
@@ -181,7 +181,7 @@ assert set(meta["mappedTables"]) == MAPPED_TABLES
 assert set(meta["unmappedTables"]) == UNMAPPED_TABLES
 assert "futureMilestone" in meta and "curation" in meta["futureMilestone"].lower()
 
-# [Task W4-13] The dataset must state the delivery mechanism itself, so a consumer
+# The dataset must state the delivery mechanism itself, so a consumer
 # reading only data/realms/ cannot mistake Free-Pick's overlay for "the realm overlay"
 # or for CoA data - and must keep the SMSG limit honest. Discovery finding only exactly
 # one realm after weeks of CoA play is the CORRECT answer, not a pending capture.

@@ -1,11 +1,10 @@
 """3.3.5 enum name tables. Partial by design: unmapped ids render as
 EFFECT_<n>/AURA_<n>/TARGET_<n> - the id is always authoritative, the label is sugar.
 
-Task W4-1 (enum truth pass): re-derived against coa-sim-handoff/analysis/enum-triage.md
+Enum truth pass: re-derived against the enum triage analysis
 + work/dbc/Spell.dbc BASE (209,125 rows). Every id below - both the 4 repo-bug fixes and
 every new canonical/COA_ addition - was independently decoded from a cited golden spell
-by this task, not pasted from the source doc on trust; see
-.superpowers/sdd/task-w4-1-report.md for the full per-golden verification log.
+here, not pasted from the source doc on trust.
 
 Lookup order (effect_name/aura_name): canonical table -> COA_ overlay -> numeric
 fallback (EFFECT_<n>/AURA_<n>). The overlay is kept separate from the canonical tables
@@ -49,26 +48,25 @@ EFFECT_NAMES = {
     68: "INTERRUPT_CAST", 75: "HEAL_MECHANICAL", 77: "SCRIPT_EFFECT",
     80: "ADD_COMBO_POINTS", 91: "THREAT_ALL", 96: "CHARGE", 98: "KNOCK_BACK",
     101: "FEED_PET", 102: "DISMISS_PET",
-    # [W4-1 bug fix] was "DISPEL_MECHANIC" - wrong. Golden 36936 Totemic Recall,
+    # [bug fix] was "DISPEL_MECHANIC" - wrong. Golden 36936 Totemic Recall,
     # 16529 Destroy Totems (PT): both decode effect=110 on a totem-destroying slot.
     # See 108 below for the mechanic this id displaced.
     110: "DESTROY_ALL_TOTEMS",
     113: "RESURRECT_NEW", 121: "NORMALIZED_WEAPON_DMG",
     126: "STEAL_BENEFICIAL_BUFF", 135: "CALL_PET", 136: "HEAL_PCT",
     137: "ENERGIZE_PCT", 138: "LEAP_BACK",
-    # [W4-1 bug fix] was "FORCE_CAST" - wrong (that's 140, added below). Golden
+    # [bug fix] was "FORCE_CAST" - wrong (that's 140, added below). Golden
     # 33076/33203/33204/33205 Prayer of Mending: effect=142, bp scales 100/190/270/380
     # with rank and triggerSpell=41635 (the heal-propagation script) - "value" is the
     # accumulated heal passed to the trigger, matching TRIGGER_SPELL_WITH_VALUE, not
     # a plain forced cast.
     142: "TRIGGER_SPELL_WITH_VALUE",
     151: "TRIGGER_SPELL_2",
-    # --- W4-1: verified bucket-A additions (standard 3.3.5a, repo just missing the
+    # --- verified bucket-A additions (standard 3.3.5a, repo just missing the
     # name). Each id below was independently decoded from a golden spell against
-    # work/dbc/Spell.dbc BASE, not pasted from enum-triage.md on trust; see
-    # .superpowers/sdd/task-w4-1-report.md for the full log. The other 35 of the 44
-    # bucket-A effect ids in enum-triage.md have no individually-cited golden and are
-    # left numeric (EFFECT_<n>) per this task's binding rule.
+    # work/dbc/Spell.dbc BASE, not pasted from the triage doc on trust. The other
+    # 35 of the 44 bucket-A effect ids there have no individually-cited golden and
+    # are left numeric (EFFECT_<n>) per this repo's binding rule.
     108: "DISPEL_MECHANIC",  # golden 1604 Dazed, 8146 Tremor Totem Effect, 11641 Hex
     114: "ATTACK_ME",        # golden 355 Taunt, 6795 Growl
     128: "APPLY_AREA_AURA_FRIEND",  # golden 31634 Strength of Earth Totem
@@ -94,7 +92,7 @@ AURA_NAMES = {
     40: "DAMAGE_IMMUNITY", 41: "DISPEL_IMMUNITY", 42: "PROC_TRIGGER_SPELL",
     43: "PROC_TRIGGER_DAMAGE", 47: "MOD_PARRY_PERCENT", 49: "MOD_DODGE_PERCENT",
     51: "MOD_BLOCK_PERCENT",
-    52: "MOD_WEAPON_CRIT_PERCENT",  # [W4-1 bug fix] was "MOD_CRIT_PERCENT" - cosmetic
+    52: "MOD_WEAPON_CRIT_PERCENT", # [bug fix] was "MOD_CRIT_PERCENT" - cosmetic
     53: "PERIODIC_LEECH",
     54: "MOD_HIT_CHANCE", 55: "MOD_SPELL_HIT_CHANCE", 56: "TRANSFORM",
     57: "MOD_SPELL_CRIT_CHANCE", 60: "MOD_PACIFY_SILENCE", 61: "MOD_SCALE",
@@ -117,15 +115,15 @@ AURA_NAMES = {
     140: "MOD_RANGED_HASTE", 142: "MOD_BASE_RESISTANCE_PCT",
     143: "MOD_RESISTANCE_EXCLUSIVE", 144: "SAFE_FALL", 154: "MOD_STEALTH_LEVEL",
     189: "MOD_RATING",
-    200: "MOD_XP_PCT",  # [W4-1 bug fix] was "MOD_KILL_XP_PCT" - cosmetic
+    200: "MOD_XP_PCT", # [bug fix] was "MOD_KILL_XP_PCT" - cosmetic
     226: "PERIODIC_DUMMY",
     228: "DETECT_STEALTH", 231: "PROC_TRIGGER_SPELL_WITH_VALUE",
-    # --- W4-1: verified bucket-A additions (standard 3.3.5a, repo just missing the
+    # --- verified bucket-A additions (standard 3.3.5a, repo just missing the
     # name). Each id below was independently decoded from a golden spell against
-    # work/dbc/Spell.dbc BASE; see .superpowers/sdd/task-w4-1-report.md. The other
-    # 106 of the 129 bucket-A aura ids in enum-triage.md have no individually-cited
-    # golden and are left numeric (AURA_<n>) per this task's binding rule.
-    # [W4-1 review fix] found hiding in enum-triage.md's bucket-B prose (the EFF190
+    # work/dbc/Spell.dbc BASE, not pasted from the triage doc on trust. The other
+    # 106 of the 129 bucket-A aura ids there have no individually-cited
+    # golden and are left numeric (AURA_<n>) per this repo's binding rule.
+    # [review fix] found hiding in enum-triage.md's bucket-B prose (the EFF190
     # discussion), not its own table - golden 300240 Curse of the Lich slot2/3,
     # aura=71 misc=16=Frost, tooltip "increases the Frost critical strike chance of
     # you and your summons".
@@ -154,13 +152,13 @@ AURA_NAMES = {
     308: "MOD_CRIT_CHANCE_FOR_CASTER",   # golden 23552 Lightning Shield slot2
 }
 
-# --- W4-1: Ascension-custom overlay (id >= 165 for effects / >= 317 for auras cannot
+# --- Ascension-custom overlay (id >= 165 for effects / >= 317 for auras cannot
 # be canonical 3.3.5a - TOTAL_SPELL_EFFECTS=165, TOTAL_AURAS=317). Kept SEPARATE from
 # EFFECT_NAMES/AURA_NAMES so a custom mechanic is never mistaken for a genuine 3.3.5a
 # one, and so effect_name()/aura_name() can report a decode failure (EFFECT_<n>/
 # AURA_<n>) as visibly distinct from both a canonical and a COA_ name. Every entry
 # below was independently decoded from a cited golden spell against work/dbc/Spell.dbc
-# BASE by this task; see .superpowers/sdd/task-w4-1-report.md.
+# BASE.
 COA_EFFECT_NAMES = {
     165: "COA_MODIFY_COOLDOWN",       # misc=spellId, value=deltaMs; golden 270151
                                        # "Blink CDR" misc=1953=Blink val=-10000 (exact)
@@ -231,7 +229,7 @@ COA_AURA_NAMES = {
                                                    # (exact match)
 }
 
-# --- W4-1: full bucket classification for the _enum_evidence.json sidecar
+# --- full bucket classification for the _enum_evidence.json sidecar
 # (data/spells/_enum_evidence.json, written by tools/build_spells.py). Every
 # entry's bucket/name/goldenSpells is fixed research knowledge from this task;
 # build_spells.py combines it with LIVE occurrence counts (trap-1 aura-slot-
@@ -481,7 +479,7 @@ TARGET_NAMES = {
 
 
 def effect_name(n):
-    """Canonical name -> COA_ overlay -> numeric fallback (task W4-1)."""
+    """Canonical name -> COA_ overlay -> numeric fallback."""
     if n in EFFECT_NAMES:
         return EFFECT_NAMES[n]
     if n in COA_EFFECT_NAMES:
@@ -490,7 +488,7 @@ def effect_name(n):
 
 
 def aura_name(n):
-    """Canonical name -> COA_ overlay -> numeric fallback (task W4-1)."""
+    """Canonical name -> COA_ overlay -> numeric fallback."""
     if n in AURA_NAMES:
         return AURA_NAMES[n]
     if n in COA_AURA_NAMES:

@@ -1,7 +1,7 @@
-"""TDD gate for task W4-11: items layer (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8 +
+"""TDD gate for the items layer (DATAMINE-REQUEST.md Sec 8 +
 Sec 13 items 14/15/16/20/21). Split into sections per sub-task letter, each
 independently re-derived against a fresh 2026-08-06 extraction (not copied from the
-source doc) - see .superpowers/sdd/task-w4-11-report.md for the full log.
+source doc).
 """
 import csv, gzip, json, sys
 from pathlib import Path
@@ -297,7 +297,7 @@ for r in ivd:
     near_1_6m += sum(1 for v in candidates if v and abs((v - n) - 1600000) < 50)
 assert near_1_6m == 0
 
-# cross-reference against Item.dbc (this task's own W4-11a addition)
+# cross-reference against Item.dbc (this file's own addition)
 item_ids = {row[0] for row in dbc.DBCFile(config.WORK_DBC_DIR / "Item.dbc").iter_rows()}
 normal_ids = [r["Normal"] for r in ivd if r["Normal"]]
 normal_hits = sum(1 for i in normal_ids if i in item_ids)
@@ -325,7 +325,7 @@ specs = specs_doc["specs"]
 by_id = {s["id"]: s for s in specs}
 assert "tabStatusSummary" in specs_doc
 
-# [Task W4-14] re-derived against the LIVE builder and renamed - the old states
+# re-derived against the LIVE builder and renamed - the old states
 # (live/shippedExternal/unreleased/noTabLayer) are gone because "live" there meant
 # only "a CAD tab with this token exists", a claim about the catalog rather than the
 # game. tests/test_live_flags.py is the full gate for the new derivation; what stays
@@ -350,9 +350,9 @@ assert by_id[31]["tabStatus"] == {"status": "inLiveBuilder", "cadTab": "Displace
                                   "liveTab": "Time", "match": "specName",
                                   "renamed": True}
 
-# W4-9's "5 of Sec 11's 7 tokens shipped" finding: all 5 still resolve, now by
+# The earlier "5 of Sec 11's 7 tokens shipped" finding: all 5 still resolve, now by
 # mechanism (the spec's own name is the live-generation label) rather than the
-# pinned token table W4-11e read out of data/talents/coa/_meta.json
+# pinned token table read out of data/talents/coa/_meta.json
 SHIPPED = {
     25: ("Fleshweaver", "FLESHWEAVER"), 47: ("Valkyrie", "VALKYR"),
     60: ("Mountain King", "MOUNTAINKING"), 97: ("Black Knight", "WITCHKNIGHT"),
@@ -363,7 +363,7 @@ for sid, (name, token) in SHIPPED.items():
     assert by_id[sid]["tabStatus"]["status"] == "inLiveBuilder"
     assert by_id[sid]["tabStatus"]["liveTab"] == name
 
-# ...and the 2 W4-9 could NOT place (its "unmatchedExtraTabs") are now attributed by
+# ...and the 2 the token table could NOT place (its "unmatchedExtraTabs") are now attributed by
 # the same mechanism, so Sec 11's unreleased list is empty rather than 7 or 2
 FORMERLY_UNRELEASED = {45: ("Warden", "HYDROMANCY"), 96: ("Dreadnought", "BULWARK")}
 for sid, (name, token) in FORMERLY_UNRELEASED.items():

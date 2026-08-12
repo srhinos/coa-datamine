@@ -1,7 +1,6 @@
-"""Task W4-1 gate: enum truth pass (coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5 +
+"""Enum truth pass (DATAMINE-REQUEST.md Sec 1.5 +
 analysis/enum-triage.md). Every fix and addition below was independently re-decoded
-against work/dbc/Spell.dbc BASE by this task - see
-.superpowers/sdd/task-w4-1-report.md for the full per-golden log. This file
+against work/dbc/Spell.dbc BASE. This file
 re-verifies them fresh at test time (not trusted from generation time): the 4 repo
 bug fixes, the canonical/COA_ lookup order, a bulk sweep of every goldenSpells entry
 in enums335.ENUM_EVIDENCE, exact-value spot checks on a sample of additions, the two
@@ -65,7 +64,7 @@ assert not (set(enums335.AURA_NAMES) & set(enums335.COA_AURA_NAMES))
 # ---- every id actually wired into a name table must have a documented golden in
 # ENUM_EVIDENCE - no name reaches enums335.py without a transcribed, checkable golden
 W4_1_EFFECT_ADDITIONS = {108, 114, 128, 129, 140, 141, 148, 149, 164}
-# [W4-1 review fix] aura 71 MOD_SPELL_CRIT_CHANCE_SCHOOL: golden 300240 Curse of the
+# [review fix] aura 71 MOD_SPELL_CRIT_CHANCE_SCHOOL: golden 300240 Curse of the
 # Lich was hiding in enum-triage.md's bucket-B prose (the EFF190 discussion), not its
 # own table - this task's Part-3 verification pass had already decoded aura=71
 # misc=16 on that spell but missed wiring the name itself. Caught on review.
@@ -128,7 +127,7 @@ assert bloodlust["effectAura3"] == 192 and bloodlust["effectBasePoints3"] + 1 ==
 sword_spec = SPELLS[12814]
 assert sword_spec["effectAura2"] == 333 and sword_spec["effectBasePoints2"] + 1 == 4
 
-# [W4-1 review fix] aura 71 MOD_SPELL_CRIT_CHANCE_SCHOOL - golden 300240 Curse of the
+# [review fix] aura 71 MOD_SPELL_CRIT_CHANCE_SCHOOL - golden 300240 Curse of the
 # Lich, aura=71 on slots 2 and 3, misc=16 (Frost school mask)
 curse_of_lich = SPELLS[300240]
 assert curse_of_lich["effectAura2"] == 71 and curse_of_lich["effectMiscValue2"] == 16
@@ -193,7 +192,7 @@ evidence = json.loads((sdir / "_enum_evidence.json").read_text(encoding="utf-8")
 assert set(evidence) == {"effects", "auras", "_note", "summary"}
 assert evidence["summary"]["effectIds"] == 66
 assert evidence["summary"]["auraIds"] == 158
-# [W4-1 review fix] "classified" (has a sidecar entry) vs "wired" (actually resolves
+# [review fix] "classified" (has a sidecar entry) vs "wired" (actually resolves
 # via effect_name()/aura_name()) are distinct counts - see build_spells.py's comment
 assert evidence["summary"]["classifiedIds"] == 224 == \
     evidence["summary"]["effectIds"] + evidence["summary"]["auraIds"]

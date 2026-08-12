@@ -1,5 +1,5 @@
-"""Task W4-4 gate: formula-reference closure, level-60 rank selection, $scalingbp
-constant, devDead flag (coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.6-1.8 + Sec 4
+"""Formula-reference closure, level-60 rank selection, $scalingbp
+constant, devDead flag (DATAMINE-REQUEST.md Sec 1.6-1.8 + Sec 4
 trap 17).
 
 Every figure below is independently re-derived in this test (not copied from

@@ -23,7 +23,7 @@ share literally the same RequiredLevel (mostly 1), so no level-band width shrink
 that cluster - cadId-range is the only one of the amendment's two sanctioned
 mechanisms that actually gets every file under the gate.
 
-[Task W4-14] Every entry now also carries `live` + `liveEvidence`, joined against
+Every entry now also carries `live` + `liveEvidence`, joined against
 the live talent-builder capture (tools/coa_live.py, which owns the rule and the
 payload parser both writers share). THIS FILE IS A CATALOG, NOT THE GAME: the CAD
 tables list content that is no longer in the live trees at all (a real level-60
@@ -57,7 +57,7 @@ REALM_HINT = {
     "meta": None,
 }
 
-# [Task W4-8] the 6-realm roster DATAMINE-REQUEST.md Sec 6.2 asks the `Realms`
+# the 6-realm roster DATAMINE-REQUEST.md Sec 6.2 asks the `Realms`
 # bitmask to be decoded against - see _realms_evidence() below.
 REALM_ROSTER = ["Vol'jin", "Rexxar", "Darkmoon", "Dawnrise", "Bronzebeard", "Area 52"]
 
@@ -155,12 +155,12 @@ def _bits(v):
 
 
 def _realms_evidence(cad) -> dict:
-    """Task W4-8 (DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10): attempt to decode
+    """Attempt to decode
     the CAD `Realms` bitmask against REALM_ROSTER using the same reborn/vanilla/
     coa-custom class tags _tag() already computes, per the brief's golden bar - "a
     bit assignment must correctly classify >=3 independent known groups".
 
-    Verdict (see the `verdict` key below and .superpowers/sdd/task-w4-8-report.md
+    Verdict (see the `verdict` key below
     for the full writeup): FAILED the golden bar. Reborn gets a clean, if
     circumstantial, single-group signal (bit 16, backed by a client-code realm-id
     citation - see luaFindings); no bit separates coa-custom or vanilla anywhere
@@ -304,7 +304,7 @@ def _realms_evidence(cad) -> dict:
         },
     ]
 
-    # [Task W4-8 review follow-up] broaderFieldSweep: re-derive, on the live
+    # [review follow-up] broaderFieldSweep: re-derive, on the live
     # dataset, the reviewer's independent full-field correlation sweep (Quality,
     # RequiredLevel, Tab) - every one of these resolves to the SAME Type/talent-
     # node tautology as bit 26/best_coa_bit above, not a new realm signal, but
@@ -348,7 +348,7 @@ def _realms_evidence(cad) -> dict:
         },
     }
 
-    # [Task W4-8 review follow-up] knownAnomalies: DeathKnight's Realms
+    # [review follow-up] knownAnomalies: DeathKnight's Realms
     # distribution among the 10 vanilla classes stands out - it never carries
     # the dominant vanilla value (134218784, present in all other 9) and is
     # instead dominated by near-all-1s/sparse values. Unexplained; left as a
@@ -376,8 +376,8 @@ def _realms_evidence(cad) -> dict:
     }]
 
     return {
-        "_generatedBy": "tools/build_classes.py:_realms_evidence (task W4-8)",
-        "task": "W4-8: decode the CAD `Realms` bitmask "
+        "_generatedBy": "tools/build_classes.py:_realms_evidence",
+        "task": "decode the CAD `Realms` bitmask "
                 "(DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10)",
         "realmRoster": REALM_ROSTER,
         "totalEntries": total,
@@ -471,7 +471,7 @@ def _realms_evidence(cad) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# [Task W4-14] live/dead join - see tools/coa_live.py for the rule itself.
+# live/dead join - see tools/coa_live.py for the rule itself.
 # ---------------------------------------------------------------------------
 
 # node-overlap thresholds, used ONLY as the last-resort mapping method (and as
@@ -486,7 +486,7 @@ MIN_OVERLAP_SHARE = 0.30
 def _chr_specs_by_class(chr_by_norm, chr_by_filename) -> dict:
     """classId -> [{specId, specName, tabToken}] from ChrSpecs.dbc, joined to
     ChrClasses the same way build_classmeta does (display name, falling back to
-    `filename` - task W4-5). ChrSpecs is the ONE in-client table that carries both
+    `filename`). ChrSpecs is the ONE in-client table that carries both
     generations of a spec tab's identity at once: `tabToken` is the OLD CAD tab
     string (Starcaller TIDES) and `name` is the CURRENT live-builder tab name
     (Moon Priest) - which is what makes the CAD-tab -> live-tab mapping below an
@@ -575,7 +575,7 @@ def _tab_mapping(cad_tabs, class_live, specs, overlap) -> dict:
 
 
 class _FalseNegativeMeter:
-    """[Task W4-14, requirement 2] MEASURE the false-negative risk instead of
+    """MEASURE the false-negative risk instead of
     hand-waving it. The builder payload shows the TREES; anything CoA grants
     outside a tree looks dead here while being live in game. Accumulated over
     every class that HAS geometry (classes without it are `unknownNoGeometry`
@@ -834,8 +834,8 @@ def _live_summary(live, per_class, tab_maps, fn, identity_agreement) -> dict:
     agree = [r for m in tab_maps.values() for r in m["mapped"]
              if r["agreesWithNodeOverlap"] is not None]
     return {
-        "_generatedBy": "tools/build_classes.py:_live_summary (task W4-14)",
-        "task": ("W4-14: join live-talent-builder truth onto the CAD catalog so "
+        "_generatedBy": "tools/build_classes.py:_live_summary",
+        "task": ("join live-talent-builder truth onto the CAD catalog so "
                  "consumers stop reading the catalog as if it were the game"),
         "method": {
             "rule": (
@@ -934,7 +934,7 @@ def _ground_truth_check(per_class, tab_maps) -> dict:
     game. Both must fall out of the join; pinned again in tests/test_live_flags.py."""
     sc = per_class.get("Starcaller", {})
     return {
-        "source": "level-60 Starcaller player report (task W4-14 brief)",
+        "source": "level-60 Starcaller player report",
         "starcallerLiveTabs": sc.get("liveTabs"),
         "starcallerLiveTabsExpected": ["Class", "Moon Guard", "Moon Priest",
                                        "Sentinel", "Warden"],
@@ -1022,7 +1022,7 @@ def build() -> dict:
     spells = _spell_min()
     chr_classes = list(dbc.iter_named("ChrClasses"))
     chr_by_norm = {_norm(c["name_enUS"]): c for c in chr_classes}
-    # [Task W4-5] filename fallback join (DATAMINE-REQUEST.md Sec 11 / Sec 4 trap 6):
+    # filename fallback join (DATAMINE-REQUEST.md Sec 11 / Sec 4 trap 6):
     # 3 CAD class dirs (DemonHunter/Monk/SonOfArugal) have no ChrClasses row matching
     # their display name at all - their content is filed under a DIFFERENT display
     # name (Felsworn/Templar/Bloodmage, ChrClasses ids 14/19/20) whose `filename`
@@ -1037,7 +1037,7 @@ def build() -> dict:
         groups["_other" if cls in META else cls].append(e)
 
     # Amendment D (single-writer ownership): this builder owns only the per-class
-    # subdirectories, the top-level index.json, and (task W4-8) _realms_evidence.json
+    # subdirectories, the top-level index.json, and _realms_evidence.json
     # it writes below - NOT the whole data/classes/ directory. build_classmeta.py's
     # specs.json/archetypes.json live alongside these and must survive a
     # build_classes rerun untouched.
@@ -1050,7 +1050,7 @@ def build() -> dict:
     unresolved_reborn = unresolved_other = 0
     refs_reborn = refs_other = 0
 
-    # [Task W4-14] live/dead join inputs. live_index() parses the frozen builder
+    # live/dead join inputs. live_index() parses the frozen builder
     # capture once per process (lru_cached) and is the SAME parse build_coatalents
     # uses; alt_acquisition_index() is the non-tree-grant probe set.
     live = coa_live.live_index()
@@ -1108,7 +1108,7 @@ def build() -> dict:
         base_cls = cls.removeprefix("Reborn") if cls.startswith("Reborn") else cls
         chr_match = None if cls == "_other" else (
             chr_by_norm.get(_norm(base_cls)) or chr_by_filename.get(_norm(base_cls)))
-        # [Task W4-5] ClassRemap aliases (raw/interface/FrameXML/Data/
+        # ClassRemap aliases (raw/interface/FrameXML/Data/
         # CharacterAdvancement.lua): when the matched row's `filename` token isn't
         # just an uppercase of this CAD class's own name, it's a real alias the
         # client's own ClassRemap table carries (Runemaster->SPIRITMAGE, Primalist->
@@ -1123,7 +1123,7 @@ def build() -> dict:
                 alias = chr_match["filename"]
         realm_hint = REALM_HINT[tag]
 
-        # [Task W4-14] stamp live/liveEvidence. class_live is None for every class
+        # stamp live/liveEvidence. class_live is None for every class
         # with no builder file (the 10 vanilla + 11 Reborn/meta dirs) - those get
         # `unknownNoGeometry`, never a bare false.
         class_id = chr_match["id"] if chr_match else None
@@ -1186,7 +1186,7 @@ def build() -> dict:
             "entryCount": len(entries),
             "unresolvedCount": class_unresolved,
             "entryCounts": dict(Counter(x["type"] for x in entries)),
-            # [Task W4-14] live/deadCatalog/liveViaRank/unknown - sums to
+            # live/deadCatalog/liveViaRank/unknown - sums to
             # entryCount. `live` counts only direct spell-id hits; entries with
             # live==true are live + liveViaRank. `unknown` merges the two
             # live==null reasons (indeterminate + unknownNoGeometry), split out
@@ -1247,7 +1247,7 @@ def build() -> dict:
     }
     (cdir / "index.json").write_text(sharding.dump_manifest(index), encoding="utf-8", newline="\n")
 
-    # [Task W4-8] Realms-bitmask decode attempt (DATAMINE-REQUEST.md Sec 6.2) -
+    # Realms-bitmask decode attempt (DATAMINE-REQUEST.md Sec 6.2) -
     # see _realms_evidence()'s docstring for the verdict. Evidence-only: does NOT
     # touch any class entry's raw `realms` field (still e.get("Realms", "") above,
     # unchanged) since nothing cleared the golden bar.
@@ -1256,7 +1256,7 @@ def build() -> dict:
         json.dumps(realms_evidence, indent=1, sort_keys=True, ensure_ascii=False),
         encoding="utf-8", newline="\n")
 
-    # [Task W4-14] live/dead summary - totals, the measured false-negative risk,
+    # live/dead summary - totals, the measured false-negative risk,
     # the tab mapping + its evidence, and the payload provenance/caveat.
     summary = _live_summary(live, live_per_class, tab_maps, fn,
                             identity_agreement)

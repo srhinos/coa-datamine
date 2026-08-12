@@ -36,9 +36,9 @@ realm subdirectory is live-play evidence the base directory does not carry.
 PROVENANCE
 ----------
 The `WIDB` (item) field order is ported from
-`coa-sim-handoff/parsers/wdb_item.py`, which took it from TrinityCore 3.3.5's
+`a published itemcache.wdb parser`, which took it from TrinityCore 3.3.5's
 `WorldSession::HandleItemQuerySingleOpcode`. The `WMOB` (creature) reading is
-ported from `coa-sim-handoff/parsers/wdb2.py`, extended past the two float
+ported from `a published creaturecache.wdb parser`, extended past the two float
 modifiers it stopped at. The rest (`WGOB`, `WNDB`, `WITX`, `WPTX`, `WNPC`,
 `WQST`) follow the matching 3.3.5 query-response opcode handlers. Every one of
 them is generalized here to any .wdb file carrying that magic, in any directory.
@@ -244,7 +244,7 @@ _WQST = ([("questId", "u"), ("method", "u"), ("level", "i"), ("minLevel", "u"),
 # WIDB is the one layout with a run-time-sized member: `statsCount` stat pairs.
 # It is expressed as the "*u,i" variable run rather than as special-case code, so
 # it goes through the same decoder and the same exact-consumption gate as every
-# other layout. Field order ported from coa-sim-handoff/parsers/wdb_item.py
+# other layout. Field order ported from a published itemcache.wdb parser
 # (TrinityCore 3.3.5 item query response).
 _WIDB_HEAD = ([("class", "u"), ("subclass", "u"), ("soundOverrideSubclass", "i")] +
               _rep("name{}", "s", 4) +
@@ -288,8 +288,8 @@ SCHEMAS = {"WMOB": _WMOB, "WGOB": _WGOB, "WNDB": _WNDB, "WITX": _WITX,
            "WIDB": _WIDB}
 
 SCHEMA_SOURCE = {
-    "WIDB": "coa-sim-handoff/parsers/wdb_item.py (TrinityCore 3.3.5 item query response)",
-    "WMOB": "coa-sim-handoff/parsers/wdb2.py, extended past its two float modifiers",
+    "WIDB": "a published itemcache.wdb parser (TrinityCore 3.3.5 item query response)",
+    "WMOB": "a published creaturecache.wdb parser, extended past its two float modifiers",
     "WGOB": "3.3.5 gameobject query response",
     "WNDB": "3.3.5 item-name query response",
     "WITX": "3.3.5 item-text query response",

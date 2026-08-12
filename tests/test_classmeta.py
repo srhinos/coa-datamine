@@ -1,4 +1,4 @@
-"""TDD gate for task V2-3: class/spec metadata pack (ChrSpecs -> specs.json,
+"""TDD gate for the class/spec metadata pack (ChrSpecs -> specs.json,
 CharacterCreationArchetypes(+Details) -> archetypes.json).
 
 Amendment D (single-writer ownership): build_classmeta owns specs.json/archetypes.json
@@ -8,7 +8,7 @@ proves the ownership boundary survives a partial rebuild: rerunning build_classe
 after build_classmeta.build() must NOT delete specs.json/archetypes.json.
 
 Per the empirical-mapping rule, this also pins the NEGATIVE findings documented in
-.superpowers/sdd/task-v2-3-report.md and tools/dbc.py's TABLE_MAPS comments: ChrSpecs'
+tools/dbc.py's TABLE_MAPS comments: ChrSpecs'
 low-cardinality "role" candidate (f63) was probed against Tank/Healer/DPS semantics and
 against "ordinal spec position" and DISPROVEN both ways - it ships raw as f63, not a
 named "role" field."""
@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from tools import config
 from tools import build_classes, build_classmeta, build_coatalents, build_spells
 
-# [Task W4-11e] build_classmeta now reads data/talents/coa/_meta.json (the W4-9
+# build_classmeta now reads data/talents/coa/_meta.json (the
 # sec11UnreleasedSpecsShipped finding, for specs.json's tabStatus reconciliation) -
 # matches tools/curate.py's real stage order (spells -> classes -> coatalents ->
 # ... -> classmeta), not the old classes-then-classmeta-only shape this test used.
@@ -62,7 +62,7 @@ assert by_id[85]["armorType"] == "Cloth"     # Mage Arcane
 assert by_id[73]["armorType"] == "Leather"   # Rogue Assassination
 assert by_id[70]["armorType"] == "Mail"      # Hunter Beast Mastery
 
-# [Task W4-5] DEMONHUNTER classToken now resolves via the filename fallback join -
+# DEMONHUNTER classToken now resolves via the filename fallback join -
 # it's not a display name, it's ChrClasses id14's `filename` column (display name
 # "Felsworn"). Previously null/null before that fallback existed.
 assert by_id[7]["classId"] == 14 and by_id[7]["className"] == "Felsworn"

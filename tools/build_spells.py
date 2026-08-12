@@ -7,7 +7,7 @@ Amendment C: output is sharded data/spells/by-id/spells-<id//BUCKET_SIZE*BUCKET_
 + data/spells/index.json (bucket manifest); _meta.json keeps counts only, full
 missing-ref id lists live in _missing_refs.json (one line per source array).
 
-Task V2-4: records gain proven enrichment fields ONLY where data exists (no
+Records gain proven enrichment fields ONLY where data exists (no
 null-noise) - tags (SpellTags/SpellTagTypes), customAttr (SpellCustomAttr),
 descriptionVariables (SpellDescriptionVariables via the existing
 spellDescriptionVariableID column), category (SpellCategory via the existing
@@ -18,8 +18,8 @@ SpellAlternativePowerType (no provable per-spell link), and a "charges" block
 pointing at data/spells/charges.json - SpellCharges/SpellChargesCategory are
 proven internally but SpellCharges' link to live Spell.dbc rows misses the
 brief's >=90% attach bar, so they ship curated STANDALONE (own file, not
-per-spell fields) instead of report-only. Task W4-10 adds the same standalone-file
-shape for SpellStatSuggestions -> data/spells/statSuggestions.json (proven spellId
+per-spell fields) instead of report-only. The same standalone-file shape is used
+for SpellStatSuggestions -> data/spells/statSuggestions.json (proven spellId
 key, unproven payload category kept raw and clearly flagged)."""
 import csv, gzip, json, re, shutil
 from collections import Counter, defaultdict
@@ -37,7 +37,7 @@ FOREIGN_FILES = (
     "_coverage_live.json",      # tools/coverage_live.py
 )
 
-# [Task W4-4] Formula-reference closure (DATAMINE-REQUEST.md Sec 1.6): CoA authors
+# Formula-reference closure (DATAMINE-REQUEST.md Sec 1.6): CoA authors
 # damage scaling in description/tooltip text, and 622/1,694 CoA damaging spells
 # cross-reference ANOTHER spell id from their own formula (e.g. Crusader's Brand
 # 300513's tooltip reads "${$573020m1*$<scalingbp>+...}" - it needs 573020's own m1
@@ -135,7 +135,7 @@ def _formula_ref_ids(text):
     return ids
 
 
-# [Task W4-4] DATAMINE-REQUEST.md Sec 4 trap 17: dev-dead content ships in the data
+# DATAMINE-REQUEST.md Sec 4 trap 17: dev-dead content ships in the data
 # with an unmistakable authored marker. Verified by scanning every Spell.dbc
 # description/tooltip for the literal phrase (not a loose "does not work" substring
 # - that also matches ordinary tooltip caveats like Pyrolate's "Does not work with
@@ -257,7 +257,7 @@ def _bucket(tags, cad_other_ids, cad_reborn_ids, sid):
 
 
 def _rank_at_60_map():
-    """[Task W4-4] Per rank chain (grouped by SpellRankData's firstSpellId), the top
+    """Per rank chain (grouped by SpellRankData's firstSpellId), the top
     rank whose CAD level (SpellRankData.json's own "level" field) is <= 60 -
     DATAMINE-REQUEST.md Sec 1.7: a consumer taking ranks[-1] (global top) gets an
     ability the player cannot have at the level-60 cap on 92.2% of multi-rank CoA
@@ -292,7 +292,7 @@ def _rank_at_60_map():
 
 
 def _scalingbp_constant():
-    """[Task W4-4] DATAMINE-REQUEST.md Sec 1.8: CoA's one global base-point level
+    """DATAMINE-REQUEST.md Sec 1.8: CoA's one global base-point level
     curve, SpellDescriptionVariables.dbc row id 182, referenced by 550 spells via the
     literal token "$<scalingbp>" in their formula text (both figures re-derived
     fresh against work/dbc, not copied - see task report). Coefficients are parsed
@@ -353,7 +353,7 @@ def _aux():
 
 
 def _spell_tags(ref_ids):
-    """Task V2-4: SpellTags.dbc has 488,661 rows - stream raw ints directly (no
+    """SpellTags.dbc has 488,661 rows - stream raw ints directly (no
     per-row dict via dbc.iter_named) and keep only rows whose proven spellId (f1)
     is in the referenced-spell set, per the brief's memory-streaming note. tagTypeId
     (f2) resolves through SpellTagTypes.name_enUS (f27, proven - see dbc.py).
@@ -416,7 +416,7 @@ def _override_spell_data():
 
 
 def _v2_aux(ref_ids):
-    """Task V2-4 enrichment lookups, built once per build() call. SpellCharges/
+    """Enrichment lookups, built once per build() call. SpellCharges/
     SpellChargesCategory and SpellAlternativePowerType are proven internally (see
     dbc.py) but attach nothing to spell records - documented in _meta.enrichment
     instead (see build())."""
@@ -507,7 +507,7 @@ def _record(r, aux, tags, v2, ident=None, classes_with_geometry=frozenset()):
             "mechanic": {"id": r[f"effectMechanic{slot}"],
                          "name": a["mech"].get(r[f"effectMechanic{slot}"], "None")},
         }
-        # [Task W4-3] 5 new per-effect columns (DATAMINE-REQUEST.md Sec 1.2/1.4),
+        # 5 new per-effect columns (DATAMINE-REQUEST.md Sec 1.2/1.4),
         # all omitted from this slot's dict when their raw DBC value is the
         # literal zero word - consistent with the v2 enrichment convention
         # (_enrich_v2 below: "no null-noise", absent key not null) rather than
@@ -584,7 +584,7 @@ def _record(r, aux, tags, v2, ident=None, classes_with_geometry=frozenset()):
         "runeCost": ({"blood": rune["blood"], "unholy": rune["unholy"],
                       "frost": rune["frost"], "runicPower": rune["runicPower"]}
                      if rune else None),
-        # [Task W4-3] spell-level columns from DATAMINE-REQUEST.md Sec 1.3 (8
+        # spell-level columns from DATAMINE-REQUEST.md Sec 1.3 (8
         # already-mapped-but-dropped columns - zero new column proofs, re-
         # verified fill rates against work/dbc anyway) + Sec 1.4 (equipped-item
         # sub-masks + spellMissileID). Always present, matching this record's
@@ -612,7 +612,7 @@ def _record(r, aux, tags, v2, ident=None, classes_with_geometry=frozenset()):
     }
     rec["live"], rec["liveEvidence"] = _live_stamp(sid, tags, ident,
                                                    classes_with_geometry)
-    # [Task W4-4] rankAt60 (Sec 1.7): emitted only on the chain's OWN first-rank
+    # rankAt60 (Sec 1.7): emitted only on the chain's OWN first-rank
     # record (rankChain.first == this record's id, i.e. sid == rank["firstSpellId"])
     # - a per-chain convenience field belongs on one record, not duplicated across
     # every rank. Omitted (no null-noise) when the chain has no rank <= CAD level 60
@@ -621,7 +621,7 @@ def _record(r, aux, tags, v2, ident=None, classes_with_geometry=frozenset()):
         r60 = a["rankAt60"].get(sid)
         if r60:
             rec["rankAt60"] = r60
-    # [Task W4-4] devDead (Sec 4 trap 17): literal marker text, re-verified by scan
+    # devDead (Sec 4 trap 17): literal marker text, re-verified by scan
     # (see DEV_DEAD_MARKER's docstring) - not a loose "does not work" substring,
     # which false-positives on ordinary tooltip caveats.
     dead_text = (r["description_enUS"] or "") + (r["tooltip_enUS"] or "")
@@ -632,7 +632,7 @@ def _record(r, aux, tags, v2, ident=None, classes_with_geometry=frozenset()):
 
 
 def _enrich_v2(rec, r, sid, v2):
-    """Task V2-4: add enrichment keys ONLY where proven data exists for this spell -
+    """Add enrichment keys ONLY where proven data exists for this spell -
     no null-noise (binding rule: absent keys are omitted entirely, never null)."""
     spell_tags = v2["tags"].get(sid)
     if spell_tags:
@@ -655,7 +655,7 @@ def _enrich_v2(rec, r, sid, v2):
 
 
 def _charges_realm_check(non_joining_refs: set) -> dict:
-    """[Task W4-11f] DATAMINE-REQUEST.md Sec 11's own open question about the
+    """DATAMINE-REQUEST.md Sec 11's own open question about the
     SpellCharges join gap: "a path to closing the join would be valuable" - are the
     base-non-joining refs realm-overlay ids, or dead? For each realm whose own
     Spell.dbc dump is already committed (raw/realms/<realm>/dbc/Spell.csv.gz -
@@ -682,7 +682,7 @@ def _charges_realm_check(non_joining_refs: set) -> dict:
 
 
 def _build_charges(out_dir):
-    """SpellCharges/SpellChargesCategory (Task V2-4 review fix): the brief's fallback
+    """SpellCharges/SpellChargesCategory (review fix): the brief's fallback
     for a sub-90%-proven link is to ship the tables curated STANDALONE, not just
     report join statistics - writes data/spells/charges.json (build_spells owns
     data/spells/, single-writer rule unaffected) and returns the _meta.json
@@ -694,7 +694,7 @@ def _build_charges(out_dir):
     Full evidence (incl. the tooltip-text semantic corroboration among
     resolved rows) is in dbc.py's TABLE_MAPS comment.
 
-    [Task W4-11f] Characterizes the non-joining refs against realm-overlay Spell
+    Characterizes the non-joining refs against realm-overlay Spell
     data (see _charges_realm_check above) and only flips "attached"/re-derives the
     join rate if PROVEN-dead refs (resolving in NEITHER the base client NOR any
     committed realm overlay) can be excluded to legitimately clear the 0.90 bar -
@@ -772,7 +772,7 @@ def _build_charges(out_dir):
         "_note": (f"SpellCharges 'ref' resolves to a Spell.dbc id for {spell_rate:.2%} "
                   "of rows in this snapshot (below the 90% attach bar); carried "
                   "standalone, not attached to spell records. See "
-                  "'realmGapFinding' below (task W4-11f) for the full "
+                  "'realmGapFinding' below for the full "
                   "characterization of the non-joining refs. NOTE: '_meta.json's "
                   "enrichment.charges.attached' is a reporting-only verdict on "
                   "whether the join clears 0.90 after proven-dead exclusions - it "
@@ -794,7 +794,7 @@ def _build_charges(out_dir):
                    "being proven at 100% and 95.45% of the ref hits mentioning "
                    "'charge' in their tooltip/description text - shipped standalone "
                    "in data/spells/charges.json instead of report-only; see dbc.py "
-                   "TABLE_MAPS comment for the full writeup. Task W4-11f "
+                   "TABLE_MAPS comment for the full writeup. That pass "
                    "investigated the gap: the non-joining refs are realm-overlay "
                    "content (not dead), which doesn't legitimately raise the base "
                    "attach rate - see charges.json's realmGapFinding."),
@@ -810,7 +810,7 @@ def _build_charges(out_dir):
 
 
 def _build_stat_suggestions(out_dir):
-    """[Task W4-10] SpellStatSuggestions.dbc (coa-sim-handoff/DATAMINE-REQUEST.md
+    """SpellStatSuggestions.dbc (DATAMINE-REQUEST.md
     Sec 5.2's "cheap win"): 1121 rows, f1 golden-proven spellId (99.91% join vs live
     Spell.dbc ids; row id=1 decodes to (1, 10, 3, 1), an exact match to the doc's own
     cited sample "spell 10 is Blizzard"). Shipped standalone at
@@ -869,14 +869,12 @@ def _build_stat_suggestions(out_dir):
 
 
 def _coa_class_spell_ids():
-    """[Task W4-3] The "CoA class set" DATAMINE-REQUEST.md's per-column fill-rate
+    """The "CoA class set" DATAMINE-REQUEST.md's per-column fill-rate
     figures are measured against: every spell id (incl. every rank-chain id)
     referenced by any of the 21 coa-custom-tagged classes in data/classes/,
     intersected with live Spell.dbc ids. Re-derivation reproduces the doc's own
     counts EXACTLY (6,436 total ids / 6,038 resolved in base Spell.dbc, matching
-    Sec 3's "base resolves 6,038/6,436" verbatim) - see
-    .superpowers/sdd/task-w4-3-report.md for the full per-column re-verification
-    log. Used by tests/test_spells_columns.py to re-verify every new column's
+    Sec 3's "base resolves 6,038/6,436" verbatim). Used by tests/test_spells_columns.py to re-verify every new column's
     fill rate against the doc's cited figures; NOT used by build() itself, since
     data/classes/ must already exist on disk (tools/curate.py's stage order
     runs spells before classes) - this can only run after build_classes has
@@ -915,7 +913,7 @@ def _coa_class_spell_ids():
     return ids
 
 
-# [Task W4-3] Per-column {mapped, emitted, where} classification for
+# Per-column {mapped, emitted, where} classification for
 # data/spells/_coverage.json (DATAMINE-REQUEST.md item 4's coverage-manifest ask).
 # "mapped" is implicitly True for every key here (all come from TABLE_MAPS["Spell"]);
 # "emitted" False means the column IS named/decoded but its value never reaches any
@@ -1033,7 +1031,7 @@ def _classify_spell_column(name):
 
 
 def _build_coverage(out_dir):
-    """Writes data/spells/_coverage.json (task W4-3 item 4: single-writer rule -
+    """Writes data/spells/_coverage.json (item 4: single-writer rule -
     build_spells owns data/spells/). Per DATAMINE-REQUEST.md's ask: for every
     TABLE_MAPS["Spell"] column, {mapped: true, emitted, where}, plus the
     unmapped-column count against the table's full 234-field width."""
@@ -1061,9 +1059,9 @@ def _build_coverage(out_dir):
             f"reach a spells.jsonl record in some form (direct passthrough or a resolved "
             f"join) and {mapped - emitted_count} are named but not emitted: "
             "manaCostPerLevel/maxTargetLevel/spellDifficultyID are the doc's confirmed "
-            "zero-fill skip list (Sec 1.4 - re-verified 0/6038 on the CoA class set before "
-            "skipping, per this task's binding rule), activeIconID has no consumer yet. "
-            "Task W4-3 (coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.2-1.4) added the 25 "
+            "zero-fill skip list (re-verified 0/6038 on the CoA class set before "
+            "skipping, per this repo's binding rule), activeIconID has no consumer yet. "
+            "The curated table carries the 25 "
             "columns needed for damage-scaling modeling: effectRealPointsPerLevel "
             "(f77-79), effectPointsPerComboPoint (f119-121), effectSpellClassMask "
             "(f122-130, 3x flag96), spellFamilyFlags3 (f211), equippedItemSubClassMask/"
@@ -1087,9 +1085,9 @@ AURA_APPLYING_EFFECTS = {6, 27, 35, 65, 119, 128, 129, 143}
 
 
 def _enum_evidence_occurrences(records):
-    """Task W4-1: per-(namespace, id) occurrence counts over THIS build's
+    """Per-(namespace, id) occurrence counts over THIS build's
     CoA-referenced closure (`records`), disciplined by the two counting traps from
-    coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5:
+    DATAMINE-REQUEST.md Sec 1.5:
 
     trap 1 - effectAura is only meaningful when that slot's effect is aura-applying
     (6/27/35/65/119/128/129/143); dead slots carry stale aura bytes left over from
@@ -1143,11 +1141,10 @@ def _enum_evidence_occurrences(records):
 
 
 def _build_enum_evidence(out_dir, records):
-    """Writes data/spells/_enum_evidence.json (task W4-1: single-writer rule -
+    """Writes data/spells/_enum_evidence.json (single-writer rule -
     build_spells owns data/spells/). Bucket/name/goldenSpells/confidence per id is
     fixed research knowledge (enums335.ENUM_EVIDENCE) re-derived against
-    work/dbc/Spell.dbc BASE by this task - see
-    .superpowers/sdd/task-w4-1-report.md for the full per-golden verification log.
+    work/dbc/Spell.dbc BASE.
     Occurrence counts are computed fresh here, live, over THIS build's referenced-
     spell closure (see _enum_evidence_occurrences for the trap-1/trap-2 discipline).
 
@@ -1167,7 +1164,7 @@ def _build_enum_evidence(out_dir, records):
         occ = aura_occ.get(aid, {"raw": 0, "filtered": 0})
         doc["auras"][str(aid)] = {**ev, "occurrences": occ}
 
-    # [W4-1 review fix] "classified" (this sidecar has a bucket/occurrence entry for
+    # [review fix] "classified" (this sidecar has a bucket/occurrence entry for
     # the id) and "wired" (the id actually resolves via effect_name()/aura_name(),
     # i.e. sits in one of enums335.py's 4 lookup tables) are DIFFERENT counts and
     # were previously conflated under one ambiguous "namedIds" field - e.g. EFFECT_168
@@ -1201,7 +1198,7 @@ def _build_enum_evidence(out_dir, records):
         },
     }
     doc["_note"] = (
-        f"{wired} of {classified} unnamed-at-repo-start effect/aura ids (4 W4-1 bug "
+        f"{wired} of {classified} unnamed-at-repo-start effect/aura ids (4 bug "
         f"fixes not counted here) carry a golden-verified name wired into "
         f"enums335.py; the remaining {numeric} are bucket-classified per "
         "enum-triage.md's aggregate analysis but have no individually-cited golden "
@@ -1214,7 +1211,7 @@ def _build_enum_evidence(out_dir, records):
         "CoA-referenced closure; 'occurrences.filtered' additionally excludes inert "
         "template slots (basePoints=-1, dieSides=1, EffectRealPointsPerLevel=0) per "
         "trap 2, and aura occurrences are gated on the carrying effect being "
-        "aura-applying per trap 1 - see coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.5."
+        "aura-applying per trap 1 - see DATAMINE-REQUEST.md Sec 1.5."
     )
     doc["summary"] = summary
     (out_dir / "_enum_evidence.json").write_text(
@@ -1223,7 +1220,7 @@ def _build_enum_evidence(out_dir, records):
 
 
 def _alt_power_type_findings():
-    """SpellAlternativePowerType (Task V2-4): the table itself is trivially proven
+    """SpellAlternativePowerType: the table itself is trivially proven
     (id/name) but no per-spell link is provable - see dbc.py TABLE_MAPS comment."""
     rows = list(dbc.iter_named("SpellAlternativePowerType"))
     return {
@@ -1251,7 +1248,7 @@ def build() -> dict:
     aux = _aux()
 
     # pass 1: full records for initially-referenced ids + trigger map for ALL ids +
-    # [Task W4-4] formula_text: description+tooltip text for EVERY Spell.dbc id (not
+    # formula_text: description+tooltip text for EVERY Spell.dbc id (not
     # just referenced ones), so the formula closure below can look up a candidate's
     # text without a second full-table scan per depth.
     records, triggers, formula_text = {}, {}, {}
@@ -1273,7 +1270,7 @@ def build() -> dict:
                     new.add(t)
         frontier = new
 
-    # [Task W4-4] formula-reference closure (DATAMINE-REQUEST.md Sec 1.6), capped at
+    # formula-reference closure (DATAMINE-REQUEST.md Sec 1.6), capped at
     # depth 2 per the doc's own cost/benefit measurement (depth 3's marginal yield is
     # negligible - re-derived below, not copied). Frontier starts as EVERY id
     # referenced so far (initial cad/rank/talent + trigger closure); each depth scans
@@ -1322,7 +1319,7 @@ def build() -> dict:
         if sid not in triggers:
             missing_by_source[b].append(sid)
     missing_by_source = {k: sorted(v) for k, v in missing_by_source.items()}
-    # [Task W4-4] formula bucket is populated separately from the initial_ids loop
+    # formula bucket is populated separately from the initial_ids loop
     # above (formula refs are discovered DURING closure, not part of the pre-closure
     # snapshot) - deliberately kept out of that loop/the cad_other/talent hard gates
     # so an unresolved formula reference can never distort them. Report-only.
@@ -1483,7 +1480,7 @@ def build() -> dict:
             "file": "_coverage.json",
             **coverage_summary,
         },
-        # [Task W4-4] DATAMINE-REQUEST.md Sec 1.6: depth-capped BFS over description/
+        # DATAMINE-REQUEST.md Sec 1.6: depth-capped BFS over description/
         # tooltip cross-spell references. "totalNewRecords" is this build's own
         # re-derivation of the doc's "+1,843" (doc's own depth1/2/3 = 1753/87/3,
         # capped at depth 2) - re-derived, not copied, and expected to differ
@@ -1498,13 +1495,13 @@ def build() -> dict:
             "resolvedIds": len(formula_seen_ids) - len(formula_missing_ids),
             "unresolvedIds": len(formula_missing_ids),
         },
-        # [Task W4-4] DATAMINE-REQUEST.md Sec 1.7: per rank chain, the top rank at
+        # DATAMINE-REQUEST.md Sec 1.7: per rank chain, the top rank at
         # CAD level <= 60 - see rankAt60 field + _rank_at_60_map's docstring for the
         # [INFERRED]-CAD gating-field caveat (needs an in-game /dump to confirm).
         "rankAt60": {"chainsWithRankAt60": rank_at_60_count},
-        # [Task W4-4] DATAMINE-REQUEST.md Sec 1.8: $scalingbp named constant.
+        # DATAMINE-REQUEST.md Sec 1.8: $scalingbp named constant.
         "scalingConstants": {"scalingbp": _scalingbp_constant()},
-        # [Task W4-4] DATAMINE-REQUEST.md Sec 4 trap 17: dev-dead content flag.
+        # DATAMINE-REQUEST.md Sec 4 trap 17: dev-dead content flag.
         "devDead": {
             "marker": DEV_DEAD_MARKER,
             "count": len(dev_dead_ids),

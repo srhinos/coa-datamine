@@ -18,8 +18,7 @@ This script produces BOTH figures side by side over one identical pipeline:
                         capture proves exist.
 
 METHOD (identical to the audit's, ported here so the number is reproducible in
-this repo - parsers/coverage/{bload,denom,clsfy,measure,headline}.py in
-coa-sim-handoff):
+this repo, from the published audit's own measurement scripts):
 
   1. Spell rows come from BASE raw/dbc/Spell.csv.gz ONLY. Never a realm overlay:
      the published 1,152 predecessor figure was an area-52 artifact and was
@@ -44,8 +43,8 @@ coa-sim-handoff):
      HOLE, split into dev-dead text, level-curve-only, and no-channel-at-all.
 
 LIVENESS is NOT re-derived here. It is consumed from the `live` / `liveEvidence`
-flags that tools/coa_live.py writes onto every data/classes/** entry (task
-W4-14), summarised in data/classes/_live_summary.json. Rule, quoted from that
+flags that tools/coa_live.py writes onto every data/classes/** entry,
+summarised in data/classes/_live_summary.json. Rule, quoted from that
 file: an entry is live if any of its own CAD spell ids is a live builder node's
 spellId/spellIds member (liveDirect), failing that if any other rank of its
 SpellRankData chain is (liveViaRank); otherwise it is split into `indeterminate`
@@ -615,8 +614,7 @@ def main(write=True):
     lco_live = hole_pairs(live_slots, LCO)
     lco_upper = hole_pairs(upper_slots, LCO)
 
-    # Golden checks against the published audit (coa-sim-handoff/analysis/
-    # coverage-remeasure.md + hole-triage.md). Any FAIL means the pipeline drifted.
+    # Golden checks against the published coverage audit. Any FAIL means the pipeline drifted.
     cb, cv = cad_fig["byBucket"], cad_fig["byVerdict"]
     golden = [
         ("CAD damaging/healing slots", 1429, cad_fig["slots"]),
@@ -757,9 +755,8 @@ def main(write=True):
                            len(lco_live), len(lco_cad))),
         },
         "goldenChecks": {
-            "_what": ("Reproduction gates against the published audit "
-                      "(coa-sim-handoff/analysis/coverage-remeasure.md and "
-                      "hole-triage.md). All must pass or the pipeline has drifted."),
+            "_what": ("Reproduction gates against the published coverage and "
+                      "hole-triage audit. All must pass or the pipeline has drifted."),
             "allPass": all(g["ok"] for g in golden),
             "checks": golden,
         },
@@ -793,7 +790,7 @@ def main(write=True):
             "consumedNotDerived": True,
             "flags": "data/classes/**/<tab>.json entry.live + entry.liveEvidence",
             "summary": "data/classes/_live_summary.json",
-            "writer": "tools/coa_live.py (task W4-14)",
+            "writer": "tools/coa_live.py",
             "capture": "data/talents/coa/** from raw/talents/coa-builder-voljin.html (sha256-pinned)",
             "chainReasonCounts": dict(sorted(chain_reason_counts.items())),
             "chainReasonCountsUnit": (
@@ -839,9 +836,9 @@ def main(write=True):
             "verdictRule": ("gear-scaling (W or T) = modelable; percent-of-max effects "
                             "and 1-point tag damage = modelable (nothing to model); "
                             "otherwise a hole, split dev-dead / level-curve-only / no-channel"),
-            "portedFrom": ("coa-sim-handoff/parsers/coverage/{bload,denom,clsfy,measure,"
-                           "headline}.py - reimplemented here so the figure is "
-                           "reproducible inside this repo"),
+            "portedFrom": ("reimplemented here from the published audit's own "
+                           "measurement scripts so the figure is reproducible "
+                           "inside this repo"),
         },
         "caveats": [
             "The live denominator is a lower bound: indeterminate entries (live: null) "

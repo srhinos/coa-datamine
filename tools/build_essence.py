@@ -1,5 +1,5 @@
-"""Per-class Ability/Talent Essence curves (task W4-5): CharacterAdvancementEssence
--> data/classes/essence.json. coa-sim-handoff/DATAMINE-REQUEST.md Sec 7 + Sec 13 item 9.
+"""Per-class Ability/Talent Essence curves: CharacterAdvancementEssence
+-> data/classes/essence.json. DATAMINE-REQUEST.md Sec 7 + Sec 13 item 9.
 
 Amendment D (single-writer ownership): essence.json is class-ADJACENT data, not
 class/spec/archetype metadata - build_classmeta.py's docstring states it owns

@@ -33,7 +33,7 @@ for name in config.WANTED_DBCS_V2:
         assert (recs, fields) == expected[name], f"{name}: got ({recs},{fields}) want {expected[name]}"
 
 # Creature.dbc colinfo evidence: a proven-string-likely column with non-empty samples.
-# Creature has been a MAPPED table since V2-2 (named header in raw/dbc/Creature.csv.gz) -
+# Creature has been a MAPPED table since the v2 pass (named header in raw/dbc/Creature.csv.gz) -
 # dump into a scratch dir, NOT config.RAW_DBC_DIR, so this verification step doesn't
 # clobber the committed mapped dump with the unmapped f0..fN shape.
 scratch_dir = config.WORK_DIR / "test_dumps"

@@ -1,11 +1,11 @@
-"""Base vs. realm-overlay Spell.dbc diff (task W4-5): coa-sim-handoff/
-DATAMINE-REQUEST.md Sec 3 ("THE BIG UNRESOLVED ONE - we may be reading the wrong
+"""Base vs. realm-overlay Spell.dbc diff: DATAMINE-REQUEST.md
+Sec 3 ("THE BIG UNRESOLVED ONE - we may be reading the wrong
 realm's data") + Sec 13 item 7's prep half. Sec 3 measured area-52's overlay
 against the base client chain and found the two disagree on 1,178/6,038 = 19.51%
 of the CoA class set's shared spell rows - not just cosmetic text, 409 rows
 disagree on raw damage numbers (effectBasePoints1). This module is the reusable
 tool that reproduces that measurement. It stays generic over realm names, but note
-what task W4-13 settled: **there is no CoA realm overlay to point it at.** The
+what has since been settled: **there is no CoA realm overlay to point it at.** The
 product ships exactly one realm-scoped data set at a time, currently area-52's, and
 that realm is Free-Pick - no Conquest of Azeroth realm has a client data directory
 and no login creates one. So the 1,178-row disagreement this measures is
@@ -21,7 +21,7 @@ module does not extract anything itself (run datamine.py or
 tools.build_realms.build() first if work/realms/<realm>/dbc/Spell.dbc is missing).
 
 Scope: "shared CoA rows" = ids in build_spells._coa_class_spell_ids() (the same
-6,436-id CoA class-spell universe task W4-3 defined) present in BOTH the base
+6,436-id CoA class-spell universe that function defines) present in BOTH the base
 client's Spell.dbc AND the realm's own Spell.dbc - matching Sec 3's own
 denominator exactly (base resolves 6,038/6,436; the overlay is a superset that
 resolves all 6,436, so the intersection is base's resolved set). Per-column diff
@@ -47,7 +47,7 @@ import argparse, json
 
 from tools import config, dbc, build_spells, sharding
 
-# [Task W4-5] Sec 3's own cited area-52 figures (re-derivation target, not a copied
+# Sec 3's own cited area-52 figures (re-derivation target, not a copied
 # assertion - this build's own snapshot has patched since the doc was written, so
 # some drift is expected and reported, not hidden). +/-10% tolerance per the brief.
 DOC_FIGURES = {

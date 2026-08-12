@@ -1,4 +1,4 @@
-"""Creatures / quests / trainers datasets (task V2-2).
+"""Creatures / quests / trainers datasets.
 
 Amendment C sharding: creatures/quests are bucketed data/<name>/<name>-<id//5000*5000>.jsonl
 (JSONL, one record per line) + index.json; trainers is bucketed
@@ -6,19 +6,18 @@ data/trainers/trainers-<id//2000*2000>.json (JSON, since there is no genuine tra
 grouping column to shard by identity - see below) + index.json. Each dataset also gets a
 _meta.json carrying proven-column evidence and join-rate findings.
 
-Empirical-mapping rule outcomes (full probe evidence in
-.superpowers/sdd/task-v2-2-report.md and .superpowers/sdd/task-v3-0-report.md, golden
+Empirical-mapping rule outcomes (golden
 checks pinned in tools/dbc.py TABLE_MAPS comments and tests/test_creatures.py):
 
-- Creature: id (f2 name proven unchanged since V2-2). id itself was CORRECTED in task
-  V3-0: V2-2 named f0 "id" (looked like a clean ascending-unique local PK), but the
+- Creature: id (f2 name proven unchanged since the v2 pass). id itself was CORRECTED
+  later: f0 was named "id" (looked like a clean ascending-unique local PK), but the
   2026-08-01 client rebuild proved f0 is a POSITIONAL row index that shifts on every
   patch inserting upstream rows - not a stable entry id. The real, stable creature
   template entry id is f1 (unique across all 127178 rows, golden-verified against 4
   canonical WotLK entry ids: Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros
   11502). Creatures are now keyed/sharded by f1; f0 is dropped from curated output
   entirely (positional noise). subname was hypothesized on the two next-highest
-  string_likelihood columns (f20/f21/f22 per V2-1 colinfo) but DISPROVEN: both goldens
+  string_likelihood columns (f20/f21/f22 per colinfo) but DISPROVEN: both goldens
   (Hogger, Ragnaros) carry 0 in all three, and table-wide the small non-zero fraction
   resolves to unrelated fragments/other creatures' names at a rate matching pure
   coincidence against Creature's huge shared string block. Shipped as subname: null,
@@ -56,7 +55,7 @@ def build_creatures() -> dict:
         records[r["id"]] = {"id": r["id"], "name": r["name_enUS"], "subname": None}
 
     # golden gate: refuse to publish if the pinned id (f1)->name facts don't hold -
-    # these are canonical WotLK 3.3.5 entry ids (task V3-0), stronger than V2-2's
+    # these are canonical WotLK 3.3.5 entry ids, stronger than the earlier
     # name-only goldens since they also pin the id column itself
     assert records.get(448, {}).get("name") == "Hogger", \
         "golden creature 448 (Hogger) failed - column map is wrong, dataset aborted"
@@ -88,16 +87,16 @@ def build_creatures() -> dict:
     meta = {
         "count": len(records),
         "provenColumns": {
-            "id": "Creature.dbc f1 (V3-0 correction - was f0, see idCorrectionFinding) "
+            "id": "Creature.dbc f1 (corrected - was f0, see idCorrectionFinding) "
                   "- unique across all 127178 rows, golden-checked against 4 canonical "
                   "WotLK entry ids",
             "name": "Creature.dbc f2 - string_likelihood=1.0, pct_zero=0.0, golden "
                     "Hogger/Edwin VanCleef/Onyxia/Ragnaros verified",
         },
         "idCorrectionFinding": (
-            "Task V2-2 named f0 'id' - ascending unique 1..127178, the classic local "
-            "auto-increment PK shape. Task V3-0 (2026-08-01 client rebuild) proved this "
-            "was WRONG: f0 is a POSITIONAL row index that shifts on every patch "
+            "f0 was originally named 'id' - ascending unique 1..127178, the classic local "
+            "auto-increment PK shape. A later client rebuild (2026-08-01) proved that "
+            "WRONG: f0 is a POSITIONAL row index that shifts on every patch "
             "inserting rows upstream (a patch added 3 rows and every Ragnaros-variant "
             "id downstream shifted by exactly +3), not a stable entry id. f1 is the "
             "real, stable creature template entry id - unique across all 127178 rows "
@@ -110,8 +109,8 @@ def build_creatures() -> dict:
         ),
         "subnameFinding": (
             "Hypothesized on the two next-highest string_likelihood columns (f20/f21/"
-            "f22 per V2-1 colinfo). DISPROVEN (V2-2 probe, re-verified unaffected by "
-            "the V3-0 id-key correction below - this finding is about row CONTENT, not "
+            "f22 per colinfo). DISPROVEN (probe, re-verified unaffected by "
+            "the id-key correction below - this finding is about row CONTENT, not "
             "the id column): both goldens' rows (Hogger, Ragnaros) carry raw value 0 in "
             "all three columns (no data), and table-wide only ~0.5-5% of rows have "
             "non-zero values that pass the "

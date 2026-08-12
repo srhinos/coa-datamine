@@ -1,4 +1,4 @@
-"""Item support tables (task W4-11): DATAMINE-REQUEST.md Sec 8. Owns two things:
+"""Item support tables: DATAMINE-REQUEST.md Sec 8. Owns two things:
 
 - `raw/dbc/itemstat/` - ItemStat.dbc's raw dump, SHARDED by `itemId // 50000`
   (Sec 8.2: 1,513,931 rows, 236MB body - too large for a single `raw/dbc/`
