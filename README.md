@@ -40,7 +40,8 @@ every file the run was built from.
 
 A full run takes about **20 minutes** on a workstation with a cold page cache
 (roughly 17 with the 44.9 GB of archives already cached) - one snapshot copy,
-one traversal, every member decompressed exactly once. Both guarantees behind
+one traversal, and the 80.6 GB the archives' 768,998 members hold is
+decompressed exactly once. Both guarantees behind
 that number are enforced in code rather than described: `mpq.OPEN_LEDGER` counts
 every archive open at the line that performs it and the run refuses to publish
 if any archive was opened twice, and `datamine.ClientReads` wraps the process's
