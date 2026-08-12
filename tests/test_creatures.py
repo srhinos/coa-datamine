@@ -54,10 +54,13 @@ for b in cidx["buckets"]:
 assert total == cidx["count"] == stats["creatures"]["written"]
 
 # creatures.jsonl line count == Creature record count (brief's gate, now summed over shards)
-assert cidx["count"] == 127178, cidx["count"]
+# 2026-08-12 snapshot re-pin: the client patched and Creature.dbc gained one row,
+# 127,178 -> 127,179 (quest and trainer counts below re-derived in the same pass,
+# both unchanged). Small-delta content churn per AGENT-GUIDE's re-pin contract.
+assert cidx["count"] == 127179, cidx["count"]
 
 # id//5000 bucket count grows a lot once keyed by f1's sparse (1..11001007) space vs the
-# old fully-dense f0 (1..127178) space - a coarse regression guard on the id remap
+# old fully-dense f0 (1..127179) space - a coarse regression guard on the id remap
 assert len(cidx["buckets"]) >= 300, (
     "expected many more (sparse-id) buckets once creatures are keyed by f1, not f0",
     len(cidx["buckets"]))

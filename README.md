@@ -70,7 +70,7 @@ The client ships most DBC paths more than once and its loader picks one.
 `raw/tables/<Table>/` is that pick, and for **10 tables it is the `Data\area-52`
 realm overlay** - which is *Free-Pick's* data. A Conquest of Azeroth character has
 no client data directory at all and reads the **base chain**, so for CoA questions
-the chain winner is the wrong version: base `Spell` is 209,151 rows, the overlay's
+the chain winner is the wrong version: base `Spell` is 209,206 rows, the overlay's
 is 238,942. The contested ten are `Spell`, `SkillLineAbility`, `SpellRank`,
 `Talent`, `CharacterAdvancement`, `CharacterAdvancementEssence`, `SpellCharges`,
 `SpellChargesCategory`, `Manastorm` and `ManastormModifiers` - exactly the tables
@@ -158,7 +158,10 @@ not the catalog's `Tides`); Tide Lash present-but-`live: false`; golden spell 17
 
 Still **narrower than the client in what it can know** - server-side base stats
 and scaling, proc PPM / internal cooldowns, and 20 remaining live coefficient
-holes are not in any client table. Read `AGENT-GUIDE.md`'s layer table and
+holes are not in any client table. That hole count is measured over castable
+content, not over the catalog, and it is a different denominator from the live-
+ability coverage above: 493 of the 552 damaging/healing effect slots a level-60
+character can cast are modelable (89.3%). Both were recomputed on this build. Read `AGENT-GUIDE.md`'s layer table and
 "Honest limits" before trusting it for "what can a player actually do" questions.
 
 - **Consume it:** read `AGENT-GUIDE.md` first - file map, schemas, query recipes,

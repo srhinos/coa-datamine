@@ -42,14 +42,22 @@ for name in config.WANTED_DBCS_V5:
 # 36,781 across three archive rewrites). Re-derived from the CURRENT client, not
 # incremented - the other eleven were re-derived at the same time and are unchanged,
 # which is what makes this content churn rather than a layout regression.
+# [2026-08-12 re-pin] Three of the twelve moved on the client patch this rebuild
+# captured: SpellAffect +19, SpellDifficulty +1, SpellRank +25. All three read
+# patch-S.MPQ here - it carries the first two outright and carries the BASE variant
+# of SpellRank (area-52/patch-D.MPQ is that table's chain winner, but work/dbc holds
+# base) - and patch-S is one of the four archives whose sha256 moved in this patch,
+# with patch-M, patch-T and area-52/patch-D. Field counts are unchanged on all
+# twelve, which is what keeps this content churn rather than a layout regression.
+# Re-derived from the current client, not incremented.
 EXPECTED = {
-    "SpellAffect": (36781, 3),
-    "SpellDifficulty": (3810, 5),
+    "SpellAffect": (36800, 3),   # 2026-08-12 snapshot re-pin (client patch, +19)
+    "SpellDifficulty": (3811, 5),   # 2026-08-12 snapshot re-pin (client patch, +1)
     "SummonProperties": (217, 6),
     "SpellMissile": (170, 15),
     "SpellShapeshiftForm": (61, 35),
     "SpellFocusObject": (435, 18),
-    "SpellRank": (23179, 4),   # 2026-08-09 snapshot re-pin (client patch)
+    "SpellRank": (23204, 4),   # 2026-08-12 snapshot re-pin (client patch, +25)
     "CreatureSpellData": (803, 9),
     "GlyphProperties": (362, 4),
     "GlyphSlot": (10, 3),
@@ -123,7 +131,9 @@ assert abs(f2_unsigned_hits / len(aff_rows) - 0.934528) < 0.0005                
 # - is what actually proves the sign is a flag rather than corruption, and it is
 # re-derived rather than pinned, so it still gates this.
 negatives = sum(1 for r in aff_rows if r[2] < 0)
-assert negatives == 2409, negatives
+# 2409 -> 2419 on the 2026-08-12 patch: SpellAffect gained 19 rows, 10 of them
+# with a negative f2. Same class of churn as the row-count pins above.
+assert negatives == 2419, negatives
 
 f2_abs_hits = sum(1 for r in aff_rows if abs(r[2]) in spell_ids)
 assert f2_abs_hits == len(aff_rows) - 1, f2_abs_hits          # 99.9973%, one dead id (83998)
@@ -187,12 +197,15 @@ assert coa_with_modifier & f1_set == {92123, 92131, 300357, 800274, 805378}
 assert coa_with_modifier & f2_abs_set == {
     502582, 502583, 502584, 502585, 502586, 502587, 502588, 502589, 502590, 801708}
 
-assert len(f1_set & _class_spell_ids("vanilla")) == 209
+# 209 -> 220 and 10684 -> 10688 on the 2026-08-12 patch: SpellAffect's 19 new
+# rows name 11 further vanilla-class spells in f1 and 4 further ids in |f2|.
+# The reborn/CoA intersections and the CoA-band count are unchanged.
+assert len(f1_set & _class_spell_ids("vanilla")) == 220
 assert len(f1_set & _class_spell_ids("reborn")) == 277
 assert len(f1_set & coa_ids) == 5
 
 distinct_abs_f2 = {abs(r[2]) for r in aff_rows}
-assert len(distinct_abs_f2) == 10684, len(distinct_abs_f2)
+assert len(distinct_abs_f2) == 10688, len(distinct_abs_f2)
 in_coa_band = [v for v in distinct_abs_f2 if 500000 <= v < 600000]
 assert len(in_coa_band) == 158, len(in_coa_band)
 
@@ -224,16 +237,19 @@ assert meta["enrichment"]["statSuggestions"]["recordCount"] == 1121
 
 # ============================= SpellRank =============================
 # 2026-08-09 snapshot re-pin (client patch): 23,182 -> 23,179 rows.
+# 2026-08-12 snapshot re-pin (client patch): 23,179 -> 23,204 rows. Both join
+# rates below were re-derived at the same time: f1 stays 100.0000%, f2 stays at
+# five misses (23,199/23,204 = 99.9784%), so the new rows behave like the old.
 sr_named = list(dbc.iter_named("SpellRank"))
-assert len(sr_named) == 23179
+assert len(sr_named) == 23204
 sr_f1_hits = sum(1 for r in sr_named if r["firstSpellId"] in spell_ids)
-assert sr_f1_hits == 23179                                                    # 100.0000%
+assert sr_f1_hits == 23204                                                    # 100.0000%
 sr_f2_hits = sum(1 for r in sr_named if r["spellId"] in spell_ids)
-assert sr_f2_hits == 23174, sr_f2_hits                                        # 99.9784%
+assert sr_f2_hits == 23199, sr_f2_hits                                        # 99.9784%
 
 rank1_rows = [r for r in sr_named if r["rank"] == 1]
 rank1_self = sum(1 for r in rank1_rows if r["firstSpellId"] == r["spellId"])
-assert rank1_self == 3503 and len(rank1_rows) == 3506   # 2026-08-09 re-pin
+assert rank1_self == 3504 and len(rank1_rows) == 3507   # 2026-08-12 re-pin (+1 each)
 
 # comparison vs the already-integrated raw/content/SpellRankData.json - NOT
 # identical coverage, and NOT wired into build_spells.py by this task
@@ -245,9 +261,13 @@ json_spellids = set(json_by_spell)
 overlap = dbc_spellids & json_spellids
 assert len(overlap) == 9941, len(overlap)   # 2026-08-09 re-pin
 dbc_only = dbc_spellids - json_spellids
-assert len(dbc_only) == 13238, len(dbc_only)   # 2026-08-09 re-pin
+# 2026-08-12 re-pin: both counts move by exactly the 25 new SpellRank rows -
+# every one of them names a spellId the JSON does not carry, and every one
+# resolves in Spell.dbc. The overlap and all three agreement figures below are
+# unchanged, which is what makes this new content rather than a join regression.
+assert len(dbc_only) == 13263, len(dbc_only)
 dbc_only_real = sum(1 for v in dbc_only if v in spell_ids)
-assert dbc_only_real == 13233, dbc_only_real                                  # 99.96% of dbc-only
+assert dbc_only_real == 13258, dbc_only_real                                  # 99.96% of dbc-only
 
 agree_first = sum(1 for r in sr_named if r["spellId"] in json_by_spell
                    and r["firstSpellId"] == json_by_spell[r["spellId"]]["firstSpellId"])

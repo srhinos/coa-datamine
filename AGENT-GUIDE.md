@@ -45,7 +45,7 @@ python -m tools.find "listarchive" --layer binaries    # the client's own EXECUT
 > `raw/tables/<Table>/` is that pick. For **10 tables** the pick comes from the realm
 > overlay `Data\area-52\` - the Free-Pick realm's data - so `raw/tables/Spell/` is
 > Free-Pick's 238,942-row `Spell`, while a Conquest of Azeroth character reads the base
-> chain's 209,151-row one. Every version is decoded to
+> chain's 209,206-row one. Every version is decoded to
 > `raw/tables/<Table>/variants/<archive-slug>/` in the same shape, listed under
 > `variants` in that table's `index.json` and together in `raw/tables/_variants.json`
 > (987 versions over 368 paths; 234 tables have more than one version, 134 exactly one).
@@ -683,12 +683,12 @@ carries a mix of backported and custom systems.
 
 Fill rates below are measured over the **CoA class spell set**
 (`build_spells._coa_class_spell_ids()`: every spell id, including every rank-chain id,
-referenced by the 21 `coa-custom` classes - 6,436 ids, of which **6,038** have a row in
+referenced by the 21 `coa-custom` classes - 6,436 ids, of which **6,039** have a row in
 base `Spell.dbc`). Per-effect fields are emitted only on populated effect slots, so a
 record-level count can be slightly lower than the raw-column count.
 
 **`EffectRealPointsPerLevel` (f77-79, `effects[].realPointsPerLevel`).** Backing store for
-the `$ppl` formula token. CoA-set fill **2,011/6,038 = 33.3%**. **IEEE-754 float bit
+the `$ppl` formula token. CoA-set fill **2,011/6,039 = 33.3%**. **IEEE-754 float bit
 patterns, not integers** - decode via `struct.unpack('<f', struct.pack('<i', v))`, same as
 f216-218/f229-231. Golden: stock Frostbolt (116) slot 2 `f78 = 1056964608 = 0x3F000000 =
 0.5f`.
@@ -718,21 +718,21 @@ f216-218/f229-231. Golden: stock Frostbolt (116) slot 2 `f78 = 1056964608 = 0x3F
 
 **`EffectSpellClassMask` (f122-130, `effects[].spellClassMask: [a,b,c]`) - which spells a
 talent modifies.** Three u32 words (a 96-bit mask) per effect slot, omitted when all three
-are zero. CoA-set fill (any slot nonzero) **1,730/6,038 = 28.7%**. Golden: stock talent
+are zero. CoA-set fill (any slot nonzero) **1,732/6,039 = 28.7%**. Golden: stock talent
 Improved Fireball (11069) slot 1's `ADD_FLAT_MODIFIER` aura carries
 `spellClassMask: [1, 0, 0]`, and stock Fireball (133, same `spellFamilyName` 3 = Mage)
 carries `spellFamilyFlags1 = 1` - bit 0 set on both, the exact selection mechanism.
 
 **`SpellFamilyFlags3` (f211, `family.flags3`)** - the top 32 bits of the 96-bit family
-mask, which a `flags1`/`flags2`-only view silently truncates. Fill 730/6,038 = 12.1%.
+mask, which a `flags1`/`flags2`-only view silently truncates. Fill 729/6,039 = 12.1%.
 
 **`EquippedItemSubClassMask`/`EquippedItemInventoryTypeMask` (f69/f70)** - adjacent to the
 already-mapped `equippedItemClass` (f68, also emitted as `equippedItem.itemClass`; its `-1`
 "any weapon" sentinel histogram over the CoA set: `-1` x5547, `2` x461, `4` x30). Fill: f69
-734/6,038 = 12.2%, f70 87/6,038 = 1.4%.
+734/6,039 = 12.2%, f70 87/6,039 = 1.4%.
 
 **`EffectPointsPerComboPoint` (f119-121)** - combo-point scaling (Ranger has combo points).
-Fill 20/6,038 = 0.33%. Golden: Rage of Bethekk (501229) slot 1, a real `SCHOOL_DAMAGE`
+Fill 20/6,039 = 0.33%. Golden: Rage of Bethekk (501229) slot 1, a real `SCHOOL_DAMAGE`
 effect, carries `pointsPerComboPoint: 8.0`. **Adjacent trap:** Serrated Shot (500073) slot
 2 carries a nonzero raw `f120` while that slot's `effect` field is 0 - a dead-slot
 artifact. The per-slot convention (`if not eff: continue`) drops that slot entirely, so the
@@ -741,16 +741,16 @@ dead value never reaches output.
 **`EffectDamageMultiplier` (f216-218)** - chain-damage falloff per jump. The in-game default
 `1.0f` is stored explicitly, so the field is present on most records (94.6% of the CoA set);
 a **non-default** value (populated slot, neither `0` nor the `1.0f` bit pattern) appears on
-**407/6,038 = 6.7%**. Compare against `1.0`, not against zero.
+**407/6,039 = 6.7%**. Compare against `1.0`, not against zero.
 
-**`spellMissileID` (f227, `missileId`)** - exactly 8/6,038 = 0.13% nonzero, all of them
+**`spellMissileID` (f227, `missileId`)** - exactly 8/6,039 = 0.13% nonzero, all of them
 Invigorating Surge ranks sharing missile 9429.
 
 > ### `EffectBonusMultiplier` (f229-231, `effects[].bonusMultiplierStock`) - not a CoA coefficient source
 >
 > Extracted and emitted, and correct for **stock and Reborn content only**. It is the
 > untouched Blizzard-2008 column and it **contradicts** CoA's own tooltip-authored formulas
-> on the same effect slot far more often than it agrees. CoA-set fill 619/6,038 = 10.25%.
+> on the same effect slot far more often than it agrees. CoA-set fill 620/6,039 = 10.27%.
 > Golden: Flash Heal (2061) `f229 = 1062115213 = 0.8069999814...` (the genuine WotLK value),
 > while its `description` reads `${$m1+$BH*0.158964+$AP*0.072}` - an AP-on-heal hybrid term
 > that does not exist in stock 3.3.5a.
@@ -775,7 +775,7 @@ manaPerSecond 0.33%, stancesNot 5.60%, targetCreatureType 0.17%. Golden: Divine 
 
 **Confirmed zero-fill columns, verified before being skipped**: f207 `maxTargetLevel`, f43
 `manaCostPerLevel`, f18 `RequiresSpellFocus`, f228 `PowerDisplayId`, f224 `AreaGroupId`,
-f233 `spellDifficultyID` - all **0/6,038** nonzero on the CoA class set. f18/f224/f228 are
+f233 `spellDifficultyID` - all **0/6,039** nonzero on the CoA class set. f18/f224/f228 are
 left unmapped; f207/f43/f233 are mapped for the full raw dump but excluded from
 `spells.jsonl` and flagged in `_coverage.json`.
 
@@ -866,7 +866,7 @@ Worst-case golden, re-derived at test time in `tests/test_closure_ranks.py`: Run
 
 **(c) `$scalingbp` - named constant.** `data/spells/_meta.json`'s
 `scalingConstants.scalingbp` (`SpellDescriptionVariables.dbc` row id 182, referenced by
-**552** spells via the literal `$<scalingbp>` token). Coefficients are **parsed out of the
+**559** spells via the literal `$<scalingbp>` token). Coefficients are **parsed out of the
 live SDV row text at build time**, not hardcoded, so a client patch that changes them fails
 the build's own assert instead of silently drifting. Value table:
 `0.0318@1, 0.1982@20, 0.5184@40, 0.8562@55, 0.9874@60, 1.0148@61, 1.2777@70, 1.6052@80`.
@@ -896,6 +896,19 @@ number to plan against. Regenerate with `python -m tools.coverage_live`; output 
 | CAD catalog | 1,429 | 1,151 | 80.5% | 278 | 101 |
 | **live only (`live == true`)** | **552** | **493** | **89.3%** | **59** | **20** |
 | live + indeterminate (`live != false`) | 1,002 | 901 | 89.9% | 101 | 36 |
+
+> **This is not the same measurement as the spells layer's live-ability coverage, and one
+> does not move the other.** `data/spells/` is seeded from live truth and covers
+> 3,932/3,932 live ability ids (100%); the table above counts damaging/healing EFFECT SLOTS
+> on the CAD entries that carry `live: true`, reading the base `Spell.dbc` rows directly.
+> `tools/coverage_live.py` never opens `data/spells/` at all - its inputs are
+> `data/classes/**`, `data/talents/coa/**` and `raw/dbc/Spell.csv.gz` - so widening the
+> spell closure cannot move it. Recomputed on the 2026-08-12 rebuild (fresh live-truth
+> capture, patched client, closure 32,820 -> 32,824): every figure in the table is
+> unchanged, the hole list is the same 20 pairs with none added or removed, and all 20
+> golden checks pass. The one thing that did move is liveness, by a single chain
+> (`liveDirect` 3,624 -> 3,623, `deadCatalog` 3,615 -> 3,616), which does not reach the
+> damaging-slot denominator.
 
 The CAD figure is not wrong arithmetic - it is the same pipeline over a denominator that
 includes effect slots on entries no player can cast: **65 of its 101 distinct hole pairs
@@ -1084,7 +1097,7 @@ client ships no join table. `tools/build_abilities.py` builds that join from `ra
 mechanical and re-measured every build into `_meta.json.nameNormalization`: strip trailing
 `Rank N` markers (repeatedly), then lowercase and delete every non-alphanumeric character.
 Nothing else is stripped - the base `Spell` table keeps the rank in its OWN column
-(`rank_enUS`/f153, 2,983 distinct values), so exactly 21 of 209,151 names carry a trailing
+(`rank_enUS`/f153, 2,985 distinct values), so exactly 21 of 209,206 names carry a trailing
 rank marker at all; trailing roman numerals ("Fire Shield II", 508 names) and trailing bare
 digits ("Wavestorm 2", 3,880) are deliberately left alone because they are not the rank
 carrier and stripping them would merge distinct spells.
@@ -1115,7 +1128,7 @@ live/trainer link runs through the rank chain or that corroboration.
 
 **Two traps this layer is explicitly built against**, both quantified in `_meta.json`:
 
-- *Dense id spaces make containment meaningless.* The base `Spell` id space is 209,151 ids
+- *Dense id spaces make containment meaningless.* The base `Spell` id space is 209,206 ids
   over 1..13,977,920 (1.5%), but across the 23 100k-blocks the four sources touch, occupancy
   averages **9.0%** and peaks at **69.0%**. So "this id exists in `Spell.dbc`" is never used
   as a join here - every membership needs a row that names a class or a chain.
@@ -1188,7 +1201,7 @@ occurrences in the fetched HTML: 2 x 3,618, not 7,236 distinct nodes. This modul
 the `slug="voljin"` copy.
 
 **Resolve rates, and which one the build gates on.** Payload spell ids against the raw client
-`Spell.dbc` (any row at all, 209,151 total) resolve **100%** (3,618/3,618,
+`Spell.dbc` (any row at all, 209,206 total) resolve **100%** (3,618/3,618,
 `unresolvedSpellIds: []`), and against the curated `data/spells/` also **100%**. Against CAD
 rows the figure is only **78.8%** (`idMatchesAnyCadRow`, 2,851/3,618) - a fact about the
 catalog's id generation, not about this dataset's reach. The build gates hard on the
@@ -1314,11 +1327,25 @@ is Hero. Pinned as a golden set in `tests/test_class_plumbing.py`.
 `python -m tools.diff_realm_overlay <realm>`) measures how far area-52's realm overlay and the
 base chain disagree on the shared CoA spell set. **Read the result as Free-Pick-vs-base, not as
 a CoA authority question**: CoA realms have no client-side overlay and read base, so "area-52
-disagrees with base on 1,176 rows" says Free-Pick's revision differs - it is not evidence that
+disagrees with base on 1,332 rows" says Free-Pick's revision differs - it is not evidence that
 base is wrong for a CoA character. Scope: shared CoA rows present in BOTH `Spell.dbc` files.
-Measured against this snapshot: differing shared rows 1,176/6,038 = 19.48%,
-`description_enUS` diff 517, `effectBasePoints1` diff 410, name changes 51 (including spell
-92093 "Deadeye" -> "Houndmaster"). Per-column diff counts cover every named
+Measured against this snapshot: differing shared rows 1,332/6,039 = 22.06%,
+`description_enUS` diff 618, `effectBasePoints1` diff 482, name changes 53 (including spell
+92093 "Deadeye" -> "Houndmaster").
+
+> **The overlay is drifting away from base faster than the reproduction gate allows.** The
+> tool compares itself against four figures published for an older snapshot and flags a
+> deviation past +/-10% as `[DRIFT]`. Three of the four are outside that band as of the
+> 2026-08-12 rebuild - differing shared 1,178 -> 1,263 (2026-08-10) -> 1,332, description
+> diff 515 -> 558 -> 618, `effectBasePoints1` 409 -> 439 -> 482 - while name changes
+> (51 -> 53) stay inside it. The movement is monotonic and small per patch, and every
+> structural claim in the same check still holds (overlay-only and base-only id counts
+> recomputed independently from `work/dbc` + `work/realms/`, the column-diff ordering, and
+> the 92093 rename golden), so this reads as area-52 content churn rather than a pipeline
+> fault. `tests/test_class_plumbing.py` asserts `withinTolerance` and therefore FAILS until
+> someone decides whether the published figures are still the right reproduction target or
+> the gate should measure drift per patch instead. Deliberately left failing rather than
+> widened. Per-column diff counts cover every named
 `TABLE_MAPS["Spell"]` column, so `columnDiffs` shows the full shape.
 `overlayOnlySpellCount`/`baseOnlySpellCount` are computed over the FULL spell id space.
 
@@ -1797,20 +1824,20 @@ drift whenever CoA ships new content:
   carry 2,704 encounter entries because several `LFGDungeons` rows share a map, covering 1,677
   distinct encounter ids, 84 of those entries with `creature: null`.)
 - `tests/test_extract.py`: `spell.dbc` resolves from `patch-T.MPQ`.
-- `tests/test_sharding.py`: the pre-shard record-count baseline (spells 32820, per-class entry
+- `tests/test_sharding.py`: the pre-shard record-count baseline (spells 32824, per-class entry
   counts, dungeons 430) so sharding cannot silently drop or duplicate records; also the
   repo-wide <=5,000-line gate (empty allowlist today). The spells pin moves whenever the client
   patches, the formula closure widens, or the seed rule changes; that file's header carries the
   dated log of every re-pin and why.
-- `tests/test_creatures.py`: 127178 creatures / 18561 quests / 13112 trainers, trainer spellId
+- `tests/test_creatures.py`: 127179 creatures / 18561 quests / 13112 trainers, trainer spellId
   join-rate >=90% (measured 0.989).
 - `tests/test_classmeta.py`: 101 specs / 56 archetypes, >=60% of the 32 `ChrClasses` covered by
   >=1 spec (measured 32/32 since the filename-fallback join; the >=60% floor is deliberately
   loose in case a future patch reintroduces a genuinely unmatched token;
   `test_class_plumbing.py` holds the exact 32/32 gate).
-- `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags 29331,
-  category 7386, customAttr 9584, descriptionVariables 1530, addon 183, overrideData 6, across
-  all 32820 referenced spells). Most are gated as floors, not exact values, so treat the numbers
+- `tests/test_spells_v2.py`: `schemaVersion: 2`; enrichment coverage counts (tags 29329,
+  category 7383, customAttr 9586, descriptionVariables 1538, addon 183, overrideData 6, across
+  all 32824 referenced spells). Most are gated as floors, not exact values, so treat the numbers
   as a snapshot figure, not a contract.
 - `tests/test_mythic.py`: 297 challenges / 6801 keystones (65 resolved dungeons) / 13409 affixes
   / 200 scaling rows / 81 timed dungeons / 685 map-difficulty rows; every link table's
@@ -1845,7 +1872,7 @@ drift whenever CoA ships new content:
   (`FLESHWEAVER`/`VALKYR`/`MOUNTAINKING`/`WITCHKNIGHT`/`VIZIER` present;
   `HYDROMANCY`/`BULWARK` not), and the `isStartingNode` anomaly (2 nonzero, values `{1, 127}`)
   are pinned the same way. The spellDbc resolve-rate gate (>=0.95, measured 1.0 against the
-  current 209,151-row base `Spell.dbc`) DOES depend on the client.
+  current 209,206-row base `Spell.dbc`) DOES depend on the client.
 - `tests/test_dataset.py`: 14 `buildStats` keys. The `headerMismatches` allowlist check over the
   base `config.WANTED_DBCS` set is STRUCTURAL, not a snapshot pin - do not widen the allowlist
   reflexively; investigate which base table's header started lying and why.

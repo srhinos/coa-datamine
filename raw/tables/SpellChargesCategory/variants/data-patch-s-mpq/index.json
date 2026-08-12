@@ -7,16 +7,16 @@
  "inferredCounts": {"int":3},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 2978,
- "rows": 106,
+ "plainBytes": 3007,
+ "rows": 107,
  "shardCount": 1,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
  "shardRule": "Rows are grouped by the unsigned value of one column - f0 unless f0 cannot keep every group within the cap, in which case the lowest-indexed column that can is used, and if no column can, fixed row-index blocks are used (recorded per table as shardKey.mode). A group is a fixed decimal-prefix range of that value, split only where a range exceeds 5000 rows, so a row's shard is a function of the row's own value and never shifts because a neighbouring range grew. Shard files are named <lo>-<hi> over that value, zero-padded to a fixed width.",
  "shards": [
-  {"file":"000-999.jsonl","format":"plain","hi":999,"lo":0,"plainBytes":2978,"rows":106,"sha256":"367c7133963910adfc833d1131d258d52b5991dc9544b3f32bacfa7d5508050c","storedBytes":2978}
+  {"file":"000-999.jsonl","format":"plain","hi":999,"lo":0,"plainBytes":3007,"rows":107,"sha256":"a865d1d337be9e377f17222a9bd5555cfc03ed96e604bd74965462b8f53c6ac0","storedBytes":3007}
  ],
- "sourceSha256": "0c0ae1da4e5c4027606dc44b9dae9c4bad2fef7f5ee52dd687d04f324045a4fd",
- "storedBytes": 2978,
+ "sourceSha256": "42cdc9fa87bd97029a025b2e9a3733d7dc2a3f55a733a8f47cc226181e3463bf",
+ "storedBytes": 3007,
  "stringBlockSize": 0,
  "table": "SpellChargesCategory",
  "unreferencedStringBytes": 0

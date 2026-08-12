@@ -11,9 +11,11 @@ assert set(config.WANTED_DBCS_V2) <= set(config.WANTED_DBCS)
 
 prov = extract_mpq.extract_all()
 
-# spec's exact (records, fields) for at least these tables (2026-07-23 verified header facts)
+# spec's exact (records, fields) for at least these tables (2026-07-23 verified header facts;
+# Creature re-pinned 127178 -> 127179 on the 2026-08-12 client patch, small-delta
+# content churn per AGENT-GUIDE's re-pin contract)
 expected = {
-    "Creature.dbc": (127178, 23),
+    "Creature.dbc": (127179, 23),
     "Quest.dbc": (18561, 29),
     "NPCTrainer.dbc": (13112, 4),
     "ChrSpecs.dbc": (101, 65),
@@ -40,7 +42,7 @@ scratch_dir = config.WORK_DIR / "test_dumps"
 p = dbc.dump_unmapped("Creature", out_dir=scratch_dir)
 colinfo = json.loads((scratch_dir / "Creature.colinfo.json").read_text(encoding="utf-8"))
 assert colinfo["table"] == "Creature"
-assert colinfo["records"] == 127178
+assert colinfo["records"] == 127179
 string_cols = [c for c in colinfo["columns"] if c["string_likelihood"] >= 0.9]
 assert len(string_cols) >= 1, colinfo["columns"]
 assert all(s for s in string_cols[0]["samples"]), string_cols[0]
@@ -48,7 +50,7 @@ assert len(string_cols[0]["samples"]) >= 1
 
 with gzip.open(p, "rt", encoding="utf-8", newline="") as fh:
     rows = list(csv.reader(fh))
-assert len(rows) - 1 == 127178, len(rows) - 1   # header + data rows
+assert len(rows) - 1 == 127179, len(rows) - 1   # header + data rows
 
 # SpellAlternativeCost: empty table must not divide by zero. Dump into the same
 # scratch dir as Creature above, not config.RAW_DBC_DIR, so this verification step
