@@ -123,9 +123,13 @@ but 89.3% over castable content**, and **74 of the 92 level-curve-only coverage 
 
 ### What one build guarantees
 
-`python datamine.py` takes no arguments and needs no agent. It snapshots the client
-first, then walks each archive exactly once, so every layer it writes describes ONE
-client version - `raw/_snapshot.json` records the sha256 of every file it was built from.
+`python datamine.py` takes no arguments and needs no agent. It captures the live-truth
+payload (step 0, the one network read), snapshots the client, then walks each archive
+exactly once, so every layer it writes describes ONE client version - `raw/_snapshot.json`
+records the sha256 of every file it was built from, and the capture's provenance beside
+them. The two flags that exist are not stages: `--reuse-snapshot` is a development
+shortcut, `--offline` skips step 0's network read and is recorded in the layer as a reused
+capture.
 Both halves are enforced in code: `mpq.OPEN_LEDGER` counts every archive open at the line
 that performs it and the run refuses to publish if any archive was opened twice, and
 `datamine.ClientReads` wraps the process's own file opens and fails the run if anything
@@ -141,8 +145,8 @@ One script writes all of `raw/` and all of `data/`. The "nothing is hand-selecte
 guarantee covers the layers listed in `raw/README.md`; `raw/dbc/` (a CSV projection of the
 wanted tables), `raw/realms/` and `raw/provenance.json` are written by the same script's
 curation stage, from the same snapshot, and are wanted-list-scoped by design.
-`raw/talents/` is a frozen external capture, refreshed only by the occasional network step
-`tools/fetch_coatalents.py` (see "Live-truth freshness").
+`raw/talents/` is a frozen external capture, refreshed by the pass's own step 0
+(`tools/fetch_coatalents.py`, the one network read in a run - see "Live-truth freshness").
 
 **The curated layer is a pure function of the raw layer.** The curation stage materializes
 its inputs out of the bytes the traversal already staged, seeds the spell closure from
@@ -222,8 +226,10 @@ These are properties of client data and of this extraction, not caveats to be so
   `raw/provenance.json.liveSeedDrift` and `data/abilities/_meta.json.liveSeedDrift` carry
   the capture's `capturedUtc`, the newest client-archive mtime in `raw/_snapshot.json` and
   `captureMinusSnapshotDays` between them (currently **-3.431**: the capture predates the
-  newest client files, so content the client already has can read as dead). Re-run
-  `tools/fetch_coatalents.py` and diff the pinned sha256 to check.
+  newest client files, so content the client already has can read as dead). The capture is
+  taken by the pass itself (step 0), so a normal run's two clocks are seconds apart;
+  `raw/_snapshot.json`'s `liveCapture` block says whether THIS run re-fetched or reused the
+  shipped payload, and why. A run that reused says so in the summary as well.
 - **`live: null` is not `false`.** `notAnAbility` = no ability owns the id; `noLiveGeometry`
   = an ability owns it but no live tree was captured for that class. A missing measurement
   is not a negative result. Current split: 5,558 records `true`, 3,215 `false`, 24,047
@@ -1151,14 +1157,23 @@ CAD entries tell you an ability *exists*, but not where it sits in a tree, what 
 or what it competes against. `data/talents/coa/<Class>.json` (21 files,
 `tools/build_coatalents.py`) closes that gap for all 21 `coa-custom` classes, built from the
 published `https://ascension.gg/en/v2/coa-builder/voljin` builder payload, frozen by
-`tools/fetch_coatalents.py` into `raw/talents/coa-builder-voljin.html` + `_fetch.json` - a
-deliberate, occasional NETWORK step kept separate from the offline curation stage.
+`tools/fetch_coatalents.py` into `raw/talents/coa-builder-voljin.html` + `_fetch.json`.
 
-**This capture is the one piece of `raw/` that is NOT on the client's clock, and therefore
-the dataset's dominant residual drift risk.** Curation is a pure function of `raw/`, but
-`fetch_coatalents.py` runs outside the guarded pass and cannot be folded into it - the client
-has no copy of the live builder - so everything derived from `live` is only as current as the
-last fetch. The gap is measured: `raw/provenance.json.liveSeedDrift` and
+**This capture is the one piece of `raw/` that is NOT on the client's clock.** It is taken
+by `datamine.py` itself, as step 0 of the pass - the one network read, run before the client
+snapshot and outside the snapshot guard, because the client has no copy of the live builder.
+So a normal run's two clocks are seconds apart. They separate in exactly one way, and it is
+recorded rather than inferred: a run whose fetch fails, whose fetched page does not parse, or
+which was given `--offline` REUSES the shipped payload and reports
+`liveCapture.status: "reused"` with the reason, in `raw/_snapshot.json` and in the run
+summary. `status: "fetched"` means fetched AND parsed - a page that downloads and cannot be
+read never replaces the last usable payload; the rejected bytes go to
+`work/rejected-captures/` instead. Measured 2026-08-12: the live page's Next.js flight rows
+are now batched differently (292 `self.__next_f.push` literals became 4, and the literal
+carrying the tree no longer decodes as one row), so the extractor below finds no build record
+in it and every run since rejects the new page - `live` stays pinned to the 2026-08-06
+capture until `tools/coa_live.py`'s extractor is updated. The gap is measured:
+`raw/provenance.json.liveSeedDrift` and
 `data/abilities/_meta.json.liveSeedDrift` carry the capture's `capturedUtc`, the newest
 client-archive mtime in `raw/_snapshot.json`, and `captureMinusSnapshotDays` between them
 (negative = the capture predates the client files, so content the client already has can read
@@ -1244,9 +1259,8 @@ tree geometry despite the matching field names.
 two realms running the SAME game mode, so this is a **CoA-mode** capture, not a one-realm
 sample: the trees are mode content, shipped in the base chain both realms read. The residual
 risk is not "Rexxar might have different trees" but the ordinary one that applies to any single
-fetch - the published builder can drift from the client snapshot. Re-run
-`tools/fetch_coatalents.py` and diff the pinned sha256 rather than hunting for a second realm's
-payload.
+fetch - the published builder can drift from the client snapshot. Every pass re-captures the
+page and pins its sha256; diff that rather than hunting for a second realm's payload.
 
 ### Essence curves, the ChrClasses filename join, overlay-diff tooling
 

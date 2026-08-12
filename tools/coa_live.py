@@ -221,12 +221,13 @@ def extract_payload(html_text: str, slug: str) -> dict:
 @lru_cache(maxsize=4)
 def load_build_record(slug: str = "voljin") -> tuple:
     """(build_record, provenance) for the FROZEN capture in raw/talents/. Never
-    fetches - tools/fetch_coatalents.py is the separate, occasional network step."""
+    fetches: the capture is taken once per pass, as datamine.py's step 0, and
+    every reader after that point reads the frozen bytes."""
     html_path = config.RAW_TALENTS_DIR / f"coa-builder-{slug}.html"
     if not html_path.is_file():
         raise RuntimeError(
-            f"coa_live: {html_path} not found - run "
-            f"`python -m tools.fetch_coatalents --slug {slug}` first. The live/dead "
+            f"coa_live: {html_path} not found - run `python datamine.py`, whose "
+            f"step 0 captures it (tools/fetch_coatalents.py). The live/dead "
             "determination has no offline substitute: the CAD catalog alone cannot "
             "tell live content from cut content (that is the entire point of this "
             "module), so a missing payload must fail loudly rather than silently "
@@ -271,11 +272,16 @@ REALM_CAVEAT = (
 SEED_DRIFT_RULE = (
     "THE RESIDUAL DRIFT CLASS, stated rather than implied. Curation is a pure "
     "function of raw/, but ONE artifact under raw/ is not on the client's clock: "
-    "raw/talents/coa-builder-<slug>.html is an out-of-band NETWORK capture taken "
-    "by tools/fetch_coatalents.py, which runs outside datamine.py's guarded pass "
-    "and cannot be folded into it (the client has no copy of the live builder). "
-    "Everything derived from `live` is therefore only as current as that fetch, "
-    "not as current as the snapshot. seed_drift() measures the distance between "
+    "raw/talents/coa-builder-<slug>.html is a NETWORK capture of the published "
+    "builder, which the client has no copy of. It is no longer taken out of "
+    "band: tools/fetch_coatalents.py runs as step 0 of datamine.py's pass, "
+    "before the client snapshot, so a normal run's two clocks are seconds apart "
+    "rather than days. They can still separate in exactly one way, and it is "
+    "recorded rather than inferred - a run whose fetch failed, or which was "
+    "given --offline, REUSES the shipped payload and says so in "
+    "raw/_snapshot.json's liveCapture block (status/reuseReason). Everything "
+    "derived from `live` is only as current as that capture. seed_drift() "
+    "measures the distance between "
     "the two clocks from committed bytes alone - the capture's own capturedUtc "
     "against the newest archive mtime in raw/_snapshot.json - so the gap is a "
     "number in the data rather than a caveat in prose. A POSITIVE "
@@ -306,8 +312,10 @@ def seed_drift(slug: str = "voljin") -> dict:
         "rule": SEED_DRIFT_RULE,
         "capture": {k: prov.get(k) for k in
                     ("slug", "url", "capturedUtc", "sha256", "sha256Source")},
-        "capturedBy": "tools/fetch_coatalents.py (out-of-band, network, NOT part "
-                      "of datamine.py's guarded pass)",
+        "capturedBy": "tools/fetch_coatalents.py, called by datamine.py as the "
+                      "pass's step 0 - the one network read, taken before the "
+                      "client snapshot; whether a given run re-fetched or "
+                      "reused is in raw/_snapshot.json's liveCapture block",
         "clientSnapshotNewestArchive": newest[0] if newest else None,
         "clientSnapshotNewestArchiveUtc": snap_utc,
         "captureMinusSnapshotDays": days,
