@@ -17,8 +17,7 @@ This script produces BOTH figures side by side over one identical pipeline:
   * LIVE denominator  - the same, restricted to entries the live talent-builder
                         capture proves exist.
 
-METHOD (identical to the audit's, ported here so the number is reproducible in
-this repo, from the published audit's own measurement scripts):
+METHOD (stated in full so the number is reproducible from this repo alone):
 
   1. Spell rows come from BASE raw/dbc/Spell.csv.gz ONLY. Never a realm overlay:
      the published 1,152 predecessor figure was an area-52 artifact and was
@@ -571,7 +570,7 @@ def live_denominator_slack(recs, live_ids):
 # --------------------------------------------------------------------------
 # 5. Run
 # --------------------------------------------------------------------------
-def main(write=True):
+def main(write=True, report=True):
     sp, skipped = load_spells()
     recs, entries, nclasses = walk_chains()
     nodes, live_node_spell_ids = node_index()
@@ -614,7 +613,8 @@ def main(write=True):
     lco_live = hole_pairs(live_slots, LCO)
     lco_upper = hole_pairs(upper_slots, LCO)
 
-    # Golden checks against the published coverage audit. Any FAIL means the pipeline drifted.
+    # Reproduction gates: pinned figures the CAD denominator must keep hitting.
+    # Any FAIL means the pipeline drifted.
     cb, cv = cad_fig["byBucket"], cad_fig["byVerdict"]
     golden = [
         ("CAD damaging/healing slots", 1429, cad_fig["slots"]),
@@ -685,7 +685,7 @@ def main(write=True):
 
     doc = {
         "_generatedBy": "tools/coverage_live.py",
-        "_task": "Recompute the damage-model coverage figure over castable (live) content.",
+        "_measures": "The damage-model coverage figure over castable (live) content.",
         "_note": ("Unrelated to data/spells/_coverage.json, which measures Spell.dbc "
                   "COLUMN coverage. This file measures how much of a CoA class's "
                   "damaging/healing effect output a simulator can model."),
@@ -755,8 +755,8 @@ def main(write=True):
                            len(lco_live), len(lco_cad))),
         },
         "goldenChecks": {
-            "_what": ("Reproduction gates against the published coverage and "
-                      "hole-triage audit. All must pass or the pipeline has drifted."),
+            "_what": ("Reproduction gates: pinned coverage and hole-triage "
+                      "figures. All must pass or the pipeline has drifted."),
             "allPass": all(g["ok"] for g in golden),
             "checks": golden,
         },
@@ -836,9 +836,8 @@ def main(write=True):
             "verdictRule": ("gear-scaling (W or T) = modelable; percent-of-max effects "
                             "and 1-point tag damage = modelable (nothing to model); "
                             "otherwise a hole, split dev-dead / level-curve-only / no-channel"),
-            "portedFrom": ("reimplemented here from the published audit's own "
-                           "measurement scripts so the figure is reproducible "
-                           "inside this repo"),
+            "computedBy": ("tools/coverage_live.py, as a stage of datamine.py's "
+                           "pass, off the data/ tree that same pass curated"),
         },
         "caveats": [
             "The live denominator is a lower bound: indeterminate entries (live: null) "
@@ -879,6 +878,8 @@ def main(write=True):
             fh.write("\n")
 
     # ---- stdout report -----------------------------------------------------
+    if not report:
+        return doc
     w = sys.stdout.write
     w("=" * 92 + "\n")
     w("DAMAGE-MODEL COVERAGE at level %d - CAD catalog vs live (castable) content\n" % LEVEL_CAP)
@@ -913,7 +914,7 @@ def main(write=True):
       % (len(lco_cad), len(lco_live), len(lco_upper), len(lco_cad - lco_live),
          len(lco_cad - lco_upper), len(lco_upper) - len(lco_live)))
     bad = [g for g in golden if not g["ok"]]
-    w("\ngolden checks vs the published audit: %d/%d pass%s\n"
+    w("\ngolden checks: %d/%d pass%s\n"
       % (len(golden) - len(bad), len(golden),
          "" if not bad else "  FAIL: " + ", ".join(
              "%s exp %d got %d" % (g["check"], g["expected"], g["actual"]) for g in bad)))
@@ -935,5 +936,16 @@ def main(write=True):
     return doc
 
 
-if __name__ == "__main__":
-    main(write="--no-write" not in sys.argv)
+def build():
+    """Pipeline entry point: rewrite data/spells/_coverage_live.json off the
+    data/ tree this same pass just curated, and hand curate.py a compact stat
+    line. Deliberately NOT a second __main__ - see curate.ENTRY_POINT_RULE. This
+    file used to be produced only by a hand-run CLI, which meant a rebuild after
+    a client patch refreshed data/spells and data/classes while this one kept
+    the previous run's headline, with nothing in the suite to notice."""
+    doc = main(write=True, report=False)
+    live = doc["figures"]["live"]
+    return {"slots": live["slots"], "modelable": live["modelable"],
+            "modelablePct": live["modelablePct"], "holes": live["holes"],
+            "holeDistinctSpellSlotPairs": live["holeDistinctSpellSlotPairs"],
+            "goldenChecksPass": doc["goldenChecks"]["allPass"]}

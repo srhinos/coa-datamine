@@ -1104,11 +1104,14 @@ def probe_unlistable(scans: list, carriers: dict, prog: Progress) -> dict:
     Not a wanted list - the full harvested union. The (hash_a, hash_b) pair for
     a name is archive-independent, so the expensive part is computed once and
     reused across every probed archive. `unidentifiedLiveEntries` is the honest
-    residual: live members whose name no harvested path matched."""
+    residual: live members whose name no harvested path matched - counted over
+    distinct matched BLOCK indexes, never over name hits, because several names
+    can resolve to one block and the meta members overlap the harvested carriers
+    (a duplicated `(listfile)` is what once drove this residual negative)."""
     unl = [s for s in scans if not s["listable"] and s["archive"] is not None]
     if not unl:
         return {}
-    names = sorted(carriers) + list(MPQ_META_MEMBERS)
+    names = sorted(set(carriers) | set(MPQ_META_MEMBERS))
     keys = [(n, mpq.hash_string(n, mpq.HASH_NAME_A),
              mpq.hash_string(n, mpq.HASH_NAME_B)) for n in names]
     prog.note(f"probing {len(unl)} unlistable archive(s) against {len(keys)} "
@@ -1117,14 +1120,18 @@ def probe_unlistable(scans: list, carriers: dict, prog: Progress) -> dict:
     for s in unl:
         a = s["archive"]
         idx = a.index
-        hits = [n for n, ha, hb in keys
-                if idx.get((ha, hb)) is not None
-                and a.block_table[idx[(ha, hb)]][3] & MPQ_FILE_EXISTS]
+        hits, hit_blocks = [], set()
+        for n, ha, hb in keys:
+            bi = idx.get((ha, hb))
+            if bi is not None and a.block_table[bi][3] & MPQ_FILE_EXISTS:
+                hits.append(n)
+                hit_blocks.add(bi)
         live = sum(1 for b in a.block_table if b[3] & MPQ_FILE_EXISTS)
         probe[s["id"]] = {
             "probedCount": len(keys), "hits": sorted(hits),
             "liveBlockEntries": live,
-            "unidentifiedLiveEntries": live - len(hits),
+            "identifiedLiveEntries": len(hit_blocks),
+            "unidentifiedLiveEntries": live - len(hit_blocks),
             "deleteMarkedHashSlots": s.get("hashSlotsDeleteMarked"),
         }
     return probe

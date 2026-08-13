@@ -480,7 +480,10 @@ def emit_inventory(h, manifest: dict, probe: dict, out: Path) -> dict:
         "note": "Archives with no readable (listfile). Each is characterized by "
                 "block-table census plus a hash-table probe of EVERY path name "
                 "harvested from the listable archives. `unidentifiedLiveEntries`"
-                " is the honest residual: live files no harvested name matched.",
+                " is the honest residual: live files no harvested name matched, "
+                "measured as liveBlockEntries minus the count of DISTINCT block "
+                "indexes a harvested name resolved to (`identifiedLiveEntries`). "
+                "It can be 0 but never negative.",
         "unlistableArchives": [{k: v for k, v in a.items() if k != "sha256"}
                                for a in arch_records if not a["listable"]],
         "probe": probe,

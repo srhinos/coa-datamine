@@ -3,7 +3,7 @@
 **A complete mechanical extraction of the Ascension Conquest of Azeroth client.**
 Every DBC table (all 368, not a chosen subset), the `Data\Content` JSON and `.loc`
 localization store, the Interface/API Lua code layer, the WDB server caches, and a
-census of every file in the install. 7,467,660 rows.
+census of every file in the install. 7,467,710 rows.
 
 Nothing in `raw/` is hand-authored. Columns are positional (`f0..fN`) because
 nothing here knows what a column means. Types are inferred by measurement and

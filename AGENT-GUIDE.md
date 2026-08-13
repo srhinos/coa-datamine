@@ -15,7 +15,7 @@ Three access layers. The question decides which one answers it:
 
 | layer | path | what it is |
 |---|---|---|
-| **raw** | `raw/` + `CATALOG.md` | the whole client, extracted mechanically: 368 tables, 7,467,660 rows, 6,662 positional columns, measured types, no curation. **Ground truth** - a hit is a fact about the client, a miss means the client does not contain it. |
+| **raw** | `raw/` + `CATALOG.md` | the whole client, extracted mechanically: 368 tables, 7,467,710 rows, 6,662 positional columns, measured types, no curation. **Ground truth** - a hit is a fact about the client, a miss means the client does not contain it. |
 | **derived** | `data/` | curated views over the raw layer: spell enrichment, class rosters, ability joins, tree geometry, damage-model coverage. Convenient and opinionated; every claim it makes carries its evidence in a `_meta.json`. |
 | **navigation** | `CATALOG.md`, `tools/find.py` | where does X live: per-table rows, columns, id density, inbound joins, sample text; and a search across every layer including the client's executables. |
 
@@ -55,7 +55,7 @@ python -m tools.find "listarchive" --layer binaries    # the client's own EXECUT
 > `SpellCharges`, `SpellChargesCategory`, `Manastorm` and `ManastormModifiers`** -
 > exactly the tables class and spell work depends on. Curated `data/` is built from the
 > BASE variant for this reason: all 3,932 live talent-node spell ids resolve in base
-> `Spell.dbc` and only 3,929 in the overlay.
+> `Spell.dbc` and only 3,928 in the overlay.
 
 ### Four content layers: which one answers your question
 
@@ -64,10 +64,10 @@ They are not redundant copies, and only layer 4 joins them:
 
 | Layer | Path | What it is | Size | Answers |
 |---|---|---|---|---|
-| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 32,820 records | "what does spell `<id>` DO?" |
+| **1. Spells** | `data/spells/` | every spell record reachable in the client, fully enriched - shipped, cut, dev-dead and never-implemented alike | 32,824 records | "what does spell `<id>` DO?" |
 | **2. Catalog (CAD)** | `data/classes/` | what the client's character-advancement tables **LIST** for a class - an authored roster kept across content generations | 43 class dirs, 23,709 entries | "what does the client's catalog SAY about this class?" |
 | **3. Live trees** | `data/talents/coa/` | the published talent-builder capture, sha256-pinned in `raw/talents/` - the tree geometry a player sees | 21 `coa-custom` classes, 3,618 nodes | "what can a player ACTUALLY train or spec into?" |
-| **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, evidence per membership | 8,784 abilities, 29,775 distinct member ids (29,874 membership rows) | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
+| **4. Ability identity** | `data/abilities/` | the JOIN across the id generations above - one record per ability, every spell id it exists under, which id is live, the trainer-taught rank ladder, evidence per membership | 8,785 abilities, 29,776 distinct member ids (29,875 membership rows) | "these four spell ids all say *Shooting Star* - are they one ability, and which id does the game use?" |
 
 **Why layer 4 exists.** The same CoA ability ships under several unrelated spell ids -
 the CAD catalog id, the trainer-taught rank ids, the id the live tree node carries - and
@@ -186,14 +186,14 @@ These are properties of client data and of this extraction, not caveats to be so
 - **Proc rates - PPM, internal cooldowns, RPPM-style behaviour - are in no client table.**
   A proc's trigger condition is knowable from `EffectTriggerSpell`; its RATE is not.
 - **`manaCostPct` needs base mana to resolve to a number, and it is the majority mana-cost
-  channel**: **19.82%** of the 32,820 curated spells carry a nonzero `manaCostPct` versus
+  channel**: **19.82%** of the 32,824 curated spells carry a nonzero `manaCostPct` versus
   **9.10%** a nonzero flat `manaCost`. Since no base-mana table exists, a
   `manaCostPct`-priced spell's actual cost is not computable from this dataset alone.
 - **Quest text is server-side.** `Quest.dbc` carries **zero string data**
   (`string_block_size == 0`, verified directly) - no title, objective or completion text
   anywhere in the 18,561 `data/quests/` records, only `id` plus 28 raw numeric columns.
 - **`data/creatures/` carries no level, health, armor, resistance or creature-type field
-  for any of its 127,178 rows.** `{id, name, subname}` is the whole schema (`subname`
+  for any of its 127,179 rows.** `{id, name, subname}` is the whole schema (`subname`
   itself always `null`, disproven); `raw/dbc/Creature.csv.gz` is display data end to end.
   Target stats have to be measured in game.
 
@@ -225,9 +225,10 @@ These are properties of client data and of this extraction, not caveats to be so
   not on the client's clock. The gap is measured, not assumed:
   `raw/provenance.json.liveSeedDrift` and `data/abilities/_meta.json.liveSeedDrift` carry
   the capture's `capturedUtc`, the newest client-archive mtime in `raw/_snapshot.json` and
-  `captureMinusSnapshotDays` between them (currently **-3.431**: the capture predates the
-  newest client files, so content the client already has can read as dead). The capture is
-  taken by the pass itself (step 0), so a normal run's two clocks are seconds apart;
+  `captureMinusSnapshotDays` between them (currently **+0.81**: the capture is NEWER than
+  the newest client files. A NEGATIVE value is the direction that costs you - the capture
+  would predate the client, so content the client already has could read as dead). The
+  capture is taken by the pass itself (step 0), so a normal run's two clocks are close;
   `raw/_snapshot.json`'s `liveCapture` block says whether THIS run re-fetched or reused the
   shipped payload, and why. A run that reused says so in the summary as well.
 - **`live: null` is not `false`.** `notAnAbility` = no ability owns the id; `noLiveGeometry`
@@ -353,7 +354,7 @@ Twelve things that silently produce wrong data if a consumer does not know about
 
 1. **`procChance` sentinel is 101, not a percentage - and 0 also means "unset", not
    "never procs".** Measured with `procChance NOT IN (0, 101)`: **8,831 = 26.9%** of the
-   32,820 records carry a real value. Treat **both** 0 and 101 as "no proc-chance data".
+   32,824 records carry a real value. Treat **both** 0 and 101 as "no proc-chance data".
 2. **`maxLevel` clamps 85.3% of level-scaled CoA spells below level 80,** and
    `maxLevel == 0` is the "uncapped" sentinel, not a literal clamp to 0. Clamp formula and
    frozen goldens under "Spell column completion".
@@ -454,7 +455,7 @@ small and still diffs one line per record. `tests/test_sharding.py` asserts ever
 | `data/spells/by-id/spells-<bucket>.jsonl` | every referenced spell in that id bucket, fully enriched, ONE JSON PER LINE, ascending id; empty buckets omitted | **stream or grep it, do not slurp.** Per-effect `realPointsPerLevel`/`pointsPerComboPoint`/`spellClassMask`/`damageMultiplier`/`bonusMultiplierStock` appear only when nonzero; `rankAt60` only on a chain's first-rank record |
 | `data/spells/_meta.json` | counts only: `liveCoverage` (the gate), `liveSeedRule`, `liveFlagRule`, `baseVariant`, `count`, `missing_ref_counts_by_source`, `ref_counts`, `dataNotes`, `by_source`, `columnCoverage`, `formulaClosure`, `rankAt60`, `scalingConstants`, `devDead`, `enrichment` | |
 | `data/spells/_coverage.json` | per-`TABLE_MAPS["Spell"]`-column `{index, kind, mapped, emitted, where}` manifest (128 mapped of 234 fields; 124 emitted) | COLUMN coverage |
-| `data/spells/_coverage_live.json` | **damage-model** coverage: `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the probe list with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks` (20 reproduction gates, all passing), method notes | unrelated to `_coverage.json`. Written by `python -m tools.coverage_live`, NOT by `datamine.py`'s curation stage - see "Damage-model coverage" |
+| `data/spells/_coverage_live.json` | **damage-model** coverage: `figures` (three denominators), `delta`, `liveHoles` + `indeterminateHoles` (the probe list with class, builder tab/tier, formula and value at 60), `perClass`, `goldenChecks` (20 reproduction gates, all passing), method notes | unrelated to `_coverage.json`. Written by `datamine.py`'s `coverageLive` curation stage - see "Damage-model coverage" |
 | `data/spells/_enum_evidence.json` | per-id provenance for every effect/aura enum label, 224 classified ids | **this is how to verify any enum label in this dataset** - every named entry carries at least one `goldenSpells` id |
 | `data/spells/_missing_refs.json` | full missing-ref id lists by source, each array on ONE line | `formula` is report-only, never folded into the `cad_other`/`talent` hard gates |
 | `data/spells/charges.json` | `SpellCharges`/`SpellChargesCategory` (406 charge rows / 106 categories) | **NOT attached** to any spell record (join-rate 0.8867 < the 0.90 bar) - keyed by its own `ref`, not `spellId` |
@@ -478,7 +479,7 @@ small and still diffs one line per record. `tests/test_sharding.py` asserts ever
 | Path | What | Caveat |
 |---|---|---|
 | `data/dungeons/index.json` + `<id>-<slug>.json` | 430 dungeons (109 raids); each file carries ordered `encounters` (each with a `creature` link or null) and reward brackets | `<slug>` = lowercase name, non-alnum runs collapsed to `-`, max 40 chars. `rewards` is a LIST. `creature` is null on 84 of the 2,704 encounter entries: **66** have no `DungeonEncounterExtra` row at all, **18** have one whose `creatureId` matches no creature |
-| `data/creatures/index.json` + `creatures-<bucket>.jsonl` | `{id, name, subname}` per `Creature.dbc` row, one JSON per line, 127,178 rows | `id` is `Creature.dbc` **f1**, the real creature TEMPLATE ENTRY id (a sparse space up to ~11M) - **355 buckets, not 26**. `subname` is always `null` |
+| `data/creatures/index.json` + `creatures-<bucket>.jsonl` | `{id, name, subname}` per `Creature.dbc` row, one JSON per line, 127,179 rows | `id` is `Creature.dbc` **f1**, the real creature TEMPLATE ENTRY id (a sparse space up to ~11M) - **355 buckets, not 26**. `subname` is always `null` |
 | `data/quests/index.json` + `quests-<bucket>.jsonl` | `{id, sort: null, info: null, f1..f28}` per `Quest.dbc` row, 18,561 rows | **this table has no string block at all** |
 | `data/trainers/index.json` + `trainers-<bucket>.json` | `{id, spellId, name, skillLine, f3}`, 13,112 rows | a **flat per-row list**, not grouped by trainer; spellId join-rate 0.989 |
 | `data/mythic/challenges/index.json` + `<id>-<slug>.json` + `_lookups.json` + `_meta.json` | the CoA "Challenge Mode" feature: 297 challenges with groups/levels/rules/modifiers/conditions/requirements/rewards/spells, plus the four lookup tables | largely dungeon-agnostic - don't assume a challenge relates to a specific dungeon unless its own fields say so |
@@ -495,8 +496,8 @@ small and still diffs one line per record. `tests/test_sharding.py` asserts ever
 | `data/manastorm/manastorm.json` / `messages.json` / `index.json` + `modifiers-*.jsonl` / `playerGroupModifiers.json` / `_meta.json` | CoA's seasonal-difficulty system: 1,017 Manastorm rows (mapName 100% join, `dungeonEncounterId` 99.51% via a gated two-hop cross-check), 291 message rows, 32,768 modifier rows, 15 player-group rows | the modifier tables are **unproven beyond `id`** - no spellId or other FK column exists in either, despite several candidates tested |
 | `data/gt/combatRatings.json` | 3,200 `gtCombatRatings` rows as 32 rating slots by 99 levels | **17 of 32 slots pinned to a published WotLK name**; the other 15 stay `cr<N>` - see "gt* combat-rating tables" |
 | `data/gt/classChanceCurves.json` / `level60.json` / `_meta.json` | 8 class-major gt tables keyed by `classId`; a level-60 convenience slice; counts, `ratingNames`, `provenColumns`, `goldensReproduced`, `unresolvedRatingIndices` and the caveats | curves are levels **1-99 only** - the level-100 slot is a trap |
-| `data/realms/<realm>/index.json` | one realm's overlay evidence: per-table records/fields/mapped/delta, `spellIdRange`, `newSpellCount`, `missingRefResolution`, `liveNodeCoverage` | **read the framing under "Manastorm + realm overlays" before trusting `missingRefResolution`.** `liveNodeCoverage` is 3,929/3,932 on area-52 (missing 573365 / 760379 / 808082) - the measurement that decides the curated layer reads the BASE variant |
-| `data/realms/<realm>/_meta.json` + `overlay_diff.json` | mapped/unmapped table lists + `futureMilestone`; and the base-vs-overlay `Spell.dbc` diff over the CoA class spell set | `overlay_diff.json` is written by the standalone CLI `python -m tools.diff_realm_overlay <realm>`, not by `build_realms.py` |
+| `data/realms/<realm>/index.json` | one realm's overlay evidence: per-table records/fields/mapped/delta, `spellIdRange`, `newSpellCount`, `missingRefResolution`, `liveNodeCoverage` | **read the framing under "Manastorm + realm overlays" before trusting `missingRefResolution`.** `liveNodeCoverage` is 3,928/3,932 on area-52 (missing 255275 / 573365 / 760379 / 808082) - the measurement that decides the curated layer reads the BASE variant |
+| `data/realms/<realm>/_meta.json` + `overlay_diff.json` | mapped/unmapped table lists + `futureMilestone`; and the base-vs-overlay `Spell.dbc` diff over the CoA class spell set | `overlay_diff.json` is written by `datamine.py`'s `overlayDiff` curation stage (which runs after `realms`), not by `build_realms.py` |
 | `raw/realms/<realm>/dbc/<Table>.csv.gz` (+ `.colinfo.json`) | mapped realm tables reuse the base `TABLE_MAPS` column map and layout guard as-is; unmapped ones dump raw `f0..fN` + an evidence sidecar | zero new column proofs are introduced for realm data |
 
 ### Raw layers worth knowing by name
@@ -542,8 +543,8 @@ established", distinct from a column nobody has looked at yet.
 
 **Worked instance of the dense-id trap, both directions.** `Creature.dbc`'s `f0` is a
 positional row index that shifts whenever a patch inserts rows upstream, and its fully
-dense 1..127,178 range makes any bounded column "join" it at ~92%. `f1` is the real, stable
-creature template entry id - 127,178 ids sparse across 1..11,001,007, golden-verified
+dense 1..127,179 range makes any bounded column "join" it at ~92%. `f1` is the real, stable
+creature template entry id - 127,179 ids sparse across 1..11,001,007, golden-verified
 against Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros 11502. Against the corrected
 id space, `DungeonEncounterExtra`'s creature column proves out: 98.57% row-level join, every
 famous-boss golden resolves, fuzzy word-overlap 94.7% against a random-pairing control's
@@ -639,10 +640,10 @@ carries a mix of backported and custom systems.
   `generations` and, when the ability is live, `abilityLiveIds`.
 - **referencedBy**: how a spell entered the set. LIVE-truth seeds first - `live` (a live
   talent-tree node carries this id, 3,932), `liveTrainer` (1,210), `liveRank` (644),
-  `liveCad` (2,065 - an id the identity layer joins to the same ABILITY as a live node).
-  Then the catalog seeds, kept but not the source of truth - `cad` (13,766), `rank`
-  (10,497), `talent` (5,526). Then the closure - `trigger` (4,096, via
-  `EffectTriggerSpell`; often the actual buff aura behind a cast) and `formula` (1,623, via
+  `liveCad` (2,064 - an id the identity layer joins to the same ABILITY as a live node).
+  Then the catalog seeds, kept but not the source of truth - `cad` (13,767), `rank`
+  (10,497), `talent` (5,525). Then the closure - `trigger` (4,097, via
+  `EffectTriggerSpell`; often the actual buff aura behind a cast) and `formula` (1,624, via
   a description/tooltip cross-spell reference). The tag reflects how a record was **first**
   reached; an id already reachable by another path does not get a retroactive tag.
 - **Blank name vs null name.** `name: ""` (blank but non-null) is a WIP-content signature
@@ -825,8 +826,8 @@ third, **depth-capped-at-2** pass follows three forms:
 channel. Structurally verified: none of the three followed regexes can match an `@s:`
 token - pinned in `tests/test_closure_ranks.py`.
 
-**Closure delta**: depth 1 +1,580 / depth 2 +43 = **1,623 new records**. Of the 5,828
-distinct ids the formula text references, **5,644 (96.8%) resolve** to a row in base
+**Closure delta**: depth 1 +1,581 / depth 2 +43 = **1,624 new records**. Of the 5,825
+distinct ids the formula text references, **5,641 (96.8%) resolve** to a row in base
 `Spell.dbc`; the 184 that do not are listed in `_missing_refs.json`'s `formula` bucket
 (report-only, never folded into the hard gates). A depth-3 pass was measured and not
 applied: **+3 records**. Full breakdown in `data/spells/_meta.json`'s `formulaClosure`.
@@ -888,8 +889,8 @@ Swell*, spellIds 502065-502071.
 
 **89.3% of the damaging/healing effect slots a level-60 character can actually CAST are
 modelable (493 of 552); 59 are holes, 20 distinct `(spellId, slot)` pairs.** That is the
-number to plan against. Regenerate with `python -m tools.coverage_live`; output lands in
-`data/spells/_coverage_live.json`.
+number to plan against. It is recomputed by every `datamine.py` pass (curation stage
+`coverageLive`); output lands in `data/spells/_coverage_live.json`.
 
 | denominator | slots | modelable | % | holes | distinct hole pairs |
 |---|---:|---:|---:|---:|---:|
@@ -1115,7 +1116,7 @@ carrier and stripping them would merge distinct spells.
 **Names come from the BASE `Spell` variant**
 (`raw/tables/Spell/variants/data-patch-t-mpq/`), not the chain winner at
 `raw/tables/Spell/`, which is area-52's realm overlay. All 3,932 live-node spell ids resolve
-in the base variant and only 3,929 in the overlay - reading the overlay silently loses live
+in the base variant and only 3,928 in the overlay - reading the overlay silently loses live
 CoA content.
 
 **Trainer admission rule.** A trainer row always MARKS an id it already shares with another
@@ -1159,7 +1160,7 @@ node claims, so it can never silently mean one of the variants. Read
 `liveNodeVariant`/`liveNodeVariantOf` on a record and `_meta.json.liveNodeVariantGate` for
 the full split list.
 
-**Headline counts** (re-derived every build): 8,784 abilities, 2,865 spanning more than one
+**Headline counts** (re-derived every build): 8,785 abilities, 2,864 spanning more than one
 generation, 3,618 live, 657 with a rank ladder (201 of them live), 35 split names -> 71
 variant records + 3 unattributed bare keys, **0** abilities holding two distinct live nodes,
 14,286 residual ids joining nothing (0 of them from `liveNode`).
@@ -1323,8 +1324,8 @@ agrees with `specs.json`'s `roles` field on all 31 classes the table names (Pure
 / Healer+DPS / Tank+Healer+DPS): **0 mismatches**. The only `ChrClasses` row it does not cover
 is Hero. Pinned as a golden set in `tests/test_class_plumbing.py`.
 
-**(d) Base-vs-overlay `Spell.dbc` diff tooling.** `tools/diff_realm_overlay.py` (CLI:
-`python -m tools.diff_realm_overlay <realm>`) measures how far area-52's realm overlay and the
+**(d) Base-vs-overlay `Spell.dbc` diff tooling.** `tools/diff_realm_overlay.py` (curation
+stage `overlayDiff`) measures how far area-52's realm overlay and the
 base chain disagree on the shared CoA spell set. **Read the result as Free-Pick-vs-base, not as
 a CoA authority question**: CoA realms have no client-side overlay and read base, so "area-52
 disagrees with base on 1,332 rows" says Free-Pick's revision differs - it is not evidence that
@@ -1862,9 +1863,11 @@ drift whenever CoA ships new content:
   `ChrClasses.filename` join goldens (id 14/19/20) plus a cross-check against the live
   `ClassRemap` Lua table; the 21/21 `coa-custom` classId gate +
   `unmatchedChrClasses == ["Hero"]`; `specs.json` 32/32; the `ChrClassesRoles` roster
-  cross-check (31/31, 0 mismatches); `tools/diff_realm_overlay.py` against area-52 gated at
-  +/-10% (re-derived fresh, not pinned); the `overlay_diff.json`-survives-a-rebuild regression
-  test; and a fixture-dir unit test for `config.discover_realms()`.
+  cross-check (31/31, 0 mismatches); `tools/diff_realm_overlay.py` against area-52 gated on
+  structure - column ranking, column indexes and set arithmetic recomputed from `work/dbc` -
+  rather than on magnitudes, which move with every client patch; the
+  `overlay_diff.json`-survives-a-rebuild regression test; and a fixture-dir unit test for
+  `config.discover_realms()`.
 - `tests/test_coatalents.py`: 21 classes / 3,618 nodes / 292 choice groups pinned against the
   frozen `raw/talents/coa-builder-voljin.html` capture - these drift only if that capture is
   refreshed, not on an ordinary client-patch re-run. The 84/96/72/24 tab-layer reconciliation
