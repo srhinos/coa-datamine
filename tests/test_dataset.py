@@ -43,6 +43,10 @@ assert set(prov["buildStats"]) == {
     "abilities", "spells", "classes", "talents", "dungeons",
     "creatures", "classmeta", "essence", "mythic",
     "manastorm", "realms", "coatalents", "items", "gt",
+    # both write committed files under data/ off the tree the stages above
+    # produced; they were hand-run CLIs until they were folded in here, which
+    # let their outputs keep a previous run's numbers through a rebuild
+    "overlayDiff", "coverageLive",
 }, set(prov["buildStats"])
 # interface + content are RAW layers now, emitted from the snapshot by the same
 # traversal - not curation stages that re-read the client.
@@ -100,10 +104,19 @@ assert {m["table"] for m in prov["headerMismatches"]} == set(_ALLOWED_HEADER_MIS
 # let `live` sit days behind the raw layer with nothing noticing. `dbc` joined it
 # for the same reason in smaller print - `python -m tools.dbc` ran dump_all()
 # over whatever was in work/dbc and rewrote raw/dbc outside the pass.
+#
+# `coverage_live` and `diff_realm_overlay` joined it last: each WRITES a
+# committed file under data/ (spells/_coverage_live.json and
+# realms/<realm>/overlay_diff.json) that the pass did not produce at all, so a
+# rebuild refreshed everything around them while their outputs kept the previous
+# run's numbers - and nothing failed, because each file's internal gates are
+# checked against figures stored in that same file. Both are now stages of
+# curate.run(); the CLIs are gone rather than merely discouraged.
 _NO_MAIN = sorted((config.REPO_ROOT / "tools").glob("build_*.py")) + [
     config.REPO_ROOT / "tools" / f"{m}.py" for m in
     ("curate", "extract_mpq", "extract_realms", "extract_interface",
-     "snapshot_content", "fetch_coatalents", "dbc")]
+     "snapshot_content", "fetch_coatalents", "dbc",
+     "coverage_live", "diff_realm_overlay")]
 _with_main = [p.name for p in _NO_MAIN
               if "if __name__" in p.read_text(encoding="utf-8")]
 assert not _with_main, (
@@ -114,16 +127,11 @@ assert len([p for p in _NO_MAIN if p.name.startswith("build_")]) >= 15, _NO_MAIN
 # ...and the same check the other way round, so a NEW entry point cannot appear
 # unremarked. Every remaining __main__ under tools/ is named here with what it
 # writes; the rule the list encodes is "a module that writes a COMMITTED layer
-# has no __main__". The two entries flagged below are the residue: they write
-# committed files that datamine.py's pass does not produce at all, so deleting
-# their CLIs would orphan the outputs (a generated file with no generator) -
-# folding them into curation is a separate change, not a deletion.
+# has no __main__". Every entry below is now read-only or writes only to
+# gitignored work/ - there is no longer a committed file whose only generator
+# sits outside datamine.py's pass.
 _CLI_TOOLS = {
     "bonus_multiplier_agreement.py": "read-only analysis, prints",
-    "coverage_live.py": "WRITES data/spells/_coverage_live.json - the pass has "
-                        "no stage that produces it",
-    "diff_realm_overlay.py": "WRITES data/realms/<realm>/overlay_diff.json - "
-                             "same",
     "find.py": "read-only search over raw/",
     "lua51.py": "read-only bytecode reader",
     "mpq.py": "read-only archive reader",

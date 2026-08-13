@@ -1,7 +1,7 @@
 {
  "_generatedBy": "tools/coverage_live.py",
+ "_measures": "The damage-model coverage figure over castable (live) content.",
  "_note": "Unrelated to data/spells/_coverage.json, which measures Spell.dbc COLUMN coverage. This file measures how much of a CoA class's damaging/healing effect output a simulator can model.",
- "_task": "Recompute the damage-model coverage figure over castable (live) content.",
  "cadFigureOverstates": "The CAD-denominator figure (80.5% modelable, 278 holes, 101 distinct pairs) OVERSTATES the size of the problem for a simulator, because it counts effect slots on catalog entries no player can cast. 65 of its 101 distinct hole pairs (64%) sit on entries with no live builder node and no evidence of any other acquisition path - dead content. Use the live figure; the CAD figure is historical.",
  "caveats": [
   "The live denominator is a lower bound: indeterminate entries (live: null) are excluded from it and included in liveOrIndeterminate.",
@@ -357,7 +357,7 @@
   }
  },
  "goldenChecks": {
-  "_what": "Reproduction gates against the published coverage and hole-triage audit. All must pass or the pipeline has drifted.",
+  "_what": "Reproduction gates: pinned coverage and hole-triage figures. All must pass or the pipeline has drifted.",
   "allPass": true,
   "checks": [
    {
@@ -2345,6 +2345,7 @@
   "chainsWalked": 8706,
   "channels": "W = weapon effect; P = effectRealPointsPerLevel or a bound $ppl/$PL; T = a stat*number coefficient term in description + tooltip + SpellDescriptionVariables",
   "classes": 21,
+  "computedBy": "tools/coverage_live.py, as a stage of datamine.py's pass, off the data/ tree that same pass curated",
   "damagingSlotDefinition": {
    "auraCarrierEffects": [
     6,
@@ -2391,7 +2392,6 @@
    "TalentAbility"
   ],
   "levelCap": 60,
-  "portedFrom": "reimplemented here from the published audit's own measurement scripts so the figure is reproducible inside this repo",
   "rankPick": "highest rank with CAD rank.level <= 60; fallback = lowest-level rank",
   "spellRowsLoaded": 209206,
   "spellRowsSkippedMalformed": 0,

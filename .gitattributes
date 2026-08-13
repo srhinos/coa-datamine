@@ -37,8 +37,17 @@ raw/_inventory/** -text
 raw/dbc/** -text
 raw/realms/** -text
 raw/talents/** -text
-raw/provenance.json -text
 data/** -text
+
+# The two generated manifests that sit at the ROOT of raw/. Listing
+# provenance.json by name once left raw/_snapshot.json as the single tracked
+# file under raw/ with no attribute, so on a core.autocrlf=true clone it
+# materialized CRLF (85,377 bytes) against an LF index blob (83,015) - the first
+# run then "modified" a file it had not written, and any byte-for-byte
+# determinism check failed on Windows only, silently. A glob whose pattern
+# contains a slash does not match across directories, so this covers exactly the
+# depth-1 manifests and cannot be outgrown by a new one.
+raw/*.json -text
 
 # The generated search catalog. tools/build_catalog.py must reproduce all four
 # files byte for byte on any platform - tests/test_catalog.py regenerates them

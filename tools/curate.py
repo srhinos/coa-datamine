@@ -67,7 +67,7 @@ BASE_VARIANT_RULE = (
     "character reads when no realm overlay applies - NOT the chain winner. On "
     "this client the chain winner for Spell.dbc is area-52's realm overlay, "
     "which is missing live CoA content: all 3,932 live talent-node spell ids "
-    "resolve in the base variant and only 3,929 in the overlay, so curating off "
+    "resolve in the base variant and only 3,928 in the overlay, so curating off "
     "the winner would silently drop live abilities. Realm overlays are not "
     "discarded - they are curated separately, from each realm's own chain, into "
     "raw/realms + data/realms.")
@@ -245,7 +245,7 @@ def run(inputs: dict = None) -> dict:
                        build_dungeons, build_creatures, build_classmeta,
                        build_essence, build_mythic, build_manastorm,
                        build_realms, build_coatalents, build_items, build_gt,
-                       build_abilities)
+                       build_abilities, coverage_live, diff_realm_overlay)
 
     if inputs is None:
         inputs = json.loads((config.WORK_DIR / CURATION_INPUTS_JSON)
@@ -293,6 +293,22 @@ def run(inputs: dict = None) -> dict:
     # from the SNAPSHOT's archive layout, never from a fresh scan of the client.
     stage("realms", lambda: build_realms.build(realms=sorted(inputs["realms"])),
           lambda s: str(sorted(s)))
+    # Both of the following write committed files under data/ off the tree the
+    # stages above just curated, so they must run INSIDE the pass. They were
+    # once hand-run CLIs, which is a drift class rather than a convenience: a
+    # rebuild refreshed everything around them while their own outputs kept the
+    # previous run's numbers, and no test noticed because each file's internal
+    # gates are checked against figures stored in that same file.
+    # overlay_diff follows realms because build_realms owns the rest of
+    # data/realms/<realm>/ and rewrites that directory.
+    stage("overlayDiff", lambda: diff_realm_overlay.build(sorted(inputs["realms"])),
+          lambda s: ", ".join(f"{r}: {v['differing']}/{v['shared']} differ"
+                              for r, v in sorted(s.items())))
+    # coverage_live reads data/spells + data/classes, so it follows both.
+    stage("coverageLive", coverage_live.build,
+          lambda s: f"{s['modelable']}/{s['slots']} live slots modelable "
+                    f"({s['modelablePct']:.1f}%), {s['holeDistinctSpellSlotPairs']} "
+                    f"hole pairs, goldens {'pass' if s['goldenChecksPass'] else 'FAIL'}")
 
     prov = {
         "generatedUtc": datetime.datetime.now(datetime.timezone.utc)

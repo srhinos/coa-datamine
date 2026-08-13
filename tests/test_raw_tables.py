@@ -57,6 +57,7 @@ import json
 import re
 import shutil
 import struct
+import subprocess
 import sys
 import tempfile
 from collections import Counter
@@ -336,11 +337,38 @@ assert attrs.is_file() and "raw/tables/** -text" in attrs_text
 for guarded in ("raw/tables/**", "raw/content/**", "raw/interface/**",
                 "raw/interface_all/**", "raw/cache/**", "raw/_catalog/**",
                 "raw/_inventory/**", "raw/dbc/**", "raw/realms/**",
-                "raw/provenance.json", "raw/talents/**", "data/**",
+                "raw/*.json", "raw/talents/**", "data/**",
                 "raw/recovered/**", "raw/binaries/**"):
     assert f"{guarded} -text" in attrs_text, guarded
 print("[4] .gitattributes: every generated path is -text, so git never rewrites "
       "these bytes on checkout or on add")
+
+# ...and the same claim checked by EFFECT rather than by pattern spelling. The
+# list above is by name, which is how raw/_snapshot.json came to be the one
+# tracked file under raw/ with no attribute at all: it materialised CRLF on a
+# core.autocrlf=true clone (85,377 bytes) against an LF index blob (83,015), so
+# the first run "modified" a file it had not written and byte-for-byte
+# determinism failed on Windows only, silently. Ask git what it actually
+# resolves for every tracked path instead of trusting the spelling.
+_repo = Path(__file__).resolve().parent.parent
+_tracked = subprocess.run(["git", "ls-files", "raw", "data"], cwd=_repo,
+                          capture_output=True, text=True)
+if _tracked.returncode == 0 and _tracked.stdout.strip():
+    # feed BYTES, not text: in text mode Python translates the '\n' separators
+    # to os.linesep on write, and git then reads the CR as part of the filename,
+    # so every path matches nothing and reports back as unspecified
+    _paths = [ln.strip() for ln in _tracked.stdout.splitlines() if ln.strip()]
+    _attr = subprocess.run(["git", "check-attr", "--stdin", "text"], cwd=_repo,
+                           input=("\n".join(_paths) + "\n").encode("utf-8"),
+                           capture_output=True)
+    _unspecified = [ln.rsplit(": text: ", 1)[0]
+                    for ln in _attr.stdout.decode("utf-8", "replace").splitlines()
+                    if ln.endswith(": text: unspecified")]
+    assert not _unspecified, (
+        f"{len(_unspecified)} tracked generated file(s) have no text attribute, "
+        f"so a Windows checkout rewrites their bytes: {_unspecified[:5]}")
+    print(f"[4] .gitattributes: git resolves an explicit text attribute for all "
+          f"{len(_paths):,} tracked raw/ + data/ paths")
 
 # the layer is whole, not something a crash left half-written
 sentinel = layerstate.read(RAW)
