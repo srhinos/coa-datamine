@@ -53,7 +53,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # sure work/dbc was populated - that one line rewrote all 111 base tables from the
 # live client and was one of the six polluters in tests/_diagnosis.md. work/dbc is
 # materialized by datamine.py; this test reads it, never writes it.
-from tests import _iso; _iso.sandbox(data=True, raw=True, work_realms=True)
+# `raw` is seeded per-subpath, not whole: raw/ is 726 MB and this test touches
+# 27 MB of it (reads raw/talents, writes raw/realms - measured, see the seeding
+# note in tests/_iso.py). Seeding the rest cost ~24 s per run in copy + delete.
+from tests import _iso; _iso.sandbox(data=True, raw=["talents", "realms"],
+                                     work_realms=True)
 
 from tools import config, dbc, extract_realms, build_realms
 

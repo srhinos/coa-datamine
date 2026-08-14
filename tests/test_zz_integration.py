@@ -41,7 +41,15 @@ committed_prov = json.loads((COMMITTED / "raw" / "provenance.json")
 # data/ is seeded because curation legitimately reads the previous pass's tree in
 # places (build_spells reads data/classes, which a later stage rebuilds), exactly
 # as a real `python datamine.py` run does.
-_iso.sandbox(data=True, raw=True, work=[])
+# `raw` is seeded per-subpath: the full rebuild reads raw/{_snapshot.json,content,
+# dbc,provenance.json,realms,tables,talents} and writes raw/{dbc,provenance.json,
+# realms} - 437 MB of a 726 MB tree (measured; see the seeding note in
+# tests/_iso.py). The unseeded rest (_inventory, binaries, cache, interface,
+# interface_all, recovered, _catalog) is not an input to curate.run(); a stage
+# that grows one fails loudly on the missing file rather than silently.
+_iso.sandbox(data=True, work=[], raw=["_snapshot.json", "content", "dbc",
+                                      "provenance.json", "realms", "tables",
+                                      "talents"])
 
 from tools import config, curate, extract_mpq, extract_realms
 

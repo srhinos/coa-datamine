@@ -38,8 +38,36 @@ import time, so the redirect has to be in place first):
 
 Each root takes False (leave it pointing at the committed tree, read-only and
 guarded), True (scratch, seeded with the whole committed tree), or a list of
-subpaths (scratch, seeded with just those - `raw=True` copies 726 MB, so a test
-that only needs `raw/content` should say `raw=["content"]`).
+subpaths (scratch, seeded with just those).
+
+SEEDING COST - why the `raw` declarations are lists
+---------------------------------------------------
+Seeding is a copy in and an rmtree out, and both scale with the tree. Measured
+on this repo: `data` (146 MB / 2,139 files) costs ~0.8 s in + ~0.2 s out, which
+is not worth narrowing; `raw` (726 MB / 19,914 files) costs ~12 s in + ~13 s out,
+which is - it was 100 s of a 1,224 s suite across the four tests that took
+`raw=True`. Those four now name the subpaths they use (27-437 MB instead of
+726 MB), which cut the suite to 1,156 s with all 40 tests still passing.
+
+A narrowed list must cover everything the test READS as well as everything it
+writes, and being wrong is not always loud: a missing input usually raises
+FileNotFoundError, but a builder that guards an optional input with `.exists()`
+would silently do less work and still pass. So narrow on measurement, not on
+reading the code:
+
+  1. add an audit hook for the `open` event that records every path the test
+     touches under the scratch root, split by read vs write;
+  2. run the test with the root seeded WHOLE, and hash every file the scratch
+     tree holds at the end (wrap `_iso._cleanup`, which runs before the delete);
+  3. narrow the declaration, run again, and require that every subpath present
+     in both runs hashes identically. `raw/provenance.json` is the one expected
+     difference - tools/curate.py stamps it with `generatedUtc`.
+
+Hardlink seeding (os.link, instant regardless of size) was measured and rejected:
+a test that opens a seeded file for writing mutates the committed file THROUGH
+the link, so it would need copy-on-write wired into the audit hook below - a new
+way for the isolation layer itself to be wrong, for ~5 s a run once the raw
+lists were in place.
 """
 import atexit
 import os

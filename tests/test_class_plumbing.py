@@ -26,7 +26,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # writes raw/realms + data/realms and diff_realm_overlay writes into data/realms,
 # on top of the four class-layer builders below. work/realms is READ here
 # (skip_extract=True), never written - datamine.py materializes it.
-from tests import _iso; _iso.sandbox(data=True, raw=True)
+# `raw` is seeded per-subpath: this test reads raw/{content,dbc,interface,talents}
+# and writes raw/realms - 172 MB of a 726 MB tree (measured; see the seeding note
+# in tests/_iso.py).
+from tests import _iso; _iso.sandbox(
+    data=True, raw=["content", "dbc", "interface", "talents", "realms"])
 
 from tools import config, dbc, sharding
 from tools import (build_classes, build_classmeta, build_coatalents, build_essence,

@@ -10,7 +10,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # Builds into scratch data/ + raw/ this process owns and deletes: build_items
 # writes both (raw/dbc/itemstat shards, data/items), and this file drives four
 # more builders after it. The client is the sealed snapshot.
-from tests import _iso; _iso.sandbox(data=True, raw=True)
+# `raw` is seeded per-subpath: this test reads raw/{content,realms,talents} and
+# reads+writes raw/dbc - 148 MB of a 726 MB tree (measured; see the seeding note
+# in tests/_iso.py).
+from tests import _iso; _iso.sandbox(
+    data=True, raw=["content", "dbc", "realms", "talents"])
 
 from tools import (config, dbc, build_items, wdb_item, build_classes,
                    build_classmeta, build_coatalents, build_spells)
