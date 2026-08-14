@@ -216,6 +216,8 @@ def _violation(path) -> str:
 
 
 def _hook(event, args):
+    # Every branch sets `paths` to the committed-root candidates this event
+    # would write. Renames carry two.
     if event == "open":
         path, mode, flags = args
         if isinstance(mode, str):
@@ -223,24 +225,34 @@ def _hook(event, args):
                 return
         elif not (flags & _WRITE_FLAGS):
             return
+        paths = (path,)
     elif event == "os.mkdir":
-        path = args[0]
         # mkdir(exist_ok=True) on a directory that is already there is not a
         # write; every builder's ensure_dirs() does it on every run.
-        if os.path.isdir(path):
+        if os.path.isdir(args[0]):
             return
+        paths = (args[0],)
+    elif event in ("os.rename", "os.replace"):
+        # CPython raises `os.rename` for BOTH, with args
+        # (src, dst, src_dir_fd, dst_dir_fd), so args[-1] is an int fd, not a
+        # path. The destination must be read positionally. Check both ends: a
+        # rename OUT of a committed root mutates it just as much as one INTO it.
+        # This is the operation tools/emit.py uses to publish staged layers, so
+        # a guard that cannot see it is blind to the widest writer in the repo.
+        paths = (args[1], args[0])
     elif event in _WRITE_EVENTS:
-        path = args[-1] if event in ("os.rename", "os.replace") else args[0]
+        paths = (args[0],)
     else:
         return
-    root = _violation(path)
-    if root:
-        raise RuntimeError(
-            f"test isolation violation: this test wrote {path} - inside the "
-            f"committed `{root}` root it did not sandbox. Pass {root}=True (or a "
-            f"list of subpaths to seed) to _iso.sandbox(), or point the builder "
-            f"at a directory the test owns. Tests must leave the tree byte-clean; "
-            f"see tests/_iso.py and tests/_diagnosis.md.")
+    for path in paths:
+        root = _violation(path)
+        if root:
+            raise RuntimeError(
+                f"test isolation violation: this test wrote {path} - inside the "
+                f"committed `{root}` root it did not sandbox. Pass {root}=True (or a "
+                f"list of subpaths to seed) to _iso.sandbox(), or point the builder "
+                f"at a directory the test owns. Tests must leave the tree byte-clean; "
+                f"see tests/_iso.py and tests/_diagnosis.md.")
 
 
 def _arm():
