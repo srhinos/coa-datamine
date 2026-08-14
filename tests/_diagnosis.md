@@ -3,6 +3,14 @@
 Committed (not gitignored): this is the evidence base for the isolation repair, and it
 should be reviewable in the same history as the fix.
 
+**RESOLVED.** The repair is `tests/_iso.py` (scratch roots, snapshot-only client reads, an
+audit-hook guard that fails a test the moment it writes a committed root) plus
+`tests/test_zz_integration.py` (the one test that rebuilds anything). Section 7's five
+requirements are met, with one deliberate difference: requirement 2 is satisfied by
+extracting from the SEALED SNAPSHOT rather than by re-pinning, since the pins were never
+stale - see section 6. Nothing below has been rewritten to match the fix; it is the record
+of what was measured before it.
+
 Measured on branch `v5-post-merge` @ `287563fc`, client `E:\ascension-live`.
 The suite is 38 plain assert scripts run as separate processes
 (`Get-ChildItem tests\test_*.py | ForEach-Object { python $_.FullName }`), not pytest.

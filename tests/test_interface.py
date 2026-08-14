@@ -12,6 +12,15 @@ import hashlib, json, os, random, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# extract_interface.extract_all() REBUILDS a committed layer - all 1,500+ files
+# under raw/interface - so it runs into a scratch raw/ this process owns and
+# deletes, over the sealed snapshot's archives. The committed layer is gated
+# where it belongs, read-only, by tests/test_raw_layers.py; what this file gates
+# is the extractor, and an extractor is gated by running it, not by trusting the
+# output it last left lying in the tree. raw/provenance.json is seeded because
+# the last section reads it.
+from tests import _iso; _iso.sandbox(raw=["provenance.json"])
+
 from tools import config
 from tools import extract_interface
 

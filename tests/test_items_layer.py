@@ -7,7 +7,12 @@ import csv, gzip, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import (config, dbc, extract_mpq, build_items, wdb_item, build_classes,
+# Builds into scratch data/ + raw/ this process owns and deletes: build_items
+# writes both (raw/dbc/itemstat shards, data/items), and this file drives four
+# more builders after it. The client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True, raw=True)
+
+from tools import (config, dbc, build_items, wdb_item, build_classes,
                    build_classmeta, build_coatalents, build_spells)
 
 # =========================================================================
@@ -23,9 +28,16 @@ assert set(config.WANTED_DBCS_V6) == {
     "ItemRandomSuffix.dbc", "ItemRandomProperties.dbc",
 }
 
-prov = extract_mpq.extract_all()
+# This ran extract_mpq.extract_all() against the LIVE client, rewriting all 111
+# files in work/dbc under every test that had already run, and then compared the
+# result against pins taken from the SNAPSHOT - which is why this file failed even
+# on a pristine tree (tests/_diagnosis.md). Read the sidecar the single writer of
+# work/dbc left instead; a wanted table missing from the chain still stops the
+# pass, in materialize_inputs, long before this file runs.
+base = json.loads((config.WORK_DIR / "curation_inputs.json")
+                  .read_text(encoding="utf-8"))["base"]
 for name in config.WANTED_DBCS_V6:
-    assert name.lower() in prov["files"], f"missing from chain: {name}"
+    assert name in base, f"missing from chain: {name}"
 
 # Fresh header pins (records, ACTUAL fields = record_size//4) - re-derived 2026-08-06,
 # not copied from DATAMINE-REQUEST.md Sec 8.1 (which only gives byte sizes, not row/
@@ -97,7 +109,7 @@ print("(a) Item DBCs config-add: PASS")
 # =========================================================================
 assert config.WANTED_DBCS_V7 == ["ItemStat.dbc"]
 assert set(config.WANTED_DBCS_V7) <= set(config.WANTED_DBCS)
-assert "itemstat.dbc" in prov["files"], "missing from chain: ItemStat.dbc"
+assert "ItemStat.dbc" in base, "missing from chain: ItemStat.dbc"
 
 f = dbc.DBCFile(config.WORK_DBC_DIR / "ItemStat.dbc")
 assert f.records == 1513931 and f.fields == 39 and f.declared_fields == 39
@@ -212,7 +224,7 @@ print("(b) ItemStat golden + sharded dump + statsByItem index: PASS")
 # =========================================================================
 assert config.WANTED_DBCS_V8 == ["ItemSpells.dbc"]
 assert set(config.WANTED_DBCS_V8) <= set(config.WANTED_DBCS)
-assert "itemspells.dbc" in prov["files"], "missing from chain: ItemSpells.dbc"
+assert "ItemSpells.dbc" in base, "missing from chain: ItemSpells.dbc"
 
 isp = dbc.DBCFile(config.WORK_DBC_DIR / "ItemSpells.dbc")
 assert isp.records == 131722 and isp.fields == 37 and isp.declared_fields == 37

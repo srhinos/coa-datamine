@@ -2,6 +2,13 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# client=False: this file asserts the REAL client configuration, so it must not be
+# repointed at the snapshot. The guard is still armed, which is the point - it
+# proves this test writes nothing. (tests/test_crack.py is the one file with no
+# sandbox at all: it reads the live client on purpose, to prove datamine.py's own
+# ClientReads guard catches a client read after the snapshot is sealed.)
+from tests import _iso; _iso.sandbox(client=False)
+
 from tools import config
 
 assert config.CLIENT_DIR.is_dir(), f"client dir missing: {config.CLIENT_DIR}"

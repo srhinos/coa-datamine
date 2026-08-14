@@ -22,6 +22,12 @@ import json, shutil, sys, tempfile
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Builds into scratch data/ + raw/ this process owns and deletes: build_realms
+# writes raw/realms + data/realms and diff_realm_overlay writes into data/realms,
+# on top of the four class-layer builders below. work/realms is READ here
+# (skip_extract=True), never written - datamine.py materializes it.
+from tests import _iso; _iso.sandbox(data=True, raw=True)
+
 from tools import config, dbc, sharding
 from tools import (build_classes, build_classmeta, build_coatalents, build_essence,
                    build_realms, diff_realm_overlay)

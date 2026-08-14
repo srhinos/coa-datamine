@@ -6,6 +6,10 @@ import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
+
 from tools import config
 from tools import build_spells, build_classes, build_talents, build_dungeons
 
@@ -100,13 +104,17 @@ oversized = []
 for p in sorted(config.DATA_DIR.rglob("*")):
     if not p.is_file() or p.suffix not in (".json", ".jsonl"):
         continue
-    rel = p.relative_to(config.REPO_ROOT).as_posix()
+    # Relative to the DATA root, not the repo root: the tree being scanned is
+    # whatever config points at, which under tests/_iso.py is a scratch build
+    # outside the repo's data/. The `data/...` shape the ALLOWLIST keys use is
+    # the same either way.
+    rel = "data/" + p.relative_to(config.DATA_DIR).as_posix()
     n = sum(1 for _ in open(p, encoding="utf-8"))
     if n > MAX_LINES and rel not in ALLOWLIST:
         oversized.append((rel, n))
 assert not oversized, f"files exceeding {MAX_LINES} lines with no allowlist entry: {oversized}"
 for rel in ALLOWLIST:
-    p = config.REPO_ROOT / rel
+    p = config.DATA_DIR.joinpath(*rel.split("/")[1:])
     assert p.is_file(), f"stale allowlist entry, file gone: {rel}"
 
 # ---- spells: bucket index completeness + count invariance ----

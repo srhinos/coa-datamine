@@ -76,12 +76,20 @@ import re
 import struct
 import sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SPELL_CSV = os.path.join(ROOT, "raw", "dbc", "Spell.csv.gz")
-SDV_CSV = os.path.join(ROOT, "raw", "dbc", "SpellDescriptionVariables.csv.gz")
-CLASSES = os.path.join(ROOT, "data", "classes")
-TALENTS = os.path.join(ROOT, "data", "talents", "coa")
-OUT = os.path.join(ROOT, "data", "spells", "_coverage_live.json")
+from tools import config
+
+# Derived from tools/config.py like every other module here, rather than from
+# this file's own __file__. It was the one builder that computed the repo root
+# for itself, which made its five paths - including the committed file it writes,
+# data/spells/_coverage_live.json - impossible to redirect: a caller that had
+# pointed the pipeline at another tree still got this stage writing into the
+# repo. Resolved at import, and curate.run() imports its builders when it runs.
+ROOT = str(config.REPO_ROOT)
+SPELL_CSV = str(config.RAW_DBC_DIR / "Spell.csv.gz")
+SDV_CSV = str(config.RAW_DBC_DIR / "SpellDescriptionVariables.csv.gz")
+CLASSES = str(config.DATA_DIR / "classes")
+TALENTS = str(config.DATA_DIR / "talents" / "coa")
+OUT = str(config.DATA_DIR / "spells" / "_coverage_live.json")
 
 csv.field_size_limit(10 ** 8)
 

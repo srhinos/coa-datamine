@@ -1876,7 +1876,11 @@ drift whenever CoA ships new content:
   `HYDROMANCY`/`BULWARK` not), and the `isStartingNode` anomaly (2 nonzero, values `{1, 127}`)
   are pinned the same way. The spellDbc resolve-rate gate (>=0.95, measured 1.0 against the
   current 209,206-row base `Spell.dbc`) DOES depend on the client.
-- `tests/test_dataset.py`: 14 `buildStats` keys. The `headerMismatches` allowlist check over the
+- `tests/test_dataset.py`: the COMMITTED `raw/provenance.json` - its `buildStats` keys, its live
+  coverage, its entry-point rules - rather than a curation run of its own (that moved to
+  `tests/test_zz_integration.py`, which also checks the rebuild reproduces this file). Gating the
+  shipped artifact is the stronger of the two: a stale committed provenance passes a re-derive-
+  and-check-the-copy test. The `headerMismatches` allowlist check over the
   base `config.WANTED_DBCS` set is STRUCTURAL, not a snapshot pin - do not widen the allowlist
   reflexively; investigate which base table's header started lying and why.
 - `tests/test_closure_ranks.py`: the formula-closure delta, re-derived fresh each run and gated
@@ -1906,15 +1910,40 @@ a re-pin.
 
 ### Operational rules
 
-**Run builders and tests ONE AT A TIME** - never two concurrently (two processes, two shells)
-against this repo. The builders are single-writer by design but take no cross-process lock, and
+**Run BUILDERS one at a time** - never two `python datamine.py` passes concurrently against this
+repo. The builders are single-writer by design but take no cross-process lock, and
 `build_spells.build()` opens with `shutil.rmtree` on `data/spells/`, so anything reading that
 tree during another process's ~30s rebuild window dies on `FileNotFoundError`
-(`charges.json`, `_missing_refs.json`) or `EOFError` on a half-written `.csv.gz`. The wipe is
-NOT self-healing (`tests/test_enums_v4.py` reads `charges.json` before it regenerates it, so
-sequential retries keep failing until `git checkout -- data/spells`). Reproduced 6/6
+(`charges.json`, `_missing_refs.json`) or `EOFError` on a half-written `.csv.gz`. Reproduced 6/6
 concurrently vs 0/10 sequentially; the failure is exit code 1 with an ordinary traceback, not a
 segfault.
+
+**The TESTS no longer share that constraint, because they no longer write the tree.** Every test
+calls `tests/_iso.py`'s `sandbox()` before it imports a builder. That does three things: it
+repoints `config.CLIENT_DIR` at the sealed snapshot (`work/snapshot`) so no test reads the
+auto-patching live client; it redirects whichever of `data/`, `raw/` and `work/` the test writes
+into a scratch tree under `work/_test/` that the process owns and deletes on exit, seeded from
+the committed tree; and it arms an audit hook that fails the test, by name and path, the moment
+it writes a committed root it did not sandbox. The suite therefore gives the same result in any
+order, any number of times, and leaves `git status` empty - which it did NOT before: rebuilding
+shared state as an import side effect made a test's result depend on what had run before it, at
+one point through six tests that re-extracted `work/dbc` from the LIVE client while asserting
+against snapshot-derived pins. The evidence is in `tests/_diagnosis.md`.
+
+Two files are deliberately outside that: `tests/test_config.py` asserts the real client
+configuration (guard armed, client not repointed), and `tests/test_crack.py` reads the live
+client on purpose, to prove `datamine.py`'s own `ClientReads` guard catches a client read after
+the snapshot is sealed.
+
+**One test rebuilds; the rest read what the pass materialized.** `tests/test_zz_integration.py`
+is the only place the suite runs `extract_mpq.extract_all()`, `extract_realms.extract_all()` or
+`curate.run()`. It runs all three from the sealed snapshot into its own scratch tree and proves
+they reproduce what is committed: every base table's sha256 against
+`work/curation_inputs.json`, every realm table's the same way, then a full curation whose
+`buildStats` match `raw/provenance.json` and whose `data/` tree and `raw/dbc` dump are BYTE
+IDENTICAL to the committed ones. That is what makes the snapshot-relative pins in the other
+tests trustworthy - and it is why a pin that disagrees with the live client is not stale:
+`data/` and `raw/` are a function of the snapshot, not of whatever the launcher shipped today.
 
 **A module that `rmtree`s a shared directory must NAME the files it does not own**, and a test
 must assert those files survive a real `build()` - not a mock of one. Two directories have more

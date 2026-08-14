@@ -46,7 +46,16 @@ import json, struct, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, dbc, extract_mpq, extract_realms, build_realms
+# This test owns the REALM-overlay extraction, and it now owns it in scratch:
+# work/realms, raw/realms and data/realms all land in a directory this process
+# deletes on exit, and the archives come from the sealed snapshot rather than the
+# live client. It used to call extract_mpq.extract_all() first, purely to make
+# sure work/dbc was populated - that one line rewrote all 111 base tables from the
+# live client and was one of the six polluters in tests/_diagnosis.md. work/dbc is
+# materialized by datamine.py; this test reads it, never writes it.
+from tests import _iso; _iso.sandbox(data=True, raw=True, work_realms=True)
+
+from tools import config, dbc, extract_realms, build_realms
 
 REALM = "area-52"
 
@@ -55,7 +64,8 @@ assert REALM in config.discover_realms(), config.discover_realms()
 assert "enUS" not in config.discover_realms() and "Content" not in config.discover_realms()
 
 # ---- extraction layer (tools/extract_realms.py) ----
-extract_mpq.extract_all()          # base work/dbc must be populated (Spell.dbc etc.)
+assert (config.WORK_DBC_DIR / "Spell.dbc").is_file(), (
+    f"{config.WORK_DBC_DIR} is not materialized - run `python datamine.py` once")
 prov = extract_realms.extract_all()
 assert REALM in prov, prov.keys()
 frag = prov[REALM]

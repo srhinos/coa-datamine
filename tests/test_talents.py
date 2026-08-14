@@ -2,6 +2,10 @@ import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
+
 from tools import config
 from tools import build_talents
 

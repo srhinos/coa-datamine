@@ -2,6 +2,10 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Read-only test: sandbox() reads client bytes from the sealed snapshot and
+# arms the guard that fails this test if it writes a committed root.
+from tests import _iso; _iso.sandbox()
+
 from tools import config, dbc
 
 # reader fundamentals on a small table
@@ -45,9 +49,12 @@ assert seen[17]["schoolMask"] == 2                 # Holy
 assert seen[10]["name_enUS"] == "Blizzard"
 assert seen[10]["schoolMask"] == 16                # Frost
 
-# dump one small table and re-read it
+# dump one small table and re-read it - into a directory this test owns, not
+# over the committed raw/dbc/SpellDispelType.csv.gz (dump_table already takes
+# out_dir; this file was simply not passing it, so a "read-only" reader test
+# rewrote a committed dump on every run)
 import csv, gzip
-p = dbc.dump_table("SpellDispelType")
+p = dbc.dump_table("SpellDispelType", out_dir=_iso.own_dir("dumps"))
 with gzip.open(p, "rt", encoding="utf-8", newline="") as fh:
     got = list(csv.DictReader(fh))
 assert len(got) == 12

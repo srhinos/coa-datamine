@@ -12,6 +12,10 @@ import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Read-only test: sandbox() reads client bytes from the sealed snapshot and arms
+# the guard that fails this test if it writes a committed root.
+from tests import _iso; _iso.sandbox()
+
 from tools import config, curate
 
 inputs_path = config.WORK_DIR / curate.CURATION_INPUTS_JSON
@@ -37,8 +41,17 @@ assert not base_variant["chainWinner"], (
     "the base variant IS the chain winner on this client - the distinction this "
     "gate protects has changed shape, re-derive it before relaxing the test")
 
-prov = curate.run(inputs)
-assert prov["clientDir"] == str(config.CLIENT_DIR)
+# This file used to CALL curate.run() - all 16 stages plus dbc.dump_all() - as an
+# import side effect, which made it the widest-blast-radius writer in the suite:
+# every data/ domain plus raw/tables and raw/provenance.json, rebuilt from
+# whatever happened to be in work/dbc when it ran (tests/_diagnosis.md). The
+# rebuild is now owned by exactly one test, tests/test_zz_integration.py, which
+# runs it from the sealed snapshot into a scratch tree and proves it reproduces
+# these numbers. What is asserted here is the COMMITTED provenance - a strictly
+# stronger gate on the shipped artifact than re-deriving it in memory and
+# checking the copy, which is what a stale committed provenance would pass.
+prov = json.loads((config.RAW_DIR / "provenance.json").read_text(encoding="utf-8"))
+assert prov["clientDir"] == str(_iso.LIVE_CLIENT), prov["clientDir"]
 assert set(prov["buildStats"]) == {
     "abilities", "spells", "classes", "talents", "dungeons",
     "creatures", "classmeta", "essence", "mythic",
@@ -154,8 +167,7 @@ assert drift["capture"]["capturedUtc"] and drift["capture"]["sha256"]
 assert isinstance(drift["captureMinusSnapshotDays"], float), drift
 assert "fetch_coatalents" in drift["capturedBy"]
 
-ondisk = json.loads((config.RAW_DIR / "provenance.json").read_text(encoding="utf-8"))
-assert ondisk["generatedUtc"].endswith("+00:00")
+assert prov["generatedUtc"].endswith("+00:00")
 assert (config.REPO_ROOT / "README.md").is_file()
 assert (config.REPO_ROOT / "AGENT-GUIDE.md").is_file()
 print("ALL PASS")

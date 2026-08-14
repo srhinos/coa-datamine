@@ -20,7 +20,11 @@ import gzip, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, dbc, extract_mpq, build_spells
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
+
+from tools import config, dbc, build_spells
 
 # ---- config sanity ----
 assert len(config.WANTED_DBCS_V5) == 12, len(config.WANTED_DBCS_V5)
@@ -28,11 +32,17 @@ assert len(set(n.lower() for n in config.WANTED_DBCS_V5)) == 12, "no duplicate n
 assert all(n.endswith(".dbc") for n in config.WANTED_DBCS_V5)
 assert set(config.WANTED_DBCS_V5) <= set(config.WANTED_DBCS)
 
-# ---- extraction: all 12 must exist in the live chain (extract_all() raises
-# SystemExit otherwise - this IS the "verify each actually exists" gate) ----
-prov = extract_mpq.extract_all()
+# ---- extraction: all 12 must have resolved in the chain. This ran
+# extract_mpq.extract_all() itself, against the LIVE client, rewriting work/dbc
+# under every test that had already run (tests/_diagnosis.md) - and comparing the
+# result against pins taken from the SNAPSHOT, which is why it failed on a
+# pristine tree. The gate is unchanged, read off the sidecar the single writer
+# left: a wanted table missing from the chain still fails the pass, in
+# materialize_inputs, before this file gets a chance to run.
+inputs = json.loads((config.WORK_DIR / "curation_inputs.json")
+                    .read_text(encoding="utf-8"))
 for name in config.WANTED_DBCS_V5:
-    assert name.lower() in prov["files"], f"missing from chain: {name}"
+    assert name in inputs["base"], f"missing from chain: {name}"
 
 # ---- fresh header pins (records, ACTUAL fields = record_size//4, the
 # authoritative layout per DBCFile - not the possibly-lying declared header
@@ -78,8 +88,8 @@ for name, (records, fields) in EXPECTED.items():
 # overlay-table phenomenon, see DBCFile's docstring).
 sief = dbc.DBCFile(config.WORK_DBC_DIR / "SpellItemEnchantmentCondition.dbc")
 assert sief.declared_fields == 31 and sief.fields == 16
-mismatch_names = {m["table"] for m in prov["headerMismatches"]}
-assert "spellitemenchantmentcondition.dbc" in mismatch_names, prov["headerMismatches"]
+mismatch_names = {m["table"] for m in inputs["headerMismatches"]}
+assert "spellitemenchantmentcondition.dbc" in mismatch_names, inputs["headerMismatches"]
 
 # ---- colinfo presence for ALL 12 (the brief's blanket ask) - committed
 # evidence sidecars in raw/dbc/, one per table regardless of curation status ----

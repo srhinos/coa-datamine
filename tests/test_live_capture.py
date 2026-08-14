@@ -18,6 +18,12 @@ import hashlib, json, shutil, sys, tempfile
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# work/ is scratch here: the rejected-capture path drives a real write, of a
+# deliberately-junk page, into work/rejected-captures (tools/fetch_coatalents.py
+# _quarantine). raw/ stays committed and read-only - the payload this reads is the
+# frozen one, and capture() is only ever called with dest_dir pointed at a tmpdir.
+from tests import _iso; _iso.sandbox(work=[])
+
 import datamine
 from tools import config, fetch_coatalents
 
