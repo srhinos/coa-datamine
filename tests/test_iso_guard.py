@@ -48,14 +48,22 @@ def _cleanup(*paths):
             pass
 
 
+# Every probe below targets a path that DOES NOT EXIST inside a protected root.
+# That matters: if the guard regresses, the operation runs for real, so a probe
+# aimed at a live file would destroy it. (Learned the hard way - an earlier
+# version of this file pointed at CATALOG.md and truncated it the moment the
+# guard was reverted for a RED check.) With a non-existent target the worst a
+# regression can do is leave one stray probe file, which the asserts then catch.
+PROBE_MD = REPO / "raw" / "_iso_probe.md"        # inside the protected raw/ root
+PROBE_JSON = REPO / "data" / "_iso_probe.json"
+
 # --- os.replace INTO a committed root: the hole this file exists for ---------
 src = SCRATCH / "staged.md"
 src.write_text("probe\n", encoding="utf-8")
-dst = REPO / "CATALOG.md"          # protected, and emit.py publishes it this way
-assert _fires(lambda: os.replace(str(src), str(dst))), (
+assert _fires(lambda: os.replace(str(src), str(PROBE_MD))), (
     "os.replace into a committed root was NOT caught - the guard is reading the "
     "wrong audit-event argument again (args[-1] is dst_dir_fd, not the path)")
-assert dst.is_file(), "guard must reject BEFORE the write lands"
+assert not PROBE_MD.exists(), "guard must reject BEFORE the write lands"
 print("PASS os.replace into a committed root is rejected")
 
 # --- os.rename INTO a committed root ----------------------------------------
@@ -63,17 +71,18 @@ print("PASS os.replace into a committed root is rejected")
 # that error would mask whether the guard fired at all.
 src2 = SCRATCH / "staged2.json"
 src2.write_text("{}\n", encoding="utf-8")
-assert _fires(lambda: os.rename(str(src2), str(REPO / "data" / "_iso_probe.json"))), (
+assert _fires(lambda: os.rename(str(src2), str(PROBE_JSON))), (
     "os.rename into the committed data/ root was NOT caught")
-assert not (REPO / "data" / "_iso_probe.json").exists(), "probe must not land"
+assert not PROBE_JSON.exists(), "probe must not land"
 print("PASS os.rename into a committed root is rejected")
 
 # --- renaming a committed file OUT is equally destructive -------------------
-assert _fires(lambda: os.replace(str(REPO / "CATALOG.md"),
-                                 str(SCRATCH / "stolen.md"))), (
-    "renaming a committed file OUT of its root was NOT caught - a rename that "
+# Source is non-existent on purpose: a guard regression yields FileNotFoundError
+# (still a failed assert, still caught) instead of moving a real file away.
+assert _fires(lambda: os.replace(str(REPO / "data" / "_iso_absent.json"),
+                                 str(SCRATCH / "stolen.json"))), (
+    "renaming a file OUT of a committed root was NOT caught - a rename that "
     "empties a protected path mutates it just as much as one that fills it")
-assert (REPO / "CATALOG.md").is_file(), "CATALOG.md must survive the probe"
 print("PASS renaming a committed file out of its root is rejected")
 
 # --- the sandboxed root stays writable (guard is not indiscriminate) --------
@@ -83,6 +92,8 @@ os.replace(str(a), str(b))
 assert b.read_text(encoding="utf-8") == "ok\n"
 print("PASS renames inside the sandbox are allowed")
 
+# PROBE_MD/PROBE_JSON never land - the guard rejects before the write, and
+# removing them would itself be a protected-root write.
 _cleanup(src, src2, b)
 import shutil
 shutil.rmtree(SCRATCH, ignore_errors=True)
