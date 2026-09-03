@@ -28,7 +28,7 @@ class DBCFile:
         if self.record_size % 4 != 0:
             raise LayoutError(
                 f"{self.path.name}: record_size {self.record_size} not a multiple of 4")
-        # [Task V3-2 finding] The header's declared FieldCount is occasionally wrong -
+        # [finding] The header's declared FieldCount is occasionally wrong -
         # observed on a realm-overlay table, area-52's CharacterAdvancement.dbc:
         # declared 179 vs the byte-accurate 173 (record_size 692 / 4), off by exactly
         # 6 fields. record_size is what actually determines row layout AND it
@@ -84,8 +84,8 @@ def _spell_columns():
         ("manaCostPerLevel", 43, "u"), ("manaPerSecond", 44, "u"),
         ("rangeIndex", 46, "u"), ("speed", 47, "f"), ("stackAmount", 49, "u"),
         ("equippedItemClass", 68, "i"),
-        # [Task W4-3] f69/f70: weapon-subtype/slot gating, adjacent to the already-
-        # mapped f68 equippedItemClass triple (coa-sim-handoff/DATAMINE-REQUEST.md
+        # f69/f70: weapon-subtype/slot gating, adjacent to the already-
+        # mapped f68 equippedItemClass triple (DATAMINE-REQUEST.md
         # Sec 1.4). Re-derived CoA fill (6,038-row "CoA class set", see
         # build_spells.py's _coa_class_spell_ids docstring): f69 734/6038=12.16%,
         # f70 87/6038=1.44% - both exact matches to the doc.
@@ -96,7 +96,7 @@ def _spell_columns():
         cols += [
             (f"effect{slot+1}", 71 + slot, "u"),
             (f"effectDieSides{slot+1}", 74 + slot, "i"),
-            # [Task W4-3] f77-79 EffectRealPointsPerLevel - IEEE-754 float BIT
+            # f77-79 EffectRealPointsPerLevel - IEEE-754 float BIT
             # PATTERNS, not integers (DATAMINE-REQUEST.md Sec 1.5 trap 3): stock
             # Frostbolt 116 slot 2 f78=1056964608=0x3F000000=0.5f, re-derived and
             # golden-matched exactly. Backing store for the "$ppl" formula token -
@@ -122,11 +122,11 @@ def _spell_columns():
             (f"effectMiscValue{slot+1}", 110 + slot, "i"),
             (f"effectMiscValueB{slot+1}", 113 + slot, "i"),
             (f"effectTriggerSpell{slot+1}", 116 + slot, "u"),
-            # [Task W4-3] f119-121 EffectPointsPerComboPoint (float, combo-point
+            # f119-121 EffectPointsPerComboPoint (float, combo-point
             # scaling - Ranger has combo points). Re-derived CoA fill 20/6038=
             # 0.3312%, exact match to the doc's 0.33%.
             (f"effectPointsPerComboPoint{slot+1}", 119 + slot, "f"),
-            # [Task W4-3] f122-130 EffectSpellClassMask - three u32 words (a 96-bit
+            # f122-130 EffectSpellClassMask - three u32 words (a 96-bit
             # mask) per effect slot, "which spells a talent modifies" (DATAMINE-
             # REQUEST.md Sec 1.4). Re-derived: 1728/6038=28.6187% of the CoA class
             # set carry a nonzero mask on any slot, an exact match to the doc's
@@ -148,7 +148,7 @@ def _spell_columns():
         ("startRecoveryTime", 206, "u"), ("maxTargetLevel", 207, "u"),
         ("spellFamilyName", 208, "u"), ("spellFamilyFlags1", 209, "u"),
         ("spellFamilyFlags2", 210, "u"),
-        # [Task W4-3] f211 SpellFamilyFlags3 - the curated table only exposed
+        # f211 SpellFamilyFlags3 - the curated table only exposed
         # flags1/2, silently truncating the family mask's top 32 bits (of 96
         # total). Re-derived CoA fill 730/6038=12.0901%, exact match to the doc's
         # 12.09%. Emitted alongside flags1/2 as family.flags3.
@@ -157,7 +157,7 @@ def _spell_columns():
         ("dmgClass", 213, "u"), ("preventionType", 214, "u"),
     ]
     for slot in range(3):
-        # [Task W4-3] f216-218 EffectDamageMultiplier (float, chain-damage
+        # f216-218 EffectDamageMultiplier (float, chain-damage
         # falloff per jump). Re-derived: gating on populated-effect slots and
         # comparing against the 1.0f default (0x3F800000), 507/6038=8.3968% of
         # the CoA class set carry a non-default value on >=1 slot - within the
@@ -167,14 +167,14 @@ def _spell_columns():
         cols.append((f"effectDamageMultiplier{slot+1}", 216 + slot, "f"))
     cols += [
         ("schoolMask", 225, "u"), ("runeCostID", 226, "u"),
-        # [Task W4-3] f227 SpellMissileID - pairs with the SpellMissile.dbc ask
+        # f227 SpellMissileID - pairs with the SpellMissile.dbc ask
         # (out of this task's scope). Re-derived: exactly 8/6038=0.1325% of the
         # CoA class set carry a nonzero value, an exact match to the doc's
         # "0.13% (8 spells)" - including the literal count of 8.
         ("spellMissileID", 227, "u"),
     ]
     for slot in range(3):
-        # [Task W4-3] f229-231 EffectBonusMultiplier - the untouched Blizzard-
+        # f229-231 EffectBonusMultiplier - the untouched Blizzard-
         # 2008 column, correct for STOCK/Reborn content only and CONTRADICTED by
         # CoA's own authored tooltip formulas (DATAMINE-REQUEST.md Sec 2: stock
         # agreement 0/37, CoA agreement re-derived below). Re-derived CoA fill
@@ -192,7 +192,7 @@ def _spell_columns():
 
 TABLE_MAPS = {
     "Spell": {"expected_fields": 234, "columns": _spell_columns()},
-    # [Task W4-5] f55 filename - an internal uppercase class token, DISTINCT from
+    # f55 filename - an internal uppercase class token, DISTINCT from
     # name_enUS (the display name). Golden-proven by re-deriving DATAMINE-REQUEST.md
     # Sec 11's three "silently dropped" CoA class dirs directly against
     # work/dbc/ChrClasses.dbc: id14 name_enUS="Felsworn" filename="DEMONHUNTER",
@@ -304,9 +304,9 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("blood", 1, "u"), ("unholy", 2, "u"), ("frost", 3, "u"),
         ("runicPower", 4, "u"),
     ]},
-    # v2 (task V2-2): proven via golden-record probes (see .superpowers/sdd/task-v2-2-report.md).
-    # [V3-0 CORRECTION 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] V2-2 named f0
-    # as "id" (ascending-unique 1..127178, the classic local auto-increment PK shape) -
+    # v2: proven via golden-record probes.
+    # [CORRECTION 2026-08-01] f0 was originally named
+    # "id" (ascending-unique 1..127178, the classic local auto-increment PK shape) -
     # this is WRONG: f0 is a POSITIONAL row index, not a stable entry id. The 2026-08-01
     # client rebuild proved this directly - a patch inserted 3 rows and every downstream
     # Ragnaros-variant id shifted by exactly +3 (107744->107747 etc), the same "row-
@@ -317,10 +317,10 @@ TABLE_MAPS = {
     # Hogger 448, Edwin VanCleef 639, Onyxia 10184, Ragnaros 11502 - matching the server's
     # real template ids (f0 resolves those same numbers to unrelated NPCs, e.g.
     # 448->"Demisette Cloyce", proving the two columns are genuinely different things,
-    # not a coincidental relabeling). f2 stays proven "name" (unchanged from V2-2,
+    # not a coincidental relabeling). f2 stays proven "name" (unchanged,
     # string_likelihood=1.0, pct_zero=0.0). f0 is dropped entirely from curated output
     # (positional noise, not carried, not even raw). f20/f21/f22 subname hypothesis is
-    # unaffected by this correction - still DISPROVEN per V2-2's report (both goldens
+    # unaffected by this correction - still DISPROVEN (both goldens
     # carry raw 0, table-wide non-zero rate matches a random-offset control's coincidence
     # rate) - left unmapped.
     "Creature": {"expected_fields": 23, "columns": [
@@ -354,7 +354,7 @@ TABLE_MAPS = {
     # tree names - Blacksmithing, Leatherworking, Tailoring, Arcane, Holy, Feral Combat,
     # ...). f3 (the brief's hypothesized "trainer-id low-cardinality column") does NOT
     # prove out as a trainer/NPC identity - see report; left unmapped, carried as raw f3.
-    # [V3-0 re-check 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] Every column
+    # [re-check 2026-08-01] Every column
     # retested against Creature.dbc's now-corrected f1 entry-id space (sparse,
     # 1..11001007, unlike the old dense-f0 space that made false positives easy): f0 (own
     # row id) 67.3% naive join, f1 (proven spellId) 13.2%, f2 (proven skillLine) 49.0%,
@@ -368,8 +368,8 @@ TABLE_MAPS = {
     # DungeonEncounterExtra: f0 proven dungeonEncounterId (98.5% join vs DungeonEncounter
     # ids AND semantic golden: resolves to real encounter names - "Panzor the
     # Invincible", "Lord Valthalak", ...).
-    # [V3-0 CORRECTION 2026-08-01, see .superpowers/sdd/task-v3-0-report.md] f1
-    # creatureId: V2-2 DISPROVED this same column joining against Creature.dbc's old f0
+    # [CORRECTION 2026-08-01] f1
+    # creatureId: this same column was DISPROVEN joining against Creature.dbc's old f0
     # (a fully-dense 1..127178 id space where any bounded column passes membership near-
     # trivially - every famous-boss golden resolved to an unrelated random NPC, fuzzy
     # name-overlap only 1.3% vs a 0.45% random control). Once Creature's real entry id
@@ -393,7 +393,7 @@ TABLE_MAPS = {
     "DungeonEncounterExtra": {"expected_fields": 4, "columns": [
         ("dungeonEncounterId", 0, "u"), ("creatureId", 1, "u"),
     ]},
-    # v2 (task V2-3): proven via golden-record probes (see .superpowers/sdd/task-v2-3-report.md).
+    # v2: proven via golden-record probes.
     # ChrSpecs (101x65): f0 ascending unique 1..101 (id). f1 is NOT a raw classId int -
     # it is a STRING class-name token ("WARRIOR", "WITCHDOCTOR", "DEMONHUNTER", ...),
     # proven by joining its normalized text against ChrClasses.name_enUS: 77/101 rows
@@ -459,8 +459,8 @@ TABLE_MAPS = {
     "ChrClassesRoles": {"expected_fields": 11, "columns": [
         ("id", 0, "u"), ("roleMask", 1, "u"), ("specialAbilitySpellId", 4, "u"),
     ]},
-    # [Task W4-5] CharacterAdvancementEssence (5600x9, coa-sim-handoff/DATAMINE-
-    # REQUEST.md Sec 7 + Sec 13 item 9). f0 ascending-unique row id (not carried).
+    # CharacterAdvancementEssence (5600x9, DATAMINE-REQUEST.md Sec 7 +
+    # Sec 13 item 9). f0 ascending-unique row id (not carried).
     # Golden-proven against work/dbc/CharacterAdvancementEssence.dbc directly (not
     # copied from the doc): f1=level (1-80, dense per class), f2=classId (1-32,
     # matches ChrClasses.dbc exactly). f7/f8 identified by the doc's own classless
@@ -546,7 +546,7 @@ TABLE_MAPS = {
     # join-rate (below the 90% bar) AND the resolved "spell name" for the most common
     # value is a garbage colorized tooltip fragment ("Bile\n|cFF1EFF0CTier 1|r"), not
     # a real spell name - a join-rate false positive from Spell.dbc's large id space,
-    # same class of finding as V2-2's DungeonEncounterExtra creature link. Left raw.
+    # same class of finding as the DungeonEncounterExtra creature link. Left raw.
     "CharacterCreationPetDetails": {"expected_fields": 12, "columns": [
         ("id", 0, "u"), ("raceId", 2, "u"),
     ]},
@@ -559,7 +559,7 @@ TABLE_MAPS = {
     "CharacterCreationShapeshiftDetails": {"expected_fields": 21, "columns": [
         ("id", 0, "u"), ("raceId", 2, "u"),
     ]},
-    # v2 (task V2-4): proven via golden-record probes (see .superpowers/sdd/task-v2-4-report.md).
+    # v2: proven via golden-record probes.
     # SpellDescriptionVariables (31x2, trivial per the brief - a plain (id, text)
     # string table): f0 golden-proven as the id Spell.dbc's own spellDescriptionVariableID
     # column (already extracted, previously unused in output) points at - the two id
@@ -602,12 +602,12 @@ TABLE_MAPS = {
     ]},
     # SpellTagTypes (200x61): f0 ascending-ish unique (id, matches SpellTags.f2 range
     # exactly). f27 golden-proven as the tag display name (distinct 175/200, samples
-    # "Core Damage"/"Mobility"/"Raid Buffs" per V2-1's colinfo evidence; confirmed by
+    # "Core Damage"/"Mobility"/"Raid Buffs" per colinfo evidence; confirmed by
     # the SpellTags goldens above, e.g. id 63->"Priest", 93->"Discipline", 10->"Absorb").
     # f44 is a "<category>: <name>" composite label (e.g. "Ability Type: Magic",
     # "Class: Priest", "Priest: Discipline") - useful grouping evidence but not needed
     # by the brief's `tags: [tagNames]` output shape, left unmapped. Every other
-    # string-likely column (per V2-1 colinfo: f3-f25,f28-f60ish) is either an all-zero
+    # string-likely column (per colinfo: f3-f25,f28-f60ish) is either an all-zero
     # placeholder (offset-0 filler, this build's documented non-empty-offset-0
     # anomaly) or a constant-offset locale-padding artifact (all rows point at the
     # same string, e.g. f28-f42/f45-f59 always decode to the empty string at offset 65)
@@ -701,7 +701,7 @@ TABLE_MAPS = {
     "SpellChargesCategory": {"expected_fields": 3, "columns": [
         ("id", 0, "u"),
     ]},
-    # v2 (task V2-5): proven via golden-record probes (see .superpowers/sdd/task-v2-5-report.md).
+    # v2: proven via golden-record probes.
     # Challenge (297x53, the hub table): f0 golden-proven id (distinct==records==297, sparse
     # 5-622, not contiguous - a real custom id space, not row order). f7 golden-proven
     # name_enUS (distinct 291/297: id5="Partner Up!", id7="Nudist", ...). f24 golden-proven
@@ -916,8 +916,8 @@ TABLE_MAPS = {
     "TimedDungeons": {"expected_fields": 6, "columns": [
         ("dungeonId", 0, "u"), ("timeLimitMs", 4, "u"),
     ]},
-    # MapDifficulty (685x23): not named in the brief's V2-5 output schema, but included in
-    # this task's mapping-evidence file list and cleanly provable, so curated too. f0=id.
+    # MapDifficulty (685x23): not named in the brief's output schema, but included in
+    # the mapping-evidence file list and cleanly provable, so curated too. f0=id.
     # f1=mapId, proven 97.5% row-level join vs Map.dbc ids (668/685). f2=difficultyIndex
     # (0-3, matches WotLK's per-map difficulty-tier concept). f3=lockoutMessage_enUS
     # (distinct 35, e.g. "Mythic Difficulty requires you to be level 70." - the literal
@@ -930,7 +930,7 @@ TABLE_MAPS = {
         ("id", 0, "u"), ("mapId", 1, "u"), ("difficultyIndex", 2, "u"),
         ("lockoutMessage_enUS", 3, "s"), ("difficultyToken", 22, "s"),
     ]},
-    # v3 (task V3-1): proven via golden-record probes (see .superpowers/sdd/task-v3-1-report.md).
+    # v3: proven via golden-record probes.
     # Manastorm (1017x9, no strings): f0 ascending-unique 1-1212 (id). f1 golden-proven
     # mapId: 100% (73/73) of its distinct values are valid Map.dbc ids AND every single
     # one resolves to a real classic/TBC/WotLK dungeon or raid zone name (Shadowfang Keep,
@@ -1020,9 +1020,7 @@ TABLE_MAPS = {
     "ManastormPlayerGroupModifiers": {"expected_fields": 5, "columns": [
         ("id", 0, "u"),
     ]},
-    # v4 (task W4-2): gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
-    # Sec 1.1 + Sec 13 item 1) - full re-derivation log in
-    # .superpowers/sdd/task-w4-2-report.md. Every table below is a genuinely
+    # v4: gt* combat-rating/regen tables. Every table below is a genuinely
     # single-column, ALL-FLOAT WDBC (record_size==4, one f32 per row - "value" is the
     # only column and needs no per-column proof, same bar every other "f"-kind column
     # in this file already clears). What actually needed proving is which ROW POSITION
@@ -1030,7 +1028,7 @@ TABLE_MAPS = {
     # it lives here as a block comment rather than in a single column's tuple.
     #
     # PROVEN layout (independently re-derived against a FRESH 2026-08-06 extraction -
-    # not trusted from coa-sim-handoff's 2026-08-05 snapshot, since the live client
+    # not trusted from the 2026-08-05 snapshot, since the live client
     # patches independently of that capture):
     #   idx = (classId - 1) * 100 + (level - 1)   gtChanceToMeleeCrit / gtChanceToSpellCrit /
     #                                              gtRegenMPPerSpt / gtOCTRegenMP /
@@ -1140,9 +1138,8 @@ TABLE_MAPS = {
     # and are out of scope for build_gt.py's curated output. Left UNMAPPED (raw + colinfo)
     # so no semantic claim is made beyond "extracted, available for a future task."
 
-    # v5 (task W4-10): simulation-adjacent spell support tables (coa-sim-handoff/
-    # DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17). Full re-derivation log in
-    # .superpowers/sdd/task-w4-10-report.md. Of the 12 WANTED_DBCS_V5 tables, only
+    # v5: simulation-adjacent spell support tables (DATAMINE-REQUEST.md Sec 9 +
+    # Sec 13 items 13/17). Of the 12 WANTED_DBCS_V5 tables, only
     # SpellAffect and SpellStatSuggestions get proven column names below - the other
     # 9 (SpellDifficulty, SummonProperties, SpellMissile, SpellShapeshiftForm,
     # SpellFocusObject, CreatureSpellData, GlyphProperties, GlyphSlot,
@@ -1166,14 +1163,14 @@ TABLE_MAPS = {
     # SpellAffect (36779x3, no strings) - DATAMINE-REQUEST.md Sec 9's own text carries
     # the adversarial verifier's explicit refusal to confirm it ("I did not re-extract
     # [it]... treat its unverified assertions as unconfirmed rather than established").
-    # This task re-extracted fresh (2026-08-06, not the coa-sim-handoff snapshot) and
+    # This pipeline re-extracted fresh (2026-08-06, not the earlier snapshot) and
     # independently re-ran EVERY numeric claim in that subsection against this build's
     # own work/dbc/Spell.dbc + work/dbc/SpellAffect.dbc + data/classes/ (the same
     # class-tag machinery build_spells._coa_class_spell_ids() uses, generalized here to
     # all 4 tags: vanilla/reborn/coa-custom/meta) - full log in the task report. Every
     # claim reproduced, with two honest caveats noted below. VERDICT: Sec 9's account of
     # this table is CONFIRMED, and it is NOT a CoA table (Bronzebeard/Area-52 legacy
-    # content) - EffectSpellClassMask (already mapped, task W4-3) remains the primary
+    # content) - EffectSpellClassMask (already mapped) remains the primary
     # CoA talent-targeting channel.
     #   - f1 join vs live Spell.dbc ids: 36779/36779 = 100.0000% exact (doc: "100.0%").
     #   - raw UNSIGNED f2 join: 34371/36779 = 93.4528% (doc: "93.5%" - matches at the
@@ -1282,7 +1279,7 @@ TABLE_MAPS = {
     "SpellRank": {"expected_fields": 4, "columns": [
         ("id", 0, "u"), ("firstSpellId", 1, "u"), ("spellId", 2, "u"), ("rank", 3, "u"),
     ]},
-    # ItemStat (task W4-11b, 1,513,931 rows x 39 fields, no strings, 236MB body - too
+    # ItemStat (1,513,931 rows x 39 fields, no strings, 236MB body - too
     # large for a single raw/dbc/ file, see dbc.CUSTOM_RAW_DUMP_TABLES and
     # tools/build_items.py's sharded raw/dbc/itemstat/ dumper). DATAMINE-REQUEST.md
     # Sec 8.2 + Sec 4 trap 8 flagged this table's keying as a prior audit's misread
@@ -1324,8 +1321,8 @@ TABLE_MAPS = {
 
 
 def _open_checked(table: str, dbc_dir: Path = None) -> tuple[DBCFile, dict]:
-    """dbc_dir defaults to config.WORK_DBC_DIR (base client). Task V3-2 passes an
-    explicit realm dbc dir (work/realms/<realm>/dbc) so the SAME base TABLE_MAPS
+    """dbc_dir defaults to config.WORK_DBC_DIR (base client). Realm extraction passes
+    an explicit realm dbc dir (work/realms/<realm>/dbc) so the SAME base TABLE_MAPS
     column map + layout guard apply to a realm-overlay DBC of the same name."""
     spec = TABLE_MAPS[table]
     d = dbc_dir if dbc_dir is not None else config.WORK_DBC_DIR
@@ -1357,7 +1354,7 @@ def iter_named(table: str, dbc_dir: Path = None):
 
 def dump_table(table: str, dbc_dir: Path = None, out_dir: Path = None) -> Path:
     """dbc_dir/out_dir default to config.WORK_DBC_DIR/config.RAW_DBC_DIR (base
-    client's dump_all() behavior). Task V3-2 passes explicit realm paths so a
+    client's dump_all() behavior). Realm extraction passes explicit realm paths so a
     mapped realm-overlay table dumps to raw/realms/<realm>/dbc/ instead."""
     f, spec = _open_checked(table, dbc_dir)
     named = {idx: (name, idx, kind) for name, idx, kind in spec["columns"]}
@@ -1395,8 +1392,8 @@ def dump_unmapped(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Pat
     especially for tables that HAVE since become mapped, where this
     unmapped f0..fN shape would corrupt the committed named-header dump.
 
-    dbc_dir defaults to config.WORK_DBC_DIR (base client). Task V3-2 passes an
-    explicit realm dbc dir to colinfo-dump a realm-only table (no base
+    dbc_dir defaults to config.WORK_DBC_DIR (base client). Realm extraction passes
+    an explicit realm dbc dir to colinfo-dump a realm-only table (no base
     TABLE_MAPS entry, e.g. CharacterAdvancement/SpellRank).
     """
     if out_dir is None:
@@ -1528,7 +1525,7 @@ def write_colinfo(table: str, out_dir: Path = None, dbc_dir: Path = None) -> Pat
 
 
 # Tables whose raw dump does not fit the "one raw/dbc/<Table>.csv.gz file" shape
-# every other table uses - task W4-11b: ItemStat.dbc's body is 236MB (1,513,931
+# every other table uses: ItemStat.dbc's body is 236MB (1,513,931
 # rows), hostile as a single committed file. dump_all() skips these entirely
 # (whether or not they also carry a TABLE_MAPS entry, e.g. ItemStat now does); the
 # owning module writes its own sharded raw evidence instead
@@ -1557,6 +1554,9 @@ def dump_all():
         p = dump_unmapped(table)
         print(f"dumped {p.name} (unmapped)")
 
-
-if __name__ == "__main__":
-    dump_all()
+# No __main__. `python -m tools.dbc` used to run dump_all() straight over
+# whatever happens to be in work/dbc, rewriting raw/dbc outside the pass - a
+# second writer of a committed layer, which is the drift class datamine.py
+# exists to remove. tools/curate.py calls dump_all() inside the guarded pass;
+# that is the only way raw/dbc is written. tests/test_dataset.py enforces the
+# absence.

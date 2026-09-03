@@ -1,9 +1,9 @@
 {
- "archiveBytesTotal": 44929504797,
+ "archiveBytesTotal": 44929510425,
  "archiveCount": 77,
  "archives": [
   {
-   "accountedBytes": 23200054,
+   "accountedBytes": 23200058,
    "attributeEntries": 14,
    "attributeEntriesMatchBlockTable": true,
    "blockEntries": 14,
@@ -12,9 +12,9 @@
    "blockEntriesExists": 14,
    "blockEntriesZeroLength": 0,
    "chainRank": 76,
-   "dataRegionBytes": 23200054,
+   "dataRegionBytes": 23200058,
    "encryptedMembers": [],
-   "fileBytes": 23200834,
+   "fileBytes": 23200838,
    "flags": {
     "COMPRESS|EXISTS": 12,
     "COMPRESS|SINGLE_UNIT|EXISTS": 2
@@ -1665,7 +1665,7 @@
    "unaccountedRuns": 0
   },
   {
-   "accountedBytes": 65301171,
+   "accountedBytes": 65300756,
    "attributeEntries": 290,
    "attributeEntriesMatchBlockTable": true,
    "blockEntries": 290,
@@ -1674,9 +1674,9 @@
    "blockEntriesExists": 290,
    "blockEntriesZeroLength": 0,
    "chainRank": 52,
-   "dataRegionBytes": 65301171,
+   "dataRegionBytes": 65300756,
    "encryptedMembers": [],
-   "fileBytes": 65322239,
+   "fileBytes": 65321824,
    "flags": {
     "COMPRESS|EXISTS": 288,
     "COMPRESS|SINGLE_UNIT|EXISTS": 2
@@ -1875,7 +1875,7 @@
    "unaccountedRuns": 0
   },
   {
-   "accountedBytes": 14170298,
+   "accountedBytes": 14170459,
    "attributeEntries": 50,
    "attributeEntriesMatchBlockTable": true,
    "blockEntries": 50,
@@ -1884,9 +1884,9 @@
    "blockEntriesExists": 50,
    "blockEntriesZeroLength": 0,
    "chainRank": 58,
-   "dataRegionBytes": 14170298,
+   "dataRegionBytes": 14170459,
    "encryptedMembers": [],
-   "fileBytes": 14173190,
+   "fileBytes": 14173351,
    "flags": {
     "COMPRESS|EXISTS": 48,
     "COMPRESS|SINGLE_UNIT|EXISTS": 2
@@ -1907,7 +1907,7 @@
    "unaccountedRuns": 0
   },
   {
-   "accountedBytes": 19463233,
+   "accountedBytes": 19469111,
    "attributeEntries": 3,
    "attributeEntriesMatchBlockTable": true,
    "blockEntries": 3,
@@ -1916,9 +1916,9 @@
    "blockEntriesExists": 3,
    "blockEntriesZeroLength": 0,
    "chainRank": 59,
-   "dataRegionBytes": 19463233,
+   "dataRegionBytes": 19469111,
    "encryptedMembers": [],
-   "fileBytes": 19463389,
+   "fileBytes": 19469267,
    "flags": {
     "COMPRESS|EXISTS": 1,
     "COMPRESS|SINGLE_UNIT|EXISTS": 2
@@ -2491,5 +2491,5 @@
  "orphanBlockEntriesTotal": 0,
  "rule": "For each archive, every EXISTS block entry contributes the span [offset, offset+archivedSize) and the spans are merged. `unaccountedBytes` is what is left of the region between the end of the header and the start of the first table once those spans are removed - i.e. file data physically present in the archive that no live block entry claims. That is where the bytes of a deleted-but-not-compacted file would still be, so it is the direct test of whether delete-marked hash slots have anything recoverable behind them. It is measured, not argued.",
  "unaccountedBytesTotal": 0,
- "verdict": "0 bytes of the client's 44,929,504,797 are unaccounted for by a live block entry, and 0 block entries are unreferenced by any live hash slot. Delete-marked hash slots (81,487 of them) therefore have no surviving file data behind them: the archives were COMPACTED, not merely re-indexed. This is a byte-accounted result, not an inference from the format."
+ "verdict": "0 bytes of the client's 44,929,510,425 are unaccounted for by a live block entry, and 0 block entries are unreferenced by any live hash slot. Delete-marked hash slots (81,487 of them) therefore have no surviving file data behind them: the archives were COMPACTED, not merely re-indexed. This is a byte-accounted result, not an inference from the format."
 }

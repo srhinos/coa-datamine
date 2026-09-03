@@ -1,7 +1,7 @@
-"""Task V2-4 gate: spells.jsonl v2 enrichment (tags/customAttr/descriptionVariables/
+"""Spells.jsonl v2 enrichment (tags/customAttr/descriptionVariables/
 category/addon/overrideData) built from SpellTags+SpellTagTypes, SpellCustomAttr,
 SpellDescriptionVariables, SpellCategory, SpellAddon and OverrideSpellData - all
-proven via golden records (see .superpowers/sdd/task-v2-4-report.md). SpellTags
+proven via golden records. SpellTags
 dedup is intentional (a display-name list, not a tagTypeId list) and pinned here.
 SpellAlternativePowerType is proven internally but no per-spell link is provable,
 so it's documented in _meta only. SpellCharges/SpellChargesCategory are proven
@@ -13,6 +13,10 @@ this task cannot silently regress test_spells.py's contract."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config
 from tools import build_spells
@@ -112,9 +116,9 @@ assert "below the 90% attach bar" in charges_doc["_note"]
 # snapshot pins: SpellCharges/SpellChargesCategory row counts. 400/105 -> 406/106
 # on the 2026-08-09 snapshot (the client patched - raw/dbc/SpellCharges.csv.gz
 # changed bytes); unrelated to the live-seed reseed, which does not touch this
-# standalone layer.
-assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 406
-assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 106
+# standalone layer. 406/106 -> 407/107 on the 2026-08-12 patch, same class.
+assert len(charges_doc["charges"]) == cov["charges"]["recordCount"] == 407
+assert len(charges_doc["categories"]) == cov["charges"]["categoryRecordCount"] == 107
 # deterministic ascending order by "ref"
 refs = [c["ref"] for c in charges_doc["charges"]]
 assert refs == sorted(refs) and len(set(refs)) == len(refs)
@@ -128,7 +132,7 @@ assert spot["resolvedSpellName"] == "Overcharged: Manaforge Coruu"
 # and at least one row legitimately fails to resolve (the 87.78% finding, not 100%)
 assert any(c["resolvedSpellName"] is None for c in charges_doc["charges"])
 
-# ---- [Task W4-11f] SpellCharges join-gap investigation: non-joining refs are
+# ---- SpellCharges join-gap investigation: non-joining refs are
 # realm-overlay content, not dead - re-derived fresh against a live area-52 dump
 # (raw/realms/area-52/dbc/Spell.csv.gz), not copied from any prior report ----
 rgf = charges_doc["realmGapFinding"]

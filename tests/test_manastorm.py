@@ -1,4 +1,4 @@
-"""TDD gate for task V3-1: Manastorm seasonal-modifier tables (Manastorm.dbc /
+"""TDD gate for the Manastorm seasonal-modifier tables (Manastorm.dbc /
 ManastormMessages.dbc / ManastormModifiers.dbc / ManastormPlayerGroupModifiers.dbc,
 patch-M) -> data/manastorm/.
 
@@ -6,8 +6,8 @@ Amendment D (single-writer ownership): build_manastorm is the sole writer under
 data/manastorm/ - nothing else in this repo touches that directory.
 
 Per the empirical-mapping rule, mapping evidence (join-rates, goldens, disproven
-hypotheses) is documented in tools/dbc.py's TABLE_MAPS comments and
-.superpowers/sdd/task-v3-1-report.md; this test pins the record-count snapshot
+hypotheses) is documented in tools/dbc.py's TABLE_MAPS comments; this test pins
+the record-count snapshot
 (verified headers, 2026-08-01 probe, patch-M: Manastorm 1017x9, ManastormMessages
 291x39, ManastormModifiers 32768x15, ManastormPlayerGroupModifiers 15x5) and the
 proven goldens: Manastorm's mapId/difficulty/dungeonEncounterId chain (Shadowfang
@@ -16,6 +16,10 @@ literal word "Manastorm")."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config
 from tools import build_manastorm

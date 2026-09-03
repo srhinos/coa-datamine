@@ -1,4 +1,4 @@
-"""TDD gate for task V3-2: realm-overlay extraction. Data\\<realm>\\ archives (e.g.
+"""TDD gate for the realm-overlay extraction. Data\\<realm>\\ archives (e.g.
 area-52's patch-D.MPQ, discovered generically via its own `listarchive` file) ->
 work/realms/<realm>/dbc/ (tools/extract_realms.py) -> raw/realms/<realm>/dbc/
 (mapped dump reusing base TABLE_MAPS, or dump_unmapped-style colinfo for realm-only
@@ -20,12 +20,12 @@ SpellCharges 473x2, SpellChargesCategory 108x3, SpellRank 19601x4, Talent 2368x2
 CharacterAdvancement/SpellRank have no base TABLE_MAPS entry at all (colinfo-only,
 deliberate, per the brief) - the other 10 do.
 
-[Task W4-5 UPDATE] CharacterAdvancementEssence gained a real TABLE_MAPS column
+[UPDATE] CharacterAdvancementEssence gained a real TABLE_MAPS column
 proof (id/level/classId/abilityEssence/talentEssence, see tools/dbc.py) - it moved
 from UNMAPPED_TABLES to MAPPED_TABLES below. This is the one *intended* change to
 this file's expectations from that task; everything else here is unchanged.
 
-[Task W4-10 UPDATE] SpellRank ALSO gained a real TABLE_MAPS column proof
+[UPDATE] SpellRank ALSO gained a real TABLE_MAPS column proof
 (id/firstSpellId/spellId/rank, raw-dump-clarity naming only, NOT wired into
 build_spells.py's rank-chain pipeline - see tools/dbc.py) - same move,
 UNMAPPED_TABLES -> MAPPED_TABLES, and unlike CharacterAdvancementEssence's own
@@ -46,7 +46,20 @@ import json, struct, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import config, dbc, extract_mpq, extract_realms, build_realms
+# This test owns the REALM-overlay extraction, and it now owns it in scratch:
+# work/realms, raw/realms and data/realms all land in a directory this process
+# deletes on exit, and the archives come from the sealed snapshot rather than the
+# live client. It used to call extract_mpq.extract_all() first, purely to make
+# sure work/dbc was populated - that one line rewrote all 111 base tables from the
+# live client and was one of the six polluters in tests/_diagnosis.md. work/dbc is
+# materialized by datamine.py; this test reads it, never writes it.
+# `raw` is seeded per-subpath, not whole: raw/ is 726 MB and this test touches
+# 27 MB of it (reads raw/talents, writes raw/realms - measured, see the seeding
+# note in tests/_iso.py). Seeding the rest cost ~24 s per run in copy + delete.
+from tests import _iso; _iso.sandbox(data=True, raw=["talents", "realms"],
+                                     work_realms=True)
+
+from tools import config, dbc, extract_realms, build_realms
 
 REALM = "area-52"
 
@@ -55,7 +68,8 @@ assert REALM in config.discover_realms(), config.discover_realms()
 assert "enUS" not in config.discover_realms() and "Content" not in config.discover_realms()
 
 # ---- extraction layer (tools/extract_realms.py) ----
-extract_mpq.extract_all()          # base work/dbc must be populated (Spell.dbc etc.)
+assert (config.WORK_DBC_DIR / "Spell.dbc").is_file(), (
+    f"{config.WORK_DBC_DIR} is not materialized - run `python datamine.py` once")
 prov = extract_realms.extract_all()
 assert REALM in prov, prov.keys()
 frag = prov[REALM]
@@ -123,9 +137,9 @@ for table in UNMAPPED_TABLES:
 # "mapped" (has a base TABLE_MAPS column proof) and "has a base WANTED_DBCS entry to
 # diff against" are independent axes - CharacterAdvancement has no base DBC of this
 # name AT ALL (realm-only table), so both are null/null for real, not just unmapped.
-# [Task W4-5] Before that task, CharacterAdvancementEssence.dbc was the
+# Before that task, CharacterAdvancementEssence.dbc was the
 # axis-independence example (base entry present, mapped false) - it moved to
-# MAPPED_TABLES above once tools/dbc.py gained its column proof. [Task W4-10]
+# MAPPED_TABLES above once tools/dbc.py gained its column proof.
 # SpellRank made the SAME move AND gained a base WANTED_DBCS entry in the same
 # task (WANTED_DBCS_V5) - it now carries real baseRecords/delta like the other 10
 # originally-mapped tables, leaving CharacterAdvancement as the sole table on
@@ -181,7 +195,7 @@ assert set(meta["mappedTables"]) == MAPPED_TABLES
 assert set(meta["unmappedTables"]) == UNMAPPED_TABLES
 assert "futureMilestone" in meta and "curation" in meta["futureMilestone"].lower()
 
-# [Task W4-13] The dataset must state the delivery mechanism itself, so a consumer
+# The dataset must state the delivery mechanism itself, so a consumer
 # reading only data/realms/ cannot mistake Free-Pick's overlay for "the realm overlay"
 # or for CoA data - and must keep the SMSG limit honest. Discovery finding only exactly
 # one realm after weeks of CoA play is the CORRECT answer, not a pending capture.

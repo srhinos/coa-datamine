@@ -1,4 +1,4 @@
-"""TDD gate for task V2-5: Mythic+/Challenges pack (Challenge.dbc hub + Challenge*
+"""TDD gate for the Mythic+/Challenges pack (Challenge.dbc hub + Challenge*
 link/type tables -> data/mythic/challenges/; MythicKeystones/MythicAffixes/
 MythicPlusScaling/TimedDungeons/MapDifficulty -> data/mythic/*).
 
@@ -6,7 +6,7 @@ Amendment D (single-writer ownership): build_mythic is the sole writer under
 data/mythic/ - nothing else in this repo touches that directory.
 
 Per the empirical-mapping rule, this also pins the NEGATIVE findings documented in
-.superpowers/sdd/task-v2-5-report.md and tools/dbc.py's TABLE_MAPS comments:
+tools/dbc.py's TABLE_MAPS comments:
 ChallengeConditions has no provable conditionTypeId link (its own string block is too
 small to carry a per-row token the way Rules/Requirements do) - conditions ship with no
 resolved type name. ChallengeSpells.f4 (populated on every row but only ~19% joins
@@ -14,6 +14,10 @@ Spell.dbc) is NOT used - f5 (sparse but 100% on its populated subset) is."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config
 from tools import build_mythic

@@ -1,5 +1,5 @@
-"""TDD gate for task W4-9 (CoA talent tree geometry, coa-sim-handoff/
-DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11) -> data/talents/coa/.
+"""TDD gate for CoA talent tree geometry (DATAMINE-REQUEST.md
+Sec 6.1 / Sec 13 item 11) -> data/talents/coa/.
 
 Amendment D (single-writer ownership): build_coatalents is the sole writer under
 data/talents/coa/ - the pre-existing data/talents/<ChrClass>.json (DBC Talent.dbc
@@ -7,7 +7,7 @@ trees, build_talents.py) is a sibling, untouched directory one level up.
 
 Per the empirical-mapping rule, this also pins the NEGATIVE/nuanced findings
 documented in tools/build_coatalents.py and data/talents/coa/_meta.json (full
-writeup + a correction note in .superpowers/sdd/task-w4-9-report.md - a review
+writeup + a correction note - a review
 pass caught two narrative errors in a first draft of this module, corrected here):
   - the resolve-rate gate is measured against raw Spell.dbc existence (100% on
     the current 209,130-row snapshot; it read 99.97% before a client patch added
@@ -31,6 +31,10 @@ pass caught two narrative errors in a first draft of this module, corrected here
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config
 from tools import build_coatalents

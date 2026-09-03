@@ -12,14 +12,19 @@
  },
  "connectivityFinding": {
   "connectedNodeIds": {
-   "resolveRate": 0.9996,
-   "resolved": 5488,
-   "total": 5490,
+   "resolveRate": 0.9995,
+   "resolved": 5486,
+   "total": 5489,
    "unresolved": [
     {
      "fromId": 34445,
      "fromName": "Hammer of the Law",
      "missingId": 7181
+    },
+    {
+     "fromId": 30610,
+     "fromName": "Argent Knight",
+     "missingId": 17567
     },
     {
      "fromId": 7196,
@@ -43,7 +48,7 @@
    "resolved": 3618,
    "unresolvedSpellIds": []
   },
-  "verdict": "The naive '>=95% resolve against CAD entries' gate, taken literally (payload spellId must appear in this repo's own captured CharacterAdvancementData.json), FAILS: only 49.1% resolve. This is real, measured content drift between the live published builder and this repo's client snapshot - NOT a parse bug or bad join. Independent proof: a permissive re-measurement against the raw client Spell.dbc table (raw/dbc/Spell.csv.gz, 209,151 rows, ANY row regardless of whether any CAD entry references it) resolves 100.00% (3,618/3,618) - the payload's spell ids are real, valid spells that exist in this exact client snapshot; they are simply not the SAME spellId variant this repo's captured CAD JSON happens to reference for the same-looking ability. Every payload spellId resolves - no exceptions. Likely mechanism (consistent with the W4-8 Realms-bitmask finding that CoA abilities get authored as MULTIPLE duplicate CAD rows per realm/game-mode, each potentially carrying a DIFFERENT spellId variant): the account-wide CAD snapshot's 'coa-custom' rows are a union across several variants of the same ability, and the live CoA builder picks one specific variant that doesn't always line up 1:1 with the variant this snapshot's closure walk reached."
+  "verdict": "The naive '>=95% resolve against CAD entries' gate, taken literally (payload spellId must appear in this repo's own captured CharacterAdvancementData.json), FAILS: only 49.1% resolve. This is real, measured content drift between the live published builder and this repo's client snapshot - NOT a parse bug or bad join. Independent proof: a permissive re-measurement against the raw client Spell.dbc table (raw/dbc/Spell.csv.gz, 209,206 rows, ANY row regardless of whether any CAD entry references it) resolves 100.00% (3,618/3,618) - the payload's spell ids are real, valid spells that exist in this exact client snapshot; they are simply not the SAME spellId variant this repo's captured CAD JSON happens to reference for the same-looking ability. Every payload spellId resolves - no exceptions. Likely mechanism (consistent with the Realms-bitmask finding that CoA abilities get authored as MULTIPLE duplicate CAD rows per realm/game-mode, each potentially carrying a DIFFERENT spellId variant): the account-wide CAD snapshot's 'coa-custom' rows are a union across several variants of the same ability, and the live CoA builder picks one specific variant that doesn't always line up 1:1 with the variant this snapshot's closure walk reached."
  },
  "flagBits": {
   "0x1": "Deprecated",
@@ -106,16 +111,19 @@
  "payload": {
   "buildId": 40,
   "buildName": "Vol'Jin",
-  "extractionTechnique": "Next.js flight-stream analogue of the aowow.py Listview trick (coa-sim-handoff/parsers/aowow.py): scan every self.__next_f.push([id,\"...\"]) call by hand (backslash-aware, since some literals run several MB - a naive backtracking regex chokes), json.loads() each isolated string literal to unescape it once, strip the leading '<hex>:' flight-row prefix, then json.JSONDecoder().raw_decode() past any trailing non-JSON. The target build record is found structurally (walk the decoded tree for a dict shaped like {id,slug,name,max_level,talents: {classes,entriesByTab}}), not by a hardcoded array index.",
+  "extractionTechnique": "Next.js flight-stream analogue of the aowow.py Listview trick (the published builder parser): scan every self.__next_f.push([id,\"...\"]) call by hand (backslash-aware, since some literals run several MB - a naive backtracking regex chokes), json.loads() each isolated string literal to unescape it once, strip the leading '<hex>:' flight-row prefix, then json.JSONDecoder().raw_decode() past any trailing non-JSON. The target build record is found structurally (walk the decoded tree for a dict shaped like {id,slug,name,max_level,talents: {classes,entriesByTab}}), not by a hardcoded array index.",
   "fetch": {
-   "bytes": 11877725,
-   "capturedUtc": "2026-08-06T10:49:00+00:00",
+   "bytes": 11946549,
+   "capturedUtc": "2026-08-12T21:02:51+00:00",
+   "changedFromPrevious": true,
    "httpStatus": 200,
-   "note": "EXTERNAL SOURCE THAT DRIFTS - Ascension's live builder reflects current game balance/content, independent of this repo's client snapshot capture date. Re-run this fetch and diff sha256 to check for drift; do not assume this capture stays current.",
+   "note": "EXTERNAL SOURCE THAT DRIFTS - Ascension's live builder reflects current game balance/content, independent of this repo's client snapshot capture date. Captured by tools/fetch_coatalents.py as step 0 of datamine.py's pass. This file describes the PAYLOAD (where these bytes came from, when); whether a given run re-fetched or reused them is in raw/_snapshot.json's liveCapture block.",
+   "previousSha256": "7560dc08c855b68c1feef151c7fc50e5c7a52bea6f5f592b3422bfa59637c2fd",
    "savedAs": "coa-builder-voljin.html",
-   "serverDate": "Thu, 06 Aug 2026 10:49:03 GMT",
-   "sha256": "467fd444b349ad531539c80e18b836cd069d33d2c3fe71fc4ed488e017640da3",
+   "serverDate": "Wed, 12 Aug 2026 21:02:53 GMT",
+   "sha256": "41a6ccd393c0648ae2b1fdc34fe94955d4fd13c0cd59040ad3860e64a8ff6c7a",
    "slug": "voljin",
+   "status": "fetched",
    "url": "https://ascension.gg/en/v2/coa-builder/voljin"
   },
   "maxLevel": 60,
@@ -128,7 +136,7 @@
   "twoBuildsInPage": "This page embeds TWO near-identical build records side by side (id 39 slug 'voljin-alpha', id 40 slug 'voljin') - both carry the exact same 3,618 nodes / same ids / same geometry fields, differing only in tooltip description text (verified: zero non-description/rankDescriptions field differences across every shared entry id). This is WHY every field name greps to exactly 7,236 raw occurrences in the fetched HTML (2 x 3,618) matching the doc's cited count precisely - it is two copies of one dataset, not 7,236 real distinct nodes. This module uses ONLY the slug='voljin' copy (build id 40), matching both the fetch URL and the realm caveat below; 'voljin-alpha' is ignored.",
   "url": "https://ascension.gg/en/v2/coa-builder/voljin"
  },
- "realmCaveat": "The payload is served from the 'voljin' builder URL (https://ascension.gg/en/v2/coa-builder/voljin), but this is a CONQUEST OF AZEROTH capture, not a one-realm sample: Vol'jin and Rexxar are two realms of the SAME game mode (gameMode=11 in the client's own C_RealmSelect.RealmInfo) reading the same base chain, so there is no separate Rexxar geometry to be missing and nothing to reconcile between them. The scope limit that IS real is drift in TIME: this is one fetch of a published builder, frozen by sha256, and the live builder moves independently of this repo's client snapshot - which is exactly what contentDrift below measures. Re-run tools/fetch_coatalents.py and diff the pinned sha256 to detect it. The client-side Lua geometry source (Ascension_CoATalents, CharacterAdvancement*.lua) supplies realm-agnostic STRUCTURE (node types, gate mechanism, flag bits) but none of the numeric tree layout itself (see clientLuaGeometryFinding), so the payload is the only source for geometry and this caveat applies to all of it.",
+ "realmCaveat": "The payload is served from the 'voljin' builder URL (https://ascension.gg/en/v2/coa-builder/voljin), but this is a CONQUEST OF AZEROTH capture, not a one-realm sample: Vol'jin and Rexxar are two realms of the SAME game mode (gameMode=11 in the client's own C_RealmSelect.RealmInfo) reading the same base chain, so there is no separate Rexxar geometry to be missing and nothing to reconcile between them. The scope limit that IS real is drift in TIME: this is one fetch of a published builder, frozen by sha256, and the live builder moves independently of this repo's client snapshot - which is exactly what contentDrift below measures. Every pass re-captures the page (datamine.py step 0, tools/fetch_coatalents.py) and raw/_snapshot.json's liveCapture block says whether THIS run fetched or reused; diff the pinned sha256 to detect movement. The client-side Lua geometry source (Ascension_CoATalents, CharacterAdvancement*.lua) supplies realm-agnostic STRUCTURE (node types, gate mechanism, flag bits) but none of the numeric tree layout itself (see clientLuaGeometryFinding), so the payload is the only source for geometry and this caveat applies to all of it.",
  "reqTabAeTeGateFinding": {
   "aeGatedTabIds": [
    87
@@ -225,8 +233,8 @@
   "vsRawCadSpellsUnion": {
    "note": "resolve rate against the union of EVERY CAD row's Spells field (all 43 classes, not just the 21 coa-custom ones, and unfiltered by whether build_spells' closure ever reached it) - still well below 95%, so the gap is not an artifact of data/spells' own closure scope.",
    "of": 3618,
-   "rate": 0.4914,
-   "resolved": 1778
+   "rate": 0.4912,
+   "resolved": 1777
   }
  },
  "tabLayerReconciliation": {
@@ -411,5 +419,5 @@
    ]
   }
  },
- "task": "W4-9: CoA talent tree geometry (coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)"
+ "task": "CoA talent tree geometry (DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)"
 }

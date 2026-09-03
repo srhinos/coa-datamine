@@ -1,4 +1,4 @@
-"""Realm-overlay DBC extraction (task V3-2): discover Data\\<realm>\\ directories
+"""Realm-overlay DBC extraction: discover Data\\<realm>\\ directories
 (config.discover_realms - any dir with its own `listarchive`, excluding enUS/Content)
 and extract every DBFilesClient\\*.dbc file from each realm's own archive chain into
 work/realms/<realm>/dbc/.

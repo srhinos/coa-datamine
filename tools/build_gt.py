@@ -1,4 +1,4 @@
-"""gt* combat-rating/regen tables (task W4-2: coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.1
+"""gt* combat-rating/regen tables (DATAMINE-REQUEST.md Sec 1.1
 + Sec 13 item 1) -> data/gt/.
 
 Amendment D (single-writer ownership): build_gt.py is the SOLE writer under data/gt/ -
@@ -6,8 +6,7 @@ build() clears and rebuilds the whole directory itself.
 
 Full layout-proof evidence (the class-major/rating-major index formulas, the 3
 block-boundary "level-100-slot" checks, every reproduced golden with exact values) lives
-in tools/dbc.py's TABLE_MAPS comment block for the gt* tables and in
-.superpowers/sdd/task-w4-2-report.md. This module applies that proven index arithmetic
+in tools/dbc.py's TABLE_MAPS comment block for the gt* tables. This module applies that proven index arithmetic
 to turn the raw single-float-per-row DBCs into curated per-rating/per-class curves; the
 gates below (build_combat_ratings/build_class_tables) re-check the same golden facts at
 build time so a future client patch that silently changes the layout fails loudly instead
@@ -335,8 +334,7 @@ def build() -> dict:
             "gtRegenHPPerSpt/gtOCTRegenHP idx=(classId-1)*100+(level-1) (class-major, "
             "classId 1-32 = ChrClasses.dbc id); gtChanceToMeleeCritBase/"
             "gtChanceToSpellCritBase idx=classId-1 (32 rows, no level dimension) - full "
-            "evidence in tools/dbc.py's TABLE_MAPS comment and "
-            ".superpowers/sdd/task-w4-2-report.md"
+            "evidence in tools/dbc.py's TABLE_MAPS comment"
         ),
         "goldensReproduced": {
             "level80CombatRatingConstants": "13/14 exact to 4dp on a fresh 2026-08-06 "

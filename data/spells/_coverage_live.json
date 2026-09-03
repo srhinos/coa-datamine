@@ -1,14 +1,14 @@
 {
  "_generatedBy": "tools/coverage_live.py",
+ "_measures": "The damage-model coverage figure over castable (live) content.",
  "_note": "Unrelated to data/spells/_coverage.json, which measures Spell.dbc COLUMN coverage. This file measures how much of a CoA class's damaging/healing effect output a simulator can model.",
- "_task": "Recompute the damage-model coverage figure over castable (live) content.",
  "cadFigureOverstates": "The CAD-denominator figure (80.5% modelable, 278 holes, 101 distinct pairs) OVERSTATES the size of the problem for a simulator, because it counts effect slots on catalog entries no player can cast. 65 of its 101 distinct hole pairs (64%) sit on entries with no live builder node and no evidence of any other acquisition path - dead content. Use the live figure; the CAD figure is historical.",
  "caveats": [
   "The live denominator is a lower bound: indeterminate entries (live: null) are excluded from it and included in liveOrIndeterminate.",
   "Coverage measures whether a scaling channel EXISTS to model, not whether the resulting number is correct.",
   "Spell ids referenced by CoA classes that have no BASE Spell.dbc row at all (they exist only in a realm overlay) are dropped from every denominator identically - see method.chainSpellIdsAbsentFromBaseSpellDbc.",
   "valueAtCap on the hole rows is descriptive metadata, not part of any verdict; it uses the guide's canonical clamp formula (basePoints + dieSides + ...), so it reads higher than the published triage table, which quoted basePoints + 1 and did not clamp on maxLevel.",
-  "The live denominator is slightly OVER-inclusive in two ways, both measured in livenessSource.liveDenominatorSlack rather than assumed small: `live` is stamped per ENTRY but consumed per CHAIN, so 174 of the 3630 live chains (4.8%) enter the denominator on a spell id that is in no live node - they ride on a sibling spell of the same multi-spell entry; and 289 live chains measure a different rank than the one the matched builder node holds, because rank_at_cap picks the highest rank with level <= 60 rather than the node's rank. Neither moves the headline materially, but both are real.",
+  "The live denominator is slightly OVER-inclusive in two ways, both measured in livenessSource.liveDenominatorSlack rather than assumed small: `live` is stamped per ENTRY but consumed per CHAIN, so 174 of the 3629 live chains (4.8%) enter the denominator on a spell id that is in no live node - they ride on a sibling spell of the same multi-spell entry; and 289 live chains measure a different rank than the one the matched builder node holds, because rank_at_cap picks the highest rank with level <= 60 rather than the node's rank. Neither moves the headline materially, but both are real.",
   "Liveness itself is consumed, so its caveats travel with it: liveViaRank is gated on SpellRankData chain name-coherence (recycled contiguous id blocks otherwise manufacture false positives), and `live` is an ABILITY-level claim - a live:true entry can sit on a CAD row the client's own loader discards. See tools/coa_live.py and data/classes/_live_summary.json.falseNegativeMeasurement."
  ],
  "delta": {
@@ -357,7 +357,7 @@
   }
  },
  "goldenChecks": {
-  "_what": "Reproduction gates against the published audit (coa-sim-handoff/analysis/coverage-remeasure.md and hole-triage.md). All must pass or the pipeline has drifted.",
+  "_what": "Reproduction gates: pinned coverage and hole-triage figures. All must pass or the pipeline has drifted.",
   "allPass": true,
   "checks": [
    {
@@ -673,7 +673,7 @@
   {
    "aura": 0,
    "baseLevel": 34,
-   "basePoints": 147,
+   "basePoints": 265,
    "bucket": "PERLEVEL_SCALED",
    "builderRequiredLevel": null,
    "builderTabs": [],
@@ -703,7 +703,7 @@
    ],
    "cadEntryCount": 3,
    "channels": "P",
-   "dieSides": 27,
+   "dieSides": 49,
    "effect": 2,
    "formula": "${$m1+0}",
    "kind": "direct_damage",
@@ -716,8 +716,8 @@
    "slot": 1,
    "spellId": 503488,
    "spellLevel": 34,
-   "valueAtCap": 184.5,
-   "valueAtCapMinRoll": 158.5,
+   "valueAtCap": 324.5,
+   "valueAtCapMinRoll": 276.5,
    "verdict": "HOLE:level-curve only, no gear term"
   },
   {
@@ -2322,9 +2322,9 @@
   "capture": "data/talents/coa/** from raw/talents/coa-builder-voljin.html (sha256-pinned)",
   "caveat": "Every live/dead verdict is a CONQUEST OF AZEROTH verdict, and CoA is one game mode: Vol'jin and Rexxar are two realms of gameMode=11 reading the same base chain, so the builder payload is not a one-realm sample and there is no second realm's trees missing. The real limit is TIME - the published builder and this repo's client snapshot drift apart, so content the builder has not caught up to reads as dead. Compounding it, data/classes entries are account-wide across all four realms, so an entry belonging to another mode is correctly dead FOR CoA while alive elsewhere.",
   "chainReasonCounts": {
-   "deadCatalog": 3615,
+   "deadCatalog": 3616,
    "indeterminate": 1461,
-   "liveDirect": 3624,
+   "liveDirect": 3623,
    "liveViaRank": 6
   },
   "chainReasonCountsUnit": "CHAINS (one per spell reference on a walked entry), NOT entries. Deliberately does not match _live_summary.json's entry-level liveCountsByReason - an entry carrying three spells is three rows here and one there. Was misnamed entryReasonCounts before.",
@@ -2335,16 +2335,17 @@
    "chainsMeasuringAnotherRankPct": 8.0,
    "chainsRidingOnASibling": 174,
    "chainsRidingOnASiblingPct": 4.8,
-   "liveChains": 3630
+   "liveChains": 3629
   },
   "summary": "data/classes/_live_summary.json",
-  "writer": "tools/coa_live.py (task W4-14)"
+  "writer": "tools/coa_live.py"
  },
  "method": {
-  "chainSpellIdsAbsentFromBaseSpellDbc": 200,
+  "chainSpellIdsAbsentFromBaseSpellDbc": 199,
   "chainsWalked": 8706,
   "channels": "W = weapon effect; P = effectRealPointsPerLevel or a bound $ppl/$PL; T = a stat*number coefficient term in description + tooltip + SpellDescriptionVariables",
   "classes": 21,
+  "computedBy": "tools/coverage_live.py, as a stage of datamine.py's pass, off the data/ tree that same pass curated",
   "damagingSlotDefinition": {
    "auraCarrierEffects": [
     6,
@@ -2391,9 +2392,8 @@
    "TalentAbility"
   ],
   "levelCap": 60,
-  "portedFrom": "coa-sim-handoff/parsers/coverage/{bload,denom,clsfy,measure,headline}.py - reimplemented here so the figure is reproducible inside this repo",
   "rankPick": "highest rank with CAD rank.level <= 60; fallback = lowest-level rank",
-  "spellRowsLoaded": 209140,
+  "spellRowsLoaded": 209206,
   "spellRowsSkippedMalformed": 0,
   "spellSource": "raw/dbc/Spell.csv.gz (BASE only - never a realm overlay)",
   "verdictRule": "gear-scaling (W or T) = modelable; percent-of-max effects and 1-point tag damage = modelable (nothing to model); otherwise a hole, split dev-dead / level-curve-only / no-channel"

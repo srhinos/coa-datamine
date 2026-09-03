@@ -61,6 +61,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Read-only test: arms the guard that fails this test if it writes a committed
+# root. client=False because this file already reads the snapshot by name, and the
+# layers it re-emits record config.CLIENT_DIR as the identity of the client they
+# came from - repointing that would change the emitted index.json and turn a
+# determinism gate into a comparison of two different labels.
+from tests import _iso; _iso.sandbox(client=False)
+
 from tools import config, emit, layerstate, loc, wdb
 
 SHARD_MAX = 5000

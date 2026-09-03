@@ -1,4 +1,4 @@
-"""Realm-overlay raw layer + curated evidence index (task V3-2).
+"""Realm-overlay raw layer + curated evidence index.
 
 raw/realms/<realm>/dbc/: for every table tools/extract_realms.py pulled out of a
 realm's own archives, if base tools/dbc.py TABLE_MAPS has an entry for that table
@@ -12,7 +12,7 @@ data/realms/<realm>/index.json: per-table {records, fields, mapped, baseRecords,
 delta} (baseRecords/delta are null only for tables with no base config.WANTED_DBCS
 entry of the same name at all - CharacterAdvancement/SpellRank for area-52; note
 "mapped" and "has a base WANTED_DBCS entry" are independent axes -
-CharacterAdvancementEssence.dbc IS a base WANTED_DBCS table [task V2-3] but has no
+CharacterAdvancementEssence.dbc IS a base WANTED_DBCS table but has no
 TABLE_MAPS column proof on either side of the overlay, so it is unmapped yet still
 carries a real baseRecords/delta) plus overlay evidence: missingRefResolution (per
 data/spells/_missing_refs.json bucket, how many of those base-client "referenced but
@@ -22,7 +22,7 @@ ids absent from the base client's Spell.dbc).
 
 [Review fix pass] missingRefResolution needs data/spells/_missing_refs.json. If that
 file is absent, build_realm RAISES by default rather than shipping an empty dict that
-reads as a measured zero (the silent degrade task W4-13 observed under a concurrent
+reads as a measured zero (the silent degrade observed under a concurrent
 run). allow_missing_base=True instead writes missingRefResolution: null plus a
 `degraded` key naming the cause - the escape hatch for a caller that rebuilds this
 layer alone (the test suite does), never used by datamine.py's curation stage.
@@ -32,13 +32,13 @@ tools.build_realms` used to be a second way to rewrite part of data/ from whatev
 happened to be on disk, which is the drift class the single-entry-point rule exists
 to close. tests/test_dataset.py enforces the absence.
 
-[Task V3-2 finding] CharacterAdvancement.dbc's WDBC header declares FieldCount 179,
+[finding] CharacterAdvancement.dbc's WDBC header declares FieldCount 179,
 but its record_size only fits 173 int32 fields (692/4) - the byte-accurate value
 tools/dbc.py's DBCFile now derives .fields from (see its docstring). Surfaced here as
 a `declaredFields` key on that table's entry only when the two actually disagree (no
 null-noise on the 11 tables where they already match).
 
-Scope (binding, per the V3-2 brief): extraction + raw layer + overlay evidence ONLY.
+Scope (binding): extraction + raw layer + overlay evidence ONLY.
 NO full realm spell/class curation in this task (no per-record enrichment of realm
 spells, no realm-specific class/spec mapping) - see _meta.json's futureMilestone and
 AGENT-GUIDE.md.
@@ -47,16 +47,16 @@ Amendment D (single-writer ownership): this module is the SOLE writer under
 raw/realms/ and data/realms/ - nothing else in this repo touches these paths. It
 does NOT touch raw/provenance.json (the base pipeline's top-level file, owned by
 datamine.py's curation stage, which wires a "realms" stage calling
-this module's build() - see task V3-3)."""
+this module's build())."""
 import json, shutil
 
 from tools import coa_live, config, dbc, extract_realms, layerstate
 
 MIN_NEW_SPELL_COUNT = 10000     # brief's loose pin: realm spells measured ~= +30k vs base
 
-# [Task W4-13] Stamped onto every data/realms/<realm>/_meta.json so a consumer reading
+# Stamped onto every data/realms/<realm>/_meta.json so a consumer reading
 # only the dataset cannot mistake this layer for "the realm overlay" or for CoA data.
-# Evidence: .superpowers/sdd/task-w4-13-realm-report.md; summary in AGENT-GUIDE.md's
+# Evidence summary in AGENT-GUIDE.md's
 # "Realm overlays" section.
 DELIVERY_MECHANISM = (
     "area-52 is Free-Pick's overlay, NOT 'the realm overlay' - it is the only "
@@ -102,7 +102,7 @@ def _missing_ref_resolution(realm_spell_ids: set):
     [Review fix pass] Returns (None, reason) instead of {} when the base file is
     absent. It USED to return a bare {}, which build_realm then shipped as an
     empty `missingRefResolution` in a published index.json - an evidence file
-    with no evidence, indistinguishable from a measured zero. Task W4-13 saw
+    with no evidence, indistinguishable from a measured zero. An earlier run saw
     exactly that happen for real (a concurrent build_spells rmtree of
     data/spells/ removed _missing_refs.json mid-run) and the response was
     documentation only. The degrade is now recorded in the output itself: a
@@ -191,7 +191,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
             "baseRecords": base_n,
             "delta": (f.records - base_n) if base_n is not None else None,
         }
-        # [Task V3-2 finding] dbc.DBCFile.fields is byte-accurate (record_size/4);
+        # [finding] dbc.DBCFile.fields is byte-accurate (record_size/4);
         # a table whose WDBC header DECLARES a different FieldCount (observed on
         # CharacterAdvancement.dbc: declared 179 vs true 173) gets that flagged here
         # rather than silently dropped - no key at all when they agree (the common
@@ -237,7 +237,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
     if degraded:
         index["degraded"] = degraded
 
-    # [Task W4-5 fix] Used to shutil.rmtree() the whole realm dir here before
+    # [fix] Used to shutil.rmtree() the whole realm dir here before
     # rewriting - harmless while this module was the ONLY writer under
     # data/realms/<realm>/, but tools/diff_realm_overlay.py now also owns one file
     # there (overlay_diff.json) and a wholesale rmtree would silently destroy it on
@@ -261,7 +261,7 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
             "the way data/classes/ does for the base client) is explicitly OUT of "
             "this task's scope. v3 delivers extraction (work/realms/) + the raw dump "
             "layer (raw/realms/) + this overlay evidence index (data/realms/) only - "
-            "see AGENT-GUIDE.md's 'Manastorm + realm overlays' section (task V3-3)."
+            "see AGENT-GUIDE.md's 'Manastorm + realm overlays' section."
         ),
     }
     (data_dir / "_meta.json").write_text(
@@ -280,8 +280,8 @@ def build_realm(realm: str, allow_missing_base: bool = False) -> dict:
 
 def build(skip_extract: bool = False, allow_missing_base: bool = False,
           realms: list = None) -> dict:
-    """skip_extract mirrors the base pipeline's --skip-extract convention (task
-    V3-3 orchestrator wiring): reuse an already-populated work/realms/<realm>/dbc/
+    """skip_extract mirrors the base pipeline's --skip-extract convention
+    (orchestrator wiring): reuse an already-populated work/realms/<realm>/dbc/
     for every discovered realm instead of re-reading MPQ archives. Falls back to a
     real extract if any discovered realm has no cached dbc dir yet (first run,
     or a newly-appeared realm directory).

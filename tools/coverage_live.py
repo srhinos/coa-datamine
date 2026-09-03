@@ -17,9 +17,7 @@ This script produces BOTH figures side by side over one identical pipeline:
   * LIVE denominator  - the same, restricted to entries the live talent-builder
                         capture proves exist.
 
-METHOD (identical to the audit's, ported here so the number is reproducible in
-this repo - parsers/coverage/{bload,denom,clsfy,measure,headline}.py in
-coa-sim-handoff):
+METHOD (stated in full so the number is reproducible from this repo alone):
 
   1. Spell rows come from BASE raw/dbc/Spell.csv.gz ONLY. Never a realm overlay:
      the published 1,152 predecessor figure was an area-52 artifact and was
@@ -44,8 +42,8 @@ coa-sim-handoff):
      HOLE, split into dev-dead text, level-curve-only, and no-channel-at-all.
 
 LIVENESS is NOT re-derived here. It is consumed from the `live` / `liveEvidence`
-flags that tools/coa_live.py writes onto every data/classes/** entry (task
-W4-14), summarised in data/classes/_live_summary.json. Rule, quoted from that
+flags that tools/coa_live.py writes onto every data/classes/** entry,
+summarised in data/classes/_live_summary.json. Rule, quoted from that
 file: an entry is live if any of its own CAD spell ids is a live builder node's
 spellId/spellIds member (liveDirect), failing that if any other rank of its
 SpellRankData chain is (liveViaRank); otherwise it is split into `indeterminate`
@@ -78,12 +76,20 @@ import re
 import struct
 import sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SPELL_CSV = os.path.join(ROOT, "raw", "dbc", "Spell.csv.gz")
-SDV_CSV = os.path.join(ROOT, "raw", "dbc", "SpellDescriptionVariables.csv.gz")
-CLASSES = os.path.join(ROOT, "data", "classes")
-TALENTS = os.path.join(ROOT, "data", "talents", "coa")
-OUT = os.path.join(ROOT, "data", "spells", "_coverage_live.json")
+from tools import config
+
+# Derived from tools/config.py like every other module here, rather than from
+# this file's own __file__. It was the one builder that computed the repo root
+# for itself, which made its five paths - including the committed file it writes,
+# data/spells/_coverage_live.json - impossible to redirect: a caller that had
+# pointed the pipeline at another tree still got this stage writing into the
+# repo. Resolved at import, and curate.run() imports its builders when it runs.
+ROOT = str(config.REPO_ROOT)
+SPELL_CSV = str(config.RAW_DBC_DIR / "Spell.csv.gz")
+SDV_CSV = str(config.RAW_DBC_DIR / "SpellDescriptionVariables.csv.gz")
+CLASSES = str(config.DATA_DIR / "classes")
+TALENTS = str(config.DATA_DIR / "talents" / "coa")
+OUT = str(config.DATA_DIR / "spells" / "_coverage_live.json")
 
 csv.field_size_limit(10 ** 8)
 
@@ -572,7 +578,7 @@ def live_denominator_slack(recs, live_ids):
 # --------------------------------------------------------------------------
 # 5. Run
 # --------------------------------------------------------------------------
-def main(write=True):
+def main(write=True, report=True):
     sp, skipped = load_spells()
     recs, entries, nclasses = walk_chains()
     nodes, live_node_spell_ids = node_index()
@@ -615,8 +621,8 @@ def main(write=True):
     lco_live = hole_pairs(live_slots, LCO)
     lco_upper = hole_pairs(upper_slots, LCO)
 
-    # Golden checks against the published audit (coa-sim-handoff/analysis/
-    # coverage-remeasure.md + hole-triage.md). Any FAIL means the pipeline drifted.
+    # Reproduction gates: pinned figures the CAD denominator must keep hitting.
+    # Any FAIL means the pipeline drifted.
     cb, cv = cad_fig["byBucket"], cad_fig["byVerdict"]
     golden = [
         ("CAD damaging/healing slots", 1429, cad_fig["slots"]),
@@ -687,7 +693,7 @@ def main(write=True):
 
     doc = {
         "_generatedBy": "tools/coverage_live.py",
-        "_task": "Recompute the damage-model coverage figure over castable (live) content.",
+        "_measures": "The damage-model coverage figure over castable (live) content.",
         "_note": ("Unrelated to data/spells/_coverage.json, which measures Spell.dbc "
                   "COLUMN coverage. This file measures how much of a CoA class's "
                   "damaging/healing effect output a simulator can model."),
@@ -757,9 +763,8 @@ def main(write=True):
                            len(lco_live), len(lco_cad))),
         },
         "goldenChecks": {
-            "_what": ("Reproduction gates against the published audit "
-                      "(coa-sim-handoff/analysis/coverage-remeasure.md and "
-                      "hole-triage.md). All must pass or the pipeline has drifted."),
+            "_what": ("Reproduction gates: pinned coverage and hole-triage "
+                      "figures. All must pass or the pipeline has drifted."),
             "allPass": all(g["ok"] for g in golden),
             "checks": golden,
         },
@@ -793,7 +798,7 @@ def main(write=True):
             "consumedNotDerived": True,
             "flags": "data/classes/**/<tab>.json entry.live + entry.liveEvidence",
             "summary": "data/classes/_live_summary.json",
-            "writer": "tools/coa_live.py (task W4-14)",
+            "writer": "tools/coa_live.py",
             "capture": "data/talents/coa/** from raw/talents/coa-builder-voljin.html (sha256-pinned)",
             "chainReasonCounts": dict(sorted(chain_reason_counts.items())),
             "chainReasonCountsUnit": (
@@ -839,9 +844,8 @@ def main(write=True):
             "verdictRule": ("gear-scaling (W or T) = modelable; percent-of-max effects "
                             "and 1-point tag damage = modelable (nothing to model); "
                             "otherwise a hole, split dev-dead / level-curve-only / no-channel"),
-            "portedFrom": ("coa-sim-handoff/parsers/coverage/{bload,denom,clsfy,measure,"
-                           "headline}.py - reimplemented here so the figure is "
-                           "reproducible inside this repo"),
+            "computedBy": ("tools/coverage_live.py, as a stage of datamine.py's "
+                           "pass, off the data/ tree that same pass curated"),
         },
         "caveats": [
             "The live denominator is a lower bound: indeterminate entries (live: null) "
@@ -882,6 +886,8 @@ def main(write=True):
             fh.write("\n")
 
     # ---- stdout report -----------------------------------------------------
+    if not report:
+        return doc
     w = sys.stdout.write
     w("=" * 92 + "\n")
     w("DAMAGE-MODEL COVERAGE at level %d - CAD catalog vs live (castable) content\n" % LEVEL_CAP)
@@ -916,7 +922,7 @@ def main(write=True):
       % (len(lco_cad), len(lco_live), len(lco_upper), len(lco_cad - lco_live),
          len(lco_cad - lco_upper), len(lco_upper) - len(lco_live)))
     bad = [g for g in golden if not g["ok"]]
-    w("\ngolden checks vs the published audit: %d/%d pass%s\n"
+    w("\ngolden checks: %d/%d pass%s\n"
       % (len(golden) - len(bad), len(golden),
          "" if not bad else "  FAIL: " + ", ".join(
              "%s exp %d got %d" % (g["check"], g["expected"], g["actual"]) for g in bad)))
@@ -938,5 +944,16 @@ def main(write=True):
     return doc
 
 
-if __name__ == "__main__":
-    main(write="--no-write" not in sys.argv)
+def build():
+    """Pipeline entry point: rewrite data/spells/_coverage_live.json off the
+    data/ tree this same pass just curated, and hand curate.py a compact stat
+    line. Deliberately NOT a second __main__ - see curate.ENTRY_POINT_RULE. This
+    file used to be produced only by a hand-run CLI, which meant a rebuild after
+    a client patch refreshed data/spells and data/classes while this one kept
+    the previous run's headline, with nothing in the suite to notice."""
+    doc = main(write=True, report=False)
+    live = doc["figures"]["live"]
+    return {"slots": live["slots"], "modelable": live["modelable"],
+            "modelablePct": live["modelablePct"], "holes": live["holes"],
+            "holeDistinctSpellSlotPairs": live["holeDistinctSpellSlotPairs"],
+            "goldenChecksPass": doc["goldenChecks"]["allPass"]}

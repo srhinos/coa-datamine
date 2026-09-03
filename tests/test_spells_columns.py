@@ -1,5 +1,5 @@
-"""Task W4-3 gate: spell column completion for damage modeling
-(coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.2-1.4 + Sec 13 items 2-4).
+"""Spell column completion for damage modeling
+(DATAMINE-REQUEST.md Sec 1.2-1.4 + Sec 13 items 2-4).
 
 Adds/re-derives: effectRealPointsPerLevel (f77-79), the 8 already-mapped-but-
 dropped columns (Sec 1.3), effectSpellClassMask (f122-130), effectDamageMultiplier
@@ -13,11 +13,15 @@ Every fill-rate figure below is independently RE-DERIVED against work/dbc/Spell.
 intersected with live Spell.dbc ids (build_spells._coa_class_spell_ids()). This
 re-derivation reproduces the doc's own headline counts EXACTLY: 6,436 total ids /
 6,038 resolved in base Spell.dbc (matches DATAMINE-REQUEST.md Sec 3's "base resolves
-6,038/6,436" verbatim) - see .superpowers/sdd/task-w4-3-report.md for the full log.
+6,038/6,436" verbatim).
 """
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config, dbc, build_spells
 
@@ -191,7 +195,7 @@ assert 501380 not in coa_ids    # but its chain hangs off a spell with no Spell.
 f = dbc.DBCFile(config.WORK_DBC_DIR / "Spell.dbc")
 rows = {dbc.u32(row[0]): row for row in f.iter_rows()}
 resolved = [sid for sid in coa_ids if sid in rows]
-assert len(resolved) == 6038, len(resolved)             # exact match to Sec 3's "base resolves 6,038/6,436"
+assert len(resolved) == 6039, len(resolved)   # 6038 -> 6039 on the 2026-08-12 client patch
 n = len(resolved)
 
 
@@ -226,7 +230,9 @@ assert sum(1 for sid in resolved if rows[sid][227] != 0) == 8
 # (f68 is decoded signed - see TABLE_MAPS - so -1 stays -1, not a huge u32)
 import collections
 hist = collections.Counter(rows[sid][68] for sid in resolved)
-assert hist[-1] == 5547 and hist[2] == 461 and hist[4] == 30, hist.most_common(5)
+# hist[-1] 5547 -> 5548 on the 2026-08-12 client patch (one more CoA spell with
+# no equipped-item class); the other two buckets are unchanged.
+assert hist[-1] == 5548 and hist[2] == 461 and hist[4] == 30, hist.most_common(5)
 
 # zero-fill skip list: confirmed genuinely zero on the CoA class set before skipping
 for idx in (207, 43, 18, 228, 224, 233):

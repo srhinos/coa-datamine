@@ -1,4 +1,4 @@
-"""TDD gate for task W4-8: attempt to decode the CAD `Realms` bitmask against the
+"""TDD gate for the attempt to decode the CAD `Realms` bitmask against the
 6-realm roster (Vol'jin, Rexxar, Darkmoon, Dawnrise, Bronzebeard, Area 52) per
 DATAMINE-REQUEST.md Sec 6.2 / Sec 13 item 10.
 
@@ -16,6 +16,10 @@ verdict) and the fact that no realmFlags leaked into curated class entries."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config, build_classes
 

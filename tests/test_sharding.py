@@ -6,6 +6,10 @@ import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
+
 from tools import config
 from tools import build_spells, build_classes, build_talents, build_dungeons
 
@@ -31,13 +35,13 @@ ALLOWLIST = {
 # "Regenerating after a client patch" contract (small delta = content churn).
 # 2026-08-01 rebuild after a further client patch: writer now produces 27470 against
 # the patched work/dbc snapshot (+31 vs. 27439) - re-pinned per the same contract.
-# 2026-08-06 (task W4-1, incidental): a live client patch landed mid-task -
+# 2026-08-06 (incidental): a live client patch landed mid-task -
 # work/dbc/Spell.dbc went 209,125 -> 209,130 BASE rows (confirmed via file mtime,
 # unrelated to this task's enum-table changes, which touch only names/lookups, never
 # the referenced-id closure) - writer now produces 27475 (+1 vs. 27474). Re-pinned
 # per the same contract; every other invariant in this file (class entry counts,
 # dungeon count) was checked and is unchanged by the same patch.
-# 2026-08-06 (task W4-4, intentional): the writer now also closes over formula/
+# 2026-08-06 (intentional): the writer now also closes over formula/
 # directive spell-id references embedded in description/tooltip text (depth-capped
 # at 2 - DATAMINE-REQUEST.md Sec 1.6), adding 1,476 new "formula"-tagged records on
 # top of the prior 27,475 (re-derived fresh, within this task's own +/-20% gate of
@@ -61,7 +65,14 @@ ALLOWLIST = {
 # gates live-node coverage at exactly 1.0. Re-pinned accordingly. The class entry
 # counts and dungeon count below are re-derived against the same 2026-08-09
 # snapshot in the same pass.
-PRE_SPELL_COUNT = 32820
+# 2026-08-12 rebuild from a fresh capture: the client patched again (4 archives
+# moved - patch-M, patch-S, patch-T, area-52/patch-D - for +50 table rows in
+# total, base Spell.dbc 209,140 -> 209,206), and the writer now produces 32,824
+# (+4 vs. 32,820). Re-pinned per AGENT-GUIDE's "Regenerating after a client
+# patch" contract: the class entry counts and dungeon count below were re-derived
+# in the same pass and are UNCHANGED, which is what makes this content churn
+# rather than a writer regression.
+PRE_SPELL_COUNT = 32824
 PRE_CLASS_ENTRY_COUNTS = {
     "Barbarian": 387, "Chronomancer": 434, "Cultist": 415, "DeathKnight": 176,
     "DemonHunter": 369, "Druid": 308, "Guardian": 374, "Hunter": 296,
@@ -93,13 +104,17 @@ oversized = []
 for p in sorted(config.DATA_DIR.rglob("*")):
     if not p.is_file() or p.suffix not in (".json", ".jsonl"):
         continue
-    rel = p.relative_to(config.REPO_ROOT).as_posix()
+    # Relative to the DATA root, not the repo root: the tree being scanned is
+    # whatever config points at, which under tests/_iso.py is a scratch build
+    # outside the repo's data/. The `data/...` shape the ALLOWLIST keys use is
+    # the same either way.
+    rel = "data/" + p.relative_to(config.DATA_DIR).as_posix()
     n = sum(1 for _ in open(p, encoding="utf-8"))
     if n > MAX_LINES and rel not in ALLOWLIST:
         oversized.append((rel, n))
 assert not oversized, f"files exceeding {MAX_LINES} lines with no allowlist entry: {oversized}"
 for rel in ALLOWLIST:
-    p = config.REPO_ROOT / rel
+    p = config.DATA_DIR.joinpath(*rel.split("/")[1:])
     assert p.is_file(), f"stale allowlist entry, file gone: {rel}"
 
 # ---- spells: bucket index completeness + count invariance ----
@@ -121,7 +136,7 @@ meta = json.loads((sdir / "_meta.json").read_text(encoding="utf-8"))
 assert meta["count"] == PRE_SPELL_COUNT
 assert "missing_refs_by_source" not in meta, "full missing-ref lists must move out of _meta.json"
 missing = json.loads((sdir / "_missing_refs.json").read_text(encoding="utf-8"))
-# [Task W4-4] "formula" joins the source set - report-only bucket for formula-
+# "formula" joins the source set - report-only bucket for formula-
 # referenced ids that don't resolve to a live Spell.dbc row (see build_spells.py).
 # "live" joined the buckets in the live-seed pass: ids that reached the closure
 # through live truth and no catalog/talent/rank row at all (its miss list is

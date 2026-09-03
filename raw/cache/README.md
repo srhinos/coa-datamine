@@ -9,8 +9,8 @@ playing the game appends to that cache. Everywhere else "unchanged client" means
 
 ## Totals
 
-- **22 files**, 21.9 MB
-- **54,083 records** decoded
+- **22 files**, 23.4 MB
+- **57,739 records** decoded
 - tiers: {"schema": 18, "blocks": 0, "flat": 2, "raw": 2}
 
 ## How a field layout earns the right to be used

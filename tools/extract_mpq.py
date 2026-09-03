@@ -48,12 +48,12 @@ def extract_all() -> dict:
     carriers = {}                # lower name -> list of (rank, path, stored_name)
     skipped = []
     skipped_paths = []           # Path objects for the unlistable-archive probe below
-    all_dbc_names = set()        # [Task W4-7] census (DATAMINE-REQUEST.md Sec 5.2):
+    all_dbc_names = set() # census (DATAMINE-REQUEST.md Sec 5.2):
     per_archive_dbc_counts = {}  # every DBFilesClient\* name seen in any LISTABLE
                                   # archive's listfile, wanted or not - this loop
                                   # already walks every listfile, so the census is free.
     for p in _list_archives():
-        # [Task W4-7 review fix] shared predicate with probe_unlistable.discover_
+        # [review fix] shared predicate with probe_unlistable.discover_
         # unlistable() (tools/probe_unlistable.py's try_list()) - previously this
         # loop only caught the exception shape (no readable listfile at all) while
         # discover_unlistable() ALSO caught a successful-open-but-empty .files, so
@@ -81,12 +81,12 @@ def extract_all() -> dict:
     if missing:
         raise SystemExit(f"FATAL: wanted DBCs not found in any archive: {missing}")
 
-    # [Task V3-3] "fields" (below) stays the header's DECLARED FieldCount - the
+    # "fields" (below) stays the header's DECLARED FieldCount - the
     # existing, load-bearing meaning test_extract.py already pins (spell.dbc == 234).
     # headerMismatches is new: a byte-accurate cross-check (record_size // 4, the
     # SAME derivation tools/dbc.py's DBCFile.fields trusts for row layout - see its
-    # docstring and task V3-2's CharacterAdvancement.dbc finding) against that
-    # declared count, for every base table. V3-2 made DBCFile stop hard-crashing on
+    # docstring and its CharacterAdvancement.dbc finding) against that
+    # declared count, for every base table. DBCFile was later made to stop hard-crashing on
     # a header/record_size disagreement (needed so a lying REALM header like
     # CharacterAdvancement's stays readable) - that fix quietly removed the base
     # pipeline's old crash canary for a lying BASE header too. This restores
@@ -98,7 +98,7 @@ def extract_all() -> dict:
         lst.sort(key=lambda t: t[0])
         rank, winner, stored = lst[-1]
         by_winner.setdefault(winner, []).append((base, stored, [p.name for _, p, _ in lst[:-1]]))
-    # [Task W4-7] base -> the Path that won it, needed below to compare a probed
+    # base -> the Path that won it, needed below to compare a probed
     # unlistable archive's chain_rank against the winner it might silently outrank.
     winner_path_by_base = {base: winner for winner, entries in by_winner.items()
                             for base, _stored, _losers in entries}
@@ -126,7 +126,7 @@ def extract_all() -> dict:
                     "actualFields": actual_fields,
                 })
 
-    # [Task W4-7] census (DATAMINE-REQUEST.md Sec 5.2): "368 distinct
+    # census (DATAMINE-REQUEST.md Sec 5.2): "368 distinct
     # DBFilesClient\* names exist in the chain against 77 extracted" - re-derived
     # live here (not copied from the doc) from the listfile walk above, which
     # already touches every listable archive for free.
@@ -136,7 +136,7 @@ def extract_all() -> dict:
         "perArchiveDbcCounts": per_archive_dbc_counts,
     }
 
-    # [Task W4-7] unlistable-archive provenance probe (DATAMINE-REQUEST.md Sec 5.1):
+    # unlistable-archive provenance probe (DATAMINE-REQUEST.md Sec 5.1):
     # the archives that failed to open with listfile=True above (skipped_paths)
     # were invisible to the chain walk that just ran - it never saw whatever they
     # carry. Test them by hash-table lookup instead (see tools/probe_unlistable.py -

@@ -3,7 +3,7 @@
 **A complete mechanical extraction of the Ascension Conquest of Azeroth client.**
 Every DBC table (all 368, not a chosen subset), the `Data\Content` JSON and `.loc`
 localization store, the Interface/API Lua code layer, the WDB server caches, and a
-census of every file in the install. 7.5M rows.
+census of every file in the install. 7,467,710 rows.
 
 Nothing in `raw/` is hand-authored. Columns are positional (`f0..fN`) because
 nothing here knows what a column means. Types are inferred by measurement and
@@ -31,18 +31,18 @@ member whose bytes are needed, does all of the work for those bytes before
 moving on: hash it, verify it against the archive's own MD5, decode it, classify
 it, stage it. Nothing after the snapshot reads the live client.
 
-That matters because the launcher patches the archives roughly hourly. The
-previous pipeline was a chain of stage scripts, ten of which independently
-opened the archives, so a run walked 44.9 GB about a dozen times over and read a
-MIXTURE of client versions along the way. The snapshot being minutes or hours
-behind the live client is expected and harmless; what matters is that one client
-version goes in and one dataset comes out. `raw/_snapshot.json` records the
-sha256, size and mtime of every file the run was built from.
+That matters because the launcher patches the archives roughly hourly. A
+pipeline that reopens the archives per stage reads a MIXTURE of client versions;
+this one cannot. The snapshot being minutes or hours behind the live client is
+expected and harmless; what matters is that one client version goes in and one
+dataset comes out. `raw/_snapshot.json` records the sha256, size and mtime of
+every file the run was built from.
 
-A full run takes about **20 minutes** on this machine with a cold page cache
-(roughly 17 with the 45.9 GB of archives already cached) - one snapshot copy,
-one traversal, 80.6 GB decompressed exactly once. Both guarantees behind that
-number are enforced in code rather than described: `mpq.OPEN_LEDGER` counts
+A full run takes about **20 minutes** on a workstation with a cold page cache
+(roughly 17 with the 44.9 GB of archives already cached) - one snapshot copy,
+one traversal, and the 80.6 GB the archives' 768,998 members hold is
+decompressed exactly once. Both guarantees behind
+that number are enforced in code rather than described: `mpq.OPEN_LEDGER` counts
 every archive open at the line that performs it and the run refuses to publish
 if any archive was opened twice, and `datamine.ClientReads` wraps the process's
 own file opens and fails the run if anything touches the live client after the
@@ -50,8 +50,8 @@ snapshot is sealed.
 
 Client at `E:\ascension-live` (override with env `COA_CLIENT_DIR`). Python 3.12,
 standard library only - `datamine.py` and everything it imports, the curated
-`data/` tree included. `mpyq` is no longer needed by the pipeline; it survives
-only in the standalone cross-check tools that re-scan the client directly.
+`data/` tree included. `mpyq` is not used by the pipeline; it appears only in
+the standalone cross-check tools that re-scan the client directly.
 
 ## Where to look first
 
@@ -70,7 +70,7 @@ The client ships most DBC paths more than once and its loader picks one.
 `raw/tables/<Table>/` is that pick, and for **10 tables it is the `Data\area-52`
 realm overlay** - which is *Free-Pick's* data. A Conquest of Azeroth character has
 no client data directory at all and reads the **base chain**, so for CoA questions
-the chain winner is the wrong version: base `Spell` is 209,151 rows, the overlay's
+the chain winner is the wrong version: base `Spell` is 209,206 rows, the overlay's
 is 238,942. The contested ten are `Spell`, `SkillLineAbility`, `SpellRank`,
 `Talent`, `CharacterAdvancement`, `CharacterAdvancementEssence`, `SpellCharges`,
 `SpellChargesCategory`, `Manastorm` and `ManastormModifiers` - exactly the tables
@@ -78,7 +78,8 @@ class and spell work depends on.
 
 Nothing is discarded: every distinct version is decoded to
 `raw/tables/<Table>/variants/<archive-slug>/` in the same shape, indexed in that
-table's `index.json` and in `raw/tables/_variants.json`.
+table's `index.json` and in `raw/tables/_variants.json` (987 versions over 368
+paths).
 
 ```
 python -m tools.find "Tide Lash" --variant baseChain   # what a CoA character reads
@@ -92,7 +93,7 @@ it used.
 ### How complete this is, stated as a boundary
 
 Everything in the client that can be extracted has been. Two exclusions, both
-deliberate decisions by the repository owner, neither of them silent:
+deliberate and neither of them silent:
 
 - **Art and sound: recorded, not committed.** Path, size and sha256 for every one
   of them are in this repo; the bytes (53.5 GB of art, 9.0 GB of sound) stay in the
@@ -106,7 +107,7 @@ deliberate decisions by the repository owner, neither of them silent:
 Everything else is in: all 368 tables plus every non-winning version of each, the
 Interface code layer, `Data\Content` and `.loc`, the WDB caches, every executable's
 strings/inlined Lua/PE structure, and the deleted, encrypted and nested-container
-members in `raw/recovered/`. Of the 637,590 paths the census records, **4,906 are
+members in `raw/recovered/`. Of the 637,591 paths the census records, **4,906 are
 `readable: false` and every one is an MPQ delete tombstone** - a patch entry that
 removes a path and carries no bytes by design. Zero files are genuinely unreadable,
 and all 763,928 members check clean against the MD5 their own archive recorded -
@@ -125,9 +126,9 @@ inside `Extensions.dll`.
 hand-transcribed enums, no hand-picked seed lists, no human judgement stored as
 data. If a fact cannot be derived from the client bytes by a script that runs
 without an agent, it does not belong in `raw/`. Selective extraction and curated
-seeding is what let three confidently-wrong answers ship in a single session; the
-raw layer exists so the complete truth is reachable without anyone deciding in
-advance what matters.
+seeding is how a derived view comes to disagree with the client it was built
+from; the raw layer exists so the complete truth stays reachable without anyone
+deciding in advance what matters.
 
 ---
 
@@ -145,20 +146,22 @@ Nothing here re-reads the client, and there is no second entry point.
 at every LIVE talent-node spell id and expands through the ability identity layer
 (`data/abilities/`) to every trainer, rank-ladder and catalog id belonging to the
 same ability. Coverage of live abilities is **3,932 / 3,932 = 100%**, gated as an
-equality that aborts the build and names the missing ids - it was 1,963 / 3,932
-(49.9%) when the closure was seeded from `CharacterAdvancementData`, and 1,966 of
-the 1,969 missing records were sitting in `raw/tables/Spell` the whole time.
-Catalog-only content is kept and marked `live: false`, never deleted, so the
-catalog stays queryable as one id generation among several rather than as reality.
+equality that aborts the build and names the missing ids - a ratio gate would let
+a partial loss pass. Catalog-only content is kept and marked `live: false`, never
+deleted, so the catalog stays queryable as one id generation among several rather
+than as reality.
 
-The pins that hold it honest: the live-coverage equality above; a real level-60
-Starcaller's tree list (Moon Guard / Sentinel / Moon Priest / Warden / Class, not
-the catalog's `Tides`); Tide Lash present-but-`live: false`; golden spell 17
+The pins that hold it honest: the live-coverage equality above; a level-60
+Starcaller's real tree list (Moon Guard / Sentinel / Moon Priest / Warden / Class,
+not the catalog's `Tides`); Tide Lash present-but-`live: false`; golden spell 17
 "Power Word: Shield". Each is a test that fails the suite, not a claim in prose.
 
 Still **narrower than the client in what it can know** - server-side base stats
 and scaling, proc PPM / internal cooldowns, and 20 remaining live coefficient
-holes are not in any client table. Read `AGENT-GUIDE.md`'s layer table and
+holes are not in any client table. That hole count is measured over castable
+content, not over the catalog, and it is a different denominator from the live-
+ability coverage above: 493 of the 552 damaging/healing effect slots a level-60
+character can cast are modelable (89.3%). Both were recomputed on this build. Read `AGENT-GUIDE.md`'s layer table and
 "Honest limits" before trusting it for "what can a player actually do" questions.
 
 - **Consume it:** read `AGENT-GUIDE.md` first - file map, schemas, query recipes,
@@ -175,10 +178,10 @@ holes are not in any client table. Read `AGENT-GUIDE.md`'s layer table and
   `data/classes/specs.json`/`archetypes.json` alongside (never inside) the
   directory `classes` owns; `realms` must run after `spells` since its
   `missingRefResolution` evidence reads `data/spells/_missing_refs.json`.
-  Interface and Content are no longer curation stages at all - they are raw
-  layers, emitted from the snapshot by the same traversal. There is no second
-  way in: no builder under `tools/` has a `__main__`, so nothing can rewrite
-  part of `data/` outside that pass (`tests/test_dataset.py` enforces it).
+  Interface and Content are not curation stages - they are raw layers, emitted
+  from the snapshot by the same traversal. There is no second way in: no builder
+  under `tools/` has a `__main__`, so nothing can rewrite part of `data/` outside
+  that pass (`tests/test_dataset.py` enforces it).
 - **Verify it:** `python tests\test_config.py` ... each test script prints `ALL PASS`.
   After regenerating on a patched client, see "Regenerating after a client
   patch" in `AGENT-GUIDE.md` for which test failures are expected
@@ -197,14 +200,11 @@ and a census of every path in it), `cache/` (WDB server caches), `dbc/` (raw tab
 bodies), `binaries/` (the client's own executables: every string, the inlined Lua,
 the PE structure), `recovered/` (patch tombstones, empty members, the per-member
 CRC32+MD5 oracle each archive records about itself, and expanded nested archives),
-`realms/`
-(realm-overlay diffs), `talents/` (the pinned talent-builder capture); `data/` = the
-curated derived layer; `tools/` = the pipeline; `work/` =
+`realms/` (realm-overlay extractions), `talents/` (the pinned talent-builder
+capture); `data/` = the curated derived layer; `tools/` = the pipeline; `work/` =
 gitignored scratch. Every layer carries `_complete.json` - a layer without one was
 left half-written by a crash and must not be read.
 
-The published record of how this was built - the rules, the goldens behind every
-named column, the disproven hypotheses and the honest limits - is `AGENT-GUIDE.md`
-plus each dataset's own `_meta.json`. Working notes and per-change plans are kept
-out of the tree deliberately: anything a future run or an outside audit needs is in
-those two places or it is not a claim this repo makes.
+The record of how this was built - the rules, the goldens behind every named
+column, the disproven hypotheses and the honest limits - is `AGENT-GUIDE.md` plus
+each dataset's own `_meta.json`.

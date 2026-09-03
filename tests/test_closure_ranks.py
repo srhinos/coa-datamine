@@ -1,5 +1,5 @@
-"""Task W4-4 gate: formula-reference closure, level-60 rank selection, $scalingbp
-constant, devDead flag (coa-sim-handoff/DATAMINE-REQUEST.md Sec 1.6-1.8 + Sec 4
+"""Formula-reference closure, level-60 rank selection, $scalingbp
+constant, devDead flag (DATAMINE-REQUEST.md Sec 1.6-1.8 + Sec 4
 trap 17).
 
 Every figure below is independently re-derived in this test (not copied from
@@ -24,6 +24,10 @@ form regardless (2-digit Vindication 67's own "$67s1" trailing-digit occurrence)
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config, dbc, build_spells
 
@@ -178,9 +182,13 @@ assert "level normaliser" in sbp["framing"].lower()
 assert "not a stat coefficient" in sbp["framing"].lower() or "not itself a source" in sbp["framing"].lower()
 # Counted over the CLOSURE, so it moves when the closure does. 550 -> 552 in the
 # live-seed pass: seeding from live truth pulled in 3,861 more records, two of
-# which use $scalingbp. Re-pin deliberately when the closure changes; do not
-# widen it into a range, the exact number is the point.
-assert sbp["referencedBySpellCount"] == 552, sbp["referencedBySpellCount"]
+# which use $scalingbp. 552 -> 559 on the 2026-08-12 client patch. Measured over
+# the shipped records, seven spells GAINED the token (704368, 706415-706420) and
+# all seven were already in the closure, so this is the client editing formula
+# text rather than the closure widening (which moved by 4 records, 32820 ->
+# 32824). Re-pin deliberately when the closure changes; do not widen it into a
+# range, the exact number is the point.
+assert sbp["referencedBySpellCount"] == 559, sbp["referencedBySpellCount"]
 
 # =====================================================================
 # (d) devDead: independently re-scan work/dbc/Spell.dbc for the literal marker

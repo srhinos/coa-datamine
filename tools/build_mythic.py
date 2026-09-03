@@ -1,4 +1,4 @@
-"""Mythic+/Challenges pack (task V2-5): Challenge.dbc hub + Challenge* link/type tables
+"""Mythic+/Challenges pack: Challenge.dbc hub + Challenge* link/type tables
 -> data/mythic/challenges/ (per-challenge files); MythicKeystones/MythicAffixes/
 MythicPlusScaling/TimedDungeons/MapDifficulty -> data/mythic/*.
 
@@ -8,7 +8,7 @@ touches it.
 
 Full mapping evidence (join-rates, disproven hypotheses, goldens) is documented in
 tools/dbc.py's TABLE_MAPS comments for the Challenge*/Mythic*/TimedDungeons/MapDifficulty
-tables and in .superpowers/sdd/task-v2-5-report.md. Summary of what this module derives
+tables. Summary of what this module derives
 on top of the raw named columns:
 
 - Challenge.dbc (297x53) is the hub: id/name_enUS/description_enUS/iconToken/
@@ -109,7 +109,7 @@ def build_challenges() -> dict:
     spells_rows = list(_raw_rows("ChallengeSpells"))
     group_rewards_rows = list(_raw_rows("ChallengeGroupRewards"))
 
-    # gate (brief): >=80% of link-table challenge-id values resolve to Challenge rows
+    # gate: >=80% of link-table challenge-id values resolve to Challenge rows
     link_meta = {}
     for name, rows in [
         ("groups", groups_rows), ("levels", levels_rows), ("rules", rules_rows),

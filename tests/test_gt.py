@@ -1,4 +1,4 @@
-"""Task W4-2 gate: gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+"""Gt* combat-rating/regen tables (DATAMINE-REQUEST.md
 Sec 1.1 + Sec 13 item 1) -> data/gt/.
 
 RE-DERIVES (not trusts) the five layout goldens DATAMINE-REQUEST.md cites, fresh against
@@ -19,6 +19,10 @@ RANGED-vs-SPELL guess."""
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Builds into a scratch data/ this process owns and deletes; the committed
+# tree is read-only to the suite, and the client is the sealed snapshot.
+from tests import _iso; _iso.sandbox(data=True)
 
 from tools import config, dbc, build_gt
 

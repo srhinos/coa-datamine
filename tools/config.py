@@ -15,14 +15,15 @@ RAW_CONTENT_DIR = RAW_DIR / "content"
 RAW_INTERFACE_DIR = RAW_DIR / "interface"
 DATA_DIR = REPO_ROOT / "data"
 
-# v4 (task W4-9): frozen capture of the external ascension.gg CoA talent-builder
-# payload (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
-# (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py (network step,
-# run manually/occasionally - NOT part of datamine.py's offline pipeline);
-# tools/build_coatalents.py only ever reads the already-committed capture.
+# Frozen capture of the external ascension.gg CoA talent-builder payload
+# (raw/talents/coa-builder-<slug>.html) + its fetch-provenance sidecar
+# (raw/talents/_fetch.json). Owned by tools/fetch_coatalents.py, which datamine.py
+# calls as step 0 of the pass - the one network read, taken before the client
+# snapshot so `live` and the client bytes share a clock. Every other module,
+# tools/build_coatalents.py included, reads only the frozen capture.
 RAW_TALENTS_DIR = RAW_DIR / "talents"
 
-# v3 (task V3-2): realm-overlay layer. work/realms owned by tools/extract_realms.py;
+# v3: realm-overlay layer. work/realms owned by tools/extract_realms.py;
 # raw/realms + data/realms owned by tools/build_realms.py (Amendment D single-writer).
 WORK_REALMS_DIR = WORK_DIR / "realms"
 RAW_REALMS_DIR = RAW_DIR / "realms"
@@ -38,8 +39,7 @@ WANTED_DBCS = [
     "SpellIcon.dbc", "SpellRuneCost.dbc",
 ]
 
-# v2: 53 tables from docs/superpowers/specs/2026-07-23-coa-datamine-v2-design.md
-# "Verified header facts" (patch-M then patch-S, spec transcription order).
+# v2: 53 tables in "Verified header facts" order (patch-M then patch-S).
 WANTED_DBCS_V2 = [
     # patch-M (41): bosses/quests/trainers (6)
     "Creature.dbc", "DungeonEncounterExtra.dbc", "Quest.dbc", "QuestInfo.dbc",
@@ -74,8 +74,8 @@ WANTED_DBCS_V2 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V2
 
-# v3 (task V3-1): Manastorm seasonal-modifier system (patch-M, verified headers
-# 2026-08-01 per .superpowers/sdd/task-v3-1-brief.md - Manastorm 1017x9,
+# v3: Manastorm seasonal-modifier system (patch-M, verified headers
+# 2026-08-01 - Manastorm 1017x9,
 # ManastormMessages 291x39, ManastormModifiers 32768x15, ManastormPlayerGroupModifiers 15x5).
 WANTED_DBCS_V3 = [
     "Manastorm.dbc", "ManastormMessages.dbc", "ManastormModifiers.dbc",
@@ -83,12 +83,11 @@ WANTED_DBCS_V3 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V3
 
-# v4 (task W4-2): gt* combat-rating/regen tables (coa-sim-handoff/DATAMINE-REQUEST.md
+# v4: gt* combat-rating/regen tables (DATAMINE-REQUEST.md
 # Sec 1.1 + Sec 13 item 1). All confirmed extracting there 2026-08-05; re-extracted
 # fresh by this task since the client patches independently of that snapshot. The 10
 # Sec 1.1 tables plus gtNPCManaCostScaler (attached "in case it helps" per Sec 1.1's
-# own note - extracted for completeness, not curated by this task's build_gt.py; see
-# .superpowers/sdd/task-w4-2-report.md).
+# own note - extracted for completeness, not curated by build_gt.py).
 WANTED_DBCS_V4 = [
     "gtCombatRatings.dbc", "gtChanceToMeleeCrit.dbc", "gtChanceToMeleeCritBase.dbc",
     "gtChanceToSpellCrit.dbc", "gtChanceToSpellCritBase.dbc",
@@ -97,11 +96,10 @@ WANTED_DBCS_V4 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V4
 
-# v5 (task W4-10): simulation-adjacent spell support tables (coa-sim-handoff/
-# DATAMINE-REQUEST.md Sec 9 + Sec 13 items 13/17). All 12 confirmed present in
-# the MPQ chain by extract_mpq.extract_all() itself - it raises SystemExit on
-# any wanted name missing from every archive, which is this task's "verify
-# each actually exists" gate; see .superpowers/sdd/task-w4-10-report.md.
+# v5: simulation-adjacent spell support tables (DATAMINE-REQUEST.md Sec 9 +
+# Sec 13 items 13/17). All 12 confirmed present in the MPQ chain by
+# extract_mpq.extract_all() itself - it raises SystemExit on any wanted name
+# missing from every archive, which is the "verify each actually exists" gate.
 WANTED_DBCS_V5 = [
     "SpellAffect.dbc", "SpellDifficulty.dbc", "SummonProperties.dbc",
     "SpellMissile.dbc", "SpellShapeshiftForm.dbc", "SpellFocusObject.dbc",
@@ -110,7 +108,7 @@ WANTED_DBCS_V5 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V5
 
-# v6 (task W4-11): item support tables (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8.1 +
+# v6: item support tables (DATAMINE-REQUEST.md Sec 8.1 +
 # Sec 13 item 14). Item.dbc is an INDEX not a stat source (id/class/subclass/
 # soundOverrideSubclass/material/displayid/inventoryType/sheath, zero stats/ilvl/
 # quality) - the sim's primary item source stays an external aowow scrape per Sec 8;
@@ -126,7 +124,7 @@ WANTED_DBCS_V6 = [
 ]
 WANTED_DBCS += WANTED_DBCS_V6
 
-# v7 (task W4-11b): ItemStat.dbc - 1,513,931 rows, 236MB body, hostile as a single
+# v7: ItemStat.dbc - 1,513,931 rows, 236MB body, hostile as a single
 # raw/dbc/ file (see tools/build_items.py's sharded raw/dbc/itemstat/ dumper and
 # dbc.CUSTOM_RAW_DUMP_TABLES). Kept in its own wave, separate from WANTED_DBCS_V6,
 # because it needs a real keying investigation (DATAMINE-REQUEST.md Sec 8.2 + Sec 4
@@ -136,7 +134,7 @@ WANTED_DBCS += WANTED_DBCS_V6
 WANTED_DBCS_V7 = ["ItemStat.dbc"]
 WANTED_DBCS += WANTED_DBCS_V7
 
-# v8 (task W4-11c): ItemSpells.dbc - 131,722 rows x 37 fields. Sec 4 trap 9: f1 is
+# v8: ItemSpells.dbc - 131,722 rows x 37 fields. Sec 4 trap 9: f1 is
 # NOT the item link (unique per row, only 55% resolves against Item.dbc); only
 # f2->spellId is well-supported (99.81% against Spell.dbc's 1.50%-dense id space).
 # No item-link column exists in this table at all - same "no grouping identity"
@@ -152,7 +150,7 @@ def ensure_dirs():
 def discover_realms() -> list:
     """Realm-overlay directories = subdirs of Data\\ carrying their own `listarchive`
     file, excluding the base client's own enUS locale dir and Content dir. Generic
-    by design (task V3-2): any future realm directory following this shape is picked
+    by design: any future realm directory following this shape is picked
     up automatically with no code change; only realms actually present on THIS
     machine's client are returned - off-disk realm data is out of scope by user
     decision. Sorted for determinism."""

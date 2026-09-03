@@ -1,70 +1,52 @@
-"""Base vs. realm-overlay Spell.dbc diff (task W4-5): coa-sim-handoff/
-DATAMINE-REQUEST.md Sec 3 ("THE BIG UNRESOLVED ONE - we may be reading the wrong
-realm's data") + Sec 13 item 7's prep half. Sec 3 measured area-52's overlay
-against the base client chain and found the two disagree on 1,178/6,038 = 19.51%
-of the CoA class set's shared spell rows - not just cosmetic text, 409 rows
-disagree on raw damage numbers (effectBasePoints1). This module is the reusable
-tool that reproduces that measurement. It stays generic over realm names, but note
-what task W4-13 settled: **there is no CoA realm overlay to point it at.** The
+"""Base vs. realm-overlay Spell.dbc diff.
+
+Measures how far a realm's own Spell.dbc departs from the base client chain over
+the CoA class spell set: how many shared rows disagree at all, which columns they
+disagree in, and how many disagree on raw damage numbers (effectBasePoints1)
+rather than on cosmetic text. It stays generic over realm names, but note
+what has since been settled: **there is no CoA realm overlay to point it at.** The
 product ships exactly one realm-scoped data set at a time, currently area-52's, and
 that realm is Free-Pick - no Conquest of Azeroth realm has a client data directory
-and no login creates one. So the 1,178-row disagreement this measures is
+and no login creates one. So the row disagreement this measures is
 Free-Pick-vs-base, NOT evidence about what a CoA character reads (CoA reads the
 base chain). Rexxar and Vol'jin are also the same game mode, so there was never a
 per-realm CoA split to diff in the first place. Kept generic because a future
 product revision could ship a different overlay - see AGENT-GUIDE.md "Realm
 overlays".
 
-CLI: `python -m tools.diff_realm_overlay <realm>` - realm must already be
-extracted under work/dbc/ (base) and work/realms/<realm>/dbc/ (overlay); this
-module does not extract anything itself (run datamine.py or
-tools.build_realms.build() first if work/realms/<realm>/dbc/Spell.dbc is missing).
-
 Scope: "shared CoA rows" = ids in build_spells._coa_class_spell_ids() (the same
-6,436-id CoA class-spell universe task W4-3 defined) present in BOTH the base
-client's Spell.dbc AND the realm's own Spell.dbc - matching Sec 3's own
-denominator exactly (base resolves 6,038/6,436; the overlay is a superset that
-resolves all 6,436, so the intersection is base's resolved set). Per-column diff
-counts are computed over every named TABLE_MAPS["Spell"] column (not just the
-doc's cited top few) so a consumer can see the full shape, not just the
-headline. "Damage-number disagreement" is specifically `effectBasePoints1` (f80,
-the doc's own "409 rows disagree on raw damage numbers" citation - re-verified
-against its own table there, same number as the f80 column-diff count, not a
-separate metric). overlay-only/base-only counts are over the FULL spell id
-space (not scoped to the CoA set), matching Sec 3's own 209,125/238,939/
-31,498/1,684 figures.
+6,436-id CoA class-spell universe that function defines) present in BOTH the base
+client's Spell.dbc AND the realm's own Spell.dbc - the base resolves a subset of
+the 6,436 and the overlay is a superset that resolves all of them, so the
+intersection is base's resolved set. Per-column diff counts are computed over
+every named TABLE_MAPS["Spell"] column, so a consumer can see the full shape and
+not just the headline. "Damage-number disagreement" is specifically
+`effectBasePoints1` (f80), read off the same column-diff table rather than
+measured a second way. overlay-only/base-only counts are over the FULL spell id
+space, not scoped to the CoA set.
 
-Amendment D (single-writer ownership): this module writes exactly one new file,
+Every figure this emits is re-derived from the two extracted Spell.dbc files on
+each run. There are deliberately no pinned reproduction targets here: the client
+patches roughly hourly, so a fixed expectation would encode one snapshot's
+numbers as if they were invariants and fail on contact with the next patch.
+tests/test_class_plumbing.py gates the STRUCTURE instead - which column ranks
+top, which index effectBasePoints1 sits at, and the set arithmetic recomputed
+independently from work/dbc.
+
+Single-writer ownership: this module writes exactly one file,
 data/realms/<realm>/overlay_diff.json - tools/build_realms.py remains the sole
 writer of every OTHER path under data/realms/<realm>/ (index.json/_meta.json) and
-all of raw/realms/<realm>/. Deliberately a separate, standalone CLI tool rather
-than folded into build_realms.py's build() - the brief frames this as evidence
-tooling to be run on demand against whichever realm was just captured, not a
-step every base pipeline run needs (a new realm's overlay_diff.json is a REAL-WORK
-follow-up decision - "which side is authoritative for the 1,178 disputed rows" -
-not something to auto-regenerate silently on every rebuild)."""
-import argparse, json
+all of raw/realms/<realm>/. It runs as a stage of datamine.py's pass, after the
+realms stage, and has no __main__ of its own: see curate.ENTRY_POINT_RULE. It
+used to be a standalone CLI, which meant a rebuild refreshed data/realms/<realm>/
+while overlay_diff.json silently kept the previous run's numbers."""
+import json
 
 from tools import config, dbc, build_spells, sharding
-
-# [Task W4-5] Sec 3's own cited area-52 figures (re-derivation target, not a copied
-# assertion - this build's own snapshot has patched since the doc was written, so
-# some drift is expected and reported, not hidden). +/-10% tolerance per the brief.
-DOC_FIGURES = {
-    "differingShared": 1178,        # of 6,038 shared CoA rows
-    "descriptionDiff": 515,         # f170 description_enUS
-    "bp1Diff": 409,                 # f80 effectBasePoints1 - "damage numbers"
-    "nameChanges": 51,              # name_enUS literal changes
-}
-TOLERANCE = 0.10
 
 
 def _spell_rows(dbc_dir=None):
     return {r["id"]: r for r in dbc.iter_named("Spell", dbc_dir=dbc_dir)}
-
-
-def _within_tolerance(measured, doc, tolerance=TOLERANCE):
-    return abs(measured - doc) <= tolerance * doc
 
 
 def diff_realm(realm: str) -> dict:
@@ -111,20 +93,12 @@ def diff_realm(realm: str) -> dict:
     bp1_diff = diff_counts.get("effectBasePoints1", 0)
     differing_shared_count = len(differing_ids)
 
-    doc_comparison = {
-        "differingShared": {"doc": DOC_FIGURES["differingShared"], "measured": differing_shared_count,
-                             "withinTolerance": _within_tolerance(differing_shared_count, DOC_FIGURES["differingShared"])},
-        "descriptionDiff": {"doc": DOC_FIGURES["descriptionDiff"],
-                             "measured": diff_counts.get("description_enUS", 0),
-                             "withinTolerance": _within_tolerance(diff_counts.get("description_enUS", 0), DOC_FIGURES["descriptionDiff"])},
-        "bp1Diff": {"doc": DOC_FIGURES["bp1Diff"], "measured": bp1_diff,
-                    "withinTolerance": _within_tolerance(bp1_diff, DOC_FIGURES["bp1Diff"])},
-        "nameChanges": {"doc": DOC_FIGURES["nameChanges"], "measured": len(name_changes),
-                         "withinTolerance": _within_tolerance(len(name_changes), DOC_FIGURES["nameChanges"])},
-    }
-
     return {
         "realm": realm,
+        "_note": ("Every figure here is re-derived from the base and overlay "
+                  "Spell.dbc on each run; none is a pinned expectation. The "
+                  "client patches often, so these move between builds by "
+                  "design - compare shapes, not literals."),
         "coaIdSetSize": len(coa_ids),
         "sharedCount": n_shared,
         "differingSharedCount": differing_shared_count,
@@ -137,30 +111,23 @@ def diff_realm(realm: str) -> dict:
         "totalOverlaySpellCount": len(overlay_ids),
         "overlayOnlySpellCount": len(overlay_ids - base_ids),
         "baseOnlySpellCount": len(base_ids - overlay_ids),
-        "docComparison": doc_comparison,
     }
 
 
-def build(realm: str) -> dict:
-    result = diff_realm(realm)
-    out_dir = config.DATA_REALMS_DIR / realm
-    out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "overlay_diff.json").write_text(sharding.dump_manifest(result), encoding="utf-8", newline="\n")
-    return result
-
-
-def main():
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("realm", help="realm dir name under Data\\ (e.g. area-52)")
-    args = ap.parse_args()
-    result = build(args.realm)
-    print(f"realm {args.realm}: {result['differingSharedCount']}/{result['sharedCount']} "
-          f"shared CoA rows differ ({result['differingSharedPct']:.2%})")
-    for label, cmp in result["docComparison"].items():
-        flag = "OK" if cmp["withinTolerance"] else "DRIFT"
-        print(f"  {label}: doc={cmp['doc']} measured={cmp['measured']} [{flag}]")
-    print(f"data/realms/{args.realm}/overlay_diff.json written")
-
-
-if __name__ == "__main__":
-    main()
+def build(realms) -> dict:
+    """Write data/realms/<realm>/overlay_diff.json for each realm. Called by
+    curate.py after the realms stage, which owns the rest of that directory."""
+    if isinstance(realms, str):
+        realms = [realms]
+    out = {}
+    for realm in sorted(realms):
+        result = diff_realm(realm)
+        out_dir = config.DATA_REALMS_DIR / realm
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "overlay_diff.json").write_text(
+            sharding.dump_manifest(result), encoding="utf-8", newline="\n")
+        out[realm] = {"shared": result["sharedCount"],
+                      "differing": result["differingSharedCount"],
+                      "damageNumberDisagreements": result["damageNumberDisagreementCount"],
+                      "nameChanges": result["nameChangeCount"]}
+    return out

@@ -1,4 +1,4 @@
-"""Task W4-3 evidence script: re-derive the DATAMINE-REQUEST.md Sec 2 claim that
+"""Evidence script: re-derive the DATAMINE-REQUEST.md Sec 2 claim that
 `EffectBonusMultiplier` (f229-231, emitted as `effects[].bonusMultiplierStock`)
 contradicts CoA's own tooltip-authored coefficient far more often than it agrees.
 
@@ -19,13 +19,13 @@ the doc's cited figure, which it does on both populations:
 Population definitions:
   - "CoA class set" = build_spells._coa_class_spell_ids() (every spell id, incl.
     rank-chain ids, referenced by the 21 coa-custom-tagged classes in
-    data/classes/, intersected with live Spell.dbc ids) - same population used
-    throughout .superpowers/sdd/task-w4-3-report.md and tests/test_spells_columns.py.
+    data/classes/, intersected with live Spell.dbc ids) - the same population
+    used in tests/test_spells_columns.py.
   - "stock" = Spell.dbc ids < 100000, EXCLUDING anything in the CoA class set (a
     few sub-100k ids are CoA-reused per DATAMINE-REQUEST.md Sec 4 trap 4).
 
 See AGENT-GUIDE.md's "Spell column completion" section (the EffectBonusMultiplier
-warning box) and .superpowers/sdd/task-w4-3-report.md for how these numbers are
+warning box) for how these numbers are
 used and cited.
 """
 import re

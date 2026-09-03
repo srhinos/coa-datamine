@@ -1,4 +1,4 @@
-"""Manastorm seasonal-modifier system (task V3-1): Manastorm.dbc / ManastormMessages.dbc
+"""Manastorm seasonal-modifier system: Manastorm.dbc / ManastormMessages.dbc
 / ManastormModifiers.dbc / ManastormPlayerGroupModifiers.dbc (patch-M) -> data/manastorm/.
 
 Amendment D (single-writer ownership): build_manastorm.py is the SOLE writer under
@@ -6,7 +6,7 @@ data/manastorm/ - build() clears and rebuilds the whole directory itself.
 
 Full mapping evidence (join-rates, goldens, disproven hypotheses) is documented in
 tools/dbc.py's TABLE_MAPS comments for Manastorm/ManastormMessages/ManastormModifiers/
-ManastormPlayerGroupModifiers and in .superpowers/sdd/task-v3-1-report.md. Summary of
+ManastormPlayerGroupModifiers. Summary of
 what this module derives on top of the raw named columns:
 
 - Manastorm (1017x9): id/mapId/difficulty/dungeonEncounterId all proven - mapId is a

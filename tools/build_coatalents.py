@@ -1,5 +1,4 @@
-"""CoA talent tree geometry -> data/talents/coa/<Class>.json (task W4-9,
-coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11).
+"""CoA talent tree geometry -> data/talents/coa/<Class>.json.
 
 Two geometry sources exist and this module reconciles them:
 
@@ -24,7 +23,8 @@ carrying these columns, cross-checking them (see _meta.json's
 gameplay tree geometry, not a usable fallback source for it.
 
 **Published** (https://ascension.gg/en/v2/coa-builder/<slug>, frozen by
-tools/fetch_coatalents.py into raw/talents/coa-builder-<slug>.html/_fetch.json):
+tools/fetch_coatalents.py - datamine.py's step 0 - into
+raw/talents/coa-builder-<slug>.html/_fetch.json):
 a Next.js "flight" payload embedding the live builder's full node array with every
 field named in the brief (spellId/spellIds/classId/tabId/sortOrder/group/flags/
 aeCost/teCost/iconPath/nodeType/entryType/isPassive/maxPoints/requiredIds/
@@ -51,7 +51,7 @@ MAX_LINES = 5000
 
 
 # Payload extraction (locate + parse the embedded Next.js flight JSON) moved to
-# tools/coa_live.py in task W4-14 so build_classes can read the SAME frozen
+# tools/coa_live.py so build_classes can read the SAME frozen
 # capture for its live/dead join without importing a builder or re-parsing the
 # 11.8 MB page a second time. Re-exported here because this module's docstring
 # (and tests/test_coatalents.py) document it as this module's technique.
@@ -105,8 +105,8 @@ def build(slug: str = "voljin") -> dict:
     fetch_meta_path = config.RAW_TALENTS_DIR / "_fetch.json"
     if not html_path.is_file():
         raise RuntimeError(
-            f"build_coatalents: {html_path} not found - run "
-            f"`python -m tools.fetch_coatalents --slug {slug}` first. Per the "
+            f"build_coatalents: {html_path} not found - run `python "
+            f"datamine.py`, whose step 0 captures it. Per the "
             "task's binding rule, if the payload truly cannot be fetched, this "
             "module would need a client-Lua-only fallback path - see this "
             "module's docstring for exactly which geometry fields that would "
@@ -274,7 +274,7 @@ def build(slug: str = "voljin") -> dict:
     # plus 2 classes that gained a DIFFERENT, unnamed-by-Sec-11 extra tab (Starcaller
     # "Warden", Cultist "Dreadnought" - real new content, just not the specific
     # token Sec 11 named). classId/tabName pairs below are manually verified against
-    # this payload once (see task-w4-9-report.md's correction note); the assert
+    # this payload once; the assert
     # after this table re-checks node counts at every build so future drift fails
     # loudly instead of silently going stale.
     sec11_tokens = [
@@ -551,7 +551,7 @@ def build(slug: str = "voljin") -> dict:
             "valid spells that exist in this exact client snapshot; they are "
             "simply not the SAME spellId variant this repo's captured CAD JSON "
             f"happens to reference for the same-looking ability.{_miss} Likely "
-            "mechanism (consistent with the W4-8 Realms-bitmask finding that CoA "
+            "mechanism (consistent with the Realms-bitmask finding that CoA "
             "abilities get authored as MULTIPLE duplicate CAD rows per realm/"
             "game-mode, each potentially carrying a DIFFERENT spellId variant): "
             "the account-wide CAD snapshot's 'coa-custom' rows are a union "
@@ -638,8 +638,8 @@ def build(slug: str = "voljin") -> dict:
     }
 
     meta = {
-        "task": "W4-9: CoA talent tree geometry "
-                "(coa-sim-handoff/DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)",
+        "task": "CoA talent tree geometry "
+                "(DATAMINE-REQUEST.md Sec 6.1 / Sec 13 item 11)",
         "payload": {
             "url": f"https://ascension.gg/en/v2/coa-builder/{slug}",
             "slug": slug,
@@ -651,7 +651,7 @@ def build(slug: str = "voljin") -> dict:
             "totalNodes": n,
             "extractionTechnique": (
                 "Next.js flight-stream analogue of the aowow.py Listview trick "
-                "(coa-sim-handoff/parsers/aowow.py): scan every "
+                "(the published builder parser): scan every "
                 "self.__next_f.push([id,\"...\"]) call by hand (backslash-aware, "
                 "since some literals run several MB - a naive backtracking regex "
                 "chokes), json.loads() each isolated string literal to unescape "
@@ -683,8 +683,10 @@ def build(slug: str = "voljin") -> dict:
             "between them. The scope limit that IS real is drift in TIME: this is "
             "one fetch of a published builder, frozen by sha256, and the live "
             "builder moves independently of this repo's client snapshot - which is "
-            "exactly what contentDrift below measures. Re-run "
-            "tools/fetch_coatalents.py and diff the pinned sha256 to detect it. "
+            "exactly what contentDrift below measures. Every pass re-captures "
+            "the page (datamine.py step 0, tools/fetch_coatalents.py) and "
+            "raw/_snapshot.json's liveCapture block says whether THIS run "
+            "fetched or reused; diff the pinned sha256 to detect movement. "
             "The client-side Lua geometry source (Ascension_CoATalents, "
             "CharacterAdvancement*.lua) supplies realm-agnostic STRUCTURE (node "
             "types, gate mechanism, flag bits) but none of the numeric tree layout "

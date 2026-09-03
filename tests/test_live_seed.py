@@ -22,6 +22,10 @@ import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Read-only test: sandbox() reads client bytes from the sealed snapshot and
+# arms the guard that fails this test if it writes a committed root.
+from tests import _iso; _iso.sandbox()
+
 from tools import build_abilities, build_spells, coa_live, config
 
 sdir = config.DATA_DIR / "spells"

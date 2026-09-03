@@ -8,7 +8,7 @@
  "inferredCounts": {"int":4},
  "note": "Shard map for this table. Every record is one line of one shard; `lo`/`hi` bound the shard key, `sha256` is of the stored bytes, so a rerun that changes nothing changes no file.",
  "oversizeShards": [],
- "plainBytes": 519116,
+ "plainBytes": 519128,
  "rows": 13112,
  "shardCount": 11,
  "shardKey": {"column":"f0","maxRows":5000,"mode":"column","unsigned":true},
@@ -23,17 +23,17 @@
   {"file":"06000-06999.jsonl","format":"plain","hi":6999,"lo":6000,"plainBytes":39369,"rows":1000,"sha256":"b50efb45c28cbd0dd93f9d8f00a3500d5b73db20465e26ef15a8f7512ce2e0fa","storedBytes":39369},
   {"file":"07000-07999.jsonl","format":"plain","hi":7999,"lo":7000,"plainBytes":39227,"rows":1000,"sha256":"9a42d904789a2730b007be5f65237a79c1a67444e40e6808f70b926ac5126aa2","storedBytes":39227},
   {"file":"08000-08999.jsonl","format":"plain","hi":8999,"lo":8000,"plainBytes":39278,"rows":1000,"sha256":"75c21230da467572ba7f67be5bec0c09253948da8cfcdb4add70be3b115d78a1","storedBytes":39278},
-  {"file":"09000-09999.jsonl","format":"plain","hi":9999,"lo":9000,"plainBytes":38000,"rows":1000,"sha256":"baf34237485976aa09fd4b80b42de6119bd7af41222a53c9c2713d4d31ff1b94","storedBytes":38000},
+  {"file":"09000-09999.jsonl","format":"plain","hi":9999,"lo":9000,"plainBytes":38012,"rows":1000,"sha256":"750f9cc6c8a461b697252d903ab910c580d8312b739b1505c069ba62bddaf6ab","storedBytes":38012},
   {"file":"10000-19999.jsonl","format":"plain","hi":19999,"lo":10000,"plainBytes":133281,"rows":3113,"sha256":"8431342db5ddab1cf880e309bb11ead65c3485cc645d73561e9bac9625a1af7c","storedBytes":133281}
  ],
- "sourceSha256": "ce1395d488d99f60692989a7d1cec002462f2c36bc4d046cbca7add66f4d3c2b",
- "storedBytes": 519116,
+ "sourceSha256": "e07120299bc59cfa02826b8200e76eef75d206e2cf3a674efe01f9bc648f07d2",
+ "storedBytes": 519128,
  "stringBlockSize": 0,
  "table": "NPCTrainer",
  "unreferencedStringBytes": 0,
  "variantCount": 1,
  "variantRule": "One version per DISTINCT sha256 among the copies of a path, not one per carrying archive: byte-identical copies in several archives are ONE version, listed once under the highest-ranked archive that carries those bytes with the rest recorded in `alsoIn`. The chain winner keeps its place at raw/tables/<T>/ and is listed with `chainWinner` true; every other version is decoded into raw/tables/<T>/variants/<slug>/ by the same decoder, so the two are comparable byte for byte. `rowDelta` is this version's record count minus the chain winner's.",
  "variants": [
-  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":4,"decodedRows":13112,"format":"plain","layer":"base","path":"raw/tables/NPCTrainer/","realm":null,"rowDelta":0,"rows":13112,"sha256":"ce1395d488d99f60692989a7d1cec002462f2c36bc4d046cbca7add66f4d3c2b","shards":11,"slug":"data-patch-m-mpq","sourceBytes":209812,"storedBytes":519116}
+  {"alsoIn":[],"appliesTo":["baseChain","realm:area-52"],"appliesToNote":"selected by chain context(s): baseChain, realm:area-52","archive":"Data/patch-M.MPQ","chainRank":52,"chainWinner":true,"columns":4,"decodedRows":13112,"format":"plain","layer":"base","path":"raw/tables/NPCTrainer/","realm":null,"rowDelta":0,"rows":13112,"sha256":"e07120299bc59cfa02826b8200e76eef75d206e2cf3a674efe01f9bc648f07d2","shards":11,"slug":"data-patch-m-mpq","sourceBytes":209812,"storedBytes":519128}
  ]
 }

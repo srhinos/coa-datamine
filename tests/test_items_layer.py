@@ -1,13 +1,22 @@
-"""TDD gate for task W4-11: items layer (coa-sim-handoff/DATAMINE-REQUEST.md Sec 8 +
+"""TDD gate for the items layer (DATAMINE-REQUEST.md Sec 8 +
 Sec 13 items 14/15/16/20/21). Split into sections per sub-task letter, each
 independently re-derived against a fresh 2026-08-06 extraction (not copied from the
-source doc) - see .superpowers/sdd/task-w4-11-report.md for the full log.
+source doc).
 """
 import csv, gzip, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from tools import (config, dbc, extract_mpq, build_items, wdb_item, build_classes,
+# Builds into scratch data/ + raw/ this process owns and deletes: build_items
+# writes both (raw/dbc/itemstat shards, data/items), and this file drives four
+# more builders after it. The client is the sealed snapshot.
+# `raw` is seeded per-subpath: this test reads raw/{content,realms,talents} and
+# reads+writes raw/dbc - 148 MB of a 726 MB tree (measured; see the seeding note
+# in tests/_iso.py).
+from tests import _iso; _iso.sandbox(
+    data=True, raw=["content", "dbc", "realms", "talents"])
+
+from tools import (config, dbc, build_items, wdb_item, build_classes,
                    build_classmeta, build_coatalents, build_spells)
 
 # =========================================================================
@@ -23,9 +32,16 @@ assert set(config.WANTED_DBCS_V6) == {
     "ItemRandomSuffix.dbc", "ItemRandomProperties.dbc",
 }
 
-prov = extract_mpq.extract_all()
+# This ran extract_mpq.extract_all() against the LIVE client, rewriting all 111
+# files in work/dbc under every test that had already run, and then compared the
+# result against pins taken from the SNAPSHOT - which is why this file failed even
+# on a pristine tree (tests/_diagnosis.md). Read the sidecar the single writer of
+# work/dbc left instead; a wanted table missing from the chain still stops the
+# pass, in materialize_inputs, long before this file runs.
+base = json.loads((config.WORK_DIR / "curation_inputs.json")
+                  .read_text(encoding="utf-8"))["base"]
 for name in config.WANTED_DBCS_V6:
-    assert name.lower() in prov["files"], f"missing from chain: {name}"
+    assert name in base, f"missing from chain: {name}"
 
 # Fresh header pins (records, ACTUAL fields = record_size//4) - re-derived 2026-08-06,
 # not copied from DATAMINE-REQUEST.md Sec 8.1 (which only gives byte sizes, not row/
@@ -34,7 +50,7 @@ for name in config.WANTED_DBCS_V6:
 # as every other re-pinned count in this repo (see AGENT-GUIDE's "Regenerating after
 # a client patch" contract).
 EXPECTED_V6 = {
-    "Item": (563379, 8),   # 2026-08-09 snapshot re-pin (client patch)
+    "Item": (563384, 8),   # 2026-08-12 snapshot re-pin (client patch, +5)
     "ItemSet": (2347, 53),
     "SpellItemEnchantment": (18035, 38),
     "GemProperties": (668, 5),
@@ -78,12 +94,12 @@ assert all(c["samples"] == [] for c in cols)             # nothing string-like a
 # f0 (id): unique per row, and the max reproduces the doc's own cited ceiling EXACTLY
 # (9,200,842) - a strong signature this is the same id space/table shape as Sec 8.2's
 # own "max f1 is 9,200,579 vs Item.dbc max 9,200,842" cross-reference.
-assert cols[0]["distinct"] == 563379 == item_colinfo["records"]
+assert cols[0]["distinct"] == 563384 == item_colinfo["records"]
 assert cols[0]["min"] == 1
 assert cols[0]["max"] == 9200842
 # f5 (displayid, per the doc's named ordering) is the only other high-cardinality
 # column - consistent with "the authoritative equippable-id and displayid index"
-assert cols[5]["distinct"] == 90622
+assert cols[5]["distinct"] == 90623   # 2026-08-12 re-pin, +1 with Item's +5 rows
 
 # "verify size sane" - a raw single-file dump of 563,335 x 8 raw ints compresses to a
 # few MB, nowhere near ItemStat's 236MB hostile-single-file problem (see section (b)).
@@ -97,7 +113,7 @@ print("(a) Item DBCs config-add: PASS")
 # =========================================================================
 assert config.WANTED_DBCS_V7 == ["ItemStat.dbc"]
 assert set(config.WANTED_DBCS_V7) <= set(config.WANTED_DBCS)
-assert "itemstat.dbc" in prov["files"], "missing from chain: ItemStat.dbc"
+assert "ItemStat.dbc" in base, "missing from chain: ItemStat.dbc"
 
 f = dbc.DBCFile(config.WORK_DBC_DIR / "ItemStat.dbc")
 assert f.records == 1513931 and f.fields == 39 and f.declared_fields == 39
@@ -212,7 +228,7 @@ print("(b) ItemStat golden + sharded dump + statsByItem index: PASS")
 # =========================================================================
 assert config.WANTED_DBCS_V8 == ["ItemSpells.dbc"]
 assert set(config.WANTED_DBCS_V8) <= set(config.WANTED_DBCS)
-assert "itemspells.dbc" in prov["files"], "missing from chain: ItemSpells.dbc"
+assert "ItemSpells.dbc" in base, "missing from chain: ItemSpells.dbc"
 
 isp = dbc.DBCFile(config.WORK_DBC_DIR / "ItemSpells.dbc")
 assert isp.records == 131722 and isp.fields == 37 and isp.declared_fields == 37
@@ -297,7 +313,7 @@ for r in ivd:
     near_1_6m += sum(1 for v in candidates if v and abs((v - n) - 1600000) < 50)
 assert near_1_6m == 0
 
-# cross-reference against Item.dbc (this task's own W4-11a addition)
+# cross-reference against Item.dbc (this file's own addition)
 item_ids = {row[0] for row in dbc.DBCFile(config.WORK_DBC_DIR / "Item.dbc").iter_rows()}
 normal_ids = [r["Normal"] for r in ivd if r["Normal"]]
 normal_hits = sum(1 for i in normal_ids if i in item_ids)
@@ -325,7 +341,7 @@ specs = specs_doc["specs"]
 by_id = {s["id"]: s for s in specs}
 assert "tabStatusSummary" in specs_doc
 
-# [Task W4-14] re-derived against the LIVE builder and renamed - the old states
+# re-derived against the LIVE builder and renamed - the old states
 # (live/shippedExternal/unreleased/noTabLayer) are gone because "live" there meant
 # only "a CAD tab with this token exists", a claim about the catalog rather than the
 # game. tests/test_live_flags.py is the full gate for the new derivation; what stays
@@ -350,9 +366,9 @@ assert by_id[31]["tabStatus"] == {"status": "inLiveBuilder", "cadTab": "Displace
                                   "liveTab": "Time", "match": "specName",
                                   "renamed": True}
 
-# W4-9's "5 of Sec 11's 7 tokens shipped" finding: all 5 still resolve, now by
+# The earlier "5 of Sec 11's 7 tokens shipped" finding: all 5 still resolve, now by
 # mechanism (the spec's own name is the live-generation label) rather than the
-# pinned token table W4-11e read out of data/talents/coa/_meta.json
+# pinned token table read out of data/talents/coa/_meta.json
 SHIPPED = {
     25: ("Fleshweaver", "FLESHWEAVER"), 47: ("Valkyrie", "VALKYR"),
     60: ("Mountain King", "MOUNTAINKING"), 97: ("Black Knight", "WITCHKNIGHT"),
@@ -363,7 +379,7 @@ for sid, (name, token) in SHIPPED.items():
     assert by_id[sid]["tabStatus"]["status"] == "inLiveBuilder"
     assert by_id[sid]["tabStatus"]["liveTab"] == name
 
-# ...and the 2 W4-9 could NOT place (its "unmatchedExtraTabs") are now attributed by
+# ...and the 2 the token table could NOT place (its "unmatchedExtraTabs") are now attributed by
 # the same mechanism, so Sec 11's unreleased list is empty rather than 7 or 2
 FORMERLY_UNRELEASED = {45: ("Warden", "HYDROMANCY"), 96: ("Dreadnought", "BULWARK")}
 for sid, (name, token) in FORMERLY_UNRELEASED.items():

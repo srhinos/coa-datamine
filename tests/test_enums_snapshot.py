@@ -2,6 +2,13 @@ import hashlib, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# snapshot_content.snapshot() COPIES the client's Content JSON into raw/content -
+# a committed layer - so it runs into a scratch raw/ this process owns and
+# deletes, over the sealed snapshot. (This file was on the diagnosis's read-only
+# list; it is not, and the guard in tests/_iso.py is what said so.) The committed
+# layer is gated read-only by tests/test_raw_layers.py.
+from tests import _iso; _iso.sandbox(raw=[])
+
 from tools import config, enums335
 from tools.snapshot_content import snapshot
 

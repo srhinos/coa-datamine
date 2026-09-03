@@ -1,10 +1,10 @@
 {
- "baseVariantRule": "Curated CoA views derive from the BASE variant of every table: the highest-ranked carrier among the base and locale archives - the file a character reads when no realm overlay applies - NOT the chain winner. On this client the chain winner for Spell.dbc is area-52's realm overlay, which is missing live CoA content: all 3,932 live talent-node spell ids resolve in the base variant and only 3,929 in the overlay, so curating off the winner would silently drop live abilities. Realm overlays are not discarded - they are curated separately, from each realm's own chain, into raw/realms + data/realms.",
+ "baseVariantRule": "Curated CoA views derive from the BASE variant of every table: the highest-ranked carrier among the base and locale archives - the file a character reads when no realm overlay applies - NOT the chain winner. On this client the chain winner for Spell.dbc is area-52's realm overlay, which is missing live CoA content: all 3,932 live talent-node spell ids resolve in the base variant and only 3,928 in the overlay, so curating off the winner would silently drop live abilities. Realm overlays are not discarded - they are curated separately, from each realm's own chain, into raw/realms + data/realms.",
  "buildStats": {
   "abilities": {
-   "abilities": 8784,
+   "abilities": 8785,
    "abilitiesLive": 3618,
-   "abilitiesMultiGeneration": 2865,
+   "abilitiesMultiGeneration": 2864,
    "abilitiesWithCrossNameLink": 147,
    "abilitiesWithRankLadder": 657,
    "abilitiesWithSeveralLiveNodeIds": 0,
@@ -16,16 +16,16 @@
     "trainer": 1037
    },
    "generationSpanHistogram": {
-    "1": 5919,
-    "2": 2344,
+    "1": 5921,
+    "2": 2343,
     "3": 454,
     "4": 67
    },
    "liveAbilitiesWithTrainerLadder": 201,
    "liveNodeVariantRecords": 71,
    "liveNodeVariantSplitNames": 35,
-   "memberIds": 29775,
-   "memberRows": 29874,
+   "memberIds": 29776,
+   "memberRows": 29875,
    "residualReasons": {
     "cadUnresolvedClass": 154,
     "rankChainNameIncoherent": 650,
@@ -43,7 +43,7 @@
    "stageCounts": {
     "abilitiesWithCrossNameLink": 147,
     "abilitiesWithLiveNodeVariantLink": 74,
-    "cadIdNoBaseSpellRow": 7619,
+    "cadIdNoBaseSpellRow": 7616,
     "cadMemberships": 28045,
     "cadMembershipsInSplitVariant": 37,
     "cadMembershipsUnattributedInSplitGroup": 3,
@@ -67,22 +67,22 @@
    "classes": 43,
    "entries": 23709,
    "liveCounts": {
-    "deadCatalog": 3460,
-    "live": 3417,
+    "deadCatalog": 3461,
+    "live": 3416,
     "liveViaRank": 6,
     "unknown": 16826
    },
    "liveCountsByReason": {
-    "deadCatalog": 3460,
+    "deadCatalog": 3461,
     "indeterminate": 1448,
-    "liveDirect": 3417,
+    "liveDirect": 3416,
     "liveViaRank": 6,
     "unknownNoGeometry": 15378
    },
    "realmsBitmaskGoldenBarMet": false,
    "refs_other": 14298,
    "refs_reborn": 13901,
-   "unresolved_other": 500,
+   "unresolved_other": 497,
    "unresolved_reborn": 7119
   },
   "classmeta": {
@@ -277,9 +277,17 @@
    "totalNodes": 3618,
    "totalTabAssignments": 96
   },
+  "coverageLive": {
+   "goldenChecksPass": true,
+   "holeDistinctSpellSlotPairs": 20,
+   "holes": 59,
+   "modelable": 493,
+   "modelablePct": 89.3,
+   "slots": 552
+  },
   "creatures": {
    "creatures": {
-    "written": 127178
+    "written": 127179
    },
    "quests": {
     "written": 18561
@@ -419,23 +427,32 @@
     "dungeonResolved": 68
    }
   },
+  "overlayDiff": {
+   "area-52": {
+    "damageNumberDisagreements": 482,
+    "differing": 1332,
+    "nameChanges": 53,
+    "shared": 6039
+   }
+  },
   "realms": {
    "area-52": {
     "liveNodeCoverage": {
      "liveNodeIds": 3932,
      "missingInRealm": [
+      255275,
       573365,
       760379,
       808082
      ],
-     "missingInRealmCount": 3,
+     "missingInRealmCount": 4,
      "note": "Live talent-node spell ids (raw/talents capture) that have no row in THIS realm's Spell.dbc. The curated layer is built from the base variant, where all of them resolve - see tools/curate.py BASE_VARIANT_RULE.",
-     "resolvedInRealm": 3929
+     "resolvedInRealm": 3928
     },
     "missingRefResolution": {
      "cad_other": {
-      "missingCount": 178,
-      "resolvedInRealm": 178
+      "missingCount": 177,
+      "resolvedInRealm": 177
      },
      "cad_reborn": {
       "missingCount": 7119,
@@ -458,7 +475,7 @@
       "resolvedInRealm": 1
      }
     },
-    "newSpellCount": 31490,
+    "newSpellCount": 31484,
     "realm": "area-52",
     "spellIdRange": [
      1,
@@ -509,36 +526,36 @@
       "records": 15
      },
      "SkillLineAbility": {
-      "baseRecords": 40983,
-      "delta": -2441,
+      "baseRecords": 40986,
+      "delta": -2444,
       "fields": 14,
       "mapped": true,
       "records": 38542
      },
      "Spell": {
-      "baseRecords": 209151,
-      "delta": 29791,
+      "baseRecords": 209206,
+      "delta": 29736,
       "fields": 234,
       "mapped": true,
       "records": 238942
      },
      "SpellCharges": {
-      "baseRecords": 406,
-      "delta": 67,
+      "baseRecords": 407,
+      "delta": 66,
       "fields": 2,
       "mapped": true,
       "records": 473
      },
      "SpellChargesCategory": {
-      "baseRecords": 106,
-      "delta": 2,
+      "baseRecords": 107,
+      "delta": 1,
       "fields": 3,
       "mapped": true,
       "records": 108
      },
      "SpellRank": {
-      "baseRecords": 23179,
-      "delta": -3578,
+      "baseRecords": 23204,
+      "delta": -3603,
       "fields": 4,
       "mapped": true,
       "records": 19601
@@ -555,15 +572,15 @@
   },
   "spells": {
    "by_source": {
-    "cad": 13766,
-    "formula": 1623,
+    "cad": 13767,
+    "formula": 1624,
     "live": 3932,
-    "liveCad": 2065,
+    "liveCad": 2064,
     "liveRank": 644,
     "liveTrainer": 1210,
     "rank": 10497,
-    "talent": 5526,
-    "trigger": 4096
+    "talent": 5525,
+    "trigger": 4097
    },
    "column_coverage": {
     "emittedColumns": 124,
@@ -597,11 +614,11 @@
    },
    "formula_closure": {
     "depthNewRecordCounts": [
-     1580,
+     1581,
      43
     ],
-    "distinctIdsSeen": 5828,
-    "totalNewRecords": 1623,
+    "distinctIdsSeen": 5825,
+    "totalNewRecords": 1624,
     "unresolvedIds": 184
    },
    "liveCoverage": {
@@ -632,21 +649,21 @@
     "liveNodeIds": 3932,
     "liveRecords": 5558,
     "missingIds": [],
-    "notLiveRecords": 3215,
+    "notLiveRecords": 3217,
     "rate": 1.0,
     "recordsByLiveReason": {
-     "abilityWithNoLiveNode": 3215,
+     "abilityWithNoLiveNode": 3217,
      "liveAbilityMember": 1626,
      "liveNode": 3932,
      "noLiveGeometry": 12727,
-     "notAnAbility": 11320
+     "notAnAbility": 11322
     },
     "seedIds": 5622,
-    "unknownRecords": 24047
+    "unknownRecords": 24049
    },
    "missing_by_source": {
     "cad_other": {
-     "count": 178,
+     "count": 177,
      "elided": "the full list lives in the layer that owns it; provenance carries counts"
     },
     "cad_reborn": {
@@ -682,12 +699,12 @@
    "ref_counts": {
     "cad_other": 7162,
     "cad_reborn": 13901,
-    "formula": 5828,
-    "live": 2850,
+    "formula": 5825,
+    "live": 2851,
     "rank": 12661,
     "talent": 647
    },
-   "written": 32820
+   "written": 32824
   },
   "talents": {
    "files": 12,
@@ -941,8 +958,8 @@
     "actualFields": 23,
     "archive": "Data/patch-M.MPQ",
     "fields": 23,
-    "records": 127178,
-    "sha256": "29f1eefdc254275c7b88c6b24d2ff5af2863781f7748570774cd7f298cb18c4c"
+    "records": 127179,
+    "sha256": "a0f2c4f2834d1de2c4b645d614402405c9b2898853a50c297f5cf70fc1197f13"
    },
    "CreatureSpellData.dbc": {
     "actualFields": 9,
@@ -990,8 +1007,8 @@
     "actualFields": 8,
     "archive": "Data/patch-M.MPQ",
     "fields": 8,
-    "records": 563379,
-    "sha256": "37f6f5f3b1620451beef15adfe23f919c57203d013d87e421aadfe5230dbe143"
+    "records": 563384,
+    "sha256": "e0f4c38d60988291f26c799fb58a1efbff81f4a7c4d72652a7970251bc53af60"
    },
    "ItemRandomProperties.dbc": {
     "actualFields": 24,
@@ -1103,7 +1120,7 @@
     "archive": "Data/patch-M.MPQ",
     "fields": 4,
     "records": 13112,
-    "sha256": "ce1395d488d99f60692989a7d1cec002462f2c36bc4d046cbca7add66f4d3c2b"
+    "sha256": "e07120299bc59cfa02826b8200e76eef75d206e2cf3a674efe01f9bc648f07d2"
    },
    "OverrideSpellData.dbc": {
     "actualFields": 12,
@@ -1165,8 +1182,8 @@
     "actualFields": 14,
     "archive": "Data/patch-M.MPQ",
     "fields": 14,
-    "records": 40983,
-    "sha256": "031388fd0333b4117a8d735dadcf43cf311e3ba5ddf66189f66fa5e4abf0c64a"
+    "records": 40986,
+    "sha256": "91d849b5b7e537de79eaa011bfb8d734393782d7a6e44479d9dc6da05aba2c59"
    },
    "SkillRaceClassInfo.dbc": {
     "actualFields": 8,
@@ -1179,22 +1196,22 @@
     "actualFields": 234,
     "archive": "Data/patch-T.MPQ",
     "fields": 234,
-    "records": 209151,
-    "sha256": "2161cfb492be02cd633b472d2d9e20b61865247bbdca382a26dea0db7f35af39"
+    "records": 209206,
+    "sha256": "a1e4285cdbc8a269a1b8a3f4b304ee43eb4d1bfa5a98511639868c4ff6097623"
    },
    "SpellAddon.dbc": {
     "actualFields": 23,
     "archive": "Data/patch-S.MPQ",
     "fields": 23,
-    "records": 5603,
-    "sha256": "edebc5806a4deb7508688257a059f4737d96ac7e896d2a0b47db78ef8aa5cf34"
+    "records": 5604,
+    "sha256": "38477a0763cc70bdda0a659d02cf682950497551a2c00878a351fe2e59a0deeb"
    },
    "SpellAffect.dbc": {
     "actualFields": 3,
     "archive": "Data/patch-S.MPQ",
     "fields": 3,
-    "records": 36781,
-    "sha256": "6909141eb388e1575332cd215219e70a2c76e3ad25979407dd37a2d2e243cf15"
+    "records": 36800,
+    "sha256": "b7f6a7f72e2b4ed362e2a52884092138602d5c4077a884c664315d60f8262b82"
    },
    "SpellAlternativeCost.dbc": {
     "actualFields": 3,
@@ -1228,22 +1245,22 @@
     "actualFields": 2,
     "archive": "Data/patch-S.MPQ",
     "fields": 2,
-    "records": 406,
-    "sha256": "b6d0912dc79afc91d5e063f011dee146751c8cadcf80b4d77e3db363810fad3c"
+    "records": 407,
+    "sha256": "3a2d96f4f7ea09dbc09687c124627b5256eae06515f139ee7ba17f40bd97e195"
    },
    "SpellChargesCategory.dbc": {
     "actualFields": 3,
     "archive": "Data/patch-S.MPQ",
     "fields": 3,
-    "records": 106,
-    "sha256": "0c0ae1da4e5c4027606dc44b9dae9c4bad2fef7f5ee52dd687d04f324045a4fd"
+    "records": 107,
+    "sha256": "42cdc9fa87bd97029a025b2e9a3733d7dc2a3f55a733a8f47cc226181e3463bf"
    },
    "SpellCustomAttr.dbc": {
     "actualFields": 11,
     "archive": "Data/patch-S.MPQ",
     "fields": 11,
-    "records": 58591,
-    "sha256": "580e6d51c114c6b4d963df5ce56f5c399ee1271aa469302fbeab654f307e0fcd"
+    "records": 58598,
+    "sha256": "efd22bcb0ba4725fd8be54bce165fcd8c68ac43f47802bcef217445062bdb466"
    },
    "SpellDescriptionVariables.dbc": {
     "actualFields": 2,
@@ -1256,8 +1273,8 @@
     "actualFields": 5,
     "archive": "Data/patch-S.MPQ",
     "fields": 5,
-    "records": 3810,
-    "sha256": "a50853964a740e4cc60a2e9480abf08a2b9573be4c6bc23a45350de3cb4f117d"
+    "records": 3811,
+    "sha256": "44f1de91888c69490a27cabb5aa85056a73976c24bcfd5fb96565c3e1d86ac01"
    },
    "SpellDispelType.dbc": {
     "actualFields": 21,
@@ -1284,8 +1301,8 @@
     "actualFields": 2,
     "archive": "Data/patch-S.MPQ",
     "fields": 2,
-    "records": 16360,
-    "sha256": "8badc9de3f5ed222d5ce8b051862a2ab5c8f910fece5d9de53e36a3143ed0e3c"
+    "records": 16361,
+    "sha256": "8caf1e7fd91f2cd8d2d1130122d75f8190106480d0faad99c123ec368940b591"
    },
    "SpellItemEnchantment.dbc": {
     "actualFields": 38,
@@ -1333,8 +1350,8 @@
     "actualFields": 4,
     "archive": "Data/patch-S.MPQ",
     "fields": 4,
-    "records": 23179,
-    "sha256": "f8225f1ef3553c917bd0c30423e324c4fbb8529758351c909ab6cfe2beccffed"
+    "records": 23204,
+    "sha256": "d6ae6b46a083880d729369296ed5d798fc2184ff39bcab6874a72035c8d365ee"
    },
    "SpellRuneCost.dbc": {
     "actualFields": 5,
@@ -1383,7 +1400,7 @@
     "archive": "Data/patch-M.MPQ",
     "fields": 23,
     "records": 2383,
-    "sha256": "7c5a22340bc54da894b8260db4be87c859abf72f1ce1899a6c4469f5aefb9145"
+    "sha256": "605c66e48b930fe1bd450efa8a3770221f3fde3ecfcaf2834c8873f0559a0e9a"
    },
    "TalentTab.dbc": {
     "actualFields": 24,
@@ -1599,7 +1616,7 @@
      "Spell.dbc": {
       "archive": "Data/area-52/patch-D.MPQ",
       "records": 238942,
-      "sha256": "26f121b339ba7d466d84e87da01db9de8550aeff3e212092582b5801529d2bc4"
+      "sha256": "a7bf70bcc7d5f60c6d48954f454ee5668486baf89e11cf96df03eb15f4cd8e86"
      },
      "SpellCharges.dbc": {
       "archive": "Data/area-52/patch-D.MPQ",
@@ -1627,7 +1644,7 @@
  },
  "curationRule": "The curated data/ layer is a pure function of the raw layer produced by the same run of the same script, from the same snapshot. Its .dbc inputs are written out of the bytes this run's single traversal already staged (tools/curate.py materialize_inputs), never by reopening an archive and never by reading the live client - which is enforced, not asserted: ClientReads stays armed through curation and fails the run on any read of the client after the snapshot was sealed.",
  "entryPointRule": "datamine.py is the only entry point, and that is now a property of the code rather than a convention: no builder under tools/ has a __main__ any more, so `python -m tools.build_spells` cannot rewrite part of data/ from whatever happens to be on disk, and neither can the four retired client-reading extractors (extract_mpq, extract_realms, extract_interface, snapshot_content) - the STAGES were retired from the pipeline last pass, the MODULES kept their CLIs, and that was the surviving surface for exactly the two-pipeline drift this change set out to kill. They remain importable, because the test suite rebuilds individual layers on purpose. tests/test_dataset.py enforces the absence rather than trusting it.",
- "generatedUtc": "2026-08-10T21:11:07+00:00",
+ "generatedUtc": "2026-08-13T01:29:06+00:00",
  "headerMismatches": [
   {
    "actualFields": 16,
@@ -1637,17 +1654,17 @@
  ],
  "liveSeedDrift": {
   "capture": {
-   "capturedUtc": "2026-08-06T10:49:00+00:00",
-   "sha256": "467fd444b349ad531539c80e18b836cd069d33d2c3fe71fc4ed488e017640da3",
+   "capturedUtc": "2026-08-12T21:02:51+00:00",
+   "sha256": "41a6ccd393c0648ae2b1fdc34fe94955d4fd13c0cd59040ad3860e64a8ff6c7a",
    "sha256Source": "raw/talents/_fetch.json",
    "slug": "voljin",
    "url": "https://ascension.gg/en/v2/coa-builder/voljin"
   },
-  "captureMinusSnapshotDays": -3.431,
-  "capturedBy": "tools/fetch_coatalents.py (out-of-band, network, NOT part of datamine.py's guarded pass)",
+  "captureMinusSnapshotDays": 0.81,
+  "capturedBy": "tools/fetch_coatalents.py, called by datamine.py as the pass's step 0 - the one network read, taken before the client snapshot; whether a given run re-fetched or reused is in raw/_snapshot.json's liveCapture block",
   "clientSnapshotNewestArchive": "Data/area-52/patch-D.MPQ",
-  "clientSnapshotNewestArchiveUtc": "2026-08-09T21:10:21+00:00",
-  "rule": "THE RESIDUAL DRIFT CLASS, stated rather than implied. Curation is a pure function of raw/, but ONE artifact under raw/ is not on the client's clock: raw/talents/coa-builder-<slug>.html is an out-of-band NETWORK capture taken by tools/fetch_coatalents.py, which runs outside datamine.py's guarded pass and cannot be folded into it (the client has no copy of the live builder). Everything derived from `live` is therefore only as current as that fetch, not as current as the snapshot. seed_drift() measures the distance between the two clocks from committed bytes alone - the capture's own capturedUtc against the newest archive mtime in raw/_snapshot.json - so the gap is a number in the data rather than a caveat in prose. A POSITIVE captureMinusSnapshotDays means the capture is NEWER than the client files; negative means the capture predates them and live content the client already has can read as dead."
+  "clientSnapshotNewestArchiveUtc": "2026-08-12T01:36:59+00:00",
+  "rule": "THE RESIDUAL DRIFT CLASS, stated rather than implied. Curation is a pure function of raw/, but ONE artifact under raw/ is not on the client's clock: raw/talents/coa-builder-<slug>.html is a NETWORK capture of the published builder, which the client has no copy of. It is no longer taken out of band: tools/fetch_coatalents.py runs as step 0 of datamine.py's pass, before the client snapshot, so a normal run's two clocks are seconds apart rather than days. They can still separate in exactly one way, and it is recorded rather than inferred - a run whose fetch failed, or which was given --offline, REUSES the shipped payload and says so in raw/_snapshot.json's liveCapture block (status/reuseReason). Everything derived from `live` is only as current as that capture. seed_drift() measures the distance between the two clocks from committed bytes alone - the capture's own capturedUtc against the newest archive mtime in raw/_snapshot.json - so the gap is a number in the data rather than a caveat in prose. A POSITIVE captureMinusSnapshotDays means the capture is NEWER than the client files; negative means the capture predates them and live content the client already has can read as dead."
  },
  "liveSeedRule": "The spell closure is seeded from LIVE truth, not from the CAD catalog: every spell id a live talent-tree node carries, plus - through the ability identity layer (data/abilities) - every trainer-taught id, rank-ladder id and catalog id that belongs to the same ability as a live node. The catalog is still read, as one generation among several and never as the seed of truth; ids that reach the closure only through it are kept and marked live:false rather than deleted."
 }
