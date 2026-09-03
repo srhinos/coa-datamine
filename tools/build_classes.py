@@ -87,6 +87,17 @@ def _tag(cls):
     return "coa-custom"
 
 
+def _curate_entry(e, resolved):
+    return {
+        "cadId": e["ID"], "name": e.get("Name", ""), "icon": e.get("Icon", ""),
+        "tab": e.get("Tab", ""), "type": e.get("Type", ""),
+        "quality": e.get("Quality", ""), "qualityCost": e.get("QualityCost", 0),
+        "requiredLevel": e.get("RequiredLevel"), "aeCost": e.get("AECost", 0),
+        "expansion": e.get("Expansion", 0), "flags": e.get("Flags", 0),
+        "realms": e.get("Realms", ""), "spells": resolved,
+    }
+
+
 def _spell_min():
     out = {}
     for r in build_spells.iter_all():
@@ -606,7 +617,8 @@ class _FalseNegativeMeter:
 
     @staticmethod
     def _heuristic(e):
-        return e["requiredLevel"] <= 10 and e["type"] == "Ability"
+        return (e["requiredLevel"] is not None
+                and e["requiredLevel"] <= 10 and e["type"] == "Ability")
 
     @classmethod
     def _loader_drops(cls, e):
@@ -1096,14 +1108,7 @@ def build() -> dict:
                                      "schools": [], "ranks": chains.get(sid) or None})
                 else:
                     resolved.append(dict(s, ranks=chains.get(sid) or None))
-            entries.append({
-                "cadId": e["ID"], "name": e.get("Name", ""), "icon": e.get("Icon", ""),
-                "tab": e.get("Tab", ""), "type": e.get("Type", ""),
-                "quality": e.get("Quality", ""), "qualityCost": e.get("QualityCost", 0),
-                "requiredLevel": e.get("RequiredLevel", 0), "aeCost": e.get("AECost", 0),
-                "expansion": e.get("Expansion", 0), "flags": e.get("Flags", 0),
-                "realms": e.get("Realms", ""), "spells": resolved,
-            })
+            entries.append(_curate_entry(e, resolved))
         total_entries += len(entries)
         base_cls = cls.removeprefix("Reborn") if cls.startswith("Reborn") else cls
         chr_match = None if cls == "_other" else (
