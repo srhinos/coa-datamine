@@ -469,13 +469,13 @@ def check_single_open(scans: list) -> dict:
     reported, never silently tolerated, and the check still fails if one of them
     somehow resolves inside the snapshot."""
     ledger = mpq.open_ledger_snapshot()
-    client = os.path.normcase(str(config.CLIENT_DIR.resolve())).rstrip("\\/") \
+    client = os.path.normcase(str(config.CLIENT_DIR.resolve())).lower().rstrip("\\/") \
         + os.sep
-    snap = os.path.normcase(str(SNAPSHOT_DIR.resolve())).rstrip("\\/") + os.sep
+    snap = os.path.normcase(str(SNAPSHOT_DIR.resolve())).lower().rstrip("\\/") + os.sep
 
     expected, opened_ok, failed = {}, set(), []
     for s in scans:
-        key = os.path.normcase(str(Path(s["snapshot"]).resolve()))
+        key = os.path.normcase(str(Path(s["snapshot"]).resolve())).lower()
         expected[key] = s["id"]
         if s.get("openError"):
             failed.append(s["id"])
